@@ -1,0 +1,84 @@
+#%RAML 1.0
+title: Metadata API
+version: v1
+baseUri: http://metadata.org/api
+mediaType:
+  - application/json
+  - application/xml
+protocols:
+  - HTTP
+  - HTTPS
+description: An API specification for accessing statistical metadata
+types:
+  ClassificationList:
+    type: !include schemas/metadata-api.xsd#ClassificationList
+  ClassificationDetails:
+      type: !include schemas/metadata-api.xsd#ClassificationDetails
+  ClassificationSchemeList:
+      type: !include schemas/metadata-api.xsd#ClassificationSchemeList
+  ClassificationSchemeDetails:
+    type: !include schemas/metadata-api.xsd#ClassificationSchemeDetails
+  LevelList:
+      type: !include schemas/metadata-api.xsd#LevelList
+
+/classifications:
+  get:
+    displayName: Get classification list
+    description: Gets the list of all available classifications
+    responses:
+      200:
+        body:
+          application/xml:
+            type: ClassificationList
+
+/classification/{code}:
+  get:
+    displayName: Gets classification details
+    description: Get details on a classification with code {code}
+    responses:
+      200:
+        body:
+          application/xml:
+            type: ClassificationList
+
+/schemes:
+  get:
+    displayName: Get classifications schemes
+    description: Gets the list of all available classification schemes (classification major versions)
+    responses:
+      200:
+        body:
+          application/xml:
+            type: ClassificationSchemeList
+
+/classification/{code}/schemes:
+  get:
+    displayName: Get schemes of a classification
+    description: Gets the list of schemes for a given classification
+    responses:
+      200:
+        body:
+          application/xml:
+            type: ClassificationSchemeList
+
+/scheme/{code}:
+  get:
+    displayName: Get classification scheme details
+    description: Gets the details on a classification scheme with code {code}
+    responses:
+      200:
+        description: Successful GET request
+        body:
+          application/xml:
+            type: ClassificationSchemeDetails
+
+/scheme/{code}/levels:
+  get:
+    displayName: Get classification scheme levels
+    description: Gets the levels of a classification scheme with code {code}
+    responses:
+      200:
+        description: Successful GET request
+        body:
+          application/xml:
+            type: LevelList
