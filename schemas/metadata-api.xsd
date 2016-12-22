@@ -11,7 +11,7 @@
       <xs:sequence>
         <xs:element name="Code" type="xs:token"/>
         <xs:element name="Label" type="xs:string"/>
-        <xs:element name="LevelList" type="CodeLabelList"/>
+        <xs:element name="Description" type="xs:string"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -21,8 +21,11 @@
       <xs:sequence>
         <xs:element name="Code" type="xs:token"/>
         <xs:element name="Label" type="xs:string"/>
-        <xs:element name="Desciption" type="xs:string"/>
-        <xs:element name="LevelList" type="LevelListType"/>
+        <xs:element name="Description" type="xs:string"/>
+        <xs:element name="ValidFrom" type="xs:dateTime"/>
+        <xs:element name="ValidTo" type="xs:dateTime"/>
+        <xs:element name="LastModified" type="xs:dateTime"/>
+        <xs:element name="LevelList" type="CodeLabelList"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
