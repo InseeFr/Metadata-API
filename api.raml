@@ -10,16 +10,18 @@ protocols:
   - HTTPS
 description: An API specification for accessing statistical metadata
 types:
-  ClassificationList:
-    type: !include schemas/metadata-api.xsd#ClassificationList
-  ClassificationDetails:
-      type: !include schemas/metadata-api.xsd#ClassificationDetails
-  ClassificationSchemeList:
-      type: !include schemas/metadata-api.xsd#ClassificationSchemeList
-  ClassificationSchemeDetails:
-    type: !include schemas/metadata-api.xsd#ClassificationSchemeDetails
-  LevelList:
-      type: !include schemas/metadata-api.xsd#LevelList
+  ClassificationListType:
+    type: !include schemas/metadata-api.xsd#URICodeLabelListType
+  ClassificationDetailsType:
+      type: !include schemas/metadata-api.xsd#ClassificationDetailsType
+  ClassificationSchemeListType:
+      type: !include schemas/metadata-api.xsd#URICodeLabelListType
+  ClassificationSchemeDetailsType:
+    type: !include schemas/metadata-api.xsd#ClassificationSchemeDetailsType
+  LevelListType:
+      type: !include schemas/metadata-api.xsd#URICodeLabelListType
+  ItemListType:
+      type: !include schemas/metadata-api.xsd#URICodeLabelListType
 
 /classifications:
   get:
@@ -29,17 +31,27 @@ types:
       200:
         body:
           application/xml:
-            type: ClassificationList
+            type: ClassificationListType
 
-/classification/{code}:
+/classification/{codeClassification}:
   get:
     displayName: Gets classification details
-    description: Get details on a classification with code {code}
+    description: Get details on a classification with code {codeClassification}
     responses:
       200:
         body:
           application/xml:
-            type: ClassificationList
+            type: ClassificationDetailsType
+
+/classification/{codeClassification}/schemes:
+  get:
+    displayName: Get schemes of a classification
+    description: Gets the list of schemes for the classification with code {codeClassification}
+    responses:
+      200:
+        body:
+          application/xml:
+            type: ClassificationSchemeListType
 
 /schemes:
   get:
@@ -49,36 +61,48 @@ types:
       200:
         body:
           application/xml:
-            type: ClassificationSchemeList
+            type: ClassificationSchemeListType
 
-/classification/{code}/schemes:
-  get:
-    displayName: Get schemes of a classification
-    description: Gets the list of schemes for a given classification
-    responses:
-      200:
-        body:
-          application/xml:
-            type: ClassificationSchemeList
-
-/scheme/{code}:
+/scheme/{codeScheme}:
   get:
     displayName: Get classification scheme details
-    description: Gets the details on a classification scheme with code {code}
+    description: Gets the details on a classification scheme with code {codeScheme}
     responses:
       200:
         description: Successful GET request
         body:
           application/xml:
-            type: ClassificationSchemeDetails
+            type: ClassificationSchemeDetailsType
 
-/scheme/{code}/levels:
+/scheme/{codeScheme}/levels:
   get:
     displayName: Get classification scheme levels
-    description: Gets the levels of a classification scheme with code {code}
+    description: Gets the levels of a classification scheme with code {codeScheme}
     responses:
       200:
         description: Successful GET request
         body:
           application/xml:
-            type: LevelList
+            type: LevelListType
+
+/scheme/{codeScheme}/items:
+  get:
+    displayName: Get classification scheme items
+    description: Gets the items of a classification scheme with code {codeScheme}
+    responses:
+      200:
+        description: Successful GET request
+        body:
+          application/xml:
+            type: ItemListType
+
+/scheme/{codeScheme}/level/{codeLevel}/items:
+  get:
+    displayName: Get classification scheme items for a given level
+    description: Gets the items of a classification scheme with code {codeScheme} belonging to the with code {codeLevel}
+    responses:
+      200:
+        description: Successful GET request
+        body:
+          application/xml:
+            type: ItemListType

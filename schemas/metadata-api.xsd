@@ -2,21 +2,18 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://xml.metadata.org/api" targetNamespace="http://xml.metadata.org/api" elementFormDefault="qualified"
   attributeFormDefault="unqualified">
 
-  <xs:element name="ClassificationList" type="CodeLabelList"/>
-  <xs:element name="ClassificationSchemeList" type="CodeLabelList"/>
-  <xs:element name="LevelList" type="CodeLabelList"/>
-
-  <xs:element name="ClassificationDetails">
+  <xs:element name="ClassificationDetailsType">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="Code" type="xs:token"/>
         <xs:element name="Label" type="xs:string"/>
         <xs:element name="Description" type="xs:string"/>
+        <xs:element name="SchemeList" type="URICodeLabelListType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="ClassificationSchemeDetails">
+  <xs:element name="ClassificationSchemeDetailsType">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="Code" type="xs:token"/>
@@ -25,13 +22,14 @@
         <xs:element name="ValidFrom" type="xs:dateTime"/>
         <xs:element name="ValidTo" type="xs:dateTime"/>
         <xs:element name="LastModified" type="xs:dateTime"/>
-        <xs:element name="LevelList" type="CodeLabelList"/>
+        <xs:element name="LevelList" type="URICodeLabelListType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
-  <xs:complexType name="CodeLabelList">
+  <xs:complexType name="URICodeLabelListType">
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="URI" type="xs:anyURI"/>
       <xs:element name="Code" type="xs:token"/>
       <xs:element name="Label" type="xs:string"/>
     </xs:sequence>
