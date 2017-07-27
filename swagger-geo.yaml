@@ -1,0 +1,950 @@
+swagger: '2.0'
+info:
+  description: Mise à disposition des données du référentiel géographique de l'Insee.
+  version: 1.0.0
+  title: API géographique Insee
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: api.insee.fr
+basePath: '/geo/{millesime}'
+tags:
+  - name: COG
+    description: Code Officiel Géographique
+    externalDocs:
+      description: Voir aussi
+      url: 'https://insee.fr/fr/information/2016807'
+schemes:
+  - http
+paths:
+  /airesUrbaines99:
+    get:
+      summary: Liste des aires urbaines 1999
+      description: Utiliser plutôt 1999
+      operationId: listAU1999
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeAiresUrbaines'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/aireUrbaine99/{code}':
+    get:
+      summary: Obtention d'une aire urbaine 1999 par son code
+      description: >-
+        A-t-on vraiment besoin du millésime dans le chemin pour les objets datés
+        ?
+      operationId: getAU1999
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de l'aire urbaine
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/AireUrbaine'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /airesUrbaines2010:
+    get:
+      summary: Liste des aires urbaines 2010
+      operationId: listAU2010
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeAiresUrbaines'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/aireUrbaine2010/{code}':
+    get:
+      summary: Obtention d'une aire urbaine 2010 par son code
+      operationId: getAU2010
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de l'aire urbaine
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/AireUrbaine'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /arrondissements:
+    get:
+      summary: Liste des arrondissements
+      operationId: listArr
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeArrondissements'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/arrondissement/{code}':
+    get:
+      summary: Obtention d'un arrondissement par son code
+      operationId: getArr
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de l'arrondissement
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/Arrondissement'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /bassinsVie2012:
+    get:
+      summary: Liste des bassins de vie 2012
+      operationId: listBV2012
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeBassinsVie2012'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/bassinVie2012/{code}':
+    get:
+      summary: Obtention d'un bassin de vie 2012 par son code
+      operationId: getBV2012
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code du bassin de vie
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/BassinVie2012'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /cantons:
+    get:
+      summary: Liste des cantons
+      operationId: listCan
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeCantons'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/canton/{code}':
+    get:
+      summary: Obtention d'un canton par son code
+      operationId: getCan
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code du canton
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/Canton'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /communes:
+    get:
+      summary: Liste des communes
+      operationId: listCom
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeCommunes'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/commune/{code}':
+    get:
+      summary: Obtention d'une commune par son code
+      operationId: getCom
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de la commune
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/Commune'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /departements:
+    get:
+      summary: Liste des départements
+      operationId: listDep
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeDepartements'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/departement/{code}':
+    get:
+      summary: Obtention d'un département par son code
+      operationId: getDep
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code du département
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/Departement'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /epci:
+    get:
+      summary: Liste des EPCI
+      operationId: listEPCI
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeEPCI'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/epci/{siren}':
+    get:
+      summary: Obtention d'un EPCI par son numéro SIREN
+      operationId: getEPCI
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: siren
+          in: path
+          description: Code SIREN de l'EPCI
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/EPCI'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /espacesUrbains99:
+    get:
+      summary: Liste des espaces urbains 1999
+      operationId: listEU99
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeEspacesUrbains'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/espaceUrbain99/{code}':
+    get:
+      summary: Obtention d'un espace urbain 1999 par son code
+      description: Utiliser plutôt 1999
+      operationId: getEU99
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de l'espace urbain
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/EspaceUrbain'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /liensCommuneZonePostale:
+    get:
+      summary: Liste des liens entres communes et zones postales
+      description: Pas d'opération unitaire pour ces liens
+      operationId: listLCZP
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeLiensCommuneZonePostale'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /regions:
+    get:
+      summary: Liste des régions
+      operationId: listReg
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeRegions'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/region/{code}':
+    get:
+      summary: Obtention d'une région par son code
+      operationId: getReg
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de la région
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/Region'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /unitesUrbaines99:
+    get:
+      summary: Liste des unités urbaines 1999
+      description: Utiliser plutôt 1999
+      operationId: listUU1999
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeUnitesUrbaines'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/uniteUrbaine99/{code}':
+    get:
+      summary: Obtention d'une unité urbaine 1999 par son code
+      operationId: getUU1999
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de l'unité urbaine
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/UniteUrbaine'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /unitesUrbaines2010:
+    get:
+      summary: Liste des unités urbaines 2010
+      operationId: listUU2010
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeUnitesUrbaines'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/uniteUrbaine2010/{code}':
+    get:
+      summary: Obtention d'une unité urbaine 2010 par son code
+      operationId: getUU2010
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de l'unité urbaine
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/UniteUrbaine'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /zonesEmploi90:
+    get:
+      summary: Liste des zones d'emploi 1990
+      description: Utiliser plutôt 1990
+      operationId: listZE1990
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeZonesEmploi'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/zoneEmploi90/{code}':
+    get:
+      summary: Obtention d'une zone d'emploi 1990 par son code
+      operationId: getZE1990
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de la zone d'emploi
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ZoneEmploi'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  /zonesEmploi2010:
+    get:
+      summary: Liste des zones d'emploi 2010
+      operationId: listZE2010
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ListeZonesEmploi'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+  '/zoneEmploi2010/{code}':
+    get:
+      summary: Obtention d'une zone d'emploi 2010 par son code
+      operationId: getZE2010
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: Code de la zone d'emploi
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/ZoneEmploi'
+        '404':
+          description: Ressource inexistante
+      security:
+        - geo_auth:
+            - 'read:geo'
+securityDefinitions:
+  geo_auth:
+    type: oauth2
+    authorizationUrl: 'http://petstore.swagger.io/oauth/dialog'
+    flow: implicit
+    scopes:
+      'read:geo': Information géographique en lecture
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  Libelle:
+    type: object
+    description: >-
+      Il semble impossible de décrire un contenu mixte avec Swagger, on utilise
+      donc un attribut 'Texte' factice
+    properties:
+      typeArticle:
+        type: string
+        example: '0'
+        xml:
+          attribute: true
+      Texte:
+        type: string
+        example: Grenoble
+  TerritoiresEnglobants:
+    type: object
+    description: Structure à préciser ultérieurement
+  AireUrbaine:
+    type: object
+    required:
+      - codeAireUrbaine
+      - Libelle
+    properties:
+      codeAireUrbaine:
+        type: string
+        example: '010'
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+    xml:
+      name: AireUrbaine
+  ListeAiresUrbaines:
+    type: array
+    items:
+      $ref: '#/definitions/AireUrbaine'
+  Arrondissement:
+    type: object
+    properties:
+      codeArrondissement:
+        type: string
+        example: '021'
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+  ListeArrondissements:
+    type: array
+    items:
+      $ref: '#/definitions/Arrondissement'
+  BassinVie2012:
+    type: object
+    properties:
+      codeBassinVie:
+        type: string
+        example: '01004'
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+      TerritoiresEnglobants:
+        $ref: '#/definitions/TerritoiresEnglobants'
+  ListeBassinsVie2012:
+    type: array
+    items:
+      $ref: '#/definitions/BassinVie2012'
+  Canton:
+    type: object
+    properties:
+      codeCanton:
+        type: string
+        example: '3818'
+        xml:
+          attribute: true
+      compositionCommunale:
+        type: string
+        description: Vérifier le type
+        example: '1'
+        xml:
+          attribute: true
+      pseudoCanton:
+        type: boolean
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+      TerritoiresEnglobants:
+        $ref: '#/definitions/TerritoiresEnglobants'
+      CodeCommuneBureauCentralisateur:
+        type: string
+        example: '38242'
+  ListeCantons:
+    type: array
+    items:
+      $ref: '#/definitions/Canton'
+  Commune:
+    type: object
+    properties:
+      codeCommune:
+        type: string
+        example: '01017'
+        xml:
+          attribute: true
+      codeActualite:
+        type: string
+        description: Vérifier le type
+        example: '1'
+        xml:
+          attribute: true
+      irisee:
+        type: boolean
+        xml:
+          attribute: true
+      modifiee:
+        type: boolean
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+      TerritoiresEnglobants:
+        $ref: '#/definitions/TerritoiresEnglobants'
+      TypeDeChefLieu:
+        type: string
+        description: Vérifier le type
+        example: '0'
+      AppartenanceAuRIL:
+        type: object
+        description: >-
+          On pourrait également avoir un élément Millesime qui aurait l'avantage
+          de pouvoir être multivalué
+        properties:
+          anneeEffet:
+            type: string
+            description: Millesime du RIL
+            xml:
+              attribute: true
+          Valeur:
+            type: boolean
+            description: >-
+              Élément factice pour contourner la limitation de Swagger sur le
+              contenu mixte
+      DecoupageEnCantons:
+        type: string
+        description: Vérifier le type
+        example: '0'
+      CategorieAireUrbaine:
+        type: string
+        example: '112'
+      DisponibiliteInfraCommunal:
+        description: Vérifier le type
+        type: string
+        example: '112'
+  ListeCommunes:
+    type: array
+    items:
+      $ref: '#/definitions/Commune'
+  Departement:
+    type: object
+    properties:
+      codeDepartement:
+        type: string
+        example: '21'
+        xml:
+          attribute: true
+      actif:
+        type: boolean
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+      TerritoiresEnglobants:
+        $ref: '#/definitions/TerritoiresEnglobants'
+      CodeCommuneChefLieu:
+        type: string
+        example: '23231'
+  ListeDepartements:
+    type: array
+    items:
+      $ref: '#/definitions/Departement'
+  EPCI:
+    type: object
+    properties:
+      siren:
+        type: string
+        example: '200000172'
+        xml:
+          attribute: true
+      natureJuridique:
+        type: string
+        example: CC
+        xml:
+          attribute: true
+      nombreCommunes:
+        type: integer
+        example: 7
+      Libelle:
+        type: string
+        description: Pas de type d'article pour les libellés d'EPCI
+        example: Faucigny-Glières
+      TerritoiresEnglobants:
+        $ref: '#/definitions/TerritoiresEnglobants'
+      CodeCommuneChefLieu:
+        type: string
+        example: '23231'
+  ListeEPCI:
+    type: array
+    items:
+      $ref: '#/definitions/EPCI'
+  EspaceUrbain:
+    type: object
+    properties:
+      codeEspaceUrbain:
+        type: string
+        example: 1A
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+  ListeEspacesUrbains:
+    type: array
+    items:
+      $ref: '#/definitions/EspaceUrbain'
+  LienCommuneZonePostale:
+    type: object
+    properties:
+      CodeCommune:
+        type: string
+        example: '01001'
+      CodePostal:
+        type: string
+        example: '01400'
+  ListeLiensCommuneZonePostale:
+    type: array
+    description: Le pluriel devrait en fait être LiensCommunesZonesPostales
+    items:
+      $ref: '#/definitions/LienCommuneZonePostale'
+  Region:
+    type: object
+    properties:
+      codeRegion:
+        type: string
+        example: '04'
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+      TerritoiresEnglobants:
+        $ref: '#/definitions/TerritoiresEnglobants'
+      CodeCommuneChefLieu:
+        type: string
+        example: '97411'
+  ListeRegions:
+    type: array
+    items:
+      $ref: '#/definitions/Region'
+  UniteUrbaine:
+    type: object
+    properties:
+      codeUniteUrbaine:
+        type: string
+        example: '00151'
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+  ListeUnitesUrbaines:
+    type: array
+    items:
+      $ref: '#/definitions/UniteUrbaine'
+  ZoneEmploi:
+    type: object
+    properties:
+      codeZoneEmploi:
+        type: string
+        example: '0054'
+        xml:
+          attribute: true
+      Libelle:
+        $ref: '#/definitions/Libelle'
+  ListeZonesEmploi:
+    type: array
+    items:
+      $ref: '#/definitions/ZoneEmploi'
