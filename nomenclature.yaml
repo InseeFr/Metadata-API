@@ -1,0 +1,1995 @@
+---
+swagger: "2.0"
+info:
+  description: "Api sur les nomenclatures de l'Insee"
+  version: "1.0"
+  title: "Api Sirene"
+host: "localhost:8443"
+basePath: "/ws-nomenclature"
+tags:
+- name: "categoriejuridique"
+- name: "cj"
+- name: "cog"
+- name: "codeofficielgeographique"
+- name: "naf"
+- name: "nomenclatureactivitefrancaise"
+- name: "zonage"
+schemes:
+- "https"
+paths:
+  /cj/n1/{code}:
+    get:
+      tags:
+      - "categoriejuridique"
+      - "cj"
+      summary: "Informations sur le niveau 1"
+      description: ""
+      operationId: "findNiveau1"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant du niveau 1 (sur une position)"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseNiveau1"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cj/info:
+    get:
+      tags:
+      - "categoriejuridique"
+      - "cj"
+      summary: "Informations sur la nomenclature"
+      description: ""
+      operationId: "findInfoNomenclatureCJ"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseInfoNomenclature"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cj:
+    get:
+      tags:
+      - "categoriejuridique"
+      - "cj"
+      summary: "Recherche un code dans la nomenclature sans avoir à connaitre le niveau"
+      description: ""
+      operationId: "findCJByCode"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "query"
+        description: "Code recherché"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseElementNomenclature"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cj/n2/{code}:
+    get:
+      tags:
+      - "categoriejuridique"
+      - "cj"
+      summary: "Informations sur le niveau 2"
+      description: ""
+      operationId: "findNiveau2"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant du niveau 2 (sur 2 positions)"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseNiveau2"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cj/n3/{code}:
+    get:
+      tags:
+      - "categoriejuridique"
+      - "cj"
+      summary: "Informations sur le niveau 3"
+      description: ""
+      operationId: "findNiveau3"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant du niveau 3 (sur 4 positions)"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseNiveau3"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cj/n1:
+    get:
+      tags:
+      - "categoriejuridique"
+      - "cj"
+      summary: "Liste des niveaux 1"
+      description: ""
+      operationId: "findNiveaux1"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseNiveaux1"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cj/n2:
+    get:
+      tags:
+      - "categoriejuridique"
+      - "cj"
+      summary: "Liste des niveaux 2"
+      description: ""
+      operationId: "findNiveaux2"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "n1"
+        in: "query"
+        description: "Filtre des niveaux 2 sur le niveau 1"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseNiveaux2"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cj/n3:
+    get:
+      tags:
+      - "categoriejuridique"
+      - "cj"
+      summary: "Liste des niveaux 3"
+      description: ""
+      operationId: "findNiveaux3"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "n2"
+        in: "query"
+        description: "Filtre des niveaux 3 sur le niveau 2"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseNiveaux3"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/arrondissements/{code}:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Informations sur l'arrondissement"
+      description: ""
+      operationId: "findArrondissement"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant de l'arrondissement"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseArrondissement"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/regions/{code}:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Informations sur la region"
+      description: ""
+      operationId: "findRegion"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant de la région"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseRegion"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/departements/{code}:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Informations sur le département"
+      description: ""
+      operationId: "findDepartement"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant du département"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseDepartement"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/communes/{code}:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Informations sur la commune"
+      description: ""
+      operationId: "findCommune"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant de la commune"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseCommune"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/cantons/{code}:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Informations sur le canton"
+      description: ""
+      operationId: "findCanton"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant du canton"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseCanton"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/pays/{code}:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Informations sur le pays"
+      description: ""
+      operationId: "findPays"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant du pays"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponsePays"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/com/{code}:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Informations sur la collectivité d'Outre-Mer "
+      description: ""
+      operationId: "findCom"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant de la collectivité d'Outre-Mer "
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseCom"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/communescom/{code}:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Informations sur la commune d'une collectivité d'Outre-Mer"
+      description: ""
+      operationId: "findCommuneCom"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant de la commune d'une collectivité d'Outre-Mer"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseCommuneCom"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/regions:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Liste des régions"
+      description: ""
+      operationId: "findRegions"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseRegions"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/departements:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Liste des départements"
+      description: ""
+      operationId: "findDepartements"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "region"
+        in: "query"
+        description: "Filtre des départements sur la région"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseDepartements"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/communes:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Liste des communes"
+      description: ""
+      operationId: "findCommunes"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "departement"
+        in: "query"
+        description: "Filtre des communes sur le département"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseCommunes"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /cog/communescom:
+    get:
+      tags:
+      - "cog"
+      - "codeofficielgeographique"
+      summary: "Liste des communes des communes de collectivité d'Outre-Mer"
+      description: ""
+      operationId: "findCommunesCom"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "com"
+        in: "query"
+        description: "Filtre des communes de collectivité d'Outre-Mer sur le code"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseCommunesCom"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/sections/{section}:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Informations sur la section"
+      description: ""
+      operationId: "findSection"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "section"
+        in: "path"
+        description: "Identifiant de la section"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseSection"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/info:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Informations sur la nomenclature d'activité française rev2"
+      description: ""
+      operationId: "findInfoNomenclatureNAF"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseInfoNomenclature"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Recherche un code dans la nomenclature sans avoir à connaitre le niveau"
+      description: ""
+      operationId: "findNAFByCode"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "query"
+        description: "Code recherché"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseElementNomenclature"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/divisions/{division}:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Informations sur la division"
+      description: ""
+      operationId: "findDivision"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "division"
+        in: "path"
+        description: "Identifiant de la division"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseDivision"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/groupes/{groupe}:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Informations sur le groupe"
+      description: ""
+      operationId: "findGroupe"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "groupe"
+        in: "path"
+        description: "Identifiant du groupe"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseGroupe"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/classes/{classe}:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Informations sur la classe"
+      description: ""
+      operationId: "findClasse"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "classe"
+        in: "path"
+        description: "Identifiant de la classe"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseClasse"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/sousclasses/{sousclasse}:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Informations sur la sous-classe"
+      description: ""
+      operationId: "findSousClasse"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "sousclasse"
+        in: "path"
+        description: "Identifiant de la sous-classe"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseSousClasse"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/sections:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Liste des sections"
+      description: ""
+      operationId: "findSections"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseSections"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/divisions:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Liste des divisions"
+      description: ""
+      operationId: "findDivisions"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "section"
+        in: "query"
+        description: "Filtre des divisions sur la section"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseDivisions"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/groupes:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Liste des groupes"
+      description: ""
+      operationId: "findGroupes"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "division"
+        in: "query"
+        description: "Filtre des groupes sur la division"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseGroupes"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/classes:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Liste des classes"
+      description: ""
+      operationId: "findClasses"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "groupe"
+        in: "query"
+        description: "Filtre des classes sur le groupe"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseClasses"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /naf2/sousclasses:
+    get:
+      tags:
+      - "naf"
+      - "nomenclatureactivitefrancaise"
+      summary: "Liste des sous-classes"
+      description: ""
+      operationId: "findSousClasses"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "classe"
+        in: "query"
+        description: "Filtre des sous-classes sur la classe"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseSousClasses"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /zonageetude/epci/{code}:
+    get:
+      tags:
+      - "zonage"
+      summary: "Informations sur l'EPCI (Établissement Public de Coopération Intercommunale)"
+      description: ""
+      operationId: "findEPCI"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant de l'EPCI"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseEPCI"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /zonageetude/zonesemploi/{code}:
+    get:
+      tags:
+      - "zonage"
+      summary: "Informations sur la zone d'emploi"
+      description: ""
+      operationId: "findZoneEmploi"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant de la zone d'emploi"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseZoneEmploi"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+  /zonageetude/unitesurbaines/{code}:
+    get:
+      tags:
+      - "zonage"
+      summary: "Informations sur l'unité urbaine"
+      description: ""
+      operationId: "findUniteUrbaine"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Identifiant de l'unité urbaine"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ReponseUniteUrbaine"
+        400:
+          description: "Nombre incorrect de paramètres, les paramètres sont mal formaté\
+            s"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        401:
+          description: "Problème d'authentification"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        404:
+          description: "Aucun élément ne correspond à la requête"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        406:
+          description: "Le paramètre 'Accept' de l’en-tête http contient une valeur\
+            \ non prévue"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+        500:
+          description: "Erreur interne du serveur"
+          schema:
+            $ref: "#/definitions/ReponseErreur"
+definitions:
+  Header:
+    type: "object"
+    properties:
+      Statut:
+        type: "integer"
+        format: "int32"
+        example: 200
+        description: "Égal au status de la réponse HTTP"
+      Message:
+        type: "string"
+        example: "ok"
+        description: "En cas d'erreur, message indiquant la cause de l'erreur. ok\
+          \ sinon"
+      Total:
+        type: "integer"
+        format: "int64"
+        description: "Nombre de résultats"
+      Debut:
+        type: "integer"
+        format: "int64"
+        description: "Pagination"
+      Nombre:
+        type: "integer"
+        format: "int64"
+        description: "Pagination"
+    description: "Informations générales sur le résultat de la requête"
+  Niveau1:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseNiveau1:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      niveau1:
+        $ref: "#/definitions/Niveau1"
+  InfoNomenclature:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      libelle:
+        type: "string"
+      dateDebut:
+        type: "string"
+        format: "date-time"
+      dateFin:
+        type: "string"
+        format: "date-time"
+    description: "Objet représentant une nomenclature"
+  Reponse:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+  ReponseErreur:
+    allOf:
+    - $ref: "#/definitions/Reponse"
+    - type: "object"
+      properties: {}
+      description: "Objet renvoyé en cas d'erreur"
+  ReponseInfoNomenclature:
+    allOf:
+    - $ref: "#/definitions/Reponse"
+    - type: "object"
+      properties:
+        nomenclature:
+          description: "Objet représentant une nomenclature"
+          $ref: "#/definitions/InfoNomenclature"
+      description: "Objet renvoyé en cas de succès sur une requête demandant une nomenclature"
+  ElementNomenclature:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseElementNomenclature:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      resultat:
+        $ref: "#/definitions/ElementNomenclature"
+    description: "Objet renvoyé en cas de succès sur une requête demandant un élé\
+      ment de nomenclature avec son code"
+  LienElementNomenclature:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      uri:
+        type: "string"
+    description: "Objet représentant un lien vers un niveau de nomenclature"
+  Niveau2:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      niveau1:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseNiveau2:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      niveau2:
+        $ref: "#/definitions/Niveau2"
+  Niveau3:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      niveau2:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseNiveau3:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      niveau3:
+        $ref: "#/definitions/Niveau3"
+  ReponseNiveaux1:
+    type: "object"
+    properties:
+      niveaux1:
+        type: "array"
+        items:
+          $ref: "#/definitions/Niveau1"
+  ReponseNiveaux2:
+    type: "object"
+    properties:
+      niveaux2:
+        type: "array"
+        items:
+          $ref: "#/definitions/Niveau2"
+  ReponseNiveaux3:
+    type: "object"
+    properties:
+      niveaux3:
+        type: "array"
+        items:
+          $ref: "#/definitions/Niveau3"
+  Arrondissement:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      departement:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseArrondissement:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      arrondissement:
+        $ref: "#/definitions/Arrondissement"
+  Region:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseRegion:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      region:
+        $ref: "#/definitions/Region"
+  Departement:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      region:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseDepartement:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      departement:
+        $ref: "#/definitions/Departement"
+  Commune:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      departement:
+        $ref: "#/definitions/LienElementNomenclature"
+      arrondissement:
+        $ref: "#/definitions/LienElementNomenclature"
+      cantons:
+        type: "array"
+        items:
+          $ref: "#/definitions/LienElementNomenclature"
+      uniteurbaine:
+        $ref: "#/definitions/LienElementNomenclature"
+      epci:
+        $ref: "#/definitions/LienElementNomenclature"
+      zoneemploi:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseCommune:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      commune:
+        $ref: "#/definitions/Commune"
+  Canton:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      departement:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseCanton:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      canton:
+        $ref: "#/definitions/Canton"
+  Pays:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+    description: "Objet représentant un élément de nomenclature"
+  ReponsePays:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      pays:
+        $ref: "#/definitions/Pays"
+  Com:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseCom:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      com:
+        $ref: "#/definitions/Com"
+  CommuneCom:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      com:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseCommuneCom:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      communecom:
+        $ref: "#/definitions/CommuneCom"
+  ReponseRegions:
+    type: "object"
+    properties:
+      regions:
+        type: "array"
+        items:
+          $ref: "#/definitions/Region"
+  ReponseDepartements:
+    type: "object"
+    properties:
+      departements:
+        type: "array"
+        items:
+          $ref: "#/definitions/Departement"
+  ReponseCommunes:
+    type: "object"
+    properties:
+      communes:
+        type: "array"
+        items:
+          $ref: "#/definitions/Commune"
+  ReponseCommunesCom:
+    type: "object"
+    properties:
+      communescom:
+        type: "array"
+        items:
+          $ref: "#/definitions/CommuneCom"
+  ReponseSection:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      section:
+        $ref: "#/definitions/Section"
+  Section:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+    description: "Objet représentant un élément de nomenclature"
+  Division:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      section:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseDivision:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      division:
+        $ref: "#/definitions/Division"
+  Groupe:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      division:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseGroupe:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      groupe:
+        $ref: "#/definitions/Groupe"
+  Classe:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      groupe:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseClasse:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      classe:
+        $ref: "#/definitions/Classe"
+  ReponseSousClasse:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      sousclasse:
+        type: "array"
+        items:
+          $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet renvoyé en cas de succès sur une requête demandant une liste\
+      \ d'éléments"
+  ReponseSections:
+    type: "object"
+    properties:
+      sections:
+        type: "array"
+        items:
+          $ref: "#/definitions/Section"
+  ReponseDivisions:
+    type: "object"
+    properties:
+      divisions:
+        type: "array"
+        items:
+          $ref: "#/definitions/Division"
+  ReponseGroupes:
+    type: "object"
+    properties:
+      groupes:
+        type: "array"
+        items:
+          $ref: "#/definitions/Groupe"
+  ReponseClasses:
+    type: "object"
+    properties:
+      classes:
+        type: "array"
+        items:
+          $ref: "#/definitions/Classe"
+  ReponseSousClasses:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      sousclasses:
+        type: "array"
+        items:
+          $ref: "#/definitions/SousClasse"
+  SousClasse:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      classe:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
+  EPCI:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseEPCI:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      epci:
+        $ref: "#/definitions/EPCI"
+  ReponseZoneEmploi:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      zoneemploi:
+        $ref: "#/definitions/ZoneEmploi"
+  ZoneEmploi:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+    description: "Objet représentant un élément de nomenclature"
+  ReponseUniteUrbaine:
+    type: "object"
+    properties:
+      head:
+        $ref: "#/definitions/Header"
+      uniteurbaine:
+        $ref: "#/definitions/UniteUrbaine"
+  UniteUrbaine:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      intitule:
+        type: "string"
+      tranche:
+        type: "string"
+      departement:
+        $ref: "#/definitions/LienElementNomenclature"
+    description: "Objet représentant un élément de nomenclature"
