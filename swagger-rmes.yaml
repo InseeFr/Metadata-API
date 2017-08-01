@@ -46,16 +46,13 @@ paths:
       tags:
         - nomenclatures
       summary: Informations sur une sous-classe de la NAF rév.2 identifiée par son code
-      description: ''
       operationId: getnafr2n5
       produces:
         - application/json
       parameters:
         - name: code
           in: path
-          description: >-
-            Code de la sous-classe (deux chiffres, un point, deux chiffres et
-            une lettre majuscule)
+          description: Code de la sous-classe (deux chiffres, un point, deux chiffres et une lettre majuscule)
           required: true
           type: string
       responses:
@@ -77,10 +74,9 @@ paths:
     get:
       tags:
         - géographie
-      summary: Informations sur une commune identifié par son code (cinq caractères)
-      description: >-
-        Cette requête renvoie également les communes des collectivités
-        d'Outre-Mer
+      summary: Informations sur une commune française identifiée par son code (cinq caractères)
+      description:
+        Cette requête renvoie également les communes des collectivités d'Outre-Mer
       operationId: getcogcom
       produces:
         - application/json
@@ -88,7 +84,7 @@ paths:
       parameters:
         - name: code
           in: path
-          description: Code de la commune
+          description: Code de la commune (cinq caractères)
           required: true
           type: string
       responses:
@@ -110,7 +106,7 @@ paths:
     get:
       tags:
         - géographie
-      summary: Informations sur une région identifiée par son code (deux chiffres)
+      summary: Informations sur une région française identifiée par son code (deux chiffres)
       operationId: getcogreg
       produces:
         - application/json
@@ -118,7 +114,7 @@ paths:
       parameters:
         - name: code
           in: path
-          description: Code de la région
+          description: Code de la région (deux chiffres)
           required: true
           type: string
       responses:
@@ -141,7 +137,6 @@ paths:
       tags:
         - géographie
       summary: Informations sur un pays identifié par son code (cinq chiffres)
-      description: ''
       operationId: getcogpay
       produces:
         - application/json
@@ -149,7 +144,7 @@ paths:
       parameters:
         - name: code
           in: path
-          description: Code du pays
+          description: Code du pays (cinq chiffres, débutant par 99)
           required: true
           type: string
       responses:
