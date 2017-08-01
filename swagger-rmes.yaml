@@ -1,0 +1,265 @@
+swagger: '2.0'
+info:
+  description: API sur les métadonnées de l'Insee
+  version: '0.1'
+  title: API RMéS
+host: 'localhost:8443'
+basePath: /meta
+tags:
+  - name: nomenclatures
+  - name: géographie
+schemes:
+  - https
+paths:
+  '/codes/cj/n3/{code}':
+    get:
+      tags:
+        - nomenclatures
+      summary: Informations sur une catégorie juridique de niveau 3
+      operationId: getcjn3
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: code
+          in: path
+          description: Identifiant de la catégorie juridique de niveau 3 (quatre chiffres)
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/CategorieJuridiqueNiveauIII'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+  '/codes/naf2/sousClasse/{code}':
+    get:
+      tags:
+        - nomenclatures
+      summary: Informations sur une sous-classe de la NAF rév.2 identifiée par son code
+      description: ''
+      operationId: getnafr2n5
+      produces:
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: >-
+            Code de la sous-classe (deux chiffres, un point, deux chiffres et
+            une lettre majuscule)
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SousClasseNAF2008'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+  '/geo/commune/{code}':
+    get:
+      tags:
+        - géographie
+      summary: Informations sur une commune identifié par son code (cinq caractères)
+      description: >-
+        Cette requête renvoie également les communes des collectivités
+        d'Outre-Mer
+      operationId: getcogcom
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: code
+          in: path
+          description: Code de la commune
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/Commune'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+  '/geo/region/{code}':
+    get:
+      tags:
+        - géographie
+      summary: Informations sur une région identifiée par son code (deux chiffres)
+      operationId: getcogreg
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: code
+          in: path
+          description: Code de la région
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/Region'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+  '/geo/pays/{code}':
+    get:
+      tags:
+        - géographie
+      summary: Informations sur un pays identifié par son code (cinq chiffres)
+      description: ''
+      operationId: getcogpay
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: code
+          in: path
+          description: Code du pays
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Opération réussie
+          schema:
+            $ref: '#/definitions/Pays'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+definitions:
+  CategorieJuridiqueNiveauIII:
+    type: object
+    description: Objet représentant une catégorie juridique détaillée (niveau 3)
+    properties:
+      code:
+        type: string
+        example: '7112'
+        xml:
+          attribute: true
+      uri:
+        type: string
+        example: 'http://id.insee.fr/codes/cj/n3/7112'
+        xml:
+          attribute: true
+      intitule:
+        type: string
+        example: Autorité administrative ou publique indépendante
+        xml:
+          name: Intitule
+  SousClasseNAF2008:
+    type: object
+    description: Objet représentant une sous-classe de la NAF 2008 (rév. 2)
+    properties:
+      code:
+        type: string
+        example: 27.40Z
+        xml:
+          attribute: true
+      uri:
+        type: string
+        example: 'http://id.insee.fr/codes/nafr2/sousClasse/27.40Z'
+        xml:
+          attribute: true
+      intitule:
+        type: string
+        example: Fabrication d'appareils d'éclairage électrique
+        xml:
+          name: Intitule
+  Region:
+    type: object
+    description: Objet représentant une région
+    properties:
+      code:
+        type: string
+        example: '27'
+        xml:
+          attribute: true
+      uri:
+        type: string
+        example: 'http://id.insee.fr/geo/region/27'
+        xml:
+          attribute: true
+      intitule:
+        type: string
+        example: Bourgogne-Franche-Comté
+        xml:
+          name: Intitule
+  Commune:
+    type: object
+    description: Objet représentant une commune
+    properties:
+      code:
+        type: string
+        example: '55323'
+        xml:
+          attribute: true
+      uri:
+        type: string
+        example: 'http://id.insee.fr/geo/commune/55323'
+        xml:
+          attribute: true
+      intitule:
+        type: string
+        example: Martincourt-sur-Meuse
+        xml:
+          name: Intitule
+  Pays:
+    type: object
+    description: Objet représentant un pays
+    properties:
+      code:
+        type: string
+        example: '99217'
+        xml:
+          attribute: true
+      uri:
+        type: string
+        example: 'http://id.insee.fr/geo/pays/99217'
+        xml:
+          attribute: true
+      intitule:
+        type: string
+        example: Japon
+        xml:
+          name: Intitule
