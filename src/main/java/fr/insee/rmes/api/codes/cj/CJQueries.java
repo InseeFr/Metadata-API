@@ -1,4 +1,4 @@
-package fr.insee.rmes.api.codes;
+package fr.insee.rmes.api.codes.cj;
 
 public class CJQueries {
 

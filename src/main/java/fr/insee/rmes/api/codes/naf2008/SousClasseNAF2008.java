@@ -1,11 +1,14 @@
-package fr.insee.rmes.api.codes;
+package fr.insee.rmes.api.codes.naf2008;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="CategorieJuridiqueNiveauIII")
-public class CategorieJuridiqueNiveauIII {
+@XmlRootElement(name="SousClasseNAF2008")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class SousClasseNAF2008 {
 	
 	@XmlAttribute
 	private String code;
@@ -14,13 +17,10 @@ public class CategorieJuridiqueNiveauIII {
 	@XmlElement(name="Intitule")
 	private String intitule;
 	
-	public void populateFromCSV(String csvString) {
-
-		int firstComma = csvString.indexOf(',');
-		uri = csvString.substring(0, firstComma);
-		intitule = csvString.substring(firstComma + 1);
+	public SousClasseNAF2008() {
+		
 	}
-	
+
 	public String getCode() {
 		return code;
 	}

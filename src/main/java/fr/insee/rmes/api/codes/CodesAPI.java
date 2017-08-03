@@ -9,6 +9,12 @@ import javax.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.insee.rmes.api.codes.cj.CJQueries;
+import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauIII;
+import fr.insee.rmes.api.codes.naf2008.ClasseNAF2008;
+import fr.insee.rmes.api.codes.naf2008.Naf2008Queries;
+import fr.insee.rmes.api.codes.naf2008.SousClasseNAF2008;
+import fr.insee.rmes.api.utils.CSVUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
 
 @Path("/codes")
@@ -20,10 +26,13 @@ public class CodesAPI {
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public CategorieJuridiqueNiveauIII getCategorieJuridiqueNiveauIII(@PathParam("code") String code) {
+		
+		logger.debug("Received GET request for CJ 3rd level " + code);
+		
 		CategorieJuridiqueNiveauIII cjNiveau3 = new CategorieJuridiqueNiveauIII();
 		cjNiveau3.setCode(code);
 		String csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauIII(code));
-		cjNiveau3.populateFromCSV(csvResult);
+		CSVUtils.populatePOJO(csvResult, cjNiveau3);
 		return cjNiveau3;
 	}
 
@@ -34,9 +43,10 @@ public class CodesAPI {
 
 		logger.debug("Received GET request for NAF sub-class " + code);
 
-		SousClasseNAF2008 sousClasse = new SousClasseNAF2008(code);
-		sousClasse.setIntitule("Ici la sous-classe NAF");
-		sousClasse.setUri("http://id.insee.fr/codes/nafr2/sousClasse/" + code);
+		SousClasseNAF2008 sousClasse = new SousClasseNAF2008();
+		sousClasse.setCode(code);
+		String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
+		CSVUtils.populatePOJO(csvResult, sousClasse);
 		return sousClasse;
 	}
 
@@ -49,8 +59,8 @@ public class CodesAPI {
 
 		ClasseNAF2008 classe = new ClasseNAF2008();
 		classe.setCode(code);
-		classe.setIntitule("Ici la classe NAF");
-		classe.setUri("http://id.insee.fr/codes/nafr2/sousClasse/" + code);
+		String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
+		CSVUtils.populatePOJO(csvResult, classe);
 		return classe;
 	}
 

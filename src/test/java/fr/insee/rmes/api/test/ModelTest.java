@@ -2,7 +2,7 @@ package fr.insee.rmes.api.test;
 
 import org.junit.Test;
 
-import fr.insee.rmes.api.codes.CategorieJuridiqueNiveauIII;
+import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauIII;
 
 public class ModelTest {
 
@@ -11,7 +11,8 @@ public class ModelTest {
 
 		CategorieJuridiqueNiveauIII cj = new CategorieJuridiqueNiveauIII();
 		cj.setCode("7112");
-		cj.populateFromCSV("http://id.insee.fr/codes/cj/n3/7112,mon intitué");
+		cj.setUri("http://id.insee.fr/codes/cj/n3/7112");
+		cj.setIntitule("mon intitué");
 		System.out.println(cj.getCode() + " - " + cj.getIntitule() + " - " + cj.getUri());
 	}
 
