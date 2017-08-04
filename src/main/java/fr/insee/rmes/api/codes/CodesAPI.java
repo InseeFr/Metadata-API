@@ -22,11 +22,11 @@ public class CodesAPI {
 
 	private static Logger logger = LogManager.getLogger(CodesAPI.class);
 
-	@Path("/cj/n3/{code}")
+	@Path("/cj/n3/{code: [0-9]{4}}")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public CategorieJuridiqueNiveauIII getCategorieJuridiqueNiveauIII(@PathParam("code") String code) {
-		
+
 		logger.debug("Received GET request for CJ 3rd level " + code);
 		
 		CategorieJuridiqueNiveauIII cjNiveau3 = new CategorieJuridiqueNiveauIII();
@@ -36,7 +36,7 @@ public class CodesAPI {
 		return cjNiveau3;
 	}
 
-	@Path("/nafr2/sousClasse/{code}")
+	@Path("/nafr2/sousClasse/{code: [0-9]{2}\\.[0-9]{2}[A-Z]}")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public SousClasseNAF2008 getSousClasseNAF2008(@PathParam("code") String code) {
@@ -50,7 +50,7 @@ public class CodesAPI {
 		return sousClasse;
 	}
 
-	@Path("/nafr2/classe/{code}")
+	@Path("/nafr2/classe/{code}: [0-9]{2}\\.[0-9]{2}")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public ClasseNAF2008 getClasseNAF2008(@PathParam("code") String code) {
