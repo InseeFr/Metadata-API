@@ -1,10 +1,13 @@
 package fr.insee.rmes.api.geo;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="Commune")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Commune {
 
 	@XmlAttribute
@@ -13,6 +16,10 @@ public class Commune {
 	private String uri = null;
 	@XmlElement(name="Intitule")
 	private String intitule = null;
+	
+	public Commune() {
+		
+	}
 
 	public String getCode() {
 		return code;

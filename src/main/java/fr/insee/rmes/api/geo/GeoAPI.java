@@ -9,7 +9,8 @@ import javax.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.api.geo.Region;
+import fr.insee.rmes.api.utils.CSVUtils;
+import fr.insee.rmes.api.utils.SparqlUtils;
 
 @Path("/geo")
 public class GeoAPI {
@@ -19,16 +20,16 @@ public class GeoAPI {
 	@Path("/commune/{code: [0-9][0-9AB][0-9]{3}}")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Region getCommune(@PathParam("code") String code) {
+	public Commune getCommune(@PathParam("code") String code) {
 
 		logger.debug("Received GET request for commune " + code);
 
-		Region region = new Region();
-		region.setCode("75056");
-		region.setIntitule("Paris");
-		region.setUri("http://id.insee.fr/geo/commune/75056");
+		Commune commune = new Commune();
+		commune.setCode(code);
+		String csvResult = SparqlUtils.executeSparqlQuery(GeoQueries.getCommune(code));
+		CSVUtils.populatePOJO(csvResult, commune);
 		
-		return region;
+		return commune;
 	}
 
 	@Path("/pays/{code: 99[0-9]{3}}")
@@ -39,9 +40,9 @@ public class GeoAPI {
 		logger.debug("Received GET request for country " + code);
 
 		Country country = new Country();
-		country.setCode("99126");
-		country.setIntitule("Japon");
-		country.setUri("http://id.insee.fr/geo/pays/99126");
+		country.setCode(code);
+		String csvResult = SparqlUtils.executeSparqlQuery(GeoQueries.getCountry(code));
+		CSVUtils.populatePOJO(csvResult, country);
 		
 		return country;
 	}
@@ -54,11 +55,10 @@ public class GeoAPI {
 		logger.debug("Received GET request for region " + code);
 
 		Region region = new Region();
-		region.setCode("27");
-		region.setIntitule("Bourgogne-Franche-Comté");
-		region.setUri("http://id.insee.fr/geo/region/27");
+		region.setCode(code);
+		String csvResult = SparqlUtils.executeSparqlQuery(GeoQueries.getRegion(code));
+		CSVUtils.populatePOJO(csvResult, region);
 		
-		//return Response.status(Status.OK).entity(region).build();
 		return region;
 	}
 }

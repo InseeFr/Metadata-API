@@ -3,7 +3,8 @@ package fr.insee.rmes.api.utils;
 public class QueryUtils {
 	
 	public static final String PREFIXES =
-			"PREFIX dcterms:<http://purl.org/dc/terms/> \n"
+			"PREFIX igeo:<http://rdf.insee.fr/def/geo#> \n"
+			+ "PREFIX dcterms:<http://purl.org/dc/terms/> \n"
 			+ "PREFIX xkos:<http://rdf-vocabulary.ddialliance.org/xkos#> \n"
 			+ "PREFIX evoc:<http://eurovoc.europa.eu/schema#> \n"
 			+ "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> \n"
