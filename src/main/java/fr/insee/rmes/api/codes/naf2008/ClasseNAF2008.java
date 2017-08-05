@@ -17,8 +17,10 @@ public class ClasseNAF2008 {
 	@XmlElement(name="Intitule")
 	private String intitule = null;
 
-	public ClasseNAF2008() {
-		
+	public ClasseNAF2008() {} // No-args constructor needed for JAXB
+
+	public ClasseNAF2008(String code) {
+		this.code = code;
 	}
 
 	public String getCode() {

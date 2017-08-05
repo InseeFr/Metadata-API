@@ -29,8 +29,7 @@ public class CodesAPI {
 
 		logger.debug("Received GET request for CJ 3rd level " + code);
 		
-		CategorieJuridiqueNiveauIII cjNiveau3 = new CategorieJuridiqueNiveauIII();
-		cjNiveau3.setCode(code);
+		CategorieJuridiqueNiveauIII cjNiveau3 = new CategorieJuridiqueNiveauIII(code);
 		String csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauIII(code));
 		CSVUtils.populatePOJO(csvResult, cjNiveau3);
 		return cjNiveau3;
@@ -43,8 +42,7 @@ public class CodesAPI {
 
 		logger.debug("Received GET request for NAF sub-class " + code);
 
-		SousClasseNAF2008 sousClasse = new SousClasseNAF2008();
-		sousClasse.setCode(code);
+		SousClasseNAF2008 sousClasse = new SousClasseNAF2008(code);
 		String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
 		CSVUtils.populatePOJO(csvResult, sousClasse);
 		return sousClasse;
@@ -57,8 +55,7 @@ public class CodesAPI {
 
 		logger.debug("Received GET request for NAF class " + code);
 
-		ClasseNAF2008 classe = new ClasseNAF2008();
-		classe.setCode(code);
+		ClasseNAF2008 classe = new ClasseNAF2008(code);
 		String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
 		CSVUtils.populatePOJO(csvResult, classe);
 		return classe;

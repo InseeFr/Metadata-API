@@ -17,8 +17,10 @@ public class Commune {
 	@XmlElement(name="Intitule")
 	private String intitule = null;
 	
-	public Commune() {
-		
+	public Commune() {} // No-args constructor needed for JAXB
+
+	public Commune(String code) {
+		this.code = code;
 	}
 
 	public String getCode() {

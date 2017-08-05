@@ -17,8 +17,10 @@ public class Country {
 	@XmlElement(name="Intitule")
 	private String intitule = null;
 	
-	public Country() {
-		
+	public Country() {} // No-args constructor needed for JAXB
+
+	public Country(String code) {
+		this.code = code;
 	}
 
 	public String getCode() {

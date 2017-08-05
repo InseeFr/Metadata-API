@@ -16,9 +16,11 @@ public class Region {
 	private String uri = null;
 	@XmlElement(name="Intitule")
 	private String intitule = null;
-	
-	public Region() {
-		
+
+	public Region() {} // No-args constructor needed for JAXB
+
+	public Region(String code) {
+		this.code = code;
 	}
 
 	public String getCode() {

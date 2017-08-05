@@ -17,8 +17,10 @@ public class CategorieJuridiqueNiveauIII {
 	@XmlElement(name="Intitule")
 	private String intitule;
 	
-	public CategorieJuridiqueNiveauIII() {
-		
+	public CategorieJuridiqueNiveauIII() {} // No-args constructor needed for JAXB
+
+	public CategorieJuridiqueNiveauIII(String code) {
+		this.code = code;
 	}
 	
 	public String getCode() {
