@@ -17,10 +17,10 @@ public class RMeSAPIClient {
 
 	public static void main(String[] args) {
 
-		getResource("/geo/commune/12345", MediaType.APPLICATION_JSON);
-		getResource("/geo/region/12", MediaType.APPLICATION_JSON);
+//		getResource("/geo/commune/12345", MediaType.APPLICATION_JSON);
+		getResource("/geo/region/12", MediaType.APPLICATION_XML);
 //		getResource("/codes/cj/n3/5432", MediaType.APPLICATION_JSON);
-		getResource("/codes/nafr2/classe/9990", MediaType.APPLICATION_JSON);
+//		getResource("/codes/nafr2/classe/27.40", MediaType.APPLICATION_JSON);
 	}
 
 	private static void getResource(String path, String mediaType) {
