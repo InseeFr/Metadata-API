@@ -41,7 +41,7 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-  '/codes/naf2/sousClasse/{code}':
+  '/codes/nafr2/sousClasse/{code}':
     get:
       tags:
         - nomenclatures
