@@ -12,7 +12,7 @@ public class GeoQueries {
 	
 	public static String getCountry(String code) {
 		return "SELECT ?uri ?intitule WHERE { \n"
-				+ "?uri rdf:type igeo:Pays . \n"
+				+ "?uri rdf:type igeo:Etat . \n"
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule \n"
 				+ "FILTER (lang(?intitule) = 'fr') \n"
