@@ -2,19 +2,17 @@ package fr.insee.rmes.api.codes.naf2008;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @XmlRootElement(name="ClasseNAF2008")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ClasseNAF2008 {
 
-	@XmlAttribute
 	private String code = null;
-	@XmlAttribute
 	private String uri = null;
-	@XmlElement(name="Intitule")
 	private String intitule = null;
 
 	public ClasseNAF2008() {} // No-args constructor needed for JAXB
@@ -22,7 +20,8 @@ public class ClasseNAF2008 {
 	public ClasseNAF2008(String code) {
 		this.code = code;
 	}
-
+	
+	@JacksonXmlProperty(isAttribute=true)
 	public String getCode() {
 		return code;
 	}
@@ -30,7 +29,8 @@ public class ClasseNAF2008 {
 	public void setCode(String code) {
 		this.code = code;
 	}
-
+	
+	@JacksonXmlProperty(isAttribute=true)
 	public String getUri() {
 		return uri;
 	}
@@ -39,6 +39,8 @@ public class ClasseNAF2008 {
 		this.uri = uri;
 	}
 
+	@JacksonXmlProperty(localName="Intitule")
+	@JsonProperty(value="intitule")
 	public String getIntitule() {
 		return intitule;
 	}
@@ -46,6 +48,4 @@ public class ClasseNAF2008 {
 	public void setIntitule(String intitule) {
 		this.intitule = intitule;
 	}
-
-
 }

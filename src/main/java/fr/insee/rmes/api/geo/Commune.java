@@ -2,19 +2,17 @@ package fr.insee.rmes.api.geo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @XmlRootElement(name="Commune")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Commune {
 
-	@XmlAttribute
 	private String code = null;
-	@XmlAttribute
 	private String uri = null;
-	@XmlElement(name="Intitule")
 	private String intitule = null;
 	
 	public Commune() {} // No-args constructor needed for JAXB
@@ -23,6 +21,7 @@ public class Commune {
 		this.code = code;
 	}
 
+	@JacksonXmlProperty(isAttribute=true)
 	public String getCode() {
 		return code;
 	}
@@ -31,6 +30,7 @@ public class Commune {
 		this.code = code;
 	}
 
+	@JacksonXmlProperty(isAttribute=true)
 	public String getUri() {
 		return uri;
 	}
@@ -39,6 +39,8 @@ public class Commune {
 		this.uri = uri;
 	}
 
+	@JacksonXmlProperty(localName="Intitule")
+	@JsonProperty(value="intitule")
 	public String getIntitule() {
 		return intitule;
 	}
@@ -46,6 +48,4 @@ public class Commune {
 	public void setIntitule(String intitule) {
 		this.intitule = intitule;
 	}
-
-
 }
