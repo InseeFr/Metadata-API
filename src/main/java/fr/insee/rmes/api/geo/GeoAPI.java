@@ -32,7 +32,7 @@ public class GeoAPI {
 		String csvResult = SparqlUtils.executeSparqlQuery(GeoQueries.getCommune(code));
 		CSVUtils.populatePOJO(csvResult, commune);
 
-		if (commune.getUri() == null) return Response.status(Status.NOT_FOUND).build();
+		if (commune.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 		return Response.ok(ResponseUtils.produceResponse(commune, header)).build();
 	}
 
@@ -47,7 +47,7 @@ public class GeoAPI {
 		String csvResult = SparqlUtils.executeSparqlQuery(GeoQueries.getCountry(code));
 		CSVUtils.populatePOJO(csvResult, country);
 
-		if (country.getUri() == null) return Response.status(Status.NOT_FOUND).build();
+		if (country.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 		return Response.ok(ResponseUtils.produceResponse(country, header)).build();
 	}
 
@@ -62,7 +62,7 @@ public class GeoAPI {
 		String csvResult = SparqlUtils.executeSparqlQuery(GeoQueries.getRegion(code));
 		CSVUtils.populatePOJO(csvResult, region);
 
-		if (region.getUri() == null) return Response.status(Status.NOT_FOUND).build();
+		if (region.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 		return Response.ok(ResponseUtils.produceResponse(region, header)).build();
 	}
 }

@@ -37,7 +37,7 @@ public class CodesAPI {
 		String csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauIII(code));
 		CSVUtils.populatePOJO(csvResult, cjNiveau3);
 		
-		if (cjNiveau3.getUri() == null) return Response.status(Status.NOT_FOUND).build();
+		if (cjNiveau3.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 		return Response.ok(ResponseUtils.produceResponse(cjNiveau3, header)).build();
 	}
 
@@ -53,7 +53,7 @@ public class CodesAPI {
 		String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
 		CSVUtils.populatePOJO(csvResult, sousClasse);
 
-		if (sousClasse.getUri() == null) return Response.status(Status.NOT_FOUND).build();
+		if (sousClasse.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 		return Response.ok(ResponseUtils.produceResponse(sousClasse, header)).build();
 	}
 
@@ -68,7 +68,7 @@ public class CodesAPI {
 		String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
 		CSVUtils.populatePOJO(csvResult, classe);
 
-		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).build();
+		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 		return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
 	}
 
