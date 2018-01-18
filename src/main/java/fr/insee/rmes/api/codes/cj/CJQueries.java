@@ -1,5 +1,7 @@
 package fr.insee.rmes.api.codes.cj;
 
+import fr.insee.rmes.api.Configuration;
+
 public class CJQueries {
 
 	public static String getCategorieJuridiqueNiveauIII(String code) {
@@ -11,7 +13,7 @@ public class CJQueries {
 				+ "{ \n"
 				+ "SELECT ?lastCJThirdLevel WHERE { \n"
 				+ "?lastCJThirdLevel xkos:organizedBy <http://id.insee.fr/concepts/cj/cjNiveauIII> . \n"
-				+ "BIND(STRBEFORE(STRAFTER(STR(?lastThirdLevel ),'http://id.insee.fr/codes/cj/cj'), '/niveauIII') AS ?lastCJVersion) \n"
+				+ "BIND(STRBEFORE(STRAFTER(STR(?lastThirdLevel ), '" + Configuration.BASE_HOST + "/codes/cj/cj'), '/niveauIII') AS ?lastCJVersion) \n"
 				+ "BIND(xsd:float(?lastCJVersion) AS ?lastCJVersionFloat)"
 				+ "} \n"
 				+ "ORDER BY DESC (?lastCJVersionFloat) \n"
