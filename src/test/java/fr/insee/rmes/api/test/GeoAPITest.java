@@ -23,6 +23,9 @@ public class GeoAPITest extends JerseyTest {
 	public void testGetCommune() {
 		Response output = target("geo/commune/1234").request().accept(MediaType.APPLICATION_JSON).get();
 		assertEquals("Should return status 404", 404, output.getStatus());
+		output = target("geo/commune/").request().get();
+		assertEquals("Should return status 400", 400, output.getStatus());
+
 	}
 
 	@Test
