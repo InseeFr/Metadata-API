@@ -11,6 +11,7 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<jersey.version>2.26-b03</jersey.version>
 		<jackson.version>2.8.8</jackson.version>
+		<log.version>2.8.2</log.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -29,11 +30,23 @@
 		    <version>${jersey.version}</version>
 		    <scope>test</scope>
 		</dependency>
+		<!-- LOGS -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.8.2</version>
+			<version>${log.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-web</artifactId>
+			<version>${log.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -52,5 +65,26 @@
 		    <artifactId>jackson-dataformat-xml</artifactId>
 		    <version>${jackson.version}</version>
 		</dependency>
+		<!-- Swagger -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jersey2-jaxrs</artifactId>
+			<version>1.5.9</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>
+						jersey-container-servlet-core
+					</artifactId>
+					<groupId>org.glassfish.jersey.containers</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
 	</dependencies>
 </project>
