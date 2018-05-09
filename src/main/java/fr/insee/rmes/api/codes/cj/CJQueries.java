@@ -12,7 +12,7 @@ public class CJQueries {
 				+ "FILTER (lang(?intitule) = 'fr') \n"
 				+ "{ \n"
 				+ "SELECT ?lastCJThirdLevel WHERE { \n"
-				+ "?lastCJThirdLevel xkos:organizedBy <http://id.insee.fr/concepts/cj/cjNiveauIII> . \n"
+				+ "?lastCJThirdLevel xkos:organizedBy <" + Configuration.BASE_HOST + "/concepts/cj/cjNiveauIII> . \n"
 				+ "BIND(STRBEFORE(STRAFTER(STR(?lastThirdLevel ), '" + Configuration.BASE_HOST + "/codes/cj/cj'), '/niveauIII') AS ?lastCJVersion) \n"
 				+ "BIND(xsd:float(?lastCJVersion) AS ?lastCJVersionFloat)"
 				+ "} \n"

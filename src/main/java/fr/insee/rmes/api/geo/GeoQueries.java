@@ -1,5 +1,7 @@
 package fr.insee.rmes.api.geo;
 
+import fr.insee.rmes.api.Configuration;
+
 public class GeoQueries {
 	
 	public static String getCommune(String code) {
@@ -8,7 +10,7 @@ public class GeoQueries {
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule \n"
 				// Ensure that is not the IGN URI
-				+ "FILTER (REGEX(STR(?uri), 'id.insee.fr')) \n"
+				+ "FILTER (REGEX(STR(?uri), '" + Configuration.BASE_HOST + "')) \n"
 				+ "FILTER (lang(?intitule) = 'fr') \n"
 				+ "}";
 	}
@@ -20,7 +22,7 @@ public class GeoQueries {
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule \n"
 				// Ensure that is not the dbpedia URI
-				+ "FILTER (REGEX(STR(?uri), 'id.insee.fr')) \n"
+				+ "FILTER (REGEX(STR(?uri), '" + Configuration.BASE_HOST + "')) \n"
 				+ "FILTER (lang(?intitule) = 'fr') \n"
 				+ "}";
 	}
@@ -31,7 +33,7 @@ public class GeoQueries {
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule \n"
 				// Ensure that is not the IGN URI
-				+ "FILTER (REGEX(STR(?uri), 'id.insee.fr')) \n"
+				+ "FILTER (REGEX(STR(?uri), '" + Configuration.BASE_HOST + "')) \n"
 				+ "FILTER (lang(?intitule) = 'fr') \n"
 				+ "}";
 	}
