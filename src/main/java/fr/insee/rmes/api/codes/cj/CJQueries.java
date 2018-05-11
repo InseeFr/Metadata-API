@@ -13,7 +13,7 @@ public class CJQueries {
 				+ "{ \n"
 				+ "SELECT ?lastCJThirdLevel WHERE { \n"
 				+ "?lastCJThirdLevel xkos:organizedBy <" + Configuration.BASE_HOST + "/concepts/cj/cjNiveauIII> . \n"
-				+ "BIND(STRBEFORE(STRAFTER(STR(?lastThirdLevel ), '" + Configuration.BASE_HOST + "/codes/cj/cj'), '/niveauIII') AS ?lastCJVersion) \n"
+				+ "BIND(STRBEFORE(STRAFTER(STR(?lastCJThirdLevel), '" + Configuration.BASE_HOST + "/codes/cj/cj'), '/niveauIII') AS ?lastCJVersion) \n"
 				+ "BIND(xsd:float(?lastCJVersion) AS ?lastCJVersionFloat)"
 				+ "} \n"
 				+ "ORDER BY DESC (?lastCJVersionFloat) \n"
