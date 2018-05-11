@@ -6,7 +6,7 @@ public class CJQueries {
 
 	public static String getCategorieJuridiqueNiveauIII(String code) {
 		return "SELECT ?uri ?intitule WHERE { \n"
-				+ "?uri skos:notation '" + code + "' . \n"
+				+ "FILTER(STRENDS(STR(?uri), '" + code + "')) \n"
 				+ "?lastCJThirdLevel skos:member ?uri . \n"
 				+ "?uri skos:prefLabel ?intitule  \n"
 				+ "FILTER (lang(?intitule) = 'fr') \n"
