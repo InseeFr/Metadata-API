@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.codes.cj.CJQueries;
+import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauII;
 import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauIII;
 import fr.insee.rmes.api.codes.naf2008.ClasseNAF2008;
 import fr.insee.rmes.api.codes.naf2008.Naf2008Queries;
@@ -25,11 +26,26 @@ import fr.insee.rmes.api.utils.SparqlUtils;
 public class CodesAPI {
 
 	private static Logger logger = LogManager.getLogger(CodesAPI.class);
+	
+	@Path("/cj/n2/{code: [0-9]{2}}")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getCategorieJuridiqueNiveauII(@PathParam("code") String code, @HeaderParam("Accept") String header) {
+		
+		logger.debug("Received GET request for CJ 2nd level " + code);
+
+		CategorieJuridiqueNiveauII cjNiveau2 = new CategorieJuridiqueNiveauII(code);
+		String csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauII(code));
+		CSVUtils.populatePOJO(csvResult, cjNiveau2);
+		
+		if (cjNiveau2.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+		return Response.ok(ResponseUtils.produceResponse(cjNiveau2, header)).build();
+	}
 
 	@Path("/cj/n3/{code: [0-9]{4}}")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getCategorieJuridiqueNiveauIIIXML(@PathParam("code") String code, @HeaderParam("Accept") String header) {
+	public Response getCategorieJuridiqueNiveauIII(@PathParam("code") String code, @HeaderParam("Accept") String header) {
 		
 		logger.debug("Received GET request for CJ 3rd level " + code);
 
