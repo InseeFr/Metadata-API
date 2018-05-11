@@ -12,6 +12,39 @@ tags:
   - name: nomenclatures
   - name: géographie
 paths:
+  '/codes/cj/n2/{code}':
+    get:
+      tags:
+        - nomenclatures
+      summary: Informations sur une catégorie juridique de niveau 2
+      operationId: getcjn2
+      parameters:
+        - name: code
+          in: path
+          description: Identifiant de la catégorie juridique de niveau 2 (deux chiffres)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Opération réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategorieJuridiqueNiveauII'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/CategorieJuridiqueNiveauII'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
   '/codes/cj/n3/{code}':
     get:
       tags:
@@ -215,6 +248,25 @@ paths:
           description: Erreur interne du serveur
 components:
   schemas:
+    CategorieJuridiqueNiveauII:
+      type: object
+      description: Objet représentant une catégorie juridique (niveau 2)
+      properties:
+        code:
+          type: string
+          example: '10'
+          xml:
+            attribute: true
+        uri:
+          type: string
+          example: 'http://id.insee.fr/codes/cj/n2/10'
+          xml:
+            attribute: true
+        intitule:
+          type: string
+          example: Entrepreneur individuel
+          xml:
+            name: Intitule
     CategorieJuridiqueNiveauIII:
       type: object
       description: Objet représentant une catégorie juridique détaillée (niveau 3)
