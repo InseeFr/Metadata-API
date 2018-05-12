@@ -6,11 +6,10 @@ public class GeoQueries {
 	
 	public static String getCommune(String code) {
 		return "SELECT ?uri ?intitule WHERE { \n"
-				+ "?uri rdf:type igeo:Commune . \n"
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule \n"
-				// Ensure that is not the IGN URI
-				+ "FILTER (REGEX(STR(?uri), '" + Configuration.BASE_HOST + "')) \n"
+				// Ensure that is not the IGN URI and include COM towns
+				+ "FILTER (REGEX(STR(?uri), '" + Configuration.BASE_HOST + "/geo/commune/')) \n"
 				+ "FILTER (lang(?intitule) = 'fr') \n"
 				+ "}";
 	}
