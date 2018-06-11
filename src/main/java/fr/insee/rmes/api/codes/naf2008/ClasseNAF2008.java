@@ -2,12 +2,12 @@ package fr.insee.rmes.api.codes.naf2008;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@XmlRootElement(name="ClasseNAF2008")
+@JacksonXmlRootElement(localName="ClasseNAF2008")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ClasseNAF2008 {
 
