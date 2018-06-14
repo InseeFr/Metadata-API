@@ -15,14 +15,16 @@ public class GeoQueries {
 	}
 	
 	public static String getCountry(String code) {
-		return "SELECT ?uri ?intitule WHERE { \n"
+		return "SELECT ?uri ?intitule ?intituleEntier WHERE { \n"
 				+ "VALUES ?country { igeo:TerritoireAutonomeOuASouveraineteSpeciale igeo:Etat igeo:Pays } \n"
 				+ "?uri rdf:type ?country . \n"
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
-				+ "?uri igeo:nom ?intitule \n"
+				+ "?uri igeo:nom ?intitule . \n"
+				+ "?uri igeo:nom ?intituleEntier . \n"
 				// Ensure that is not the dbpedia URI
 				+ "FILTER (REGEX(STR(?uri), '" + Configuration.BASE_HOST + "')) \n"
 				+ "FILTER (lang(?intitule) = 'fr') \n"
+				+ "FILTER (lang(?intituleEntier) = 'fr') \n"
 				+ "}";
 	}
 	

@@ -381,3 +381,8 @@ components:
           example: Japon
           xml:
             name: Intitule
+        intituleEntier:
+          type: string
+          example: Japon
+          xml:
+            name: IntituleEntier

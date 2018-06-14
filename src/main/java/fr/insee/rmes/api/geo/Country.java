@@ -14,6 +14,7 @@ public class Country {
 	private String code = null;
 	private String uri = null;
 	private String intitule = null;
+	private String intituleEntier = null;
 	
 	public Country() {} // No-args constructor needed for JAXB
 
@@ -38,14 +39,24 @@ public class Country {
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
-
+	
 	@JacksonXmlProperty(localName="Intitule")
 	@JsonProperty(value="intitule")
 	public String getIntitule() {
 		return intitule;
 	}
-
+	
 	public void setIntitule(String intitule) {
 		this.intitule = intitule;
+	}
+
+	@JacksonXmlProperty(localName="IntituleEntier")
+	@JsonProperty(value="intituleEntier")
+	public String getIntituleEntier() {
+		return intituleEntier;
+	}
+
+	public void setIntituleEntier(String intituleEntier) {
+		this.intituleEntier = intituleEntier;
 	}
 }
