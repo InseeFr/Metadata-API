@@ -20,7 +20,7 @@ public class GeoQueries {
 				+ "?uri rdf:type ?country . \n"
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule . \n"
-				+ "?uri igeo:nom ?intituleEntier . \n"
+				+ "?uri igeo:nomEntier ?intituleEntier . \n"
 				// Ensure that is not the dbpedia URI
 				+ "FILTER (REGEX(STR(?uri), '" + Configuration.BASE_HOST + "')) \n"
 				+ "FILTER (lang(?intitule) = 'fr') \n"
