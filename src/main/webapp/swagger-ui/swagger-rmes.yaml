@@ -6,7 +6,7 @@ servers:
     description: 'Local dev server'
 info:
   description: API sur les métadonnées de l'Insee
-  version: '0.1'
+  version: '1.0'
   title: API RMéS
 tags:
   - name: nomenclatures
