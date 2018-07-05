@@ -98,6 +98,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClasseNAF2008'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ClasseNAF2008'
         '400':
           description: La syntaxe de la requête est incorrecte
         '401':
@@ -128,6 +131,9 @@ paths:
           description: successful operation
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/SousClasseNAF2008'
+            application/xml:
               schema:
                 $ref: '#/components/schemas/SousClasseNAF2008'
         '400':
