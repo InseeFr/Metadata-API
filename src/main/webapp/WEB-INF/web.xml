@@ -5,6 +5,16 @@
 	id="rmes-api" version="3.0">
 
 	<display-name>RMéS metadata API</display-name>
+	
+	<!-- LOGS -->
+	<context-param>
+		<param-name>isLog4jAutoInitializationDisabled</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>fr.insee.rmes.config.Log4j2ServletContextListener</listener-class>
+	</listener>
 
 	<!-- DEFAULT FOR STATIC PAGES -->
 	<filter>
