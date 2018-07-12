@@ -21,7 +21,7 @@ public class SparqlUtils {
 		Client client = ClientBuilder.newBuilder().build();
 		String response = client.target(uri).request("text/csv").get(String.class);
 
-		logger.debug("SPARQL query returned: " + response);
+		logger.debug("SPARQL query returned: \n" + response);
 		return response;
 	}
 
@@ -35,7 +35,7 @@ public class SparqlUtils {
 			String encodeURL = URLEncoder.encode(url, "UTF-8");
 			return encodeURL;
 		} catch (UnsupportedEncodingException e) {
-			return "Issue while encoding" + e.getMessage();
+			return "Issue while encoding: " + e.getMessage();
 		}
 	}
 
