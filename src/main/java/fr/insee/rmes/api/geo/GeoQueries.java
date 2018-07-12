@@ -16,8 +16,7 @@ public class GeoQueries {
 	
 	public static String getCountry(String code) {
 		return "SELECT ?uri ?intitule ?intituleEntier WHERE { \n"
-				+ "VALUES ?country { igeo:TerritoireAutonomeOuASouveraineteSpeciale igeo:Etat igeo:Pays } \n"
-				+ "?uri rdf:type ?country . \n"
+				+ "?uri rdf:type igeo:Etat . \n"
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule . \n"
 				+ "?uri igeo:nomEntier ?intituleEntier . \n"
