@@ -131,12 +131,12 @@ public class CodesAPI {
 
 		logger.debug("Received GET request for NA 1973 group " + code);
 
-		GroupeNA1973 classe = new GroupeNA1973(code);
+		GroupeNA1973 groupe = new GroupeNA1973(code);
 		String csvResult = SparqlUtils.executeSparqlQuery(Na1973Queries.getGroupeNA1973(code));
-		CSVUtils.populatePOJO(csvResult, classe);
+		CSVUtils.populatePOJO(csvResult, groupe);
 
-		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-		return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
+		if (groupe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+		return Response.ok(ResponseUtils.produceResponse(groupe, header)).build();
 	}
 
 }
