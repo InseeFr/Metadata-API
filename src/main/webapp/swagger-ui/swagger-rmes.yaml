@@ -303,7 +303,7 @@ components:
             attribute: true
         uri:
           type: string
-          example: 'http://id.insee.fr/codes/nafr2/sousClasse/27.40'
+          example: 'http://id.insee.fr/codes/nafr2/classe/27.40'
           xml:
             attribute: true
         intitule:
