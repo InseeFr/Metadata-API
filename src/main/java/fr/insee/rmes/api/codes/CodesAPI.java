@@ -15,6 +15,12 @@ import org.apache.logging.log4j.Logger;
 import fr.insee.rmes.api.codes.cj.CJQueries;
 import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauII;
 import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauIII;
+import fr.insee.rmes.api.codes.na1973.GroupeNA1973;
+import fr.insee.rmes.api.codes.na1973.Na1973Queries;
+import fr.insee.rmes.api.codes.naf1993.ClasseNAF1993;
+import fr.insee.rmes.api.codes.naf1993.Naf1993Queries;
+import fr.insee.rmes.api.codes.naf2003.ClasseNAF2003;
+import fr.insee.rmes.api.codes.naf2003.Naf2003Queries;
 import fr.insee.rmes.api.codes.naf2008.ClasseNAF2008;
 import fr.insee.rmes.api.codes.naf2008.Naf2008Queries;
 import fr.insee.rmes.api.codes.naf2008.SousClasseNAF2008;
@@ -78,10 +84,55 @@ public class CodesAPI {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getClasseNAF2008(@PathParam("code") String code, @HeaderParam("Accept") String header) {
 
-		logger.debug("Received GET request for NAF class " + code);
+		logger.debug("Received GET request for NAF rev. 2 class " + code);
 
 		ClasseNAF2008 classe = new ClasseNAF2008(code);
 		String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
+		CSVUtils.populatePOJO(csvResult, classe);
+
+		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+		return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
+	}
+	
+	@Path("/nafr1/classe/{code: [0-9]{2}\\.[0-9][A-Z]}")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getClasseNAF2003(@PathParam("code") String code, @HeaderParam("Accept") String header) {
+
+		logger.debug("Received GET request for NAF rev. 1 class " + code);
+
+		ClasseNAF2003 classe = new ClasseNAF2003(code);
+		String csvResult = SparqlUtils.executeSparqlQuery(Naf2003Queries.getClasseNAF2003(code));
+		CSVUtils.populatePOJO(csvResult, classe);
+
+		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+		return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
+	}
+	
+	@Path("/naf/classe/{code: [0-9]{2}\\.[0-9][A-Z]}")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getClasseNAF1993(@PathParam("code") String code, @HeaderParam("Accept") String header) {
+
+		logger.debug("Received GET request for NAF class " + code);
+
+		ClasseNAF1993 classe = new ClasseNAF1993(code);
+		String csvResult = SparqlUtils.executeSparqlQuery(Naf1993Queries.getClasseNAF1993(code));
+		CSVUtils.populatePOJO(csvResult, classe);
+
+		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+		return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
+	}
+	
+	@Path("/na73/groupe/{code: [0-9]{2}\\.[0-9]{2}}")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getClasseNA1973(@PathParam("code") String code, @HeaderParam("Accept") String header) {
+
+		logger.debug("Received GET request for NA 1973 group " + code);
+
+		GroupeNA1973 classe = new GroupeNA1973(code);
+		String csvResult = SparqlUtils.executeSparqlQuery(Na1973Queries.getGroupeNA1973(code));
 		CSVUtils.populatePOJO(csvResult, classe);
 
 		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
