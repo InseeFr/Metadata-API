@@ -1,6 +1,6 @@
 package fr.insee.rmes.api.geo;
 
-import fr.insee.rmes.api.Configuration;
+import fr.insee.rmes.config.Configuration;
 
 public class GeoQueries {
 	

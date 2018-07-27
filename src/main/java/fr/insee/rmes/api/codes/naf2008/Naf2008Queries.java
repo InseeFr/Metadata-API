@@ -1,6 +1,6 @@
 package fr.insee.rmes.api.codes.naf2008;
 
-import fr.insee.rmes.api.Configuration;
+import fr.insee.rmes.config.Configuration;
 
 public class Naf2008Queries {
 	

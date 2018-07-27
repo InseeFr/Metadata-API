@@ -1,6 +1,6 @@
 package fr.insee.rmes.api.codes.cj;
 
-import fr.insee.rmes.api.Configuration;
+import fr.insee.rmes.config.Configuration;
 
 public class CJQueries {
 	

@@ -1,4 +1,4 @@
-package fr.insee.rmes.api;
+package fr.insee.rmes.config;
 
 public class Configuration {
 

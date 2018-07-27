@@ -9,7 +9,7 @@ import javax.ws.rs.client.ClientBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.api.Configuration;
+import fr.insee.rmes.config.Configuration;
 
 public class SparqlUtils {
 
