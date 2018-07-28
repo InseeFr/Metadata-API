@@ -247,6 +247,47 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
+  '/codes/activites':
+    get:
+      tags:
+        - nomenclatures
+      summary: Informations sur une activité identifiée par son code
+      operationId: getactivities
+      parameters:
+        - name: code
+          in: query
+          description: Code de l'activité
+          required: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: >-
+            Date à laquelle l'activité est active ('' pour la date du jour ;
+            '*' pour ne pas fixer de date)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activites'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Activites'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
   '/geo/commune/{code}':
     get:
       tags:
@@ -488,6 +529,45 @@ components:
           example: Fabrication d'appareils d'éclairage électrique
           xml:
             name: Intitule
+    Activite:
+      type: object
+      description: Objet représentant une activité
+      xml:
+        name: Activite
+      properties:
+        code:
+          type: string
+          example: 27.40Z
+          xml:
+            attribute: true
+        uri:
+          type: string
+          example: 'http://id.insee.fr/codes/nafr2/sousClasse/27.40Z'
+          xml:
+            attribute: true
+        intitule:
+          type: string
+          example: Fabrication d'appareils d'éclairage électrique
+          xml:
+            name: Intitule
+        dateDebutValidite:
+          type: date-time
+          example: '2008-01-01T00:00:00.000+01:00'
+          xml:
+            name: DateDebutValidite
+        dateFinValidite:
+          type: date-time
+          example: ''
+          xml:
+            name: DateFinValidite
+    Activites:
+      type: array
+      description: Tableau représentant des activités
+      items:
+        $ref: '#/components/schemas/Activite'
+      xml:
+        wrapped: true
+        name: Activites
     Region:
       type: object
       description: Objet représentant une région
