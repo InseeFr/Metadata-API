@@ -169,9 +169,6 @@ public class CodesAPI {
 		
 		if (activityList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
 		
-//		if (header.equals(MediaType.APPLICATION_JSON))
-//			return Response.ok(ResponseUtils.produceResponse(activityList, header)).build();
-//		else 
 		return Response.ok(ResponseUtils.produceResponse(new Activites(activityList), header)).build();
 	}
 
