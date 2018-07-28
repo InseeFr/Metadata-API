@@ -41,7 +41,7 @@ public class CodesAPI {
 		logger.debug("Received GET request for CJ 2nd level " + code);
 
 		CategorieJuridiqueNiveauII cjNiveau2 = new CategorieJuridiqueNiveauII(code);
-		String csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauII(code));
+		String csvResult = SparqlUtils.executeSimpleSparqlQuery(CJQueries.getCategorieJuridiqueNiveauII(code));
 		CSVUtils.populatePOJO(csvResult, cjNiveau2);
 		
 		if (cjNiveau2.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
@@ -56,7 +56,7 @@ public class CodesAPI {
 		logger.debug("Received GET request for CJ 3rd level " + code);
 
 		CategorieJuridiqueNiveauIII cjNiveau3 = new CategorieJuridiqueNiveauIII(code);
-		String csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauIII(code));
+		String csvResult = SparqlUtils.executeSimpleSparqlQuery(CJQueries.getCategorieJuridiqueNiveauIII(code));
 		CSVUtils.populatePOJO(csvResult, cjNiveau3);
 		
 		if (cjNiveau3.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
@@ -72,7 +72,7 @@ public class CodesAPI {
 		logger.debug("Received GET request for NAF sub-class " + code);
 
 		SousClasseNAF2008 sousClasse = new SousClasseNAF2008(code);
-		String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
+		String csvResult = SparqlUtils.executeSimpleSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
 		CSVUtils.populatePOJO(csvResult, sousClasse);
 
 		if (sousClasse.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
@@ -87,7 +87,7 @@ public class CodesAPI {
 		logger.debug("Received GET request for NAF rev. 2 class " + code);
 
 		ClasseNAF2008 classe = new ClasseNAF2008(code);
-		String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
+		String csvResult = SparqlUtils.executeSimpleSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
 		CSVUtils.populatePOJO(csvResult, classe);
 
 		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
@@ -102,7 +102,7 @@ public class CodesAPI {
 		logger.debug("Received GET request for NAF rev. 1 class " + code);
 
 		ClasseNAF2003 classe = new ClasseNAF2003(code);
-		String csvResult = SparqlUtils.executeSparqlQuery(Naf2003Queries.getClasseNAF2003(code));
+		String csvResult = SparqlUtils.executeSimpleSparqlQuery(Naf2003Queries.getClasseNAF2003(code));
 		CSVUtils.populatePOJO(csvResult, classe);
 
 		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
@@ -117,7 +117,7 @@ public class CodesAPI {
 		logger.debug("Received GET request for NAF class " + code);
 
 		ClasseNAF1993 classe = new ClasseNAF1993(code);
-		String csvResult = SparqlUtils.executeSparqlQuery(Naf1993Queries.getClasseNAF1993(code));
+		String csvResult = SparqlUtils.executeSimpleSparqlQuery(Naf1993Queries.getClasseNAF1993(code));
 		CSVUtils.populatePOJO(csvResult, classe);
 
 		if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
@@ -132,7 +132,7 @@ public class CodesAPI {
 		logger.debug("Received GET request for NA 1973 group " + code);
 
 		GroupeNA1973 groupe = new GroupeNA1973(code);
-		String csvResult = SparqlUtils.executeSparqlQuery(Na1973Queries.getGroupeNA1973(code));
+		String csvResult = SparqlUtils.executeSimpleSparqlQuery(Na1973Queries.getGroupeNA1973(code));
 		CSVUtils.populatePOJO(csvResult, groupe);
 
 		if (groupe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
