@@ -1,17 +1,24 @@
 package fr.insee.rmes.api.codes;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
 
+import fr.insee.rmes.api.codes.activites.Activite;
+import fr.insee.rmes.api.codes.activites.Activites;
+import fr.insee.rmes.api.codes.activites.ActivitesQueries;
 import fr.insee.rmes.api.codes.cj.CJQueries;
 import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauII;
 import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauIII;
@@ -25,6 +32,7 @@ import fr.insee.rmes.api.codes.naf2008.ClasseNAF2008;
 import fr.insee.rmes.api.codes.naf2008.Naf2008Queries;
 import fr.insee.rmes.api.codes.naf2008.SousClasseNAF2008;
 import fr.insee.rmes.api.utils.CSVUtils;
+import fr.insee.rmes.api.utils.DateUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
 
@@ -137,6 +145,34 @@ public class CodesAPI {
 
 		if (groupe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 		return Response.ok(ResponseUtils.produceResponse(groupe, header)).build();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Path("/activites")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getActivities(@QueryParam("code") String code, @QueryParam("date") String date
+			, @HeaderParam("Accept") String header) {
+
+		logger.debug("Received GET request for Activities: " + code);
+		
+		String csvResult = "";	
+		
+		if (date == null) csvResult = SparqlUtils.executeSimpleSparqlQuery(ActivitesQueries.getActiviteByCode(code));
+		else if (date.equals("*")) csvResult = SparqlUtils.executeSimpleSparqlQuery(ActivitesQueries.getActivites(code));
+		else {
+			DateTime dt = DateUtils.getDateTimeFromString(date);
+			csvResult = SparqlUtils.executeSimpleSparqlQuery(ActivitesQueries.getActiviteByCodeAndDate(code, dt));
+		}
+		
+		List<Activite> activityList = (List<Activite>) CSVUtils.populateMultiPOJO(csvResult, Activite.class);
+		
+		if (activityList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
+		
+//		if (header.equals(MediaType.APPLICATION_JSON))
+//			return Response.ok(ResponseUtils.produceResponse(activityList, header)).build();
+//		else 
+		return Response.ok(ResponseUtils.produceResponse(new Activites(activityList), header)).build();
 	}
 
 }
