@@ -5,7 +5,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -24,7 +23,6 @@ public class Activites {
 
 	@JacksonXmlProperty(isAttribute=true, localName="Activite")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonUnwrapped
 	public List<Activite> getActivites() {
 		return activites;
 	}

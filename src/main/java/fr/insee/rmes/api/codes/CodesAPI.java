@@ -169,7 +169,10 @@ public class CodesAPI {
 		
 		if (activityList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
 		
-		return Response.ok(ResponseUtils.produceResponse(new Activites(activityList), header)).build();
+		else if (header.equals(MediaType.APPLICATION_XML))
+			return Response.ok(ResponseUtils.produceResponse(new Activites(activityList), header)).build();
+			
+		else return Response.ok(ResponseUtils.produceResponse(activityList, header)).build();
 	}
 
 }
