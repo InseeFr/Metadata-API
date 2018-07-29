@@ -29,7 +29,7 @@ public class GeoAPI {
 		logger.debug("Received GET request for commune " + code);
 
 		Commune commune = new Commune(code);
-		String csvResult = SparqlUtils.executeSimpleSparqlQuery(GeoQueries.getCommune(code));
+		String csvResult = SparqlUtils.executeSparqlQuery(GeoQueries.getCommune(code));
 		CSVUtils.populatePOJO(csvResult, commune);
 
 		if (commune.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
@@ -44,7 +44,7 @@ public class GeoAPI {
 		logger.debug("Received GET request for country " + code);
 
 		Country country = new Country(code);
-		String csvResult = SparqlUtils.executeSimpleSparqlQuery(GeoQueries.getCountry(code));
+		String csvResult = SparqlUtils.executeSparqlQuery(GeoQueries.getCountry(code));
 		CSVUtils.populatePOJO(csvResult, country);
 
 		if (country.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
@@ -59,7 +59,7 @@ public class GeoAPI {
 		logger.debug("Received GET request for region " + code);
 
 		Region region = new Region(code);
-		String csvResult = SparqlUtils.executeSimpleSparqlQuery(GeoQueries.getRegion(code));
+		String csvResult = SparqlUtils.executeSparqlQuery(GeoQueries.getRegion(code));
 		CSVUtils.populatePOJO(csvResult, region);
 
 		if (region.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();

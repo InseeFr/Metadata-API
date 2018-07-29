@@ -15,7 +15,7 @@ public class SparqlUtils {
 
 	private static Logger logger = LogManager.getLogger(SparqlUtils.class);
 
-	public static String executeSimpleSparqlQuery(String query) {
+	public static String executeSparqlQuery(String query) {
 
 		String uri = queryToURI(query);
 		Client client = ClientBuilder.newBuilder().build();

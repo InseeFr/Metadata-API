@@ -34,7 +34,7 @@ public class ConceptsAPI {
 		
 		String label = libelle == null ? "" : libelle;
 
-		String csvResult = SparqlUtils.executeSimpleSparqlQuery(ConceptsQueries.getConceptsByLabel(label));
+		String csvResult = SparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptsByLabel(label));
 		List<Concept> conceptList = (List<Concept>) CSVUtils.populateMultiPOJO(csvResult, Concept.class);
 		
 		if (conceptList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
@@ -55,7 +55,7 @@ public class ConceptsAPI {
 		logger.debug("Received GET request for Concept: " + id);
 
 		Concept concept = new Concept(id);
-		String csvResult = SparqlUtils.executeSimpleSparqlQuery(ConceptsQueries.getConceptById(id));
+		String csvResult = SparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));
 		CSVUtils.populatePOJO(csvResult, concept);
 		
 		if (concept.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
