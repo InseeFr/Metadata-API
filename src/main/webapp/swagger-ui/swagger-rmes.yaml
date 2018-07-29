@@ -263,8 +263,8 @@ paths:
         - name: date
           in: query
           description: >-
-            Date à laquelle l'activité est active ('' pour la date du jour ;
-            '*' pour ne pas fixer de date)
+            Date à laquelle l'activité est active (Format : 'yyyy/MM/dd' ;
+            '' pour la date du jour ; '*' pour ne pas fixer de date)
           required: false
           schema:
             type: string
@@ -537,27 +537,27 @@ components:
       properties:
         code:
           type: string
-          example: 27.40Z
+          example: 01.1A
           xml:
             attribute: true
         uri:
           type: string
-          example: 'http://id.insee.fr/codes/nafr2/sousClasse/27.40Z'
+          example: 'http://id.insee.fr/codes/nafr1/classe/01.1A'
           xml:
             attribute: true
         intitule:
           type: string
-          example: Fabrication d'appareils d'éclairage électrique
+          example: Culture de céréales ; cultures industrielles
           xml:
             name: Intitule
         dateDebutValidite:
           type: date-time
-          example: '2008-01-01T00:00:00.000+01:00'
+          example: '2003-01-01T00:00:00.000+01:00'
           xml:
             name: DateDebutValidite
         dateFinValidite:
           type: date-time
-          example: ''
+          example: '2007-12-31T23:59:59.999+01:00'
           xml:
             name: DateFinValidite
     Activites:
