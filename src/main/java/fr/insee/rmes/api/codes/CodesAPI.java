@@ -161,6 +161,7 @@ public class CodesAPI {
 		if (date == null) csvResult = SparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCode(code));
 		else if (date.equals("*")) csvResult = SparqlUtils.executeSparqlQuery(ActivitesQueries.getActivites(code));
 		else {
+			if(!DateUtils.isValidDate(date)) return Response.status(Status.BAD_REQUEST).entity("").build();
 			DateTime dt = DateUtils.getDateTimeFromString(date);
 			csvResult = SparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCodeAndDate(code, dt));
 		}
