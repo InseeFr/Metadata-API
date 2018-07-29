@@ -20,8 +20,10 @@ import fr.insee.rmes.api.codes.activites.Activite;
 import fr.insee.rmes.api.codes.activites.Activites;
 import fr.insee.rmes.api.codes.activites.ActivitesQueries;
 import fr.insee.rmes.api.codes.cj.CJQueries;
+import fr.insee.rmes.api.codes.cj.CategorieJuridique;
 import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauII;
 import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauIII;
+import fr.insee.rmes.api.codes.cj.CategoriesJuridiques;
 import fr.insee.rmes.api.codes.na1973.GroupeNA1973;
 import fr.insee.rmes.api.codes.na1973.Na1973Queries;
 import fr.insee.rmes.api.codes.naf1993.ClasseNAF1993;
@@ -69,6 +71,35 @@ public class CodesAPI {
 		
 		if (cjNiveau3.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 		return Response.ok(ResponseUtils.produceResponse(cjNiveau3, header)).build();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Path("/cj")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getCategoriesJuridiques(@QueryParam("code") String code, @QueryParam("date") String date
+			, @HeaderParam("Accept") String header) {
+
+		logger.debug("Received GET request for CJ: code:" + code + " date:" + date);
+		
+		String csvResult = "";	
+		
+		if (date == null) csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCJByCode(code));
+		else if (date.equals("*")) csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCJ(code));
+		else {
+			if(!DateUtils.isValidDate(date)) return Response.status(Status.BAD_REQUEST).entity("").build();
+			DateTime dt = DateUtils.getDateTimeFromString(date);
+			csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCJByCodeAndDate(code, dt));
+		}
+		
+		List<CategorieJuridique> cjList = (List<CategorieJuridique>) CSVUtils.populateMultiPOJO(csvResult, CategorieJuridique.class);
+		
+		if (cjList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
+		
+		else if (header.equals(MediaType.APPLICATION_XML))
+			return Response.ok(ResponseUtils.produceResponse(new CategoriesJuridiques(cjList), header)).build();
+			
+		else return Response.ok(ResponseUtils.produceResponse(cjList, header)).build();
 	}
 
 

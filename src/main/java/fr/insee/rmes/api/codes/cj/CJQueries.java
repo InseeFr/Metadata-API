@@ -1,5 +1,7 @@
 package fr.insee.rmes.api.codes.cj;
 
+import org.joda.time.DateTime;
+
 import fr.insee.rmes.config.Configuration;
 
 public class CJQueries {
@@ -38,6 +40,40 @@ public class CJQueries {
 				+ "LIMIT 1 \n"
 				+ "} \n"
 				+ "}";
-	}	
+	}
+	
+	public static String getCJByCodeAndDate(String code, DateTime date) {
+		return "SELECT ?code ?uri ?intitule ?dateDebutValidite ?dateFinValidite WHERE { \n"
+				+ "?classification dcterms:issued ?dateDebutValidite . \n"
+				+ "FILTER(REGEX(STR(?classification), '/codes/cj/')) \n"
+				+ "FILTER (?dateDebutValidite <= '" + date + "'^^xsd:dateTime) \n"
+				+ "OPTIONAL {?classification dcterms:valid ?dateFinValidite .} \n"
+				+ "BIND(IF(!BOUND(?dateFinValidite), '9999-01-01T00:00:00.000+01:00'^^xsd:dateTime, "
+				+ "?dateFinValidite) as ?validFilter) \n"
+				+ "FILTER ('" + date + "'^^xsd:dateTime <= ?validFilter) \n"
+				+ "?uri skos:inScheme ?classification . \n"
+				+ "?uri skos:notation '" + code + "' . \n"
+				+ "?uri skos:notation ?code . \n"
+				+ "?uri skos:prefLabel ?intitule  \n"
+				+ "FILTER (lang(?intitule) = 'fr') \n"
+				+ "}";
+	}
+	
+	public static String getCJByCode(String code) {
+		return getCJByCodeAndDate(code, DateTime.now());
+	}
+	
+	public static String getCJ(String code) {
+		return "SELECT ?code ?uri ?intitule ?dateDebutValidite ?dateFinValidite WHERE { \n"
+				+ "?classification dcterms:issued ?dateDebutValidite . \n"
+				+ "FILTER(REGEX(STR(?classification), '/codes/cj/')) \n"
+				+ "OPTIONAL {?classification dcterms:valid ?dateFinValidite .} \n"
+				+ "?uri skos:inScheme ?classification . \n"
+				+ "?uri skos:notation '" + code + "' . \n"
+				+ "?uri skos:notation ?code . \n"
+				+ "?uri skos:prefLabel ?intitule  \n"
+				+ "FILTER (lang(?intitule) = 'fr') \n"
+				+ "}";
+	}
 
 }
