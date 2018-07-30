@@ -131,7 +131,7 @@ paths:
       parameters:
         - name: code
           in: path
-          description: 'Code de la classe (deux chiffres, un point, deux chiffres)'
+          description: 'Code du groupe (deux chiffres, un point, deux chiffres)'
           required: true
           schema:
             type: string
