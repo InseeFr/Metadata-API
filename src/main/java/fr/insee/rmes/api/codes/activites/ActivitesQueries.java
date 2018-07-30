@@ -43,7 +43,8 @@ public class ActivitesQueries {
 					+ "<" + Configuration.BASE_HOST + "/codes/naf/naf> \n"
 					+ "<" + Configuration.BASE_HOST + "/codes/nafr1/naf> \n"
 					+ "<" + Configuration.BASE_HOST + "/codes/nafr2/naf> } \n"
-				+ "}";
+				+ "} \n"
+				+ "ORDER BY ?dateDebutValidite";
 	}
 
 }

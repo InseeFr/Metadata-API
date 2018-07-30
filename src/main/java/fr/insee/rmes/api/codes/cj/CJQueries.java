@@ -83,7 +83,8 @@ public class CJQueries {
 						+ "GROUP BY ?code ?uri ?intitule \n"	
 					+ "} \n"
 					+ "BIND(IF(?dateFin='9999-01-01T00:00:00.000+01:00'^^xsd:dateTime,'',?dateFin) AS ?dateFinValidite)"
-				+ "}";
+				+ "} \n"
+				+ "ORDER BY ?dateDebutValidite";
 	}
 
 }
