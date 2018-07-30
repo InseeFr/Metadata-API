@@ -94,7 +94,8 @@ public class CodesAPI {
 		
 		List<CategorieJuridique> cjList = (List<CategorieJuridique>) CSVUtils.populateMultiPOJO(csvResult, CategorieJuridique.class);
 		
-		if (cjList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
+		// sub query return ,,,, result. So check list size and first element is not empty
+		if (cjList.size() == 0 || cjList.get(0).getCode().equals("")) return Response.status(Status.NOT_FOUND).entity("").build();
 		
 		else if (header.equals(MediaType.APPLICATION_XML))
 			return Response.ok(ResponseUtils.produceResponse(new CategoriesJuridiques(cjList), header)).build();
