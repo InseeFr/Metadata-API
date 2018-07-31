@@ -308,7 +308,7 @@ paths:
         - name: date
           in: query
           description: >-
-            Date à laquelle l'activité est valide 
+            Date à laquelle l'activité est valide
             (Format : 'AAAA-MM-DD' ; '*' pour obtenir tout l'historique ;
             paramètre absent pour la date du jour)
           required: false
@@ -444,7 +444,7 @@ paths:
     get:
       tags:
         - concepts
-      summary: Informations sur les concepts de l'Insee
+      summary: Informations sur les définitions des concepts statistiques de l'Insee
       operationId: getconcepts
       parameters:
         - name: libelle
@@ -476,7 +476,7 @@ paths:
     get:
       tags:
         - concepts
-      summary: Informations sur un concept de l'Insee
+      summary: Informations sur la définition d'un concept statistique de l'Insee
       operationId: getconcept
       parameters:
         - name: id
@@ -781,7 +781,7 @@ components:
             name: IntituleEntier
     Definition:
       type: object
-      description: Objet représentant un concept
+      description: Objet représentant la définition d'un concept statistique de l'Insee
       xml:
         name: Definition
       properties:
@@ -812,7 +812,7 @@ components:
             name: EstRemplacePar
     Definitions:
       type: array
-      description: Tableau représentant des concepts
+      description: Tableau représentant des définitions de concepts statistiques de l'Insee
       items:
         $ref: '#/components/schemas/Definition'
       xml:
