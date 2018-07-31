@@ -566,13 +566,13 @@ components:
           xml:
             name: Intitule
         dateDebutValidite:
-          type: date-time
-          example: '1973-01-01T00:00:00.000+01:00'
+          type: date
+          example: '1973-01-01'
           xml:
             name: DateDebutValidite
         dateFinValidite:
-          type: date-time
-          example: '2018-06-30T23:59:59.999+01:00'
+          type: date
+          example: '2018-06-30'
           xml:
             name: DateFinValidite
     CategoriesJuridiques:
@@ -700,13 +700,13 @@ components:
           xml:
             name: Intitule
         dateDebutValidite:
-          type: date-time
-          example: '2003-01-01T00:00:00.000+01:00'
+          type: date
+          example: '2003-01-01'
           xml:
             name: DateDebutValidite
         dateFinValidite:
-          type: date-time
-          example: '2007-12-31T23:59:59.999+01:00'
+          type: date
+          example: '2007-12-31'
           xml:
             name: DateFinValidite
     Activites:
