@@ -68,6 +68,6 @@ public class Activite {
 	}
 
 	public void setValid(String valid) {
-		this.valid = valid;
+		this.valid = valid + "toto";
 	}
 }

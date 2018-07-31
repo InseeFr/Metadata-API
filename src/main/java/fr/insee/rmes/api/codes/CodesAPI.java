@@ -88,7 +88,7 @@ public class CodesAPI {
 		else if (date.equals("*")) csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCJ(code));
 		else {
 			if(!DateUtils.isValidDate(date)) return Response.status(Status.BAD_REQUEST).entity("").build();
-			DateTime dt = DateUtils.getDateTimeFromString(date);
+			DateTime dt = DateUtils.getDateTimeFromDateString(date);
 			csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCJByCodeAndDate(code, dt));
 		}
 		
@@ -194,7 +194,7 @@ public class CodesAPI {
 		else if (date.equals("*")) csvResult = SparqlUtils.executeSparqlQuery(ActivitesQueries.getActivites(code));
 		else {
 			if(!DateUtils.isValidDate(date)) return Response.status(Status.BAD_REQUEST).entity("").build();
-			DateTime dt = DateUtils.getDateTimeFromString(date);
+			DateTime dt = DateUtils.getDateTimeFromDateString(date);
 			csvResult = SparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCodeAndDate(code, dt));
 		}
 		
