@@ -97,8 +97,9 @@ paths:
         - name: date
           in: query
           description: >-
-            Date à laquelle la catégorie juridique est active (Format : 'yyyy/MM/dd' ;
-            '' pour la date du jour ; '*' pour ne pas fixer de date)
+            Date à laquelle la catégorie juridique est valide
+            (Format : 'AAAA-MM-DD' ; '*' pour obtenir tout l'historique ;
+            paramètre absent pour la date du jour)
           required: false
           schema:
             type: string
@@ -307,8 +308,9 @@ paths:
         - name: date
           in: query
           description: >-
-            Date à laquelle l'activité est active (Format : 'yyyy/MM/dd' ;
-            '' pour la date du jour ; '*' pour ne pas fixer de date)
+            Date à laquelle l'activité est valide 
+            (Format : 'AAAA-MM-DD' ; '*' pour obtenir tout l'historique ;
+            paramètre absent pour la date du jour)
           required: false
           schema:
             type: string
