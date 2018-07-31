@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import fr.insee.rmes.api.utils.DateUtils;
+
 @JacksonXmlRootElement(localName="CategorieJuridique")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CategorieJuridique {
@@ -58,7 +60,7 @@ public class CategorieJuridique {
 	}
 
 	public void setIssued(String issued) {
-		this.issued = issued;
+		this.issued = DateUtils.getDateStringFromDateTimeString(issued);
 	}
 	
 	@JacksonXmlProperty(localName="DateFinValidite")
@@ -68,6 +70,6 @@ public class CategorieJuridique {
 	}
 
 	public void setValid(String valid) {
-		this.valid = valid;
+		this.valid = DateUtils.getDateStringFromDateTimeString(valid);
 	}
 }

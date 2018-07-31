@@ -14,6 +14,12 @@ public class DateUtils {
 		DateTime dt = formatter.parseDateTime(date);
 		return dt;
 	}
+	
+	public static String getDateStringFromDateTimeString(String dateTime) {
+		DateTime dt = new DateTime(dateTime);
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		return formatter.print(dt);
+	}
 
 	public static boolean isValidDate(String date) {
 		if (date == null || !date.matches("\\d{4}-[01]\\d-[0-3]\\d"))
