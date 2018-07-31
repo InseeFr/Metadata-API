@@ -438,7 +438,7 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-  '/definition/concepts':
+  '/concepts/definitions':
     get:
       tags:
         - concepts
@@ -456,10 +456,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Concepts'
+                $ref: '#/components/schemas/Definitions'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Concepts'
+                $ref: '#/components/schemas/Definitions'
         '400':
           description: La syntaxe de la requête est incorrecte
         '401':
@@ -470,7 +470,7 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-  '/definition/concept/{id}':
+  '/concepts/definition/{id}':
     get:
       tags:
         - concepts
@@ -488,10 +488,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Concept'
+                $ref: '#/components/schemas/Definition'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Concept'
+                $ref: '#/components/schemas/Definition'
         '400':
           description: La syntaxe de la requête est incorrecte
         '401':
@@ -777,11 +777,11 @@ components:
           example: Japon
           xml:
             name: IntituleEntier
-    Concept:
+    Definition:
       type: object
       description: Objet représentant un concept
       xml:
-        name: Concept
+        name: Definition
       properties:
         id:
           type: string
@@ -805,14 +805,14 @@ components:
             name: Remplace
         estRemplacePar:
           type: string
-          example: 'http://qfrmessnczlht01/concepts/definition/c1500'
+          example: 'http://id.insee.fr/concepts/definition/c1500'
           xml:
             name: EstRemplacePar
-    Concepts:
+    Definitions:
       type: array
       description: Tableau représentant des concepts
       items:
-        $ref: '#/components/schemas/Concept'
+        $ref: '#/components/schemas/Definition'
       xml:
         wrapped: true
-        name: Concepts
+        name: Definitions

@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="Concept")
+@JacksonXmlRootElement(localName="Definition")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Concept {
+public class Definition {
 	
 	private String id = null;
 	private String uri = null;
@@ -17,9 +17,9 @@ public class Concept {
 	private String replaces = null;
 	private String isReplacedBy = null;
 	
-	public Concept() {}
+	public Definition() {}
 	
-	public Concept(String id) {
+	public Definition(String id) {
 		this.id = id;
 	}
 	

@@ -19,13 +19,13 @@ import fr.insee.rmes.api.utils.CSVUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
 
-@Path("/definition")
+@Path("/concepts")
 public class ConceptsAPI {
 
 	private static Logger logger = LogManager.getLogger(ConceptsAPI.class);
 	
 	@SuppressWarnings("unchecked")
-	@Path("/concepts")
+	@Path("/definitions")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getConcepts(@QueryParam("libelle") String libelle, @HeaderParam("Accept") String header) {
@@ -35,26 +35,26 @@ public class ConceptsAPI {
 		String label = libelle == null ? "" : libelle;
 
 		String csvResult = SparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptsByLabel(label));
-		List<Concept> conceptList = (List<Concept>) CSVUtils.populateMultiPOJO(csvResult, Concept.class);
+		List<Definition> conceptList = (List<Definition>) CSVUtils.populateMultiPOJO(csvResult, Definition.class);
 		
 		if (conceptList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
 		
 		else if (header.equals(MediaType.APPLICATION_XML))
-			return Response.ok(ResponseUtils.produceResponse(new Concepts(conceptList), header)).build();
+			return Response.ok(ResponseUtils.produceResponse(new Definitions(conceptList), header)).build();
 			
 		else return Response.ok(ResponseUtils.produceResponse(conceptList, header)).build();
 		
 		
 	}
 	
-	@Path("/concept/{id : c[0-9]{4}}")
+	@Path("/definition/{id : c[0-9]{4}}")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getConceptById(@PathParam("id") String id, @HeaderParam("Accept") String header) {
 		
 		logger.debug("Received GET request for Concept: " + id);
 
-		Concept concept = new Concept(id);
+		Definition concept = new Definition(id);
 		String csvResult = SparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));
 		CSVUtils.populatePOJO(csvResult, concept);
 		
