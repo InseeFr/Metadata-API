@@ -16,7 +16,7 @@ public class DateUtils {
 	}
 	
 	public static String getDateStringFromDateTimeString(String dateTime) {
-		if(dateTime.equals("")) return "";
+		if(dateTime == null || dateTime.equals("")) return "";
 		DateTime dt = new DateTime(dateTime);
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 		return formatter.print(dt);

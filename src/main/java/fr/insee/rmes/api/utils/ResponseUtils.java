@@ -2,11 +2,15 @@ package fr.insee.rmes.api.utils;
 
 import javax.ws.rs.core.MediaType;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 public class ResponseUtils {
+	
+	private static Logger logger = LogManager.getLogger(ResponseUtils.class);
 		
 	public static String produceResponse(Object obj, String header) {
 		ObjectMapper mapper;
@@ -16,11 +20,11 @@ public class ResponseUtils {
 		}
 		else {
 			mapper = new XmlMapper();
-		}
+		} 
 		try {
 			response = mapper.writeValueAsString(obj);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
 		}
 		return response;
 	}
