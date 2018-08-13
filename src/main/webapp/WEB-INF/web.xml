@@ -62,7 +62,7 @@
 		</init-param>
 		<init-param>
 			<param-name>jersey.config.server.tracing.type</param-name>
-			<param-value>ALL</param-value> <!-- ON_DEMAND for tracing by X-Jersey-Tracing-Accept header -->
+			<param-value>ON_DEMAND</param-value> <!-- ON_DEMAND for tracing by X-Jersey-Tracing-Accept header -->
 		</init-param>
 		<init-param>
 			<param-name>jersey.config.server.tracing.threshold</param-name>
