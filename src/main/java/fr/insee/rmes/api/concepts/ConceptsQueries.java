@@ -9,7 +9,7 @@ public class ConceptsQueries {
 				+ "?uri skos:notation ?id . \n"
 				+ "?uri skos:prefLabel ?intitule . \n"
 				+ "FILTER(lang(?intitule) = 'fr') \n"
-				+ "FILTER(REGEX(STR(?intitule),\"" + label + "\",'i'))"
+				+ "FILTER(CONTAINS(LCASE(STR(?intitule)),\"" + label.toLowerCase() + "\"))"
 				+ "OPTIONAL{ ?uri dcterms:replaces ?remplace } \n"
 				+ "OPTIONAL{ ?estRemplacePar dcterms:replaces ?uri } \n"
 				+ "}"
