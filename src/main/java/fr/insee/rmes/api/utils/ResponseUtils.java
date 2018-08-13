@@ -13,13 +13,13 @@ public class ResponseUtils {
 	private static Logger logger = LogManager.getLogger(ResponseUtils.class);
 		
 	public static String produceResponse(Object obj, String header) {
-		ObjectMapper mapper;
+		ObjectMapper mapper = new ObjectMapper();;
 		String response = "";
-		if (header == null || header.equals(MediaType.APPLICATION_JSON)) {
-			mapper = new ObjectMapper();
+		if (header != null && header.equals(MediaType.APPLICATION_XML)) {
+			mapper = new XmlMapper();
 		}
 		else {
-			mapper = new XmlMapper();
+			mapper = new ObjectMapper();
 		} 
 		try {
 			response = mapper.writeValueAsString(obj);
