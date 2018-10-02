@@ -2,7 +2,6 @@ openapi: 3.0.0
 servers:
   - url: 'http://qfrmeswnczlht01'
     description: 'Qf server'
-  - url: 'http://localhost:8080/metadata-api'
     description: 'Local dev server'
 info:
   description: API sur les métadonnées de l'Insee
