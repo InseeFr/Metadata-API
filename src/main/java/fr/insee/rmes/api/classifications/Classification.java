@@ -23,7 +23,6 @@ public class Classification {
 
 	
 	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
 	public String getCode() {
 		return code;
 	}
@@ -33,7 +32,6 @@ public class Classification {
 	}
 
 	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
 	public String getUri() {
 		return uri;
 	}
@@ -42,8 +40,7 @@ public class Classification {
 		this.uri = uri;
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
+	@JacksonXmlProperty(localName="Intitule")
 	public String getIntitule() {
 		return intitule;
 	}

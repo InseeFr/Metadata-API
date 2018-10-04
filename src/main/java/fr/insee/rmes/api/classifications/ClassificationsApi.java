@@ -15,16 +15,9 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.api.classifications.Postes;
-import fr.insee.rmes.api.classifications.Classification;
-import fr.insee.rmes.api.classifications.Classifications;
-import fr.insee.rmes.api.classifications.Poste;
-import fr.insee.rmes.api.classifications.ClassificationsQueries;
 import fr.insee.rmes.api.utils.CSVUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 @Path("/classifications")
 public class ClassificationsApi {
@@ -33,9 +26,6 @@ public class ClassificationsApi {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@ApiOperation(nickname = "getClassifications",
-			value = "Ensemble des postes d'une nomenclature",
-			response = List.class)
 	public Response getClassifications(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
 		String csvResult = SparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassificationsDescriptions());
@@ -55,13 +45,9 @@ public class ClassificationsApi {
 	@GET
 	@Path("/{code}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@ApiOperation(nickname = "getClassificationByCode",
-			value = "Ensemble des postes d'une nomenclature",
-			response = List.class)
 	public Response getClassificationByCode(
-			@ApiParam(value = "Identifiant de la  nomenclature (ex: nafr2, na, etc.)",
-					required = true) @PathParam("code") String code,
-			@ApiParam(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+			@PathParam("code") String code,
+			@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
 		logger.debug("Received GET request for NAF class " + code);
 

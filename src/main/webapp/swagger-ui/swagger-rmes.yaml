@@ -586,27 +586,27 @@ components:
           type: string
           example: Fabrication d'autres produits minéraux non métalliques n.c.a.
           xml:
-            attribute: true
+            name : IntituleFr
         intituleEn: 
           type: string
           example: Manufacture of other non-metallic mineral products n.e.c.
           xml:
-            attribute: true
+            name : IntituleEn
         contenuLimite: 
           type: string
           example: exemple contenu limite
           xml:
-            attribute: true 
+            name : ContenuLimite 
         contenuCentral: 
           type: string
           example: exemple contenu central
           xml:
-            attribute: true 
-        exclusions: 
+            name : ContenuCentral 
+        contenuExclu: 
           type: string
           example: exemple exclusions
           xml:
-            attribute: true                                                  
+            name :  ContenuExclu                                                  
       xml:
         name: Poste
     Postes:
@@ -635,7 +635,7 @@ components:
           type: string
           example: Nomenclature d'activités française - NAF rév. 2
           xml:
-            attribute: true      
+            name: Intitule      
       xml:
         name: Classification
     Classifications:

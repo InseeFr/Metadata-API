@@ -2,17 +2,17 @@ package fr.insee.rmes.api.classifications;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.glassfish.jersey.message.internal.Statuses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-@XmlRootElement(name = "Poste")
+@JacksonXmlRootElement(localName = "Poste")
 @XmlAccessorType(XmlAccessType.FIELD)
-@ApiModel(value = "ClassificationItem", description = "Objet représentant un poste d'une nomenclature")
 @JsonInclude(JsonInclude.Include.NON_EMPTY) 
 public class Poste {
 
@@ -22,9 +22,10 @@ public class Poste {
 	String codeParent;
 	String intituleFr;
 	String intituleEn;
+	//@JacksonXmlText
 	String contenuLimite;
 	String contenuCentral;
-	String exclusions;
+	String contenuExclu;
 	
 	
 	
@@ -32,7 +33,6 @@ public class Poste {
 	} // No-args constructor needed for JAXB
 
 	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
 	public String getUri() {
 		return uri;
 	}
@@ -42,7 +42,6 @@ public class Poste {
 	}
 
 	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
 	public String getCode() {
 		return code;
 	}
@@ -52,7 +51,6 @@ public class Poste {
 	}
 
 	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
 	public String getUriParent() {
 		return uriParent;
 	}
@@ -62,7 +60,6 @@ public class Poste {
 	}
 
 	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
 	public String getCodeParent() {
 		return codeParent;
 	}
@@ -71,8 +68,7 @@ public class Poste {
 		this.codeParent = codeParent;
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
+	@JacksonXmlProperty(localName="IntituleFr")
 	public String getIntituleFr() {
 		return intituleFr;
 	}
@@ -81,8 +77,7 @@ public class Poste {
 		this.intituleFr = intituleFr;
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
+	@JacksonXmlProperty(localName="IntituleEn")
 	public String getIntituleEn() {
 		return intituleEn;
 	}
@@ -91,8 +86,8 @@ public class Poste {
 		this.intituleEn = intituleEn;
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
+	@JacksonXmlProperty(localName="ContenuLimite")
+	@JacksonXmlCData
 	public String getContenuLimite() {
 		return contenuLimite;
 	}
@@ -101,8 +96,8 @@ public class Poste {
 		this.contenuLimite = contenuLimite;
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
+	@JacksonXmlProperty(localName="ContenuCentral")
+	@JacksonXmlCData
 	public String getContenuCentral() {
 		return contenuCentral;
 	}
@@ -110,17 +105,18 @@ public class Poste {
 	public void setContenuCentral(String contenuCentral) {
 		this.contenuCentral = contenuCentral;
 	}
-	@JacksonXmlProperty(isAttribute = true)
-	@ApiModelProperty(example = "")
-	public String getExclusions() {
-		return exclusions;
+
+	@JacksonXmlProperty(localName="ContenuExclu")
+	@JacksonXmlCData
+	public String getContenuExclu() {
+		return contenuExclu;
 	}
 
-	public void setExclusions(String exclusions) {
-		this.exclusions = exclusions;
+	public void setContenuExclu(String contenuExclu) {
+		this.contenuExclu = contenuExclu;
 	}
 
-	
+
 
 	
 }
