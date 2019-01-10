@@ -52,6 +52,16 @@ types:
         body:
           application/xml:
             type: ClassificationSchemeListType
+            
+/correspondences/{codeClassification}/{targetCodeClassification}:
+  get:
+    displayName: Get correspondences between a classification and a target classification
+    description: Gets the list of correspondences between a classification with code {codeClassification} and a target classification with code {targetCodeClassification}
+    responses:
+      200:
+        body:
+          application/xml:
+            type: ClassificationSchemeListType            
 
 /schemes:
   get:

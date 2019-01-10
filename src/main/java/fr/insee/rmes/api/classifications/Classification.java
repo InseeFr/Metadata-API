@@ -6,8 +6,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-import io.swagger.annotations.ApiModelProperty;
-
 @JacksonXmlRootElement(localName="Classification")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Classification {

@@ -75,6 +75,46 @@ paths:
         '500':
           description: Erreur interne du serveur
           
+  '/correspondences/{codeClassification}/{targetCodeClassification}':
+    get:
+      tags:
+        - nomenclatures
+      summary: Correspondances entre deux nomenclatures
+      operationId: getCorrespondencesByCodes
+      parameters:
+        - name: codeClassification
+          in: path
+          description: Identifiant de la nomenclature (origine)
+          required: true
+          schema:
+            type: string
+        - name: targetCodeClassification
+          in: path
+          description: Identifiant de la nomenclature (cible)
+          required: true
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: Opération réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Correspondences'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Correspondences'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+           
   '/codes/cj/n2/{code}':
     get:
       tags:

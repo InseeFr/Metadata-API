@@ -3,9 +3,6 @@ package fr.insee.rmes.api.classifications;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.glassfish.jersey.message.internal.Statuses;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -22,7 +19,6 @@ public class Poste {
 	String codeParent;
 	String intituleFr;
 	String intituleEn;
-	//@JacksonXmlText
 	String contenuLimite;
 	String contenuCentral;
 	String contenuExclu;
