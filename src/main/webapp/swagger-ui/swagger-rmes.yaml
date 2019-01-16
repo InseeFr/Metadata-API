@@ -13,6 +13,68 @@ tags:
   - name: géographie
   - name: concepts
 paths:
+  '/classifications':
+    get:
+      tags:
+        - nomenclatures
+      summary: Liste des nomenclatures disponibles (autres que "catégories juridiques")
+      operationId: getClassifications
+      responses:
+        '200':
+          description: Opération réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classifications'            
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Classifications'            
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+  '/classifications/{code}':
+    get:
+      tags:
+        - nomenclatures
+      summary: Postes d'une nomenclature (autres que "catégories juridiques")
+      operationId: getClassificationByCode
+      parameters:
+        - name: code
+          in: path
+          description: Identifiant de la nomenclature (hors cj)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Opération réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Postes'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Postes'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+          
+  
+           
   '/codes/cj/n2/{code}':
     get:
       tags:
@@ -506,6 +568,84 @@ paths:
           description: Erreur interne du serveur
 components:
   schemas:
+    Poste:
+      type: object
+      description: Objet représentant un poste d'une nomenclature
+      properties:
+        code:
+          type: string
+          example: '23.99Z'
+          xml:
+            attribute: true
+        uri:
+          type: string
+          example: 'http://id.insee.fr/codes/nafr2/sousClasse/23.99Z'
+          xml:
+            attribute: true
+        intituleFr:
+          type: string
+          example: Fabrication d'autres produits minéraux non métalliques n.c.a.
+          xml:
+            name : IntituleFr
+        intituleEn: 
+          type: string
+          example: Manufacture of other non-metallic mineral products n.e.c.
+          xml:
+            name : IntituleEn
+        contenuLimite: 
+          type: string
+          example: exemple contenu limite
+          xml:
+            name : ContenuLimite 
+        contenuCentral: 
+          type: string
+          example: exemple contenu central
+          xml:
+            name : ContenuCentral 
+        contenuExclu: 
+          type: string
+          example: exemple exclusions
+          xml:
+            name :  ContenuExclu                                                  
+      xml:
+        name: Poste
+    Postes:
+      type: array
+      description: Tableau représentant les postes d'une nomenclature
+      items:
+        $ref: '#/components/schemas/Poste'
+      xml:
+        wrapped: true
+        name: Postes
+    Classification:
+      type: object
+      description: Objet représentant une nomenclature
+      properties:
+        code:
+          type: string
+          example: 'nafr2'
+          xml:
+            attribute: true
+        uri:
+          type: string
+          example: 'http://dvrmessnczlht01/datalift/codes/nafr2/naf'
+          xml:
+            attribute: true
+        intitule:
+          type: string
+          example: Nomenclature d'activités française - NAF rév. 2
+          xml:
+            name: Intitule      
+      xml:
+        name: Classification
+    Classifications:
+      type: array
+      description: Tableau représentant la liste des nomenclatures
+      items:
+        $ref: '#/components/schemas/Classification'
+      xml:
+        wrapped: true
+        name: Classifications
     CategorieJuridiqueNiveauII:
       type: object
       description: Objet représentant une catégorie juridique (niveau 2)
