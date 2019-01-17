@@ -5,7 +5,7 @@ public class ClassificationsQueries {
 	public static String getClassification(String classificationId) {
 
 		return "SELECT ?uri	?code ?uriParent ?codeParent ?intituleFr ?intituleEn "
-				+ "?contenuLimite ?contenuCentral ?contenuExclu \n"
+				+ "?noteGenerale ?contenuLimite ?contenuCentral ?contenuExclu \n"
 				+ " FROM <http://rdf.insee.fr/graphes/codes/" + classificationId.toLowerCase() + ">\n" 
 				+ " WHERE{ \n"
 				+ " 	?uri rdf:type skos:Concept. \n" 
@@ -22,6 +22,12 @@ public class ClassificationsQueries {
 				+ "			?uri skos:prefLabel ?intituleEn. \n"
 				+ " 		FILTER langMatches( lang(?intituleEn ), 'en' ) \n"
 				+ "		} \n"
+				+"		OPTIONAL { \n"
+				+ "			?uri skos:definition ?uriNoteGenerale. \n"
+				+ " 		?uriNoteGenerale evoc:noteLiteral ?noteGenerale . \n" 
+				+ " 		?uriNoteGenerale insee:validFrom ?dateDebNG. \n"
+				+ " 		FILTER (NOT EXISTS {?uriNoteGenerale insee:validUntil ?dateFinNG} ) \n" 
+				+ " 	}\n"
 				+ " 	OPTIONAL { \n"
 				+ "			?uri xkos:additionalContentNote ?uriACNote. \n"
 				+ " 		?uriACNote evoc:noteLiteral ?contenuLimite . \n" 

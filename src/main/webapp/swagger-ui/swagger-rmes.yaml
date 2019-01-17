@@ -591,7 +591,11 @@ components:
           type: string
           example: Manufacture of other non-metallic mineral products n.e.c.
           xml:
-            name : IntituleEn
+            name : IntituleEn3
+        noteGenerale:
+        	type: string
+        	example: exemple de contenu général
+        	name : NoteGeneral
         contenuLimite: 
           type: string
           example: exemple contenu limite

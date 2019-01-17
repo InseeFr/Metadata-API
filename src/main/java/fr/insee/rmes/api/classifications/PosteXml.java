@@ -37,5 +37,12 @@ public class PosteXml extends Poste {
 		} else
 			return null;
 	}
-
+	
+	@JsonRawValue
+	public String getNoteGenerale() {
+		if (StringUtils.isNotEmpty(noteGenerale)) {
+			return "<NoteGenerale>" + noteGenerale + "</NoteGenerale>";
+		} else
+			return null;
+	}
 }

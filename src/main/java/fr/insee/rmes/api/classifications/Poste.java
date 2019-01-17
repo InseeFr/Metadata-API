@@ -21,6 +21,7 @@ public class Poste {
 	String contenuLimite;
 	String contenuCentral;
 	String contenuExclu;
+	String noteGenerale;
 	
 	public Poste() {
 	} // No-args constructor needed for JAXB
@@ -90,5 +91,10 @@ public class Poste {
 	public void setContenuExclu(String contenuExclu) {
 		this.contenuExclu = contenuExclu;
 	}
+	
+	public void setNoteGenerale(String noteGenerale) {
+		this.noteGenerale = noteGenerale;
+	}
+
 
 }

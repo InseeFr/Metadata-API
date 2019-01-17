@@ -27,9 +27,10 @@ public class PosteJson extends Poste {
 	public String getContenuExclu() {
 		return contenuExclu;
 	}
-
 	
+	@JacksonXmlProperty(localName="NoteGenerale")
+	public String getNoteGenerale() {
+		return noteGenerale;
+	}	
 
-
-	
 }
