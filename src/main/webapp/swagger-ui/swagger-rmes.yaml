@@ -582,6 +582,16 @@ components:
           example: 'http://id.insee.fr/codes/nafr2/sousClasse/23.99Z'
           xml:
             attribute: true
+        codeParent:
+          type: string
+          example: '23.99'
+          xml:
+            attribute: true
+        uriParent:
+          type: string
+          example: 'http://id.insee.fr/codes/nafr2/classe/23.99'
+          xml:
+            attribute: true
         intituleFr:
           type: string
           example: Fabrication d'autres produits minéraux non métalliques n.c.a.
@@ -591,11 +601,12 @@ components:
           type: string
           example: Manufacture of other non-metallic mineral products n.e.c.
           xml:
-            name : IntituleEn3
+            name : IntituleEn
         noteGenerale:
-        	type: string
-        	example: exemple de contenu général
-        	name : NoteGeneral
+          type: string
+          example: exemple de contenu général
+          xml:
+            name : NoteGenerale
         contenuLimite: 
           type: string
           example: exemple contenu limite
@@ -632,7 +643,7 @@ components:
             attribute: true
         uri:
           type: string
-          example: 'http://dvrmessnczlht01/datalift/codes/nafr2/naf'
+          example: 'http://id.insee.fr/codes/nafr2/naf'
           xml:
             attribute: true
         intitule:

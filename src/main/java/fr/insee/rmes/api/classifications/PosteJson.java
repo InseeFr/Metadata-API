@@ -1,15 +1,7 @@
 package fr.insee.rmes.api.classifications;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName = "Poste")
-@XmlAccessorType(XmlAccessType.FIELD)
-@JsonInclude(JsonInclude.Include.NON_EMPTY) 
 public class PosteJson extends Poste {
 
 	

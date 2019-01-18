@@ -1,6 +1,5 @@
 package fr.insee.rmes.api.classifications;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,22 +13,23 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Postes {
 
-	private List<PosteXml> listItems = new ArrayList<PosteXml>();
+	private List<? extends Poste> listItems = null;
 		
 	public Postes() {
 		}
 	
-	public Postes(List<PosteXml> listItems) {
-		this.listItems = listItems ;
+	public Postes(List<? extends Poste> itemsListXml) {
+		this.listItems = itemsListXml ;
 	}
 		
 	@JacksonXmlProperty(isAttribute=true, localName="Poste")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<PosteXml> getListItems() {
-		return this.listItems;
+	public List<? extends Poste> getListItems() {
+		return listItems;
 	}
 
-	public void setListItems(List<PosteXml> listItems) {
-		this.listItems = listItems;
+	@SuppressWarnings("unchecked")
+	public void setListItems(List<? extends Poste> listItems) {
+		this.listItems = (List<Poste>) listItems;
 	}
 }

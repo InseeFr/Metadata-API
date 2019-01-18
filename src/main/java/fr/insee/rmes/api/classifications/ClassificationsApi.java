@@ -57,7 +57,7 @@ public class ClassificationsApi {
 		if (itemsList.size() == 0) {
 			return Response.status(Status.NOT_FOUND).entity("").build();
 		}else if (header.equals(MediaType.APPLICATION_XML)) {
-			List<PosteXml> itemsListXml = (List<PosteXml>) CSVUtils.populateMultiPOJO(csvResult, PosteXml.class);
+			List<? extends Poste> itemsListXml = (List<PosteXml>) CSVUtils.populateMultiPOJO(csvResult, PosteXml.class);
 			return Response.ok(ResponseUtils.produceResponse(new Postes(itemsListXml), header)).build();
 		}else {
 			List<PosteJson> itemsListJson = (List<PosteJson>) CSVUtils.populateMultiPOJO(csvResult, PosteJson.class);
