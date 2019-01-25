@@ -11,7 +11,6 @@ public class Classifications {
 	private List<Classification> listDescriptions = new ArrayList<Classification>();
 
 	public Classifications() {
-
 	}
 
 	public Classifications(List<Classification> listDescriptions) {

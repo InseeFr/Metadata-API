@@ -74,7 +74,6 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-          
   '/correspondences/{codeClassification}/{targetCodeClassification}':
     get:
       tags:
@@ -114,7 +113,6 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-           
   '/codes/cj/n2/{code}':
     get:
       tags:
@@ -621,6 +619,15 @@ components:
           type: string
           example: 'http://id.insee.fr/codes/nafr2/sousClasse/23.99Z'
           xml:
+        codeParent:
+          type: string
+          example: '23.99'
+          xml:
+            attribute: true
+        uriParent:
+          type: string
+          example: 'http://id.insee.fr/codes/nafr2/classe/23.99'
+          xml:
             attribute: true
         intituleFr:
           type: string
@@ -632,6 +639,11 @@ components:
           example: Manufacture of other non-metallic mineral products n.e.c.
           xml:
             name : IntituleEn
+        noteGenerale:
+          type: string
+          example: exemple de contenu général
+          xml:
+            name : NoteGenerale
         contenuLimite: 
           type: string
           example: exemple contenu limite
@@ -668,7 +680,7 @@ components:
             attribute: true
         uri:
           type: string
-          example: 'http://dvrmessnczlht01/datalift/codes/nafr2/naf'
+          example: 'http://id.insee.fr/codes/nafr2/naf'
           xml:
             attribute: true
         intitule:

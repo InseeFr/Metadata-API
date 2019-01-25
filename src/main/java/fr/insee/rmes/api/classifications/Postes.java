@@ -12,33 +12,26 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @JacksonXmlRootElement(localName="Postes")
 @XmlAccessorType(XmlAccessType.FIELD)
-//@ApiModel(value = "Classification", description = "Objet représentant une nomenclature")
 public class Postes {
 
-	
-	private List<Poste> listItems = new ArrayList<Poste>();
-	
-	
-	public Postes() {
+	private List<? extends Poste> listItems = null;
 		
+	public Postes() {
+		}
+	
+	public Postes(List<? extends Poste> itemsListXml) {
+		this.listItems = itemsListXml ;
 	}
-	
-	
-	public Postes(List<Poste> listItems) {
-		this.listItems = listItems ;
-	}
-	
-	
+		
 	@JacksonXmlProperty(isAttribute=true, localName="Poste")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<Poste> getListItems() {
-		return this.listItems;
+	public List<? extends Poste> getListItems() {
+		return listItems;
 	}
 
-	public void setListItems(List<Poste> listItems) {
-		this.listItems = listItems;
+	@SuppressWarnings("unchecked")
+	public void setListItems(List<? extends Poste> listItems) {
+		this.listItems = (List<Poste>) listItems;
 	}
-	
-	
 
 }

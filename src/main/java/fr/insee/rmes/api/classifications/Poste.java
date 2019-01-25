@@ -4,7 +4,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -22,8 +21,8 @@ public class Poste {
 	String contenuLimite;
 	String contenuCentral;
 	String contenuExclu;
-	
-	
+	String noteGenerale;
+
 	
 	public Poste() {
 	} // No-args constructor needed for JAXB
@@ -82,37 +81,21 @@ public class Poste {
 		this.intituleEn = intituleEn;
 	}
 
-	@JacksonXmlProperty(localName="ContenuLimite")
-	@JacksonXmlCData
-	public String getContenuLimite() {
-		return contenuLimite;
-	}
 
 	public void setContenuLimite(String contenuLimite) {
 		this.contenuLimite = contenuLimite;
-	}
-
-	@JacksonXmlProperty(localName="ContenuCentral")
-	@JacksonXmlCData
-	public String getContenuCentral() {
-		return contenuCentral;
 	}
 
 	public void setContenuCentral(String contenuCentral) {
 		this.contenuCentral = contenuCentral;
 	}
 
-	@JacksonXmlProperty(localName="ContenuExclu")
-	@JacksonXmlCData
-	public String getContenuExclu() {
-		return contenuExclu;
-	}
-
 	public void setContenuExclu(String contenuExclu) {
 		this.contenuExclu = contenuExclu;
 	}
-
-
-
 	
+	public void setNoteGenerale(String noteGenerale) {
+		this.noteGenerale = noteGenerale;
+	}
+
 }

@@ -10,11 +10,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Classification {
 	
-	
 	String code;
 	String uri;
 	String intitule;
-	
 
 	public Classification() {		
 	}
@@ -46,10 +44,5 @@ public class Classification {
 	public void setIntitule(String intitule) {
 		this.intitule = intitule;
 	}
-
-
-	
-	
-	
 
 }

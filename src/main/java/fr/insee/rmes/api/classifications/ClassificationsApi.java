@@ -24,45 +24,45 @@ public class ClassificationsApi {
 	
 	private static Logger logger = LogManager.getLogger(ClassificationsApi.class);
 
+	@SuppressWarnings("unchecked")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getClassifications(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+	public Response getAllClassifications(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
-		String csvResult = SparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassificationsDescriptions());
-		
-		@SuppressWarnings("unchecked")
+		String csvResult = SparqlUtils.executeSparqlQuery(ClassificationsQueries.getAllClassifications());
 		List<Classification> itemsList = (List<Classification>) CSVUtils.populateMultiPOJO(csvResult, Classification.class);
 		
-		if (itemsList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
-		
-		else if (header.equals(MediaType.APPLICATION_XML))
+		if (itemsList.size() == 0) { 
+			return Response.status(Status.NOT_FOUND).entity("").build();
+		}else if (header.equals(MediaType.APPLICATION_XML)) {
 			return Response.ok(ResponseUtils.produceResponse(new Classifications(itemsList), header)).build();
-			
-		else return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
+		}else {
+			return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
+		}
 	}
 
 	
 	@GET
 	@Path("/{code}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@SuppressWarnings("unchecked")
 	public Response getClassificationByCode(
 			@PathParam("code") String code,
 			@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
-
-		logger.debug("Received GET request for NAF class " + code);
-
+		logger.debug("Received GET request for classification " + code);
 		
 		String csvResult = SparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
-		
-		@SuppressWarnings("unchecked")
 		List<Poste> itemsList = (List<Poste>) CSVUtils.populateMultiPOJO(csvResult, Poste.class);
-		
-		if (itemsList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
-		
-		else if (header.equals(MediaType.APPLICATION_XML))
-			return Response.ok(ResponseUtils.produceResponse(new Postes(itemsList), header)).build();
-			
-		else return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
+
+		if (itemsList.size() == 0) {
+			return Response.status(Status.NOT_FOUND).entity("").build();
+		}else if (header.equals(MediaType.APPLICATION_XML)) {
+			List<? extends Poste> itemsListXml = (List<PosteXml>) CSVUtils.populateMultiPOJO(csvResult, PosteXml.class);
+			return Response.ok(ResponseUtils.produceResponse(new Postes(itemsListXml), header)).build();
+		}else {
+			List<PosteJson> itemsListJson = (List<PosteJson>) CSVUtils.populateMultiPOJO(csvResult, PosteJson.class);
+			return Response.ok(ResponseUtils.produceResponse(itemsListJson, header)).build();
+		}
 	}
 
 }
