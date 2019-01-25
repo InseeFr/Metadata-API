@@ -9,22 +9,21 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @JacksonXmlRootElement(localName = "Correspondence")
 @XmlAccessorType(XmlAccessType.FIELD)
-@JsonInclude(JsonInclude.Include.NON_EMPTY) 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Correspondence {
-	
-	
-	String uri;
+
 	String code;
+	String uri;
 	String intitule;
+	String codeCible;	
 	String uriCible;
-	String codeCible;
 	String intituleCible;
 	String typeCorrespondence;
-	
+
 	public Correspondence() {
 	} // No-args constructor needed for JAXB
 
-	//@JacksonXmlProperty(localName="Intitule")
+	// @JacksonXmlProperty(localName="Intitule")
 	@JacksonXmlProperty(isAttribute = true)
 	public String getIntitule() {
 		return intitule;
@@ -39,7 +38,6 @@ public class Correspondence {
 		return uriCible;
 	}
 
-	
 	public void setUriCible(String uriCible) {
 		this.uriCible = uriCible;
 	}
@@ -61,8 +59,6 @@ public class Correspondence {
 	public void setIntituleCible(String intituleCible) {
 		this.intituleCible = intituleCible;
 	}
-
-
 
 	@JacksonXmlProperty(isAttribute = true)
 	public String getUri() {
@@ -90,10 +86,5 @@ public class Correspondence {
 	public void setTypeCorrespondence(String typeCorrespondence) {
 		this.typeCorrespondence = typeCorrespondence;
 	}
-	
-	
 
-
-
-	
 }

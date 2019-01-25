@@ -619,6 +619,7 @@ components:
           type: string
           example: 'http://id.insee.fr/codes/nafr2/sousClasse/23.99Z'
           xml:
+            attribute: true          
         codeParent:
           type: string
           example: '23.99'
@@ -698,6 +699,55 @@ components:
       xml:
         wrapped: true
         name: Classifications
+    Correspondence:
+      type: object
+      description: Objet représentant une correspondance
+      properties:
+        code:
+          type: string
+          example: '0811Z1301020'
+          xml:
+            attribute: true
+        uri:
+          type: string
+          example: 'http://dvrmessnczlht01/datalift/codes/emb2018/produit/0811Z1301020'
+          xml:
+            attribute: true
+        intitule:
+          type: string
+          example: Blanc de craie (à usage industriel)
+          xml:
+            attribute: true
+        codeCible:
+          type: string
+          example: '08.11Z'
+          xml:
+            attribute: true
+        uriCible:
+          type: string
+          example: 'http://dvrmessnczlht01/datalift/codes/nafr2/sousClasse/08.11Z'
+          xml:
+            attribute: true
+        intituleCible:
+          type: string
+          example: Extraction de pierres ornementales et de construction, de calcaire industriel, de gypse, de craie et d'ardoise2
+          xml:
+            name: IntituleCible
+        typeCorrespondence:
+          type: string
+          example: relatedMatch
+          xml:
+            name: TypeCorrespondence  
+      xml:
+        name: Correspondence
+    Correspondences:
+      type: array
+      description: Tableau représentant la liste des correspondances
+      items:
+        $ref: '#/components/schemas/Correspondence'
+      xml:
+        wrapped: true
+        name: Correspondences        
     CategorieJuridiqueNiveauII:
       type: object
       description: Objet représentant une catégorie juridique (niveau 2)
