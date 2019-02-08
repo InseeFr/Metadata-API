@@ -19,7 +19,7 @@ import fr.insee.rmes.api.utils.CSVUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
 
-@Path("/classifications")
+@Path("/nomenclatures")
 public class ClassificationsApi {
 	
 	private static Logger logger = LogManager.getLogger(ClassificationsApi.class);

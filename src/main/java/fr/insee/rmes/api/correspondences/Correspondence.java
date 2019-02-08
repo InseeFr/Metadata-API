@@ -11,80 +11,105 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Correspondence {
+	
 
-	String code;
-	String uri;
-	String intitule;
-	String codeCible;	
-	String uriCible;
-	String intituleCible;
-	String typeCorrespondence;
-
+	String codePosteSource;
+	String uriPosteSource;
+	String intituleFrPosteSource;
+	String intituleEnPosteSource;
+	String codePosteCible;
+	String uriPosteCible;
+	String intituleFrPosteCible;
+	String intituleEnPosteCible;
+	
 	public Correspondence() {
-	} // No-args constructor needed for JAXB
-
-	// @JacksonXmlProperty(localName="Intitule")
-	@JacksonXmlProperty(isAttribute = true)
-	public String getIntitule() {
-		return intitule;
-	}
-
-	public void setIntitule(String intitule) {
-		this.intitule = intitule;
-	}
+	};// No-args constructor needed for JAXB
 
 	@JacksonXmlProperty(isAttribute = true)
-	public String getUriCible() {
-		return uriCible;
+	public String getCodePosteSource() {
+		return codePosteSource;
 	}
+	
 
-	public void setUriCible(String uriCible) {
-		this.uriCible = uriCible;
+	public void setCodePosteSource(String codePosteSource) {
+		this.codePosteSource = codePosteSource;
 	}
 
 	@JacksonXmlProperty(isAttribute = true)
-	public String getCodeCible() {
-		return codeCible;
+	public String getUriPosteSource() {
+		return uriPosteSource;
 	}
 
-	public void setCodeCible(String codeCible) {
-		this.codeCible = codeCible;
+
+	public void setUriPosteSource(String uriPosteSource) {
+		this.uriPosteSource = uriPosteSource;
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
-	public String getIntituleCible() {
-		return intituleCible;
+	@JacksonXmlProperty(localName="IntituleFrPosteSource")
+	public String getintituleFrPosteSource() {
+		return intituleFrPosteSource;
 	}
 
-	public void setIntituleCible(String intituleCible) {
-		this.intituleCible = intituleCible;
+	public void setintituleFrPosteSource(String intituleFrPosteSource) {
+		this.intituleFrPosteSource = intituleFrPosteSource;
+	}
+	
+	@JacksonXmlProperty(localName="IntituleEnPosteSource")
+	public String getintituleEnPosteSource() {
+		return intituleEnPosteSource;
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
-	public String getUri() {
-		return uri;
-	}
-
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
-
-	@JacksonXmlProperty(isAttribute = true)
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
+	public void setintituleEnPosteSource(String intituleEnPosteSource) {
+		this.intituleEnPosteSource = intituleEnPosteSource;
 	}
 
 	@JacksonXmlProperty(isAttribute = true)
-	public String getTypeCorrespondence() {
-		return typeCorrespondence;
+	public String getCodePosteCible() {
+		return codePosteCible;
 	}
 
-	public void setTypeCorrespondence(String typeCorrespondence) {
-		this.typeCorrespondence = typeCorrespondence;
+	public void setCodePosteCible(String codePosteCible) {
+		this.codePosteCible = codePosteCible;
 	}
+	
+	@JacksonXmlProperty(isAttribute = true)
+	public String getUriPosteCible() {
+		return uriPosteCible;
+	}
+
+	public void setUriPosteCible(String uriPosteCible) {
+		this.uriPosteCible = uriPosteCible;
+	}
+
+	@JacksonXmlProperty(localName="IntituleFrPosteCible")
+	public String getintituleFrPosteCible() {
+		return intituleFrPosteCible;
+	}
+
+	
+	public void setintituleFrPosteCible(String intituleFrPosteCible) {
+		this.intituleFrPosteCible = intituleFrPosteCible;
+	}
+	
+	@JacksonXmlProperty(localName="IntituleEnPosteCible")
+	public String getintituleEnPosteCible() {
+		return intituleEnPosteCible;
+	}
+
+	public void setintituleEnPosteCible(String intituleEnPosteCible) {
+		this.intituleEnPosteCible = intituleEnPosteCible;
+	}; 
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

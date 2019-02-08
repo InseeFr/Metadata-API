@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="Classification")
+@JacksonXmlRootElement(localName="Nomenclature")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Classification {
 	

@@ -1,6 +1,5 @@
 package fr.insee.rmes.api.classifications;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
