@@ -8,26 +8,26 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @JacksonXmlRootElement(localName="Correspondances")
-public class Correspondences
+public class RawCorrespondences
 {
 
-	private List<Correspondence> listCorrespondences = new ArrayList<Correspondence>();
+	private List<RawCorrespondence> listCorrespondences = new ArrayList<RawCorrespondence>();
 
-	public Correspondences() {
+	public RawCorrespondences() {
 
 	}
 
-	public Correspondences(List<Correspondence> listCorrespondences) {
+	public RawCorrespondences(List<RawCorrespondence> listCorrespondences) {
 		this.listCorrespondences = listCorrespondences;
 	}
 
 	@JacksonXmlProperty(isAttribute = true, localName = "Correspondance")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<Correspondence> getlistDescriptions() {
+	public List<RawCorrespondence> getlistDescriptions() {
 		return this.listCorrespondences;
 	}
 
-	public void setListItems(List<Correspondence> listCorrespondences) {
+	public void setListItems(List<RawCorrespondence> listCorrespondences) {
 		this.listCorrespondences = listCorrespondences;
 	}
 
