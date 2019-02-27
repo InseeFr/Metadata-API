@@ -1,21 +1,10 @@
 package fr.insee.rmes.api.correspondences;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-
 /**
  * 
  * object for mapping raw complete correspondences data before computing
  *
  */
-
-@JacksonXmlRootElement(localName = "Correspondence")
-@XmlAccessorType(XmlAccessType.FIELD)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RawCorrespondence {
 	
 
@@ -28,10 +17,7 @@ public class RawCorrespondence {
 	private String intituleFrPoste2;
 	private String intituleEnPoste2;
 	
-	public RawCorrespondence() {
-	};// No-args constructor needed for JAXB
 
-	@JacksonXmlProperty(isAttribute = true)
 	public String getCodePoste1() {
 		return codePoste1;
 	}
@@ -41,7 +27,6 @@ public class RawCorrespondence {
 		this.codePoste1 = codePoste1;
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
 	public String getUriPoste1() {
 		return uriPoste1;
 	}
@@ -51,7 +36,6 @@ public class RawCorrespondence {
 		this.uriPoste1 = uriPoste1;
 	}
 
-	@JacksonXmlProperty(localName="IntituleFrPoste1")
 	public String getIntituleFrPoste1() {
 		return intituleFrPoste1;
 	}
@@ -60,7 +44,6 @@ public class RawCorrespondence {
 		this.intituleFrPoste1 = intituleFrPoste1;
 	}
 	
-	@JacksonXmlProperty(localName="IntituleEnPoste1")
 	public String getIntituleEnPoste1() {
 		return intituleEnPoste1;
 	}
@@ -69,7 +52,6 @@ public class RawCorrespondence {
 		this.intituleEnPoste1 = intituleEnPoste1;
 	}
 
-	@JacksonXmlProperty(isAttribute = true)
 	public String getCodePoste2() {
 		return codePoste2;
 	}
@@ -78,7 +60,6 @@ public class RawCorrespondence {
 		this.codePoste2 = codePoste2;
 	}
 	
-	@JacksonXmlProperty(isAttribute = true)
 	public String getUriPoste2() {
 		return uriPoste2;
 	}
@@ -87,7 +68,6 @@ public class RawCorrespondence {
 		this.uriPoste2 = uriPoste2;
 	}
 
-	@JacksonXmlProperty(localName="IntituleFrPoste2")
 	public String getIntituleFrPoste2() {
 		return intituleFrPoste2;
 	}
@@ -97,7 +77,6 @@ public class RawCorrespondence {
 		this.intituleFrPoste2 = intituleFrPoste2;
 	}
 	
-	@JacksonXmlProperty(localName="IntituleEnPoste2")
 	public String getIntituleEnPoste2() {
 		return intituleEnPoste2;
 	}
