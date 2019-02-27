@@ -7,17 +7,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName = "Correspondance")
+@JacksonXmlRootElement(localName = "Correspondence")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Poste implements Comparable<Object>{
+public class ItemCorrespondence {
 
 	String code;
 	String uri;
 	String intituleFr;
 	String intituleEn;
 
-	public Poste(String code, String uri, String intituleFr, String intituleEn) {
+	public ItemCorrespondence(String code, String uri, String intituleFr, String intituleEn) {
 		super();
 		this.code = code;
 		this.uri = uri;
@@ -25,7 +25,7 @@ public class Poste implements Comparable<Object>{
 		this.intituleEn = intituleEn;
 	}
 
-	public Poste() {
+	public ItemCorrespondence() {
 	};// No-args constructor needed for JAXB
 
 	@JacksonXmlProperty(isAttribute = true)
@@ -62,21 +62,6 @@ public class Poste implements Comparable<Object>{
 
 	public void setIntituleEnPosteSource(String intituleEn) {
 		this.intituleEn = intituleEn;
-	}
-
-	@Override
-	public int compareTo(Object p) {
-		
-		Poste posteToCompare = (Poste) p;
-		String posteToCompareUri = posteToCompare.getUri();
-		if (this.uri.equals(posteToCompareUri)) {
-			
-			return 0;
-			
-		}
-		
-
-		return 1;
 	}
 
 }

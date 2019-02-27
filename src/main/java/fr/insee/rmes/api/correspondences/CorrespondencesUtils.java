@@ -7,61 +7,36 @@ import java.util.TreeMap;
 
 public class CorrespondencesUtils {
 
-	
-	public static Correspondences getCorrespondences(String codeClassification, String targetCodeClassification,
-			List<RawCorrespondence> rawItemsList) {
-
-		Correspondences correspondences = new Correspondences();
-		Map<Poste, List<Poste>>  mapSourceTargetItems = CorrespondencesUtils.getTreeMapTargetItemsBySource(codeClassification, targetCodeClassification, rawItemsList);
-		
-		mapSourceTargetItems.forEach((k,v) -> {
-			
-			Correspondence corresp = new Correspondence(k, v);
-			correspondences.getCorrespondences().add(corresp);
-			
-		});
-		
-		
-		return correspondences;
-	}
-
-	
-	
-	/**
-	 * for handling asymetrical correspondencies in RDF data
-	 */
-	public static Map<Poste, List<Poste>> getTreeMapTargetItemsBySource(
+	public static Map<String, List<ItemCorrespondence>> getTargetCorrespondencesBySource(
 			String codeClassificationSource, String targetCodeClassification, List<RawCorrespondence> rawItemsList) {
 
 		/*TreeMap for ordering map keys*/
-		Map<Poste, List<Poste>> groupedListItems = new TreeMap<Poste, List<Poste> >();
-		
-		/*Classification correspondences are not symetrical in database => answering question : what is source / target must in raw correspondances ?*/
-		/*if false => first fields of csv result are for source classification item*/
-		/*if true => second part of fields */
+		Map<String, List<ItemCorrespondence>> groupedListItems = new TreeMap<String, List<ItemCorrespondence>>();
+
+		/*Classification correspondences are not symetrical in database => what is source / target must in raw correspondances ?*/
 		boolean mustSwapCorrespondences = shouldSwapRawCorespondences(codeClassificationSource, rawItemsList);
 
 		for (RawCorrespondence curRawCorrespondence : rawItemsList) {
-			
 
-			Poste posteSource = mapRawObjectToItemCorrespondence(curRawCorrespondence, mustSwapCorrespondences)  ;
+			String codeSourceItem = getCodeItemSource(curRawCorrespondence, mustSwapCorrespondences)  ;
 
-			if (!groupedListItems.containsKey(posteSource)) {
+			if (!groupedListItems.containsKey(codeSourceItem)) {
 
-				//code source item is the map of the key whitch representing a 1 to many correspondences from a target code
-				groupedListItems.put(posteSource, new ArrayList<Poste>());
-
+				// TODO add itemType pour distinguer source vs item target
+				groupedListItems.put(codeSourceItem, new ArrayList<ItemCorrespondence>());
+				//add sourceItem
+				groupedListItems.get(codeSourceItem)
+						.add(mapRawObjectToItemCorrespondence(curRawCorrespondence, mustSwapCorrespondences));
 				//add targetItem
-				Poste targetPoste = mapRawObjectToItemCorrespondence(curRawCorrespondence, !mustSwapCorrespondences);
-				
-				groupedListItems.get(posteSource).add(targetPoste);
+				groupedListItems.get(codeSourceItem)
+						.add(mapRawObjectToItemCorrespondence(curRawCorrespondence, !mustSwapCorrespondences));
 
 			}
 
 			else {
 
 				//add targetItem
-				groupedListItems.get(posteSource)
+				groupedListItems.get(codeSourceItem)
 						.add(mapRawObjectToItemCorrespondence(curRawCorrespondence, !mustSwapCorrespondences));
 
 			}
@@ -71,45 +46,52 @@ public class CorrespondencesUtils {
 
 	}
 
+	private static String getCodeItemSource(RawCorrespondence curRawCorrespondence, boolean mustSwapCorrespondences) {
+
+		if (mustSwapCorrespondences) {
+			
+			return curRawCorrespondence.getCodePoste2();
+			
+		}
+		
+		return curRawCorrespondence.getCodePoste1();
+	}
+
 
 	private static Boolean shouldSwapRawCorespondences(String codeClassificationSource,
 			List<RawCorrespondence> rawItemsList) {
 
-		//using the first correspondence ( rawItemsList.get(0) ) 
-		//=> which csv result, first or second uri field (uriPoste1/2) does contain classification source id ? 
-		
 		String uriPoste1FromRaw = rawItemsList.get(0).getUriPoste1();
 		
-		String toVerify = "/codes/" + codeClassificationSource + "/";
+		String toTest = "/codes/" + codeClassificationSource + "/";
 
-		if (!uriPoste1FromRaw.contains(toVerify)) {
+		if (!uriPoste1FromRaw.contains(toTest)) {
 
-			return true; // => last fields concern source classification
+			return true;
 		}
 
-		return false; // => first fields concern source classification;
+		return false;
 
 	}
 
-	private static Poste mapRawObjectToItemCorrespondence(RawCorrespondence corresp,
+	private static ItemCorrespondence mapRawObjectToItemCorrespondence(RawCorrespondence corresp,
 			boolean mustSwapCorrespondences) {
 
-		Poste item = null;
+		ItemCorrespondence item = null;
 
 		if (!mustSwapCorrespondences) {
 
-			item = new Poste(corresp.getCodePoste1(), corresp.getUriPoste1(),
+			item = new ItemCorrespondence(corresp.getCodePoste1(), corresp.getUriPoste1(),
 					corresp.getIntituleFrPoste1(), corresp.getIntituleEnPoste1());
 
 		} else {
 
-			item = new Poste(corresp.getCodePoste2(), corresp.getUriPoste2(),
+			item = new ItemCorrespondence(corresp.getCodePoste2(), corresp.getUriPoste2(),
 					corresp.getIntituleFrPoste2(), corresp.getIntituleEnPoste2());
 
 		}
 
 		return item;
 	}
-
 
 }
