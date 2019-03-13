@@ -10,7 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JacksonXmlRootElement(localName = "Correspondance")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Poste implements Comparable<Object>{
+public class Poste implements Comparable<Object> {
 
 	String code;
 	String uri;
@@ -66,15 +66,14 @@ public class Poste implements Comparable<Object>{
 
 	@Override
 	public int compareTo(Object p) {
-		
+
 		Poste posteToCompare = (Poste) p;
 		String posteToCompareUri = posteToCompare.getUri();
 		if (this.uri.equals(posteToCompareUri)) {
-			
+
 			return 0;
-			
+
 		}
-		
 
 		return 1;
 	}

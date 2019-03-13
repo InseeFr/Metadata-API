@@ -16,12 +16,13 @@ import fr.insee.rmes.api.utils.CSVUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
 
-@Path("/correspondances")
+@Path("/correspondances") 
 public class CorrespondencesApi {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getAllCorrespondences(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+	@Path("/tablesDeCorrespondance") 
+	public Response getAllTablesDeCorrespondance(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
 		String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
 
@@ -41,10 +42,10 @@ public class CorrespondencesApi {
 	}
 
 	@GET
-	@Path("/{codeNomenclatureSource}/{codeNomenclatureCible}")
+	@Path("/{idNomenclatureSource}/{idNomenclatureCible}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getCorrespondencesByIds(@PathParam("codeNomenclatureSource") String codeClassification,
-			@PathParam("codeNomenclatureCible") String targetCodeClassification,
+	public Response getCorrespondencesByIds(@PathParam("idNomenclatureSource") String codeClassification,
+			@PathParam("idNomenclatureCible") String targetCodeClassification,
 			@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
 		String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries
@@ -66,8 +67,11 @@ public class CorrespondencesApi {
 
 		}
 
-		else
+		else {
+			
 			return Response.status(Status.NOT_FOUND).entity("").build();
+			
+		}
 	}
 
 }

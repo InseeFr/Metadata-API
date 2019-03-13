@@ -2,9 +2,9 @@ openapi: 3.0.0
 servers:
   - url: 'http://localhost:8080/metadata-api'
     description: 'Local dev server'
-  - url: 'http://qfrmeswnczlht01'
+  - url: 'http://qfrmeswnczlht01/metadata-api'
     description: 'Qf server'
-  - url: 'http://dvrmeswnczlht01'
+  - url: 'http://dvrmeswnczlht01/metadata-api'
     description: 'Local dev server'
 info:
   description: API sur les métadonnées de l'Insee
@@ -74,22 +74,22 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-  '/correspondances':
+  '/correspondances/tablesDeCorrespondance':
     get:
       tags:
         - nomenclatures
-      summary: Correspondances entre deux nomenclatures
-      operationId: getAllCorrespondences
+      summary: Liste des tables de correspondances entre deux nomenclatures
+      operationId: getAllTablesDeCorrespondance
       responses:
         '200':
           description: Opération réussie
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DescriptionsTablesCorrespondance'
+                $ref: '#/components/schemas/TablesDeCorrespondance'
             application/xml:
               schema:
-                $ref: '#/components/schemas/DescriptionsTablesCorrespondance'
+                $ref: '#/components/schemas/TableDeCorrespondance'
         '400':
           description: La syntaxe de la requête est incorrecte
         '401':
@@ -102,22 +102,22 @@ paths:
           description: Erreur interne du serveur
           
           
-  '/correspondances/{codeNomenclatureSource}/{codeNomenclatureCible}':
+  '/correspondances/{idNomenclatureSource}/{idNomenclatureCible}':
     get:
       tags:
         - nomenclatures
       summary: Correspondances entre deux nomenclatures
       operationId: getCorrespondencesByCodes
       parameters:
-        - name: codeNomenclatureSource
+        - name: idNomenclatureSource
           in: path
-          description: Identifiant de la nomenclature (source)
+          description: Identifiant de la nomenclature source
           required: true
           schema:
             type: string
-        - name: codeNomenclatureCible
+        - name: idNomenclatureCible
           in: path
-          description: Identifiant de la nomenclature (cible)
+          description: Identifiant de la nomenclature cible
           required: true
           schema:
             type: string            
@@ -1084,28 +1084,28 @@ components:
         wrapped: true
         name: Definitions
 
-    DescriptionTableCorrespondance:
+    TableDeCorrespondance:
       type: object
-      description: Objet représentant la définition d'une table de correspondance entre deux nomclatures
+      description: Objet représentant une table de correspondance entre deux nomclatures
       xml:
-        name: DescriptionTableCorrespondance
+        name: TableDeCorrespondance
       properties:
-        idTableCorrespondance:
+        id:
           type: string
           example: nafr2-cpfr21
           xml:
             attribute: true
-        uriTableCorrespondance:
+        uri:
           type: string
           example: 'http://rdf.insee.fr/codes/nafr2-cpfr21'
           xml:
             attribute: true
-        idNomclatureSource:
+        idSource:
           type: string
           example: 'nafr2'
           xml:
             attribute: true   
-        idNomclatureCible:
+        idCible:
           type: string
           example: 'cpfr21'
           xml:
@@ -1120,11 +1120,11 @@ components:
           example: ''
           xml:
             name: DescriptionFr
-    DescriptionsTablesCorrespondance:
+    TablesDeCorrespondance:
       type: array
-      description: Tableau représentant des tables de correspondance entre deux nomclatures
+      description: Objet représentant la liste des tables de correspondance entre deux nomclatures
       items:
-        $ref: '#/components/schemas/DescriptionTableCorrespondance'
+        $ref: '#/components/schemas/TableDeCorrespondance'
       xml:
         wrapped: true
-        name: DescriptionsTablesCorrespondance       
+        name: TablesDeCorrespondance       

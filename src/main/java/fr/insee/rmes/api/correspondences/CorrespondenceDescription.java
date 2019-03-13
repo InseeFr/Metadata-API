@@ -5,17 +5,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="CorrespondenceDescription")
+//@JacksonXmlRootElement(localName="CorrespondenceDescription")
 @JsonInclude(JsonInclude.Include.NON_EMPTY) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CorrespondenceDescription {
 
-	String idTableCorrespondance;
-	String idNomclatureSource;
-	String idNomclatureCible;
-	String uriTableCorrespondance;
+	String id;
+	String idSource;
+	String idCible;
+	String uri;
 	String intituleFr;
 	String intituleEn;
 	String descriptionFr;
@@ -26,39 +25,39 @@ public class CorrespondenceDescription {
 	}
 
 	@JacksonXmlProperty(isAttribute = true)
-	public String getidTableCorrespondance() {
-		return idTableCorrespondance;
+	public String getId() {
+		return id;
 	}
 
-	public void setidTableCorrespondance(String idTableCorrespondance) {
-		this.idTableCorrespondance = idTableCorrespondance;
-	}
-
-	@JacksonXmlProperty(isAttribute = true)
-	public String getIdNomclatureSource() {
-		return idNomclatureSource;
-	}
-
-	public void setIdNomclatureSource(String idNomclatureSource) {
-		this.idNomclatureSource = idNomclatureSource;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@JacksonXmlProperty(isAttribute = true)
-	public String getIdNomclatureCible() {
-		return idNomclatureCible;
+	public String getIdSource() {
+		return idSource;
 	}
 
-	public void setIdNomclatureCible(String idNomclatureCible) {
-		this.idNomclatureCible = idNomclatureCible;
+	public void setIdSource(String idSource) {
+		this.idSource = idSource;
 	}
 
 	@JacksonXmlProperty(isAttribute = true)
-	public String geturiTableCorrespondance() {
-		return uriTableCorrespondance;
+	public String getIdCible() {
+		return idCible;
 	}
 
-	public void seturiTableCorrespondance(String uriTableCorrespondance) {
-		this.uriTableCorrespondance = uriTableCorrespondance;
+	public void setIdCible(String idCible) {
+		this.idCible = idCible;
+	}
+
+	@JacksonXmlProperty(isAttribute = true)
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
 
 	@JacksonXmlProperty(localName = "IntituleFr")

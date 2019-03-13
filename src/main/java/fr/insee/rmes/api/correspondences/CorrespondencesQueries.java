@@ -70,20 +70,20 @@ public class CorrespondencesQueries {
 
 	public static String getAllCorrespondences() {
 		
-		String query = 	"select ?idTableCorrespondance ?idNomclatureSource ?idNomclatureCible ?uriTableCorrespondance  ?intituleFr ?intituleEn ?descriptionFr ?descriptionEn\n"
+		String query = 	"select ?id ?idSource ?idCible ?uri  ?intituleFr ?intituleEn ?descriptionFr ?descriptionEn\n"
 						+"where {  \n"
-						+"  ?uriTableCorrespondance rdf:type xkos:Correspondence.\n"
-						+"  optional{?uriTableCorrespondance skos:prefLabel ?intituleFr.\n"
+						+"  ?uri rdf:type xkos:Correspondence.\n"
+						+"  optional{?uri skos:prefLabel ?intituleFr.\n"
 						+"  filter (lang(?intituleFr) = 'fr')}\n"
-						+"  optional{?uriTableCorrespondance skos:prefLabel ?intituleEn.\n"
+						+"  optional{?uri skos:prefLabel ?intituleEn.\n"
 						+"  filter (lang(?intituleEn) = 'en')}\n"
-						+"  optional{?uriTableCorrespondance dc:description ?descriptionFr.\n"
+						+"  optional{?uri dc:description ?descriptionFr.\n"
 						+"  filter (lang(?descriptionFr) = 'fr')}\n"
-						+"  optional{?uriTableCorrespondance dc:description ?descriptionEn.\n"
+						+"  optional{?uri dc:description ?descriptionEn.\n"
 						+"  filter (lang(?descriptionEn) = 'en')}\n"
-						+"  bind ( strafter(str(?uriTableCorrespondance ), '/codes/' ) as ?idTableCorrespondance )\n"
-						+"  optional { bind ( strbefore(str(?idTableCorrespondance ), '-' ) as ?idNomclatureSource ) }\n"
-						+"  optional { bind ( strafter(str(?idTableCorrespondance ), '-' ) as ?idNomclatureCible ) }\n"
+						+"  bind ( strafter(str(?uri ), '/codes/' ) as ?id )\n"
+						+"  optional { bind ( strbefore(str(?id ), '-' ) as ?idSource ) }\n"
+						+"  optional { bind ( strafter(str(?id ), '-' ) as ?idCible ) }\n"
 						+"} \n";
 		
 		return query;
