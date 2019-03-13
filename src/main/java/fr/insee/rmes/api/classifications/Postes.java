@@ -32,4 +32,5 @@ public class Postes {
 	public void setListItems(List<? extends Poste> listItems) {
 		this.listItems = (List<Poste>) listItems;
 	}
+
 }
