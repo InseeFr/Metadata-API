@@ -14,6 +14,7 @@ tags:
   - name: nomenclatures
   - name: géographie
   - name: concepts
+  - name: opérations
 paths:
   '/nomenclatures':
     get:
@@ -632,6 +633,36 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
+          paths:
+  '/operations/tree':
+    get:
+      tags:
+        - opérations
+      summary: Liste des opérations disponibles dans leur arborescence
+      operationId: getOperationsTree
+      responses:
+        '200':
+          description: Opération réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Nomenclatures'            
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Nomenclatures'            
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+          
+          
+          
 components:
   schemas:
     Poste:
@@ -1086,7 +1117,7 @@ components:
 
     TableDeCorrespondance:
       type: object
-      description: Objet représentant une table de correspondance entre deux nomclatures
+      description: Objet représentant une table de correspondance entre deux nomenclatures
       xml:
         name: TableDeCorrespondance
       properties:
@@ -1122,9 +1153,132 @@ components:
             name: DescriptionFr
     TablesDeCorrespondance:
       type: array
-      description: Objet représentant la liste des tables de correspondance entre deux nomclatures
+      description: Objet représentant la liste des tables de correspondance entre deux nomenclatures
       items:
         $ref: '#/components/schemas/TableDeCorrespondance'
       xml:
         wrapped: true
         name: TablesDeCorrespondance       
+    Arborescence:
+      type: array
+      description: Objet représentant l'arborescence des opérations statistiques
+      items:
+        $ref: '#/components/schemas/Famille'
+      xml:
+        wrapped: true 
+        name: Arborescence
+    Famille:
+      type: object
+      description: Objet représentant une famille d'opérations statistiques
+      properties:
+        id:
+          type: string
+          example: s1
+          xml:
+            name: id
+        labelLg1:
+          type: string
+          example: 'Famille1'
+          xml:
+            name: labelLg1
+        labelLg2:
+          type: string
+          example: 'Family1'
+          xml:
+            name: labelLg2
+        series:
+          type: array
+          items:
+            $ref: '#/components/schemas/Serie'
+      xml:
+        wrapped: true 
+        name: Famille
+    Serie:
+      type: object
+      description: Objet représentant une série d'opérations statistiques
+      properties:
+        id:
+          type: string
+          example: s1
+          xml:
+            name: id
+        labelLg1:
+          type: string
+          example: 'Série1'
+          xml:
+            name: labelLg1
+        labelLg2:
+          type: string
+          example: 'Series1'
+          xml:
+            name: labelLg2
+        simsId:
+          type: string
+          example: '1011'
+          xml:
+            name: simsId
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Operation'
+        indicateurs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Indicateur'
+      xml:
+        wrapped: true 
+        name: Serie
+    Operation:
+      type: object
+      description: Objet représentant une opération statistique
+      properties:
+        id:
+          type: string
+          example: s1
+          xml:
+            name: id
+        labelLg1:
+          type: string
+          example: 'Série1'
+          xml:
+            name: labelLg1
+        labelLg2:
+          type: string
+          example: 'Series1'
+          xml:
+            name: labelLg2
+        simsId:
+          type: string
+          example: '1011'
+          xml:
+            name: simsId
+      xml:
+        wrapped: true 
+        name: Operation
+    Indicateur:
+      type: object
+      description: Objet représentant un indicateur
+      properties:
+        id:
+          type: string
+          example: s1
+          xml:
+            name: id
+        labelLg1:
+          type: string
+          example: 'Série1'
+          xml:
+            name: labelLg1
+        labelLg2:
+          type: string
+          example: 'Series1'
+          xml:
+            name: labelLg2
+        simsId:
+          type: string
+          example: '1011'
+          xml:
+            name: simsId
+      xml:
+        wrapped: true 
+        name: Indicateur
