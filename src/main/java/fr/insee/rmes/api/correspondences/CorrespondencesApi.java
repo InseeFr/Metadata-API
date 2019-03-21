@@ -26,14 +26,14 @@ public class CorrespondencesApi {
 		String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
 
 		@SuppressWarnings("unchecked")
-		List<CorrespondenceDescription> itemsList = (List<CorrespondenceDescription>) CSVUtils
-				.populateMultiPOJO(csvResult, CorrespondenceDescription.class);
+		List<Correspondence> itemsList = (List<Correspondence>) CSVUtils
+				.populateMultiPOJO(csvResult, Correspondence.class);
 
 		if (itemsList.size() == 0)
 			return Response.status(Status.NOT_FOUND).entity("").build();
 
 		else if (header.equals(MediaType.APPLICATION_XML))
-			return Response.ok(ResponseUtils.produceResponse(new CorrespondenceDescriptionsList(itemsList), header))
+			return Response.ok(ResponseUtils.produceResponse(new Correspondences(itemsList), header))
 					.build();
 
 		else

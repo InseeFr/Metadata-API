@@ -3,35 +3,34 @@ package fr.insee.rmes.api.correspondences;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="Associations")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName="Correspondances")
 public class Correspondences {
-	
-	@JsonProperty("Associations")
-	@JacksonXmlProperty(localName="Association")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	private List<Correspondence> correspondences = new ArrayList<Correspondence>();
+
+	private List<Correspondence> itemsList = new ArrayList<Correspondence>();
 	
 	public Correspondences() {
-
+		
 	}
 
+	public Correspondences(List<Correspondence> itemsList) {
+
+		this.itemsList = itemsList;
+	}
+
+	@JacksonXmlProperty(isAttribute = true, localName = "Correspondance")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<Correspondence> getItemsList() {
+		return itemsList;
+	}
+
+	public void setItemsList(List<Correspondence> itemsList) {
+		this.itemsList = itemsList;
+	}
 	
-	public List<Correspondence> getCorrespondences() {
-		return correspondences;
-	}
-
-	public void setCorrespondences(List<Correspondence> correspondences) {
-		this.correspondences = correspondences;
-	}
 	
 	
 

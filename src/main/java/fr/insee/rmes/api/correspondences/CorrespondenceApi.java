@@ -38,7 +38,7 @@ public class CorrespondenceApi {
 		if (rawItemsList != null && !rawItemsList.isEmpty()) {
 
 			/*raw sparql result fields order must be handled according to source / target classifications */
-			Correspondences itemsList = CorrespondencesUtils.getCorrespondences(codeClassification,
+			Associations itemsList = CorrespondencesUtils.getCorrespondences(codeClassification,
 					targetCodeClassification, rawItemsList);
 
 			return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();

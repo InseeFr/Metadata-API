@@ -8,15 +8,15 @@ import java.util.TreeMap;
 public class CorrespondencesUtils {
 
 	
-	public static Correspondences getCorrespondences(String codeClassification, String targetCodeClassification,
+	public static Associations getCorrespondences(String codeClassification, String targetCodeClassification,
 			List<RawCorrespondence> rawItemsList) {
 
-		Correspondences correspondences = new Correspondences();
+		Associations correspondences = new Associations();
 		Map<Poste, List<Poste>>  mapSourceTargetItems = CorrespondencesUtils.getTreeMapTargetItemsBySource(codeClassification, targetCodeClassification, rawItemsList);
 		
 		mapSourceTargetItems.forEach((k,v) -> {
 			
-			Correspondence corresp = new Correspondence(k, v);
+			Association corresp = new Association(k, v);
 			correspondences.getCorrespondences().add(corresp);
 			
 		});

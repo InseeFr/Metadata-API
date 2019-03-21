@@ -1,57 +1,103 @@
 package fr.insee.rmes.api.correspondences;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName = "Association")
-@XmlAccessorType(XmlAccessType.FIELD)
+//@JacksonXmlRootElement(localName="CorrespondenceDescription")
 @JsonInclude(JsonInclude.Include.NON_EMPTY) 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Correspondence {
 
-	
-	@JacksonXmlProperty(localName="Source")
-	@JsonProperty("source")
-	private Poste itemSource;
-	
-	
-	@JacksonXmlProperty(localName="Cible")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonProperty("cibles")
-	private List<Poste> itemTargets;
+	String id;
+	String idSource;
+	String idCible;
+	String uri;
+	String intituleFr;
+	String intituleEn;
+	String descriptionFr;
+	String descriptionEn;
 
 	public Correspondence() {
 
 	}
+
+	@JacksonXmlProperty(isAttribute = true)
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@JacksonXmlProperty(isAttribute = true)
+	public String getIdSource() {
+		return idSource;
+	}
+
+	public void setIdSource(String idSource) {
+		this.idSource = idSource;
+	}
+
+	@JacksonXmlProperty(isAttribute = true)
+	public String getIdCible() {
+		return idCible;
+	}
+
+	public void setIdCible(String idCible) {
+		this.idCible = idCible;
+	}
+
+	@JacksonXmlProperty(isAttribute = true)
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	@JacksonXmlProperty(localName = "IntituleFr")
+	public String getIntituleFr() {
+		return intituleFr;
+	}
+
+	public void setIntituleFr(String intituleFr) {
+		this.intituleFr = intituleFr;
+	}
+
+	@JacksonXmlProperty(localName = "IntituleEn")
+	public String getIntituleEn() {
+		return intituleEn;
+	}
+
+	public void setIntituleEn(String intituleEn) {
+		this.intituleEn = intituleEn;
+	}
+
+	@JacksonXmlProperty(localName = "DescriptionFr")
+	public String getDescriptionFr() {
+		return descriptionFr;
+	}
+
+	public void setDescriptionFr(String descriptionFr) {
+		this.descriptionFr = descriptionFr;
+	}
 	
-	public Correspondence(Poste k, List<Poste> v) {
-		
-		this.itemSource = k;
-		this.itemTargets = v;
-		
+	@JacksonXmlProperty(localName = "DescriptionEn")
+	public String getDescriptionEn() {
+		return descriptionEn;
 	}
 
-	public Poste getItemSource() {
-		return itemSource;
+	public void setDescriptionEn(String descriptionEn) {
+		this.descriptionEn = descriptionEn;
 	}
-
-	public void setItemSource(Poste ItemSource) {
-		this.itemSource = ItemSource;
-	}
-
-	public List<Poste> getItemTargets() {
-		return itemTargets;
-	}
-
-	public void setItemTargets(List<Poste> ItemTargets) {
-		this.itemTargets = ItemTargets;
-	}
+	
+	
+	
+	
 
 }
