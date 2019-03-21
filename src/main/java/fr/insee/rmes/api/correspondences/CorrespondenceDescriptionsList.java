@@ -7,7 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="TablesDeCorrespondance")
+@JacksonXmlRootElement(localName="Correspondances")
 public class CorrespondenceDescriptionsList {
 
 	private List<CorrespondenceDescription> itemsList = new ArrayList<CorrespondenceDescription>();
@@ -21,7 +21,7 @@ public class CorrespondenceDescriptionsList {
 		this.itemsList = itemsList;
 	}
 
-	@JacksonXmlProperty(isAttribute = true, localName = "TableDeCorrespondance")
+	@JacksonXmlProperty(isAttribute = true, localName = "Correspondance")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<CorrespondenceDescription> getItemsList() {
 		return itemsList;

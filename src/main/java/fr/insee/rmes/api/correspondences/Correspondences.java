@@ -11,12 +11,12 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="Correspondances")
+@JacksonXmlRootElement(localName="Associations")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Correspondences {
 	
-	@JsonProperty("Correspondances")
-	@JacksonXmlProperty(localName="Correspondance")
+	@JsonProperty("Associations")
+	@JacksonXmlProperty(localName="Association")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	private List<Correspondence> correspondences = new ArrayList<Correspondence>();
 	

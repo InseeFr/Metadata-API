@@ -11,20 +11,20 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName = "Correspondance")
+@JacksonXmlRootElement(localName = "Association")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(JsonInclude.Include.NON_EMPTY) 
 public class Correspondence {
 
 	
-	@JacksonXmlProperty(localName="PosteSource")
-	@JsonProperty("posteSource")
+	@JacksonXmlProperty(localName="Source")
+	@JsonProperty("source")
 	private Poste itemSource;
 	
 	
-	@JacksonXmlProperty(localName="PosteCible")
+	@JacksonXmlProperty(localName="Cible")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonProperty("postesCibles")
+	@JsonProperty("cibles")
 	private List<Poste> itemTargets;
 
 	public Correspondence() {
