@@ -21,7 +21,6 @@ public class CorrespondencesApi {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Path("/tablesDeCorrespondance") 
 	public Response getAllTablesDeCorrespondance(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
 		String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
@@ -41,37 +40,6 @@ public class CorrespondencesApi {
 			return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
 	}
 
-	@GET
-	@Path("/{idNomenclatureSource}/{idNomenclatureCible}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getCorrespondencesByIds(@PathParam("idNomenclatureSource") String codeClassification,
-			@PathParam("idNomenclatureCible") String targetCodeClassification,
-			@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
-		String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries
-				.getCorrespondencesByIds(codeClassification.toLowerCase(), targetCodeClassification.toLowerCase()));
-
-		@SuppressWarnings("unchecked")
-
-		/*RawCorrespondence direct mapping from sparql request - correspondences are not symetrical in RDF model */
-		List<RawCorrespondence> rawItemsList = (List<RawCorrespondence>) CSVUtils.populateMultiPOJO(csvResult,
-				RawCorrespondence.class);
-
-		if (rawItemsList != null && !rawItemsList.isEmpty()) {
-
-			/*raw sparql result fields order must be handled according to source / target classifications */
-			Correspondences itemsList = CorrespondencesUtils.getCorrespondences(codeClassification,
-					targetCodeClassification, rawItemsList);
-
-			return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
-
-		}
-
-		else {
-			
-			return Response.status(Status.NOT_FOUND).entity("").build();
-			
-		}
-	}
 
 }
