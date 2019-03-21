@@ -4,36 +4,6 @@ public class CorrespondencesQueries {
 
 	public static String getCorrespondencesByIds(String classificationCode, String targetClassificationCode) {
 		
-		/*String query = 		
-				"select distinct ?uriPosteSource ?codePosteSource ?intituleFrPosteSource ?intituleEnPosteSource ?uriPosteCible ?codePosteCible ?intituleFrPosteCible ?intituleEnPosteCible\n"
-				+"where {  \n"
-				+"  ?tableCorrespondance xkos:compares ?nomenclature.\n"
-				+"  ?tableCorrespondance skos:prefLabel ?preflabel.\n"
-				+"  ?tableCorrespondance dc:description ?description.\n"
-				+"  ?tableCorrespondance xkos:madeOf ?association.\n"
-				+"  ?association xkos:sourceConcept ?uriPosteSource.\n"
-				+"  ?uriPosteSource skos:notation ?codePosteSource.\n"
-				+"  ?uriPosteSource skos:prefLabel ?intituleFrPosteSource.\n"
-				+"  FILTER (lang(?intituleFrPosteSource) = 'fr')  .\n"
-				+"  ?uriPosteSource skos:prefLabel ?intituleEnPosteSource.\n"
-				+"  FILTER (lang(?intituleEnPosteSource) = 'en')  .\n"
-				+"  ?association xkos:targetConcept ?uriPosteCible.\n"
-				+"  ?uriPosteCible skos:notation ?codePosteCible.\n"
-				+"  ?uriPosteCible skos:prefLabel ?intituleFrPosteCible.\n"
-				+"  FILTER (lang(?intituleFrPosteCible) = 'fr')  .\n"
-				+"  ?uriPosteCible skos:prefLabel ?intituleEnPosteCible.\n"
-				+"  FILTER (lang(?intituleEnPosteCible) = 'en')  .\n"
-				// ex : correspondance nafrCible->cpfrCibleSource
-				+"  filter  ( (contains(str(?uriPosteSource),'/codes/" + classificationCode.toLowerCase()  + "/') && contains(str(?uriPosteCible),'/codes/" + targetClassificationCode.toLowerCase()  + "/')  )\n"
-				// ou dans l'autre sens ex : cpfrCibleSource->nafrCible
-				+"   || (contains(str(?uriPosteSource),'/codes/" + targetClassificationCode.toLowerCase()  + "/') && contains(str(?uriPosteCible),'/codes/" + classificationCode.toLowerCase()  + "/')  ) )\n"
-				//+"  filter  (contains(str(?uriPosteSource),'/codes/" + classificationCode.toLowerCase()  + "/') && contains(str(?uriPosteCible),'/codes/" + targetClassificationCode.toLowerCase()  + "/')  ) \n"
-				+"} \n"
-				+ "ORDER BY ?uriPosteSource ?uriPosteCible";
-		
-		return query;*/
-		
-		
 		String query = 
 				"select distinct ?uriPoste1 ?codePoste1 ?intituleFrPoste1 ?intituleEnPoste1 ?uriPoste2 ?codePoste2 ?intituleFrPoste2 ?intituleEnPoste2 \n" 
 				+"where {  \n"

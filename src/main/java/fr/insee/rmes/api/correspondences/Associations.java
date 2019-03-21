@@ -15,7 +15,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Associations {
 	
-	@JsonProperty("Associations")
+	@JsonProperty("associations")
 	@JacksonXmlProperty(localName="Association")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	private List<Association> correspondences = new ArrayList<Association>();

@@ -11,9 +11,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import fr.insee.rmes.api.utils.CSVUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
