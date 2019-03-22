@@ -18,16 +18,47 @@ import fr.insee.rmes.api.utils.SparqlUtils;
 
 @Path("/correspondance") 
 public class CorrespondenceApi {
+	
+	@GET
+	@Path("/{idCorrespondance}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response getCorrespondencesById(@PathParam("idCorrespondance") String idCorrespondance,
+			@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
+		String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries
+				.getCorrespondenceById(idCorrespondance.toLowerCase()));
+
+		@SuppressWarnings("unchecked")
+
+		/*RawCorrespondence direct mapping from sparql request */
+		List<RawCorrespondence> rawItemsList = (List<RawCorrespondence>) CSVUtils.populateMultiPOJO(csvResult,
+				RawCorrespondence.class);
+
+		if (rawItemsList != null && !rawItemsList.isEmpty()) {
+
+			/*raw sparql result fields order must be got in shape 1 source -> many targets */
+			Associations itemsList = CorrespondencesUtils.getCorrespondenceByCorrespondenceId(idCorrespondance, rawItemsList);
+
+			return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
+
+		}
+
+		else {
+			
+			return Response.status(Status.NOT_FOUND).entity("").build();
+			
+		}
+	}
+	
 	@GET
 	@Path("/{idNomenclatureSource}/{idNomenclatureCible}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getCorrespondencesByIds(@PathParam("idNomenclatureSource") String codeClassification,
+	public Response getCorrespondenceByIds(@PathParam("idNomenclatureSource") String codeClassification,
 			@PathParam("idNomenclatureCible") String targetCodeClassification,
 			@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
 		String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries
-				.getCorrespondencesByIds(codeClassification.toLowerCase(), targetCodeClassification.toLowerCase()));
+				.getCorrespondenceByIds(codeClassification.toLowerCase(), targetCodeClassification.toLowerCase()));
 
 		@SuppressWarnings("unchecked")
 
@@ -38,7 +69,7 @@ public class CorrespondenceApi {
 		if (rawItemsList != null && !rawItemsList.isEmpty()) {
 
 			/*raw sparql result fields order must be handled according to source / target classifications */
-			Associations itemsList = CorrespondencesUtils.getCorrespondences(codeClassification,
+			Associations itemsList = CorrespondencesUtils.getCorrespondenceByclassificationIds(codeClassification,
 					targetCodeClassification, rawItemsList);
 
 			return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();

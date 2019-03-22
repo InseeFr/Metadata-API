@@ -78,18 +78,18 @@ paths:
     get:
       tags:
         - nomenclatures
-      summary: Liste des tables de correspondances entre deux nomenclatures
-      operationId: getAllTablesDeCorrespondance
+      summary: Liste des correspondances entre deux nomenclatures
+      operationId: getAllCorrespondances
       responses:
         '200':
           description: Opération réussie
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TablesDeCorrespondance'
+                $ref: '#/components/schemas/Correspondances'
             application/xml:
               schema:
-                $ref: '#/components/schemas/TableDeCorrespondance'
+                $ref: '#/components/schemas/Correspondances'
         '400':
           description: La syntaxe de la requête est incorrecte
         '401':
@@ -100,14 +100,46 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-          
+  '/correspondance/{idCorrespondance}':
+    get:
+      tags:
+        - nomenclatures
+      summary: Correspondance entre deux nomenclatures
+      operationId: getCorrespondenceByCode
+      parameters:
+        - name: idCorrespondance
+          in: path
+          description: Identifiant de la correspondance
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Opération réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Associations'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Associations'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur          
           
   '/correspondance/{idNomenclatureSource}/{idNomenclatureCible}':
     get:
       tags:
         - nomenclatures
-      summary: Correspondances entre deux nomenclatures
-      operationId: getCorrespondencesByCodes
+      summary: Correspondance entre deux nomenclatures
+      operationId: getCorrespondenceByClassificationCodes
       parameters:
         - name: idNomenclatureSource
           in: path
@@ -127,10 +159,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Correspondances'
+                $ref: '#/components/schemas/Associations'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Correspondances'
+                $ref: '#/components/schemas/Associations'
         '400':
           description: La syntaxe de la requête est incorrecte
         '401':
@@ -727,9 +759,9 @@ components:
       xml:
         wrapped: true
         name: Nomenclatures
-    Correspondance:
+    Association:
       type: object
-      description: Objet représentant une correspondance
+      description: Objet représentant une Association
       properties:
         code:
           type: string
@@ -762,15 +794,15 @@ components:
           xml:
             name: IntituleCible
       xml:
-        name: Correspondance
-    Correspondances:
+        name: Association
+    Associations:
       type: array
-      description: Tableau représentant la liste des correspondances
+      description: Tableau représentant la liste des association
       items:
-        $ref: '#/components/schemas/Correspondance'
+        $ref: '#/components/schemas/Association'
       xml:
         wrapped: true
-        name: Correspondances        
+        name: Associations        
     CategorieJuridiqueNiveauII:
       type: object
       description: Objet représentant une catégorie juridique (niveau 2)
@@ -1084,11 +1116,11 @@ components:
         wrapped: true
         name: Definitions
 
-    TableDeCorrespondance:
+    Correspondance:
       type: object
-      description: Objet représentant une table de correspondance entre deux nomclatures
+      description: Objet représentant une correspondance entre deux nomclatures
       xml:
-        name: TableDeCorrespondance
+        name: Correspondance
       properties:
         id:
           type: string
@@ -1120,11 +1152,11 @@ components:
           example: ''
           xml:
             name: DescriptionFr
-    TablesDeCorrespondance:
+    Correspondances:
       type: array
-      description: Objet représentant la liste des tables de correspondance entre deux nomclatures
+      description: Objet représentant la liste des correspondances entre deux nomclatures
       items:
-        $ref: '#/components/schemas/TableDeCorrespondance'
+        $ref: '#/components/schemas/Correspondance'
       xml:
         wrapped: true
-        name: TablesDeCorrespondance       
+        name: Correspondances       

@@ -1,8 +1,43 @@
 package fr.insee.rmes.api.correspondences;
 
 public class CorrespondencesQueries {
+	
+	
+	//correspondence/{id correspondence}
+	public static String getCorrespondenceById(String correspondenceId) {
+		
+		String query = 
+				"select distinct ?uriPoste1 ?codePoste1 ?intituleFrPoste1 ?intituleEnPoste1 ?uriPoste2 ?codePoste2 ?intituleFrPoste2 ?intituleEnPoste2 \n" 
+				+"where {  \n"
+				+"  ?tableCorrespondance xkos:compares ?nomenclature.\n"
+				+"  ?tableCorrespondance xkos:compares ?nomenclature. \n"
+				+"  filter ( strafter(str(?tableCorrespondance),'/codes/') = '" + correspondenceId + "'  ) \n"
+				+"  ?tableCorrespondance skos:prefLabel ?preflabel.\n"
+				+"  ?tableCorrespondance dc:description ?description.\n"
+				+"  ?tableCorrespondance xkos:madeOf ?association.\n"
+				+"  ?association xkos:sourceConcept ?uriPoste1.\n"
+				+"  ?uriPoste1 skos:notation ?codePoste1.\n"
+				+"  ?uriPoste1 skos:prefLabel ?intituleFrPoste1.\n"
+				+"  FILTER (lang(?intituleFrPoste1) = 'fr')  .\n"
+				+"  ?uriPoste1 skos:prefLabel ?intituleEnPoste1.\n"
+				+"  FILTER (lang(?intituleEnPoste1) = 'en')  .\n"
+				+"  ?association xkos:targetConcept ?uriPoste2.\n"
+				+"  ?uriPoste2 skos:notation ?codePoste2.\n"
+				+"  ?uriPoste2 skos:prefLabel ?intituleFrPoste2.\n"
+				+"  FILTER (lang(?intituleFrPoste2) = 'fr')  .\n"
+				+"  ?uriPoste2 skos:prefLabel ?intituleEnPoste2.\n"
+				+"  FILTER (lang(?intituleEnPoste2) = 'en')  .\n"
+				+"} \n"
+				+ "ORDER BY ?uriPoste1 ?uriPoste2";
 
-	public static String getCorrespondencesByIds(String classificationCode, String targetClassificationCode) {
+		return query;
+		
+		
+	}
+
+
+	//correspondence/{id1 classification}/{id2 classification} 
+	public static String getCorrespondenceByIds(String classificationCode, String targetClassificationCode) {
 		
 		String query = 
 				"select distinct ?uriPoste1 ?codePoste1 ?intituleFrPoste1 ?intituleEnPoste1 ?uriPoste2 ?codePoste2 ?intituleFrPoste2 ?intituleEnPoste2 \n" 
@@ -24,12 +59,16 @@ public class CorrespondencesQueries {
 				+"  ?uriPoste2 skos:prefLabel ?intituleEnPoste2.\n"
 				+"  FILTER (lang(?intituleEnPoste2) = 'en')  .\n"
 				// ex : correspondance nafrCible->cpfrCibleSource
-				+"  filter  ( (contains(str(?uriPoste1),'/codes/" + classificationCode.toLowerCase()  + "/') && contains(str(?uriPoste2),'/codes/" + targetClassificationCode.toLowerCase()  + "/')  )\n"
+				+"  filter  ( (contains(str(?uriPoste1),'/codes/" + classificationCode.toLowerCase()  
+				+ "/') && contains(str(?uriPoste2),'/codes/" + targetClassificationCode.toLowerCase()  
+				+ "/')  )\n"
 				// ou dans l'autre sens ex : cpfrCibleSource->nafrCible
-				+"   || (contains(str(?uriPoste1),'/codes/" + targetClassificationCode.toLowerCase()  + "/') && contains(str(?uriPoste2),'/codes/" + classificationCode.toLowerCase()  + "/')  ) )\n"
-				//+"  filter  (contains(str(?uriPoste1),'/codes/" + classificationCode.toLowerCase()  + "/') && contains(str(?uriPoste2),'/codes/" + targetClassificationCode.toLowerCase()  + "/')  ) \n"
-				+"  bind( if (contains(str(?uriPoste1),'/codes/" + classificationCode.toLowerCase()  + "'),?codePoste1,?codePoste2) as ?orderingSource )\n"
-				+"  bind( if (contains(str(?uriPoste2),'/codes/" + targetClassificationCode.toLowerCase()  + "'),?codePoste2,?codePoste1) as ?orderingTarget )\n"
+				+"   || (contains(str(?uriPoste1),'/codes/" + targetClassificationCode.toLowerCase()  
+				+ "/') && contains(str(?uriPoste2),'/codes/" + classificationCode.toLowerCase()  + "/')  ) )\n"
+				+"  bind( if (contains(str(?uriPoste1),'/codes/" + classificationCode.toLowerCase()  
+				+ "'),?codePoste1,?codePoste2) as ?orderingSource )\n"
+				+"  bind( if (contains(str(?uriPoste2),'/codes/" + targetClassificationCode.toLowerCase()  
+				+ "'),?codePoste2,?codePoste1) as ?orderingTarget )\n"
 				+"} \n"
 				+ "ORDER BY ?orderingSource ?orderingTarget";
 
@@ -38,6 +77,9 @@ public class CorrespondencesQueries {
 		
 	}
 
+	
+	
+	
 	public static String getAllCorrespondences() {
 		
 		String query = 	"select ?id ?idSource ?idCible ?uri  ?intituleFr ?intituleEn ?descriptionFr ?descriptionEn\n"

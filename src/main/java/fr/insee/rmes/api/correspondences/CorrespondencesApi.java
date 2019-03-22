@@ -20,7 +20,7 @@ public class CorrespondencesApi {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getAllTablesDeCorrespondance(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+	public Response getAllCorrespondences(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
 		String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
 
