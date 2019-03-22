@@ -21,16 +21,16 @@ public class CorrespondencesUtils {
 
 
 	private static Associations organizeItemTreeMap(Map<Poste, List<Poste>> mapSourceTargetItems) {
-		Associations correspondences = new Associations();
+		Associations associations = new Associations();
 		mapSourceTargetItems.forEach((k,v) -> {
 			
-			Association corresp = new Association(k, v);
-			correspondences.getCorrespondences().add(corresp);
+			Association assoc = new Association(k, v);
+			associations.getAssociations().add(assoc);
 			
 		});
 		
 		
-		return correspondences;
+		return associations;
 	}
 	
 	/**
