@@ -1187,4 +1187,127 @@ components:
         $ref: '#/components/schemas/Correspondance'
       xml:
         wrapped: true
-        name: Correspondances       
+        name: Correspondances
+    Arborescence:
+      type: array
+      description: Objet représentant l'arborescence des opérations statistiques
+      items:
+        $ref: '#/components/schemas/Famille'
+      xml:
+        wrapped: true 
+        name: Arborescence
+    Famille:
+      type: object
+      description: Objet représentant une famille d'opérations statistiques
+      properties:
+        id:
+          type: string
+          example: s1
+          xml:
+            name: id
+        labelLg1:
+          type: string
+          example: 'Famille1'
+          xml:
+            name: labelLg1
+        labelLg2:
+          type: string
+          example: 'Family1'
+          xml:
+            name: labelLg2
+        series:
+          type: array
+          items:
+            $ref: '#/components/schemas/Serie'
+      xml:
+        wrapped: true 
+        name: Famille
+    Serie:
+      type: object
+      description: Objet représentant une série d'opérations statistiques
+      properties:
+        id:
+          type: string
+          example: s1
+          xml:
+            name: id
+        labelLg1:
+          type: string
+          example: 'Série1'
+          xml:
+            name: labelLg1
+        labelLg2:
+          type: string
+          example: 'Series1'
+          xml:
+            name: labelLg2
+        simsId:
+          type: string
+          example: '1011'
+          xml:
+            name: simsId
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Operation'
+        indicateurs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Indicateur'
+      xml:
+        wrapped: true 
+        name: Serie
+    Operation:
+      type: object
+      description: Objet représentant une opération statistique
+      properties:
+        id:
+          type: string
+          example: s1
+          xml:
+            name: id
+        labelLg1:
+          type: string
+          example: 'Série1'
+          xml:
+            name: labelLg1
+        labelLg2:
+          type: string
+          example: 'Series1'
+          xml:
+            name: labelLg2
+        simsId:
+          type: string
+          example: '1011'
+          xml:
+            name: simsId
+      xml:
+        wrapped: true 
+        name: Operation
+    Indicateur:
+      type: object
+      description: Objet représentant un indicateur
+      properties:
+        id:
+          type: string
+          example: s1
+          xml:
+            name: id
+        labelLg1:
+          type: string
+          example: 'Série1'
+          xml:
+            name: labelLg1
+        labelLg2:
+          type: string
+          example: 'Series1'
+          xml:
+            name: labelLg2
+        simsId:
+          type: string
+          example: '1011'
+          xml:
+            name: simsId
+      xml:
+        wrapped: true 
+        name: Indicateur      
