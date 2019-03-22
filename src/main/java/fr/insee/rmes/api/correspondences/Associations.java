@@ -18,19 +18,19 @@ public class Associations {
 	@JsonProperty("associations")
 	@JacksonXmlProperty(localName="Association")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	private List<Association> correspondences = new ArrayList<Association>();
+	private List<Association> associations = new ArrayList<Association>();
 	
 	public Associations() {
 
 	}
 
 	
-	public List<Association> getCorrespondences() {
-		return correspondences;
+	public List<Association> getAssociations() {
+		return associations;
 	}
 
-	public void setCorrespondences(List<Association> correspondences) {
-		this.correspondences = correspondences;
+	public void setAssociations(List<Association> associations) {
+		this.associations = associations;
 	}
 	
 	
