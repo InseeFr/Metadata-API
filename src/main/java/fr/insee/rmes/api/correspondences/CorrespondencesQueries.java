@@ -10,7 +10,6 @@ public class CorrespondencesQueries {
 				"select distinct ?uriPoste1 ?codePoste1 ?intituleFrPoste1 ?intituleEnPoste1 ?uriPoste2 ?codePoste2 ?intituleFrPoste2 ?intituleEnPoste2 \n" 
 				+"where {  \n"
 				+"  ?tableCorrespondance xkos:compares ?nomenclature.\n"
-				+"  ?tableCorrespondance xkos:compares ?nomenclature. \n"
 				+"  filter ( strafter(str(?tableCorrespondance),'/codes/') = '" + correspondenceId + "'  ) \n"
 				+"  ?tableCorrespondance skos:prefLabel ?preflabel.\n"
 				+"  ?tableCorrespondance dc:description ?description.\n"
