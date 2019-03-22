@@ -8,21 +8,84 @@ import java.util.TreeMap;
 public class CorrespondencesUtils {
 
 	
-	public static Correspondences getCorrespondences(String codeClassification, String targetCodeClassification,
+	/**get in shape rawlist in tree map
+	 * 1 source (map id) -> many target
+	*/
+	/*when id correspondence*/
+	public static Associations getCorrespondenceByCorrespondenceId(String idCorrespondence,
 			List<RawCorrespondence> rawItemsList) {
 
-		Correspondences correspondences = new Correspondences();
-		Map<Poste, List<Poste>>  mapSourceTargetItems = CorrespondencesUtils.getTreeMapTargetItemsBySource(codeClassification, targetCodeClassification, rawItemsList);
-		
+		Map<Poste, List<Poste>>  mapSourceTargetItems = getTreeMapTargetItemsBySourceByCorrespondenceId(rawItemsList);
+		return organizeItemTreeMap(mapSourceTargetItems);
+	}
+
+
+	private static Associations organizeItemTreeMap(Map<Poste, List<Poste>> mapSourceTargetItems) {
+		Associations associations = new Associations();
 		mapSourceTargetItems.forEach((k,v) -> {
 			
-			Correspondence corresp = new Correspondence(k, v);
-			correspondences.getCorrespondences().add(corresp);
+			Association assoc = new Association(k, v);
+			associations.getAssociations().add(assoc);
 			
 		});
 		
 		
-		return correspondences;
+		return associations;
+	}
+	
+	/**
+	 * This method transforms sparql query "table" result
+	 * for mapping 1 source item from source classification to to many many target item in target classification
+	 * @param idCorrespondence
+	 * @param rawItemsList
+	 * @return
+	 */
+	public static Map<Poste, List<Poste>> getTreeMapTargetItemsBySourceByCorrespondenceId(List<RawCorrespondence> rawItemsList) {
+
+		/*TreeMap for ordering map keys*/
+		Map<Poste, List<Poste>> groupedListItems = new TreeMap<Poste, List<Poste> >();
+		for (RawCorrespondence curRawCorrespondence : rawItemsList) {
+	
+			Poste posteSource = new Poste(curRawCorrespondence.getCodePoste1(), curRawCorrespondence.getUriPoste1(),
+					curRawCorrespondence.getIntituleFrPoste1(), curRawCorrespondence.getIntituleEnPoste1());
+			
+			if (!groupedListItems.containsKey(posteSource)) { // add source and target items in map if new item source
+
+				//code source item is the map of the key whitch representing a 1 to many correspondences from a target code
+				groupedListItems.put(posteSource, new ArrayList<Poste>());
+
+				//add targetItem
+				Poste targetPoste = new Poste(curRawCorrespondence.getCodePoste2(), curRawCorrespondence.getUriPoste2(),
+						curRawCorrespondence.getIntituleFrPoste2(), curRawCorrespondence.getIntituleEnPoste2());
+				
+				groupedListItems.get(posteSource).add(targetPoste);
+
+			}
+
+			else {
+
+				//add targetItem only in map 
+				Poste targetPoste = new Poste(curRawCorrespondence.getCodePoste2(), curRawCorrespondence.getUriPoste2(),
+						curRawCorrespondence.getIntituleFrPoste2(), curRawCorrespondence.getIntituleEnPoste2());
+				
+				groupedListItems.get(posteSource).add(targetPoste);
+
+			}
+		}
+
+		return groupedListItems;
+
+	}
+	
+	
+	
+	
+	/*when id1 + id2 classifications*/
+	public static Associations getCorrespondenceByclassificationIds(String codeClassification, String targetCodeClassification,
+			List<RawCorrespondence> rawItemsList) {
+
+		Map<Poste, List<Poste>>  mapSourceTargetItems = getTreeMapTargetItemsBySourceByClassificationsIds(codeClassification, targetCodeClassification, rawItemsList);
+		return organizeItemTreeMap(mapSourceTargetItems);
 	}
 
 	
@@ -30,7 +93,7 @@ public class CorrespondencesUtils {
 	/**
 	 * for handling asymetrical correspondencies in RDF data
 	 */
-	public static Map<Poste, List<Poste>> getTreeMapTargetItemsBySource(
+	public static Map<Poste, List<Poste>> getTreeMapTargetItemsBySourceByClassificationsIds(
 			String codeClassificationSource, String targetCodeClassification, List<RawCorrespondence> rawItemsList) {
 
 		/*TreeMap for ordering map keys*/
@@ -70,7 +133,18 @@ public class CorrespondencesUtils {
 		return groupedListItems;
 
 	}
+	
+	
 
+/**
+ * Correspondance beetween 2 classifications is not symetrical.
+ * the order for giving clasification must change results mappings
+ * this method verify is swapping source <-> target items i necessary
+ * to get the right correspondence
+ * @param codeClassificationSource
+ * @param rawItemsList
+ * @return
+ */
 
 	private static Boolean shouldSwapRawCorespondences(String codeClassificationSource,
 			List<RawCorrespondence> rawItemsList) {
@@ -92,11 +166,11 @@ public class CorrespondencesUtils {
 	}
 
 	private static Poste mapRawObjectToItemCorrespondence(RawCorrespondence corresp,
-			boolean mustSwapCorrespondences) {
+			boolean mustSwapAssociation) {
 
 		Poste item = null;
 
-		if (!mustSwapCorrespondences) {
+		if (!mustSwapAssociation) {
 
 			item = new Poste(corresp.getCodePoste1(), corresp.getUriPoste1(),
 					corresp.getIntituleFrPoste1(), corresp.getIntituleEnPoste1());
