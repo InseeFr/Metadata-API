@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-//@JacksonXmlRootElement(localName="CorrespondenceDescription")
 @JsonInclude(JsonInclude.Include.NON_EMPTY) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Correspondence {
