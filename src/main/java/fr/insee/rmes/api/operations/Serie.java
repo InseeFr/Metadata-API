@@ -13,6 +13,7 @@ public class Serie {
 	private String id = null;
 	private String labelLg1 = null;
 	private String labelLg2 = null;
+	private String uri = null;
 	
 	@JsonInclude(Include.NON_NULL)
 	private String simsId = null;
@@ -22,10 +23,11 @@ public class Serie {
 	@JsonInclude(Include.NON_NULL)
 	private List<Indicateur> indicateurs;
 
-	public Serie(String id, String labelLg1, String labelLg2) {	
+	public Serie(String uri, String id, String labelLg1, String labelLg2) {	
 		this.id=id;
 		this.labelLg1 = labelLg1;
 		this.labelLg2 = labelLg2;
+		this.uri = uri;
 	}
 	
 	public void addOperation(Operation op) {
@@ -41,7 +43,6 @@ public class Serie {
 		}
 		this.indicateurs.add(indic);
 	}
-
 
 	public String getLabelLg1() {
 		return labelLg1;
@@ -93,6 +94,14 @@ public class Serie {
 
 	public void setIndicateurs(List<Indicateur> indicateurs) {
 		this.indicateurs = indicateurs;
+	}
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
 
 }

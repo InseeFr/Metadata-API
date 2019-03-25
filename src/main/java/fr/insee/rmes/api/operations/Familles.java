@@ -9,25 +9,25 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="Arborescence")
+@JacksonXmlRootElement(localName="Familles")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Tree {
+public class Familles {
 
-	List<Family> families = null;
+	List<Famille> families = null;
 	
-	public Tree() {}
+	public Familles() {}
 
-	public Tree(List<Family> families) {
+	public Familles(List<Famille> families) {
 		this.families = families;
 	}
 
 	@JacksonXmlProperty(isAttribute=true, localName="Famille")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<Family> getFamilies() {
+	public List<Famille> getFamilies() {
 		return families;
 	}
 
-	public void setFamilies(List<Family> families) {
+	public void setFamilies(List<Famille> families) {
 		this.families = families;
 	}
 	

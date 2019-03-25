@@ -8,16 +8,18 @@ public class Indicateur {
 	private String id = null;
 	private String labelLg1 = null;
 	private String labelLg2 = null;
+	private String uri = null;
 	
 	@JsonInclude(Include.NON_NULL)
 	private String simsId = null;
 	
-	public Indicateur(String id, String labelLg1, String labelLg2, String simsId) {
+	public Indicateur(String uri, String id, String labelLg1, String labelLg2, String simsId) {
 		super();
 		this.id = id;
 		this.labelLg1 = labelLg1;
 		this.labelLg2 = labelLg2;
-		this.simsId = simsId;
+		if (simsId != "") this.simsId = simsId;
+		this.uri = uri;
 	}
 
 	public String getId() {
@@ -50,6 +52,14 @@ public class Indicateur {
 
 	public void setSimsId(String simsId) {
 		if (simsId != "") this.simsId = simsId;
+	}
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
 	
 	

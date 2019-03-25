@@ -3,8 +3,8 @@ package fr.insee.rmes.api.operations;
 public class OperationsQueries {
 	
 	public static String getOperationTree() {
-		return "SELECT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?seriesId ?seriesLabelLg1 ?seriesLabelLg2 ?simsId ?operationId ?opLabelLg1 ?opLabelLg2  \r\n" + 
-				" ?indicId ?indicLabelLg1 ?indicLabelLg2  \r\n" + 
+		return "SELECT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?family ?seriesId ?seriesLabelLg1 ?seriesLabelLg2 ?series ?simsId ?operationId ?opLabelLg1 ?opLabelLg2  ?operation\r\n" + 
+				" ?indicId ?indicLabelLg1 ?indicLabelLg2 ?indic \r\n" + 
 				" { \r\n" + 
 				"	?family a insee:StatisticalOperationFamily .  \r\n" + 
 				"	?family skos:prefLabel ?familyLabelLg1 . \r\n" + 

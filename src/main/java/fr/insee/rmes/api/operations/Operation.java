@@ -1,23 +1,35 @@
 package fr.insee.rmes.api.operations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import fr.insee.rmes.api.utils.Lang;
+import fr.insee.rmes.api.utils.StringWithLang;
 
 public class Operation {
 	
 	private String id = null;
-	private String labelLg1 = null;
-	private String labelLg2 = null;
+	
+	private List<StringWithLang> label =  new ArrayList<StringWithLang>();
+	private String uri = null;
 	
 	@JsonInclude(Include.NON_NULL)
 	private String simsId = null;
 	
-	public Operation(String id, String labelLg1, String labelLg2, String simsId) {
+	public Operation(String uri, String id, String labelFr, String labelEn, String simsId) {
 		super();
 		this.id = id;
-		this.labelLg1 = labelLg1;
-		this.labelLg2 = labelLg2;
-		this.simsId = simsId;
+		label.add( new StringWithLang(labelFr, Lang.FR));
+		if (labelEn != "") {
+			label.add(new StringWithLang(labelEn, Lang.EN));
+		}
+		if (simsId != "") this.simsId = simsId;
+		this.uri = uri;
 	}
 
 	public String getId() {
@@ -28,22 +40,7 @@ public class Operation {
 		this.id = id;
 	}
 
-	public String getLabelLg1() {
-		return labelLg1;
-	}
-
-	public void setLabelLg1(String labelLg1) {
-		this.labelLg1 = labelLg1;
-	}
-
-	public String getLabelLg2() {
-		return labelLg2;
-	}
-
-	public void setLabelLg2(String labelLg2) {
-		this.labelLg2 = labelLg2;
-	}
-
+	
 	public String getSimsId() {
 		return simsId;
 	}
@@ -51,6 +48,25 @@ public class Operation {
 	public void setSimsId(String simsId) {
 		if (simsId != "") this.simsId = simsId;
 	}
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	@JacksonXmlProperty(localName="Label")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<StringWithLang> getLabel() {
+		return label;
+	}
+
+	public void setLabel(List<StringWithLang> label) {
+		this.label = label;
+	}
+
 	
 	
 

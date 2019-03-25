@@ -8,16 +8,17 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-public class Family {
+public class Famille {
 	
 	private String id = null;
 	private String labelLg1 = null;
 	private String labelLg2 = null;
+	private String uri = null;
 	
 	@JsonInclude(Include.NON_NULL)
 	private List<Serie> series;
 	
-	public Family(String id, String labelLg1,String labelLg2, Serie serie) {
+	public Famille(String uri, String id, String labelLg1,String labelLg2, Serie serie) {
 		if (serie != null) {
 			setSeries(new ArrayList<Serie>());
 			series.add(serie);
@@ -25,6 +26,7 @@ public class Family {
 		this.id = id;
 		this.labelLg1 = labelLg1;
 		this.labelLg2 = labelLg2;
+		this.uri = uri;
 	}
 
 	
@@ -79,6 +81,16 @@ public class Family {
 
 	public void setLabelLg2(String labelLg2) {
 		this.labelLg2 = labelLg2;
+	}
+
+
+	public String getUri() {
+		return uri;
+	}
+
+
+	public void setUri(String uri) {
+		this.uri = uri;
 	}	
 
 

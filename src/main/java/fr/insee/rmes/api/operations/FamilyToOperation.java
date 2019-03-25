@@ -5,18 +5,22 @@ public class FamilyToOperation {
 	private String familyId = null;
 	private String familyLabelLg1 = null;
 	private String familyLabelLg2 = null;
+	private String family = null;
 	
 	private String seriesId = null;
 	private String seriesLabelLg1 = null;
 	private String seriesLabelLg2 = null;
+	private String series = null;
 	
 	private String operationId = null;
 	private String opLabelLg1 = null;
 	private String opLabelLg2 = null;
+	private String operation = null;
 	
 	private String indicId = null;
 	private String indicLabelLg1 = null;
 	private String indicLabelLg2 = null;
+	private String indic = null;
 	
 	private String simsId = null;
 	
@@ -125,6 +129,38 @@ public class FamilyToOperation {
 
 	public void setSimsId(String simsId) {
 		this.simsId = simsId;
+	}
+
+	public String getFamily() {
+		return family;
+	}
+
+	public void setFamily(String family) {
+		this.family = family;
+	}
+
+	public String getSeries() {
+		return series;
+	}
+
+	public void setSeries(String series) {
+		this.series = series;
+	}
+
+	public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	public String getIndic() {
+		return indic;
+	}
+
+	public void setIndic(String indic) {
+		this.indic = indic;
 	}
 	
 	

@@ -38,27 +38,27 @@ public class OperationsAPI {
 		
 		if (opList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
 		
-		Map<String, Family> familyMap = new HashMap<String, Family>();
+		Map<String, Famille> familyMap = new HashMap<String, Famille>();
 		Map<String, Serie> serieMap = new HashMap<String, Serie>();
 
 		
 		for (FamilyToOperation familyToOperation : opList) {
 			if (!serieMap.containsKey(familyToOperation.getSeriesId())) {
-				Serie s = new Serie(familyToOperation.getSeriesId(),familyToOperation.getSeriesLabelLg1(), familyToOperation.getSeriesLabelLg2());
+				Serie s = new Serie(familyToOperation.getSeries(),familyToOperation.getSeriesId(),familyToOperation.getSeriesLabelLg1(), familyToOperation.getSeriesLabelLg2());
 				serieMap.put(s.getId(), s);
 				String fId = familyToOperation.getFamilyId();
 				if (familyMap.containsKey(fId)) {
 					familyMap.get(fId).addSerie(s);			
 				}else {//create family
-					Family f = new Family(familyToOperation.getFamilyId(), familyToOperation.getFamilyLabelLg1(),familyToOperation.getFamilyLabelLg2(), s);
+					Famille f = new Famille(familyToOperation.getFamily(),familyToOperation.getFamilyId(), familyToOperation.getFamilyLabelLg1(),familyToOperation.getFamilyLabelLg2(), s);
 					familyMap.put(f.getId(), f);
 				}
 			}
 			if (StringUtils.isNotEmpty(familyToOperation.getOperationId())) {
-				Operation o = new Operation(familyToOperation.getOperationId(),familyToOperation.getOpLabelLg1(), familyToOperation.getOpLabelLg2(), familyToOperation.getSimsId());
+				Operation o = new Operation(familyToOperation.getOperation(),familyToOperation.getOperationId(),familyToOperation.getOpLabelLg1(), familyToOperation.getOpLabelLg2(), familyToOperation.getSimsId());
 				serieMap.get(familyToOperation.getSeriesId()).addOperation(o);
 			}else if (StringUtils.isNotEmpty(familyToOperation.getIndicId())) {
-				Indicateur i = new Indicateur(familyToOperation.getIndicId(),familyToOperation.getIndicLabelLg1(), familyToOperation.getIndicLabelLg2(), familyToOperation.getSimsId());
+				Indicateur i = new Indicateur(familyToOperation.getIndic(),familyToOperation.getIndicId(),familyToOperation.getIndicLabelLg1(), familyToOperation.getIndicLabelLg2(), familyToOperation.getSimsId());
 				serieMap.get(familyToOperation.getSeriesId()).addIndicateur(i);
 			}else if (StringUtils.isNotEmpty(familyToOperation.getSimsId() )) { //sims linked to serie
 				serieMap.get(familyToOperation.getSeriesId()).setSimsId(familyToOperation.getSimsId());
@@ -66,9 +66,10 @@ public class OperationsAPI {
 		}
 		
 		
-		if (header.equals(MediaType.APPLICATION_XML))
-			return Response.ok(ResponseUtils.produceResponse(new Tree(new ArrayList<Family>(familyMap.values())), header)).build();
-			
+		if (header.equals(MediaType.APPLICATION_XML)) {
+			Familles familles = new Familles(new ArrayList<Famille>(familyMap.values()));
+			return Response.ok(ResponseUtils.produceResponse(familles, header)).build();
+		}
 		else return Response.ok(ResponseUtils.produceResponse(familyMap.values(), header)).build();
 		
 		
