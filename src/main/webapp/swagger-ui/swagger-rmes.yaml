@@ -46,7 +46,7 @@ paths:
     get:
       tags:
         - nomenclatures
-      summary: Postes d'une nomenclature (autres que "catégories juridiques")
+      summary: Liste des postes d'une nomenclature (autres que "catégories juridiques")
       operationId: getClassificationByCode
       parameters:
         - name: code
@@ -139,7 +139,7 @@ paths:
     get:
       tags:
         - nomenclatures
-      summary: Correspondance entre deux nomenclatures
+      summary: Liste des associations de correspondance entre deux nomenclatures
       operationId: getCorrespondenceByClassificationCodes
       parameters:
         - name: idNomenclatureSource
@@ -798,7 +798,7 @@ components:
             attribute: true
         uri:
           type: string
-          example: 'http://dvrmessnczlht01/datalift/codes/emb2018/produit/0811Z1301020'
+          example: 'http://id.insee.fr/codes/emb2018/produit/0811Z1301020'
           xml:
             attribute: true
         intitule:
@@ -813,7 +813,7 @@ components:
             attribute: true
         uriCible:
           type: string
-          example: 'http://dvrmessnczlht01/datalift/codes/nafr2/sousClasse/08.11Z'
+          example: 'http://did.insee.fr/codes/nafr2/sousClasse/08.11Z'
           xml:
             attribute: true
         intituleCible:
@@ -825,7 +825,7 @@ components:
         name: Association
     Associations:
       type: array
-      description: Tableau représentant la liste des association
+      description: Tableau représentant la liste des associations entre deux nomenclatures
       items:
         $ref: '#/components/schemas/Association'
       xml:
@@ -1146,7 +1146,7 @@ components:
 
     Correspondance:
       type: object
-      description: Objet représentant une correspondance entre deux nomclatures
+      description: Objet représentant une correspondance entre deux nomenclatures
       xml:
         name: Correspondance
       properties:
@@ -1172,7 +1172,7 @@ components:
             attribute: true                      
         intituleFr:
           type: string
-          example: Table de correspondance Naf rév. 2 / Cpf rév. 2.1
+          example: Correspondance Naf rév. 2 / Cpf rév. 2.1
           xml:
             name: IntituleFr
         descriptionFr:
@@ -1182,7 +1182,7 @@ components:
             name: DescriptionFr
     Correspondances:
       type: array
-      description: Objet représentant la liste des correspondances entre deux nomclatures
+      description: Objet représentant la liste des correspondances entre deux nomenclatures
       items:
         $ref: '#/components/schemas/Correspondance'
       xml:
