@@ -1,11 +1,11 @@
 openapi: 3.0.0
 servers:
   - url: 'http://localhost:8080/metadata-api'
-    description: 'Local dev server'
-  - url: 'http://qfrmeswnczlht01/metadata-api'
+    description: 'Local server'
+  - url: 'http://qfrmeswnczlht01.ad.insee.intra/'
     description: 'Qf server'
-  - url: 'http://dvrmeswnczlht01/metadata-api'
-    description: 'Local dev server'
+  - url: 'http://dvrmeswnczlht01.ad.insee.intra/'
+    description: 'Dv server'
 info:
   description: API sur les métadonnées de l'Insee
   version: '1.1.1'
@@ -692,6 +692,39 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
+  '/operations/documentation/{id}':
+    get:
+      tags:
+        - opérations
+      summary: Documentation d'une opération, d'un indicateur ou d'une série
+      id: getDocumentation
+      parameters:
+        - name: id
+          in: path
+          description: 'Identifiant de la documentation (format : [0-9]{4})'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentationSims'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DocumentationSims'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
+          paths:
 components:
   schemas:
     Poste:
@@ -1311,3 +1344,15 @@ components:
       xml:
         wrapped: true 
         name: Indicateur      
+    DocumentationSims:
+      type: object
+      description: Objet représentant une documentation SIMS
+      properties:
+        id:
+          type: string
+          example: s1
+          xml:
+            name: id
+      xml:
+        wrapped: true 
+        name: DocumentationSims      
