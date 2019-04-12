@@ -35,6 +35,7 @@ public class StaticFilter implements javax.servlet.Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.defaultRequestDispatcher = filterConfig.getServletContext().getNamedDispatcher("default");
+		new Configuration();
 	}
 
 }
