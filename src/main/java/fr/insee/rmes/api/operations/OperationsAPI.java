@@ -113,9 +113,10 @@ public class OperationsAPI {
 				r.setValeurOrganisation(valeurOrg);
 				break;	
 			case "RICH_TEXT":
+				if (cr.getHasDoc()) {
 				String csvDocs = SparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id,r.getId()));
 				List<Document> docs = (List<Document>) CSVUtils.populateMultiPOJO(csvDocs, Document.class);
-				r.setDocuments(docs);
+				r.setDocuments(docs);}
 			case "TEXT":
 				r.setLabelLg1(cr.getLabelLg1());
 				r.setLabelLg2(cr.getLabelLg2());
