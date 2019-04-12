@@ -3,7 +3,7 @@ package fr.insee.rmes.api.operations;
 public class OperationsQueries {
 	
 	public static String getOperationTree() {
-		return "SELECT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?family ?seriesId ?seriesLabelLg1 ?seriesLabelLg2 ?series ?simsId ?operationId ?opLabelLg1 ?opLabelLg2  ?operation\r\n" + 
+		return "SELECT DISTINCT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?family ?seriesId ?seriesLabelLg1 ?seriesLabelLg2 ?series ?simsId ?operationId ?opLabelLg1 ?opLabelLg2  ?operation\r\n" + 
 				" ?indicId ?indicLabelLg1 ?indicLabelLg2 ?indic \r\n" + 
 				" { \r\n" + 
 				"	?family a insee:StatisticalOperationFamily .  \r\n" + 
@@ -47,10 +47,11 @@ public class OperationsQueries {
 				"				BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) . \r\n" + 
 				"		}\r\n" + 
 				"	}}\r\n" + 
-				"	OPTIONAL { ?sims sdmx-mm:target ?series . \r\n" + 
+				"	UNION\r\n" + 
+				"	{OPTIONAL { ?sims sdmx-mm:target ?series . \r\n" + 
 				"		?sims a sdmx-mm:MetadataReport . \r\n" + 
 				"		BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) . \r\n" + 
-				"	}\r\n" + 
+				"	}}\r\n" + 
 				"}\r\n" + 
 				" order by ?familyId ?seriesId ";
 			
