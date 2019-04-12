@@ -15,6 +15,27 @@ public class Serie {
 	private String labelLg2 = null;
 	private String uri = null;
 	
+
+	@JsonInclude(Include.NON_NULL)
+	//private Famille family = null;
+	private SimpleObject family = null;
+
+	@JsonInclude(Include.NON_NULL)
+	private String abstractLg1 = null;
+	@JsonInclude(Include.NON_NULL)
+	private String abstractLg2 = null;
+	@JsonInclude(Include.NON_NULL)
+	private String historyNoteLg1 = null;
+	@JsonInclude(Include.NON_NULL)
+	private String historyNoteLg2 = null;
+	@JsonInclude(Include.NON_NULL)
+	private String altLabel = null;
+	
+	@JsonInclude(Include.NON_NULL)
+	private SimpleObject type = null;
+	@JsonInclude(Include.NON_NULL)
+	private SimpleObject accrualPeriodicity = null;
+
 	@JsonInclude(Include.NON_NULL)
 	private String simsId = null;
 	
@@ -23,6 +44,15 @@ public class Serie {
 	@JsonInclude(Include.NON_NULL)
 	private List<Indicateur> indicateurs;
 
+
+	@JsonInclude(Include.NON_NULL)
+	private List<Serie> replaces;
+	@JsonInclude(Include.NON_NULL)
+	private List<Serie> isReplacedBy;
+	@JsonInclude(Include.NON_NULL)
+	private List<Serie> seeAlso;
+	
+	
 	public Serie(String uri, String id, String labelLg1, String labelLg2) {	
 		this.id=id;
 		this.labelLg1 = labelLg1;
@@ -30,6 +60,10 @@ public class Serie {
 		this.uri = uri;
 	}
 	
+	public Serie(String id) {
+		this.id=id;
+	}
+
 	public void addOperation(Operation op) {
 		if (operations ==null) {
 			setOperations(new ArrayList<Operation>());
@@ -44,6 +78,27 @@ public class Serie {
 		this.indicateurs.add(indic);
 	}
 
+	public void addSeeAlso(Serie sa) {
+		if (seeAlso==null) {
+			setSeeAlso(new ArrayList<Serie>());
+	}
+	this.seeAlso.add(sa);
+	}
+	
+	public void addReplaces(Serie rep) {
+		if (replaces==null) {
+			setReplaces(new ArrayList<Serie>());
+	}
+	this.replaces.add(rep);
+	}
+	
+	public void addIsReplacedBy(Serie irb) {
+		if (isReplacedBy==null) {
+			setIsReplacedBy(new ArrayList<Serie>());
+	}
+	this.isReplacedBy.add(irb);
+	}
+	
 	public String getLabelLg1() {
 		return labelLg1;
 	}
@@ -103,5 +158,92 @@ public class Serie {
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
+	
+	public void setFamily(SimpleObject f) {
+		this.family = f;		
+	}
+	
+	public SimpleObject getFamily() {
+		return family;
+	}
 
+	public String getAbstractLg1() {
+		return abstractLg1;
+	}
+
+	public void setAbstractLg1(String abstractLg1) {
+		this.abstractLg1 = abstractLg1;
+	}
+
+	public String getAbstractLg2() {
+		return abstractLg2;
+	}
+
+	public void setAbstractLg2(String abstractLg2) {
+		this.abstractLg2 = abstractLg2;
+	}
+
+	public String getHistoryNoteLg1() {
+		return historyNoteLg1;
+	}
+
+	public void setHistoryNoteLg1(String historyNoteLg1) {
+		this.historyNoteLg1 = historyNoteLg1;
+	}
+
+	public String getHistoryNoteLg2() {
+		return historyNoteLg2;
+	}
+
+	public void setHistoryNoteLg2(String historyNoteLg2) {
+		this.historyNoteLg2 = historyNoteLg2;
+	}
+
+	public String getAltLabel() {
+		return altLabel;
+	}
+
+	public void setAltLabel(String altlabel) {
+		this.altLabel = altlabel;
+	}
+
+	public SimpleObject getType() {
+		return type;
+	}
+
+	public void setType(SimpleObject type) {
+		this.type = type;
+	}
+
+	public List<Serie> getReplaces() {
+		return replaces;
+	}
+
+	public void setReplaces(List<Serie> replaces) {
+		this.replaces = replaces;
+	}
+
+	public List<Serie> getIsReplacedBy() {
+		return isReplacedBy;
+	}
+
+	public void setIsReplacedBy(List<Serie> isReplacedBy) {
+		this.isReplacedBy = isReplacedBy;
+	}
+
+	public List<Serie> getSeeAlso() {
+		return seeAlso;
+	}
+
+	public void setSeeAlso(List<Serie> seeAlso) {
+		this.seeAlso = seeAlso;
+	}
+
+	public SimpleObject getAccrualPeriodicity() {
+		return accrualPeriodicity;
+	}
+
+	public void setAccrualPeriodicity(SimpleObject accrualPeriodicity) {
+		this.accrualPeriodicity = accrualPeriodicity;
+	}
 }
