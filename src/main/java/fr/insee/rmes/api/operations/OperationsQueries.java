@@ -114,6 +114,10 @@ public class OperationsQueries {
 		return "SELECT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?family \r\n"
 				+ "?seriesId ?seriesLabelLg1 ?seriesLabelLg2 ?seriesAbstractLg1 ?seriesAbstractLg2 " 
 				+ "?seriesHistoryNoteLg1 ?seriesHistoryNoteLg2 ?seriesAltLabel ?series ?simsId "
+				+ "?periodicity ?type"
+				+ "?periodicityLabelLg1 ?typeLabelLg1"
+				+ "?periodicityLabelLg2 ?typeLabelLg2"
+				+ "?periodicityId ?typeId"
 				+ "?operationId ?opLabelLg1 ?opLabelLg2  ?operation\r\n" 
 				+ " ?indicId ?indicLabelLg1 ?indicLabelLg2 ?indic "
 				+ "?isReplacedBy ?isReplacedByLabelLg1 ?isReplacedByLabelLg2 ?isReplacedById \r\n" 
@@ -133,12 +137,12 @@ public class OperationsQueries {
 				"	FILTER (lang(?familyLabelLg2 ) = 'en') \r\n" + 
 				"	BIND(STRAFTER(STR(?family),'/operations/famille/') AS ?familyId ) . \r\n" + 
 				"\r\n" + 
-				
 				"	?series skos:prefLabel ?seriesLabelLg1 . \r\n" + 
 				"	FILTER (lang(?seriesLabelLg1) = 'fr') \r\n" + 
 				"	?series skos:prefLabel ?seriesLabelLg2 . \r\n" + 
 				"	FILTER (lang(?seriesLabelLg2) = 'en') \r\n" + 
 				
+				"	{OPTIONAL {" +
 				"	?series dcterms:abstract ?seriesAbstractLg1 . \r\n" + 
 				"	FILTER (lang(?seriesAbstractLg1) = 'fr') \r\n" + 
 				"	?series dcterms:abstract ?seriesAbstractLg2 . \r\n" + 
@@ -148,7 +152,27 @@ public class OperationsQueries {
 				"	?series skos:historyNote ?seriesHistoryNoteLg2 . \r\n" + 
 				"	FILTER (lang(?seriesHistoryNoteLg2) = 'en') \r\n" + 
 				"	?series skos:altLabel ?seriesAltLabel . \r\n" + 
-
+				" } } \r\n" + 
+				
+				"	{OPTIONAL {" +
+				"   ?series dcterms:accrualPeriodicity ?periodicity . \r\n" +
+				"   ?periodicity skos:prefLabel ?periodicityLabelLg1 . \r\n" + 
+				"	FILTER (lang(?periodicityLabelLg1) = 'fr') \r\n" + 
+				"	?periodicity skos:prefLabel ?periodicityLabelLg2 . \r\n" + 
+				"	FILTER (lang(?periodicityLabelLg2) = 'en') \r\n" + 
+				"	BIND(STRAFTER(STR(?periodicity),'/codes/frequence/') AS ?periodicityId) . \r\n" + 
+				"	}}\r\n" + 
+			
+				"	{OPTIONAL {" +
+				"   ?series dcterms:accrualType ?type . \r\n" +
+				"   ?type skos:prefLabel ?typeLabelLg1 . \r\n" + 
+				"	FILTER (lang(?typeLabelLg1) = 'fr') \r\n" + 
+				"	?type skos:prefLabel ?typeLabelLg2 . \r\n" + 
+				"	FILTER (lang(?typeLabelLg2) = 'en') \r\n" + 
+				"	BIND(STRAFTER(STR(?type),'/codes/categorieSource/') AS ?typeId) . \r\n" + 
+				"	}}\r\n" + 
+					
+					
 					"\r\n" + 
 				"	{OPTIONAL {?series rdfs:seeAlso ?seeAlso . \r\n" + 
 				"		?seeAlso a insee:StatisticalOperationSeries .  \r\n" + 

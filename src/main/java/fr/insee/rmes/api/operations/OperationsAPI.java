@@ -30,23 +30,23 @@ import fr.insee.rmes.api.utils.SparqlUtils;
 public class OperationsAPI {
 
 	private static Logger logger = LogManager.getLogger(OperationsAPI.class);
-	
+
 	@SuppressWarnings("unchecked")
 	@Path("/tree")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getOperationsTree(@HeaderParam("Accept") String header) {
 		logger.debug("Received GET request operations tree");
-		
+
 		String csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getOperationTree());
 		List<FamilyToOperation> opList = (List<FamilyToOperation>) CSVUtils.populateMultiPOJO(csvResult, FamilyToOperation.class);
-		
+
 		if (opList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
-		
+
 		Map<String, Famille> familyMap = new HashMap<String, Famille>();
 		Map<String, Serie> serieMap = new HashMap<String, Serie>();
 
-		
+
 		for (FamilyToOperation familyToOperation : opList) {
 			if (!serieMap.containsKey(familyToOperation.getSeriesId())) {
 				Serie s = new Serie(familyToOperation.getSeries(),familyToOperation.getSeriesId(),familyToOperation.getSeriesLabelLg1(), familyToOperation.getSeriesLabelLg2());
@@ -69,30 +69,30 @@ public class OperationsAPI {
 				serieMap.get(familyToOperation.getSeriesId()).setSimsId(familyToOperation.getSimsId());
 			}
 		}
-		
-		
+
+
 		if (header.equals(MediaType.APPLICATION_XML)) {
 			Familles familles = new Familles(new ArrayList<Famille>(familyMap.values()));
 			return Response.ok(ResponseUtils.produceResponse(familles, header)).build();
 		}
 		else return Response.ok(ResponseUtils.produceResponse(familyMap.values(), header)).build();
-		
-		
+
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Path("/documentation/{id: [0-9]{4}}")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getDocumentation(@HeaderParam("Accept") String header, @PathParam("id") String id) {
 		logger.debug("Received GET request documentation");
-		
+
 		String csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationTitle(id));
 		DocumentationSims sims =  new DocumentationSims();
 		CSVUtils.populatePOJO(csvResult, sims);
-				
+
 		if (sims.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-		
+
 		csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationRubrics(id));
 		List<CsvRubrique> csvRubriques = (List<CsvRubrique>) CSVUtils.populateMultiPOJO(csvResult, CsvRubrique.class);
 		List<Rubrique> rubriques = new ArrayList<>();
@@ -114,9 +114,9 @@ public class OperationsAPI {
 				break;	
 			case "RICH_TEXT":
 				if (cr.getHasDoc()) {
-				String csvDocs = SparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id,r.getId()));
-				List<Document> docs = (List<Document>) CSVUtils.populateMultiPOJO(csvDocs, Document.class);
-				r.setDocuments(docs);}
+					String csvDocs = SparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id,r.getId()));
+					List<Document> docs = (List<Document>) CSVUtils.populateMultiPOJO(csvDocs, Document.class);
+					r.setDocuments(docs);}
 			case "TEXT":
 				r.setLabelLg1(cr.getLabelLg1());
 				r.setLabelLg2(cr.getLabelLg2());
@@ -127,44 +127,53 @@ public class OperationsAPI {
 			rubriques.add(r);
 		}
 		sims.setRubriques(rubriques);
-		
+
 		return Response.ok(ResponseUtils.produceResponse(sims, header)).build();
 	}
-				
-				
-	
+
+
+
 	@Path("/serie/{idSeries}")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getSeries(	@PathParam("idSeries") String idSeries, 
-								@HeaderParam("Accept") String header) {
+			@HeaderParam("Accept") String header) {
 		logger.debug("Received GET request series");
-		
+
 		String csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getSeries(idSeries));
-		
-		//Serie series = new Serie(idSeries); 
-		//SeriesToOperation series = new SeriesToOperation(idSeries);
-		// CSVUtils.populatePOJO(csvResult, series);
-		
+
 		List<FamilyToOperation> opList = (List<FamilyToOperation>) CSVUtils.populateMultiPOJO(csvResult, FamilyToOperation.class);
-		
+
 		if (opList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
-		
+
 		FamilyToOperation firstFamilyToOperation=opList.get(0);
 		Serie s = new Serie(firstFamilyToOperation.getSeries(),firstFamilyToOperation.getSeriesId(),firstFamilyToOperation.getSeriesLabelLg1(), firstFamilyToOperation.getSeriesLabelLg2());
 		//create family
-		Famille f = new Famille(firstFamilyToOperation.getFamily(),firstFamilyToOperation.getFamilyId(), firstFamilyToOperation.getFamilyLabelLg1(),firstFamilyToOperation.getFamilyLabelLg2(), s);
-		// Add fields to Serie ?
-		//s.setFamily(f);
-		s.setAbstractLg1(firstFamilyToOperation.getSeriesAbstractLg1());
-		s.setAbstractLg2(firstFamilyToOperation.getSeriesAbstractLg2());
-		s.setHistoryNoteLg1(firstFamilyToOperation.getSeriesHistoryNoteLg1());
-		s.setHistoryNoteLg2(firstFamilyToOperation.getSeriesHistoryNoteLg2());
+		SimpleObject fam = new SimpleObject(firstFamilyToOperation.getFamilyId(), firstFamilyToOperation.getFamily(), firstFamilyToOperation.getFamilyLabelLg1(),firstFamilyToOperation.getFamilyLabelLg2());
+		s.setFamily(fam);
 
-		s.setAltLabel(firstFamilyToOperation.getSeriesAltLabel());
-		
+		if (StringUtils.isNotEmpty(firstFamilyToOperation.getSeriesAbstractLg1())){
+			s.setAbstractLg1(firstFamilyToOperation.getSeriesAbstractLg1());
+			s.setAbstractLg2(firstFamilyToOperation.getSeriesAbstractLg2());
+		}
+		if (StringUtils.isNotEmpty(firstFamilyToOperation.getSeriesHistoryNoteLg1())){
+			s.setHistoryNoteLg1(firstFamilyToOperation.getSeriesHistoryNoteLg1());
+			s.setHistoryNoteLg2(firstFamilyToOperation.getSeriesHistoryNoteLg2());
+		}
+		if (StringUtils.isNotEmpty(firstFamilyToOperation.getType()) ) {
+			SimpleObject type = new SimpleObject(firstFamilyToOperation.getTypeId(), firstFamilyToOperation.getType(), firstFamilyToOperation.getTypeLabelLg1(),firstFamilyToOperation.getTypeLabelLg2());
+			s.setType(type);
+		}
+		if (StringUtils.isNotEmpty(firstFamilyToOperation.getPeriodicity()) ) {
+			SimpleObject periodicity = new SimpleObject(firstFamilyToOperation.getPeriodicityId(), firstFamilyToOperation.getPeriodicity(), firstFamilyToOperation.getPeriodicityLabelLg1(),firstFamilyToOperation.getPeriodicityLabelLg2());
+			s.setAccrualPeriodicity(periodicity);
+		}
+		if (StringUtils.isNotEmpty(firstFamilyToOperation.getSeriesAltLabel()) ) {
+			s.setAltLabel(firstFamilyToOperation.getSeriesAltLabel());
+		}
+
 		for (FamilyToOperation familyToOperation : opList) {
-			
+
 			if (StringUtils.isNotEmpty(familyToOperation.getOperationId())) {
 				Operation o = new Operation(familyToOperation.getOperation(),familyToOperation.getOperationId(),familyToOperation.getOpLabelLg1(), familyToOperation.getOpLabelLg2(), familyToOperation.getSimsId());
 				s.addOperation(o);
@@ -185,18 +194,12 @@ public class OperationsAPI {
 			}
 		}
 
-	    return Response.ok(ResponseUtils.produceResponse(s, header)).build();
-		
+		return Response.ok(ResponseUtils.produceResponse(s, header)).build();
+
 	}
-	
+
 }
 
 
-/*
-@SuppressWarnings("unchecked")
-List<SeriesToOperation> seriesList = (List<SeriesToOperation>) CSVUtils.populateMultiPOJO(csvResult, SeriesToOperation.class);
-series=seriesList.get(0);
-// add operations, famille, notes, liens...
-*/
 
 

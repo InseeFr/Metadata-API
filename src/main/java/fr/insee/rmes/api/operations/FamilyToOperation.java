@@ -33,6 +33,16 @@ public class FamilyToOperation {
 	private String isReplacedByLabelLg2 = null;
 	private String isReplacedById = null;
 	
+	private String periodicity = null;
+	private String periodicityLabelLg1 = null;
+	private String periodicityLabelLg2 = null;
+	private String periodicityId = null;
+	
+	private String type = null;
+	private String typeLabelLg1 = null;
+	private String typeLabelLg2 = null;
+	private String typeId = null;
+		
 	private String operationId = null;
 	private String opLabelLg1 = null;
 	private String opLabelLg2 = null;
@@ -232,6 +242,70 @@ public class FamilyToOperation {
 
 	public void setIsReplacedById(String isReplacedById) {
 		this.isReplacedById = isReplacedById;
+	}
+
+	public String getPeriodicity() {
+		return periodicity;
+	}
+
+	public void setPeriodicity(String periodicity) {
+		this.periodicity = periodicity;
+	}
+
+	public String getPeriodicityLabelLg1() {
+		return periodicityLabelLg1;
+	}
+
+	public void setPeriodicityLabelLg1(String periodicityLabelLg1) {
+		this.periodicityLabelLg1 = periodicityLabelLg1;
+	}
+
+	public String getPeriodicityLabelLg2() {
+		return periodicityLabelLg2;
+	}
+
+	public void setPeriodicityLabelLg2(String periodicityLabelLg2) {
+		this.periodicityLabelLg2 = periodicityLabelLg2;
+	}
+
+	public String getPeriodicityId() {
+		return periodicityId;
+	}
+
+	public void setPeriodicityId(String periodicityId) {
+		this.periodicityId = periodicityId;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getTypeLabelLg1() {
+		return typeLabelLg1;
+	}
+
+	public void setTypeLabelLg1(String typeLabelLg1) {
+		this.typeLabelLg1 = typeLabelLg1;
+	}
+
+	public String getTypeLabelLg2() {
+		return typeLabelLg2;
+	}
+
+	public void setTypeLabelLg2(String typeLabelLg2) {
+		this.typeLabelLg2 = typeLabelLg2;
+	}
+
+	public String getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(String typeId) {
+		this.typeId = typeId;
 	}
 
 	public String getOperationId() {
