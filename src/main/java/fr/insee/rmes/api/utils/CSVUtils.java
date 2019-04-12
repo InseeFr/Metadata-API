@@ -15,7 +15,7 @@ public class CSVUtils {
 	
 	private static Logger logger = LogManager.getLogger(CSVUtils.class);
 
-	public static void csvToPOJO(String csv, Object pojo) throws Exception {
+	private static void csvToPOJO(String csv, Object pojo) throws Exception {
 		CsvMapper mapper = new CsvMapper();
 		CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
 
@@ -34,7 +34,7 @@ public class CSVUtils {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static List<Object> csvToMultiPOJO(String csv, Class childClass) throws Exception {
+	private static List<Object> csvToMultiPOJO(String csv, Class childClass) throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		CsvMapper mapper = new CsvMapper();
 		CsvSchema schema = CsvSchema.emptySchema().withHeader(); 
