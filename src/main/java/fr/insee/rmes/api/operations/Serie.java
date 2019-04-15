@@ -3,31 +3,33 @@ package fr.insee.rmes.api.operations;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import fr.insee.rmes.api.utils.Lang;
+import fr.insee.rmes.api.utils.StringWithLang;
 
 public class Serie {
 
 	private String id = null;
-	private String labelLg1 = null;
-	private String labelLg2 = null;
+	private List<StringWithLang> label =  new ArrayList<StringWithLang>();
 	private String uri = null;
 	
 
 	@JsonInclude(Include.NON_NULL)
-	//private Famille family = null;
 	private SimpleObject family = null;
 
 	@JsonInclude(Include.NON_NULL)
-	private String abstractLg1 = null;
+	private List<StringWithLang> abstractSerie;
+
 	@JsonInclude(Include.NON_NULL)
-	private String abstractLg2 = null;
-	@JsonInclude(Include.NON_NULL)
-	private String historyNoteLg1 = null;
-	@JsonInclude(Include.NON_NULL)
-	private String historyNoteLg2 = null;
+	private List<StringWithLang> historyNote;
+	
 	@JsonInclude(Include.NON_NULL)
 	private String altLabel = null;
 	
@@ -55,8 +57,10 @@ public class Serie {
 	
 	public Serie(String uri, String id, String labelLg1, String labelLg2) {	
 		this.id=id;
-		this.labelLg1 = labelLg1;
-		this.labelLg2 = labelLg2;
+		label.add( new StringWithLang(labelLg1, Lang.FR));
+		if (labelLg2 != "") {
+			label.add(new StringWithLang(labelLg2, Lang.EN));
+		}
 		this.uri = uri;
 	}
 	
@@ -98,14 +102,6 @@ public class Serie {
 	}
 	this.isReplacedBy.add(irb);
 	}
-	
-	public String getLabelLg1() {
-		return labelLg1;
-	}
-
-	public void setLabelLg1(String seriesLabelLg1) {
-		this.labelLg1 = seriesLabelLg1;
-	}
 
 	public String getId() {
 		return id;
@@ -115,12 +111,10 @@ public class Serie {
 		this.id = id;
 	}
 
-	public String getLabelLg2() {
-		return labelLg2;
-	}
-
-	public void setLabelLg2(String labelLg2) {
-		this.labelLg2 = labelLg2;
+	@JacksonXmlProperty(localName="label")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<StringWithLang> getLabel() {
+		return label;
 	}
 
 	public String getSimsId() {
@@ -167,39 +161,7 @@ public class Serie {
 		return family;
 	}
 
-	public String getAbstractLg1() {
-		return abstractLg1;
-	}
-
-	public void setAbstractLg1(String abstractLg1) {
-		this.abstractLg1 = abstractLg1;
-	}
-
-	public String getAbstractLg2() {
-		return abstractLg2;
-	}
-
-	public void setAbstractLg2(String abstractLg2) {
-		this.abstractLg2 = abstractLg2;
-	}
-
-	public String getHistoryNoteLg1() {
-		return historyNoteLg1;
-	}
-
-	public void setHistoryNoteLg1(String historyNoteLg1) {
-		this.historyNoteLg1 = historyNoteLg1;
-	}
-
-	public String getHistoryNoteLg2() {
-		return historyNoteLg2;
-	}
-
-	public void setHistoryNoteLg2(String historyNoteLg2) {
-		this.historyNoteLg2 = historyNoteLg2;
-	}
-
-	public String getAltLabel() {
+		public String getAltLabel() {
 		return altLabel;
 	}
 
@@ -246,4 +208,47 @@ public class Serie {
 	public void setAccrualPeriodicity(SimpleObject accrualPeriodicity) {
 		this.accrualPeriodicity = accrualPeriodicity;
 	}
+	
+	@JsonProperty("resume")
+	@JacksonXmlProperty(localName="resume")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<StringWithLang> getAbstractSerie() {
+		return abstractSerie;
+	}
+	
+	public void setAbstractLg1(String abstractLg1) {
+		if (StringUtils.isNotEmpty(abstractLg1)) {
+			if (abstractSerie == null) abstractSerie = new ArrayList<>();
+			abstractSerie.add(new StringWithLang(abstractLg1, Lang.FR));
+		}
+	}
+	
+	public void setAbstractLg2(String abstractLg2) {
+		if (StringUtils.isNotEmpty(abstractLg2)) {
+			if (abstractSerie == null) abstractSerie = new ArrayList<>();
+			abstractSerie.add(new StringWithLang(abstractLg2, Lang.EN));
+		}
+	}
+	
+	@JsonProperty("noteHistorique")
+	@JacksonXmlProperty(localName="noteHistorique")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<StringWithLang> getHistoryNote() {
+		return historyNote;
+	}
+	
+	public void setHistoryNoteLg1(String str) {
+		if (StringUtils.isNotEmpty(str)) {
+			if (historyNote == null) historyNote = new ArrayList<>();
+			historyNote.add(new StringWithLang(str, Lang.FR));
+		}
+	}
+	
+	public void setHistoryNoteLg2(String str) {
+		if (StringUtils.isNotEmpty(str)) {
+			if (historyNote == null) historyNote = new ArrayList<>();
+			historyNote.add(new StringWithLang(str, Lang.EN));
+		}
+	}
+	
 }

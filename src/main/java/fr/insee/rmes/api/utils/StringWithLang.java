@@ -1,13 +1,16 @@
 package fr.insee.rmes.api.utils;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 public class StringWithLang {
 	
     @JacksonXmlText
+	@JsonProperty("contenu")
 	private String string = null;
     @JacksonXmlProperty(isAttribute = true)
+	@JsonProperty("langue")
 	private Lang lang = null;
     
 	public String getString() {
