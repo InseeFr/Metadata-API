@@ -58,6 +58,8 @@ public class Rubrique {
 		return uri;
 	}
 	
+	@JacksonXmlProperty(localName="titre")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<StringWithLang> getTitre() {
 		return titre;
 	}
@@ -81,22 +83,24 @@ public class Rubrique {
 		this.valeurSimple = valeurSimple;
 	}
 	
-	@JacksonXmlProperty(localName="Label")
+	@JacksonXmlProperty(localName="label")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<StringWithLang> getLabel() {
 		return label;
 	}
 	
 	public void setLabelLg1(String labelLg1) {
-		if (label == null) label = new ArrayList<>();
-		if (StringUtils.isNotEmpty(labelLg1))
-		label.add(new StringWithLang(labelLg1, Lang.FR));
+		if (StringUtils.isNotEmpty(labelLg1)) {
+			if (label == null) label = new ArrayList<>();
+			label.add(new StringWithLang(labelLg1, Lang.FR));
+		}
 	}
 	
 	public void setLabelLg2(String labelLg2) {
-		if (label == null) label = new ArrayList<>();
-		if (StringUtils.isNotEmpty(labelLg2))
-		label.add(new StringWithLang(labelLg2, Lang.EN));
+		if (StringUtils.isNotEmpty(labelLg2)) {
+			if (label == null) label = new ArrayList<>();
+			label.add(new StringWithLang(labelLg2, Lang.EN));
+		}
 	}
 	
 

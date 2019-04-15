@@ -157,6 +157,9 @@ public class Serie {
 		this.family = f;		
 	}
 	
+	@JsonProperty("famille")
+	@JacksonXmlProperty(isAttribute=true, localName="Famille")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public SimpleObject getFamily() {
 		return family;
 	}
@@ -177,6 +180,9 @@ public class Serie {
 		this.type = type;
 	}
 
+	@JsonProperty("remplace")
+	@JacksonXmlProperty(isAttribute=true, localName="remplace")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<Serie> getReplaces() {
 		return replaces;
 	}
@@ -185,6 +191,9 @@ public class Serie {
 		this.replaces = replaces;
 	}
 
+	@JsonProperty("estRemplacePar")
+	@JacksonXmlProperty(isAttribute=true, localName="estRemplacePar")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<Serie> getIsReplacedBy() {
 		return isReplacedBy;
 	}
@@ -193,6 +202,9 @@ public class Serie {
 		this.isReplacedBy = isReplacedBy;
 	}
 
+	@JsonProperty("voirAussi")
+	@JacksonXmlProperty(isAttribute=true, localName="voirAussi")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<Serie> getSeeAlso() {
 		return seeAlso;
 	}
@@ -201,6 +213,9 @@ public class Serie {
 		this.seeAlso = seeAlso;
 	}
 
+	@JsonProperty("periodicite")
+	@JacksonXmlProperty(isAttribute=true, localName="periodicite")
+	@JacksonXmlElementWrapper(useWrapping = false)
 	public SimpleObject getAccrualPeriodicity() {
 		return accrualPeriodicity;
 	}

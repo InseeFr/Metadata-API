@@ -3,6 +3,8 @@ package fr.insee.rmes.api.operations.documentations;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -40,7 +42,7 @@ public class DocumentationSims {
 		this.uri = uri;
 	}
 	
-	@JacksonXmlProperty(localName="Label")
+	@JacksonXmlProperty(localName="label")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<StringWithLang> getLabel() {
 		return label;
@@ -55,6 +57,8 @@ public class DocumentationSims {
 	}
 
 
+	@JacksonXmlProperty(localName="Rubrique")
+	@JacksonXmlElementWrapper(localName="Rubriques", useWrapping = true)
 	public List<Rubrique> getRubriques() {
 		return rubriques;
 	}
@@ -68,27 +72,35 @@ public class DocumentationSims {
 	}
 
 	public void setIdCible(String idCible) {
-		checkCibleExists();
-		cible.setId(idCible);
+		if (StringUtils.isNotEmpty(idCible)){
+			checkCibleExists();
+			cible.setId(idCible);
+		}
 	}
 	
 	public void setCible(String cibleUri) {
-		checkCibleExists();
-		cible.setUri(cibleUri);
+		if (StringUtils.isNotEmpty(cibleUri)){
+			checkCibleExists();
+			cible.setUri(cibleUri);
+		}
 	}
 
 	public void setLabelCibleLg1(String labelCibleLg1) {
-		checkCibleExists();
-		List<StringWithLang> temp = cible.getLabel();
-		temp.add(new StringWithLang(labelCibleLg1, Lang.FR));
-		cible.setLabel(temp);
+		if (StringUtils.isNotEmpty(labelCibleLg1)){
+			checkCibleExists();
+			List<StringWithLang> temp = cible.getLabel();
+			temp.add(new StringWithLang(labelCibleLg1, Lang.FR));
+			cible.setLabel(temp);
+		}
 	}
 	
 	public void setLabelCibleLg2(String labelCibleLg2) {
-		checkCibleExists();
-		List<StringWithLang> temp = cible.getLabel();
-		temp.add(new StringWithLang(labelCibleLg2, Lang.EN));
-		cible.setLabel(temp);
+		if (StringUtils.isNotEmpty(labelCibleLg2)){
+			checkCibleExists();
+			List<StringWithLang> temp = cible.getLabel();
+			temp.add(new StringWithLang(labelCibleLg2, Lang.EN));
+			cible.setLabel(temp);
+		}
 	}
 
 	private void checkCibleExists() {

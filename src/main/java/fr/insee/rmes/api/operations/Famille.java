@@ -65,7 +65,7 @@ public class Famille {
 
 
 
-	@JacksonXmlProperty(localName="Label")
+	@JacksonXmlProperty(localName="label")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<StringWithLang> getLabel() {
 		return label;

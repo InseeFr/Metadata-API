@@ -3,6 +3,8 @@ package fr.insee.rmes.api.operations.documentations;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -16,7 +18,7 @@ public class Document {
 	private String url;
 	
 	
-	@JacksonXmlProperty(localName="Label")
+	@JacksonXmlProperty(localName="label")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<StringWithLang> getLabel() {
 		return label;
@@ -27,7 +29,9 @@ public class Document {
 	}
 	
 	public void setLabelLg2(String labelLg2) {
-		label.add(new StringWithLang(labelLg2, Lang.EN));
+		if (StringUtils.isNotEmpty(labelLg2)) {
+				label.add(new StringWithLang(labelLg2, Lang.EN));
+		}
 	}
 	
 	public String getDateMiseAJour() {

@@ -57,7 +57,7 @@ public class Operation {
 		this.uri = uri;
 	}
 
-	@JacksonXmlProperty(localName="Label")
+	@JacksonXmlProperty(localName="label")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	public List<StringWithLang> getLabel() {
 		return label;
