@@ -32,7 +32,7 @@ public class OperationsAPI {
 	private static Logger logger = LogManager.getLogger(OperationsAPI.class);
 
 	@SuppressWarnings("unchecked")
-	@Path("/tree")
+	@Path("/arborescence")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getOperationsTree(@HeaderParam("Accept") String header) {
