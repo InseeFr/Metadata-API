@@ -3,6 +3,8 @@ package fr.insee.rmes.api.operations;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -30,6 +32,10 @@ public class Operation {
 		}
 		if (simsId != "") this.simsId = simsId;
 		this.uri = uri;
+	}
+
+	public Operation() {
+		super();
 	}
 
 	public String getId() {
@@ -67,7 +73,17 @@ public class Operation {
 		this.label = label;
 	}
 
+	public void setLabelFr(String labelFr) {
+		if (StringUtils.isNotEmpty(labelFr)) {
+			label.add(new StringWithLang(labelFr, Lang.FR));
+		}
+	}
 	
+	public void setLabelEn(String labelEn) {
+		if (StringUtils.isNotEmpty(labelEn)) {
+			label.add(new StringWithLang(labelEn, Lang.EN));
+		}
+	}
 	
 
 }

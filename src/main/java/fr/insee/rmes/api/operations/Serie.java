@@ -52,7 +52,11 @@ public class Serie {
 	@JsonInclude(Include.NON_NULL)
 	private List<Serie> isReplacedBy;
 	@JsonInclude(Include.NON_NULL)
-	private List<Serie> seeAlso;
+	private List<SimpleObject> seeAlso;
+	@JsonInclude(Include.NON_NULL)
+	private List<SimpleObject> creators;
+	@JsonInclude(Include.NON_NULL)
+	private List<SimpleObject> contributors;
 	
 	
 	public Serie(String uri, String id, String labelLg1, String labelLg2) {	
@@ -64,8 +68,8 @@ public class Serie {
 		this.uri = uri;
 	}
 	
-	public Serie(String id) {
-		this.id=id;
+	public Serie() {
+		super();
 	}
 
 	public void addOperation(Operation op) {
@@ -82,9 +86,9 @@ public class Serie {
 		this.indicateurs.add(indic);
 	}
 
-	public void addSeeAlso(Serie sa) {
+	public void addSeeAlso(SimpleObject sa) {
 		if (seeAlso==null) {
-			setSeeAlso(new ArrayList<Serie>());
+			setSeeAlso(new ArrayList<SimpleObject>());
 	}
 	this.seeAlso.add(sa);
 	}
@@ -205,11 +209,11 @@ public class Serie {
 	@JsonProperty("voirAussi")
 	@JacksonXmlProperty(isAttribute=true, localName="voirAussi")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<Serie> getSeeAlso() {
+	public List<SimpleObject> getSeeAlso() {
 		return seeAlso;
 	}
 
-	public void setSeeAlso(List<Serie> seeAlso) {
+	public void setSeeAlso(List<SimpleObject> seeAlso) {
 		this.seeAlso = seeAlso;
 	}
 
@@ -263,6 +267,40 @@ public class Serie {
 		if (StringUtils.isNotEmpty(str)) {
 			if (historyNote == null) historyNote = new ArrayList<>();
 			historyNote.add(new StringWithLang(str, Lang.EN));
+		}
+	}
+
+	@JsonProperty("organismeResponsable")
+	@JacksonXmlProperty(isAttribute=true, localName="organismeResponsable")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<SimpleObject> getCreators() {
+		return creators;
+	}
+
+	public void setCreators(List<SimpleObject> creators) {
+		this.creators = creators;
+	}
+
+	@JsonProperty("partenaire")
+	@JacksonXmlProperty(isAttribute=true, localName="partenaire")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<SimpleObject> getContributors() {
+		return contributors;
+	}
+
+	public void setContributors(List<SimpleObject> contributors) {
+		this.contributors = contributors;
+	}
+	
+	public void setLabelFr(String labelFr) {
+		if (StringUtils.isNotEmpty(labelFr)) {
+			label.add(new StringWithLang(labelFr, Lang.FR));
+		}
+	}
+	
+	public void setLabelEn(String labelEn) {
+		if (StringUtils.isNotEmpty(labelEn)) {
+			label.add(new StringWithLang(labelEn, Lang.EN));
 		}
 	}
 	

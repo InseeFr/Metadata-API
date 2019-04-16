@@ -33,7 +33,7 @@ public class SimpleObject {
 			label.add(new StringWithLang(labelFr, Lang.FR));
 		}
 		if (StringUtils.isNotEmpty(labelEn)) {
-			label.add(new StringWithLang(labelFr, Lang.EN));
+			label.add(new StringWithLang(labelEn, Lang.EN));
 		}
 	}
 
@@ -57,6 +57,18 @@ public class SimpleObject {
 
 	public void setLabel(List<StringWithLang> label) {
 		this.label = label;
+	}
+	
+	public void setLabelFr(String labelFr) {
+		if (StringUtils.isNotEmpty(labelFr)) {
+			label.add(new StringWithLang(labelFr, Lang.FR));
+		}
+	}
+	
+	public void setLabelEn(String labelEn) {
+		if (StringUtils.isNotEmpty(labelEn)) {
+			label.add(new StringWithLang(labelEn, Lang.EN));
+		}
 	}
 	
 }
