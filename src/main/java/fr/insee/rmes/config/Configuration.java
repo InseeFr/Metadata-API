@@ -14,6 +14,8 @@ public class Configuration {
 
 	public static String SPARQL_END_POINT = "";
 	public static String BASE_HOST = "";
+	public static String FILE_STORAGE = "";
+
 	
 	private Properties getProperties() throws IOException {
         Properties props = new Properties();
@@ -36,6 +38,7 @@ public class Configuration {
 		}
 		SPARQL_END_POINT = props.getProperty("fr.insee.rmes.api.sparqlEndpoint");
 		BASE_HOST = props.getProperty("fr.insee.rmes.api.baseHost");
+		FILE_STORAGE =  props.getProperty("fr.insee.rmes.api.fileStorage");
 	}
 
 }
