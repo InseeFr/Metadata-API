@@ -10,6 +10,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -35,7 +36,7 @@ public class OperationsAPI {
 	@Path("/arborescence")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getOperationsTree(@HeaderParam("Accept") String header) {
+	public Response getOperationsTree(@HeaderParam("Accept") String header,  @QueryParam("diffuseur") String diffuseur) {
 		logger.debug("Received GET request operations tree");
 
 		String csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getOperationTree());
@@ -147,6 +148,7 @@ public class OperationsAPI {
 		if (csvSerie.getSeriesId() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 
 		Serie s = new Serie(csvSerie.getSeries(),csvSerie.getSeriesId(),csvSerie.getSeriesLabelLg1(), csvSerie.getSeriesLabelLg2());
+		s.setSimsId(csvSerie.getSimsId());
 		//create family
 		SimpleObject fam = new SimpleObject(csvSerie.getFamilyId(), csvSerie.getFamily(), csvSerie.getFamilyLabelLg1(),csvSerie.getFamilyLabelLg2());
 		s.setFamily(fam);
