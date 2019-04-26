@@ -3,6 +3,8 @@ package fr.insee.rmes.api.operations.documentations;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.Configurable;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -10,6 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.insee.rmes.api.utils.Lang;
 import fr.insee.rmes.api.utils.StringWithLang;
+import fr.insee.rmes.config.Configuration;
 
 public class Document {
 	private List<StringWithLang> label =  new ArrayList<StringWithLang>();
@@ -47,6 +50,10 @@ public class Document {
 		this.langue = langue;
 	}
 	public String getUrl() {
+		if (url != null && url.contains(Configuration.FILE_STORAGE)) {
+			String[] temp = url.split(Configuration.FILE_STORAGE);
+			return temp[temp.length-1];
+		}
 		return url;
 	}
 	public void setUrl(String url) {
