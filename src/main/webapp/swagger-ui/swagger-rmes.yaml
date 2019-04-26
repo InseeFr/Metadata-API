@@ -705,6 +705,13 @@ paths:
         - opérations
       summary: Liste des opérations disponibles dans leur arborescence
       operationId: getOperationsTree
+      parameters:
+        - in: query
+          name: diffuseur
+          schema:
+            type: string
+            enum: [insee.fr, CNIS, CASD]
+          description: Le diffuseur des données (permet de filtrer les opérations retournées)
       responses:
         '200':
           description: Opération réussie
