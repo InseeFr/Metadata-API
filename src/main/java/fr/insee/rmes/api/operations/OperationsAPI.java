@@ -24,8 +24,10 @@ import fr.insee.rmes.api.operations.documentations.Document;
 import fr.insee.rmes.api.operations.documentations.DocumentationSims;
 import fr.insee.rmes.api.operations.documentations.Rubrique;
 import fr.insee.rmes.api.utils.CSVUtils;
+import fr.insee.rmes.api.utils.FileUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
+import fr.insee.rmes.config.Configuration;
 
 @Path("/operations")
 public class OperationsAPI {
@@ -43,6 +45,10 @@ public class OperationsAPI {
 		List<FamilyToOperation> opList = (List<FamilyToOperation>) CSVUtils.populateMultiPOJO(csvResult, FamilyToOperation.class);
 
 		if (opList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
+		
+		if (diffuseur.equals("insee.fr")) {
+			opList = removeExclusions(opList);
+		}
 
 		Map<String, Famille> familyMap = new HashMap<String, Famille>();
 		Map<String, Serie> serieMap = new HashMap<String, Serie>();
@@ -79,6 +85,38 @@ public class OperationsAPI {
 		else return Response.ok(ResponseUtils.produceResponse(familyMap.values(), header)).build();
 
 
+	}
+
+	private List<FamilyToOperation> removeExclusions(List<FamilyToOperation> opList) {
+		String path = String.format("%s/storage/%s", Configuration.BASE_PATH, "exclusionsInseeFr.txt");
+		List<List<String>> fileContent = FileUtils.readFile(path, ";");
+		if (fileContent == null || fileContent.isEmpty()) {
+			logger.warn("Exclusion file empty");
+			return opList;
+		}
+		for (List<String> line : fileContent) {
+			String type = line.get(0).trim();
+			String id = line.get(1).trim();
+			
+			switch (type) {
+			case "famille":
+				opList.removeIf(op -> (op.getFamilyId().equals(id)));
+				break;
+			case "serie":
+				opList.removeIf(op -> (op.getSeriesId().equals(id)));
+				break;
+			case "operation":
+				opList.removeIf(op -> (op.getOperationId().equals(id)));
+				break;
+			case "indicateur":
+				opList.removeIf(op -> (op.getIndicId().equals(id)));
+				break;
+			default:
+				logger.warn("Unknown exclusion type : "+ type);
+				break;
+			}
+		}
+		return opList;
 	}
 
 	@SuppressWarnings("unchecked")
