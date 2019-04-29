@@ -3,8 +3,6 @@ package fr.insee.rmes.api.operations.documentations;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.Configurable;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;

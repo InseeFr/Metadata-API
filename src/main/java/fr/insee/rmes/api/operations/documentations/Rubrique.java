@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -29,7 +28,6 @@ public class Rubrique {
 
 	/*DATE*/
 	@JsonInclude(Include.NON_NULL)
-	@JsonProperty("label")
 	private String valeurSimple = null;
 
 	/*ORGANISATION*/
