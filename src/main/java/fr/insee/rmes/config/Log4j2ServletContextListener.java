@@ -40,10 +40,15 @@ public class Log4j2ServletContextListener implements ServletContextListener {
 
 	private void getEnvironmentProperties() throws IOException {
 		Properties props = this.getProperties();
-		String log4JExternalFile = props.getProperty("fr.insee.rmes.api.log.configuration");
 		this.log4j2ConfigFile = "log4j2.xml";
-		File f = new File(log4JExternalFile);
+		String log4jInternalFile = String.format("%s/webapps/%s", System.getProperty("catalina.base"), log4j2ConfigFile);
+		File f = new File(log4jInternalFile);
 		if (f.exists() && !f.isDirectory()) {
+			this.log4j2ConfigFile = log4jInternalFile;
+		}
+		String log4JExternalFile = props.getProperty("fr.insee.rmes.api.log.configuration");
+		File f2 = new File(log4JExternalFile);
+		if (f2.exists() && !f2.isDirectory()) {
 			this.log4j2ConfigFile = String.format(log4JExternalFile);
 		}
 	}
