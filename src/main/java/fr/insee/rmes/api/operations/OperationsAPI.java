@@ -46,7 +46,7 @@ public class OperationsAPI {
 
 		if (opList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
 		
-		if (diffuseur.equals("insee.fr")) {
+		if (diffuseur != null && diffuseur.equals("insee.fr")) {
 			opList = removeExclusions(opList);
 		}
 
