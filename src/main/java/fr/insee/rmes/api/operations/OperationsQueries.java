@@ -329,59 +329,94 @@ public class OperationsQueries {
 				+"			} 	 	 \n"
 				+"} \n";
 	}
-
-	public static String getSeeAlsoBySeries(String idSeries) {
-		return "SELECT ?id ?labelFr ?labelEn ?uri \n"
-				+"FROM <http://rdf.insee.fr/graphes/operations> "
-				+"WHERE { "
-				+"	?series a insee:StatisticalOperationSeries . \n"
-				+"	FILTER(STRAFTER(STR(?series),'/operations/serie/') = '"+idSeries+"') 	 \n"
-				+"	?series rdfs:seeAlso ?uri . 		 \n"
-				+"		?uri skos:prefLabel ?labelFr . 		 \n"
-				+"		FILTER (lang(?labelFr) = 'fr') 		 \n"
-				+"		?uri skos:prefLabel ?labelEn . 		 \n"
-				+"		FILTER (lang(?labelEn) = 'en') 		 \n"
-				+"		BIND(STRAFTER(STR(?uri),'/operations/serie/') AS ?id) . 	 \n"
+	
+	public static String getSeriesByIndic(String idIndic) {
+		return "SELECT ?id ?labelFr ?labelEn ?uri ?simsId \n"
+				+"{	 \n"
+				+"	?indic a insee:StatisticalIndicator . \n"
+				+"	FILTER(STRAFTER(STR(?series),'/produits/indicateur/') = '"+idIndic+"') 	 \n"
+				+"	?indic prov:wasGeneratedBy ?series . 		 \n"
+				+"			?series a insee:StatisticalOperationSeries . 		 \n"
+				+"			?series skos:prefLabel ?labelFr . 		 \n"
+				+"			FILTER (lang(?labelFr) = 'fr') 		 \n"
+				+"			?series skos:prefLabel ?labelEn . 		 \n"
+				+"			FILTER (lang(?labelEn) = 'en') 		 \n"
+				+"			BIND(STRAFTER(STR(?series),'/operations/serie/') AS ?id) . 	\n"
+				+"			OPTIONAL { ?sims sdmx-mm:target ?series . 			 \n"
+				+"				?sims a sdmx-mm:MetadataReport . 				 \n"
+				+"				BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) . \n" 		
+				+"			} 	 	 \n"
 				+"} \n";
 	}
 
+	public static String getSeeAlsoBySeries(String idSeries) {
+		return getLinkDifferentTypeByObject(idSeries,"rdfs:seeAlso", "insee:StatisticalOperationSeries", "/operations/serie/");
+
+	}
+	
+	public static String getSeeAlsoByIndic(String idIndic) {
+		return getLinkDifferentTypeByObject(idIndic,"rdfs:seeAlso", "insee:StatisticalIndicator", "/produits/indicateur/");
+	}
+	
+	public static String getWasGeneratedByByIndic(String idIndic) {
+		return getLinkDifferentTypeByObject(idIndic,"prov:wasGeneratedBy", "insee:StatisticalIndicator", "/produits/indicateur/");
+
+	}
+	
 	public static String getIsReplacedByBySeries(String idSeries) {
+		return getLinkSameTypeByObject(idSeries,"dcterms:isReplacedBy", "insee:StatisticalOperationSeries", "/operations/serie/");
+	}
+	
+	public static String getReplacesBySeries(String idSeries) {
+		return getLinkSameTypeByObject(idSeries,"dcterms:replaces", "insee:StatisticalOperationSeries", "/operations/serie/");
+	}
+	
+	public static String getIsReplacedByByIndic(String idIndic) {
+		return getLinkSameTypeByObject(idIndic,"dcterms:isReplacedBy", "insee:StatisticalIndicator", "/produits/indicateur/");
+	}
+	
+	public static String getReplacesByIndic(String idIndic) {
+		return getLinkSameTypeByObject(idIndic,"dcterms:replaces", "insee:StatisticalIndicator", "/produits/indicateur/");
+	}
+	
+	private static String getLinkSameTypeByObject(String idObject, String linkPredicate, String typeObject, String uriObject) {
 		return "SELECT ?id ?labelFr ?labelEn ?uri ?simsId \n"
 				+"{	 \n"
-				+"	?series a insee:StatisticalOperationSeries . \n"
-				+"	FILTER(STRAFTER(STR(?series),'/operations/serie/') = '"+idSeries+"') 	 \n"
-				+"	?series dcterms:isReplacedBy ?uri . 		 \n"
-				+"	?uri a insee:StatisticalOperationSeries . 		 \n"
+				+"	?obj a "+typeObject +" . \n"
+				+"	FILTER(STRAFTER(STR(?obj),'"+uriObject+"') = '"+idObject+"') 	 \n"
+				+"	?obj "+linkPredicate+" ?uri . 		 \n"
+				+"	?uri a "+typeObject +" . 		 \n" //Same type
 				+"	?uri skos:prefLabel ?labelFr . 		 \n"
 				+"	FILTER (lang(?labelFr) = 'fr') 		 \n"
 				+"	?uri skos:prefLabel ?labelEn . 		 \n"
 				+"	FILTER (lang(?labelEn) = 'en') 		 \n"
-				+"	BIND(STRAFTER(STR(?uri),'/operations/serie/') AS ?id) . \n"
+				+"	BIND(STRAFTER(STR(?uri),'"+uriObject+"') AS ?id) . \n"
 				+"	OPTIONAL { ?sims sdmx-mm:target ?uri . 			 \n"
 				+"		?sims a sdmx-mm:MetadataReport . 				 \n"
 				+"		BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) . 		\n"
 				+"	} \n"
 				+"} \n";
 	}
-
-	public static String getReplacesBySeries(String idSeries) {
-		return "SELECT ?id ?labelFr ?labelEn ?uri ?simsId \n"
-				+"{	 \n"
-				+"	?series a insee:StatisticalOperationSeries . \n"
-				+"	FILTER(STRAFTER(STR(?series),'/operations/serie/') = '"+idSeries+"') 	 \n"
-				+"	?series dcterms:replaces ?uri. 		 \n"
-				+"	?uri a insee:StatisticalOperationSeries . 		 \n"
-				+"	?uri skos:prefLabel ?labelFr . 		 \n"
-				+"	FILTER (lang(?labelFr) = 'fr') 		 \n"
-				+"	?uri skos:prefLabel ?labelEn . 		 \n"
-				+"	FILTER (lang(?labelEn) = 'en') 		 \n"
-				+"	BIND(STRAFTER(STR(?uri),'/operations/serie/') AS ?id) . \n"
+	
+	private static String getLinkDifferentTypeByObject(String idObject, String linkPredicate, String typeObject, String uriObject) {
+		return "SELECT ?id ?labelFr ?labelEn ?uri ?simsId\n"
+				+"FROM <http://rdf.insee.fr/graphes/operations> "
+				+"FROM <http://rdf.insee.fr/graphes/produits> "
+				+"WHERE { "
+				+"	?obj a "+typeObject +" . \n"
+				+"	FILTER(STRAFTER(STR(?obj),'"+uriObject+"') = '"+idObject+"') 	 \n"
+				+"	?obj "+linkPredicate+" ?uri . 		 \n"
+				+"		?uri skos:prefLabel ?labelFr . 		 \n"
+				+"		FILTER (lang(?labelFr) = 'fr') 		 \n"
+				+"		?uri skos:prefLabel ?labelEn . 		 \n"
+				+"		FILTER (lang(?labelEn) = 'en') 		 \n"
+				+"	BIND(STRAFTER(STR(?uri),'"+uriObject+"') AS ?id) . \n"
 				+"	OPTIONAL { ?sims sdmx-mm:target ?uri . 			 \n"
 				+"		?sims a sdmx-mm:MetadataReport . 				 \n"
-				+"		BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) . \n"	
+				+"		BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) . 		\n"
 				+"	} \n"
 				+"} \n";
-		}
+	}
 
 	public static String getCreatorsBySeries(String idSeries) {
 		return "SELECT ?id ?labelFr ?labelEn ?uri                                          \n"
@@ -410,5 +445,80 @@ public class OperationsQueries {
 				+"	?uri dcterms:identifier ?id . \n"
 				+"} \n";
 	}
-		
+	
+	public static String getContributorsByIndic(String idIndic) {
+		return "SELECT ?id ?labelFr ?labelEn ?uri \n"
+				+"{	 \n"
+				+"	?indic a insee:StatisticalIndicator . \n"
+				+"	FILTER(STRAFTER(STR(?indic),'/produits/indicateur/') = '"+idIndic+"') 	 \n"
+				+"	?indic dcterms:contributor ?uri. 		 \n"
+				+"	?uri skos:prefLabel ?labelFr . 		 \n"
+				+"	FILTER (lang(?labelFr) = 'fr') 		 \n"
+				+"	OPTIONAL{?uri skos:prefLabel ?labelEn . 		 \n"
+				+"	FILTER (lang(?labelEn) = 'en')} 		 \n"
+				+"	?uri dcterms:identifier ?id . \n"
+				+"} \n";
+	}
+	
+	public static String getIndicator(String idIndic) {
+		 return " SELECT ?id ?indic ?labelLg1 ?labelLg2 ?altLabelLg1 ?altLabelLg2 ?abstractLg1 ?abstractLg2 ?simsId \n "
+				 + " ?historyNoteLg1 ?historyNoteLg2 \n "
+				 + " ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?periodicityId "
+				 + " ?hasContributor ?hasReplaces ?hasIsReplacedBy ?hasSeeAlso ?hasWasGeneratedBy \n " 
+				 + " ?uriCreator ?idCreator ?labelFrCreator ?labelEnCreator "
+				 
+				 + " WHERE { \n "
+				 + " FILTER(STRENDS(STR(?indic),'/produits/indicateur/"+idIndic+"')) . \n "
+				 + " BIND(STRAFTER(STR(?indic),'/produits/indicateur/') AS ?id)  \n "
+
+				 + " ?indic skos:prefLabel ?labelLg1 \n "
+				 + " FILTER (lang(?labelLg1) = 'fr') \n "
+				 + " OPTIONAL{?indic skos:prefLabel ?labelLg2 \n "
+				 + " 	FILTER (lang(?labelLg2) = 'en') } \n "
+				 + " OPTIONAL{?indic skos:altLabel ?altLabelLg1 \n "
+				 + " 	FILTER (lang(?altLabelLg1) = 'fr') } \n "
+				 + " OPTIONAL{?indic skos:altLabel ?altLabelLg2 \n "
+				 + " 	FILTER (lang(?altLabelLg2) = 'en') } \n "
+				 + " OPTIONAL{?indic dcterms:abstract ?abstractLg1 \n "
+				 + " 	FILTER (lang(?abstractLg1) = 'fr') } \n "
+				 + " OPTIONAL{?indic dcterms:abstract ?abstractLg2 \n "
+				 + " 	FILTER (lang(?abstractLg2) = 'en') } \n "
+				 + " OPTIONAL{?indic skos:historyNote ?historyNoteLg1 \n "
+				 + " 	FILTER (lang(?historyNoteLg1) = 'fr') } \n "
+				 + " OPTIONAL{?indic skos:historyNote ?historyNoteLg2 \n "
+				 + " 	FILTER (lang(?historyNoteLg2) = 'en') } \n "
+				 + " OPTIONAL {?indic dcterms:accrualPeriodicity ?accrualPeriodicity . \n "
+				 + " 	?accrualPeriodicity skos:notation ?accrualPeriodicityCode . \n "
+				 + " 	?accrualPeriodicity skos:inScheme ?accrualPeriodicityCodeList . \n "
+				 + " 	?accrualPeriodicityCodeList skos:notation ?accrualPeriodicityList . \n "
+				 + " } \n "
+				 + "OPTIONAL { \n "
+				+ "				?indic dcterms:accrualPeriodicity ?periodicity . \n "
+				+ "				?periodicity skos:prefLabel ?periodicityLabelLg1 .  \n "
+				+ "				FILTER (lang(?periodicityLabelLg1) = 'fr')  \n "
+				+ "				?periodicity skos:prefLabel ?periodicityLabelLg2 .  \n "
+				+ "				FILTER (lang(?periodicityLabelLg2) = 'en')  \n "
+				+ "				BIND(STRAFTER(STR(?periodicity),'/codes/frequence/') AS ?periodicityId) .  \n "
+				+ "		} \n "
+				 
+				 
+				 + " OPTIONAL {?indic dcterms:creator ?uriCreator . \n "
+				 + " 		?uriCreator dcterms:identifier ?idCreator . \n "
+				 +"			?uriCreator skos:prefLabel ?labelFrCreator . 		 \n"
+				 +"			FILTER (lang(?labelFrCreator) = 'fr') 		 \n"
+				 +"			OPTIONAL{?uriCreator skos:prefLabel ?labelEnCreator . 		 \n"
+				 +"					FILTER (lang(?labelEnCreator) = 'en')} 		 \n"
+				 + " } \n "
+				+ "		BIND(EXISTS{?indic dcterms:contributor ?a} AS ?hasContributor) . \n "
+				+ "		BIND(EXISTS{?indic dcterms:replaces ?b} AS ?hasReplaces) .  \n "
+				+ "		BIND(EXISTS{?indic dcterms:isReplacedBy ?c} AS ?hasIsReplacedBy) .  \n "
+				+ "		BIND(EXISTS{?indic rdfs:seeAlso ?d} AS ?hasSeeAlso) .  \n "
+				+ "		BIND(EXISTS{?indic prov:wasGeneratedBy ?e} AS ?hasWasGeneratedBy) .  \n "
+				+"	OPTIONAL { ?sims sdmx-mm:target ?indic . 			 \n"
+				+"		?sims a sdmx-mm:MetadataReport . 				 \n"
+				+"		BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) . \n"	
+				+"	} \n"
+				
+				 + " } \n ";
+	}
 }

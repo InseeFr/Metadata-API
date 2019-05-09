@@ -251,6 +251,71 @@ public class OperationsAPI {
 		return Response.ok(ResponseUtils.produceResponse(s, header)).build();
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Path("/indicateur/{idIndicateur}")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getIndicateur(	@PathParam("idIndicateur") String idIndicateur, 
+			@HeaderParam("Accept") String header) {
+		logger.debug("Received GET request indicator");
+
+		String csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getIndicator(idIndicateur));
+		CsvIndicateur csvIndic = new CsvIndicateur();
+		CSVUtils.populatePOJO(csvResult, csvIndic);
+
+		if (csvIndic.getId() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+
+		Indicateur i = new Indicateur(csvIndic.getIndic(),csvIndic.getId(),csvIndic.getLabelLg1(), csvIndic.getLabelLg2(), csvIndic.getSimsId());
+
+		if (StringUtils.isNotEmpty(csvIndic.getAltLabelLg1()) || StringUtils.isNotEmpty(csvIndic.getAltLabelLg2())  ) {
+			i.setAltLabel(csvIndic.getAltLabelLg1(), csvIndic.getAltLabelLg2());
+		}
+		if (StringUtils.isNotEmpty(csvIndic.getAbstractLg1())){
+			i.setAbstractLg1(csvIndic.getAbstractLg1());
+			i.setAbstractLg2(csvIndic.getAbstractLg2());
+		}
+		if (StringUtils.isNotEmpty(csvIndic.getHistoryNoteLg1())){
+			i.setHistoryNoteLg1(csvIndic.getHistoryNoteLg1());
+			i.setHistoryNoteLg2(csvIndic.getHistoryNoteLg2());
+		}
+		if (StringUtils.isNotEmpty(csvIndic.getIdCreator())) {
+			SimpleObject creator =  new SimpleObject(csvIndic.getIdCreator(), csvIndic.getUriCreator(), csvIndic.getLabelFrCreator(),csvIndic.getLabelEnCreator());
+			i.setCreator(creator);
+		}
+		if (csvIndic.getHasContributor()) {
+			String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsByIndic(idIndicateur));
+			List<SimpleObject> liste = (List<SimpleObject>) CSVUtils.populateMultiPOJO(csv, SimpleObject.class);
+			i.setContributors(liste);
+		}
+		if (csvIndic.getHasReplaces()) {
+			String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getReplacesByIndic(idIndicateur));
+			List<Indicateur> liste = (List<Indicateur>) CSVUtils.populateMultiPOJO(csv, Indicateur.class);
+			i.setReplaces(liste);
+		}
+		if (csvIndic.getHasIsReplacedBy()) {
+			String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getIsReplacedByByIndic(idIndicateur));
+			List<Indicateur> liste = (List<Indicateur>) CSVUtils.populateMultiPOJO(csv, Indicateur.class);
+			i.setIsReplacedBy(liste);
+		}
+		if (csvIndic.getHasSeeAlso()) {
+			String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoByIndic(idIndicateur));
+			List<SimpleObject> liste = (List<SimpleObject>) CSVUtils.populateMultiPOJO(csv, SimpleObject.class);
+			i.setSeeAlso(liste);
+		}
+		if (csvIndic.getHasWasGeneratedBy()) {
+			String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getWasGeneratedByByIndic(idIndicateur));
+			List<Serie> liste = (List<Serie>) CSVUtils.populateMultiPOJO(csv, Serie.class);
+			i.setWasGeneratedBy(liste);
+		}
+		if (StringUtils.isNotEmpty(csvIndic.getPeriodicity()) ) {
+			SimpleObject periodicity = new SimpleObject(csvIndic.getPeriodicityId(), csvIndic.getPeriodicity(), csvIndic.getPeriodicityLabelLg1(),csvIndic.getPeriodicityLabelLg2());
+			i.setAccrualPeriodicity(periodicity);
+		}
+
+		return Response.ok(ResponseUtils.produceResponse(i, header)).build();
+
+	}
 
 }
 
