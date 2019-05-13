@@ -31,7 +31,7 @@ public class Serie {
 	private List<StringWithLang> historyNote;
 	
 	@JsonInclude(Include.NON_NULL)
-	private String altLabel = null;
+	private List<StringWithLang> altLabel;
 	
 	@JsonInclude(Include.NON_NULL)
 	private SimpleObject type = null;
@@ -168,13 +168,10 @@ public class Serie {
 		return family;
 	}
 
-		public String getAltLabel() {
-		return altLabel;
-	}
 
-	public void setAltLabel(String altlabel) {
-		this.altLabel = altlabel;
-	}
+
+
+
 
 	public SimpleObject getType() {
 		return type;
@@ -301,6 +298,23 @@ public class Serie {
 	public void setLabelEn(String labelEn) {
 		if (StringUtils.isNotEmpty(labelEn)) {
 			label.add(new StringWithLang(labelEn, Lang.EN));
+		}
+	}
+	
+	@JacksonXmlProperty(localName="altLabel")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<StringWithLang> getAltLabel() {
+		return altLabel;
+	}
+	
+	public void setAltLabel(String altLabelLg1, String altLabelLg2 ) {
+		if (altLabelLg1 != "") {
+			if (altLabel == null) altLabel =  new ArrayList<StringWithLang>();
+			label.add(new StringWithLang(altLabelLg1, Lang.FR));
+		}
+		if (altLabelLg2 != "") {
+			if (altLabel == null) altLabel =  new ArrayList<StringWithLang>();
+			label.add(new StringWithLang(altLabelLg2, Lang.EN));
 		}
 	}
 	

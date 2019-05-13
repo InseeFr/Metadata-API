@@ -23,6 +23,10 @@ public class Operation {
 	@JsonInclude(Include.NON_NULL)
 	private String simsId = null;
 	
+	@JsonInclude(Include.NON_NULL)
+	private List<StringWithLang> altLabel;
+	
+	
 	public Operation(String uri, String id, String labelFr, String labelEn, String simsId) {
 		super();
 		this.id = id;
@@ -82,6 +86,23 @@ public class Operation {
 	public void setLabelEn(String labelEn) {
 		if (StringUtils.isNotEmpty(labelEn)) {
 			label.add(new StringWithLang(labelEn, Lang.EN));
+		}
+	}
+	
+	@JacksonXmlProperty(localName="altLabel")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<StringWithLang> getAltLabel() {
+		return altLabel;
+	}
+	
+	public void setAltLabel(String altLabelLg1, String altLabelLg2 ) {
+		if (altLabelLg1 != "") {
+			if (altLabel == null) altLabel =  new ArrayList<StringWithLang>();
+			label.add(new StringWithLang(altLabelLg1, Lang.FR));
+		}
+		if (altLabelLg2 != "") {
+			if (altLabel == null) altLabel =  new ArrayList<StringWithLang>();
+			label.add(new StringWithLang(altLabelLg2, Lang.EN));
 		}
 	}
 	

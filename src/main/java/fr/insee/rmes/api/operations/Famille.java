@@ -20,6 +20,9 @@ public class Famille {
 	@JsonInclude(Include.NON_NULL)
 	private List<Serie> series;
 	
+	@JsonInclude(Include.NON_NULL)
+	private List<StringWithLang> altLabel;
+	
 	public Famille(String uri, String id, String labelLg1,String labelLg2, Serie serie) {
 		if (serie != null) {
 			setSeries(new ArrayList<Serie>());
@@ -85,5 +88,21 @@ public class Famille {
 		this.uri = uri;
 	}	
 
+	@JacksonXmlProperty(localName="altLabel")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<StringWithLang> getAltLabel() {
+		return altLabel;
+	}
+	
+	public void setAltLabel(String altLabelLg1, String altLabelLg2 ) {
+		if (altLabelLg1 != "") {
+			if (altLabel == null) altLabel =  new ArrayList<StringWithLang>();
+			label.add(new StringWithLang(altLabelLg1, Lang.FR));
+		}
+		if (altLabelLg2 != "") {
+			if (altLabel == null) altLabel =  new ArrayList<StringWithLang>();
+			label.add(new StringWithLang(altLabelLg2, Lang.EN));
+		}
+	}
 
 }

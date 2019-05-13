@@ -6,7 +6,7 @@ public class OperationsQueries {
 	public static String getSeries(String id) {
 		return " SELECT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?family \n "
 				+ "				 ?seriesId ?seriesLabelLg1 ?seriesLabelLg2 ?seriesAbstractLg1 ?seriesAbstractLg2 \n "
-				+ "				 ?seriesHistoryNoteLg1 ?seriesHistoryNoteLg2 ?seriesAltLabel ?series ?simsId \n "
+				+ "				 ?seriesHistoryNoteLg1 ?seriesHistoryNoteLg2 ?seriesAltLabelLg1  ?seriesAltLabelLg2 ?series ?simsId \n "
 				+ "				 ?periodicity ?type \n "
 				+ "				 ?periodicityLabelLg1 ?typeLabelLg1 \n "
 				+ "				 ?periodicityLabelLg2 ?typeLabelLg2 \n "
@@ -38,7 +38,10 @@ public class OperationsQueries {
 				+ "					FILTER (lang(?seriesHistoryNoteLg1) = 'fr') }  \n "
 				+ "		OPTIONAL { ?series skos:historyNote ?seriesHistoryNoteLg2 .  \n "
 				+ "					FILTER (lang(?seriesHistoryNoteLg2) = 'en') }  \n "
-				+ "		OPTIONAL { ?series skos:altLabel ?seriesAltLabel . } \n "
+				+ "		OPTIONAL { ?series skos:altLabel ?seriesAltLabelLg1 . "
+				+ "					FILTER (lang(?seriesAltLabelLg1) = 'fr') } \n "
+				+ "		OPTIONAL { ?series skos:altLabel ?seriesAltLabelLg2 . "
+				+ "					FILTER (lang(?seriesAltLabelLg2) = 'en') } \n "
 				+ " \n "
 				+ "		OPTIONAL { \n "
 				+ "				?series dcterms:accrualPeriodicity ?periodicity . \n "
@@ -97,15 +100,22 @@ public class OperationsQueries {
 	
 	
 	public static String getOperationTree() {
-		return "SELECT DISTINCT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?family ?seriesId ?seriesLabelLg1 ?seriesLabelLg2 ?series ?simsId ?operationId ?opLabelLg1 ?opLabelLg2  ?operation\r\n" + 
-				" ?indicId ?indicLabelLg1 ?indicLabelLg2 ?indic \r\n" + 
+		return "SELECT DISTINCT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?family ?familyAltLabelLg1 ?familyAltLabelLg2 "
+				+ "?seriesId ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2 "
+				+ "?simsId "
+				+ "?operationId ?opLabelLg1 ?opLabelLg2  ?operation ?opAltLabelLg1 ?opAltLabelLg2 \r\n" + 
+				" ?indicId ?indicLabelLg1 ?indicLabelLg2 ?indic ?indicAltLabelLg1 ?indicAltLabelLg2 \r\n" + 
 				" { \r\n" + 
 				"	?family a insee:StatisticalOperationFamily .  \r\n" + 
 				"	?family skos:prefLabel ?familyLabelLg1 . \r\n" + 
 				"	FILTER (lang(?familyLabelLg1 ) = 'fr') \r\n" + 
 				"	?family skos:prefLabel ?familyLabelLg2 . \r\n" + 
 				"	FILTER (lang(?familyLabelLg2 ) = 'en') \r\n" + 
-				"	BIND(STRAFTER(STR(?family),'/operations/famille/') AS ?familyId ) . \r\n" + 
+				 "OPTIONAL {?family skos:altLabel ?familyAltLabelLg1 . \n"
+				+ "FILTER (lang(?familyAltLabelLg1) = 'fr') } . \n" 
+				+ "OPTIONAL {?family skos:altLabel ?familyAltLabelLg2 . \n"
+				+ "FILTER (lang(?familyAltLabelLg2) = 'en') } . \n" 
+				+ "	BIND(STRAFTER(STR(?family),'/operations/famille/') AS ?familyId ) . \r\n" + 
 				"\r\n" + 
 				"	?family dcterms:hasPart ?series . \r\n" + 
 				"	?series a insee:StatisticalOperationSeries .  \r\n" + 
@@ -113,7 +123,11 @@ public class OperationsQueries {
 				"	FILTER (lang(?seriesLabelLg1) = 'fr') \r\n" + 
 				"	?series skos:prefLabel ?seriesLabelLg2 . \r\n" + 
 				"	FILTER (lang(?seriesLabelLg2) = 'en') \r\n" + 
-				"	BIND(STRAFTER(STR(?series),'/operations/serie/') AS ?seriesId) . \r\n" + 
+				 "OPTIONAL {?series skos:altLabel ?seriesAltLabelLg1 . \n"
+				+ "FILTER (lang(?seriesAltLabelLg1) = 'fr') } . \n" 
+				+ "OPTIONAL {?series skos:altLabel ?seriesAltLabelLg2 . \n"
+				+ "FILTER (lang(?seriesAltLabelLg2) = 'en') } . \n" 
+				+ "	BIND(STRAFTER(STR(?series),'/operations/serie/') AS ?seriesId) . \r\n" + 
 
 				"\r\n" + 
 				"	{OPTIONAL {?series dcterms:hasPart ?operation . \r\n" + 
@@ -122,7 +136,11 @@ public class OperationsQueries {
 				"		FILTER (lang(?opLabelLg1) = 'fr') \r\n" + 
 				"		?operation skos:prefLabel ?opLabelLg2 . \r\n" + 
 				"		FILTER (lang(?opLabelLg2) = 'en') \r\n" + 
-				"		BIND(STRAFTER(STR(?operation),'/operations/operation/') AS ?operationId) . \r\n" + 
+				 "OPTIONAL {?operation skos:altLabel ?opAltLabelLg1 . \n"
+				+ "FILTER (lang(?opAltLabelLg1) = 'fr') } . \n" 
+				+ "OPTIONAL {?operation skos:altLabel ?opAltLabelLg2 . \n"
+				+ "FILTER (lang(?opAltLabelLg2) = 'en') } . \n" 
+				+ "		BIND(STRAFTER(STR(?operation),'/operations/operation/') AS ?operationId) . \r\n" + 
 				"		OPTIONAL { ?sims sdmx-mm:target ?operation . \r\n" + 
 				"			 ?sims a sdmx-mm:MetadataReport . \r\n" + 
 				"				BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) . \r\n" + 
@@ -135,7 +153,11 @@ public class OperationsQueries {
 				"		FILTER (lang(?indicLabelLg1) = 'fr') \r\n" + 
 				"		?indic skos:prefLabel ?indicLabelLg2 . \r\n" + 
 				"		FILTER (lang(?indicLabelLg2) = 'en') \r\n" + 
-				"		BIND(STRAFTER(STR(?indic),'/produits/indicateur/') AS ?indicId) . \r\n" + 
+				 "OPTIONAL {?indic skos:altLabel ?indicAltLabelLg1 . \n"
+				+ "FILTER (lang(?indicAltLabelLg1) = 'fr') } . \n" 
+				+ "OPTIONAL {?indic skos:altLabel ?indicAltLabelLg2 . \n"
+				+ "FILTER (lang(?indicAltLabelLg2) = 'en') } . \n" 
+				+ "		BIND(STRAFTER(STR(?indic),'/produits/indicateur/') AS ?indicId) . \r\n" + 
 				"		OPTIONAL { ?sims sdmx-mm:target ?indic . \r\n" + 
 				"			 ?sims a sdmx-mm:MetadataReport . \r\n" + 
 				"				BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) . \r\n" + 

@@ -16,7 +16,9 @@ public class CsvSerie {
 	private String seriesAbstractLg2 = null;
 	private String seriesHistoryNoteLg1 = null;
 	private String seriesHistoryNoteLg2 = null;
-	private String seriesAltLabel = null;
+	private String seriesAltLabelLg1 = null;
+	private String seriesAltLabelLg2 = null;
+
 	
 	private Boolean hasSeeAlso = null;
 	private Boolean hasReplaces = null;
@@ -123,17 +125,6 @@ public class CsvSerie {
 	public void setSeriesHistoryNoteLg2(String seriesHistoryNoteLg2) {
 		this.seriesHistoryNoteLg2 = seriesHistoryNoteLg2;
 	}
-
-	public String getSeriesAltLabel() {
-		return seriesAltLabel;
-	}
-
-	public void setSeriesAltLabel(String seriesAltLabel) {
-		this.seriesAltLabel = seriesAltLabel;
-	}
-
-	
-	
 
 	public String getPeriodicity() {
 		return periodicity;
@@ -278,6 +269,22 @@ public class CsvSerie {
 
 	public void setHasCreator(Boolean hasCreator) {
 		this.hasCreator = hasCreator;
+	}
+
+	public String getSeriesAltLabelLg1() {
+		return seriesAltLabelLg1;
+	}
+
+	public void setSeriesAltLabelLg1(String seriesAltLabelLg1) {
+		this.seriesAltLabelLg1 = seriesAltLabelLg1;
+	}
+
+	public String getSeriesAltLabelLg2() {
+		return seriesAltLabelLg2;
+	}
+
+	public void setSeriesAltLabelLg2(String seriesAltLabelLg2) {
+		this.seriesAltLabelLg2 = seriesAltLabelLg2;
 	}
 
 		

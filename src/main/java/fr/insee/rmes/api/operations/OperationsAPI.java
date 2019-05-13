@@ -57,20 +57,24 @@ public class OperationsAPI {
 		for (FamilyToOperation familyToOperation : opList) {
 			if (!serieMap.containsKey(familyToOperation.getSeriesId())) {
 				Serie s = new Serie(familyToOperation.getSeries(),familyToOperation.getSeriesId(),familyToOperation.getSeriesLabelLg1(), familyToOperation.getSeriesLabelLg2());
+				s.setAltLabel(familyToOperation.getSeriesAltLabelLg1(),familyToOperation.getSeriesAltLabelLg2());
 				serieMap.put(s.getId(), s);
 				String fId = familyToOperation.getFamilyId();
 				if (familyMap.containsKey(fId)) {
 					familyMap.get(fId).addSerie(s);			
 				}else {//create family
 					Famille f = new Famille(familyToOperation.getFamily(),familyToOperation.getFamilyId(), familyToOperation.getFamilyLabelLg1(),familyToOperation.getFamilyLabelLg2(), s);
+					f.setAltLabel(familyToOperation.getFamilyAltLabelLg1(),familyToOperation.getFamilyAltLabelLg2());
 					familyMap.put(f.getId(), f);
 				}
 			}
 			if (StringUtils.isNotEmpty(familyToOperation.getOperationId())) {
 				Operation o = new Operation(familyToOperation.getOperation(),familyToOperation.getOperationId(),familyToOperation.getOpLabelLg1(), familyToOperation.getOpLabelLg2(), familyToOperation.getSimsId());
+				o.setAltLabel(familyToOperation.getOpAltLabelLg1(),familyToOperation.getOpAltLabelLg2());
 				serieMap.get(familyToOperation.getSeriesId()).addOperation(o);
 			}else if (StringUtils.isNotEmpty(familyToOperation.getIndicId())) {
 				Indicateur i = new Indicateur(familyToOperation.getIndic(),familyToOperation.getIndicId(),familyToOperation.getIndicLabelLg1(), familyToOperation.getIndicLabelLg2(), familyToOperation.getSimsId());
+				i.setAltLabel(familyToOperation.getIndicAltLabelLg1(),familyToOperation.getIndicAltLabelLg2());
 				serieMap.get(familyToOperation.getSeriesId()).addIndicateur(i);
 			}else if (StringUtils.isNotEmpty(familyToOperation.getSimsId() )) { //sims linked to serie
 				serieMap.get(familyToOperation.getSeriesId()).setSimsId(familyToOperation.getSimsId());
@@ -207,8 +211,8 @@ public class OperationsAPI {
 			SimpleObject periodicity = new SimpleObject(csvSerie.getPeriodicityId(), csvSerie.getPeriodicity(), csvSerie.getPeriodicityLabelLg1(),csvSerie.getPeriodicityLabelLg2());
 			s.setAccrualPeriodicity(periodicity);
 		}
-		if (StringUtils.isNotEmpty(csvSerie.getSeriesAltLabel()) ) {
-			s.setAltLabel(csvSerie.getSeriesAltLabel());
+		if (StringUtils.isNotEmpty(csvSerie.getSeriesAltLabelLg1()) ||  StringUtils.isNotEmpty(csvSerie.getSeriesAltLabelLg2())) {
+			s.setAltLabel(csvSerie.getSeriesAltLabelLg1(), csvSerie.getSeriesAltLabelLg2());
 		}
 		
 		if (csvSerie.getHasOperation()) {
