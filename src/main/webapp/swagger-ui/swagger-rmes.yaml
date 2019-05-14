@@ -75,6 +75,39 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
+  '/nomenclature/{code}/tree':
+    get:
+      tags:
+        - nomenclatures
+      summary: Liste des postes d'une nomenclature (autres que "catégories juridiques")
+      operationId: getClassificationTreeByCode
+      parameters:
+        - name: code
+          in: path
+          description: Identifiant de la nomenclature (hors cj)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Opération réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Postes'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Postes'
+        '400':
+          description: La syntaxe de la requête est incorrecte
+        '401':
+          description: Une authentification est nécessaire pour accéder à la ressource
+        '404':
+          description: Ressource non trouvée
+        '406':
+          description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
+        '500':
+          description: Erreur interne du serveur
   '/correspondances':
     get:
       tags:

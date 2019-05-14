@@ -1,9 +1,14 @@
 package fr.insee.rmes.api.classifications;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -22,6 +27,9 @@ public class Poste {
 	String contenuCentral;
 	String contenuExclu;
 	String noteGenerale;
+	
+	@JsonInclude(Include.NON_NULL)
+	List<Poste> postesEnfants;
 
 	
 	public Poste() {
@@ -96,6 +104,21 @@ public class Poste {
 	
 	public void setNoteGenerale(String noteGenerale) {
 		this.noteGenerale = noteGenerale;
+	}
+
+	@JacksonXmlProperty(isAttribute=true, localName="Poste")
+	@JacksonXmlElementWrapper(useWrapping = false)
+	public List<Poste> getPostesEnfants() {
+		return postesEnfants;
+	}
+
+	public void setPostesEnfants(List<Poste> postesEnfants) {
+		this.postesEnfants = postesEnfants;
+	}
+	
+	public void addPosteEnfant(Poste posteEnfant) {
+		if (postesEnfants == null) postesEnfants = new ArrayList<>();
+		postesEnfants.add(posteEnfant);
 	}
 
 }
