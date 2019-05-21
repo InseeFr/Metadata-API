@@ -675,6 +675,7 @@ paths:
       parameters:
         - name: id
           in: path
+          required: true
           description: 'Identifiant du concept (format : c[0-9]{4})'
           schema:
             type: string
@@ -698,7 +699,6 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-          paths:
   '/operations/serie/{id}':
    get:
       tags:
@@ -708,6 +708,7 @@ paths:
       parameters:
         - name: id
           in: path
+          required: true
           description: 'Identifiant de la série(format : s[0-9]{4})'
           schema:
             type: string
@@ -731,7 +732,6 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-          paths:
   '/operations/arborescence':
     get:
       tags:
@@ -751,10 +751,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Nomenclatures'            
+                $ref: '#/components/schemas/Familles'            
             application/xml:
               schema:
-                $ref: '#/components/schemas/Nomenclatures'            
+                $ref: '#/components/schemas/Familles'            
         '400':
           description: La syntaxe de la requête est incorrecte
         '401':
@@ -774,6 +774,7 @@ paths:
       parameters:
         - name: id
           in: path
+          required: true
           description: "Identifiant de l'indicateur (format : p[0-9]{4})"
           schema:
             type: string
@@ -797,16 +798,16 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-          paths:
   '/operations/documentation/{id}':
     get:
       tags:
         - opérations
       summary: Documentation d'une opération, d'un indicateur ou d'une série
-      id: getDocumentation
+      operationId: getDocumentation
       parameters:
         - name: id
           in: path
+          required: true
           description: 'Identifiant de la documentation (format : [0-9]{4})'
           schema:
             type: string
@@ -830,7 +831,6 @@ paths:
           description: L'en-tête HTTP 'Accept' contient une valeur non acceptée
         '500':
           description: Erreur interne du serveur
-          paths:
 components:
   schemas:
     Poste:
@@ -886,7 +886,12 @@ components:
           type: string
           example: exemple exclusions
           xml:
-            name :  ContenuExclu                                                  
+            name :  ContenuExclu         
+        postes:
+          type: array
+          description: Liste des postes enfants
+          items:
+            $ref: '#/components/schemas/Poste'                                 
       xml:
         name: Poste
     Postes:
@@ -930,36 +935,13 @@ components:
       type: object
       description: Objet représentant une Association
       properties:
-        code:
-          type: string
-          example: '0811Z1301020'
-          xml:
-            attribute: true
-        uri:
-          type: string
-          example: 'http://id.insee.fr/codes/emb2018/produit/0811Z1301020'
-          xml:
-            attribute: true
-        intitule:
-          type: string
-          example: Blanc de craie (à usage industriel)
-          xml:
-            attribute: true
-        codeCible:
-          type: string
-          example: '08.11Z'
-          xml:
-            attribute: true
-        uriCible:
-          type: string
-          example: 'http://did.insee.fr/codes/nafr2/sousClasse/08.11Z'
-          xml:
-            attribute: true
-        intituleCible:
-          type: string
-          example: Extraction de pierres ornementales et de construction, de calcaire industriel, de gypse, de craie et d'ardoise2
-          xml:
-            name: IntituleCible
+        source:
+          $ref: '#/components/schemas/Poste'
+        cible:
+          type: array
+          description: Liste des postes cibles
+          items:
+            $ref: '#/components/schemas/Poste'
       xml:
         name: Association
     Associations:
@@ -1030,12 +1012,14 @@ components:
           xml:
             name: Intitule
         dateDebutValidite:
-          type: date
+          type: string
+          format: date
           example: '1973-01-01'
           xml:
             name: DateDebutValidite
         dateFinValidite:
-          type: date
+          type: string
+          format: date
           example: '2018-06-30'
           xml:
             name: DateFinValidite
@@ -1164,12 +1148,14 @@ components:
           xml:
             name: Intitule
         dateDebutValidite:
-          type: date
+          type: string
+          format: date
           example: '2003-01-01'
           xml:
             name: DateDebutValidite
         dateFinValidite:
-          type: date
+          type: string
+          format: date
           example: '2007-12-31'
           xml:
             name: DateFinValidite
@@ -1314,11 +1300,21 @@ components:
           example: Correspondance Naf rév. 2 / Cpf rév. 2.1
           xml:
             name: IntituleFr
+        intituleEn:
+          type: string
+          example: Correspondance Naf rév. 2 / Cpf rév. 2.1
+          xml:
+            name: IntituleEn
         descriptionFr:
           type: string
           example: ''
           xml:
             name: DescriptionFr
+        descriptionEn:
+          type: string
+          example: ''
+          xml:
+            name: DescriptionEn
     Correspondances:
       type: array
       description: Objet représentant la liste des correspondances entre deux nomenclatures
@@ -1327,34 +1323,37 @@ components:
       xml:
         wrapped: true
         name: Correspondances
-    Arborescence:
+    Familles:
       type: array
       description: Objet représentant l'arborescence des opérations statistiques
       items:
         $ref: '#/components/schemas/Famille'
       xml:
         wrapped: true 
-        name: Arborescence
+        name: Familles
     Famille:
       type: object
       description: Objet représentant une famille d'opérations statistiques
       properties:
-        id:
+         id:
           type: string
           example: s1
           xml:
             name: id
-        labelLg1:
+         uri:
           type: string
-          example: 'Famille1'
+          example: 'http://id.insee.fr/operations/famille/s1'
           xml:
-            name: labelLg1
-        labelLg2:
-          type: string
-          example: 'Family1'
-          xml:
-            name: labelLg2
-        series:
+            name: uri
+         label:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         altlabel:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         series:
           type: array
           items:
             $ref: '#/components/schemas/Serie'
@@ -1365,34 +1364,71 @@ components:
       type: object
       description: Objet représentant une série d'opérations statistiques
       properties:
-        id:
+         id:
           type: string
           example: s1
           xml:
             name: id
-        labelLg1:
+         uri:
           type: string
-          example: 'Série1'
+          example: 'http://id.insee.fr/operations/famille/s1'
           xml:
-            name: labelLg1
-        labelLg2:
-          type: string
-          example: 'Series1'
-          xml:
-            name: labelLg2
-        simsId:
+            name: uri
+         label:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         altlabel:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         famille:
+          $ref: '#/components/schemas/Famille'
+         resume:
+            type: array
+            items:
+              $ref: '#/components/schemas/TexteMultiLangue'
+         noteHistorique:
+            type: array
+            items:
+              $ref: '#/components/schemas/TexteMultiLangue'
+         type:
+             $ref: '#/components/schemas/ObjetSimple'
+         periodicite:
+             $ref: '#/components/schemas/ObjetSimple'
+         simsId:
           type: string
           example: '1011'
           xml:
             name: simsId
-        operations:
+         operations:
           type: array
           items:
             $ref: '#/components/schemas/Operation'
-        indicateurs:
+         indicateurs:
           type: array
           items:
             $ref: '#/components/schemas/Indicateur'
+         remplace:
+            type: array
+            items:
+              $ref: '#/components/schemas/Serie'
+         estRemplacePar:
+            type: array
+            items:
+              $ref: '#/components/schemas/Serie'
+         partenaire:
+            type: array
+            items:
+              $ref: '#/components/schemas/ObjetSimple'
+         voirAussi:
+            type: array
+            items:
+              $ref: '#/components/schemas/ObjetSimple'
+         organismeResponsable:
+            type: array
+            items:
+              $ref: '#/components/schemas/ObjetSimple'
       xml:
         wrapped: true 
         name: Serie
@@ -1405,16 +1441,19 @@ components:
           example: s1
           xml:
             name: id
-        labelLg1:
+        uri:
           type: string
-          example: 'Série1'
+          example: 'http://id.insee.fr/operations/operation/s1'
           xml:
-            name: labelLg1
-        labelLg2:
-          type: string
-          example: 'Series1'
-          xml:
-            name: labelLg2
+            name: uri
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+        altlabel:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
         simsId:
           type: string
           example: '1011'
@@ -1423,30 +1462,95 @@ components:
       xml:
         wrapped: true 
         name: Operation
+        
+    TexteMultiLangue:
+      type: object
+      description: Texte proposé en plusieurs langues
+      properties:
+        contenu:
+          type: string
+          example: 'Texte en français'
+        langue:
+          type: string
+          example: 'fr'
+          
+    ObjetSimple:
+      type: object
+      properties:
+        id:
+          type: string
+          example: identifiant
+          xml:
+            name: id
+        uri:
+          type: string
+          example: 'http://id.insee.fr/...'
+          xml:
+            name: uri
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+            
     Indicateur:
       type: object
       description: Objet représentant un indicateur
       properties:
-        id:
+         id:
           type: string
           example: s1
           xml:
             name: id
-        labelLg1:
+         uri:
           type: string
-          example: 'Série1'
+          example: 'http://bauhaus/produits/indicateur/p1647'
           xml:
-            name: labelLg1
-        labelLg2:
-          type: string
-          example: 'Series1'
-          xml:
-            name: labelLg2
-        simsId:
+            name: uri
+         label:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         altlabel:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         resume:
+            type: array
+            items:
+              $ref: '#/components/schemas/TexteMultiLangue'
+         noteHistorique:
+            type: array
+            items:
+              $ref: '#/components/schemas/TexteMultiLangue'
+         periodicite:
+             $ref: '#/components/schemas/ObjetSimple'
+         simsId:
           type: string
           example: '1011'
           xml:
             name: simsId
+         produitDe:
+          type: array
+          items:
+            $ref: '#/components/schemas/Serie'
+         remplace:
+            type: array
+            items:
+              $ref: '#/components/schemas/Indicateur'
+         estRemplacePar:
+            type: array
+            items:
+              $ref: '#/components/schemas/Indicateur'
+         partenaires:
+            type: array
+            items:
+              $ref: '#/components/schemas/ObjetSimple'
+         voirAussi:
+            type: array
+            items:
+              $ref: '#/components/schemas/ObjetSimple'
+         organismeResponsable:
+              $ref: '#/components/schemas/ObjetSimple'
       xml:
         wrapped: true 
         name: Indicateur      
@@ -1454,11 +1558,102 @@ components:
       type: object
       description: Objet représentant une documentation SIMS
       properties:
-        id:
+         id:
           type: string
           example: s1
           xml:
             name: id
+         uri:
+          type: string
+          example: 'http://id.insee.fr/operations/famille/s1'
+          xml:
+            name: uri
+         label:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         cible:
+              $ref: '#/components/schemas/ObjetSimple'
+         Rubriques:
+            type: array
+            items:
+              $ref: '#/components/schemas/Rubrique'
       xml:
         wrapped: true 
         name: DocumentationSims      
+    Rubrique:
+      type: object
+      description: Objet représentant une rubrique d'une documentation SIMS
+      properties:
+         id:
+          type: string
+          example: s1
+          xml:
+            name: id
+         idParent:
+          type: string
+          example: s2
+          xml:
+            name: idParent
+         uri:
+          type: string
+          example: 'http://id.insee.fr/qualite/attribut/1907/I.18.11'
+          xml:
+            name: uri
+         titre:
+          type: array
+          description : 'titre de la rubrique'
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         type:
+          type: string
+          example: 'http://id.insee.fr/qualite/attribut/1907/I.18.11'
+          xml:
+            name: type
+         valeurSimple:
+          type: string
+          example: 'http://id.insee.fr/qualite/attribut/1907/I.18.11'
+          xml:
+            name: valeurSimple
+         label:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         valeurCode:
+              $ref: '#/components/schemas/ObjetSimple'
+         valeurOrganisation:
+              $ref: '#/components/schemas/ObjetSimple'
+         documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+      xml:
+        wrapped: true 
+        name: Rubrique    
+    Document:
+      type: object
+      description: Objet représentant un document ou un lien vers une page internet
+      properties:
+         url:
+          type: string
+          example: 'insee.fr'
+          xml:
+            name: url
+         label:
+          type: array
+          items:
+            $ref: '#/components/schemas/TexteMultiLangue'
+         langue:
+          type: string
+          example: 'insee.fr'
+          xml:
+            name: langue
+         dateMiseAJour:
+          type: string
+          format: date
+          xml:
+            name: dateMiseAJour
+      xml:
+        wrapped: true 
+        name: Document            
+
