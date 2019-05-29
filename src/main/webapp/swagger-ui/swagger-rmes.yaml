@@ -6,9 +6,11 @@ servers:
     description: 'Qf server'
   - url: 'http://dvrmeswnczlht01.ad.insee.intra/'
     description: 'Dv server'
+  - url: 'https://api.rmes.insee.fr'
+    description: 'API RMéS'
 info:
   description: API sur les métadonnées de l'Insee
-  version: '1.1.1'
+  version: '1.2.0'
   title: API RMéS
 tags:
   - name: nomenclatures
