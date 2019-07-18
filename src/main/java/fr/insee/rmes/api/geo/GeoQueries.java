@@ -5,7 +5,9 @@ import fr.insee.rmes.config.Configuration;
 public class GeoQueries {
 	
 	public static String getCommune(String code) {
-		return "SELECT ?uri ?intitule WHERE { \n"
+		return "SELECT ?uri ?intitule \n"
+				+ "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
+				+ "WHERE { \n"
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule \n"
 				// Ensure that is not the IGN URI and include COM towns
@@ -15,7 +17,9 @@ public class GeoQueries {
 	}
 	
 	public static String getCountry(String code) {
-		return "SELECT ?uri ?intitule ?intituleEntier WHERE { \n"
+		return "SELECT ?uri ?intitule ?intituleEntier \n"
+				+ "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
+				+ "WHERE { \n"
 				+ "?uri rdf:type igeo:Etat . \n"
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule . \n"
@@ -28,7 +32,9 @@ public class GeoQueries {
 	}
 	
 	public static String getRegion(String code) {
-		return "SELECT ?uri ?intitule WHERE { \n"
+		return "SELECT ?uri ?intitule \n"
+				+ "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
+				+ "WHERE { \n"
 				+ "?uri rdf:type igeo:Region . \n"
 				+ "?uri igeo:codeINSEE '" + code + "'^^xsd:token . \n"
 				+ "?uri igeo:nom ?intitule \n"
