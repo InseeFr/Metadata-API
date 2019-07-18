@@ -310,11 +310,11 @@ public class Serie {
 	public void setAltLabel(String altLabelLg1, String altLabelLg2 ) {
 		if (altLabelLg1 != "") {
 			if (altLabel == null) altLabel =  new ArrayList<StringWithLang>();
-			label.add(new StringWithLang(altLabelLg1, Lang.FR));
+			altLabel.add(new StringWithLang(altLabelLg1, Lang.FR));
 		}
 		if (altLabelLg2 != "") {
 			if (altLabel == null) altLabel =  new ArrayList<StringWithLang>();
-			label.add(new StringWithLang(altLabelLg2, Lang.EN));
+			altLabel.add(new StringWithLang(altLabelLg2, Lang.EN));
 		}
 	}
 	
