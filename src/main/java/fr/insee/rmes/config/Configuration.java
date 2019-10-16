@@ -27,6 +27,18 @@ public class Configuration {
             props.load(r);
             r.close();
         }
+        f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmeswnci.properties"));
+        if(f.exists() && !f.isDirectory()) {
+            FileReader r = new FileReader(f);
+            props.load(r);
+            r.close();
+        }
+         f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmeswncz.properties"));
+        if(f.exists() && !f.isDirectory()) {
+            FileReader r = new FileReader(f);
+            props.load(r);
+            r.close();
+        }
         return props;
     }
 

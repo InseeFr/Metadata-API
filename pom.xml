@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.insee.rmes</groupId>
 	<artifactId>metadata-api</artifactId>
-	<version>1.1.1</version>
+	<version>1.2.0</version>
 	<packaging>war</packaging>
 	<name>Implementation of the RMéS metadata API</name>
 	<properties>

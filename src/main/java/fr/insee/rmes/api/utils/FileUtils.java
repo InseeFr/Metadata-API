@@ -15,13 +15,15 @@ public class FileUtils {
 
 	public static List<List<String>> readFile(String pathFile, String csvSplitBy)  {
 		List<String> allLines = null ;
+		List<List<String>> fileContents = new ArrayList<List<String>>();
+		
         try {
 			allLines = Files.readAllLines(Paths.get(pathFile));
 		} catch (IOException e) {
 				logger.error(e.getMessage());
+				return fileContents;
 		}
 		
-		List<List<String>> fileContents = new ArrayList<List<String>>();
 
 		for (String line : allLines) {
 			List<String> lineContents = new ArrayList<String>();
