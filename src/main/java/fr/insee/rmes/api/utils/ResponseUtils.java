@@ -23,6 +23,7 @@ public class ResponseUtils {
 		} 
 		try {
 			response = mapper.writeValueAsString(obj);
+			response = response.replaceAll("&lt;", "<");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
