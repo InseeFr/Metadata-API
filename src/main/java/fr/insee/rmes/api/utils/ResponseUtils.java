@@ -17,13 +17,14 @@ public class ResponseUtils {
 		String response = "";
 		if (header != null && header.equals(MediaType.APPLICATION_XML)) {
 			mapper = new XmlMapper();
+			mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
 		}
 		else {
 			mapper = new ObjectMapper();
+
 		} 
 		try {
 			response = mapper.writeValueAsString(obj);
-			response = response.replaceAll("&lt;", "<");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
