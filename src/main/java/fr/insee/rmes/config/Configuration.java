@@ -1,6 +1,7 @@
 package fr.insee.rmes.config;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
@@ -21,26 +22,21 @@ public class Configuration {
 	private Properties getProperties() throws IOException {
         Properties props = new Properties();
         props.load(getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
-        File f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmes-api.properties"));
-        if(f.exists() && !f.isDirectory()) {
-            FileReader r = new FileReader(f);
-            props.load(r);
-            r.close();
-        }
-        f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmeswnci.properties"));
-        if(f.exists() && !f.isDirectory()) {
-            FileReader r = new FileReader(f);
-            props.load(r);
-            r.close();
-        }
-         f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmeswncz.properties"));
-        if(f.exists() && !f.isDirectory()) {
-            FileReader r = new FileReader(f);
-            props.load(r);
-            r.close();
-        }
+        loadIfExists(props,"rmes-api.properties");
+        loadIfExists(props,"rmeswnci.properties");
+        loadIfExists(props,"rmeswncz.properties\"");
         return props;
     }
+
+	private void loadIfExists(Properties props, String filename) throws FileNotFoundException, IOException {
+		File f;
+		f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
+        if(f.exists() && !f.isDirectory()) {
+            FileReader r = new FileReader(f);
+            props.load(r);
+            r.close();
+        }
+	}
 
 	public Configuration() {
 		Properties props = null;
