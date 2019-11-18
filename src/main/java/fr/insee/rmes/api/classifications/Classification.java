@@ -6,43 +6,41 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="Nomenclature")
+@JacksonXmlRootElement(localName = "Nomenclature")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Classification {
-	
-	String code;
-	String uri;
-	String intitule;
 
-	public Classification() {		
-	}
+    String code;
+    String uri;
+    String intitule;
 
-	
-	@JacksonXmlProperty(isAttribute = true)
-	public String getCode() {
-		return code;
-	}
+    public Classification() {}
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    @JacksonXmlProperty(isAttribute = true)
+    public String getCode() {
+        return code;
+    }
 
-	@JacksonXmlProperty(isAttribute = true)
-	public String getUri() {
-		return uri;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
+    @JacksonXmlProperty(isAttribute = true)
+    public String getUri() {
+        return uri;
+    }
 
-	@JacksonXmlProperty(localName="Intitule")
-	public String getIntitule() {
-		return intitule;
-	}
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
-	public void setIntitule(String intitule) {
-		this.intitule = intitule;
-	}
+    @JacksonXmlProperty(localName = "Intitule")
+    public String getIntitule() {
+        return intitule;
+    }
+
+    public void setIntitule(String intitule) {
+        this.intitule = intitule;
+    }
 
 }

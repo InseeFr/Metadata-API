@@ -9,28 +9,27 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="Postes")
+@JacksonXmlRootElement(localName = "Postes")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Postes {
 
-	private List<? extends Poste> listItems = null;
-		
-	public Postes() {
-		}
-	
-	public Postes(List<? extends Poste> itemsListXml) {
-		this.listItems = itemsListXml ;
-	}
-		
-	@JacksonXmlProperty(isAttribute=true, localName="Poste")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<? extends Poste> getListItems() {
-		return listItems;
-	}
+    private List<? extends Poste> listItems = null;
 
-	@SuppressWarnings("unchecked")
-	public void setListItems(List<? extends Poste> listItems) {
-		this.listItems = (List<Poste>) listItems;
-	}
+    public Postes() {}
+
+    public Postes(List<? extends Poste> itemsListXml) {
+        this.listItems = itemsListXml;
+    }
+
+    @JacksonXmlProperty(isAttribute = true, localName = "Poste")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<? extends Poste> getListItems() {
+        return listItems;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setListItems(List<? extends Poste> listItems) {
+        this.listItems = (List<Poste>) listItems;
+    }
 
 }
