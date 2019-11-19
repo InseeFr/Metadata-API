@@ -62,18 +62,13 @@ deploy-dv:
   variables:
     NOM_BRANCHE: dv
     FTP_USR_W: tomcatdev
-    FTP_USR_B: nautiledev
-    FTP_PWD: $FTP_PWD_DV
-    FTP_SERVER_W: dvnautilelas01.ad.insee.intra
-    FTP_SERVER_B: dvbatchlst01.ad.insee.intra
+    FTP_PWD: $FTP_PWD
+    FTP_SERVER_W: dvrmeswnczlas01.ad.insee.intra
 
 deploy-qf:
   <<: *deploy
   variables:
     NOM_BRANCHE: qf
     FTP_USR_W: tomcatrec
-    FTP_USR_B: nautilerec
-    FTP_PWD: $FTP_PWD_DV
-    FTP_SERVER_W: qfnautilelas01.ad.insee.intra
-    FTP_SERVER_B: qfbatchlst01.ad.insee.intra
-
+    FTP_PWD: $FTP_PWD
+    FTP_SERVER_W: dvrmeswnczlas01.ad.insee.intra
