@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.insee.rmes</groupId>
@@ -13,6 +14,7 @@
 		<jackson.version>2.10.1</jackson.version>
 		<log.version>2.12.1</log.version>
 		<swagger.version>2.0.10</swagger.version>
+		<junit.version>5.5.2</junit.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -26,9 +28,9 @@
 			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
-   			<groupId>org.glassfish.jersey.inject</groupId>
-    		<artifactId>jersey-hk2</artifactId>
-   			<version>${jersey.version}</version>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
@@ -36,10 +38,10 @@
 			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-		    <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-		    <version>${jersey.version}</version>
-		    <scope>test</scope>
+			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
+			<artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+			<version>${jersey.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- LOGS -->
 		<dependency>
@@ -57,13 +59,31 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>${log.version}</version>
 		</dependency>
-		
-		<!--  test  -->
+
+		<!-- test -->
 		<dependency>
-		    <groupId>org.junit.jupiter</groupId>
-		    <artifactId>junit-jupiter-api</artifactId>
-		    <version>5.5.2</version>
-		    <scope>test</scope>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Bind csv into POJOs -->
@@ -74,11 +94,11 @@
 		</dependency>
 		<!-- XML mapping -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.dataformat</groupId>
-		    <artifactId>jackson-dataformat-xml</artifactId>
-		    <version>${jackson.version}</version>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<!-- Swagger -->
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
@@ -88,8 +108,8 @@
 		</dependency>
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
- 			<artifactId>swagger-core</artifactId>
-    		<version>${swagger.version}</version>
+			<artifactId>swagger-core</artifactId>
+			<version>${swagger.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>
@@ -100,14 +120,14 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-		    <groupId>io.swagger.core.v3</groupId>
-		    <artifactId>swagger-jaxrs2</artifactId>
-		    <version>${swagger.version}</version>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2</artifactId>
+			<version>${swagger.version}</version>
 		</dependency>
 		<dependency>
-   			 <groupId>joda-time</groupId>
-    		<artifactId>joda-time</artifactId>
-    		<version>2.10.5</version>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10.5</version>
 		</dependency>
 	</dependencies>
 </project>
