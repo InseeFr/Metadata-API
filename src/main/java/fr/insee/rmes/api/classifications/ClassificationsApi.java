@@ -14,6 +14,9 @@ import javax.ws.rs.core.Response.Status;
 import fr.insee.rmes.api.utils.CSVUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
+import fr.insee.rmes.modeles.classification.Classification;
+import fr.insee.rmes.modeles.classification.Classifications;
+import fr.insee.rmes.queries.ClassificationsQueries;
 
 @Path("/nomenclatures")
 public class ClassificationsApi {

@@ -7,7 +7,7 @@ import javax.xml.bind.Marshaller;
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
 import org.junit.Test;
 
-import fr.insee.rmes.api.geo.Region;
+import fr.insee.rmes.modeles.geo.Region;
 
 public class JAXBTest {
 

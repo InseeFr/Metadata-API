@@ -23,6 +23,11 @@ import org.apache.logging.log4j.Logger;
 import fr.insee.rmes.api.utils.CSVUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
+import fr.insee.rmes.modeles.classification.Poste;
+import fr.insee.rmes.modeles.classification.PosteJson;
+import fr.insee.rmes.modeles.classification.PosteXml;
+import fr.insee.rmes.modeles.classification.Postes;
+import fr.insee.rmes.queries.ClassificationsQueries;
 
 @Path("/nomenclature")
 public class ClassificationApi {

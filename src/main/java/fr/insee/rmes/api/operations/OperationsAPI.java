@@ -28,6 +28,16 @@ import fr.insee.rmes.api.utils.FileUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
 import fr.insee.rmes.config.Configuration;
+import fr.insee.rmes.modeles.operations.CsvIndicateur;
+import fr.insee.rmes.modeles.operations.CsvSerie;
+import fr.insee.rmes.modeles.operations.Famille;
+import fr.insee.rmes.modeles.operations.Familles;
+import fr.insee.rmes.modeles.operations.FamilyToOperation;
+import fr.insee.rmes.modeles.operations.Indicateur;
+import fr.insee.rmes.modeles.operations.Operation;
+import fr.insee.rmes.modeles.operations.Serie;
+import fr.insee.rmes.modeles.operations.SimpleObject;
+import fr.insee.rmes.queries.OperationsQueries;
 
 @Path("/operations")
 public class OperationsAPI {

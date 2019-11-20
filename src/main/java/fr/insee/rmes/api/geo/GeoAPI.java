@@ -15,6 +15,10 @@ import org.apache.logging.log4j.Logger;
 import fr.insee.rmes.api.utils.CSVUtils;
 import fr.insee.rmes.api.utils.ResponseUtils;
 import fr.insee.rmes.api.utils.SparqlUtils;
+import fr.insee.rmes.modeles.geo.Commune;
+import fr.insee.rmes.modeles.geo.Country;
+import fr.insee.rmes.modeles.geo.Region;
+import fr.insee.rmes.queries.GeoQueries;
 
 @Path("/geo")
 public class GeoAPI {
