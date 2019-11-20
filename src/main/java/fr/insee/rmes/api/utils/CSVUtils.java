@@ -34,21 +34,21 @@ public class CSVUtils {
         }
     }
 
-    private static List<Object> csvToMultiPOJO(String csv, Class<?> childClass) throws Exception {
-        List<Object> list = new ArrayList<Object>();
-        CsvMapper mapper = new CsvMapper();
-        CsvSchema schema = CsvSchema.emptySchema().withHeader();
+    private static <TargetClass> List<TargetClass> csvToMultiPOJO(String csv, Class<TargetClass> childClass) throws Exception {
+    	List<TargetClass> list = new ArrayList<TargetClass>();
+    	CsvMapper mapper = new CsvMapper();
+        CsvSchema schema = mapper.schemaFor(childClass).withHeader();
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map.class).with(schema).readValues(csv);
         while (it.hasNext()) {
             Map<String, String> rowAsMap = it.next();
-            Object activite = mapper.convertValue(rowAsMap, childClass);
-            list.add(activite);
+    		TargetClass activite = mapper.convertValue(rowAsMap, childClass);
+    		list.add(activite);
         }
         return list;
     }
 
-    public static List<?> populateMultiPOJO(String csv, Class<?> childClass) {
-        List<?> list = new ArrayList<>();
+    public static <TargetClass>  List<TargetClass> populateMultiPOJO(String csv, Class<TargetClass> childClass) {
+    	List<TargetClass> list = new ArrayList<TargetClass>();
         try {
             list = csvToMultiPOJO(csv, childClass);
         }

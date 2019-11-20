@@ -62,7 +62,7 @@ public class ConceptsAPI {
         String label = StringUtils.isEmpty(libelle) ? "" : libelle;
 
         String csvResult = SparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptsByLabel(label));
-        List<Definition> conceptList = (List<Definition>) CSVUtils.populateMultiPOJO(csvResult, Definition.class);
+        List<Definition> conceptList = CSVUtils.populateMultiPOJO(csvResult, Definition.class);
 
         if (conceptList.size() == 0)
             return Response.status(Status.NOT_FOUND).entity("").build();
