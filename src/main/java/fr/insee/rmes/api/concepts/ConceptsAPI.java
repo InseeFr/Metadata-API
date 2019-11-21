@@ -21,7 +21,6 @@ import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.concepts.Definition;
 import fr.insee.rmes.modeles.concepts.Definitions;
 import fr.insee.rmes.queries.concepts.ConceptsQueries;
-import fr.insee.rmes.utils.ResponseUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -64,7 +63,7 @@ public class ConceptsAPI extends MetadataApi {
             return Response.ok(responseUtils.produceResponse(new Definitions(conceptList), header)).build();
 
         else if (StringUtils.equalsAnyIgnoreCase(header, MediaType.APPLICATION_JSON)) {
-            return Response.ok(ResponseUtils.produceResponse(conceptList, header)).build();
+            return Response.ok(responseUtils.produceResponse(conceptList, header)).build();
         }
         else {
             return Response.status(Status.NOT_ACCEPTABLE).entity("").build();
@@ -86,7 +85,7 @@ public class ConceptsAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, concept);
 
         if (concept.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(concept, header)).build();
+        return Response.ok(responseUtils.produceResponse(concept, header)).build();
     }
 
 }
