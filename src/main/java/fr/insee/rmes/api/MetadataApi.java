@@ -1,6 +1,7 @@
 package fr.insee.rmes.api;
 
 import fr.insee.rmes.utils.CSVUtils;
+import fr.insee.rmes.utils.ResponseUtils;
 import fr.insee.rmes.utils.SparqlUtils;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,26 +20,14 @@ public abstract class MetadataApi {
 
     protected CSVUtils csvUtils;
 
+    protected ResponseUtils responseUtils;
+
     public MetadataApi() {
-        super();
+
         this.sparqlUtils = new SparqlUtils();
         this.csvUtils = new CSVUtils();
-    }
+        this.responseUtils = new ResponseUtils();
 
-    public SparqlUtils getSparqlUtils() {
-        return sparqlUtils;
-    }
-
-    public void setSparqlUtils(SparqlUtils sparqlUtils) {
-        this.sparqlUtils = sparqlUtils;
-    }
-
-    public CSVUtils getCsvUtils() {
-        return csvUtils;
-    }
-
-    public void setCsvUtils(CSVUtils csvUtils) {
-        this.csvUtils = csvUtils;
     }
 
 }

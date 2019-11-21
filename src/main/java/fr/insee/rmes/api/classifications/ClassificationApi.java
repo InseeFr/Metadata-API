@@ -26,7 +26,6 @@ import fr.insee.rmes.modeles.classification.PosteJson;
 import fr.insee.rmes.modeles.classification.PosteXml;
 import fr.insee.rmes.modeles.classification.Postes;
 import fr.insee.rmes.queries.classifications.ClassificationsQueries;
-import fr.insee.rmes.utils.ResponseUtils;
 
 @Path("/nomenclature")
 public class ClassificationApi extends MetadataApi {
@@ -51,12 +50,12 @@ public class ClassificationApi extends MetadataApi {
         }
         else if (header.equals(MediaType.APPLICATION_XML)) {
             List<? extends Poste> itemsListXml = (List<PosteXml>) csvUtils.populateMultiPOJO(csvResult, PosteXml.class);
-            return Response.ok(ResponseUtils.produceResponse(new Postes(itemsListXml), header)).build();
+            return Response.ok(responseUtils.produceResponse(new Postes(itemsListXml), header)).build();
         }
         else {
             List<? extends Poste> itemsListJson =
                 (List<PosteJson>) csvUtils.populateMultiPOJO(csvResult, PosteJson.class);
-            return Response.ok(ResponseUtils.produceResponse(itemsListJson, header)).build();
+            return Response.ok(responseUtils.produceResponse(itemsListJson, header)).build();
         }
     }
 
@@ -77,11 +76,11 @@ public class ClassificationApi extends MetadataApi {
 
         if (header.equals(MediaType.APPLICATION_XML)) {
             List<PosteXml> root = getTree(csvResult, PosteXml.class);
-            return Response.ok(ResponseUtils.produceResponse(new Postes(root), header)).build();
+            return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
         }
         else {
             List<PosteJson> root = getTree(csvResult, PosteJson.class);
-            return Response.ok(ResponseUtils.produceResponse(new Postes(root), header)).build();
+            return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
         }
     }
 

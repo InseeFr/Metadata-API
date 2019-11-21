@@ -38,7 +38,7 @@ public class GeoAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, commune);
 
         if (commune.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(commune, header)).build();
+        return Response.ok(responseUtils.produceResponse(commune, header)).build();
     }
 
     @Path("/pays/{code: 99[0-9]{3}}")
@@ -55,7 +55,7 @@ public class GeoAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, country);
 
         if (country.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(country, header)).build();
+        return Response.ok(responseUtils.produceResponse(country, header)).build();
     }
 
     @Path("/region/{code: [0-9]{2}}")
@@ -72,6 +72,6 @@ public class GeoAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, region);
 
         if (region.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(region, header)).build();
+        return Response.ok(responseUtils.produceResponse(region, header)).build();
     }
 }

@@ -34,10 +34,10 @@ public class CorrespondencesApi extends MetadataApi {
             return Response.status(Status.NOT_FOUND).entity("").build();
 
         else if (header.equals(MediaType.APPLICATION_XML))
-            return Response.ok(ResponseUtils.produceResponse(new Correspondences(itemsList), header)).build();
+            return Response.ok(responseUtils.produceResponse(new Correspondences(itemsList), header)).build();
 
         else
-            return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
+            return Response.ok(responseUtils.produceResponse(itemsList, header)).build();
     }
 
 }

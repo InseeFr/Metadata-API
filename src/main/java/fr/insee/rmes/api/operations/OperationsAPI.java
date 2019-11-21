@@ -118,10 +118,10 @@ public class OperationsAPI extends MetadataApi {
 
         if (header.equals(MediaType.APPLICATION_XML)) {
             Familles familles = new Familles(new ArrayList<Famille>(familyMap.values()));
-            return Response.ok(ResponseUtils.produceResponse(familles, header)).build();
+            return Response.ok(responseUtils.produceResponse(familles, header)).build();
         }
         else
-            return Response.ok(ResponseUtils.produceResponse(familyMap.values(), header)).build();
+            return Response.ok(responseUtils.produceResponse(familyMap.values(), header)).build();
 
     }
 
@@ -217,7 +217,7 @@ public class OperationsAPI extends MetadataApi {
         }
         sims.setRubriques(rubriques);
 
-        return Response.ok(ResponseUtils.produceResponse(sims, header)).build();
+        return Response.ok(responseUtils.produceResponse(sims, header)).build();
     }
 
     @Path("/serie/{idSeries}")
@@ -318,7 +318,7 @@ public class OperationsAPI extends MetadataApi {
             s.setContributors(liste);
         }
 
-        return Response.ok(ResponseUtils.produceResponse(s, header)).build();
+        return Response.ok(responseUtils.produceResponse(s, header)).build();
 
     }
 
@@ -401,7 +401,7 @@ public class OperationsAPI extends MetadataApi {
             i.setAccrualPeriodicity(periodicity);
         }
 
-        return Response.ok(ResponseUtils.produceResponse(i, header)).build();
+        return Response.ok(responseUtils.produceResponse(i, header)).build();
 
     }
 

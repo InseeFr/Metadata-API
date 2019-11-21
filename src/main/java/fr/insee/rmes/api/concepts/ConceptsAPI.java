@@ -61,7 +61,7 @@ public class ConceptsAPI extends MetadataApi {
             return Response.status(Status.NOT_FOUND).entity("").build();
 
         else if (StringUtils.equalsAnyIgnoreCase(header, MediaType.APPLICATION_XML))
-            return Response.ok(ResponseUtils.produceResponse(new Definitions(conceptList), header)).build();
+            return Response.ok(responseUtils.produceResponse(new Definitions(conceptList), header)).build();
 
         else if (StringUtils.equalsAnyIgnoreCase(header, MediaType.APPLICATION_JSON)) {
             return Response.ok(ResponseUtils.produceResponse(conceptList, header)).build();

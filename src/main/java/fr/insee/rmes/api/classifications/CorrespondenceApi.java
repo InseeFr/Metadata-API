@@ -43,7 +43,7 @@ public class CorrespondenceApi extends MetadataApi {
             Associations itemsList =
                 CorrespondencesUtils.getCorrespondenceByCorrespondenceId(idCorrespondance, rawItemsList);
 
-            return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
+            return Response.ok(responseUtils.produceResponse(itemsList, header)).build();
 
         }
 
@@ -82,7 +82,7 @@ public class CorrespondenceApi extends MetadataApi {
                 CorrespondencesUtils
                     .getCorrespondenceByclassificationIds(codeClassification, targetCodeClassification, rawItemsList);
 
-            return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
+            return Response.ok(responseUtils.produceResponse(itemsList, header)).build();
 
         }
 

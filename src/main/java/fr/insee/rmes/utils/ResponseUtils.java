@@ -12,7 +12,7 @@ public class ResponseUtils {
 
     private static Logger logger = LogManager.getLogger(ResponseUtils.class);
 
-    public static String produceResponse(Object obj, String header) {
+    public String produceResponse(Object obj, String header) {
         ObjectMapper mapper = new ObjectMapper();
         String response = "";
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {

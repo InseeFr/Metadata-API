@@ -15,7 +15,6 @@ import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.classification.Classification;
 import fr.insee.rmes.modeles.classification.Classifications;
 import fr.insee.rmes.queries.classifications.ClassificationsQueries;
-import fr.insee.rmes.utils.ResponseUtils;
 
 @Path("/nomenclatures")
 public class ClassificationsApi extends MetadataApi {
@@ -33,10 +32,10 @@ public class ClassificationsApi extends MetadataApi {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else if (header.equals(MediaType.APPLICATION_XML)) {
-            return Response.ok(ResponseUtils.produceResponse(new Classifications(itemsList), header)).build();
+            return Response.ok(responseUtils.produceResponse(new Classifications(itemsList), header)).build();
         }
         else {
-            return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
+            return Response.ok(responseUtils.produceResponse(itemsList, header)).build();
         }
     }
 

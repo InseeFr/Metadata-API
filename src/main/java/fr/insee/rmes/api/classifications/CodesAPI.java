@@ -58,7 +58,7 @@ public class CodesAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, cjNiveau2);
 
         if (cjNiveau2.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(cjNiveau2, header)).build();
+        return Response.ok(responseUtils.produceResponse(cjNiveau2, header)).build();
     }
 
     @Path("/cj/n3/{code: [0-9]{4}}")
@@ -77,7 +77,7 @@ public class CodesAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, cjNiveau3);
 
         if (cjNiveau3.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(cjNiveau3, header)).build();
+        return Response.ok(responseUtils.produceResponse(cjNiveau3, header)).build();
     }
 
     @Path("/cj")
@@ -111,10 +111,10 @@ public class CodesAPI extends MetadataApi {
             return Response.status(Status.NOT_FOUND).entity("").build();
 
         else if (header.equals(MediaType.APPLICATION_XML))
-            return Response.ok(ResponseUtils.produceResponse(new CategoriesJuridiques(cjList), header)).build();
+            return Response.ok(responseUtils.produceResponse(new CategoriesJuridiques(cjList), header)).build();
 
         else
-            return Response.ok(ResponseUtils.produceResponse(cjList, header)).build();
+            return Response.ok(responseUtils.produceResponse(cjList, header)).build();
     }
 
     @Path("/nafr2/sousClasse/{code: [0-9]{2}\\.[0-9]{2}[A-Z]}")
@@ -131,7 +131,7 @@ public class CodesAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, sousClasse);
 
         if (sousClasse.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(sousClasse, header)).build();
+        return Response.ok(responseUtils.produceResponse(sousClasse, header)).build();
     }
 
     @Path("/nafr2/classe/{code: [0-9]{2}\\.[0-9]{2}}")
@@ -148,7 +148,7 @@ public class CodesAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, classe);
 
         if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
+        return Response.ok(responseUtils.produceResponse(classe, header)).build();
     }
 
     @Path("/nafr1/classe/{code: [0-9]{2}\\.[0-9][A-Z]}")
@@ -165,7 +165,7 @@ public class CodesAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, classe);
 
         if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
+        return Response.ok(responseUtils.produceResponse(classe, header)).build();
     }
 
     @Path("/naf/classe/{code: [0-9]{2}\\.[0-9][A-Z]}")
@@ -182,7 +182,7 @@ public class CodesAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, classe);
 
         if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
+        return Response.ok(responseUtils.produceResponse(classe, header)).build();
     }
 
     @Path("/na73/groupe/{code: [0-9]{2}\\.[0-9]{2}}")
@@ -199,7 +199,7 @@ public class CodesAPI extends MetadataApi {
         csvUtils.populatePOJO(csvResult, groupe);
 
         if (groupe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(ResponseUtils.produceResponse(groupe, header)).build();
+        return Response.ok(responseUtils.produceResponse(groupe, header)).build();
     }
 
     @Path("/activites")
@@ -232,10 +232,10 @@ public class CodesAPI extends MetadataApi {
             return Response.status(Status.NOT_FOUND).entity("").build();
 
         else if (header.equals(MediaType.APPLICATION_XML))
-            return Response.ok(ResponseUtils.produceResponse(new Activites(activityList), header)).build();
+            return Response.ok(responseUtils.produceResponse(new Activites(activityList), header)).build();
 
         else
-            return Response.ok(ResponseUtils.produceResponse(activityList, header)).build();
+            return Response.ok(responseUtils.produceResponse(activityList, header)).build();
     }
 
 }
