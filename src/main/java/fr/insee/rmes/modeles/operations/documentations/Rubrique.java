@@ -16,126 +16,126 @@ import fr.insee.rmes.utils.StringWithLang;
 
 public class Rubrique {
 
-	private String id = null;
-	private String uri = null;
-	private List<StringWithLang> titre =  new ArrayList<StringWithLang>();
-	private String idParent = null;
-	private String type;
-	
-	/*CODE_LIST*/
-	@JsonInclude(Include.NON_NULL)
-	private SimpleObject valeurCode;
+    private String id = null;
+    private String uri = null;
+    private List<StringWithLang> titre = new ArrayList<StringWithLang>();
+    private String idParent = null;
+    private String type;
 
-	/*DATE*/
-	@JsonInclude(Include.NON_NULL)
-	private String valeurSimple = null;
+    /* CODE_LIST */
+    @JsonInclude(Include.NON_NULL)
+    private SimpleObject valeurCode;
 
-	/*ORGANISATION*/
-	@JsonInclude(Include.NON_NULL)
-	private SimpleObject valeurOrganisation;
+    /* DATE */
+    @JsonInclude(Include.NON_NULL)
+    private String valeurSimple = null;
 
-	/*TEXT - RICH_TEXT*/
-	@JsonInclude(Include.NON_NULL)
-	private List<StringWithLang> label ;
-	
-	/*RICH_TEXT*/
-	@JsonInclude(Include.NON_NULL)
-	private List<Document> documents ;
+    /* ORGANISATION */
+    @JsonInclude(Include.NON_NULL)
+    private SimpleObject valeurOrganisation;
 
-	
-	
-	public Rubrique(String id, String uri, String type) {
-		this.id=id;
-		this.uri=uri;
-		this.type=type;
-	}
-	
-	public String getId() {
-		return id;
-	}
-	
-	public String getUri() {
-		return uri;
-	}
-	
-	@JacksonXmlProperty(localName="titre")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<StringWithLang> getTitre() {
-		return titre;
-	}
-	public void setTitre(List<StringWithLang> titre) {
-		this.titre = titre;
-	}
-	public String getIdParent() {
-		return idParent;
-	}
-	public void setIdParent(String idParent) {
-		this.idParent = idParent;
-	}
-	public String getType() {
-		return type;
-	}
-	
-	public String getValeurSimple() {
-		return valeurSimple;
-	}
-	public void setValeurSimple(String valeurSimple) {
-		this.valeurSimple = valeurSimple;
-	}
-	
-	@JacksonXmlProperty(localName="label")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<StringWithLang> getLabel() {
-		return label;
-	}
-	
-	public void setLabelLg1(String labelLg1) {
-		if (StringUtils.isNotEmpty(labelLg1)) {
-			if (label == null) label = new ArrayList<>();
-			label.add(new StringWithLang(labelLg1, Lang.FR));
-		}
-	}
-	
-	public void setLabelLg2(String labelLg2) {
-		if (StringUtils.isNotEmpty(labelLg2)) {
-			if (label == null) label = new ArrayList<>();
-			label.add(new StringWithLang(labelLg2, Lang.EN));
-		}
-	}
-	
+    /* TEXT - RICH_TEXT */
+    @JsonInclude(Include.NON_NULL)
+    private List<StringWithLang> label;
 
-	public SimpleObject getValeurCode() {
-		return this.valeurCode;
-	}
-	
-	public void setValeurCode(SimpleObject so) {
-		this.valeurCode = so;
-	}
+    /* RICH_TEXT */
+    @JsonInclude(Include.NON_NULL)
+    private List<Document> documents;
 
-	public SimpleObject getValeurOrganisation() {
-		return valeurOrganisation;
-	}
+    public Rubrique(String id, String uri, String type) {
+        this.id = id;
+        this.uri = uri;
+        this.type = type;
+    }
 
-	public void setValeurOrganisation(SimpleObject valeurOrganisation) {
-		this.valeurOrganisation = valeurOrganisation;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setTitre(String titreLg1, String titreLg2) {
-		if (titre == null) titre = new ArrayList<>();
-		if (StringUtils.isNotEmpty(titreLg1))
-		titre.add(new StringWithLang(titreLg1, Lang.FR));
-		if (StringUtils.isNotEmpty(titreLg2))
-		titre.add(new StringWithLang(titreLg2, Lang.EN));
-	}
+    public String getUri() {
+        return uri;
+    }
 
-	@JacksonXmlProperty(localName="document")
-	@JacksonXmlElementWrapper(localName="documents", useWrapping = true)
-	public List<Document> getDocuments() {
-		return documents;
-	}
+    @JacksonXmlProperty(localName = "titre")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<StringWithLang> getTitre() {
+        return titre;
+    }
 
-	public void setDocuments(List<Document> documents) {
-		this.documents = documents;
-	}
+    public void setTitre(List<StringWithLang> titre) {
+        this.titre = titre;
+    }
+
+    public String getIdParent() {
+        return idParent;
+    }
+
+    public void setIdParent(String idParent) {
+        this.idParent = idParent;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getValeurSimple() {
+        return valeurSimple;
+    }
+
+    public void setValeurSimple(String valeurSimple) {
+        this.valeurSimple = valeurSimple;
+    }
+
+    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<StringWithLang> getLabel() {
+        return label;
+    }
+
+    public void setLabelLg1(String labelLg1) {
+        if (StringUtils.isNotEmpty(labelLg1)) {
+            if (label == null) label = new ArrayList<>();
+            label.add(new StringWithLang(labelLg1, Lang.FR));
+        }
+    }
+
+    public void setLabelLg2(String labelLg2) {
+        if (StringUtils.isNotEmpty(labelLg2)) {
+            if (label == null) label = new ArrayList<>();
+            label.add(new StringWithLang(labelLg2, Lang.EN));
+        }
+    }
+
+    public SimpleObject getValeurCode() {
+        return this.valeurCode;
+    }
+
+    public void setValeurCode(SimpleObject so) {
+        this.valeurCode = so;
+    }
+
+    public SimpleObject getValeurOrganisation() {
+        return valeurOrganisation;
+    }
+
+    public void setValeurOrganisation(SimpleObject valeurOrganisation) {
+        this.valeurOrganisation = valeurOrganisation;
+    }
+
+    public void setTitre(String titreLg1, String titreLg2) {
+        if (titre == null) titre = new ArrayList<>();
+        if (StringUtils.isNotEmpty(titreLg1)) titre.add(new StringWithLang(titreLg1, Lang.FR));
+        if (StringUtils.isNotEmpty(titreLg2)) titre.add(new StringWithLang(titreLg2, Lang.EN));
+    }
+
+    @JacksonXmlProperty(localName = "document")
+    @JacksonXmlElementWrapper(localName = "documents", useWrapping = true)
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
+    }
 
 }

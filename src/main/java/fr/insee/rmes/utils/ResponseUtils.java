@@ -9,26 +9,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 public class ResponseUtils {
-	
-	private static Logger logger = LogManager.getLogger(ResponseUtils.class);
-		
-	public static String produceResponse(Object obj, String header) {
-		ObjectMapper mapper = new ObjectMapper();
-		String response = "";
-		if (header != null && header.equals(MediaType.APPLICATION_XML)) {
-			mapper = new XmlMapper();
-			mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
-		}
-		else {
-			mapper = new ObjectMapper();
 
-		} 
-		try {
-			response = mapper.writeValueAsString(obj);
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-		return response;
-	}
+    private static Logger logger = LogManager.getLogger(ResponseUtils.class);
+
+    public static String produceResponse(Object obj, String header) {
+        ObjectMapper mapper = new ObjectMapper();
+        String response = "";
+        if (header != null && header.equals(MediaType.APPLICATION_XML)) {
+            mapper = new XmlMapper();
+            mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
+        }
+        else {
+            mapper = new ObjectMapper();
+
+        }
+        try {
+            response = mapper.writeValueAsString(obj);
+        }
+        catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return response;
+    }
 
 }

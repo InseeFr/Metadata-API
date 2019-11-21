@@ -1,8 +1,14 @@
 package fr.insee.rmes.queries.concepts;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class ConceptsQueries {
 
-    public String getConceptsByLabel(String label) {
+    public static String getConceptsByLabel(String label) {
+        if (StringUtils.isEmpty(label)) {
+            label = "";
+        }
+
         return "SELECT ?id ?uri ?intitule ?remplace ?estRemplacePar WHERE { \n"
             + "?uri skos:inScheme ?conceptScheme . \n"
             + "FILTER(REGEX(STR(?conceptScheme),'/concepts/definitions/scheme')) \n" + "?uri skos:notation ?id . \n"
@@ -12,7 +18,7 @@ public class ConceptsQueries {
             + "}" + "ORDER BY ?intitule";
     }
 
-    public String getConceptById(String id) {
+    public static String getConceptById(String id) {
         return "SELECT ?uri ?intitule ?remplace ?estRemplacePar WHERE { \n"
             + "?uri skos:inScheme ?conceptScheme . \n"
             + "FILTER(REGEX(STR(?conceptScheme),'/concepts/definitions/scheme')) \n" + "?uri skos:notation '" + id

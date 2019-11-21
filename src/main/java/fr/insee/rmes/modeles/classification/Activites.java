@@ -9,26 +9,26 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="Activites")
+@JacksonXmlRootElement(localName = "Activites")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Activites {
-	
-	private List<Activite> activites = null;
-	
-	public Activites() {} // No-args constructor needed for JAXB
 
-	public Activites(List<Activite> activites) {
-		this.activites = activites;
-	}
+    private List<Activite> activites = null;
 
-	@JacksonXmlProperty(isAttribute=true, localName="Activite")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<Activite> getActivites() {
-		return activites;
-	}
+    public Activites() {} // No-args constructor needed for JAXB
 
-	public void setActivites(List<Activite> activites) {
-		this.activites = activites;
-	}
+    public Activites(List<Activite> activites) {
+        this.activites = activites;
+    }
+
+    @JacksonXmlProperty(isAttribute = true, localName = "Activite")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<Activite> getActivites() {
+        return activites;
+    }
+
+    public void setActivites(List<Activite> activites) {
+        this.activites = activites;
+    }
 
 }

@@ -13,45 +13,43 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @JacksonXmlRootElement(localName = "Association")
 @XmlAccessorType(XmlAccessType.FIELD)
-@JsonInclude(JsonInclude.Include.NON_EMPTY) 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Association {
 
-	
-	@JacksonXmlProperty(localName="Source")
-	@JsonProperty("source")
-	private Poste itemSource;
-	
-	
-	@JacksonXmlProperty(localName="Cible")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonProperty("cibles")
-	private List<Poste> itemTargets;
+    @JacksonXmlProperty(localName = "Source")
+    @JsonProperty("source")
+    private Poste itemSource;
 
-	public Association() {
+    @JacksonXmlProperty(localName = "Cible")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JsonProperty("cibles")
+    private List<Poste> itemTargets;
 
-	}
-	
-	public Association(Poste k, List<Poste> v) {
-		
-		this.itemSource = k;
-		this.itemTargets = v;
-		
-	}
+    public Association() {
 
-	public Poste getItemSource() {
-		return itemSource;
-	}
+    }
 
-	public void setItemSource(Poste ItemSource) {
-		this.itemSource = ItemSource;
-	}
+    public Association(Poste k, List<Poste> v) {
 
-	public List<Poste> getItemTargets() {
-		return itemTargets;
-	}
+        this.itemSource = k;
+        this.itemTargets = v;
 
-	public void setItemTargets(List<Poste> ItemTargets) {
-		this.itemTargets = ItemTargets;
-	}
+    }
+
+    public Poste getItemSource() {
+        return itemSource;
+    }
+
+    public void setItemSource(Poste ItemSource) {
+        this.itemSource = ItemSource;
+    }
+
+    public List<Poste> getItemTargets() {
+        return itemTargets;
+    }
+
+    public void setItemTargets(List<Poste> ItemTargets) {
+        this.itemTargets = ItemTargets;
+    }
 
 }

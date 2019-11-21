@@ -7,45 +7,45 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="ClasseNAF1993")
+@JacksonXmlRootElement(localName = "ClasseNAF1993")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ClasseNAF1993 {
 
-	private String code = null;
-	private String uri = null;
-	private String intitule = null;
+    private String code = null;
+    private String uri = null;
+    private String intitule = null;
 
-	public ClasseNAF1993() {} // No-args constructor needed for JAXB
+    public ClasseNAF1993() {} // No-args constructor needed for JAXB
 
-	public ClasseNAF1993(String code) {
-		this.code = code;
-	}
-	
-	@JacksonXmlProperty(isAttribute=true)
-	public String getCode() {
-		return code;
-	}
+    public ClasseNAF1993(String code) {
+        this.code = code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	@JacksonXmlProperty(isAttribute=true)
-	public String getUri() {
-		return uri;
-	}
+    @JacksonXmlProperty(isAttribute = true)
+    public String getCode() {
+        return code;
+    }
 
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	@JacksonXmlProperty(localName="Intitule")
-	@JsonProperty(value="intitule")
-	public String getIntitule() {
-		return intitule;
-	}
+    @JacksonXmlProperty(isAttribute = true)
+    public String getUri() {
+        return uri;
+    }
 
-	public void setIntitule(String intitule) {
-		this.intitule = intitule;
-	}
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    @JacksonXmlProperty(localName = "Intitule")
+    @JsonProperty(value = "intitule")
+    public String getIntitule() {
+        return intitule;
+    }
+
+    public void setIntitule(String intitule) {
+        this.intitule = intitule;
+    }
 }

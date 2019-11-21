@@ -20,32 +20,34 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 
 @ApplicationPath("/")
-public class SwaggerConfig extends ResourceConfig   {
+public class SwaggerConfig extends ResourceConfig {
 
-	private final static Logger logger = LogManager.getLogger(SwaggerConfig.class);
+    private final static Logger logger = LogManager.getLogger(SwaggerConfig.class);
 
-	public SwaggerConfig(@Context ServletConfig servletConfig) throws IOException {
-		super();
-		OpenAPI openApi = new OpenAPI();
+    public SwaggerConfig(@Context ServletConfig servletConfig) throws IOException {
+        super();
+        OpenAPI openApi = new OpenAPI();
 
-		Info info = new Info().title("API RMéS").version("1.2.0").description("API sur les métadonnées de l'Insee");
-		openApi.info(info);
+        Info info = new Info().title("API RMéS").version("1.2.0").description("API sur les métadonnées de l'Insee");
+        openApi.info(info);
 
-		Server server = new Server();
-		server.url("http://localhost:8080/metadata-api");//TODO
-		openApi.addServersItem(server);
+        Server server = new Server();
+        server.url("http://localhost:8080/metadata-api");// TODO
+        openApi.addServersItem(server);
 
-		SwaggerConfiguration oasConfig = new SwaggerConfiguration().openAPI(openApi)
-				.resourcePackages(Stream.of("fr.insee.rmes.api").collect(Collectors.toSet()))
-				.prettyPrint(true);
+        SwaggerConfiguration oasConfig =
+            new SwaggerConfiguration()
+                .openAPI(openApi)
+                .resourcePackages(Stream.of("fr.insee.rmes.api").collect(Collectors.toSet()))
+                .prettyPrint(true);
 
-		logger.debug("SWAGGER : " + oasConfig.toString());
-		
-		OpenApiResource openApiResource = new OpenApiResource();
- 		openApiResource.setOpenApiConfiguration(oasConfig);
-		register(openApiResource);
-		register(MultiPartFeature.class);
-		
-	}
+        logger.debug("SWAGGER : " + oasConfig.toString());
+
+        OpenApiResource openApiResource = new OpenApiResource();
+        openApiResource.setOpenApiConfiguration(oasConfig);
+        register(openApiResource);
+        register(MultiPartFeature.class);
+
+    }
 
 }

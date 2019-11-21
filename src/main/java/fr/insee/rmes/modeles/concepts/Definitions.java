@@ -9,26 +9,26 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName="Definitions")
+@JacksonXmlRootElement(localName = "Definitions")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Definitions {
 
-	private List<Definition> definitions = null;
-	
-	public Definitions() {}
+    private List<Definition> definitions = null;
 
-	public Definitions(List<Definition> definitions) {
-		this.definitions = definitions;
-	}
+    public Definitions() {}
 
-	@JacksonXmlProperty(isAttribute=true, localName="Definition")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<Definition> getConcepts() {
-		return definitions;
-	}
+    public Definitions(List<Definition> definitions) {
+        this.definitions = definitions;
+    }
 
-	public void setConcepts(List<Definition> definitions) {
-		this.definitions = definitions;
-	}
-	
+    @JacksonXmlProperty(isAttribute = true, localName = "Definition")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<Definition> getConcepts() {
+        return definitions;
+    }
+
+    public void setConcepts(List<Definition> definitions) {
+        this.definitions = definitions;
+    }
+
 }

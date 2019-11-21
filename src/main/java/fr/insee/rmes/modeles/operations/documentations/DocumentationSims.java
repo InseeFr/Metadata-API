@@ -16,97 +16,95 @@ import fr.insee.rmes.utils.StringWithLang;
 
 public class DocumentationSims {
 
-	private String id = null;
-	private String uri = null;
-	private List<StringWithLang> label =  new ArrayList<StringWithLang>();
-	
-	@JsonInclude(Include.NON_NULL)
-	private SimpleObject cible;
-		
-	private List<Rubrique> rubriques  =  new ArrayList<Rubrique>();
+    private String id = null;
+    private String uri = null;
+    private List<StringWithLang> label = new ArrayList<StringWithLang>();
 
+    @JsonInclude(Include.NON_NULL)
+    private SimpleObject cible;
 
-	public String getId() {
-		return id;
-	}
+    private List<Rubrique> rubriques = new ArrayList<Rubrique>();
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getUri() {
-		return uri;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
-	
-	@JacksonXmlProperty(localName="label")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<StringWithLang> getLabel() {
-		return label;
-	}
-	
-	public void setLabelLg1(String labelLg1) {
-		label.add(new StringWithLang(labelLg1, Lang.FR));
-	}
-	
-	public void setLabelLg2(String labelLg2) {
-		label.add(new StringWithLang(labelLg2, Lang.EN));
-	}
+    public String getUri() {
+        return uri;
+    }
 
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
-	@JacksonXmlProperty(localName="Rubrique")
-	@JacksonXmlElementWrapper(localName="Rubriques", useWrapping = true)
-	public List<Rubrique> getRubriques() {
-		return rubriques;
-	}
+    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<StringWithLang> getLabel() {
+        return label;
+    }
 
-	public void setRubriques(List<Rubrique> rubriques) {
-		this.rubriques = rubriques;
-	}
+    public void setLabelLg1(String labelLg1) {
+        label.add(new StringWithLang(labelLg1, Lang.FR));
+    }
 
-	public SimpleObject getCible() {
-		return cible;
-	}
+    public void setLabelLg2(String labelLg2) {
+        label.add(new StringWithLang(labelLg2, Lang.EN));
+    }
 
-	public void setIdCible(String idCible) {
-		if (StringUtils.isNotEmpty(idCible)){
-			checkCibleExists();
-			cible.setId(idCible);
-		}
-	}
-	
-	public void setCible(String cibleUri) {
-		if (StringUtils.isNotEmpty(cibleUri)){
-			checkCibleExists();
-			cible.setUri(cibleUri);
-		}
-	}
+    @JacksonXmlProperty(localName = "Rubrique")
+    @JacksonXmlElementWrapper(localName = "Rubriques", useWrapping = true)
+    public List<Rubrique> getRubriques() {
+        return rubriques;
+    }
 
-	public void setLabelCibleLg1(String labelCibleLg1) {
-		if (StringUtils.isNotEmpty(labelCibleLg1)){
-			checkCibleExists();
-			List<StringWithLang> temp = cible.getLabel();
-			temp.add(new StringWithLang(labelCibleLg1, Lang.FR));
-			cible.setLabel(temp);
-		}
-	}
-	
-	public void setLabelCibleLg2(String labelCibleLg2) {
-		if (StringUtils.isNotEmpty(labelCibleLg2)){
-			checkCibleExists();
-			List<StringWithLang> temp = cible.getLabel();
-			temp.add(new StringWithLang(labelCibleLg2, Lang.EN));
-			cible.setLabel(temp);
-		}
-	}
+    public void setRubriques(List<Rubrique> rubriques) {
+        this.rubriques = rubriques;
+    }
 
-	private void checkCibleExists() {
-		if (cible == null) {
-			cible = new SimpleObject();
-		}
-	}
+    public SimpleObject getCible() {
+        return cible;
+    }
+
+    public void setIdCible(String idCible) {
+        if (StringUtils.isNotEmpty(idCible)) {
+            checkCibleExists();
+            cible.setId(idCible);
+        }
+    }
+
+    public void setCible(String cibleUri) {
+        if (StringUtils.isNotEmpty(cibleUri)) {
+            checkCibleExists();
+            cible.setUri(cibleUri);
+        }
+    }
+
+    public void setLabelCibleLg1(String labelCibleLg1) {
+        if (StringUtils.isNotEmpty(labelCibleLg1)) {
+            checkCibleExists();
+            List<StringWithLang> temp = cible.getLabel();
+            temp.add(new StringWithLang(labelCibleLg1, Lang.FR));
+            cible.setLabel(temp);
+        }
+    }
+
+    public void setLabelCibleLg2(String labelCibleLg2) {
+        if (StringUtils.isNotEmpty(labelCibleLg2)) {
+            checkCibleExists();
+            List<StringWithLang> temp = cible.getLabel();
+            temp.add(new StringWithLang(labelCibleLg2, Lang.EN));
+            cible.setLabel(temp);
+        }
+    }
+
+    private void checkCibleExists() {
+        if (cible == null) {
+            cible = new SimpleObject();
+        }
+    }
 
 }
