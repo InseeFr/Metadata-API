@@ -6,13 +6,13 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import fr.insee.rmes.api.utils.Lang;
-import fr.insee.rmes.api.utils.StringWithLang;
+import fr.insee.rmes.utils.Lang;
+import fr.insee.rmes.utils.StringWithLang;
 
 public class Indicateur {
 	

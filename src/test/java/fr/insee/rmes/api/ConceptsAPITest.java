@@ -17,14 +17,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
-import fr.insee.rmes.api.concepts.Definition;
-import fr.insee.rmes.api.ConceptsAPI;
-import fr.insee.rmes.api.utils.CSVUtils;
-import fr.insee.rmes.api.utils.SparqlUtils;
+import fr.insee.rmes.modeles.concepts.Definition;
+import fr.insee.rmes.utils.CSVUtils;
+import fr.insee.rmes.utils.SparqlUtils;
 
-@PrepareForTest(fullyQualifiedNames = "fr.insee.rmes.api.utils.*")
 public class ConceptsAPITest extends JerseyTest {
 
     SparqlUtils mockSparqlUtils = mock(SparqlUtils.class);

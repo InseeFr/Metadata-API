@@ -2,7 +2,7 @@ package fr.insee.rmes.api.test;
 
 import org.junit.Test;
 
-import fr.insee.rmes.api.codes.cj.CategorieJuridiqueNiveauIII;
+import fr.insee.rmes.modeles.classification.cj.CategorieJuridiqueNiveauIII;
 
 public class ModelTest {
 

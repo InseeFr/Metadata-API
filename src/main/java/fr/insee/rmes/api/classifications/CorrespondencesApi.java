@@ -11,37 +11,36 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import fr.insee.rmes.api.utils.CSVUtils;
-import fr.insee.rmes.api.utils.ResponseUtils;
-import fr.insee.rmes.api.utils.SparqlUtils;
-import fr.insee.rmes.modeles.correspondence.Correspondence;
-import fr.insee.rmes.modeles.correspondence.Correspondences;
+import fr.insee.rmes.modeles.classification.correspondence.Correspondence;
+import fr.insee.rmes.modeles.classification.correspondence.Correspondences;
 import fr.insee.rmes.queries.CorrespondencesQueries;
+import fr.insee.rmes.utils.CSVUtils;
+import fr.insee.rmes.utils.ResponseUtils;
+import fr.insee.rmes.utils.SparqlUtils;
 
-@Path("/correspondances") 
+@Path("/correspondances")
 public class CorrespondencesApi {
 
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getAllCorrespondences(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    public Response getAllCorrespondences(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
-		String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
+        String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
 
-		@SuppressWarnings("unchecked")
-		List<Correspondence> itemsList = (List<Correspondence>) CSVUtils
-				.populateMultiPOJO(csvResult, Correspondence.class);
+        @SuppressWarnings("unchecked")
+        List<Correspondence> itemsList =
+            (List<Correspondence>) CSVUtils.populateMultiPOJO(csvResult, Correspondence.class);
 
-		if (itemsList.size() == 0)
-			return Response.status(Status.NOT_FOUND).entity("").build();
+        if (itemsList.size() == 0)
+            return Response.status(Status.NOT_FOUND).entity("").build();
 
-		else if (header.equals(MediaType.APPLICATION_XML))
-			return Response.ok(ResponseUtils.produceResponse(new Correspondences(itemsList), header))
-					.build();
+        else if (header.equals(MediaType.APPLICATION_XML))
+            return Response.ok(ResponseUtils.produceResponse(new Correspondences(itemsList), header)).build();
 
-		else
-			return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
-	}
-
-
+        else
+            return Response.ok(ResponseUtils.produceResponse(itemsList, header)).build();
+    }
 
 }

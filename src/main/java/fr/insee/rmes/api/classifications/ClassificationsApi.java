@@ -11,12 +11,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import fr.insee.rmes.api.utils.CSVUtils;
-import fr.insee.rmes.api.utils.ResponseUtils;
-import fr.insee.rmes.api.utils.SparqlUtils;
 import fr.insee.rmes.modeles.classification.Classification;
 import fr.insee.rmes.modeles.classification.Classifications;
 import fr.insee.rmes.queries.ClassificationsQueries;
+import fr.insee.rmes.utils.CSVUtils;
+import fr.insee.rmes.utils.ResponseUtils;
+import fr.insee.rmes.utils.SparqlUtils;
 
 @Path("/nomenclatures")
 public class ClassificationsApi {

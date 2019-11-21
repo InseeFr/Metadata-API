@@ -17,12 +17,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.api.concepts.Definition;
-import fr.insee.rmes.api.concepts.Definitions;
-import fr.insee.rmes.api.utils.CSVUtils;
-import fr.insee.rmes.api.utils.ResponseUtils;
-import fr.insee.rmes.api.utils.SparqlUtils;
+import fr.insee.rmes.modeles.concepts.Definition;
+import fr.insee.rmes.modeles.concepts.Definitions;
 import fr.insee.rmes.queries.ConceptsQueries;
+import fr.insee.rmes.utils.CSVUtils;
+import fr.insee.rmes.utils.ResponseUtils;
+import fr.insee.rmes.utils.SparqlUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
