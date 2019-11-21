@@ -15,7 +15,7 @@ public class SparqlUtils {
 
     private static Logger logger = LogManager.getLogger(SparqlUtils.class);
 
-    public static String executeSparqlQuery(String query) {
+    public String executeSparqlQuery(String query) {
 
         String uri = queryToURI(query);
         Client client = ClientBuilder.newBuilder().build();
@@ -25,12 +25,12 @@ public class SparqlUtils {
         return response;
     }
 
-    public static String queryToURI(String query) {
+    public String queryToURI(String query) {
         return Configuration.SPARQL_END_POINT + "?query=" + encode(QueryUtils.PREFIXES + query);
 
     }
 
-    public static String encode(String url) {
+    public String encode(String url) {
         try {
             String encodeURL = URLEncoder.encode(url, "UTF-8");
             return encodeURL;
