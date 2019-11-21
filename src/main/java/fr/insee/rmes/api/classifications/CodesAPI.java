@@ -80,7 +80,6 @@ public class CodesAPI extends MetadataApi {
         return Response.ok(ResponseUtils.produceResponse(cjNiveau3, header)).build();
     }
 
-    @SuppressWarnings("unchecked")
     @Path("/cj")
     @GET
     @Produces({
@@ -105,8 +104,7 @@ public class CodesAPI extends MetadataApi {
             csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJByCodeAndDate(code, dt));
         }
 
-        List<CategorieJuridique> cjList =
-            (List<CategorieJuridique>) csvUtils.populateMultiPOJO(csvResult, CategorieJuridique.class);
+        List<CategorieJuridique> cjList = csvUtils.populateMultiPOJO(csvResult, CategorieJuridique.class);
 
         // sub query return ,,,, result. So check list size and first element is not empty
         if (cjList.size() == 0 || cjList.get(0).getCode().equals(""))
@@ -204,7 +202,6 @@ public class CodesAPI extends MetadataApi {
         return Response.ok(ResponseUtils.produceResponse(groupe, header)).build();
     }
 
-    @SuppressWarnings("unchecked")
     @Path("/activites")
     @GET
     @Produces({
@@ -229,7 +226,7 @@ public class CodesAPI extends MetadataApi {
             csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCodeAndDate(code, dt));
         }
 
-        List<Activite> activityList = (List<Activite>) csvUtils.populateMultiPOJO(csvResult, Activite.class);
+        List<Activite> activityList = csvUtils.populateMultiPOJO(csvResult, Activite.class);
 
         if (activityList.size() == 0)
             return Response.status(Status.NOT_FOUND).entity("").build();

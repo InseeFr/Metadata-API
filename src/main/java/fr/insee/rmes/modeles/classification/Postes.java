@@ -27,9 +27,8 @@ public class Postes {
         return listItems;
     }
 
-    @SuppressWarnings("unchecked")
     public void setListItems(List<? extends Poste> listItems) {
-        this.listItems = (List<Poste>) listItems;
+        this.listItems = listItems;
     }
 
 }

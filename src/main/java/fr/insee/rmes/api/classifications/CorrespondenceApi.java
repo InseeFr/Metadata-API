@@ -34,11 +34,8 @@ public class CorrespondenceApi extends MetadataApi {
             sparqlUtils
                 .executeSparqlQuery(CorrespondencesQueries.getCorrespondenceById(idCorrespondance.toLowerCase()));
 
-        @SuppressWarnings("unchecked")
-
         /* RawCorrespondence direct mapping from sparql request */
-        List<RawCorrespondence> rawItemsList =
-            (List<RawCorrespondence>) csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
+        List<RawCorrespondence> rawItemsList = csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
 
         if (rawItemsList != null && ! rawItemsList.isEmpty()) {
 
@@ -75,11 +72,8 @@ public class CorrespondenceApi extends MetadataApi {
                             codeClassification.toLowerCase(),
                             targetCodeClassification.toLowerCase()));
 
-        @SuppressWarnings("unchecked")
-
         /* RawCorrespondence direct mapping from sparql request - correspondences are not symetrical in RDF model */
-        List<RawCorrespondence> rawItemsList =
-            (List<RawCorrespondence>) csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
+        List<RawCorrespondence> rawItemsList = csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
 
         if (rawItemsList != null && ! rawItemsList.isEmpty()) {
 

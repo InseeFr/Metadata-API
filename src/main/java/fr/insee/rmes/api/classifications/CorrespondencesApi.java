@@ -28,9 +28,7 @@ public class CorrespondencesApi extends MetadataApi {
 
         String csvResult = sparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
 
-        @SuppressWarnings("unchecked")
-        List<Correspondence> itemsList =
-            (List<Correspondence>) csvUtils.populateMultiPOJO(csvResult, Correspondence.class);
+        List<Correspondence> itemsList = csvUtils.populateMultiPOJO(csvResult, Correspondence.class);
 
         if (itemsList.size() == 0)
             return Response.status(Status.NOT_FOUND).entity("").build();

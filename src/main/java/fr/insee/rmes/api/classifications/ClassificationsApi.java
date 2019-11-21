@@ -20,7 +20,6 @@ import fr.insee.rmes.utils.ResponseUtils;
 @Path("/nomenclatures")
 public class ClassificationsApi extends MetadataApi {
 
-    @SuppressWarnings("unchecked")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -28,8 +27,7 @@ public class ClassificationsApi extends MetadataApi {
     public Response getAllClassifications(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getAllClassifications());
-        List<Classification> itemsList =
-            (List<Classification>) csvUtils.populateMultiPOJO(csvResult, Classification.class);
+        List<Classification> itemsList = csvUtils.populateMultiPOJO(csvResult, Classification.class);
 
         if (itemsList.size() == 0) {
             return Response.status(Status.NOT_FOUND).entity("").build();

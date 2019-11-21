@@ -35,6 +35,8 @@ public class ConceptsAPI extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(ConceptsAPI.class);
 
+    private ConceptsQueries conceptQueries = new ConceptsQueries();
+
     @Path("/definitions")
     @GET
     @Produces({
@@ -54,7 +56,7 @@ public class ConceptsAPI extends MetadataApi {
 
         String label = StringUtils.isEmpty(libelle) ? "" : libelle;
 
-        String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptsByLabel(label));
+        String csvResult = sparqlUtils.executeSparqlQuery(conceptQueries.getConceptsByLabel(label));
         List<Definition> conceptList = csvUtils.populateMultiPOJO(csvResult, Definition.class);
 
         if (conceptList.size() == 0)
@@ -82,7 +84,7 @@ public class ConceptsAPI extends MetadataApi {
         logger.debug("Received GET request for Concept: " + id);
 
         Definition concept = new Definition(id);
-        String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));
+        String csvResult = sparqlUtils.executeSparqlQuery(conceptQueries.getConceptById(id));
         csvUtils.populatePOJO(csvResult, concept);
 
         if (concept.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
