@@ -76,16 +76,22 @@ public class ConceptsAPI extends MetadataApi {
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
-    public Response getConceptById(@PathParam("id") String id, @HeaderParam("accept") String header) {
+    public Response getConceptById(
+        @PathParam("id") String id,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
         logger.debug("Received GET request for Concept: " + id);
 
         Definition concept = new Definition(id);
         String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));
-        csvUtils.populatePOJO(csvResult, concept);
+        concept = (Definition) csvUtils.populatePOJO(csvResult, concept);
 
-        if (concept.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
-        return Response.ok(responseUtils.produceResponse(concept, header)).build();
+        if (concept.getUri() == null) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
+        }
+        else {
+            return Response.ok(responseUtils.produceResponse(concept, header)).build();
+        }
     }
 
 }

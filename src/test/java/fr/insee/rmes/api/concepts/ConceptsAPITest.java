@@ -43,6 +43,7 @@ public class ConceptsAPITest {
     private ResponseUtils mockResponseUtils;
 
     List<Object> listeDefinition = new ArrayList<>();
+    Definition definition = new Definition();
 
     @Before
     public void init() {
@@ -53,7 +54,7 @@ public class ConceptsAPITest {
     public void givenGetConcepts_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         listeDefinition.add(new Definition());
-        this.callMock(listeDefinition);
+        this.callMockGetConcepts(listeDefinition);
         when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
 
         // Call method with header content is json
@@ -65,7 +66,7 @@ public class ConceptsAPITest {
     public void givenGetConcepts_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         listeDefinition.add(new Definition());
-        this.callMock(listeDefinition);
+        this.callMockGetConcepts(listeDefinition);
         when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
 
         // Call method with header content is xml
@@ -77,7 +78,7 @@ public class ConceptsAPITest {
     public void givenGetConcepts_WhenBadRequest_andHeaderContentIsNull_thenResponseIsNotAcceptable() {
 
         listeDefinition.add(new Definition());
-        this.callMock(listeDefinition);
+        this.callMockGetConcepts(listeDefinition);
 
         Response response = conceptsAPI.getConcepts("", null);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -91,7 +92,7 @@ public class ConceptsAPITest {
     @Test
     public void givenGetConcepts_WhenCorrectRequest_thenResponseIsNotFound() {
 
-        this.callMock(listeDefinition);
+        this.callMockGetConcepts(listeDefinition);
 
         Response response = conceptsAPI.getConcepts("", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -102,8 +103,35 @@ public class ConceptsAPITest {
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
 
-    private void callMock(List<Object> listeDefinition) {
+    private void callMockGetConcepts(List<Object> listeDefinition) {
         when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
         when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(listeDefinition);
+    }
+
+    @Test
+    public void givenGetConceptsById_whenCorrectRequest_thenResponseIsOk() {
+
+        // Mock
+        definition.setUri("aUri");
+        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
+        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(definition);
+        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+
+        // Call method
+        conceptsAPI.getConceptById("", MediaType.APPLICATION_JSON);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetConceptsById_whenCorrectRequest_andDefinitionNotFound_thenResponseIsNotFound() {
+
+        // Mock
+        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
+        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(definition);
+
+        // Call method
+        Response response = conceptsAPI.getConceptById("", MediaType.APPLICATION_JSON);
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
 }

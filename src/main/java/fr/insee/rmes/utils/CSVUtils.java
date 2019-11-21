@@ -15,7 +15,7 @@ public class CSVUtils {
 
     private static Logger logger = LogManager.getLogger(CSVUtils.class);
 
-    private static void csvToPOJO(String csv, Object pojo) throws Exception {
+    private Object csvToPOJO(String csv, Object pojo) throws Exception {
         CsvMapper mapper = new CsvMapper();
         CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
 
@@ -23,15 +23,17 @@ public class CSVUtils {
         while (it.hasNextValue()) {
             pojo = it.nextValue();
         }
+        return pojo;
     }
 
-    public void populatePOJO(String csv, Object pojo) {
+    public Object populatePOJO(String csv, Object pojo) {
         try {
-            csvToPOJO(csv, pojo);
+            pojo = csvToPOJO(csv, pojo);
         }
         catch (Exception e) {
             logger.error(e.getMessage());
         }
+        return pojo;
     }
 
     private <TargetClass> List<TargetClass> csvToMultiPOJO(String csv, Class<TargetClass> childClass) throws Exception {
