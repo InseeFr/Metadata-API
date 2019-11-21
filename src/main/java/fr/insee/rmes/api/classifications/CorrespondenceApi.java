@@ -12,15 +12,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.classification.correspondence.Associations;
 import fr.insee.rmes.modeles.classification.correspondence.RawCorrespondence;
 import fr.insee.rmes.queries.classifications.CorrespondencesQueries;
-import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
 
 @Path("/correspondance")
-public class CorrespondenceApi {
+public class CorrespondenceApi extends MetadataApi {
 
     @GET
     @Path("/{idCorrespondance}")
@@ -32,14 +31,14 @@ public class CorrespondenceApi {
         @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult =
-            SparqlUtils
+            sparqlUtils
                 .executeSparqlQuery(CorrespondencesQueries.getCorrespondenceById(idCorrespondance.toLowerCase()));
 
         @SuppressWarnings("unchecked")
 
         /* RawCorrespondence direct mapping from sparql request */
         List<RawCorrespondence> rawItemsList =
-            (List<RawCorrespondence>) CSVUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
+            (List<RawCorrespondence>) csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
 
         if (rawItemsList != null && ! rawItemsList.isEmpty()) {
 
@@ -69,7 +68,7 @@ public class CorrespondenceApi {
         @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult =
-            SparqlUtils
+            sparqlUtils
                 .executeSparqlQuery(
                     CorrespondencesQueries
                         .getCorrespondenceByIds(
@@ -80,7 +79,7 @@ public class CorrespondenceApi {
 
         /* RawCorrespondence direct mapping from sparql request - correspondences are not symetrical in RDF model */
         List<RawCorrespondence> rawItemsList =
-            (List<RawCorrespondence>) CSVUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
+            (List<RawCorrespondence>) csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
 
         if (rawItemsList != null && ! rawItemsList.isEmpty()) {
 

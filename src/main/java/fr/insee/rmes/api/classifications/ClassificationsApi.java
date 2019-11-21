@@ -11,15 +11,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.classification.Classification;
 import fr.insee.rmes.modeles.classification.Classifications;
 import fr.insee.rmes.queries.classifications.ClassificationsQueries;
-import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
 
 @Path("/nomenclatures")
-public class ClassificationsApi {
+public class ClassificationsApi extends MetadataApi {
 
     @SuppressWarnings("unchecked")
     @GET
@@ -28,9 +27,9 @@ public class ClassificationsApi {
     })
     public Response getAllClassifications(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
-        String csvResult = SparqlUtils.executeSparqlQuery(ClassificationsQueries.getAllClassifications());
+        String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getAllClassifications());
         List<Classification> itemsList =
-            (List<Classification>) CSVUtils.populateMultiPOJO(csvResult, Classification.class);
+            (List<Classification>) csvUtils.populateMultiPOJO(csvResult, Classification.class);
 
         if (itemsList.size() == 0) {
             return Response.status(Status.NOT_FOUND).entity("").build();

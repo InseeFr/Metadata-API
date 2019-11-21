@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
+import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.classification.Activite;
 import fr.insee.rmes.modeles.classification.Activites;
 import fr.insee.rmes.modeles.classification.cj.CategorieJuridique;
@@ -33,13 +34,11 @@ import fr.insee.rmes.queries.classifications.Na1973Queries;
 import fr.insee.rmes.queries.classifications.Naf1993Queries;
 import fr.insee.rmes.queries.classifications.Naf2003Queries;
 import fr.insee.rmes.queries.classifications.Naf2008Queries;
-import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.DateUtils;
 import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
 
 @Path("/codes")
-public class CodesAPI {
+public class CodesAPI extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(CodesAPI.class);
 
@@ -55,8 +54,8 @@ public class CodesAPI {
         logger.debug("Received GET request for CJ 2nd level " + code);
 
         CategorieJuridiqueNiveauII cjNiveau2 = new CategorieJuridiqueNiveauII(code);
-        String csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauII(code));
-        CSVUtils.populatePOJO(csvResult, cjNiveau2);
+        String csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauII(code));
+        csvUtils.populatePOJO(csvResult, cjNiveau2);
 
         if (cjNiveau2.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
         return Response.ok(ResponseUtils.produceResponse(cjNiveau2, header)).build();
@@ -74,8 +73,8 @@ public class CodesAPI {
         logger.debug("Received GET request for CJ 3rd level " + code);
 
         CategorieJuridiqueNiveauIII cjNiveau3 = new CategorieJuridiqueNiveauIII(code);
-        String csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauIII(code));
-        CSVUtils.populatePOJO(csvResult, cjNiveau3);
+        String csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauIII(code));
+        csvUtils.populatePOJO(csvResult, cjNiveau3);
 
         if (cjNiveau3.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
         return Response.ok(ResponseUtils.produceResponse(cjNiveau3, header)).build();
@@ -97,17 +96,17 @@ public class CodesAPI {
         String csvResult = "";
 
         if (date == null)
-            csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCJByCode(code));
+            csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJByCode(code));
         else if (date.equals("*"))
-            csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCJ(code));
+            csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJ(code));
         else {
             if ( ! DateUtils.isValidDate(date)) return Response.status(Status.BAD_REQUEST).entity("").build();
             DateTime dt = DateUtils.getDateTimeFromDateString(date);
-            csvResult = SparqlUtils.executeSparqlQuery(CJQueries.getCJByCodeAndDate(code, dt));
+            csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJByCodeAndDate(code, dt));
         }
 
         List<CategorieJuridique> cjList =
-            (List<CategorieJuridique>) CSVUtils.populateMultiPOJO(csvResult, CategorieJuridique.class);
+            (List<CategorieJuridique>) csvUtils.populateMultiPOJO(csvResult, CategorieJuridique.class);
 
         // sub query return ,,,, result. So check list size and first element is not empty
         if (cjList.size() == 0 || cjList.get(0).getCode().equals(""))
@@ -130,8 +129,8 @@ public class CodesAPI {
         logger.debug("Received GET request for NAF sub-class " + code);
 
         SousClasseNAF2008 sousClasse = new SousClasseNAF2008(code);
-        String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
-        CSVUtils.populatePOJO(csvResult, sousClasse);
+        String csvResult = sparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
+        csvUtils.populatePOJO(csvResult, sousClasse);
 
         if (sousClasse.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
         return Response.ok(ResponseUtils.produceResponse(sousClasse, header)).build();
@@ -147,8 +146,8 @@ public class CodesAPI {
         logger.debug("Received GET request for NAF rev. 2 class " + code);
 
         ClasseNAF2008 classe = new ClasseNAF2008(code);
-        String csvResult = SparqlUtils.executeSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
-        CSVUtils.populatePOJO(csvResult, classe);
+        String csvResult = sparqlUtils.executeSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
+        csvUtils.populatePOJO(csvResult, classe);
 
         if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
         return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
@@ -164,8 +163,8 @@ public class CodesAPI {
         logger.debug("Received GET request for NAF rev. 1 class " + code);
 
         ClasseNAF2003 classe = new ClasseNAF2003(code);
-        String csvResult = SparqlUtils.executeSparqlQuery(Naf2003Queries.getClasseNAF2003(code));
-        CSVUtils.populatePOJO(csvResult, classe);
+        String csvResult = sparqlUtils.executeSparqlQuery(Naf2003Queries.getClasseNAF2003(code));
+        csvUtils.populatePOJO(csvResult, classe);
 
         if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
         return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
@@ -181,8 +180,8 @@ public class CodesAPI {
         logger.debug("Received GET request for NAF class " + code);
 
         ClasseNAF1993 classe = new ClasseNAF1993(code);
-        String csvResult = SparqlUtils.executeSparqlQuery(Naf1993Queries.getClasseNAF1993(code));
-        CSVUtils.populatePOJO(csvResult, classe);
+        String csvResult = sparqlUtils.executeSparqlQuery(Naf1993Queries.getClasseNAF1993(code));
+        csvUtils.populatePOJO(csvResult, classe);
 
         if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
         return Response.ok(ResponseUtils.produceResponse(classe, header)).build();
@@ -198,8 +197,8 @@ public class CodesAPI {
         logger.debug("Received GET request for NA 1973 group " + code);
 
         GroupeNA1973 groupe = new GroupeNA1973(code);
-        String csvResult = SparqlUtils.executeSparqlQuery(Na1973Queries.getGroupeNA1973(code));
-        CSVUtils.populatePOJO(csvResult, groupe);
+        String csvResult = sparqlUtils.executeSparqlQuery(Na1973Queries.getGroupeNA1973(code));
+        csvUtils.populatePOJO(csvResult, groupe);
 
         if (groupe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
         return Response.ok(ResponseUtils.produceResponse(groupe, header)).build();
@@ -221,16 +220,16 @@ public class CodesAPI {
         String csvResult = "";
 
         if (date == null)
-            csvResult = SparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCode(code));
+            csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCode(code));
         else if (date.equals("*"))
-            csvResult = SparqlUtils.executeSparqlQuery(ActivitesQueries.getActivites(code));
+            csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActivites(code));
         else {
             if ( ! DateUtils.isValidDate(date)) return Response.status(Status.BAD_REQUEST).entity("").build();
             DateTime dt = DateUtils.getDateTimeFromDateString(date);
-            csvResult = SparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCodeAndDate(code, dt));
+            csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCodeAndDate(code, dt));
         }
 
-        List<Activite> activityList = (List<Activite>) CSVUtils.populateMultiPOJO(csvResult, Activite.class);
+        List<Activite> activityList = (List<Activite>) csvUtils.populateMultiPOJO(csvResult, Activite.class);
 
         if (activityList.size() == 0)
             return Response.status(Status.NOT_FOUND).entity("").build();

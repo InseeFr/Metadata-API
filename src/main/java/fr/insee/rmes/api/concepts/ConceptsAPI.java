@@ -17,31 +17,21 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.concepts.Definition;
 import fr.insee.rmes.modeles.concepts.Definitions;
 import fr.insee.rmes.queries.concepts.ConceptsQueries;
-import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/concepts")
 @Tag(name = "concepts", description = "Concepts API")
-@ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "Successful operation"),
-    @ApiResponse(responseCode = "400", description = "La syntaxe de la requête est incorrecte"),
-    @ApiResponse(responseCode = "401", description = "Une authentification est nécessaire pour accéder à la ressource"),
-    @ApiResponse(responseCode = "404", description = "Ressource non trouvée"),
-    @ApiResponse(responseCode = "406", description = "L'en-tête HTTP 'Accept' contient une valeur non acceptée"),
-    @ApiResponse(responseCode = "500", description = "Erreur interne du serveur")
-})
-public class ConceptsAPI {
+public class ConceptsAPI extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(ConceptsAPI.class);
 
@@ -64,8 +54,8 @@ public class ConceptsAPI {
 
         String label = StringUtils.isEmpty(libelle) ? "" : libelle;
 
-        String csvResult = SparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptsByLabel(label));
-        List<Definition> conceptList = CSVUtils.populateMultiPOJO(csvResult, Definition.class);
+        String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptsByLabel(label));
+        List<Definition> conceptList = csvUtils.populateMultiPOJO(csvResult, Definition.class);
 
         if (conceptList.size() == 0)
             return Response.status(Status.NOT_FOUND).entity("").build();
@@ -92,8 +82,8 @@ public class ConceptsAPI {
         logger.debug("Received GET request for Concept: " + id);
 
         Definition concept = new Definition(id);
-        String csvResult = SparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));
-        CSVUtils.populatePOJO(csvResult, concept);
+        String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));
+        csvUtils.populatePOJO(csvResult, concept);
 
         if (concept.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
         return Response.ok(ResponseUtils.produceResponse(concept, header)).build();

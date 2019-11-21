@@ -11,15 +11,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.classification.correspondence.Correspondence;
 import fr.insee.rmes.modeles.classification.correspondence.Correspondences;
 import fr.insee.rmes.queries.classifications.CorrespondencesQueries;
-import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
 
 @Path("/correspondances")
-public class CorrespondencesApi {
+public class CorrespondencesApi extends MetadataApi {
 
     @GET
     @Produces({
@@ -27,11 +26,11 @@ public class CorrespondencesApi {
     })
     public Response getAllCorrespondences(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
-        String csvResult = SparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
+        String csvResult = sparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
 
         @SuppressWarnings("unchecked")
         List<Correspondence> itemsList =
-            (List<Correspondence>) CSVUtils.populateMultiPOJO(csvResult, Correspondence.class);
+            (List<Correspondence>) csvUtils.populateMultiPOJO(csvResult, Correspondence.class);
 
         if (itemsList.size() == 0)
             return Response.status(Status.NOT_FOUND).entity("").build();

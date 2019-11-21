@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.config.Configuration;
 import fr.insee.rmes.modeles.operations.CsvIndicateur;
 import fr.insee.rmes.modeles.operations.CsvSerie;
@@ -34,13 +35,11 @@ import fr.insee.rmes.modeles.operations.documentations.Document;
 import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 import fr.insee.rmes.modeles.operations.documentations.Rubrique;
 import fr.insee.rmes.queries.operations.OperationsQueries;
-import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.FileUtils;
 import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
 
 @Path("/operations")
-public class OperationsAPI {
+public class OperationsAPI extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(OperationsAPI.class);
 
@@ -53,9 +52,9 @@ public class OperationsAPI {
     public Response getOperationsTree(@HeaderParam("Accept") String header, @QueryParam("diffuseur") String diffuseur) {
         logger.debug("Received GET request operations tree");
 
-        String csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getOperationTree());
+        String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getOperationTree());
         List<FamilyToOperation> opList =
-            (List<FamilyToOperation>) CSVUtils.populateMultiPOJO(csvResult, FamilyToOperation.class);
+            (List<FamilyToOperation>) csvUtils.populateMultiPOJO(csvResult, FamilyToOperation.class);
 
         if (opList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
 
@@ -169,14 +168,14 @@ public class OperationsAPI {
     public Response getDocumentation(@HeaderParam("Accept") String header, @PathParam("id") String id) {
         logger.debug("Received GET request documentation");
 
-        String csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationTitle(id));
+        String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationTitle(id));
         DocumentationSims sims = new DocumentationSims();
-        CSVUtils.populatePOJO(csvResult, sims);
+        csvUtils.populatePOJO(csvResult, sims);
 
         if (sims.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 
-        csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationRubrics(id));
-        List<CsvRubrique> csvRubriques = (List<CsvRubrique>) CSVUtils.populateMultiPOJO(csvResult, CsvRubrique.class);
+        csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationRubrics(id));
+        List<CsvRubrique> csvRubriques = (List<CsvRubrique>) csvUtils.populateMultiPOJO(csvResult, CsvRubrique.class);
         List<Rubrique> rubriques = new ArrayList<>();
         for (CsvRubrique cr : csvRubriques) {
             Rubrique r = new Rubrique(cr.getId(), cr.getUri(), cr.getType());
@@ -206,8 +205,8 @@ public class OperationsAPI {
                 break;
                 case "RICH_TEXT":
                     if (cr.getHasDoc()) {
-                        String csvDocs = SparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId()));
-                        List<Document> docs = (List<Document>) CSVUtils.populateMultiPOJO(csvDocs, Document.class);
+                        String csvDocs = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId()));
+                        List<Document> docs = (List<Document>) csvUtils.populateMultiPOJO(csvDocs, Document.class);
                         r.setDocuments(docs);
                     }
                 case "TEXT":
@@ -233,9 +232,9 @@ public class OperationsAPI {
     public Response getSeries(@PathParam("idSeries") String idSeries, @HeaderParam("Accept") String header) {
         logger.debug("Received GET request series");
 
-        String csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getSeries(idSeries));
+        String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeries(idSeries));
         CsvSerie csvSerie = new CsvSerie();
-        CSVUtils.populatePOJO(csvResult, csvSerie);
+        csvUtils.populatePOJO(csvResult, csvSerie);
 
         if (csvSerie.getSeriesId() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 
@@ -287,39 +286,39 @@ public class OperationsAPI {
         }
 
         if (csvSerie.getHasOperation()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getOperationBySeries(idSeries));
-            List<Operation> liste = (List<Operation>) CSVUtils.populateMultiPOJO(csv, Operation.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getOperationBySeries(idSeries));
+            List<Operation> liste = (List<Operation>) csvUtils.populateMultiPOJO(csv, Operation.class);
             s.setOperations(liste);
         }
 
         if (csvSerie.getHasIndic()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getIndicBySeries(idSeries));
-            List<Indicateur> liste = (List<Indicateur>) CSVUtils.populateMultiPOJO(csv, Indicateur.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getIndicBySeries(idSeries));
+            List<Indicateur> liste = (List<Indicateur>) csvUtils.populateMultiPOJO(csv, Indicateur.class);
             s.setIndicateurs(liste);
         }
         if (csvSerie.getHasSeeAlso()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoBySeries(idSeries));
-            List<SimpleObject> liste = (List<SimpleObject>) CSVUtils.populateMultiPOJO(csv, SimpleObject.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoBySeries(idSeries));
+            List<SimpleObject> liste = (List<SimpleObject>) csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             s.setSeeAlso(liste);
         }
         if (csvSerie.getHasIsReplacedBy()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getIsReplacedByBySeries(idSeries));
-            List<Serie> liste = (List<Serie>) CSVUtils.populateMultiPOJO(csv, Serie.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getIsReplacedByBySeries(idSeries));
+            List<Serie> liste = (List<Serie>) csvUtils.populateMultiPOJO(csv, Serie.class);
             s.setIsReplacedBy(liste);
         }
         if (csvSerie.getHasReplaces()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getReplacesBySeries(idSeries));
-            List<Serie> liste = (List<Serie>) CSVUtils.populateMultiPOJO(csv, Serie.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getReplacesBySeries(idSeries));
+            List<Serie> liste = (List<Serie>) csvUtils.populateMultiPOJO(csv, Serie.class);
             s.setReplaces(liste);
         }
         if (csvSerie.getHasCreator()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getCreatorsBySeries(idSeries));
-            List<SimpleObject> liste = (List<SimpleObject>) CSVUtils.populateMultiPOJO(csv, SimpleObject.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getCreatorsBySeries(idSeries));
+            List<SimpleObject> liste = (List<SimpleObject>) csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             s.setCreators(liste);
         }
         if (csvSerie.getHasContributor()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsBySeries(idSeries));
-            List<SimpleObject> liste = (List<SimpleObject>) CSVUtils.populateMultiPOJO(csv, SimpleObject.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsBySeries(idSeries));
+            List<SimpleObject> liste = (List<SimpleObject>) csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             s.setContributors(liste);
         }
 
@@ -338,9 +337,9 @@ public class OperationsAPI {
         @HeaderParam("Accept") String header) {
         logger.debug("Received GET request indicator");
 
-        String csvResult = SparqlUtils.executeSparqlQuery(OperationsQueries.getIndicator(idIndicateur));
+        String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getIndicator(idIndicateur));
         CsvIndicateur csvIndic = new CsvIndicateur();
-        CSVUtils.populatePOJO(csvResult, csvIndic);
+        csvUtils.populatePOJO(csvResult, csvIndic);
 
         if (csvIndic.getId() == null) return Response.status(Status.NOT_FOUND).entity("").build();
 
@@ -373,28 +372,28 @@ public class OperationsAPI {
             i.setCreator(creator);
         }
         if (csvIndic.getHasContributor()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsByIndic(idIndicateur));
-            List<SimpleObject> liste = (List<SimpleObject>) CSVUtils.populateMultiPOJO(csv, SimpleObject.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsByIndic(idIndicateur));
+            List<SimpleObject> liste = (List<SimpleObject>) csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             i.setContributors(liste);
         }
         if (csvIndic.getHasReplaces()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getReplacesByIndic(idIndicateur));
-            List<Indicateur> liste = (List<Indicateur>) CSVUtils.populateMultiPOJO(csv, Indicateur.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getReplacesByIndic(idIndicateur));
+            List<Indicateur> liste = (List<Indicateur>) csvUtils.populateMultiPOJO(csv, Indicateur.class);
             i.setReplaces(liste);
         }
         if (csvIndic.getHasIsReplacedBy()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getIsReplacedByByIndic(idIndicateur));
-            List<Indicateur> liste = (List<Indicateur>) CSVUtils.populateMultiPOJO(csv, Indicateur.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getIsReplacedByByIndic(idIndicateur));
+            List<Indicateur> liste = (List<Indicateur>) csvUtils.populateMultiPOJO(csv, Indicateur.class);
             i.setIsReplacedBy(liste);
         }
         if (csvIndic.getHasSeeAlso()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoByIndic(idIndicateur));
-            List<SimpleObject> liste = (List<SimpleObject>) CSVUtils.populateMultiPOJO(csv, SimpleObject.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoByIndic(idIndicateur));
+            List<SimpleObject> liste = (List<SimpleObject>) csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             i.setSeeAlso(liste);
         }
         if (csvIndic.getHasWasGeneratedBy()) {
-            String csv = SparqlUtils.executeSparqlQuery(OperationsQueries.getWasGeneratedByByIndic(idIndicateur));
-            List<Serie> liste = (List<Serie>) CSVUtils.populateMultiPOJO(csv, Serie.class);
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getWasGeneratedByByIndic(idIndicateur));
+            List<Serie> liste = (List<Serie>) csvUtils.populateMultiPOJO(csv, Serie.class);
             i.setWasGeneratedBy(liste);
         }
         if (StringUtils.isNotEmpty(csvIndic.getPeriodicity())) {
