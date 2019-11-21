@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import fr.insee.rmes.api.concepts.ConceptsAPI;
 import fr.insee.rmes.modeles.concepts.Definition;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.SparqlUtils;

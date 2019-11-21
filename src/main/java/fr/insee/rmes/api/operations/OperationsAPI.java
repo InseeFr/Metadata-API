@@ -33,7 +33,7 @@ import fr.insee.rmes.modeles.operations.documentations.CsvRubrique;
 import fr.insee.rmes.modeles.operations.documentations.Document;
 import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 import fr.insee.rmes.modeles.operations.documentations.Rubrique;
-import fr.insee.rmes.queries.OperationsQueries;
+import fr.insee.rmes.queries.operations.OperationsQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.FileUtils;
 import fr.insee.rmes.utils.ResponseUtils;

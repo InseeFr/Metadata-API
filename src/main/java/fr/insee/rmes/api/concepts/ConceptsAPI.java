@@ -1,4 +1,4 @@
-package fr.insee.rmes.api;
+package fr.insee.rmes.api.concepts;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.modeles.concepts.Definition;
 import fr.insee.rmes.modeles.concepts.Definitions;
-import fr.insee.rmes.queries.ConceptsQueries;
+import fr.insee.rmes.queries.concepts.ConceptsQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
 import fr.insee.rmes.utils.SparqlUtils;

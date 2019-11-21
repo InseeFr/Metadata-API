@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response.Status;
 
 import fr.insee.rmes.modeles.classification.correspondence.Associations;
 import fr.insee.rmes.modeles.classification.correspondence.RawCorrespondence;
-import fr.insee.rmes.queries.CorrespondencesQueries;
+import fr.insee.rmes.queries.classifications.CorrespondencesQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
 import fr.insee.rmes.utils.SparqlUtils;
