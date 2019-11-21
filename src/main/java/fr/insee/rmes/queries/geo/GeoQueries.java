@@ -1,4 +1,4 @@
-package fr.insee.rmes.queries;
+package fr.insee.rmes.queries.geo;
 
 import fr.insee.rmes.config.Configuration;
 

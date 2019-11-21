@@ -1,4 +1,4 @@
-package fr.insee.rmes.queries;
+package fr.insee.rmes.queries.classifications;
 
 public class CorrespondencesQueries {
 	

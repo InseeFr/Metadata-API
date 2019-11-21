@@ -26,6 +26,7 @@ import fr.insee.rmes.modeles.classification.PosteJson;
 import fr.insee.rmes.modeles.classification.PosteXml;
 import fr.insee.rmes.modeles.classification.Postes;
 import fr.insee.rmes.queries.ClassificationsQueries;
+import fr.insee.rmes.queries.classifications.ClassificationsQueries;
 import fr.insee.rmes.utils.ResponseUtils;
 
 @Path("/nomenclature")

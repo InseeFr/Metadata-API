@@ -1,4 +1,4 @@
-package fr.insee.rmes.queries;
+package fr.insee.rmes.queries.operations;
 
 public class OperationsQueries {
 	

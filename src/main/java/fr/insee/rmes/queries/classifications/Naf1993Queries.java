@@ -1,13 +1,13 @@
-package fr.insee.rmes.queries;
+package fr.insee.rmes.queries.classifications;
 
 import fr.insee.rmes.config.Configuration;
 
-public class Na1973Queries {
+public class Naf1993Queries {
 	
-	public static String getGroupeNA1973(String code) {
+	public static String getClasseNAF1993(String code) {
 		return "SELECT ?uri ?intitule WHERE { \n"
 				+ "?uri skos:notation '" + code + "' . \n"
-				+ "<" + Configuration.BASE_HOST + "/codes/na73/groupes> skos:member ?uri . \n"
+				+ "<" + Configuration.BASE_HOST + "/codes/naf/classes> skos:member ?uri . \n"
 				+ "?uri skos:prefLabel ?intitule  \n"
 				+ "FILTER (lang(?intitule) = 'fr') \n"
 				+ "}";

@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response.Status;
 
 import fr.insee.rmes.modeles.classification.Classification;
 import fr.insee.rmes.modeles.classification.Classifications;
-import fr.insee.rmes.queries.ClassificationsQueries;
+import fr.insee.rmes.queries.classifications.ClassificationsQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
 import fr.insee.rmes.utils.SparqlUtils;

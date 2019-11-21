@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import fr.insee.rmes.modeles.geo.Commune;
 import fr.insee.rmes.modeles.geo.Country;
 import fr.insee.rmes.modeles.geo.Region;
-import fr.insee.rmes.queries.GeoQueries;
+import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
 import fr.insee.rmes.utils.SparqlUtils;
