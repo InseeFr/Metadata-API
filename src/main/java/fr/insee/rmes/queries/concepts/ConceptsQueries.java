@@ -5,9 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 public class ConceptsQueries {
 
     public static String getConceptsByLabel(String label) {
-        if (StringUtils.isEmpty(label)) {
-            label = "";
-        }
 
         return "SELECT ?id ?uri ?intitule ?remplace ?estRemplacePar WHERE { \n"
             + "?uri skos:inScheme ?conceptScheme . \n"
@@ -16,7 +13,7 @@ public class ConceptsQueries {
             + "?uri skos:prefLabel ?intitule . \n"
             + "FILTER(lang(?intitule) = 'fr') \n"
             + "FILTER(CONTAINS(LCASE(STR(?intitule)),\""
-            + label.toLowerCase()
+            + (StringUtils.isEmpty(label) ? "" : label.toLowerCase())
             + "\"))"
             + "OPTIONAL{ ?uri dcterms:replaces ?remplace } \n"
             + "OPTIONAL{ ?estRemplacePar dcterms:replaces ?uri } \n"
