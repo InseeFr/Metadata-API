@@ -23,7 +23,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import fr.insee.rmes.modeles.concepts.Definition;
-import fr.insee.rmes.queries.concepts.ConceptsQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.SparqlUtils;
 
@@ -37,9 +36,6 @@ public class ConceptsAPITest extends JerseyTest {
 
     @Mock
     CSVUtils mockCSVUtils;
-
-    @Mock
-    ConceptsQueries mockConceptsQueries;
 
     List<Object> listeDefinition = new ArrayList<>();
 
@@ -65,7 +61,6 @@ public class ConceptsAPITest extends JerseyTest {
     public void givenGetConcepts_whenCorrectRequest_thenResponseIsOk() {
 
         listeDefinition.add(new Definition());
-        when(mockConceptsQueries.getConceptsByLabel(Mockito.anyString())).thenReturn("");
         when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
         when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(listeDefinition);
 
