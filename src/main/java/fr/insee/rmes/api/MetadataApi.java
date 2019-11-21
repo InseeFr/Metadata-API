@@ -1,7 +1,5 @@
 package fr.insee.rmes.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.SparqlUtils;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,11 +15,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 })
 public abstract class MetadataApi {
 
-    @Autowired
     protected SparqlUtils sparqlUtils;
 
-    @Autowired
     protected CSVUtils csvUtils;
+
+    public MetadataApi() {
+        super();
+        this.sparqlUtils = new SparqlUtils();
+        this.csvUtils = new CSVUtils();
+    }
 
     public SparqlUtils getSparqlUtils() {
         return sparqlUtils;

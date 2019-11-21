@@ -5,17 +5,17 @@
 	id="rmes-api" version="3.0">
 
 	<display-name>RMéS metadata API</display-name>
-	
+
 	<!-- LOGS -->
 	<context-param>
 		<param-name>isLog4jAutoInitializationDisabled</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	
+
 	<listener>
 		<listener-class>fr.insee.rmes.config.Log4j2ServletContextListener</listener-class>
 	</listener>
-	
+
 	<!-- DEFAULT FOR STATIC PAGES -->
 	<filter>
 		<filter-name>default</filter-name>
@@ -63,7 +63,7 @@
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
 			<param-value>fr.insee.rmes.config.SwaggerConfig</param-value>
-		</init-param> 
+		</init-param>
 		<init-param>
 			<param-name>jersey.config.server.tracing.type</param-name>
 			<param-value>ON_DEMAND</param-value> <!-- ON_DEMAND for tracing by X-Jersey-Tracing-Accept header -->
@@ -82,7 +82,4 @@
 		<servlet-name>jersey-filter</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
-
-
-
 </web-app>
