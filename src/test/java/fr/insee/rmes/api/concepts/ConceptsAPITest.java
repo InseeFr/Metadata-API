@@ -109,7 +109,7 @@ public class ConceptsAPITest {
     }
 
     @Test
-    public void givenGetConceptsById_whenCorrectRequest_thenResponseIsOk() {
+    public void givenGetConceptById_whenCorrectRequest_thenResponseIsOk() {
 
         // Mock
         definition.setUri("aUri");
@@ -123,7 +123,7 @@ public class ConceptsAPITest {
     }
 
     @Test
-    public void givenGetConceptsById_whenCorrectRequest_andDefinitionNotFound_thenResponseIsNotFound() {
+    public void givenGetConceptById_whenCorrectRequest_andDefinitionNotFound_thenResponseIsNotFound() {
 
         // Mock
         when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
