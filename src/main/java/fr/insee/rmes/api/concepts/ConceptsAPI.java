@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 
 import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.concepts.Definition;
@@ -76,8 +77,14 @@ public class ConceptsAPI extends MetadataApi {
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
+    @Operation(
+        operationId = "getconcept",
+        summary = "Informations sur la définition d'un concept statistique de l'Insee",
+        responses = {
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Definition.class)))
+        })
     public Response getConceptById(
-        @PathParam("id") String id,
+        @PathParam("id") @Required String id,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
         logger.debug("Received GET request for Concept: " + id);
@@ -93,5 +100,4 @@ public class ConceptsAPI extends MetadataApi {
             return Response.ok(responseUtils.produceResponse(concept, header)).build();
         }
     }
-
 }
