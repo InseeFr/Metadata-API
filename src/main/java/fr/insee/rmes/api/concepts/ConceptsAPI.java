@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 
 import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.concepts.Definition;
@@ -47,7 +46,9 @@ public class ConceptsAPI extends MetadataApi {
             @ApiResponse(content = @Content(schema = @Schema(implementation = Definitions.class)))
         })
     public Response getConcepts(
-        @QueryParam("libelle") String libelle,
+        @Parameter(
+            description = "Recherche dans les libellés",
+            schema = @Schema(type = "string")) @QueryParam("libelle") String libelle,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
         logger.debug("Received GET request concepts");
@@ -84,7 +85,10 @@ public class ConceptsAPI extends MetadataApi {
             @ApiResponse(content = @Content(schema = @Schema(implementation = Definition.class)))
         })
     public Response getConceptById(
-        @PathParam("id") @Required String id,
+        @Parameter(
+            required = true,
+            description = "Identifiant du concept (format : c[0-9]{4})",
+            schema = @Schema(pattern = "c[0-9]{4}", type = "string")) @PathParam("id") String id,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
         logger.debug("Received GET request for Concept: " + id);
