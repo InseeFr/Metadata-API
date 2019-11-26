@@ -16,8 +16,15 @@ import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.classification.correspondence.Associations;
 import fr.insee.rmes.modeles.classification.correspondence.RawCorrespondence;
 import fr.insee.rmes.queries.classifications.CorrespondencesQueries;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/correspondance")
+@Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class CorrespondenceApi extends MetadataApi {
 
     @GET
@@ -25,9 +32,17 @@ public class CorrespondenceApi extends MetadataApi {
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
+    @Operation(
+        operationId = "getCorrespondenceByCode",
+        summary = "Correspondance entre deux nomenclatures",
+        responses = {
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Associations.class)))
+        })
     public Response getCorrespondencesById(
-        @PathParam("idCorrespondance") String idCorrespondance,
-        @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+        @Parameter(
+            required = true,
+            description = "Identifiant de la correspondance") @PathParam("idCorrespondance") String idCorrespondance,
+        @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult =
             sparqlUtils
@@ -36,7 +51,7 @@ public class CorrespondenceApi extends MetadataApi {
         /* RawCorrespondence direct mapping from sparql request */
         List<RawCorrespondence> rawItemsList = csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
 
-        if (rawItemsList != null && ! rawItemsList.isEmpty()) {
+        if (rawItemsList != null && !rawItemsList.isEmpty()) {
 
             /* raw sparql result fields order must be got in shape 1 source -> many targets */
             Associations itemsList =
@@ -58,10 +73,20 @@ public class CorrespondenceApi extends MetadataApi {
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
+    @Operation(
+        operationId = "getCorrespondenceByClassificationCodes",
+        summary = " Liste des associations de correspondance entre deux nomenclatures",
+        responses = {
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Associations.class)))
+        })
     public Response getCorrespondenceByIds(
-        @PathParam("idNomenclatureSource") String codeClassification,
-        @PathParam("idNomenclatureCible") String targetCodeClassification,
-        @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+        @Parameter(
+            required = true,
+            description = "Identifiant de la nomenclature source") @PathParam("idNomenclatureSource") String codeClassification,
+        @Parameter(
+            required = true,
+            description = "Identifiant de la nomenclature cible") @PathParam("idNomenclatureCible") String targetCodeClassification,
+        @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult =
             sparqlUtils
