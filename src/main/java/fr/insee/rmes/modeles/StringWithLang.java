@@ -1,10 +1,16 @@
-package fr.insee.rmes.utils;
+package fr.insee.rmes.modeles;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fr.insee.rmes.utils.Lang;
+import io.swagger.v3.oas.annotations.media.Schema;
+@Schema(name = "TexteMultiLangue", description = "TexteMultiLangue")
 public class StringWithLang {
+    @Schema(example = "Texte en français")
     @JsonProperty("contenu")
     private String string = null;
+    
+    @Schema(example = "fr")
     @JsonProperty("langue")
     private Lang lang = null;
 

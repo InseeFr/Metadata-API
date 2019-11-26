@@ -8,12 +8,15 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
-import fr.insee.rmes.utils.StringWithLang;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(name = "Objet Simple", description = "Objet simple")
 public class SimpleObject {
 
     private String id = null;
+    @Schema(example = "http://id.insee.fr/...")
     private String uri = null;
 
     private List<StringWithLang> label = new ArrayList<StringWithLang>();

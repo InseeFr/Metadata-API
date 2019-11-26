@@ -5,19 +5,24 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.modeles.operations.SimpleObject;
 import fr.insee.rmes.utils.Lang;
-import fr.insee.rmes.utils.StringWithLang;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@JsonClassDescription("Objet représentant une rubrique d'une documentation SIMS")
 public class Rubrique {
 
     private String id = null;
+    @Schema(example = "http://id.insee.fr/qualite/attribut/1907/I.18.11")
     private String uri = null;
+    @Schema(description = "Titre de la rubrique")
     private List<StringWithLang> titre = new ArrayList<StringWithLang>();
     private String idParent = null;
     private String type;

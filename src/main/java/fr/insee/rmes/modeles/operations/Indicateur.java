@@ -11,12 +11,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
-import fr.insee.rmes.utils.StringWithLang;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class Indicateur {
 
     private String id = null;
+    @Schema(example = "http://id.insee.fr/produits/indicateur/p1647")
     private String uri = null;
     private List<StringWithLang> label = new ArrayList<StringWithLang>();
     @JsonInclude(Include.NON_NULL)
@@ -44,6 +46,7 @@ public class Indicateur {
     private SimpleObject accrualPeriodicity = null;
 
     @JsonInclude(Include.NON_NULL)
+    @Schema(example = "1011")
     private String simsId = null;
 
     public Indicateur(String uri, String id, String labelLg1, String labelLg2, String simsId) {

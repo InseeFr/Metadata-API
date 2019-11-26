@@ -11,13 +11,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
-import fr.insee.rmes.utils.StringWithLang;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Objet représentant une série d'opérations statistiques")
 public class Serie {
 
     private String id = null;
     private List<StringWithLang> label = new ArrayList<StringWithLang>();
+
+    @Schema(example = "http://id.insee.fr/operations/serie/s1234")
     private String uri = null;
 
     @JsonInclude(Include.NON_NULL)
@@ -37,6 +41,7 @@ public class Serie {
     @JsonInclude(Include.NON_NULL)
     private SimpleObject accrualPeriodicity = null;
 
+    @Schema(example = "1011")
     @JsonInclude(Include.NON_NULL)
     private String simsId = null;
 
