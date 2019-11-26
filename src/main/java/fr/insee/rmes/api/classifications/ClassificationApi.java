@@ -26,20 +26,35 @@ import fr.insee.rmes.modeles.classification.PosteJson;
 import fr.insee.rmes.modeles.classification.PosteXml;
 import fr.insee.rmes.modeles.classification.Postes;
 import fr.insee.rmes.queries.classifications.ClassificationsQueries;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/nomenclature")
+@Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class ClassificationApi extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(ClassificationApi.class);
 
     @GET
-    @Path("/{code}")
+    @Path("/{code}/postes")
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
+    @Operation(
+        operationId = "getClassificationByCode",
+        summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
+        responses = {
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Postes.class)))
+        })
     public Response getClassificationByCode(
-        @PathParam("code") String code,
-        @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+        @Parameter(
+            required = true,
+            description = "Identifiant de la nomenclature (hors cj)") @PathParam("code") String code,
+        @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request for classification " + code);
 
         String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
@@ -60,12 +75,20 @@ public class ClassificationApi extends MetadataApi {
     }
 
     @GET
-    @Path("/{code}/tree")
+    @Path("/{code}/arbre")
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
+    @Operation(
+        operationId = "getClassificationTreeByCode",
+        summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
+        responses = {
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Postes.class)))
+        })
     public Response getClassificationTreeByCode(
-        @PathParam("code") String code,
+        @Parameter(
+            required = true,
+            description = "Identifiant de la nomenclature (hors cj)") @PathParam("code") String code,
         @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request for classification tree " + code);
 
@@ -84,6 +107,7 @@ public class ClassificationApi extends MetadataApi {
         }
     }
 
+    @SuppressWarnings("unchecked") //TODO remove suppressWarning
     private <PosteClass> List<PosteClass> getTree(String csvResult, Class<? extends Poste> PosteClass) {
         List<PosteClass> root = new ArrayList<PosteClass>();
         List<PosteClass> liste = (List<PosteClass>) csvUtils.populateMultiPOJO(csvResult, PosteClass);
