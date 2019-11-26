@@ -9,8 +9,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Activites")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Tableau représentant des activités")
 public class Activites {
 
     private List<Activite> activites = null;

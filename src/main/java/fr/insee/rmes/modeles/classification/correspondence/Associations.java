@@ -11,8 +11,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Associations")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Tableau représentant la liste des associations entre deux nomenclatures")
 public class Associations {
 
     @JsonProperty("associations")

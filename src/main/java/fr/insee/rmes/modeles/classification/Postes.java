@@ -9,8 +9,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Postes")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Tableau représentant les postes d'une nomenclature")
 public class Postes {
 
     private List<? extends Poste> listItems = null;

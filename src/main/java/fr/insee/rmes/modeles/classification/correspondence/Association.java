@@ -11,9 +11,12 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Association")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Schema(description = "Objet représentant une Association")
 public class Association {
 
     @JacksonXmlProperty(localName = "Source")
@@ -23,6 +26,7 @@ public class Association {
     @JacksonXmlProperty(localName = "Cible")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JsonProperty("cibles")
+    @Schema(description = "Liste des postes cibles")
     private List<Poste> itemTargets;
 
     public Association() {

@@ -7,12 +7,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "ClasseNAF1993")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Objet représentant une classe de la NAF 1993")
 public class ClasseNAF1993 {
-
+    @Schema(example = "01.1A")
     private String code = null;
+    @Schema(example = "http://id.insee.fr/codes/naf/classe/01.1A")
     private String uri = null;
+    @Schema(example = "Culture de céréales ; cultures industrielles")
     private String intitule = null;
 
     public ClasseNAF1993() {} // No-args constructor needed for JAXB

@@ -7,7 +7,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Nomenclatures")
+@Schema(name = "Nomenclatures", description = "Tableau représentant la liste des nomenclatures")
 public class Classifications {
 
     private List<Classification> listDescriptions = new ArrayList<Classification>();

@@ -12,20 +12,32 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Poste")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Schema(description = "Objet représentant un poste d'une nomenclature")
 public class Poste {
-
+    @Schema(example = "http://id.insee.fr/codes/nafr2/sousClasse/23.99Z")
     String uri;
+    @Schema(example = "23.99Z")
     String code;
+    @Schema(example = "http://id.insee.fr/codes/nafr2/classe/23.99")
     String uriParent;
+    @Schema(example = "23.99")
     String codeParent;
+    @Schema(example = "Fabrication d'autres produits minéraux non métalliques n.c.a.")
     String intituleFr;
+    @Schema(example = "Manufacture of other non-metallic mineral products n.e.c.")
     String intituleEn;
+    @Schema(example = "exemple contenu limite")
     String contenuLimite;
+    @Schema(example = "exemple contenu central")
     String contenuCentral;
+    @Schema(example = "exemple exclusions")
     String contenuExclu;
+    @Schema(example = "exemple de contenu général")
     String noteGenerale;
 
     @JsonInclude(Include.NON_NULL)

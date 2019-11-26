@@ -7,12 +7,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "CategorieJuridiqueNiveauII")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Objet représentant une catégorie juridique (niveau 2)")
 public class CategorieJuridiqueNiveauII {
-
+    @Schema(example = "10")
     private String code;
+    @Schema(example = "http://id.insee.fr/codes/cj/n2/10")
     private String uri;
+    @Schema(example = "Entrepreneur individuel")
     private String intitule;
 
     public CategorieJuridiqueNiveauII() {} // No-args constructor needed for JAXB

@@ -6,12 +6,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Nomenclature")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(name = "Nomenclature", description = "Objet représentant une nomenclature")
 public class Classification {
-
+    @Schema(example = "nafr2")
     String code;
+    @Schema(example = "http://id.insee.fr/codes/nafr2/naf")
     String uri;
+    @Schema(example = "Nomenclature d'activités française - NAF rév. 2")
     String intitule;
 
     public Classification() {}
