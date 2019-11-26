@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.servers.Server;
 public class SwaggerConfig extends ResourceConfig {
 
     private final static Logger logger = LogManager.getLogger(SwaggerConfig.class);
+    
 
     public SwaggerConfig(@Context ServletConfig servletConfig) throws IOException {
         super();
@@ -32,7 +33,7 @@ public class SwaggerConfig extends ResourceConfig {
         openApi.info(info);
 
         Server server = new Server();
-        server.url("http://localhost:8080/metadata-api");// TODO
+        server.url(Configuration.SWAGGER_URL);
         openApi.addServersItem(server);
 
         SwaggerConfiguration oasConfig =
@@ -47,7 +48,6 @@ public class SwaggerConfig extends ResourceConfig {
         openApiResource.setOpenApiConfiguration(oasConfig);
         register(openApiResource);
         register(MultiPartFeature.class);
-
     }
 
 }

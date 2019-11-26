@@ -153,7 +153,7 @@ public class OperationsAPI extends MetadataApi {
     }
 
     private List<FamilyToOperation> removeExclusions(List<FamilyToOperation> opList) {
-        String path = String.format("%s/storage/%s", Configuration.BASE_PATH, "exclusionsInseeFr.txt");
+        String path = String.format("%s/storage/%s", Configuration.FILE_STORAGE_LOCATION, "exclusionsInseeFr.txt");
         List<List<String>> fileContent = FileUtils.readFile(path, ";");
         if (fileContent == null || fileContent.isEmpty()) {
             logger.warn("Exclusion file empty");

@@ -15,7 +15,12 @@ public class Configuration {
     public static String SPARQL_END_POINT = "";
     public static String BASE_HOST = "";
     public static String FILE_STORAGE = "";
-    public static String BASE_PATH = "";
+    public static String FILE_STORAGE_LOCATION = "";
+
+    public static String SWAGGER_HOST = "";
+    public static String SWAGGER_BASEPATH = "";
+    public static String SWAGGER_URL = "";
+    public static Boolean REQUIRES_SSL = false;
 
     private Properties getProperties() throws IOException {
         Properties props = new Properties();
@@ -47,7 +52,13 @@ public class Configuration {
         SPARQL_END_POINT = props.getProperty("fr.insee.rmes.api.sparqlEndpoint");
         BASE_HOST = props.getProperty("fr.insee.rmes.api.baseHost");
         FILE_STORAGE = props.getProperty("fr.insee.rmes.api.fileStorage");
-        BASE_PATH = props.getProperty("fr.insee.rmes.api.basePath");
+        FILE_STORAGE_LOCATION = props.getProperty("fr.insee.rmes.storage.document");
+
+        SWAGGER_HOST = props.getProperty("fr.insee.rmes.api.host");
+        SWAGGER_BASEPATH = props.getProperty("fr.insee.rmes.api.basepath");
+        SWAGGER_URL = (REQUIRES_SSL ? "https" : "http") + "://" + SWAGGER_HOST + "/" + SWAGGER_BASEPATH;
+        REQUIRES_SSL = Boolean.valueOf(props.getProperty("fr.insee.rmes.api.force.ssl"));
+
     }
 
 }
