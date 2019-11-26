@@ -107,7 +107,7 @@ public class ClassificationApi extends MetadataApi {
         }
     }
 
-    @SuppressWarnings("unchecked") //TODO remove suppressWarning
+    @SuppressWarnings("unchecked") // TODO remove suppressWarning
     private <PosteClass> List<PosteClass> getTree(String csvResult, Class<? extends Poste> PosteClass) {
         List<PosteClass> root = new ArrayList<PosteClass>();
         List<PosteClass> liste = (List<PosteClass>) csvUtils.populateMultiPOJO(csvResult, PosteClass);
