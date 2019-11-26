@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
-import fr.insee.rmes.utils.StringWithLang;
 
 public class Serie {
 

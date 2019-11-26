@@ -1,4 +1,4 @@
-package fr.insee.rmes.utils;
+package fr.insee.rmes.modeles;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

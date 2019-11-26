@@ -8,6 +8,9 @@ import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
+import fr.insee.rmes.modeles.StringWithLang;
+import fr.insee.rmes.modeles.StringXmlMixIn;
+
 public class ResponseUtils {
 
     private static Logger logger = LogManager.getLogger(ResponseUtils.class);

@@ -1,6 +1,8 @@
-package fr.insee.rmes.utils;
+package fr.insee.rmes.modeles;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import fr.insee.rmes.utils.Lang;
 
 public class StringWithLang {
     @JsonProperty("contenu")

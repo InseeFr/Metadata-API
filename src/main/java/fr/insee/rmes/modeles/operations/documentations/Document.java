@@ -9,8 +9,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.insee.rmes.config.Configuration;
+import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
-import fr.insee.rmes.utils.StringWithLang;
 
 public class Document {
     private List<StringWithLang> label = new ArrayList<StringWithLang>();
