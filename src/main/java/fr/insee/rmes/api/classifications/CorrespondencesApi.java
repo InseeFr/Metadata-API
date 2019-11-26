@@ -15,7 +15,6 @@ import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.classification.correspondence.Correspondence;
 import fr.insee.rmes.modeles.classification.correspondence.Correspondences;
 import fr.insee.rmes.queries.classifications.CorrespondencesQueries;
-import fr.insee.rmes.utils.ResponseUtils;
 
 @Path("/correspondances")
 public class CorrespondencesApi extends MetadataApi {
