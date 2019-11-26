@@ -7,13 +7,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Pays")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Objet représentant un pays")
 public class Country {
 
+    @Schema(example = "99217")
     private String code = null;
+    @Schema(example = "http://id.insee.fr/geo/pays/99217")
     private String uri = null;
+    @Schema(example = "Japon")
     private String intitule = null;
+    @Schema(example = "Japon")
     private String intituleEntier = null;
 
     public Country() {} // No-args constructor needed for JAXB

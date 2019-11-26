@@ -7,14 +7,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Definition")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(name = "Définition", description = "Objet représentant la définition d'un concept statistique de l'Insee")
 public class Definition {
 
     private String id = null;
+    @Schema(example = "http://id.insee.fr/concepts/definition/c2066")
     private String uri = null;
+    @Schema(example = "")
     private String intitule = null;
     private String replaces = null;
+    @Schema(example = "http://id.insee.fr/concepts/definition/c1500")
     private String isReplacedBy = null;
 
     public Definition() {}

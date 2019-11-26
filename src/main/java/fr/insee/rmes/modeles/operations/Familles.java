@@ -9,8 +9,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Familles")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Objet représentant l'arborescence des opérations statistiques")
 public class Familles {
 
     List<Famille> families = null;

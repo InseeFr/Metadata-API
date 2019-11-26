@@ -7,12 +7,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JacksonXmlRootElement(localName = "Commune")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Objet représentant une commune")
 public class Commune {
 
+    @Schema(example = "55323")
     private String code = null;
+    @Schema(example = "http://id.insee.fr/geo/commune/55323")
     private String uri = null;
+    @Schema(example = "Martincourt-sur-Meuse")
     private String intitule = null;
 
     public Commune() {} // No-args constructor needed for JAXB

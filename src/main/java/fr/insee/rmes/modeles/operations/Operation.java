@@ -12,14 +12,19 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Objet représentant une opération statistique")
 public class Operation {
 
     private String id = null;
 
     private List<StringWithLang> label = new ArrayList<StringWithLang>();
+
+    @Schema(example = "http://id.insee.fr/operations/operation/s1")
     private String uri = null;
 
+    @Schema(example = "1011")
     @JsonInclude(Include.NON_NULL)
     private String simsId = null;
 

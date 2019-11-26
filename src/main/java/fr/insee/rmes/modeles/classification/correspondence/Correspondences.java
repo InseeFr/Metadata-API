@@ -7,6 +7,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(
+    name = "Correspondances",
+    description = "Objet représentant la liste des correspondances entre deux nomenclatures")
 @JacksonXmlRootElement(localName = "Correspondances")
 public class Correspondences {
 
