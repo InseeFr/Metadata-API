@@ -31,7 +31,7 @@ public class ClassificationsApi extends MetadataApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = "getClassificationByCode",
+        operationId = "getAllClassifications",
         summary = "Liste des nomenclatures disponibles (autres que \"catégories juridiques\")",
         responses = {
             @ApiResponse(content = @Content(schema = @Schema(implementation = Classifications.class)))
