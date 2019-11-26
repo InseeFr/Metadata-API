@@ -15,6 +15,11 @@ import fr.insee.rmes.api.MetadataApi;
 import fr.insee.rmes.modeles.classification.correspondence.Correspondence;
 import fr.insee.rmes.modeles.classification.correspondence.Correspondences;
 import fr.insee.rmes.queries.classifications.CorrespondencesQueries;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Path("/correspondances")
 public class CorrespondencesApi extends MetadataApi {
@@ -23,7 +28,13 @@ public class CorrespondencesApi extends MetadataApi {
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
-    public Response getAllCorrespondences(@HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+    @Operation(
+        operationId = "getAllCorrespondances",
+        summary = "Liste des correspondances entre deux nomenclatures",
+        responses = {
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Correspondences.class)))
+        })
+    public Response getAllCorrespondences(@Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult = sparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
 
