@@ -238,7 +238,7 @@ public class CodesAPI extends MetadataApi {
 
         ClasseNAF1993 classe = new ClasseNAF1993(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Naf1993Queries.getClasseNAF1993(code));
-        csvUtils.populatePOJO(csvResult, classe);
+        classe = (ClasseNAF1993) csvUtils.populatePOJO(csvResult, classe);
 
         if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
         return Response.ok(responseUtils.produceResponse(classe, header)).build();
@@ -255,7 +255,7 @@ public class CodesAPI extends MetadataApi {
         responses = {
             @ApiResponse(content = @Content(schema = @Schema(implementation = GroupeNA1973.class)))
         })
-    public Response getClasseNA1973(
+    public Response getGroupeNA1973(
         @Parameter(
             required = true,
             description = "Code du groupe (deux chiffres, un point, deux chiffres)") @PathParam("code") String code,
