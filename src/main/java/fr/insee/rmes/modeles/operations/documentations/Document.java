@@ -53,8 +53,8 @@ public class Document {
     }
 
     public String getUrl() {
-        if (url != null && url.contains(Configuration.FILE_STORAGE)) {
-            String[] temp = url.split(Configuration.FILE_STORAGE);
+        if (url != null && url.contains(Configuration.getFileStorage())) {
+            String[] temp = url.split(Configuration.getFileStorage());
             return temp[temp.length - 1];
         }
         return url;

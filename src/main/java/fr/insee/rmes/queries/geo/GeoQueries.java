@@ -14,7 +14,7 @@ public class GeoQueries {
             + "?uri igeo:nom ?intitule \n"
             // Ensure that is not the IGN URI and include COM towns
             + "FILTER (REGEX(STR(?uri), '"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/geo/commune/')) \n"
             + "FILTER (lang(?intitule) = 'fr') \n"
             + "}";
@@ -32,7 +32,7 @@ public class GeoQueries {
             + "?uri igeo:nomEntier ?intituleEntier . \n"
             // Ensure that is not the dbpedia URI
             + "FILTER (REGEX(STR(?uri), '"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "')) \n"
             + "FILTER (lang(?intitule) = 'fr') \n"
             + "FILTER (lang(?intituleEntier) = 'fr') \n"
@@ -50,7 +50,7 @@ public class GeoQueries {
             + "?uri igeo:nom ?intitule \n"
             // Ensure that is not the IGN URI
             + "FILTER (REGEX(STR(?uri), '"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "')) \n"
             + "FILTER (lang(?intitule) = 'fr') \n"
             + "}";

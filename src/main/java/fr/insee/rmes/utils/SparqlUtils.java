@@ -17,7 +17,7 @@ public class SparqlUtils {
 
     public String executeSparqlQuery(String query) {
 
-        String uri = queryToURI(query);
+        String uri = this.queryToURI(query);
         Client client = ClientBuilder.newBuilder().build();
         String response = client.target(uri).request("text/csv").get(String.class);
 
@@ -26,7 +26,7 @@ public class SparqlUtils {
     }
 
     public String queryToURI(String query) {
-        return Configuration.SPARQL_END_POINT + "?query=" + encode(QueryUtils.PREFIXES + query);
+        return Configuration.getSparqlEndPoint() + "?query=" + this.encode(QueryUtils.PREFIXES + query);
 
     }
 

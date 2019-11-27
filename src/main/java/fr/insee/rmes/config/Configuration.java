@@ -1,7 +1,6 @@
 package fr.insee.rmes.config;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
@@ -12,26 +11,27 @@ import org.apache.logging.log4j.Logger;
 public class Configuration {
     private static Logger logger = LogManager.getLogger(Configuration.class);
 
-    public static String SPARQL_END_POINT = "";
-    public static String BASE_HOST = "";
-    public static String FILE_STORAGE = "";
-    public static String FILE_STORAGE_LOCATION = "";
+    private static String sparqlEndPoint = "";
 
-    public static String SWAGGER_HOST = "";
-    public static String SWAGGER_BASEPATH = "";
-    public static String SWAGGER_URL = "";
-    public static Boolean REQUIRES_SSL = false;
+    private static String baseHost = "";
+    private static String fileStorage = "";
+    private static String fileStorageLocation = "";
+
+    private static String swaggerHost = "";
+    private static String swaggerBasepath = "";
+    private static String swaggerUrl = "";
+    private static Boolean requiresSsl = false;
 
     private Properties getProperties() throws IOException {
         Properties props = new Properties();
-        props.load(getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
-        loadIfExists(props, "rmes-api.properties");
-        loadIfExists(props, "rmeswnci.properties");
-        loadIfExists(props, "rmeswncz.properties\"");
+        props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
+        this.loadIfExists(props, "rmes-api.properties");
+        this.loadIfExists(props, "rmeswnci.properties");
+        this.loadIfExists(props, "rmeswncz.properties\"");
         return props;
     }
 
-    private void loadIfExists(Properties props, String filename) throws FileNotFoundException, IOException {
+    private void loadIfExists(Properties props, String filename) throws IOException {
         File f;
         f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
         if (f.exists() && ! f.isDirectory()) {
@@ -44,21 +44,87 @@ public class Configuration {
     public Configuration() {
         Properties props = null;
         try {
-            props = getProperties();
+            props = this.getProperties();
+
+            sparqlEndPoint = props.getProperty("fr.insee.rmes.api.sparqlEndpoint");
+            baseHost = props.getProperty("fr.insee.rmes.api.baseHost");
+            fileStorage = props.getProperty("fr.insee.rmes.api.fileStorage");
+            fileStorageLocation = props.getProperty("fr.insee.rmes.storage.document");
+
+            swaggerHost = props.getProperty("fr.insee.rmes.api.host");
+            swaggerBasepath = props.getProperty("fr.insee.rmes.api.basepath");
+            swaggerUrl = (requiresSsl ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
+            requiresSsl = Boolean.valueOf(props.getProperty("fr.insee.rmes.api.force.ssl"));
+
         }
         catch (IOException e) {
             logger.error("Configuration error, can't read properties", e);
         }
-        SPARQL_END_POINT = props.getProperty("fr.insee.rmes.api.sparqlEndpoint");
-        BASE_HOST = props.getProperty("fr.insee.rmes.api.baseHost");
-        FILE_STORAGE = props.getProperty("fr.insee.rmes.api.fileStorage");
-        FILE_STORAGE_LOCATION = props.getProperty("fr.insee.rmes.storage.document");
 
-        SWAGGER_HOST = props.getProperty("fr.insee.rmes.api.host");
-        SWAGGER_BASEPATH = props.getProperty("fr.insee.rmes.api.basepath");
-        SWAGGER_URL = (REQUIRES_SSL ? "https" : "http") + "://" + SWAGGER_HOST + "/" + SWAGGER_BASEPATH;
-        REQUIRES_SSL = Boolean.valueOf(props.getProperty("fr.insee.rmes.api.force.ssl"));
+    }
 
+    public static String getSparqlEndPoint() {
+        return sparqlEndPoint;
+    }
+
+    public static void setSparqlEndPoint(String sparqlEndPoint) {
+        Configuration.sparqlEndPoint = sparqlEndPoint;
+    }
+
+    public static String getBaseHost() {
+        return baseHost;
+    }
+
+    public static void setBaseHost(String baseHost) {
+        Configuration.baseHost = baseHost;
+    }
+
+    public static String getFileStorage() {
+        return fileStorage;
+    }
+
+    public static void setFileStorage(String fileStorage) {
+        Configuration.fileStorage = fileStorage;
+    }
+
+    public static String getFileStorageLocation() {
+        return fileStorageLocation;
+    }
+
+    public static void setFileStorageLocation(String fileStorageLocation) {
+        Configuration.fileStorageLocation = fileStorageLocation;
+    }
+
+    public static String getSwaggerHost() {
+        return swaggerHost;
+    }
+
+    public static void setSwaggerHost(String swaggerHost) {
+        Configuration.swaggerHost = swaggerHost;
+    }
+
+    public static String getSwaggerBasepath() {
+        return swaggerBasepath;
+    }
+
+    public static void setSwaggerBasepath(String swaggerBasepath) {
+        Configuration.swaggerBasepath = swaggerBasepath;
+    }
+
+    public static String getSwaggerUrl() {
+        return swaggerUrl;
+    }
+
+    public static void setSwaggerUrl(String swaggerUrl) {
+        Configuration.swaggerUrl = swaggerUrl;
+    }
+
+    public static Boolean getRequiresSsl() {
+        return requiresSsl;
+    }
+
+    public static void setRequiresSsl(Boolean requiresSsl) {
+        Configuration.requiresSsl = requiresSsl;
     }
 
 }

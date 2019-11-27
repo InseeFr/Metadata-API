@@ -17,10 +17,10 @@ public class CJQueries {
             + "{ \n"
             + "SELECT ?lastCJThirdLevel WHERE { \n"
             + "?lastCJThirdLevel xkos:organizedBy <"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/concepts/cj/cjNiveauII> . \n"
             + "BIND(STRBEFORE(STRAFTER(STR(?lastCJThirdLevel), '"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/cj/cj'), '/niveauII') AS ?lastCJVersion) \n"
             + "BIND(xsd:float(?lastCJVersion) AS ?lastCJVersionFloat)"
             + "} \n"
@@ -41,10 +41,10 @@ public class CJQueries {
             + "{ \n"
             + "SELECT ?lastCJThirdLevel WHERE { \n"
             + "?lastCJThirdLevel xkos:organizedBy <"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/concepts/cj/cjNiveauIII> . \n"
             + "BIND(STRBEFORE(STRAFTER(STR(?lastCJThirdLevel), '"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/cj/cj'), '/niveauIII') AS ?lastCJVersion) \n"
             + "BIND(xsd:float(?lastCJVersion) AS ?lastCJVersionFloat)"
             + "} \n"

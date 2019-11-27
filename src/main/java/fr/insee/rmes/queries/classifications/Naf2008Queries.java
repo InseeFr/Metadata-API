@@ -10,7 +10,7 @@ public class Naf2008Queries {
             + code
             + "' . \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/nafr2/classes> skos:member ?uri . \n"
             + "?uri skos:prefLabel ?intitule  \n"
             + "FILTER (lang(?intitule) = 'fr') \n"
@@ -23,7 +23,7 @@ public class Naf2008Queries {
             + code
             + "' . \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/nafr2/sousClasses> skos:member ?uri . \n"
             + "?uri skos:prefLabel ?intitule  \n"
             + "FILTER (lang(?intitule) = 'fr') \n"

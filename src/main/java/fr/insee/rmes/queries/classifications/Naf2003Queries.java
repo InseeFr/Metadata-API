@@ -10,7 +10,7 @@ public class Naf2003Queries {
             + code
             + "' . \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/nafr1/classes> skos:member ?uri . \n"
             + "?uri skos:prefLabel ?intitule  \n"
             + "FILTER (lang(?intitule) = 'fr') \n"

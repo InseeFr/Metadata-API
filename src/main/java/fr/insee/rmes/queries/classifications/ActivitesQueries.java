@@ -26,16 +26,16 @@ public class ActivitesQueries {
             + "?uri skos:prefLabel ?intitule  \n"
             + "FILTER (lang(?intitule) = 'fr') \n"
             + "VALUES ?classification { <"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/na73/na> \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/naf/naf> \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/nafr1/naf> \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/nafr2/naf> } \n"
             + "}";
     }
@@ -56,16 +56,16 @@ public class ActivitesQueries {
             + "?uri skos:prefLabel ?intitule  \n"
             + "FILTER (lang(?intitule) = 'fr') \n"
             + "VALUES ?classification { <"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/na73/na> \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/naf/naf> \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/nafr1/naf> \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/nafr2/naf> } \n"
             + "} \n"
             + "ORDER BY ?dateDebutValidite";

@@ -92,7 +92,7 @@ public class OperationsApiService {
     }
 
     public List<FamilyToOperation> removeExclusions(List<FamilyToOperation> opList) {
-        String path = String.format("%s/storage/%s", Configuration.FILE_STORAGE_LOCATION, "exclusionsInseeFr.txt");
+        String path = String.format("%s/storage/%s", Configuration.getFileStorage(), "exclusionsInseeFr.txt");
         List<List<String>> fileContent = FileUtils.readFile(path, ";");
         if (fileContent == null || fileContent.isEmpty()) {
             logger.warn("Exclusion file empty");

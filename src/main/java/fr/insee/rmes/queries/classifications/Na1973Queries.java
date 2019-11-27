@@ -10,7 +10,7 @@ public class Na1973Queries {
             + code
             + "' . \n"
             + "<"
-            + Configuration.BASE_HOST
+            + Configuration.getBaseHost()
             + "/codes/na73/groupes> skos:member ?uri . \n"
             + "?uri skos:prefLabel ?intitule  \n"
             + "FILTER (lang(?intitule) = 'fr') \n"
