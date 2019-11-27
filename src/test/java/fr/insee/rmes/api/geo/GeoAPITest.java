@@ -3,19 +3,16 @@ package fr.insee.rmes.api.geo;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
@@ -33,22 +30,15 @@ public class GeoAPITest extends AbstractApiTest {
     private Country country = new Country();
     private Region region = new Region();
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
     public void givenGetCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
-        commune.setUri("quelquechose");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(commune);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        commune.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(commune, Boolean.TRUE);
 
         // Call method
-        geoApi.getCommune("", MediaType.APPLICATION_JSON);
+        geoApi.getCommune("something", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -56,13 +46,11 @@ public class GeoAPITest extends AbstractApiTest {
     public void givenGetCommune_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
-        commune.setUri("quelquechose");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(commune);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        commune.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(commune, Boolean.TRUE);
 
         // Call method
-        geoApi.getCommune("", MediaType.APPLICATION_XML);
+        geoApi.getCommune("something", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -70,13 +58,11 @@ public class GeoAPITest extends AbstractApiTest {
     public void givenGetCountry_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Call method
-        country.setUri("quelquechose");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(country);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        country.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
 
         // Call method
-        geoApi.getCountry("", MediaType.APPLICATION_JSON);
+        geoApi.getCountry("something", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -84,13 +70,11 @@ public class GeoAPITest extends AbstractApiTest {
     public void givenGetCountry_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Call method
-        country.setUri("quelquechose");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(country);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        country.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
 
         // Mock methods
-        geoApi.getCountry("", MediaType.APPLICATION_XML);
+        geoApi.getCountry("something", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -98,13 +82,11 @@ public class GeoAPITest extends AbstractApiTest {
     public void givenGetRegion_whenCorrectRequestt_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
-        region.setUri("quelquechose");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(region);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        region.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.TRUE);
 
         // Call method
-        geoApi.getRegion("", MediaType.APPLICATION_JSON);
+        geoApi.getRegion("something", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -112,13 +94,11 @@ public class GeoAPITest extends AbstractApiTest {
     public void givenGetRegion_whenCorrectRequestt_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
-        region.setUri("quelquechose");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(region);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        region.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.TRUE);
 
         // Call method
-        geoApi.getRegion("", MediaType.APPLICATION_XML);
+        geoApi.getRegion("something", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -126,54 +106,51 @@ public class GeoAPITest extends AbstractApiTest {
     public void givenGetCommune_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(new Commune());
+        this.mockUtilsMethodsThenReturnOnePojo(commune, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getCommune("", MediaType.APPLICATION_XML);
-        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+        Response response = geoApi.getCommune("something", MediaType.APPLICATION_XML);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getCommune("", MediaType.APPLICATION_JSON);
-        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+        response = geoApi.getCommune("something", MediaType.APPLICATION_JSON);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }
 
     @Test
     public void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(new Country());
+        this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getCountry("", MediaType.APPLICATION_XML);
-        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+        Response response = geoApi.getCountry("something", MediaType.APPLICATION_XML);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getCountry("", MediaType.APPLICATION_JSON);
-        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+        response = geoApi.getCountry("something", MediaType.APPLICATION_JSON);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }
 
     @Test
     public void givenGetRegion_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(new Region());
+        this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getRegion("", MediaType.APPLICATION_XML);
-        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+        Response response = geoApi.getRegion("something", MediaType.APPLICATION_XML);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getRegion("", MediaType.APPLICATION_JSON);
-        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+        response = geoApi.getRegion("something", MediaType.APPLICATION_JSON);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }
 
 }

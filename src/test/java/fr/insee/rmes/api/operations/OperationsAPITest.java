@@ -10,14 +10,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
@@ -40,25 +38,17 @@ public class OperationsAPITest extends AbstractApiTest {
     private CsvSerie csvSerie = new CsvSerie();
     private CsvIndicateur csvIndic = new CsvIndicateur();
 
-    @Override
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
     public void givenGetOperationsTree_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
         list.add(new FamilyToOperation());
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
         when(mockOperationApiService.getListeFamilyToOperation(Mockito.any()))
             .thenReturn(new HashMap<String, Famille>());
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
 
         // Call method with header content is json
-        operationsAPI.getOperationsTree("", MediaType.APPLICATION_JSON);
+        operationsAPI.getOperationsTree("something", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -67,14 +57,12 @@ public class OperationsAPITest extends AbstractApiTest {
 
         // Mock
         list.add(new FamilyToOperation());
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
         when(mockOperationApiService.getListeFamilyToOperation(Mockito.any()))
             .thenReturn(new HashMap<String, Famille>());
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
 
         // Call method with header content is xml
-        operationsAPI.getOperationsTree("toto", MediaType.APPLICATION_XML);
+        operationsAPI.getOperationsTree("something", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -83,11 +71,9 @@ public class OperationsAPITest extends AbstractApiTest {
 
         // Mock
         list.add(new FamilyToOperation());
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
         when(mockOperationApiService.getListeFamilyToOperation(Mockito.any()))
             .thenReturn(new HashMap<String, Famille>());
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
 
         // Call method with header content is json
         operationsAPI.getOperationsTree("insee.fr", MediaType.APPLICATION_JSON);
@@ -98,14 +84,13 @@ public class OperationsAPITest extends AbstractApiTest {
     public void givenGetOperationsTree_whenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method with header content is json
-        Response response = operationsAPI.getOperationsTree("insee.fr", MediaType.APPLICATION_JSON);
+        Response response = operationsAPI.getOperationsTree("something", MediaType.APPLICATION_JSON);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
-        response = operationsAPI.getOperationsTree("insee.fr", MediaType.APPLICATION_XML);
+        response = operationsAPI.getOperationsTree("something", MediaType.APPLICATION_XML);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, Mockito.never()).produceResponse(Mockito.any(), Mockito.any());
@@ -116,12 +101,10 @@ public class OperationsAPITest extends AbstractApiTest {
 
         // Mock
         sims.setUri("something");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(sims);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(sims, Boolean.TRUE);
 
         // Call method with header content is json
-        operationsAPI.getDocumentation("", MediaType.APPLICATION_JSON);
+        operationsAPI.getDocumentation("something", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -130,12 +113,10 @@ public class OperationsAPITest extends AbstractApiTest {
 
         // Mock
         sims.setUri("something");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(sims);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(sims, Boolean.TRUE);
 
         // Call method with header content is xml
-        operationsAPI.getDocumentation("toto", MediaType.APPLICATION_XML);
+        operationsAPI.getDocumentation("something", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -143,14 +124,13 @@ public class OperationsAPITest extends AbstractApiTest {
     public void givenGetDocumentation_whenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(sims);
+        this.mockUtilsMethodsThenReturnOnePojo(sims, Boolean.FALSE);
 
         // Call method with header content is json
-        Response response = operationsAPI.getDocumentation("", MediaType.APPLICATION_JSON);
+        Response response = operationsAPI.getDocumentation("something", MediaType.APPLICATION_JSON);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
-        response = operationsAPI.getDocumentation("", MediaType.APPLICATION_XML);
+        response = operationsAPI.getDocumentation("something", MediaType.APPLICATION_XML);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, Mockito.never()).produceResponse(Mockito.any(), Mockito.any());
@@ -161,12 +141,10 @@ public class OperationsAPITest extends AbstractApiTest {
 
         // Mock
         csvSerie.setSeriesId("something");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(csvSerie);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(csvSerie, Boolean.TRUE);
 
         // Call method with header content is json
-        operationsAPI.getSeries("", MediaType.APPLICATION_JSON);
+        operationsAPI.getSeries("something", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -175,12 +153,10 @@ public class OperationsAPITest extends AbstractApiTest {
 
         // Mock
         csvSerie.setSeriesId("something");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(csvSerie);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(csvSerie, Boolean.TRUE);
 
         // Call method with header content is xml
-        operationsAPI.getSeries("toto", MediaType.APPLICATION_XML);
+        operationsAPI.getSeries("something", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -188,14 +164,13 @@ public class OperationsAPITest extends AbstractApiTest {
     public void givenGetSeries_whenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(csvSerie);
+        this.mockUtilsMethodsThenReturnOnePojo(csvSerie, Boolean.FALSE);
 
         // Call method with header content is json
-        Response response = operationsAPI.getSeries("", MediaType.APPLICATION_JSON);
+        Response response = operationsAPI.getSeries("something", MediaType.APPLICATION_JSON);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
-        response = operationsAPI.getSeries("", MediaType.APPLICATION_XML);
+        response = operationsAPI.getSeries("something", MediaType.APPLICATION_XML);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, Mockito.never()).produceResponse(Mockito.any(), Mockito.any());
@@ -206,12 +181,10 @@ public class OperationsAPITest extends AbstractApiTest {
 
         // Mock
         csvIndic.setId("something");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(csvIndic);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(csvIndic, Boolean.TRUE);
 
         // Call method with header content is json
-        operationsAPI.getIndicateur("", MediaType.APPLICATION_JSON);
+        operationsAPI.getIndicateur("something", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -220,12 +193,10 @@ public class OperationsAPITest extends AbstractApiTest {
 
         // Mock
         csvIndic.setId("something");
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(csvIndic);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(csvIndic, Boolean.TRUE);
 
         // Call method with header content is xml
-        operationsAPI.getIndicateur("toto", MediaType.APPLICATION_XML);
+        operationsAPI.getIndicateur("something", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -233,17 +204,15 @@ public class OperationsAPITest extends AbstractApiTest {
     public void givenGetIndicateur_whenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(csvIndic);
+        this.mockUtilsMethodsThenReturnOnePojo(csvIndic, Boolean.FALSE);
 
         // Call method with header content is json
-        Response response = operationsAPI.getIndicateur("", MediaType.APPLICATION_JSON);
+        Response response = operationsAPI.getIndicateur("something", MediaType.APPLICATION_JSON);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
-        response = operationsAPI.getIndicateur("", MediaType.APPLICATION_XML);
+        response = operationsAPI.getIndicateur("something", MediaType.APPLICATION_XML);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, Mockito.never()).produceResponse(Mockito.any(), Mockito.any());
     }
-
 }

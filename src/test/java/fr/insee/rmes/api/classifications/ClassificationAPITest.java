@@ -3,7 +3,6 @@ package fr.insee.rmes.api.classifications;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -30,9 +29,7 @@ public class ClassificationAPITest extends AbstractApiTest {
         list.add(new PosteJson());
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
 
         // Call method
         classificationAPI.getClassificationByCode("", MediaType.APPLICATION_JSON);
@@ -47,8 +44,7 @@ public class ClassificationAPITest extends AbstractApiTest {
     public void givenGetClassificationById_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method
         Response response = classificationAPI.getClassificationByCode("", MediaType.APPLICATION_JSON);
@@ -61,9 +57,7 @@ public class ClassificationAPITest extends AbstractApiTest {
         list.add(new PosteJson());
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
 
         // Call method
         classificationAPI.getClassificationTreeByCode("", MediaType.APPLICATION_JSON);
@@ -78,8 +72,7 @@ public class ClassificationAPITest extends AbstractApiTest {
     public void givenGetClassificationTreeById_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method
         Response response = classificationAPI.getClassificationTreeByCode("", MediaType.APPLICATION_JSON);

@@ -3,7 +3,6 @@ package fr.insee.rmes.api.classifications;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -32,7 +31,7 @@ public class CodesAPITest extends AbstractApiTest {
 
     @InjectMocks
     private CodesAPI codesAPI;
-    
+
     Object cj2 = new CategorieJuridiqueNiveauII();
     Object cj3 = new CategorieJuridiqueNiveauIII();
     Object ssClasseNaf = new SousClasseNAF2008();
@@ -41,17 +40,12 @@ public class CodesAPITest extends AbstractApiTest {
     Object classeNaf1993 = new ClasseNAF1993();
     Object groupeNa1973 = new GroupeNA1973();
 
-    
-
-
     @Test
     public void givenGetCategorieJuridiqueNiveauII_whenCorrectRequest_thenResponseIsOk() {
         ((CategorieJuridiqueNiveauII) cj2).setUri("uri");
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(cj2);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(cj2, Boolean.TRUE);
 
         // Call method
         codesAPI.getCategorieJuridiqueNiveauII("", MediaType.APPLICATION_JSON);
@@ -66,23 +60,20 @@ public class CodesAPITest extends AbstractApiTest {
     public void givenGetCategorieJuridiqueNiveauII_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(cj2);
+        this.mockUtilsMethodsThenReturnOnePojo(cj2, Boolean.FALSE);
 
         // Call method
         Response response = codesAPI.getCategorieJuridiqueNiveauII("", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetCategorieJuridiqueNiveauIII_whenCorrectRequest_thenResponseIsOk() {
         ((CategorieJuridiqueNiveauIII) cj3).setUri("uri");
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(cj3);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(cj3, Boolean.TRUE);
 
         // Call method
         codesAPI.getCategorieJuridiqueNiveauIII("", MediaType.APPLICATION_JSON);
@@ -97,75 +88,67 @@ public class CodesAPITest extends AbstractApiTest {
     public void givenGetCategorieJuridiqueNiveauIII_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(cj3);
+        this.mockUtilsMethodsThenReturnOnePojo(cj3, Boolean.FALSE);
 
         // Call method
         Response response = codesAPI.getCategorieJuridiqueNiveauIII("", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetCategoriesJuridiques_whenCorrectRequest_thenResponseIsOk() {
         list.add(new CategorieJuridique("1"));
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
-
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
 
         // Call method
-        codesAPI.getCategoriesJuridiques("",null, MediaType.APPLICATION_JSON);
+        codesAPI.getCategoriesJuridiques("", null, MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-        
-        codesAPI.getCategoriesJuridiques("","*", MediaType.APPLICATION_JSON);
+
+        codesAPI.getCategoriesJuridiques("", "*", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(2)).produceResponse(Mockito.any(), Mockito.any());
-        
-        codesAPI.getCategoriesJuridiques("","2010-10-10", MediaType.APPLICATION_JSON);
+
+        codesAPI.getCategoriesJuridiques("", "2010-10-10", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(3)).produceResponse(Mockito.any(), Mockito.any());
-        
-        codesAPI.getCategoriesJuridiques("",null, MediaType.APPLICATION_XML);
+
+        codesAPI.getCategoriesJuridiques("", null, MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(4)).produceResponse(Mockito.any(), Mockito.any());
 
     }
-    
+
     @Test
     public void givenGetCategoriesJuridiques_whenCorrectRequest_andCJNotFound_thenResponseIsNotFound() {
 
-
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method
-        Response response = codesAPI.getCategoriesJuridiques("",null, MediaType.APPLICATION_JSON);  
+        Response response = codesAPI.getCategoriesJuridiques("", null, MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
-        
+
         list.add(new CategorieJuridique(""));
-        response = codesAPI.getCategoriesJuridiques("",null, MediaType.APPLICATION_JSON);  
+        response = codesAPI.getCategoriesJuridiques("", null, MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetCategoriesJuridiques_whenBadRequest_thenResponseIsBadRequest() {
         // Call method
-        Response response = codesAPI.getCategoriesJuridiques("","1234", MediaType.APPLICATION_JSON);  
+        Response response = codesAPI.getCategoriesJuridiques("", "1234", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetSousClasseNAF2008_whenCorrectRequest_thenResponseIsOk() {
         ((SousClasseNAF2008) ssClasseNaf).setUri("uri");
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(ssClasseNaf);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(ssClasseNaf, Boolean.TRUE);
 
         // Call method
         codesAPI.getSousClasseNAF2008("", MediaType.APPLICATION_JSON);
@@ -180,23 +163,20 @@ public class CodesAPITest extends AbstractApiTest {
     public void givenGetSousClasseNAF2008_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(ssClasseNaf);
+        this.mockUtilsMethodsThenReturnOnePojo(ssClasseNaf, Boolean.FALSE);
 
         // Call method
         Response response = codesAPI.getSousClasseNAF2008("", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetClasseNAF2008_whenCorrectRequest_thenResponseIsOk() {
         ((ClasseNAF2008) classeNaf).setUri("uri");
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(classeNaf);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(classeNaf, Boolean.TRUE);
 
         // Call method
         codesAPI.getClasseNAF2008("", MediaType.APPLICATION_JSON);
@@ -211,23 +191,20 @@ public class CodesAPITest extends AbstractApiTest {
     public void givenGetClasseNAF2008_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(classeNaf);
+        this.mockUtilsMethodsThenReturnOnePojo(classeNaf, Boolean.FALSE);
 
         // Call method
         Response response = codesAPI.getClasseNAF2008("", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetClasseNAF2003_whenCorrectRequest_thenResponseIsOk() {
         ((ClasseNAF2003) classeNaf2003).setUri("uri");
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(classeNaf2003);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(classeNaf2003, Boolean.TRUE);
 
         // Call method
         codesAPI.getClasseNAF2003("", MediaType.APPLICATION_JSON);
@@ -242,23 +219,20 @@ public class CodesAPITest extends AbstractApiTest {
     public void givenGetClasseNAF2003_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(classeNaf2003);
+        this.mockUtilsMethodsThenReturnOnePojo(classeNaf2003, Boolean.FALSE);
 
         // Call method
         Response response = codesAPI.getClasseNAF2003("", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetClasseNAF1993_whenCorrectRequest_thenResponseIsOk() {
         ((ClasseNAF1993) classeNaf1993).setUri("uri");
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(classeNaf1993);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(classeNaf1993, Boolean.TRUE);
 
         // Call method
         codesAPI.getClasseNAF1993("", MediaType.APPLICATION_JSON);
@@ -273,8 +247,7 @@ public class CodesAPITest extends AbstractApiTest {
     public void givenGetClasseNAF1993_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(classeNaf1993);
+        this.mockUtilsMethodsThenReturnOnePojo(classeNaf1993, Boolean.FALSE);
 
         // Call method
         Response response = codesAPI.getClasseNAF1993("", MediaType.APPLICATION_JSON);
@@ -287,9 +260,7 @@ public class CodesAPITest extends AbstractApiTest {
         ((GroupeNA1973) groupeNa1973).setUri("uri");
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(groupeNa1973);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
+        this.mockUtilsMethodsThenReturnOnePojo(groupeNa1973, Boolean.TRUE);
 
         // Call method
         codesAPI.getGroupeNA1973("", MediaType.APPLICATION_JSON);
@@ -304,61 +275,55 @@ public class CodesAPITest extends AbstractApiTest {
     public void givenGetClasseNA1973_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populatePOJO(Mockito.anyString(), Mockito.any())).thenReturn(groupeNa1973);
+        this.mockUtilsMethodsThenReturnOnePojo(groupeNa1973, Boolean.FALSE);
 
         // Call method
         Response response = codesAPI.getGroupeNA1973("", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetActivities_whenCorrectRequest_thenResponseIsOk() {
         list.add(new Activite());
 
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
-        when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
-
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
 
         // Call method
-        codesAPI.getActivities("",null, MediaType.APPLICATION_JSON);
+        codesAPI.getActivities("", null, MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-        
-        codesAPI.getActivities("","*", MediaType.APPLICATION_JSON);
+
+        codesAPI.getActivities("", "*", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(2)).produceResponse(Mockito.any(), Mockito.any());
-        
-        codesAPI.getActivities("","2010-10-10", MediaType.APPLICATION_JSON);
+
+        codesAPI.getActivities("", "2010-10-10", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(3)).produceResponse(Mockito.any(), Mockito.any());
-        
-        codesAPI.getActivities("",null, MediaType.APPLICATION_XML);
+
+        codesAPI.getActivities("", null, MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(4)).produceResponse(Mockito.any(), Mockito.any());
 
     }
-    
+
     @Test
     public void givenGetActivities_whenCorrectRequest_andNotFound_thenResponseIsNotFound() {
 
-
         // Mock
-        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
-        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method
-        Response response = codesAPI.getActivities("",null, MediaType.APPLICATION_JSON);  
+        Response response = codesAPI.getActivities("", null, MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
     }
-    
+
     @Test
     public void givenGetActivities_whenBadRequest_thenResponseIsBadRequest() {
         // Call method
-        Response response = codesAPI.getActivities("","1234", MediaType.APPLICATION_JSON);  
+        Response response = codesAPI.getActivities("", "1234", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
-    
+
 }
