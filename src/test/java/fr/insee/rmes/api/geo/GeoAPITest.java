@@ -14,32 +14,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.geo.Commune;
 import fr.insee.rmes.modeles.geo.Country;
 import fr.insee.rmes.modeles.geo.Region;
-import fr.insee.rmes.utils.CSVUtils;
-import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
 
 @ExtendWith(MockitoExtension.class)
-public class GeoAPITest {
+public class GeoAPITest extends AbstractApiTest {
 
     @InjectMocks
     private GeoAPI geoApi;
-
-    @Mock
-    private SparqlUtils mockSparqlUtils;
-
-    @Mock
-    private CSVUtils mockCSVUtils;
-
-    @Mock
-    private ResponseUtils mockResponseUtils;
 
     private Commune commune = new Commune();
     private Country country = new Country();
@@ -47,7 +35,6 @@ public class GeoAPITest {
 
     @Before
     public void init() {
-
         MockitoAnnotations.initMocks(this);
     }
 

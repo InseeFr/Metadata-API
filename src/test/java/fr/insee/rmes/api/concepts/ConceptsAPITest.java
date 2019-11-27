@@ -5,7 +5,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -17,32 +16,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.concepts.Definition;
-import fr.insee.rmes.utils.CSVUtils;
-import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
 
 @ExtendWith(MockitoExtension.class)
-public class ConceptsAPITest {
+public class ConceptsAPITest extends AbstractApiTest {
 
     @InjectMocks
     private ConceptsAPI conceptsAPI;
 
-    @Mock
-    private SparqlUtils mockSparqlUtils;
-
-    @Mock
-    private CSVUtils mockCSVUtils;
-
-    @Mock
-    private ResponseUtils mockResponseUtils;
-
-    List<Object> listeDefinition = new ArrayList<>();
     Definition definition = new Definition();
 
     @Before
@@ -53,8 +39,8 @@ public class ConceptsAPITest {
     @Test
     public void givenGetConcepts_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
-        listeDefinition.add(new Definition());
-        this.callMockGetConcepts(listeDefinition);
+        list.add(new Definition());
+        this.callMockGetConcepts(list);
         when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
 
         // Call method with header content is json
@@ -65,8 +51,8 @@ public class ConceptsAPITest {
     @Test
     public void givenGetConcepts_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
-        listeDefinition.add(new Definition());
-        this.callMockGetConcepts(listeDefinition);
+        list.add(new Definition());
+        this.callMockGetConcepts(list);
         when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
 
         // Call method with header content is xml
@@ -77,8 +63,8 @@ public class ConceptsAPITest {
     @Test
     public void givenGetConcepts_WhenBadRequest_andHeaderContentIsNull_thenResponseIsNotAcceptable() {
 
-        listeDefinition.add(new Definition());
-        this.callMockGetConcepts(listeDefinition);
+        list.add(new Definition());
+        this.callMockGetConcepts(list);
 
         Response response = conceptsAPI.getConcepts("", null);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -92,7 +78,7 @@ public class ConceptsAPITest {
     @Test
     public void givenGetConcepts_WhenCorrectRequest_thenResponseIsNotFound() {
 
-        this.callMockGetConcepts(listeDefinition);
+        this.callMockGetConcepts(list);
 
         Response response = conceptsAPI.getConcepts("", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());

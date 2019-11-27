@@ -11,7 +11,7 @@ import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
 import fr.insee.rmes.utils.SparqlUtils;
 
-public abstract class AbstractTest {
+public abstract class AbstractApiTest {
 
     @Mock
     protected SparqlUtils mockSparqlUtils;

@@ -18,11 +18,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.insee.rmes.api.AbstractTest;
+import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.classification.Classification;
 
 @ExtendWith(MockitoExtension.class)
-public class ClassificationsAPITest extends AbstractTest {
+public class ClassificationsAPITest extends AbstractApiTest {
 
 	@InjectMocks
 	private ClassificationsApi classificationsAPI;

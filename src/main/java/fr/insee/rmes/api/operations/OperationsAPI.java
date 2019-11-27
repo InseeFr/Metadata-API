@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,7 +72,7 @@ public class OperationsAPI extends MetadataApi {
         }
         else {
 
-            if (diffuseur != null && diffuseur.equals("insee.fr")) {
+            if (diffuseur != null && StringUtils.equals(diffuseur, "insee.fr")) {
                 opList = operationsApiService.removeExclusions(opList);
             }
             Map<String, Famille> familyMap = operationsApiService.getListeFamilyToOperation(opList);
@@ -167,7 +168,7 @@ public class OperationsAPI extends MetadataApi {
 
         String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getIndicator(idIndicateur));
         CsvIndicateur csvIndic = new CsvIndicateur();
-        csvUtils.populatePOJO(csvResult, csvIndic);
+        csvIndic = (CsvIndicateur) csvUtils.populatePOJO(csvResult, csvIndic);
 
         if (csvIndic.getId() == null) {
             return Response.status(Status.NOT_FOUND).entity("").build();

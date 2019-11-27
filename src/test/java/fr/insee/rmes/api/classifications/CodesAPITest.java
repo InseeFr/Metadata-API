@@ -16,7 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.insee.rmes.api.AbstractTest;
+import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.classification.Activite;
 import fr.insee.rmes.modeles.classification.cj.CategorieJuridique;
 import fr.insee.rmes.modeles.classification.cj.CategorieJuridiqueNiveauII;
@@ -28,7 +28,7 @@ import fr.insee.rmes.modeles.classification.naf2008.ClasseNAF2008;
 import fr.insee.rmes.modeles.classification.naf2008.SousClasseNAF2008;
 
 @ExtendWith(MockitoExtension.class)
-public class CodesAPITest extends AbstractTest {
+public class CodesAPITest extends AbstractApiTest {
 
     @InjectMocks
     private CodesAPI codesAPI;

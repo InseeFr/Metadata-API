@@ -57,19 +57,18 @@ public class ClassificationApi extends MetadataApi {
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request for classification " + code);
 
-        String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
-        List<Poste> itemsList = (List<Poste>) csvUtils.populateMultiPOJO(csvResult, Poste.class);
+        final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
+        final List<Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
 
         if (itemsList.size() == 0) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else if (header.equals(MediaType.APPLICATION_XML)) {
-            List<? extends Poste> itemsListXml = (List<PosteXml>) csvUtils.populateMultiPOJO(csvResult, PosteXml.class);
+            final List<? extends Poste> itemsListXml = csvUtils.populateMultiPOJO(csvResult, PosteXml.class);
             return Response.ok(responseUtils.produceResponse(new Postes(itemsListXml), header)).build();
         }
         else {
-            List<? extends Poste> itemsListJson =
-                (List<PosteJson>) csvUtils.populateMultiPOJO(csvResult, PosteJson.class);
+            final List<? extends Poste> itemsListJson = csvUtils.populateMultiPOJO(csvResult, PosteJson.class);
             return Response.ok(responseUtils.produceResponse(itemsListJson, header)).build();
         }
     }
@@ -92,35 +91,38 @@ public class ClassificationApi extends MetadataApi {
         @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request for classification tree " + code);
 
-        String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
-        List<? extends Poste> itemsList = (List<? extends Poste>) csvUtils.populateMultiPOJO(csvResult, Poste.class);
+        final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
+        final List<? extends Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
 
-        if (itemsList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
+        if (itemsList.size() == 0) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
+        }
 
         if (header.equals(MediaType.APPLICATION_XML)) {
-            List<PosteXml> root = getTree(csvResult, PosteXml.class);
+            final List<PosteXml> root = getTree(csvResult, PosteXml.class);
             return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
         }
         else {
-            List<PosteJson> root = getTree(csvResult, PosteJson.class);
+            final List<PosteJson> root = getTree(csvResult, PosteJson.class);
             return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
         }
     }
 
     @SuppressWarnings("unchecked") // TODO remove suppressWarning
     private <PosteClass> List<PosteClass> getTree(String csvResult, Class<? extends Poste> PosteClass) {
-        List<PosteClass> root = new ArrayList<PosteClass>();
-        List<PosteClass> liste = (List<PosteClass>) csvUtils.populateMultiPOJO(csvResult, PosteClass);
-        Map<String, PosteClass> postes =
+        final List<PosteClass> root = new ArrayList<>();
+        final List<PosteClass> liste = (List<PosteClass>) csvUtils.populateMultiPOJO(csvResult, PosteClass);
+        final Map<String, PosteClass> postes =
             liste.stream().collect(Collectors.toMap(p -> ((Poste) p).getCode(), Function.identity()));
 
-        for (PosteClass poste : liste) {
+        for (final PosteClass poste : liste) {
             if (StringUtils.isNotEmpty(((Poste) poste).getCodeParent())) {
-                PosteClass posteParent = postes.get(((Poste) poste).getCodeParent());
+                final PosteClass posteParent = postes.get(((Poste) poste).getCodeParent());
                 ((Poste) posteParent).addPosteEnfant((Poste) poste);
             }
-            else
+            else {
                 root.add(poste);
+            }
         }
         return root;
     }
