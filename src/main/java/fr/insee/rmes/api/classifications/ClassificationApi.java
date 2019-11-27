@@ -68,13 +68,14 @@ public class ClassificationApi extends MetadataApi {
             return Response.ok(responseUtils.produceResponse(new Postes(itemsListXml), header)).build();
         }
         else {
-            final List<? extends Poste> itemsListJson = csvUtils.populateMultiPOJO(csvResult, PosteJson.class);
+            final List<? extends Poste> itemsListJson =
+                csvUtils.populateMultiPOJO(csvResult, PosteJson.class);
             return Response.ok(responseUtils.produceResponse(itemsListJson, header)).build();
         }
     }
 
     @GET
-    @Path("/{code}/arbre")
+    @Path("/{code}/arborescence")
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
@@ -88,7 +89,7 @@ public class ClassificationApi extends MetadataApi {
         @Parameter(
             required = true,
             description = "Identifiant de la nomenclature (hors cj)") @PathParam("code") String code,
-        @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+        @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request for classification tree " + code);
 
         final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
@@ -108,10 +109,9 @@ public class ClassificationApi extends MetadataApi {
         }
     }
 
-    @SuppressWarnings("unchecked") // TODO remove suppressWarning
-    private <PosteClass> List<PosteClass> getTree(String csvResult, Class<? extends Poste> PosteClass) {
+    private <PosteClass> List<PosteClass> getTree(String csvResult, Class<PosteClass> PosteClass) {
         final List<PosteClass> root = new ArrayList<>();
-        final List<PosteClass> liste = (List<PosteClass>) csvUtils.populateMultiPOJO(csvResult, PosteClass);
+        final List<PosteClass> liste = csvUtils.populateMultiPOJO(csvResult, PosteClass);
         final Map<String, PosteClass> postes =
             liste.stream().collect(Collectors.toMap(p -> ((Poste) p).getCode(), Function.identity()));
 
