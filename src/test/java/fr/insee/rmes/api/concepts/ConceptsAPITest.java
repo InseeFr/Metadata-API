@@ -31,6 +31,7 @@ public class ConceptsAPITest extends AbstractApiTest {
 
     Definition definition = new Definition();
 
+    @Override
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
@@ -40,7 +41,7 @@ public class ConceptsAPITest extends AbstractApiTest {
     public void givenGetConcepts_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         list.add(new Definition());
-        this.callMockGetConcepts(list);
+        callMockGetConcepts(list);
         when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
 
         // Call method with header content is json
@@ -52,7 +53,7 @@ public class ConceptsAPITest extends AbstractApiTest {
     public void givenGetConcepts_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         list.add(new Definition());
-        this.callMockGetConcepts(list);
+        callMockGetConcepts(list);
         when(mockResponseUtils.produceResponse(Mockito.any(), Mockito.any())).thenReturn(null);
 
         // Call method with header content is xml
@@ -64,7 +65,7 @@ public class ConceptsAPITest extends AbstractApiTest {
     public void givenGetConcepts_WhenBadRequest_andHeaderContentIsNull_thenResponseIsNotAcceptable() {
 
         list.add(new Definition());
-        this.callMockGetConcepts(list);
+        callMockGetConcepts(list);
 
         Response response = conceptsAPI.getConcepts("", null);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -78,15 +79,15 @@ public class ConceptsAPITest extends AbstractApiTest {
     @Test
     public void givenGetConcepts_WhenCorrectRequest_thenResponseIsNotFound() {
 
-        this.callMockGetConcepts(list);
+        callMockGetConcepts(list);
 
         Response response = conceptsAPI.getConcepts("", MediaType.APPLICATION_XML);
-        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         response = conceptsAPI.getConcepts("", MediaType.APPLICATION_JSON);
-        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }
 
     private void callMockGetConcepts(List<Object> listeDefinition) {

@@ -72,7 +72,7 @@ public class OperationsAPI extends MetadataApi {
         }
         else {
 
-            if (diffuseur != null && StringUtils.equals(diffuseur, "insee.fr")) {
+            if (StringUtils.equals(diffuseur, "insee.fr")) {
                 opList = operationsApiService.removeExclusions(opList);
             }
             Map<String, Famille> familyMap = operationsApiService.getListeFamilyToOperation(opList);
@@ -81,8 +81,9 @@ public class OperationsAPI extends MetadataApi {
                 Familles familles = new Familles(new ArrayList<Famille>(familyMap.values()));
                 return Response.ok(responseUtils.produceResponse(familles, header)).build();
             }
-            else
+            else {
                 return Response.ok(responseUtils.produceResponse(familyMap.values(), header)).build();
+            }
         }
 
     }
@@ -143,7 +144,6 @@ public class OperationsAPI extends MetadataApi {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else {
-
             return Response
                 .ok(responseUtils.produceResponse(operationsApiService.getSerie(csvSerie, idSeries), header))
                 .build();
