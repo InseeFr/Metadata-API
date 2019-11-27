@@ -34,7 +34,7 @@ public class Famille {
         }
         this.id = id;
         label.add(new StringWithLang(labelLg1, Lang.FR));
-        if (labelLg2 != "") {
+        if (!labelLg2.equals("")) {
             label.add(new StringWithLang(labelLg2, Lang.EN));
         }
         this.uri = uri;
@@ -90,13 +90,13 @@ public class Famille {
     }
 
     public void setAltLabel(String altLabelLg1, String altLabelLg2) {
-        if (altLabelLg1 != "") {
+        if (!altLabelLg1.equals("")) {
             if (altLabel == null) {
                 altLabel = new ArrayList<>();
             }
             label.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
-        if (altLabelLg2 != "") {
+        if (!altLabelLg2.equals("")) {
             if (altLabel == null) {
                 altLabel = new ArrayList<>();
             }

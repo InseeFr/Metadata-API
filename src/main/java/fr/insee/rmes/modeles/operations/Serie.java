@@ -64,7 +64,7 @@ public class Serie {
     public Serie(String uri, String id, String labelLg1, String labelLg2) {
         this.id = id;
         label.add(new StringWithLang(labelLg1, Lang.FR));
-        if (labelLg2 != "") {
+        if ( ! labelLg2.equals("")) {
             label.add(new StringWithLang(labelLg2, Lang.EN));
         }
         this.uri = uri;
@@ -128,7 +128,7 @@ public class Serie {
     }
 
     public void setSimsId(String simsId) {
-        if (simsId != "") {
+        if ( ! simsId.equals("")) {
             this.simsId = simsId;
         }
     }
@@ -232,20 +232,19 @@ public class Serie {
     }
 
     public void setAbstractLg1(String abstractLg1) {
-        if (StringUtils.isNotEmpty(abstractLg1)) {
-            if (abstractSerie == null) {
-                abstractSerie = new ArrayList<>();
-            }
-            abstractSerie.add(new StringWithLang(abstractLg1, Lang.FR));
-        }
+        setAbstract(abstractLg1, Lang.FR);
     }
 
     public void setAbstractLg2(String abstractLg2) {
-        if (StringUtils.isNotEmpty(abstractLg2)) {
+        setAbstract(abstractLg2, Lang.FR);
+    }
+
+    private void setAbstract(String abstr, Lang lang) {
+        if (StringUtils.isNotEmpty(abstr)) {
             if (abstractSerie == null) {
                 abstractSerie = new ArrayList<>();
             }
-            abstractSerie.add(new StringWithLang(abstractLg2, Lang.EN));
+            abstractSerie.add(new StringWithLang(abstr, lang));
         }
     }
 
@@ -257,20 +256,19 @@ public class Serie {
     }
 
     public void setHistoryNoteLg1(String str) {
-        if (StringUtils.isNotEmpty(str)) {
-            if (historyNote == null) {
-                historyNote = new ArrayList<>();
-            }
-            historyNote.add(new StringWithLang(str, Lang.FR));
-        }
+        setHistoryNote(str, Lang.FR);
     }
 
     public void setHistoryNoteLg2(String str) {
+        setHistoryNote(str, Lang.EN);
+    }
+
+    private void setHistoryNote(String str, Lang lang) {
         if (StringUtils.isNotEmpty(str)) {
             if (historyNote == null) {
                 historyNote = new ArrayList<>();
             }
-            historyNote.add(new StringWithLang(str, Lang.EN));
+            historyNote.add(new StringWithLang(str, lang));
         }
     }
 
@@ -297,14 +295,16 @@ public class Serie {
     }
 
     public void setLabelFr(String labelFr) {
-        if (StringUtils.isNotEmpty(labelFr)) {
-            label.add(new StringWithLang(labelFr, Lang.FR));
-        }
+        setLabel(labelFr, Lang.FR);
+    }
+    
+    public void setLabelEn(String labelEn) {
+        setLabel(labelEn, Lang.EN);
     }
 
-    public void setLabelEn(String labelEn) {
-        if (StringUtils.isNotEmpty(labelEn)) {
-            label.add(new StringWithLang(labelEn, Lang.EN));
+    private void setLabel(String newlabel, Lang lang) {
+        if (StringUtils.isNotEmpty(newlabel)) {
+            label.add(new StringWithLang(newlabel, lang));
         }
     }
 
@@ -315,17 +315,19 @@ public class Serie {
     }
 
     public void setAltLabel(String altLabelLg1, String altLabelLg2) {
-        if (altLabelLg1 != "") {
-            if (altLabel == null) {
-                altLabel = new ArrayList<>();
-            }
+        if ( ! altLabelLg1.equals("")) {
+            initAltLabel();
             altLabel.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
-        if (altLabelLg2 != "") {
-            if (altLabel == null) {
-                altLabel = new ArrayList<>();
-            }
+        if ( ! altLabelLg2.equals("")) {
+            initAltLabel();
             altLabel.add(new StringWithLang(altLabelLg2, Lang.EN));
+        }
+    }
+
+    private void initAltLabel() {
+        if (altLabel == null) {
+            altLabel = new ArrayList<>();
         }
     }
 

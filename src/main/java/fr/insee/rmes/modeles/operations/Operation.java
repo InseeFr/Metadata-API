@@ -35,10 +35,10 @@ public class Operation {
         super();
         this.id = id;
         label.add(new StringWithLang(labelFr, Lang.FR));
-        if (labelEn != "") {
+        if (!labelEn.equals("")) {
             label.add(new StringWithLang(labelEn, Lang.EN));
         }
-        if (simsId != "") {
+        if (!simsId.equals("")) {
             this.simsId = simsId;
         }
         this.uri = uri;
@@ -61,7 +61,7 @@ public class Operation {
     }
 
     public void setSimsId(String simsId) {
-        if (simsId != "") {
+        if (!simsId.equals("")) {
             this.simsId = simsId;
         }
     }
@@ -103,13 +103,13 @@ public class Operation {
     }
 
     public void setAltLabel(String altLabelLg1, String altLabelLg2) {
-        if (altLabelLg1 != "") {
+        if (!altLabelLg1.equals("")) {
             if (altLabel == null) {
                 altLabel = new ArrayList<>();
             }
             label.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
-        if (altLabelLg2 != "") {
+        if (!altLabelLg2.equals("")) {
             if (altLabel == null) {
                 altLabel = new ArrayList<>();
             }

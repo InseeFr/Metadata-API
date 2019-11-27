@@ -53,10 +53,10 @@ public class Indicateur {
         super();
         this.id = id;
         label.add(new StringWithLang(labelLg1, Lang.FR));
-        if (labelLg2 != "") {
+        if (!labelLg2.equals("")) {
             label.add(new StringWithLang(labelLg2, Lang.EN));
         }
-        if (simsId != "") {
+        if (!simsId.equals("")) {
             this.simsId = simsId;
         }
         this.uri = uri;
@@ -89,7 +89,7 @@ public class Indicateur {
     }
 
     public void setSimsId(String simsId) {
-        if (simsId != "") {
+        if (!simsId.equals("")) {
             this.simsId = simsId;
         }
     }
@@ -103,14 +103,16 @@ public class Indicateur {
     }
 
     public void setLabelFr(String labelFr) {
-        if (StringUtils.isNotEmpty(labelFr)) {
-            label.add(new StringWithLang(labelFr, Lang.FR));
-        }
+        setLabel(labelFr, Lang.FR);
     }
 
     public void setLabelEn(String labelEn) {
-        if (StringUtils.isNotEmpty(labelEn)) {
-            label.add(new StringWithLang(labelEn, Lang.EN));
+        setLabel(labelEn, Lang.EN);
+    }
+
+    private void setLabel(String newlabel, Lang lang) {
+        if (StringUtils.isNotEmpty(newlabel)) {
+            label.add(new StringWithLang(newlabel, lang));
         }
     }
 
@@ -125,17 +127,19 @@ public class Indicateur {
     }
 
     public void setAltLabel(String altLabelLg1, String altLabelLg2) {
-        if (altLabelLg1 != "") {
-            if (altLabel == null) {
-                altLabel = new ArrayList<>();
-            }
+        if (!altLabelLg1.equals("")) {
+            initAltLabel();
             label.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
-        if (altLabelLg2 != "") {
-            if (altLabel == null) {
-                altLabel = new ArrayList<>();
-            }
+        if (!altLabelLg2.equals("")) {
+            initAltLabel();
             label.add(new StringWithLang(altLabelLg2, Lang.EN));
+        }
+    }
+
+    private void initAltLabel() {
+        if (altLabel == null) {
+            altLabel = new ArrayList<>();
         }
     }
 
@@ -223,22 +227,23 @@ public class Indicateur {
     }
 
     public void setAbstractLg1(String abstractLg1) {
-        if (StringUtils.isNotEmpty(abstractLg1)) {
+        setAbstract(abstractLg1, Lang.FR);
+    }
+    
+    public void setAbstractLg2(String abstractLg2) {
+        setAbstract(abstractLg2, Lang.EN);
+    }
+
+
+    private void setAbstract(String abstr, Lang lang) {
+        if (StringUtils.isNotEmpty(abstr)) {
             if (abstractIndic == null) {
                 abstractIndic = new ArrayList<>();
             }
-            abstractIndic.add(new StringWithLang(abstractLg1, Lang.FR));
+            abstractIndic.add(new StringWithLang(abstr, lang));
         }
     }
 
-    public void setAbstractLg2(String abstractLg2) {
-        if (StringUtils.isNotEmpty(abstractLg2)) {
-            if (abstractIndic == null) {
-                abstractIndic = new ArrayList<>();
-            }
-            abstractIndic.add(new StringWithLang(abstractLg2, Lang.EN));
-        }
-    }
 
     @JsonProperty("noteHistorique")
     @JacksonXmlProperty(localName = "noteHistorique")

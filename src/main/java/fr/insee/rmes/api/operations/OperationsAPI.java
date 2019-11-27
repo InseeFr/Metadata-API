@@ -115,7 +115,7 @@ public class OperationsAPI extends MetadataApi {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else {
-            sims.setRubriques(operationsApiService.getListRubriques(csvResult, id));
+            sims.setRubriques(operationsApiService.getListRubriques(id));
             return Response.ok(responseUtils.produceResponse(sims, header)).build();
         }
     }
