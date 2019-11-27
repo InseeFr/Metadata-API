@@ -75,7 +75,7 @@ public class ClassificationApi extends MetadataApi {
     }
 
     @GET
-    @Path("/{code}/arbre")
+    @Path("/{code}/arborescence")
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
@@ -89,13 +89,14 @@ public class ClassificationApi extends MetadataApi {
         @Parameter(
             required = true,
             description = "Identifiant de la nomenclature (hors cj)") @PathParam("code") String code,
-        @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+        @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request for classification tree " + code);
 
         String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
         List<? extends Poste> itemsList = (List<? extends Poste>) csvUtils.populateMultiPOJO(csvResult, Poste.class);
 
-        if (itemsList.size() == 0) return Response.status(Status.NOT_FOUND).entity("").build();
+        if (itemsList.size() == 0)
+            return Response.status(Status.NOT_FOUND).entity("").build();
 
         if (header.equals(MediaType.APPLICATION_XML)) {
             List<PosteXml> root = getTree(csvResult, PosteXml.class);
@@ -107,9 +108,8 @@ public class ClassificationApi extends MetadataApi {
         }
     }
 
-    @SuppressWarnings("unchecked") // TODO remove suppressWarning
-    private <PosteClass> List<PosteClass> getTree(String csvResult, Class<? extends Poste> PosteClass) {
-        List<PosteClass> root = new ArrayList<PosteClass>();
+    private <PosteClass> List<PosteClass> getTree(String csvResult, Class<PosteClass> PosteClass) {
+        List<PosteClass> root = new ArrayList<>();
         List<PosteClass> liste = (List<PosteClass>) csvUtils.populateMultiPOJO(csvResult, PosteClass);
         Map<String, PosteClass> postes =
             liste.stream().collect(Collectors.toMap(p -> ((Poste) p).getCode(), Function.identity()));
