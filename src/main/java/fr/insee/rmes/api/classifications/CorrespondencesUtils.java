@@ -48,7 +48,7 @@ public class CorrespondencesUtils {
         List<RawCorrespondence> rawItemsList) {
 
         /* TreeMap for ordering map keys */
-        Map<Poste, List<Poste>> groupedListItems = new TreeMap<Poste, List<Poste>>();
+        Map<Poste, List<Poste>> groupedListItems = new TreeMap<>();
         for (RawCorrespondence curRawCorrespondence : rawItemsList) {
 
             Poste posteSource =
@@ -118,7 +118,7 @@ public class CorrespondencesUtils {
         List<RawCorrespondence> rawItemsList) {
 
         /* TreeMap for ordering map keys */
-        Map<Poste, List<Poste>> groupedListItems = new TreeMap<Poste, List<Poste>>();
+        Map<Poste, List<Poste>> groupedListItems = new TreeMap<>();
 
         /*
          * Classification correspondences are not symetrical in database => answering question : what is source / target

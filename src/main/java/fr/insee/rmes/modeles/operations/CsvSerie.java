@@ -211,7 +211,7 @@ public class CsvSerie {
         this.series = series;
     }
 
-    public Boolean getHasSeeAlso() {
+    public Boolean isHasSeeAlso() {
         return hasSeeAlso;
     }
 
@@ -219,7 +219,7 @@ public class CsvSerie {
         this.hasSeeAlso = hasSeeAlso;
     }
 
-    public Boolean getHasReplaces() {
+    public Boolean isHasReplaces() {
         return hasReplaces;
     }
 
@@ -227,7 +227,7 @@ public class CsvSerie {
         this.hasReplaces = hasReplaces;
     }
 
-    public Boolean getHasIsReplacedBy() {
+    public Boolean isHasIsReplacedBy() {
         return hasIsReplacedBy;
     }
 
@@ -235,7 +235,7 @@ public class CsvSerie {
         this.hasIsReplacedBy = hasIsReplacedBy;
     }
 
-    public Boolean getHasOperation() {
+    public Boolean isHasOperation() {
         return hasOperation;
     }
 
@@ -243,7 +243,7 @@ public class CsvSerie {
         this.hasOperation = hasOperation;
     }
 
-    public Boolean getHasIndic() {
+    public Boolean isHasIndic() {
         return hasIndic;
     }
 
@@ -251,7 +251,7 @@ public class CsvSerie {
         this.hasIndic = hasIndic;
     }
 
-    public Boolean getHasContributor() {
+    public Boolean isHasContributor() {
         return hasContributor;
     }
 
@@ -259,7 +259,7 @@ public class CsvSerie {
         this.hasContributor = hasContributor;
     }
 
-    public Boolean getHasCreator() {
+    public Boolean isHasCreator() {
         return hasCreator;
     }
 

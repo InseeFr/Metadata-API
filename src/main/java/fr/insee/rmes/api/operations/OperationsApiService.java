@@ -33,8 +33,8 @@ public class OperationsApiService {
     private CSVUtils csvUtils = new CSVUtils();
 
     public Map<String, Famille> getListeFamilyToOperation(List<FamilyToOperation> opList) {
-        Map<String, Famille> familyMap = new HashMap<String, Famille>();
-        Map<String, Serie> serieMap = new HashMap<String, Serie>();
+        Map<String, Famille> familyMap = new HashMap<>();
+        Map<String, Serie> serieMap = new HashMap<>();
 
         for (FamilyToOperation familyToOperation : opList) {
             if ( ! serieMap.containsKey(familyToOperation.getSeriesId())) {
@@ -116,7 +116,7 @@ public class OperationsApiService {
                     opList.removeIf(op -> (op.getIndicId().equals(id)));
                 break;
                 default:
-                    logger.warn("Unknown exclusion type : " + type);
+                    logger.warn("Unknown exclusion type : {0}", type);
                 break;
             }
         }
@@ -154,11 +154,12 @@ public class OperationsApiService {
                     r.setValeurOrganisation(valeurOrg);
                 break;
                 case "RICH_TEXT":
-                    if (cr.getHasDoc()) {
+                    if (cr.isHasDoc()) {
                         String csvDocs = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId()));
                         List<Document> docs = csvUtils.populateMultiPOJO(csvDocs, Document.class);
                         r.setDocuments(docs);
                     }
+                break;
                 case "TEXT":
                     r.setLabelLg1(cr.getLabelLg1());
                     r.setLabelLg2(cr.getLabelLg2());
@@ -220,38 +221,38 @@ public class OperationsApiService {
             s.setAltLabel(csvSerie.getSeriesAltLabelLg1(), csvSerie.getSeriesAltLabelLg2());
         }
 
-        if (csvSerie.getHasOperation()) {
+        if (csvSerie.isHasOperation()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getOperationBySeries(idSeries));
             List<Operation> liste = csvUtils.populateMultiPOJO(csv, Operation.class);
             s.setOperations(liste);
         }
 
-        if (csvSerie.getHasIndic()) {
+        if (csvSerie.isHasIndic()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getIndicBySeries(idSeries));
             List<Indicateur> liste = csvUtils.populateMultiPOJO(csv, Indicateur.class);
             s.setIndicateurs(liste);
         }
-        if (csvSerie.getHasSeeAlso()) {
+        if (csvSerie.isHasSeeAlso()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoBySeries(idSeries));
             List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             s.setSeeAlso(liste);
         }
-        if (csvSerie.getHasIsReplacedBy()) {
+        if (csvSerie.isHasIsReplacedBy()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getIsReplacedByBySeries(idSeries));
             List<Serie> liste = csvUtils.populateMultiPOJO(csv, Serie.class);
             s.setIsReplacedBy(liste);
         }
-        if (csvSerie.getHasReplaces()) {
+        if (csvSerie.isHasReplaces()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getReplacesBySeries(idSeries));
             List<Serie> liste = csvUtils.populateMultiPOJO(csv, Serie.class);
             s.setReplaces(liste);
         }
-        if (csvSerie.getHasCreator()) {
+        if (csvSerie.isHasCreator()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getCreatorsBySeries(idSeries));
             List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             s.setCreators(liste);
         }
-        if (csvSerie.getHasContributor()) {
+        if (csvSerie.isHasContributor()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsBySeries(idSeries));
             List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             s.setContributors(liste);
@@ -288,27 +289,27 @@ public class OperationsApiService {
                     csvIndic.getLabelEnCreator());
             i.setCreator(creator);
         }
-        if (csvIndic.getHasContributor()) {
+        if (csvIndic.isHasContributor()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsByIndic(idIndicateur));
             List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             i.setContributors(liste);
         }
-        if (csvIndic.getHasReplaces()) {
+        if (csvIndic.isHasReplaces()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getReplacesByIndic(idIndicateur));
             List<Indicateur> liste = csvUtils.populateMultiPOJO(csv, Indicateur.class);
             i.setReplaces(liste);
         }
-        if (csvIndic.getHasIsReplacedBy()) {
+        if (csvIndic.isHasIsReplacedBy()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getIsReplacedByByIndic(idIndicateur));
             List<Indicateur> liste = csvUtils.populateMultiPOJO(csv, Indicateur.class);
             i.setIsReplacedBy(liste);
         }
-        if (csvIndic.getHasSeeAlso()) {
+        if (csvIndic.isHasSeeAlso()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoByIndic(idIndicateur));
             List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             i.setSeeAlso(liste);
         }
-        if (csvIndic.getHasWasGeneratedBy()) {
+        if (csvIndic.isHasWasGeneratedBy()) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getWasGeneratedByByIndic(idIndicateur));
             List<Serie> liste = csvUtils.populateMultiPOJO(csv, Serie.class);
             i.setWasGeneratedBy(liste);

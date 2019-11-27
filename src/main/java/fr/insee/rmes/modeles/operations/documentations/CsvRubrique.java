@@ -92,7 +92,7 @@ public class CsvRubrique {
         this.organisationUri = organisationUri;
     }
 
-    public Boolean getHasDoc() {
+    public Boolean isHasDoc() {
         return hasDoc;
     }
 

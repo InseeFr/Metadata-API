@@ -98,7 +98,7 @@ public class CsvIndicateur {
         this.historyNoteLg2 = historyNoteLg2;
     }
 
-    public Boolean getHasContributor() {
+    public Boolean isHasContributor() {
         return hasContributor;
     }
 
@@ -106,7 +106,7 @@ public class CsvIndicateur {
         this.hasContributor = hasContributor;
     }
 
-    public Boolean getHasReplaces() {
+    public Boolean isHasReplaces() {
         return hasReplaces;
     }
 
@@ -114,7 +114,7 @@ public class CsvIndicateur {
         this.hasReplaces = hasReplaces;
     }
 
-    public Boolean getHasIsReplacedBy() {
+    public Boolean isHasIsReplacedBy() {
         return hasIsReplacedBy;
     }
 
@@ -122,7 +122,7 @@ public class CsvIndicateur {
         this.hasIsReplacedBy = hasIsReplacedBy;
     }
 
-    public Boolean getHasSeeAlso() {
+    public Boolean isHasSeeAlso() {
         return hasSeeAlso;
     }
 
@@ -130,7 +130,7 @@ public class CsvIndicateur {
         this.hasSeeAlso = hasSeeAlso;
     }
 
-    public Boolean getHasWasGeneratedBy() {
+    public Boolean isHasWasGeneratedBy() {
         return hasWasGeneratedBy;
     }
 
