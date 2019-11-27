@@ -21,7 +21,7 @@ public class Associations {
     @JsonProperty("associations")
     @JacksonXmlProperty(localName = "Association")
     @JacksonXmlElementWrapper(useWrapping = false)
-    private List<Association> associations = new ArrayList<Association>();
+    private List<Association> associations = new ArrayList<>();
 
     public Associations() {
 

@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "Nomenclatures", description = "Tableau représentant la liste des nomenclatures")
 public class Classifications {
 
-    private List<Classification> listDescriptions = new ArrayList<Classification>();
+    private List<Classification> listDescriptions = new ArrayList<>();
 
     public Classifications() {}
 

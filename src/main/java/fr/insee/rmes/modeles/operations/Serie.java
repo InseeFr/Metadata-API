@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class Serie {
 
     private String id = null;
-    private List<StringWithLang> label = new ArrayList<StringWithLang>();
+    private List<StringWithLang> label = new ArrayList<>();
 
     @Schema(example = "http://id.insee.fr/operations/serie/s1234")
     private String uri = null;
@@ -76,35 +76,35 @@ public class Serie {
 
     public void addOperation(Operation op) {
         if (operations == null) {
-            setOperations(new ArrayList<Operation>());
+            this.setOperations(new ArrayList<Operation>());
         }
         this.operations.add(op);
     }
 
     public void addIndicateur(Indicateur indic) {
         if (indicateurs == null) {
-            setIndicateurs(new ArrayList<Indicateur>());
+            this.setIndicateurs(new ArrayList<Indicateur>());
         }
         this.indicateurs.add(indic);
     }
 
     public void addSeeAlso(SimpleObject sa) {
         if (seeAlso == null) {
-            setSeeAlso(new ArrayList<SimpleObject>());
+            this.setSeeAlso(new ArrayList<SimpleObject>());
         }
         this.seeAlso.add(sa);
     }
 
     public void addReplaces(Serie rep) {
         if (replaces == null) {
-            setReplaces(new ArrayList<Serie>());
+            this.setReplaces(new ArrayList<Serie>());
         }
         this.replaces.add(rep);
     }
 
     public void addIsReplacedBy(Serie irb) {
         if (isReplacedBy == null) {
-            setIsReplacedBy(new ArrayList<Serie>());
+            this.setIsReplacedBy(new ArrayList<Serie>());
         }
         this.isReplacedBy.add(irb);
     }
@@ -128,7 +128,9 @@ public class Serie {
     }
 
     public void setSimsId(String simsId) {
-        if (simsId != "") this.simsId = simsId;
+        if (simsId != "") {
+            this.simsId = simsId;
+        }
     }
 
     @JacksonXmlProperty(isAttribute = true, localName = "Operation")
@@ -231,14 +233,18 @@ public class Serie {
 
     public void setAbstractLg1(String abstractLg1) {
         if (StringUtils.isNotEmpty(abstractLg1)) {
-            if (abstractSerie == null) abstractSerie = new ArrayList<>();
+            if (abstractSerie == null) {
+                abstractSerie = new ArrayList<>();
+            }
             abstractSerie.add(new StringWithLang(abstractLg1, Lang.FR));
         }
     }
 
     public void setAbstractLg2(String abstractLg2) {
         if (StringUtils.isNotEmpty(abstractLg2)) {
-            if (abstractSerie == null) abstractSerie = new ArrayList<>();
+            if (abstractSerie == null) {
+                abstractSerie = new ArrayList<>();
+            }
             abstractSerie.add(new StringWithLang(abstractLg2, Lang.EN));
         }
     }
@@ -252,14 +258,18 @@ public class Serie {
 
     public void setHistoryNoteLg1(String str) {
         if (StringUtils.isNotEmpty(str)) {
-            if (historyNote == null) historyNote = new ArrayList<>();
+            if (historyNote == null) {
+                historyNote = new ArrayList<>();
+            }
             historyNote.add(new StringWithLang(str, Lang.FR));
         }
     }
 
     public void setHistoryNoteLg2(String str) {
         if (StringUtils.isNotEmpty(str)) {
-            if (historyNote == null) historyNote = new ArrayList<>();
+            if (historyNote == null) {
+                historyNote = new ArrayList<>();
+            }
             historyNote.add(new StringWithLang(str, Lang.EN));
         }
     }
@@ -306,11 +316,15 @@ public class Serie {
 
     public void setAltLabel(String altLabelLg1, String altLabelLg2) {
         if (altLabelLg1 != "") {
-            if (altLabel == null) altLabel = new ArrayList<StringWithLang>();
+            if (altLabel == null) {
+                altLabel = new ArrayList<>();
+            }
             altLabel.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
         if (altLabelLg2 != "") {
-            if (altLabel == null) altLabel = new ArrayList<StringWithLang>();
+            if (altLabel == null) {
+                altLabel = new ArrayList<>();
+            }
             altLabel.add(new StringWithLang(altLabelLg2, Lang.EN));
         }
     }

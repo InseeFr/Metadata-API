@@ -23,7 +23,7 @@ public class Rubrique {
     @Schema(example = "http://id.insee.fr/qualite/attribut/1907/I.18.11")
     private String uri = null;
     @Schema(description = "Titre de la rubrique")
-    private List<StringWithLang> titre = new ArrayList<StringWithLang>();
+    private List<StringWithLang> titre = new ArrayList<>();
     private String idParent = null;
     private String type;
 
@@ -99,14 +99,18 @@ public class Rubrique {
 
     public void setLabelLg1(String labelLg1) {
         if (StringUtils.isNotEmpty(labelLg1)) {
-            if (label == null) label = new ArrayList<>();
+            if (label == null) {
+                label = new ArrayList<>();
+            }
             label.add(new StringWithLang(labelLg1, Lang.FR));
         }
     }
 
     public void setLabelLg2(String labelLg2) {
         if (StringUtils.isNotEmpty(labelLg2)) {
-            if (label == null) label = new ArrayList<>();
+            if (label == null) {
+                label = new ArrayList<>();
+            }
             label.add(new StringWithLang(labelLg2, Lang.EN));
         }
     }
@@ -128,9 +132,15 @@ public class Rubrique {
     }
 
     public void setTitre(String titreLg1, String titreLg2) {
-        if (titre == null) titre = new ArrayList<>();
-        if (StringUtils.isNotEmpty(titreLg1)) titre.add(new StringWithLang(titreLg1, Lang.FR));
-        if (StringUtils.isNotEmpty(titreLg2)) titre.add(new StringWithLang(titreLg2, Lang.EN));
+        if (titre == null) {
+            titre = new ArrayList<>();
+        }
+        if (StringUtils.isNotEmpty(titreLg1)) {
+            titre.add(new StringWithLang(titreLg1, Lang.FR));
+        }
+        if (StringUtils.isNotEmpty(titreLg2)) {
+            titre.add(new StringWithLang(titreLg2, Lang.EN));
+        }
     }
 
     @JacksonXmlProperty(localName = "document")

@@ -19,7 +19,7 @@ public class SimpleObject {
     @Schema(example = "http://id.insee.fr/...")
     private String uri = null;
 
-    private List<StringWithLang> label = new ArrayList<StringWithLang>();
+    private List<StringWithLang> label = new ArrayList<>();
 
     public String getId() {
         return id;

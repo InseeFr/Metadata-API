@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Correspondances")
 public class Correspondences {
 
-    private List<Correspondence> itemsList = new ArrayList<Correspondence>();
+    private List<Correspondence> itemsList = new ArrayList<>();
 
     public Correspondences() {
 

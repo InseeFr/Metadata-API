@@ -28,7 +28,7 @@ public class CSVUtils {
 
     public Object populatePOJO(String csv, Object pojo) {
         try {
-            pojo = csvToPOJO(csv, pojo);
+            pojo = this.csvToPOJO(csv, pojo);
         }
         catch (Exception e) {
             logger.error(e.getMessage());
@@ -37,7 +37,7 @@ public class CSVUtils {
     }
 
     private <TargetClass> List<TargetClass> csvToMultiPOJO(String csv, Class<TargetClass> childClass) throws Exception {
-        List<TargetClass> list = new ArrayList<TargetClass>();
+        List<TargetClass> list = new ArrayList<>();
         CsvMapper mapper = new CsvMapper();
         CsvSchema schema = mapper.schemaFor(childClass).withHeader();
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map.class).with(schema).readValues(csv);
@@ -50,9 +50,9 @@ public class CSVUtils {
     }
 
     public <TargetClass> List<TargetClass> populateMultiPOJO(String csv, Class<TargetClass> childClass) {
-        List<TargetClass> list = new ArrayList<TargetClass>();
+        List<TargetClass> list = new ArrayList<>();
         try {
-            list = csvToMultiPOJO(csv, childClass);
+            list = this.csvToMultiPOJO(csv, childClass);
         }
         catch (Exception e) {
             logger.error(e.getMessage());

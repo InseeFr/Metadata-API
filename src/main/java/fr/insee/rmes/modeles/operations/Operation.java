@@ -38,7 +38,9 @@ public class Operation {
         if (labelEn != "") {
             label.add(new StringWithLang(labelEn, Lang.EN));
         }
-        if (simsId != "") this.simsId = simsId;
+        if (simsId != "") {
+            this.simsId = simsId;
+        }
         this.uri = uri;
     }
 
@@ -59,7 +61,9 @@ public class Operation {
     }
 
     public void setSimsId(String simsId) {
-        if (simsId != "") this.simsId = simsId;
+        if (simsId != "") {
+            this.simsId = simsId;
+        }
     }
 
     public String getUri() {
@@ -100,11 +104,15 @@ public class Operation {
 
     public void setAltLabel(String altLabelLg1, String altLabelLg2) {
         if (altLabelLg1 != "") {
-            if (altLabel == null) altLabel = new ArrayList<StringWithLang>();
+            if (altLabel == null) {
+                altLabel = new ArrayList<>();
+            }
             label.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
         if (altLabelLg2 != "") {
-            if (altLabel == null) altLabel = new ArrayList<StringWithLang>();
+            if (altLabel == null) {
+                altLabel = new ArrayList<>();
+            }
             label.add(new StringWithLang(altLabelLg2, Lang.EN));
         }
     }

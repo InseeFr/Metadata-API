@@ -22,12 +22,12 @@ public class DocumentationSims {
     private String id = null;
     @Schema(example = "http://id.insee.fr/qualite/attribut/1907/I.18.11")
     private String uri = null;
-    private List<StringWithLang> label = new ArrayList<StringWithLang>();
+    private List<StringWithLang> label = new ArrayList<>();
 
     @JsonInclude(Include.NON_NULL)
     private SimpleObject cible;
 
-    private List<Rubrique> rubriques = new ArrayList<Rubrique>();
+    private List<Rubrique> rubriques = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -75,21 +75,21 @@ public class DocumentationSims {
 
     public void setIdCible(String idCible) {
         if (StringUtils.isNotEmpty(idCible)) {
-            checkCibleExists();
+            this.checkCibleExists();
             cible.setId(idCible);
         }
     }
 
     public void setCible(String cibleUri) {
         if (StringUtils.isNotEmpty(cibleUri)) {
-            checkCibleExists();
+            this.checkCibleExists();
             cible.setUri(cibleUri);
         }
     }
 
     public void setLabelCibleLg1(String labelCibleLg1) {
         if (StringUtils.isNotEmpty(labelCibleLg1)) {
-            checkCibleExists();
+            this.checkCibleExists();
             List<StringWithLang> temp = cible.getLabel();
             temp.add(new StringWithLang(labelCibleLg1, Lang.FR));
             cible.setLabel(temp);
@@ -98,7 +98,7 @@ public class DocumentationSims {
 
     public void setLabelCibleLg2(String labelCibleLg2) {
         if (StringUtils.isNotEmpty(labelCibleLg2)) {
-            checkCibleExists();
+            this.checkCibleExists();
             List<StringWithLang> temp = cible.getLabel();
             temp.add(new StringWithLang(labelCibleLg2, Lang.EN));
             cible.setLabel(temp);

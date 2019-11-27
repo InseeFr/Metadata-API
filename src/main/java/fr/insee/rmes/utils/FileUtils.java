@@ -15,7 +15,7 @@ public class FileUtils {
 
     public static List<List<String>> readFile(String pathFile, String csvSplitBy) {
         List<String> allLines = null;
-        List<List<String>> fileContents = new ArrayList<List<String>>();
+        List<List<String>> fileContents = new ArrayList<>();
 
         try {
             allLines = Files.readAllLines(Paths.get(pathFile));
@@ -26,7 +26,7 @@ public class FileUtils {
         }
 
         for (String line : allLines) {
-            List<String> lineContents = new ArrayList<String>();
+            List<String> lineContents = new ArrayList<>();
             String[] parts = line.split(csvSplitBy);
             for (int i = 0; i < parts.length; i ++ ) {
                 lineContents.add(parts[i]);

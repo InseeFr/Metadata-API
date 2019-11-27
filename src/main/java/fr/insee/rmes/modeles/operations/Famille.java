@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class Famille {
 
     private String id = null;
-    private List<StringWithLang> label = new ArrayList<StringWithLang>();
+    private List<StringWithLang> label = new ArrayList<>();
 
     @Schema(example = "http://id.insee.fr/operations/famille/s1")
     private String uri = null;
@@ -29,7 +29,7 @@ public class Famille {
 
     public Famille(String uri, String id, String labelLg1, String labelLg2, Serie serie) {
         if (serie != null) {
-            setSeries(new ArrayList<Serie>());
+            this.setSeries(new ArrayList<Serie>());
             series.add(serie);
         }
         this.id = id;
@@ -52,7 +52,7 @@ public class Famille {
 
     public void addSerie(Serie serie) {
         if (series == null) {
-            setSeries(new ArrayList<Serie>());
+            this.setSeries(new ArrayList<Serie>());
         }
         this.series.add(serie);
     }
@@ -91,11 +91,15 @@ public class Famille {
 
     public void setAltLabel(String altLabelLg1, String altLabelLg2) {
         if (altLabelLg1 != "") {
-            if (altLabel == null) altLabel = new ArrayList<StringWithLang>();
+            if (altLabel == null) {
+                altLabel = new ArrayList<>();
+            }
             label.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
         if (altLabelLg2 != "") {
-            if (altLabel == null) altLabel = new ArrayList<StringWithLang>();
+            if (altLabel == null) {
+                altLabel = new ArrayList<>();
+            }
             label.add(new StringWithLang(altLabelLg2, Lang.EN));
         }
     }

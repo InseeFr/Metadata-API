@@ -20,7 +20,7 @@ public class Indicateur {
     private String id = null;
     @Schema(example = "http://id.insee.fr/produits/indicateur/p1647")
     private String uri = null;
-    private List<StringWithLang> label = new ArrayList<StringWithLang>();
+    private List<StringWithLang> label = new ArrayList<>();
     @JsonInclude(Include.NON_NULL)
     private List<StringWithLang> altLabel;
 
@@ -56,7 +56,9 @@ public class Indicateur {
         if (labelLg2 != "") {
             label.add(new StringWithLang(labelLg2, Lang.EN));
         }
-        if (simsId != "") this.simsId = simsId;
+        if (simsId != "") {
+            this.simsId = simsId;
+        }
         this.uri = uri;
     }
 
@@ -87,7 +89,9 @@ public class Indicateur {
     }
 
     public void setSimsId(String simsId) {
-        if (simsId != "") this.simsId = simsId;
+        if (simsId != "") {
+            this.simsId = simsId;
+        }
     }
 
     public String getUri() {
@@ -122,32 +126,36 @@ public class Indicateur {
 
     public void setAltLabel(String altLabelLg1, String altLabelLg2) {
         if (altLabelLg1 != "") {
-            if (altLabel == null) altLabel = new ArrayList<StringWithLang>();
+            if (altLabel == null) {
+                altLabel = new ArrayList<>();
+            }
             label.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
         if (altLabelLg2 != "") {
-            if (altLabel == null) altLabel = new ArrayList<StringWithLang>();
+            if (altLabel == null) {
+                altLabel = new ArrayList<>();
+            }
             label.add(new StringWithLang(altLabelLg2, Lang.EN));
         }
     }
 
     public void addSeeAlso(SimpleObject sa) {
         if (seeAlso == null) {
-            setSeeAlso(new ArrayList<SimpleObject>());
+            this.setSeeAlso(new ArrayList<SimpleObject>());
         }
         this.seeAlso.add(sa);
     }
 
     public void addReplaces(Indicateur rep) {
         if (replaces == null) {
-            setReplaces(new ArrayList<Indicateur>());
+            this.setReplaces(new ArrayList<Indicateur>());
         }
         this.replaces.add(rep);
     }
 
     public void addIsReplacedBy(Indicateur irb) {
         if (isReplacedBy == null) {
-            setIsReplacedBy(new ArrayList<Indicateur>());
+            this.setIsReplacedBy(new ArrayList<Indicateur>());
         }
         this.isReplacedBy.add(irb);
     }
@@ -216,14 +224,18 @@ public class Indicateur {
 
     public void setAbstractLg1(String abstractLg1) {
         if (StringUtils.isNotEmpty(abstractLg1)) {
-            if (abstractIndic == null) abstractIndic = new ArrayList<>();
+            if (abstractIndic == null) {
+                abstractIndic = new ArrayList<>();
+            }
             abstractIndic.add(new StringWithLang(abstractLg1, Lang.FR));
         }
     }
 
     public void setAbstractLg2(String abstractLg2) {
         if (StringUtils.isNotEmpty(abstractLg2)) {
-            if (abstractIndic == null) abstractIndic = new ArrayList<>();
+            if (abstractIndic == null) {
+                abstractIndic = new ArrayList<>();
+            }
             abstractIndic.add(new StringWithLang(abstractLg2, Lang.EN));
         }
     }
@@ -237,14 +249,18 @@ public class Indicateur {
 
     public void setHistoryNoteLg1(String str) {
         if (StringUtils.isNotEmpty(str)) {
-            if (historyNote == null) historyNote = new ArrayList<>();
+            if (historyNote == null) {
+                historyNote = new ArrayList<>();
+            }
             historyNote.add(new StringWithLang(str, Lang.FR));
         }
     }
 
     public void setHistoryNoteLg2(String str) {
         if (StringUtils.isNotEmpty(str)) {
-            if (historyNote == null) historyNote = new ArrayList<>();
+            if (historyNote == null) {
+                historyNote = new ArrayList<>();
+            }
             historyNote.add(new StringWithLang(str, Lang.EN));
         }
     }

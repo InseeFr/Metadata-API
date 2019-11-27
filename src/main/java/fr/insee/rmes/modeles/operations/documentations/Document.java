@@ -15,7 +15,7 @@ import fr.insee.rmes.utils.Lang;
 
 @JsonClassDescription("Objet représentant un document ou un lien vers une page internet")
 public class Document {
-    private List<StringWithLang> label = new ArrayList<StringWithLang>();
+    private List<StringWithLang> label = new ArrayList<>();
     private String dateMiseAJour;
     private String langue;
     private String url;
