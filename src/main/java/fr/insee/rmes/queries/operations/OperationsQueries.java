@@ -7,6 +7,13 @@ import fr.insee.rmes.queries.Queries;
 
 public class OperationsQueries extends Queries {
 
+    private static final String INDICATOR_BASEURI = "/produits/indicateur/";
+    private static final String SERIES_BASEURI = "/operations/serie/";
+    private static final String INDICATOR_RDF_MODEL = "insee:StatisticalIndicator";
+    private static final String SERIES_RDF_MODEL = "insee:StatisticalOperationSeries";
+    private static final String ID_INDIC = "idIndic";
+    private static final String ID_SERIES = "idSeries";
+    private static final String ID_SIMS = "idSims";
     private static final String QUERIES_FOLDER = "operations/";
     
     public static String getSeries(String id) {
@@ -28,32 +35,32 @@ public class OperationsQueries extends Queries {
 
     public static String getDocumentationTitle(String idSims) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idSims", idSims);
+        params.put(ID_SIMS, idSims);
         return buildRequest(QUERIES_FOLDER, "getDocumentationTitleByIdSimsQuery.ftlh", params);
     }
     
     public static String getDocumentationRubrics(String idSims) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idSims", idSims);
+        params.put(ID_SIMS, idSims);
         return buildRequest(QUERIES_FOLDER, "getDocumentationRubricsByIdSimsQuery.ftlh", params);
     }
 
     public static String getDocuments(String idSims, String idRubric) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idSims", idSims);
+        params.put(ID_SIMS, idSims);
         params.put("idRubric", idRubric);
         return buildRequest(QUERIES_FOLDER, "getDocumentsQueryByIdSimsIdRubric.ftlh", params);
     }
 
     public static String getIndicBySeries(String idSeries) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idSeries", idSeries);
+        params.put(ID_SERIES, idSeries);
         return buildRequest(QUERIES_FOLDER, "getIndicBySeriesQuery.ftlh", params);
     }
 
     public static String getSeriesByIndic(String idIndic) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idIndic", idIndic);
+        params.put(ID_INDIC, idIndic);
         return buildRequest(QUERIES_FOLDER, "getSeriesByIndicQuery.ftlh", params);
     }
 
@@ -61,8 +68,8 @@ public class OperationsQueries extends Queries {
         return getLinkDifferentTypeByObject(
             idSeries,
             "rdfs:seeAlso",
-            "insee:StatisticalOperationSeries",
-            "/operations/serie/");
+            SERIES_RDF_MODEL,
+            SERIES_BASEURI);
 
     }
 
@@ -70,16 +77,16 @@ public class OperationsQueries extends Queries {
         return getLinkDifferentTypeByObject(
             idIndic,
             "rdfs:seeAlso",
-            "insee:StatisticalIndicator",
-            "/produits/indicateur/");
+            INDICATOR_RDF_MODEL,
+            INDICATOR_BASEURI);
     }
 
     public static String getWasGeneratedByByIndic(String idIndic) {
         return getLinkDifferentTypeByObject(
             idIndic,
             "prov:wasGeneratedBy",
-            "insee:StatisticalIndicator",
-            "/produits/indicateur/");
+            INDICATOR_RDF_MODEL,
+            INDICATOR_BASEURI);
 
     }
 
@@ -87,32 +94,32 @@ public class OperationsQueries extends Queries {
         return getLinkSameTypeByObject(
             idSeries,
             "dcterms:isReplacedBy",
-            "insee:StatisticalOperationSeries",
-            "/operations/serie/");
+            SERIES_RDF_MODEL,
+            SERIES_BASEURI);
     }
 
     public static String getReplacesBySeries(String idSeries) {
         return getLinkSameTypeByObject(
             idSeries,
             "dcterms:replaces",
-            "insee:StatisticalOperationSeries",
-            "/operations/serie/");
+            SERIES_RDF_MODEL,
+            SERIES_BASEURI);
     }
 
     public static String getIsReplacedByByIndic(String idIndic) {
         return getLinkSameTypeByObject(
             idIndic,
             "dcterms:isReplacedBy",
-            "insee:StatisticalIndicator",
-            "/produits/indicateur/");
+            INDICATOR_RDF_MODEL,
+            INDICATOR_BASEURI);
     }
 
     public static String getReplacesByIndic(String idIndic) {
         return getLinkSameTypeByObject(
             idIndic,
             "dcterms:replaces",
-            "insee:StatisticalIndicator",
-            "/produits/indicateur/");
+            INDICATOR_RDF_MODEL,
+            INDICATOR_BASEURI);
     }
 
     private static String getLinkSameTypeByObject(
@@ -143,25 +150,25 @@ public class OperationsQueries extends Queries {
 
     public static String getCreatorsBySeries(String idSeries) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idSeries", idSeries);
+        params.put(ID_SERIES, idSeries);
         return buildRequest(QUERIES_FOLDER, "getCreatorsBySeriesQuery.ftlh", params);
     }
 
     public static String getContributorsBySeries(String idSeries) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idSeries", idSeries);
+        params.put(ID_SERIES, idSeries);
         return buildRequest(QUERIES_FOLDER, "getContributorsBySeriesQuery.ftlh", params);
     }
 
     public static String getContributorsByIndic(String idIndic) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idIndic", idIndic);
+        params.put(ID_INDIC, idIndic);
         return buildRequest(QUERIES_FOLDER, "getContributorsByIndicQuery.ftlh", params);
     }
 
     public static String getIndicator(String idIndic) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idIndic", idIndic);
+        params.put(ID_INDIC, idIndic);
         return buildRequest(QUERIES_FOLDER, "getIndicatorByIdQuery.ftlh", params);
     }
 }
