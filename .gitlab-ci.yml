@@ -18,7 +18,7 @@ variables:
 sonarqube:
   stage: test
   only:
-    - dv
+    - develop
   image: git-registry.stable.innovation.insee.eu/innovation/images-ci/jdk:8
   script:
     - mvn $MAVEN_CLI_OPTS verify sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_LOGIN
