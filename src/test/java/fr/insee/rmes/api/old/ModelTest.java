@@ -1,4 +1,4 @@
-package fr.insee.rmes.api.test;
+package fr.insee.rmes.api.old;
 
 import org.junit.Ignore;
 import org.junit.Test;

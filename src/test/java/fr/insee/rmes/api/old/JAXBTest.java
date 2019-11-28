@@ -1,4 +1,4 @@
-package fr.insee.rmes.api.test;
+package fr.insee.rmes.api.old;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

@@ -1,4 +1,4 @@
-package fr.insee.rmes.api.test;
+package fr.insee.rmes.api.old;
 
 import static org.junit.Assert.assertEquals;
 
