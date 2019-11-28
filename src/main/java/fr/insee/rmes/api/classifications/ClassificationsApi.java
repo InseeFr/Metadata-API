@@ -40,8 +40,7 @@ public class ClassificationsApi extends MetadataApi {
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getAllClassifications());
-        List<Classification> itemsList =
-            (List<Classification>) csvUtils.populateMultiPOJO(csvResult, Classification.class);
+        List<Classification> itemsList = csvUtils.populateMultiPOJO(csvResult, Classification.class);
 
         if (itemsList.size() == 0) {
             return Response.status(Status.NOT_FOUND).entity("").build();
