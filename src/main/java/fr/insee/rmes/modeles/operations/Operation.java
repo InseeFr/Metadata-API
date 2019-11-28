@@ -61,7 +61,7 @@ public class Operation {
     }
 
     public void setSimsId(String simsId) {
-        if (simsId != "") {
+        if (StringUtils.isNotEmpty(simsId)) {
             this.simsId = simsId;
         }
     }
