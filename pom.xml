@@ -16,6 +16,10 @@
 		<swagger.version>2.0.10</swagger.version>
 		<junit.version>5.5.2</junit.version>
 		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+		<!-- <sonar.coverage.jacoco.xmlReportPaths>{project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
+		<sonar.exclusions>src/main/java/fr/insee/rmes/queries</sonar.exclusions>
+		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -152,37 +156,41 @@
 
 	</repositories>
 	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
+			<!-- Plugin lancement des tests -->
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
-				<!-- JUnit 5 Support -->
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.junit.platform</groupId>
 						<artifactId>junit-platform-surefire-provider</artifactId>
 						<version>1.2.0</version>
 					</dependency>
-					<dependency>
-						<groupId>org.junit.jupiter</groupId>
-						<artifactId>junit-jupiter-engine</artifactId>
-						<version>${junit.version}</version>
-					</dependency>
 				</dependencies>
 			</plugin>
+
+			<!-- Plugin pour prise en compte des tests sur SonarQube plate-forme innovation -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.4</version>
 				<executions>
 					<execution>
-						<id>prepare-agent</id>
+						<id>jacoco-initialize</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 					<execution>
-						<id>report</id>
+						<id>jacoco-site</id>
+						<phase>package</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
