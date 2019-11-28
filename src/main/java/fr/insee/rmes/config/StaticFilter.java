@@ -15,7 +15,9 @@ public class StaticFilter implements javax.servlet.Filter {
     private RequestDispatcher defaultRequestDispatcher;
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public void doFilter(
