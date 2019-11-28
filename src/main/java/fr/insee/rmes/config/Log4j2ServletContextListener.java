@@ -8,11 +8,14 @@ import java.util.Properties;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.web.Log4jServletContextListener;
 import org.apache.logging.log4j.web.Log4jWebSupport;
 
 public class Log4j2ServletContextListener implements ServletContextListener {
 
+    private static Logger logger = LogManager.getLogger(Log4j2ServletContextListener.class);
     private String log4j2ConfigFile;
 
     private Log4jServletContextListener listener;
@@ -23,7 +26,7 @@ public class Log4j2ServletContextListener implements ServletContextListener {
             this.getEnvironmentProperties();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
     }
 
@@ -58,7 +61,7 @@ public class Log4j2ServletContextListener implements ServletContextListener {
 
     private Properties getProperties() throws IOException {
         Properties props = new Properties();
-        props.load(getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
+        props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
         File f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmes-api.properties"));
         if (f.exists() && ! f.isDirectory()) {
             FileReader r = new FileReader(f);

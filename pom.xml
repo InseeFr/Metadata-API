@@ -16,7 +16,7 @@
 		<swagger.version>2.0.10</swagger.version>
 		<junit.version>5.5.2</junit.version>
 		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-		<!-- <sonar.coverage.jacoco.xmlReportPaths>{project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
+		<sonar.coverage.jacoco.xmlReportPaths>{project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.exclusions>src/main/java/fr/insee/rmes/queries</sonar.exclusions>
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
