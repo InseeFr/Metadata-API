@@ -133,5 +133,13 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.10.5</version>
 		</dependency>
+		
+		
+		<!-- Freemarker -->
+		<dependency>
+ 			 <groupId>org.freemarker</groupId>
+ 			 <artifactId>freemarker</artifactId>
+			 <version>2.3.28</version><!-- change in FreemarkerConfig too -->
+		</dependency>
 	</dependencies>
 </project>

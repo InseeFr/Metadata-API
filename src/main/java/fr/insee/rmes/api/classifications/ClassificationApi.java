@@ -55,12 +55,13 @@ public class ClassificationApi extends MetadataApi {
             required = true,
             description = "Identifiant de la nomenclature (hors cj)") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
-        logger.debug("Received GET request for classification " + code);
+        logger.debug("Received GET request for classification {}", code);
+
 
         final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
         final List<Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
 
-        if (itemsList.size() == 0) {
+        if (itemsList.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else if (header.equals(MediaType.APPLICATION_XML)) {
@@ -90,12 +91,12 @@ public class ClassificationApi extends MetadataApi {
             required = true,
             description = "Identifiant de la nomenclature (hors cj)") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
-        logger.debug("Received GET request for classification tree " + code);
+        logger.debug("Received GET request for classification tree {}", code);
 
         final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
         final List<? extends Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
 
-        if (itemsList.size() == 0) {
+        if (itemsList.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
 
@@ -109,15 +110,15 @@ public class ClassificationApi extends MetadataApi {
         }
     }
 
-    private <PosteClass> List<PosteClass> getTree(String csvResult, Class<PosteClass> PosteClass) {
-        final List<PosteClass> root = new ArrayList<>();
-        final List<PosteClass> liste = csvUtils.populateMultiPOJO(csvResult, PosteClass);
-        final Map<String, PosteClass> postes =
+    private <POSTECLASS> List<POSTECLASS> getTree(String csvResult, Class<POSTECLASS> posteClass) {
+        final List<POSTECLASS> root = new ArrayList<>();
+        final List<POSTECLASS> liste = csvUtils.populateMultiPOJO(csvResult, posteClass);
+        final Map<String, POSTECLASS> postes =
             liste.stream().collect(Collectors.toMap(p -> ((Poste) p).getCode(), Function.identity()));
 
-        for (final PosteClass poste : liste) {
+        for (final POSTECLASS poste : liste) {
             if (StringUtils.isNotEmpty(((Poste) poste).getCodeParent())) {
-                final PosteClass posteParent = postes.get(((Poste) poste).getCodeParent());
+                final POSTECLASS posteParent = postes.get(((Poste) poste).getCodeParent());
                 ((Poste) posteParent).addPosteEnfant((Poste) poste);
             }
             else {

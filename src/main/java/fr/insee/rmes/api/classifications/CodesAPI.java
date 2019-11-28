@@ -61,13 +61,15 @@ public class CodesAPI extends MetadataApi {
             required = true,
             description = "Identifiant de la catégorie juridique de niveau 2 (deux chiffres)") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for CJ 2nd level " + code);
+        logger.debug("Received GET request for CJ 2nd level {}", code);
 
         CategorieJuridiqueNiveauII cjNiveau2 = new CategorieJuridiqueNiveauII(code);
         String csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauII(code));
         cjNiveau2 = (CategorieJuridiqueNiveauII) csvUtils.populatePOJO(csvResult, cjNiveau2);
 
-        if (cjNiveau2.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+        if (cjNiveau2.getUri() == null) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
+        }
         return Response.ok(responseUtils.produceResponse(cjNiveau2, header)).build();
     }
 
@@ -84,13 +86,16 @@ public class CodesAPI extends MetadataApi {
             required = true,
             description = "Identifiant de la catégorie juridique de niveau 3 (quatre chiffres)") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for CJ 3rd level " + code);
+        logger.debug("Received GET request for CJ 3rd level {}", code);
+
 
         CategorieJuridiqueNiveauIII cjNiveau3 = new CategorieJuridiqueNiveauIII(code);
         String csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauIII(code));
         cjNiveau3 = (CategorieJuridiqueNiveauIII) csvUtils.populatePOJO(csvResult, cjNiveau3);
 
-        if (cjNiveau3.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+        if (cjNiveau3.getUri() == null) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
+        }
         return Response.ok(responseUtils.produceResponse(cjNiveau3, header)).build();
     }
 
@@ -110,16 +115,19 @@ public class CodesAPI extends MetadataApi {
         @Parameter(
             description = "Date à laquelle la catégorie juridique est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)") @QueryParam("date") String date,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-
-        logger.debug("Received GET request for CJ: code:" + code + " date:" + date);
+        logger.debug("Received GET request for CJ 2nd level {} date: {}", code, date);
 
         String csvResult = "";
-        if (date == null)
+        if (date == null) {
             csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJByCode(code));
-        else if (date.equals("*"))
+        }
+        else if (date.equals("*")) {
             csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJ(code));
+        }
         else {
-            if ( ! DateUtils.isValidDate(date)) return Response.status(Status.BAD_REQUEST).entity("").build();
+            if ( ! DateUtils.isValidDate(date)) {
+                return Response.status(Status.BAD_REQUEST).entity("").build();
+            }
             DateTime dt = DateUtils.getDateTimeFromDateString(date);
             csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJByCodeAndDate(code, dt));
         }
@@ -127,14 +135,15 @@ public class CodesAPI extends MetadataApi {
         List<CategorieJuridique> cjList = csvUtils.populateMultiPOJO(csvResult, CategorieJuridique.class);
 
         // sub query return ,,,, result. So check list size and first element is not empty
-        if (cjList.size() == 0 || cjList.get(0).getCode().equals(""))
+        if (cjList.isEmpty() || cjList.get(0).getCode().equals("")) {
             return Response.status(Status.NOT_FOUND).entity("").build();
-
-        else if (header.equals(MediaType.APPLICATION_XML))
+        }
+        else if (header.equals(MediaType.APPLICATION_XML)) {
             return Response.ok(responseUtils.produceResponse(new CategoriesJuridiques(cjList), header)).build();
-
-        else
+        }
+        else {
             return Response.ok(responseUtils.produceResponse(cjList, header)).build();
+        }
     }
 
     @Path("/nafr2/sousClasse/{code: [0-9]{2}\\.[0-9]{2}[A-Z]}")
@@ -153,13 +162,15 @@ public class CodesAPI extends MetadataApi {
             required = true,
             description = "Code de la sous-classe (deux chiffres, un point, deux chiffres et une lettre majuscule)") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for NAF sub-class " + code);
+        logger.debug("Received GET request for NAF sub-class {}", code);
 
         SousClasseNAF2008 sousClasse = new SousClasseNAF2008(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
         sousClasse = (SousClasseNAF2008) csvUtils.populatePOJO(csvResult, sousClasse);
 
-        if (sousClasse.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+        if (sousClasse.getUri() == null) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
+        }
         return Response.ok(responseUtils.produceResponse(sousClasse, header)).build();
     }
 
@@ -179,14 +190,15 @@ public class CodesAPI extends MetadataApi {
             required = true,
             description = "Code de la classe (deux chiffres, un point, deux chiffres)") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-
-        logger.debug("Received GET request for NAF rev. 2 class " + code);
+        logger.debug("Received GET request for NAF rev. 2 class {}", code);
 
         ClasseNAF2008 classe = new ClasseNAF2008(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
         classe = (ClasseNAF2008) csvUtils.populatePOJO(csvResult, classe);
 
-        if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+        if (classe.getUri() == null) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
+        }
         return Response.ok(responseUtils.produceResponse(classe, header)).build();
     }
 
@@ -206,14 +218,15 @@ public class CodesAPI extends MetadataApi {
             required = true,
             description = "Code de la classe (deux chiffres, un point, deux chiffres)") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-
-        logger.debug("Received GET request for NAF rev. 1 class " + code);
+        logger.debug("Received GET request for NAF rev. 1 class {}", code);
 
         ClasseNAF2003 classe = new ClasseNAF2003(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Naf2003Queries.getClasseNAF2003(code));
         classe = (ClasseNAF2003) csvUtils.populatePOJO(csvResult, classe);
 
-        if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+        if (classe.getUri() == null) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
+        }
         return Response.ok(responseUtils.produceResponse(classe, header)).build();
     }
 
@@ -233,14 +246,15 @@ public class CodesAPI extends MetadataApi {
             required = true,
             description = "Code de la classe (deux chiffres, un point, deux chiffres)") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-
-        logger.debug("Received GET request for NAF class " + code);
+        logger.debug("Received GET request for NAF class {}", code);
 
         ClasseNAF1993 classe = new ClasseNAF1993(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Naf1993Queries.getClasseNAF1993(code));
         classe = (ClasseNAF1993) csvUtils.populatePOJO(csvResult, classe);
 
-        if (classe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+        if (classe.getUri() == null) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
+        }
         return Response.ok(responseUtils.produceResponse(classe, header)).build();
     }
 
@@ -260,14 +274,15 @@ public class CodesAPI extends MetadataApi {
             required = true,
             description = "Code du groupe (deux chiffres, un point, deux chiffres)") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-
-        logger.debug("Received GET request for NA 1973 group " + code);
+        logger.debug("Received GET request for NA 1973 group {}", code);
 
         GroupeNA1973 groupe = new GroupeNA1973(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Na1973Queries.getGroupeNA1973(code));
         groupe = (GroupeNA1973) csvUtils.populatePOJO(csvResult, groupe);
 
-        if (groupe.getUri() == null) return Response.status(Status.NOT_FOUND).entity("").build();
+        if (groupe.getUri() == null) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
+        }
         return Response.ok(responseUtils.produceResponse(groupe, header)).build();
     }
 
@@ -287,31 +302,35 @@ public class CodesAPI extends MetadataApi {
         @Parameter(
             description = "Date à laquelle l'activité est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)") @QueryParam("date") String date,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-
-        logger.debug("Received GET request for Activities: " + code + " date:" + date);
+        logger.debug("Received GET request for Activities {} date: {}", code, date);
 
         String csvResult = "";
 
-        if (date == null)
+        if (date == null) {
             csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCode(code));
-        else if (date.equals("*"))
+        }
+        else if (date.equals("*")) {
             csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActivites(code));
+        }
         else {
-            if ( ! DateUtils.isValidDate(date)) return Response.status(Status.BAD_REQUEST).entity("").build();
+            if ( ! DateUtils.isValidDate(date)) {
+                return Response.status(Status.BAD_REQUEST).entity("").build();
+            }
             DateTime dt = DateUtils.getDateTimeFromDateString(date);
             csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCodeAndDate(code, dt));
         }
 
         List<Activite> activityList = csvUtils.populateMultiPOJO(csvResult, Activite.class);
 
-        if (activityList.size() == 0)
+        if (activityList.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
-
-        else if (header.equals(MediaType.APPLICATION_XML))
+        }
+        else if (header.equals(MediaType.APPLICATION_XML)) {
             return Response.ok(responseUtils.produceResponse(new Activites(activityList), header)).build();
-
-        else
+        }
+        else {
             return Response.ok(responseUtils.produceResponse(activityList, header)).build();
+        }
     }
 
 }

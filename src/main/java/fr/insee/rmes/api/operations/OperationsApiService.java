@@ -116,15 +116,15 @@ public class OperationsApiService {
                     opList.removeIf(op -> (op.getIndicId().equals(id)));
                 break;
                 default:
-                    logger.warn("Unknown exclusion type : {0}", type);
+                    logger.warn("Unknown exclusion type : {}", type);
                 break;
             }
         }
         return opList;
     }
 
-    public List<Rubrique> getListRubriques(String csvResult, String id) {
-        csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationRubrics(id));
+    public List<Rubrique> getListRubriques(String id) {
+        String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationRubrics(id));
         List<CsvRubrique> csvRubriques = csvUtils.populateMultiPOJO(csvResult, CsvRubrique.class);
         List<Rubrique> rubriques = new ArrayList<>();
         for (CsvRubrique cr : csvRubriques) {
