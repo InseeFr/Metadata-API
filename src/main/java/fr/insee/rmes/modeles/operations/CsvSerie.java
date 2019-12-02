@@ -41,7 +41,7 @@ public class CsvSerie {
 
     private String simsId = null;
 
-    public CsvSerie() {}
+    public CsvSerie() {}// No-args constructor needed for JAXB
 
     public String getFamilyId() {
         return familyId;

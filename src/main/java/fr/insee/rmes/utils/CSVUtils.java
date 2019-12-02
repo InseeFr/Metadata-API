@@ -39,7 +39,7 @@ public class CSVUtils {
     private <TargetClass> List<TargetClass> csvToMultiPOJO(String csv, Class<TargetClass> childClass) throws Exception {
         List<TargetClass> list = new ArrayList<>();
         CsvMapper mapper = new CsvMapper();
-        CsvSchema schema = mapper.schemaFor(childClass).withHeader();
+        CsvSchema schema = CsvSchema.emptySchema().withHeader();
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map.class).with(schema).readValues(csv);
         while (it.hasNext()) {
             Map<String, String> rowAsMap = it.next();
