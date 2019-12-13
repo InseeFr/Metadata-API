@@ -50,7 +50,8 @@ public class OperationsApiService {
                 if (familyMap.containsKey(fId)) {
                     familyMap.get(fId).addSerie(s);
                 }
-                else {// create family
+                else {
+                    // create family
                     Famille f =
                         new Famille(
                             familyToOperation.getFamily(),
@@ -84,7 +85,8 @@ public class OperationsApiService {
                 i.setAltLabel(familyToOperation.getIndicAltLabelLg1(), familyToOperation.getIndicAltLabelLg2());
                 serieMap.get(familyToOperation.getSeriesId()).addIndicateur(i);
             }
-            else if (StringUtils.isNotEmpty(familyToOperation.getSimsId())) { // sims linked to serie
+            else if (StringUtils.isNotEmpty(familyToOperation.getSimsId())) {
+                // sims linked to serie
                 serieMap.get(familyToOperation.getSeriesId()).setSimsId(familyToOperation.getSimsId());
             }
         }

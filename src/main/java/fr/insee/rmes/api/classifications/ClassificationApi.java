@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/nomenclature")
-@Tag(name = "nomenclatures", description = "Nomenclatures API")
+@Tag(name = "nomenclature", description = "Nomenclature API")
 public class ClassificationApi extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(ClassificationApi.class);
@@ -101,11 +101,11 @@ public class ClassificationApi extends MetadataApi {
         }
 
         if (header.equals(MediaType.APPLICATION_XML)) {
-            final List<PosteXml> root = getTree(csvResult, PosteXml.class);
+            final List<PosteXml> root = this.getTree(csvResult, PosteXml.class);
             return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
         }
         else {
-            final List<PosteJson> root = getTree(csvResult, PosteJson.class);
+            final List<PosteJson> root = this.getTree(csvResult, PosteJson.class);
             return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
         }
     }

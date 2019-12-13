@@ -20,8 +20,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/correspondances")
+@Tag(name = "correspondances", description = "Correspondances API")
 public class CorrespondencesApi extends MetadataApi {
 
     @GET
@@ -40,14 +42,15 @@ public class CorrespondencesApi extends MetadataApi {
 
         List<Correspondence> itemsList = csvUtils.populateMultiPOJO(csvResult, Correspondence.class);
 
-        if (itemsList.size() == 0)
+        if (itemsList.size() == 0) {
             return Response.status(Status.NOT_FOUND).entity("").build();
-
-        else if (header.equals(MediaType.APPLICATION_XML))
+        }
+        else if (header.equals(MediaType.APPLICATION_XML)) {
             return Response.ok(responseUtils.produceResponse(new Correspondences(itemsList), header)).build();
-
-        else
+        }
+        else {
             return Response.ok(responseUtils.produceResponse(itemsList, header)).build();
+        }
     }
 
 }
