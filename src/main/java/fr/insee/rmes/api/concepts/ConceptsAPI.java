@@ -58,12 +58,12 @@ public class ConceptsAPI extends MetadataApi {
         String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptsByLabel(label));
         List<Definition> conceptList = csvUtils.populateMultiPOJO(csvResult, Definition.class);
 
-        if (conceptList.size() == 0)
+        if (conceptList.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
-
-        else if (StringUtils.equalsAnyIgnoreCase(header, MediaType.APPLICATION_XML))
+        }
+        else if (StringUtils.equalsAnyIgnoreCase(header, MediaType.APPLICATION_XML)) {
             return Response.ok(responseUtils.produceResponse(new Definitions(conceptList), header)).build();
-
+        }
         else if (StringUtils.equalsAnyIgnoreCase(header, MediaType.APPLICATION_JSON)) {
             return Response.ok(responseUtils.produceResponse(conceptList, header)).build();
         }
