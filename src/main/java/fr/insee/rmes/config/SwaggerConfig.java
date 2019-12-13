@@ -1,6 +1,5 @@
 package fr.insee.rmes.config;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,19 +21,22 @@ import io.swagger.v3.oas.models.servers.Server;
 @ApplicationPath("/")
 public class SwaggerConfig extends ResourceConfig {
 
-    private final static Logger logger = LogManager.getLogger(SwaggerConfig.class);
+    private static final Logger logger = LogManager.getLogger(SwaggerConfig.class);
 
-    public SwaggerConfig(@Context ServletConfig servletConfig) throws IOException {
+    public SwaggerConfig(@Context ServletConfig servletConfig) {
         super();
         OpenAPI openApi = new OpenAPI();
 
+        //describe API
         Info info = new Info().title("API RMéS").version("1.2.0").description("API sur les métadonnées de l'Insee");
         openApi.info(info);
 
+        //set Server API
         Server server = new Server();
         server.url(Configuration.getSwaggerUrl());
         openApi.addServersItem(server);
 
+        //define where API are described (with annotations)
         SwaggerConfiguration oasConfig =
             new SwaggerConfiguration()
                 .openAPI(openApi)

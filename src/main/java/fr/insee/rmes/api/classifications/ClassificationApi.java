@@ -110,15 +110,15 @@ public class ClassificationApi extends MetadataApi {
         }
     }
 
-    private <POSTECLASS> List<POSTECLASS> getTree(String csvResult, Class<POSTECLASS> posteClass) {
-        final List<POSTECLASS> root = new ArrayList<>();
-        final List<POSTECLASS> liste = csvUtils.populateMultiPOJO(csvResult, posteClass);
-        final Map<String, POSTECLASS> postes =
+    private <P> List<P> getTree(String csvResult, Class<P> posteClass) {
+        final List<P> root = new ArrayList<>();
+        final List<P> liste = csvUtils.populateMultiPOJO(csvResult, posteClass);
+        final Map<String, P> postes =
             liste.stream().collect(Collectors.toMap(p -> ((Poste) p).getCode(), Function.identity()));
 
-        for (final POSTECLASS poste : liste) {
+        for (final P poste : liste) {
             if (StringUtils.isNotEmpty(((Poste) poste).getCodeParent())) {
-                final POSTECLASS posteParent = postes.get(((Poste) poste).getCodeParent());
+                final P posteParent = postes.get(((Poste) poste).getCodeParent());
                 ((Poste) posteParent).addPosteEnfant((Poste) poste);
             }
             else {
