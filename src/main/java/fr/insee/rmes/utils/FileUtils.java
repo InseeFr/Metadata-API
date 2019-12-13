@@ -13,6 +13,12 @@ public class FileUtils {
 
     private static Logger logger = LogManager.getLogger(FileUtils.class);
 
+    /**
+     * Read a csv File and put data in a list
+     * @param pathFile
+     * @param csvSplitBy
+     * @return
+     */
     public static List<List<String>> readFile(String pathFile, String csvSplitBy) {
         List<String> allLines = null;
         List<List<String>> fileContents = new ArrayList<>();

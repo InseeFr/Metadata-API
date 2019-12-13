@@ -26,7 +26,7 @@ public class Log4j2ServletContextListener implements ServletContextListener {
             this.getEnvironmentProperties();
         }
         catch (IOException e) {
-            logger.warn(e);
+            logger.error(e);
         }
     }
 
@@ -62,13 +62,24 @@ public class Log4j2ServletContextListener implements ServletContextListener {
     private Properties getProperties() throws IOException {
         Properties props = new Properties();
         props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
-        File f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmes-api.properties"));
+        this.loadIfExists(props, "rmes-api.properties");
+        this.loadIfExists(props, "rmeswnci.properties");
+        this.loadIfExists(props, "rmeswncz.properties");
+        return props;
+    }
+
+
+    /*
+     * load properties on catalina base
+     */
+    private void loadIfExists(Properties props, String filename) throws IOException {
+        File f;
+        f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
         if (f.exists() && ! f.isDirectory()) {
             FileReader r = new FileReader(f);
             props.load(r);
             r.close();
         }
-        return props;
     }
-
+    
 }
