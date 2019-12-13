@@ -2,6 +2,10 @@ package fr.insee.rmes.utils;
 
 public class QueryUtils {
 
+    private QueryUtils() {
+        super();
+    }
+
     public static final String PREFIXES =
         "PREFIX igeo:<http://rdf.insee.fr/def/geo#> \n"
             + "PREFIX dcterms:<http://purl.org/dc/terms/> \n"

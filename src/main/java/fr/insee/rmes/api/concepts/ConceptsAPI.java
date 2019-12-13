@@ -91,7 +91,7 @@ public class ConceptsAPI extends MetadataApi {
             schema = @Schema(pattern = "c[0-9]{4}", type = "string")) @PathParam("id") String id,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
-        logger.debug("Received GET request for Concept: {0}", id);
+        logger.debug("Received GET request for Concept: {}", id);
 
         Definition concept = new Definition(id);
         String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));

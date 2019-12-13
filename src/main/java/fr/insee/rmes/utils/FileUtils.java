@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class FileUtils {
+
+    private FileUtils() {
+        super();
+    }
 
     private static Logger logger = LogManager.getLogger(FileUtils.class);
 
@@ -32,12 +37,7 @@ public class FileUtils {
         }
 
         for (String line : allLines) {
-            List<String> lineContents = new ArrayList<>();
-            String[] parts = line.split(csvSplitBy);
-            for (String s : parts) {
-                lineContents.add(s);
-            }
-            fileContents.add(lineContents);
+            fileContents.add(Arrays.asList(line.split(csvSplitBy)));
         }
         return fileContents;
     }

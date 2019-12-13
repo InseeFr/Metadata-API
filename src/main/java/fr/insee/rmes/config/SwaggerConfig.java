@@ -27,23 +27,23 @@ public class SwaggerConfig extends ResourceConfig {
         super();
         OpenAPI openApi = new OpenAPI();
 
-        //describe API
+        // describe API
         Info info = new Info().title("API RMéS").version("1.2.0").description("API sur les métadonnées de l'Insee");
         openApi.info(info);
 
-        //set Server API
+        // set Server API
         Server server = new Server();
         server.url(Configuration.getSwaggerUrl());
         openApi.addServersItem(server);
 
-        //define where API are described (with annotations)
+        // define where API are described (with annotations)
         SwaggerConfiguration oasConfig =
             new SwaggerConfiguration()
                 .openAPI(openApi)
                 .resourcePackages(Stream.of("fr.insee.rmes.api").collect(Collectors.toSet()))
                 .prettyPrint(true);
 
-        logger.debug("SWAGGER : " + oasConfig.toString());
+        logger.debug("SWAGGER : {}", (oasConfig != null ? oasConfig.toString() : "SwaggerConfiguration is null"));
 
         OpenApiResource openApiResource = new OpenApiResource();
         openApiResource.setOpenApiConfiguration(oasConfig);

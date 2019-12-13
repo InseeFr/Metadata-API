@@ -50,7 +50,7 @@ public class GeoAPI extends MetadataApi {
             schema = @Schema(pattern = "[0-9][0-9AB][0-9]{3}", type = "string")) @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
-        logger.debug("Received GET request for commune {0}", code);
+        logger.debug("Received GET request for commune {}", code);
 
         Commune commune = new Commune(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommune(code));
@@ -82,7 +82,7 @@ public class GeoAPI extends MetadataApi {
             schema = @Schema(pattern = "99[0-9]{3}", type = "string")) @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
-        logger.debug("Received GET request for country {0}", code);
+        logger.debug("Received GET request for country {}", code);
 
         Country country = new Country(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCountry(code));
@@ -115,7 +115,7 @@ public class GeoAPI extends MetadataApi {
             schema = @Schema(pattern = "[0-9]{2}", type = "string")) @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
-        logger.debug("Received GET request for region {0}", code);
+        logger.debug("Received GET request for region {}", code);
 
         Region region = new Region(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegion(code));

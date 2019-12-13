@@ -16,7 +16,7 @@ public class ResponseUtils {
     private static Logger logger = LogManager.getLogger(ResponseUtils.class);
 
     public String produceResponse(Object obj, String header) {
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper;
         String response = "";
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
             mapper = new XmlMapper();

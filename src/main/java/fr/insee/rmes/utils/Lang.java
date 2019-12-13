@@ -3,18 +3,14 @@ package fr.insee.rmes.utils;
 public enum Lang {
     FR("fr"), EN("en");
 
-    private String lang;
+    private String language;
 
-    private Lang(String lang) {
-        this.lang = lang;
+    private Lang(String language) {
+        this.language = language;
     }
 
     public String getLang() {
-        return lang;
+        return language;
     }
-
-    // public void setLang(String lang) {
-    // this.lang = lang;
-    // }
 
 }

@@ -16,6 +16,10 @@ import freemarker.template.TemplateExceptionHandler;
 
 public class FreemarkerConfig {
 
+    private FreemarkerConfig() {
+        super();
+    }
+
     static final Logger logger = LogManager.getLogger(FreemarkerConfig.class);
 
     static Configuration cfg;
@@ -30,26 +34,25 @@ public class FreemarkerConfig {
         // plain directory for it, but non-file-system sources are possible too:
 
         try {
-            MultiTemplateLoader mtl = null;
 
             FileTemplateLoader ftl1 =
                 new FileTemplateLoader(
                     new File(FreemarkerConfig.class.getClassLoader().getResource("request").toURI()));
-            if (mtl == null) {
-                mtl = new MultiTemplateLoader(new TemplateLoader[] {
-                    ftl1
-                });
-            }
+
+            MultiTemplateLoader mtl = new MultiTemplateLoader(new TemplateLoader[] {
+                ftl1
+            });
+
             logger
                 .info(
-                    "Init freemarker templateloader " + FreemarkerConfig.class.getClassLoader().getResource("request"));
+                    "Init freemarker templateloader {}",
+                    FreemarkerConfig.class.getClassLoader().getResource("request"));
             cfg.setTemplateLoader(mtl);
 
         }
-        catch (IOException|URISyntaxException e) {
+        catch (IOException | URISyntaxException e) {
             logger.error(e.getMessage());
         }
-
 
         // Set the preferred charset template files are stored in. UTF-8 is
         // a good choice in most applications:
