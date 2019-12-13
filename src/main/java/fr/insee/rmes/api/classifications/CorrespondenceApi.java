@@ -102,8 +102,7 @@ public class CorrespondenceApi extends MetadataApi {
 
             /* raw sparql result fields order must be handled according to source / target classifications */
             Associations itemsList =
-                CorrespondencesUtils
-                    .getCorrespondenceByclassificationIds(codeClassification, targetCodeClassification, rawItemsList);
+                CorrespondencesUtils.getCorrespondenceByclassificationIds(targetCodeClassification, rawItemsList);
 
             return Response.ok(responseUtils.produceResponse(itemsList, header)).build();
 

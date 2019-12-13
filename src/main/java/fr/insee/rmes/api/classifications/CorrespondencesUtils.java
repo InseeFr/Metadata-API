@@ -65,7 +65,6 @@ public class CorrespondencesUtils {
     /* when id1 + id2 classifications */
     public static Associations getCorrespondenceByclassificationIds(
         String codeClassification,
-        String targetCodeClassification,
         List<RawCorrespondence> rawItemsList) {
 
         Map<Poste, List<Poste>> mapSourceTargetItems =

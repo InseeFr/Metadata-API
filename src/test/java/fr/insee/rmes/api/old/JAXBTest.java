@@ -5,6 +5,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
+import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ import fr.insee.rmes.modeles.geo.Region;
 // TODO needs to be transformed into fonctional test
 
 @Ignore
-public class JAXBTest {
+public class JAXBTest extends JerseyTest {
 
     @Test
     public void testJSON() throws JAXBException {
