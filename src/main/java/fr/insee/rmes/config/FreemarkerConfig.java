@@ -46,12 +46,10 @@ public class FreemarkerConfig {
             cfg.setTemplateLoader(mtl);
 
         }
-        catch (IOException e) {
+        catch (IOException|URISyntaxException e) {
             logger.error(e.getMessage());
         }
-        catch (URISyntaxException e) {
-            logger.error(e.getMessage());
-        }
+
 
         // Set the preferred charset template files are stored in. UTF-8 is
         // a good choice in most applications:

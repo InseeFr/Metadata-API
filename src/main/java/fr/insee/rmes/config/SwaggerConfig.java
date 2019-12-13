@@ -1,6 +1,5 @@
 package fr.insee.rmes.config;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,9 +21,9 @@ import io.swagger.v3.oas.models.servers.Server;
 @ApplicationPath("/")
 public class SwaggerConfig extends ResourceConfig {
 
-    private final static Logger logger = LogManager.getLogger(SwaggerConfig.class);
+    private static final Logger logger = LogManager.getLogger(SwaggerConfig.class);
 
-    public SwaggerConfig(@Context ServletConfig servletConfig) throws IOException {
+    public SwaggerConfig(@Context ServletConfig servletConfig) {
         super();
         OpenAPI openApi = new OpenAPI();
 
