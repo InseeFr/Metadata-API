@@ -71,4 +71,4 @@ deploy-qf:
     NOM_BRANCHE: qf
     FTP_USR_W: tomcatrec
     FTP_PWD: $FTP_PWD
-    FTP_SERVER_W: dvrmeswnczlas01.ad.insee.intra
+    FTP_SERVER_W: qfrmeswnczlas01.ad.insee.intra
