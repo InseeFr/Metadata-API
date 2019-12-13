@@ -9,22 +9,37 @@ import org.joda.time.format.DateTimeFormatter;
 
 public class DateUtils {
 
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
+
     public static DateTime getDateTimeFromDateString(String date) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-        DateTime dt = formatter.parseDateTime(date);
-        return dt;
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(DATE_PATTERN);
+        return formatter.parseDateTime(date);
     }
 
+    /**
+     * return "" or a date with yyyy-MM-dd pattern
+     * @param dateTime
+     * @return
+     */
     public static String getDateStringFromDateTimeString(String dateTime) {
-        if (dateTime == null || dateTime.equals("")) return "";
+        if (dateTime == null || dateTime.equals("")) {
+            return "";
+        }
         DateTime dt = new DateTime(dateTime);
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(DATE_PATTERN);
         return formatter.print(dt);
     }
 
+    /**
+     * check date pattern
+     * @param date
+     * @return
+     */
     public static boolean isValidDate(String date) {
-        if (date == null || ! date.matches("\\d{4}-[01]\\d-[0-3]\\d")) return false;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (date == null || ! date.matches("\\d{4}-[01]\\d-[0-3]\\d")) {
+            return false;
+        }
+        SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         try {
             format.parse(date);
             return true;
@@ -32,6 +47,11 @@ public class DateUtils {
         catch (ParseException e) {
             return false;
         }
+    }
+
+    private DateUtils() {
+        throw new IllegalStateException("Utility class");
+        // please sonar
     }
 
 }

@@ -1,5 +1,6 @@
 package fr.insee.rmes.utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,10 @@ public class CSVUtils {
 
     private static Logger logger = LogManager.getLogger(CSVUtils.class);
 
-    private Object csvToPOJO(String csv, Object pojo) throws Exception {
+
+    private Object csvToPOJO(String csv, Object pojo) throws IOException {
         CsvMapper mapper = new CsvMapper();
+        //emptyScheme is necessary
         CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
 
         MappingIterator<Object> it = mapper.readerForUpdating(pojo).with(bootstrapSchema).readValues(csv);
@@ -26,6 +29,9 @@ public class CSVUtils {
         return pojo;
     }
 
+    /*
+     * Create POJO with the result of a request
+     */
     public Object populatePOJO(String csv, Object pojo) {
         try {
             pojo = this.csvToPOJO(csv, pojo);
@@ -36,21 +42,27 @@ public class CSVUtils {
         return pojo;
     }
 
-    private <TargetClass> List<TargetClass> csvToMultiPOJO(String csv, Class<TargetClass> childClass) throws Exception {
-        List<TargetClass> list = new ArrayList<>();
+    private <TARGETCLASS> List<TARGETCLASS> csvToMultiPOJO(String csv, Class<TARGETCLASS> childClass) throws IOException {
+        List<TARGETCLASS> list = new ArrayList<>();
         CsvMapper mapper = new CsvMapper();
         CsvSchema schema = CsvSchema.emptySchema().withHeader();
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map.class).with(schema).readValues(csv);
         while (it.hasNext()) {
             Map<String, String> rowAsMap = it.next();
-            TargetClass activite = mapper.convertValue(rowAsMap, childClass);
+            TARGETCLASS activite = mapper.convertValue(rowAsMap, childClass);
             list.add(activite);
         }
         return list;
     }
 
-    public <TargetClass> List<TargetClass> populateMultiPOJO(String csv, Class<TargetClass> childClass) {
-        List<TargetClass> list = new ArrayList<>();
+    /**
+     * Create POJOs
+     * @param csv : result of the request
+     * @param childClass : POJO class
+     * @return
+     */
+    public <TARGETCLASS> List<TARGETCLASS> populateMultiPOJO(String csv, Class<TARGETCLASS> childClass) {
+        List<TARGETCLASS> list = new ArrayList<>();
         try {
             list = this.csvToMultiPOJO(csv, childClass);
         }
