@@ -13,13 +13,21 @@ public class Configuration {
 
     private static String sparqlEndPoint = "";
 
+    //Base for all uri in our database
     private static String baseHost = "";
+    
+    //folder where documents are stored
     private static String fileStorage = "";
+    //Server where documents are stored
     private static String fileStorageLocation = "";
 
+    //API Server
     private static String swaggerHost = "";
+    //API name
     private static String swaggerBasepath = "";
+    //Build with host and basepath
     private static String swaggerUrl = "";
+    //Https or Http
     private static Boolean requiresSsl = false;
 
     private Properties getProperties() throws IOException {
@@ -27,10 +35,13 @@ public class Configuration {
         props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
         this.loadIfExists(props, "rmes-api.properties");
         this.loadIfExists(props, "rmeswnci.properties");
-        this.loadIfExists(props, "rmeswncz.properties\"");
+        this.loadIfExists(props, "rmeswncz.properties");
         return props;
     }
 
+    /*
+     * load properties on catalina base
+     */
     private void loadIfExists(Properties props, String filename) throws IOException {
         File f;
         f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
