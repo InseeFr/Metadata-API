@@ -51,11 +51,10 @@ public class CorrespondenceApi extends MetadataApi {
         /* RawCorrespondence direct mapping from sparql request */
         List<RawCorrespondence> rawItemsList = csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
 
-        if (rawItemsList != null && !rawItemsList.isEmpty()) {
+        if (rawItemsList != null && ! rawItemsList.isEmpty()) {
 
             /* raw sparql result fields order must be got in shape 1 source -> many targets */
-            Associations itemsList =
-                CorrespondencesUtils.getCorrespondenceByCorrespondenceId(idCorrespondance, rawItemsList);
+            Associations itemsList = CorrespondencesUtils.getCorrespondenceByCorrespondenceId(rawItemsList);
 
             return Response.ok(responseUtils.produceResponse(itemsList, header)).build();
 
