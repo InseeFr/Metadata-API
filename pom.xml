@@ -20,7 +20,7 @@
 		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*</sonar.exclusions>
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		    <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
+		    <sonar.projectKey>${project.groupId}.${project.artifactId}</sonar.projectKey>
 	</properties>
 	<dependencies>
 		<dependency>
