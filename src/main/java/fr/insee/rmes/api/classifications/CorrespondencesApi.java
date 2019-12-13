@@ -36,13 +36,14 @@ public class CorrespondencesApi extends MetadataApi {
         responses = {
             @ApiResponse(content = @Content(schema = @Schema(implementation = Correspondences.class)))
         })
-    public Response getAllCorrespondences(@Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+    public Response getAllCorrespondences(
+        @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult = sparqlUtils.executeSparqlQuery(CorrespondencesQueries.getAllCorrespondences());
 
         List<Correspondence> itemsList = csvUtils.populateMultiPOJO(csvResult, Correspondence.class);
 
-        if (itemsList.size() == 0) {
+        if (itemsList.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else if (header.equals(MediaType.APPLICATION_XML)) {

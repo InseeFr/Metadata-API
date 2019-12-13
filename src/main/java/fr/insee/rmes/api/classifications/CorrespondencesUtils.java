@@ -12,14 +12,16 @@ import fr.insee.rmes.modeles.classification.correspondence.RawCorrespondence;
 
 public class CorrespondencesUtils {
 
+    private CorrespondencesUtils() {
+        super();
+    }
+
     /**
      * get in shape rawlist in tree map
      * 1 source (map id) -> many target
      */
     /* when id correspondence */
-    public static Associations getCorrespondenceByCorrespondenceId(
-        String idCorrespondence,
-        List<RawCorrespondence> rawItemsList) {
+    public static Associations getCorrespondenceByCorrespondenceId(List<RawCorrespondence> rawItemsList) {
 
         Map<Poste, List<Poste>> mapSourceTargetItems = getTreeMapTargetItemsBySourceByCorrespondenceId(rawItemsList);
         return organizeItemTreeMap(mapSourceTargetItems);
@@ -67,10 +69,7 @@ public class CorrespondencesUtils {
         List<RawCorrespondence> rawItemsList) {
 
         Map<Poste, List<Poste>> mapSourceTargetItems =
-            getTreeMapTargetItemsBySourceByClassificationsIds(
-                codeClassification,
-                targetCodeClassification,
-                rawItemsList);
+            getTreeMapTargetItemsBySourceByClassificationsIds(codeClassification, rawItemsList);
         return organizeItemTreeMap(mapSourceTargetItems);
     }
 
@@ -79,7 +78,6 @@ public class CorrespondencesUtils {
      */
     public static Map<Poste, List<Poste>> getTreeMapTargetItemsBySourceByClassificationsIds(
         String codeClassificationSource,
-        String targetCodeClassification,
         List<RawCorrespondence> rawItemsList) {
 
         /* TreeMap for ordering map keys */
@@ -117,14 +115,12 @@ public class CorrespondencesUtils {
      * @param rawItemsList
      * @return
      */
-    private static Boolean isPoste1Source(
-        String codeClassificationSource,
-        List<RawCorrespondence> rawItemsList) {
+    private static Boolean isPoste1Source(String codeClassificationSource, List<RawCorrespondence> rawItemsList) {
         // using the first correspondence ( rawItemsList.get(0) )
         // => which csv result, first or second uri field (uriPoste1/2) does contain classification source id ?
         String uriPoste1FromRaw = rawItemsList.get(0).getUriPoste1();
         String classifSource = "/codes/" + codeClassificationSource + "/";
-        return (uriPoste1FromRaw.contains(classifSource) ? false : true);
+        return ! uriPoste1FromRaw.contains(classifSource);
     }
 
     private static Poste mapRawObjectToItemCorrespondence(RawCorrespondence corresp, boolean poste1IsSource) {
