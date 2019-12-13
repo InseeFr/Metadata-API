@@ -67,7 +67,7 @@ public class OperationsAPI extends MetadataApi {
         String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getOperationTree());
         List<FamilyToOperation> opList = csvUtils.populateMultiPOJO(csvResult, FamilyToOperation.class);
 
-        if (opList.size() == 0) {
+        if (opList.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else {
