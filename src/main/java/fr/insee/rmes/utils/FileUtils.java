@@ -34,8 +34,8 @@ public class FileUtils {
         for (String line : allLines) {
             List<String> lineContents = new ArrayList<>();
             String[] parts = line.split(csvSplitBy);
-            for (int i = 0; i < parts.length; i ++ ) {
-                lineContents.add(parts[i]);
+            for (String s : parts) {
+                lineContents.add(s);
             }
             fileContents.add(lineContents);
         }
