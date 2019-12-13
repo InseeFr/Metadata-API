@@ -17,10 +17,11 @@
 		<junit.version>5.5.2</junit.version>
 		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
 		<sonar.coverage.jacoco.xmlReportPaths>../target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*</sonar.exclusions>
+		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
+			src/main/java/fr/insee/rmes/modeles/**/*</sonar.exclusions>
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		    <sonar.projectKey>${project.groupId}.${project.artifactId}</sonar.projectKey>
+		<sonar.projectKey>${project.groupId}.${project.artifactId}</sonar.projectKey>
 	</properties>
 	<dependencies>
 		<dependency>
