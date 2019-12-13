@@ -16,11 +16,8 @@
 		<swagger.version>2.0.10</swagger.version>
 		<junit.version>5.5.2</junit.version>
 		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-		<sonar.coverage.jacoco.xmlReportPaths>../target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
 			src/main/java/fr/insee/rmes/modeles/**/*</sonar.exclusions>
-		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.projectKey>${project.groupId}.${project.artifactId}</sonar.projectKey>
 	</properties>
 	<dependencies>
@@ -185,17 +182,20 @@
 				<version>0.8.4</version>
 				<executions>
 					<execution>
-						<id>jacoco-initialize</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 					<execution>
-						<id>jacoco-site</id>
-						<phase>package</phase>
+						<id>jacoco-report</id>
+						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<!-- default target/jscoco/site/* -->
+						<configuration>
+							<outputDirectory>target/jacoco-report</outputDirectory>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
