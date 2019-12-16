@@ -5,6 +5,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -48,7 +49,11 @@ public class GeoAPI extends MetadataApi {
             description = "Code de la commune (cinq caractères)",
             required = true,
             schema = @Schema(pattern = "[0-9][0-9AB][0-9]{3}", type = "string")) @PathParam("code") String code,
-        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(pattern = "yyyy-MM-dd", type = "date")) @QueryParam(value = "date") String date) {
 
         logger.debug("Received GET request for commune {}", code);
 
