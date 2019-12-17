@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @JacksonXmlRootElement(localName = "Definitions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Schema(name = "Définitions", description = "Tableau représentant des définitions de concepts statistiques de l'Insee")
+@Schema(name = "Definitions", description = "Tableau représentant des définitions de concepts statistiques de l'Insee")
 public class Definitions {
 
     private List<Definition> definitions = null;

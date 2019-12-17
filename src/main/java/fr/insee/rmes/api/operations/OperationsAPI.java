@@ -51,7 +51,7 @@ public class OperationsAPI extends MetadataApi {
         operationId = "getSeries",
         summary = "Liste des opérations disponibles dans leur arborescence",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Familles.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Familles.class)), description="Familles")
         })
     public Response getOperationsTree(
         @Parameter(
@@ -97,7 +97,7 @@ public class OperationsAPI extends MetadataApi {
         operationId = "getDocumentation",
         summary = "Documentation d'une opération, d'un indicateur ou d'une série",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = DocumentationSims.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = DocumentationSims.class)), description="Documentation SIMS")
         })
     public Response getDocumentation(
         @Parameter(
@@ -126,7 +126,7 @@ public class OperationsAPI extends MetadataApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(operationId = "getSeries", summary = "Informations sur une série statistique de l'Insee", responses = {
-        @ApiResponse(content = @Content(schema = @Schema(implementation = Operation.class)))
+        @ApiResponse(content = @Content(schema = @Schema(implementation = Operation.class)), description="Séries")
     })
     public Response getSeries(
         @Parameter(
@@ -156,7 +156,7 @@ public class OperationsAPI extends MetadataApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(operationId = "getIndicateur", summary = "Informations sur un indicateur de l'Insee", responses = {
-        @ApiResponse(content = @Content(schema = @Schema(implementation = Indicateur.class)))
+        @ApiResponse(content = @Content(schema = @Schema(implementation = Indicateur.class)), description="Indicateur")
     })
     public Response getIndicateur(
         @Parameter(

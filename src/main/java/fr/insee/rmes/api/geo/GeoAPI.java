@@ -43,7 +43,7 @@ public class GeoAPI extends MetadataApi {
         summary = "Informations sur une commune française identifiée par son code (cinq caractères)",
         description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Commune.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Commune.class)), description="Commune")
         })
     public Response getCommune(
         @Parameter(
@@ -79,7 +79,7 @@ public class GeoAPI extends MetadataApi {
         operationId = "getcogpay",
         summary = "Informations sur un pays identifié par son code (cinq chiffres)",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Country.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Country.class)), description="Pays")
         })
     public Response getCountry(
         @Parameter(
@@ -112,7 +112,7 @@ public class GeoAPI extends MetadataApi {
         operationId = "getcogreg",
         summary = "Informations sur une région française identifiée par son code (deux chiffres)",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Region.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Region.class)), description="Région")
         })
     public Response getRegion(
         @Parameter(

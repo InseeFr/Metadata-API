@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @JacksonXmlRootElement(localName = "Definition")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Schema(name = "Définition", description = "Objet représentant la définition d'un concept statistique de l'Insee")
+@Schema(name = "Definition", description = "Objet représentant la définition d'un concept statistique de l'Insee")
 public class Definition {
 
     private String id = null;

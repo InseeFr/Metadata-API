@@ -12,7 +12,7 @@ import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(name = "Objet Simple", description = "Objet simple")
+@Schema(name = "ObjetSimple", description = "Objet simple")
 public class SimpleObject {
 
     private String id = null;

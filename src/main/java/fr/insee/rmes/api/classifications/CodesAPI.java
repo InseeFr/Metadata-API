@@ -54,7 +54,7 @@ public class CodesAPI extends MetadataApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(operationId = "getcjn2", summary = "Informations sur une catégorie juridique de niveau 2", responses = {
-        @ApiResponse(content = @Content(schema = @Schema(implementation = CategorieJuridiqueNiveauII.class)))
+        @ApiResponse(content = @Content(schema = @Schema(implementation = CategorieJuridiqueNiveauII.class)), description="Catégorie juridique de niveau 2")
     })
     public Response getCategorieJuridiqueNiveauII(
         @Parameter(
@@ -79,7 +79,7 @@ public class CodesAPI extends MetadataApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(operationId = "getcjn3", summary = "Informations sur une catégorie juridique de niveau 3", responses = {
-        @ApiResponse(content = @Content(schema = @Schema(implementation = CategorieJuridiqueNiveauIII.class)))
+        @ApiResponse(content = @Content(schema = @Schema(implementation = CategorieJuridiqueNiveauIII.class)), description="Catégorie juridique de niveau 3")
     })
     public Response getCategorieJuridiqueNiveauIII(
         @Parameter(
@@ -108,7 +108,7 @@ public class CodesAPI extends MetadataApi {
         operationId = "getcj",
         summary = "Informations sur une catégorie juridique identifiée par son code et une date",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = CategoriesJuridiques.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = CategoriesJuridiques.class)), description="Catégorie juridique")
         })
     public Response getCategoriesJuridiques(
         @Parameter(required = true, description = "Code de la catégorie juridique") @QueryParam("code") String code,
@@ -155,7 +155,7 @@ public class CodesAPI extends MetadataApi {
         operationId = "getnafr2n5",
         summary = "Informations sur une sous-classe de la NAF rév.2 identifiée par son code",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = SousClasseNAF2008.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = SousClasseNAF2008.class)), description="Sous-classe de la NAF")
         })
     public Response getSousClasseNAF2008(
         @Parameter(
@@ -183,7 +183,7 @@ public class CodesAPI extends MetadataApi {
         operationId = "getnafr2n4",
         summary = "Informations sur une classe de la NAF rév.2 identifiée par son code",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = ClasseNAF2008.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = ClasseNAF2008.class)), description="Classe de la NAF")
         })
     public Response getClasseNAF2008(
         @Parameter(
@@ -211,7 +211,7 @@ public class CodesAPI extends MetadataApi {
         operationId = "getnafr1n5",
         summary = "Informations sur une classe de la NAF rév.1 identifiée par son code",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = ClasseNAF2003.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = ClasseNAF2003.class)), description="Classe de la NAF")
         })
     public Response getClasseNAF2003(
         @Parameter(
@@ -239,7 +239,7 @@ public class CodesAPI extends MetadataApi {
         operationId = "getnafn5",
         summary = "Informations sur une classe de la NAF identifiée par son code",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = ClasseNAF1993.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = ClasseNAF1993.class)), description="Classe de la NAF")
         })
     public Response getClasseNAF1993(
         @Parameter(
@@ -267,7 +267,7 @@ public class CodesAPI extends MetadataApi {
         operationId = "getna73n2",
         summary = "Informations sur un groupe de la NA 1973 identifié par son code",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = GroupeNA1973.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = GroupeNA1973.class)), description="Groupe de la NA")
         })
     public Response getGroupeNA1973(
         @Parameter(
@@ -295,7 +295,7 @@ public class CodesAPI extends MetadataApi {
         operationId = "getactivities",
         summary = "Informations sur une activité identifiée par son code et une date",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Activites.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Activites.class)), description="Activités")
         })
     public Response getActivities(
         @Parameter(required = true, description = "Code de l'activité") @QueryParam("code") String code,

@@ -43,7 +43,7 @@ public class ConceptsAPI extends MetadataApi {
         operationId = "getConcepts",
         summary = "Informations sur les définitions des concepts statistiques de l'Insee",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Definitions.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Definitions.class)), description="Concepts")
         })
     public Response getConcepts(
         @Parameter(
@@ -82,7 +82,7 @@ public class ConceptsAPI extends MetadataApi {
         operationId = "getconcept",
         summary = "Informations sur la définition d'un concept statistique de l'Insee",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Definition.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Definition.class)), description="Concept")
         })
     public Response getConceptById(
         @Parameter(

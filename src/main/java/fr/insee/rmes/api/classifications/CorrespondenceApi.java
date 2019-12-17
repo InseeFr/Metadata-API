@@ -36,7 +36,7 @@ public class CorrespondenceApi extends MetadataApi {
         operationId = "getCorrespondenceByCode",
         summary = "Correspondance entre deux nomenclatures",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Associations.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Associations.class)), description="Correspondances entre deux nomenclatures")
         })
     public Response getCorrespondencesById(
         @Parameter(
@@ -76,7 +76,7 @@ public class CorrespondenceApi extends MetadataApi {
         operationId = "getCorrespondenceByClassificationCodes",
         summary = " Liste des associations de correspondance entre deux nomenclatures",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Associations.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Associations.class)), description="Correspondances entre deux nomenclatures")
         })
     public Response getCorrespondenceByIds(
         @Parameter(
