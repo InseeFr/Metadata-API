@@ -86,7 +86,7 @@ public class GeoAPITest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.TRUE);
 
         // Call method
-        geoApi.getRegion("something", MediaType.APPLICATION_JSON);
+        geoApi.getRegion("something", MediaType.APPLICATION_JSON, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -98,7 +98,7 @@ public class GeoAPITest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.TRUE);
 
         // Call method
-        geoApi.getRegion("something", MediaType.APPLICATION_XML);
+        geoApi.getRegion("something", MediaType.APPLICATION_XML, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -143,11 +143,11 @@ public class GeoAPITest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getRegion("something", MediaType.APPLICATION_XML);
+        Response response = geoApi.getRegion("something", MediaType.APPLICATION_XML, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getRegion("something", MediaType.APPLICATION_JSON);
+        response = geoApi.getRegion("something", MediaType.APPLICATION_JSON, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
