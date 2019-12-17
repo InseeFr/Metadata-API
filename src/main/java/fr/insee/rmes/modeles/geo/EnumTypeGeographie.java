@@ -2,7 +2,7 @@ package fr.insee.rmes.modeles.geo;
 
 public enum EnumTypeGeographie {
 
-    COMMUNE("Commune");
+    COMMUNE("Commune"), REGION("Region"), DEPARTEMENT("Departement");
 
     private String typeObjetGeo;
 

@@ -56,4 +56,9 @@ public class GeoQueries {
             + "}";
     }
 
+    public static String getDepartement(String code) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

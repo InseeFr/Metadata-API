@@ -12,29 +12,29 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "Region")
+@JacksonXmlRootElement(localName = "Departement")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Schema(description = "Objet représentant une région")
-public class Region {
+@Schema(description = "Objet représentant un departement")
+public class Departement {
 
-    @Schema(example = "27")
+    @Schema(example = "22")
     private String code = null;
-    @Schema(example = "http://id.insee.fr/geo/region/27")
+    @Schema(example = "http://id.insee.fr/geo/departement/22")
     private String uri = null;
-    @Schema(example = "Bourgogne-Franche-Comté")
+    @Schema(example = "Côtes-du-Nord")
     private String intitule = null;
-    private EnumTypeGeographie type = EnumTypeGeographie.REGION;
-    @Schema(description = "Date de création de la région si elle n’existait pas au premier COG du 1er janvier 1943")
+    private EnumTypeGeographie type = EnumTypeGeographie.DEPARTEMENT;
+    @Schema(description = "Date de création du département si elle n’existait pas au premier COG du 1er janvier 1943")
     private Date dateCreation = null;
-    @Schema(description = "Date de suppression de la région si elle a été supprimée. ")
+    @Schema(description = "Date de suppression du département si elle a été supprimée.")
     private Date dateSuppression = null;
     private IntituleSansArticle intituleSansArticle;
-    @Schema(example = "Code Insee de la commune préfecture de la région")
+    @Schema(example = "Code Insee de la commune préfecture du département.")
     private Commune chefLieu = null;
 
-    public Region() {} // No-args constructor needed for JAXB
+    public Departement() {} // No-args constructor needed for JAXB
 
-    public Region(String code) {
+    public Departement(String code) {
         this.code = code;
     }
 
