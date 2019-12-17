@@ -64,8 +64,8 @@ public class Configuration {
 
             swaggerHost = props.getProperty("fr.insee.rmes.api.host");
             swaggerBasepath = props.getProperty("fr.insee.rmes.api.basepath");
-            swaggerUrl = (requiresSsl ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
             requiresSsl = Boolean.valueOf(props.getProperty("fr.insee.rmes.api.force.ssl"));
+            swaggerUrl = (requiresSsl ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
 
         }
         catch (IOException e) {
