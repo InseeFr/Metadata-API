@@ -34,7 +34,7 @@ public class CorrespondencesApi extends MetadataApi {
         operationId = "getAllCorrespondances",
         summary = "Liste des correspondances entre deux nomenclatures",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Correspondences.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Correspondences.class)), description="Correspondances entre deux nomenclatures")
         })
     public Response getAllCorrespondences(
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {

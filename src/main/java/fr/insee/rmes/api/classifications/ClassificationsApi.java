@@ -34,7 +34,7 @@ public class ClassificationsApi extends MetadataApi {
         operationId = "getAllClassifications",
         summary = "Liste des nomenclatures disponibles (autres que \"catégories juridiques\")",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Classifications.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Classifications.class)), description="Liste de nomenclatures")
         })
     public Response getAllClassifications(
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {

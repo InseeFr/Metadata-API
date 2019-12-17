@@ -48,7 +48,7 @@ public class ClassificationApi extends MetadataApi {
         operationId = "getClassificationByCode",
         summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Postes.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Postes.class)), description="Liste de postes")
         })
     public Response getClassificationByCode(
         @Parameter(
@@ -84,7 +84,7 @@ public class ClassificationApi extends MetadataApi {
         operationId = "getClassificationTreeByCode",
         summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Postes.class)))
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Postes.class)), description="Liste de postes")
         })
     public Response getClassificationTreeByCode(
         @Parameter(
