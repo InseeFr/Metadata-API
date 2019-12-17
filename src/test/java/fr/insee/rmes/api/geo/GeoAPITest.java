@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.geo.Commune;
 import fr.insee.rmes.modeles.geo.Country;
+import fr.insee.rmes.modeles.geo.Departement;
 import fr.insee.rmes.modeles.geo.Region;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +30,7 @@ public class GeoAPITest extends AbstractApiTest {
     private Commune commune = new Commune();
     private Country country = new Country();
     private Region region = new Region();
+    private Departement departement = new Departement();
 
     @Test
     public void givenGetCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
@@ -151,6 +153,47 @@ public class GeoAPITest extends AbstractApiTest {
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartement_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnOnePojo(departement, Boolean.FALSE);
+
+        // Call method header content = xml
+        Response response = geoApi.getDepartement("something", MediaType.APPLICATION_XML, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        // Call method header content = json
+        response = geoApi.getDepartement("something", MediaType.APPLICATION_JSON, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartement_whenCorrectRequestt_andHeaderContentIsJson_thenResponseIsOk() {
+
+        // Mock methods
+        departement.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(departement, Boolean.TRUE);
+
+        // Call method
+        geoApi.getDepartement("something", MediaType.APPLICATION_JSON, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartement_whenCorrectRequestt_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock methods
+        departement.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(departement, Boolean.TRUE);
+
+        // Call method
+        geoApi.getDepartement("something", MediaType.APPLICATION_XML, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
 }
