@@ -1,23 +1,20 @@
 package fr.insee.rmes.queries.geo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.insee.rmes.config.Configuration;
+import fr.insee.rmes.queries.Queries;
 
-public class GeoQueries {
+public class GeoQueries extends Queries {
 
-    public static String getCommune(String code) {
-        return "SELECT ?uri ?intitule \n"
-            + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
-            + "WHERE { \n"
-            + "?uri igeo:codeINSEE '"
-            + code
-            + "'^^xsd:token . \n"
-            + "?uri igeo:nom ?intitule \n"
-            // Ensure that is not the IGN URI and include COM towns
-            + "FILTER (REGEX(STR(?uri), '"
-            + Configuration.getBaseHost()
-            + "/geo/commune/')) \n"
-            + "FILTER (lang(?intitule) = 'fr') \n"
-            + "}";
+    private static final String QUERIES_FOLDER = "geographie/";
+
+    public static String getCommuneByCodeAndDate(String code, String date) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("code", code);
+        params.put("date", date);
+        return buildRequest(QUERIES_FOLDER, "getCommuneByCodeAndDate.ftlh", params);
     }
 
     public static String getCountry(String code) {

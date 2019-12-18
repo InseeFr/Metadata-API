@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/geo")
-@Tag(name = "géographie", description = "Geographie API")
+@Tag(name = "geographie", description = "Geographie API")
 public class GeoAPI extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(GeoAPI.class);
@@ -43,7 +43,7 @@ public class GeoAPI extends MetadataApi {
         summary = "Informations sur une commune française identifiée par son code (cinq caractères)",
         description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Commune.class)), description="Commune")
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Commune.class)), description = "Commune")
         })
     public Response getCommune(
         @Parameter(
@@ -53,13 +53,12 @@ public class GeoAPI extends MetadataApi {
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante. ",
-            required = false,
-            schema = @Schema(pattern = "yyyy-MM-dd", type = "date")) @QueryParam(value = "date") String date) {
+            required = false) @QueryParam(value = "date") String date) {
 
         logger.debug("Received GET request for commune {}", code);
 
         Commune commune = new Commune(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommune(code));
+        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
         commune = (Commune) csvUtils.populatePOJO(csvResult, commune);
 
         if (commune.getUri() == null) {
@@ -79,7 +78,7 @@ public class GeoAPI extends MetadataApi {
         operationId = "getcogpay",
         summary = "Informations sur un pays identifié par son code (cinq chiffres)",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Country.class)), description="Pays")
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Country.class)), description = "Pays")
         })
     public Response getCountry(
         @Parameter(
@@ -112,7 +111,7 @@ public class GeoAPI extends MetadataApi {
         operationId = "getcogreg",
         summary = "Informations sur une région française identifiée par son code (deux chiffres)",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Region.class)), description="Région")
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Region.class)), description = "Région")
         })
     public Response getRegion(
         @Parameter(

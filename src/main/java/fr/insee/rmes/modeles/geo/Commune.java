@@ -5,8 +5,10 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -25,8 +27,10 @@ public class Commune {
     private String intitule = null;
     private EnumTypeGeographie type = EnumTypeGeographie.COMMUNE;
     @Schema(description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943")
+    @JsonInclude(Include.NON_NULL)
     private Date dateCreation = null;
     @Schema(description = "Date de suppression de la commune si elle a été supprimée. ")
+    @JsonInclude(Include.NON_NULL)
     private Date dateSuppression = null;
     private IntituleSansArticle intituleSansArticle;
 
@@ -34,6 +38,7 @@ public class Commune {
 
     public Commune(String code) {
         this.code = code;
+        this.intituleSansArticle = new IntituleSansArticle();
     }
 
     @JacksonXmlProperty(isAttribute = true)
@@ -88,13 +93,21 @@ public class Commune {
         this.dateSuppression = dateSuppression;
     }
 
-    @JacksonXmlElementWrapper(useWrapping = false)
+    @JsonUnwrapped
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }
 
     public void setIntituleSansArticle(IntituleSansArticle intituleSansArticle) {
         this.intituleSansArticle = intituleSansArticle;
+    }
+
+    public void setIntituleSansArticle(String intituleSansArticle) {
+        this.intituleSansArticle.setIntituleSansArticle(intituleSansArticle);
+    }
+
+    public void setTypeArticle(String typeArticle) {
+        this.intituleSansArticle.setTypeArticle(typeArticle);
     }
 
 }
