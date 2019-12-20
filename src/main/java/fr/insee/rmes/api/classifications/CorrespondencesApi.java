@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/correspondances")
-@Tag(name = "nomenclatures", description = "Correspondances API")
+@Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class CorrespondencesApi extends MetadataApi {
 
     @GET

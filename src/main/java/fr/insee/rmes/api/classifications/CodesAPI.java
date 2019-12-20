@@ -43,7 +43,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/codes")
-@Tag(name = "nomenclatures", description = "Codes API")
+@Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class CodesAPI extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(CodesAPI.class);
