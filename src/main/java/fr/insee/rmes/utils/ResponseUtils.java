@@ -10,6 +10,10 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.modeles.StringXmlMixIn;
+import fr.insee.rmes.modeles.geo.Commune;
+import fr.insee.rmes.modeles.geo.CommuneJsonMixIn;
+import fr.insee.rmes.modeles.geo.IntituleSansArticle;
+import fr.insee.rmes.modeles.geo.IntituleSansArticleXmlMixIn;
 
 public class ResponseUtils {
 
@@ -21,9 +25,12 @@ public class ResponseUtils {
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
             mapper = new XmlMapper();
             mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
+            mapper.addMixIn(IntituleSansArticle.class, IntituleSansArticleXmlMixIn.class);
         }
         else {
             mapper = new ObjectMapper();
+            mapper.addMixIn(Commune.class, CommuneJsonMixIn.class);
+
 
         }
         try {

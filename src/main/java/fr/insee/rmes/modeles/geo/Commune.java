@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -29,11 +28,11 @@ public class Commune {
     private EnumTypeGeographie type = EnumTypeGeographie.COMMUNE;
 
     @Schema(description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943")
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     private String dateCreation = null;
 
     @Schema(description = "Date de suppression de la commune si elle a été supprimée. ")
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     private String dateSuppression = null;
 
     private IntituleSansArticle intituleSansArticle;
@@ -97,9 +96,6 @@ public class Commune {
         this.dateSuppression = dateSuppression;
     }
 
-    @JsonProperty("intituleSansArticle")
-    @JacksonXmlProperty(isAttribute = true, localName = "IntituleSansArticle")
-    @JacksonXmlElementWrapper(useWrapping = false)
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }
