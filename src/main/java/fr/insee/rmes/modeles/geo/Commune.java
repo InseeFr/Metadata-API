@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -98,7 +97,8 @@ public class Commune {
         this.dateSuppression = dateSuppression;
     }
 
-    @JsonUnwrapped
+    @JsonProperty("intituleSansArticle")
+    @JacksonXmlProperty(isAttribute = true, localName = "IntituleSansArticle")
     @JacksonXmlElementWrapper(useWrapping = false)
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
