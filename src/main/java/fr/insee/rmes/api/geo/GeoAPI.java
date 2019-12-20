@@ -20,6 +20,7 @@ import fr.insee.rmes.modeles.geo.Country;
 import fr.insee.rmes.modeles.geo.Departement;
 import fr.insee.rmes.modeles.geo.Region;
 import fr.insee.rmes.queries.geo.GeoQueries;
+import fr.insee.rmes.utils.DateUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -56,6 +57,8 @@ public class GeoAPI extends MetadataApi {
             required = false) @QueryParam(value = "date") String date) {
 
         logger.debug("Received GET request for commune {}", code);
+
+        date = date.isEmpty() ? DateUtils.getDateTodayStringFormat() : date;
 
         Commune commune = new Commune(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));

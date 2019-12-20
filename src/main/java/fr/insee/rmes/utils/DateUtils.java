@@ -2,6 +2,7 @@ package fr.insee.rmes.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -52,6 +53,12 @@ public class DateUtils {
     private DateUtils() {
         throw new IllegalStateException("Utility class");
         // please sonar
+    }
+
+    public static String getDateTodayStringFormat() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+        return format.format(c.getTime());
     }
 
 }
