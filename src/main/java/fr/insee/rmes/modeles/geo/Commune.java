@@ -1,7 +1,5 @@
 package fr.insee.rmes.modeles.geo;
 
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -9,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -21,17 +20,23 @@ public class Commune {
 
     @Schema(example = "55323")
     private String code = null;
+
     @Schema(example = "http://id.insee.fr/geo/commune/55323")
     private String uri = null;
+
     @Schema(example = "L'Aigle")
     private String intitule = null;
+
     private EnumTypeGeographie type = EnumTypeGeographie.COMMUNE;
+
     @Schema(description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943")
     @JsonInclude(Include.NON_NULL)
-    private Date dateCreation = null;
+    private String dateCreation = null;
+
     @Schema(description = "Date de suppression de la commune si elle a été supprimée. ")
     @JsonInclude(Include.NON_NULL)
-    private Date dateSuppression = null;
+    private String dateSuppression = null;
+
     private IntituleSansArticle intituleSansArticle;
 
     public Commune() {} // No-args constructor needed for JAXB
@@ -77,23 +82,24 @@ public class Commune {
         this.type = type;
     }
 
-    public Date getDateCreation() {
+    public String getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(Date dateCreation) {
+    public void setDateCreation(String dateCreation) {
         this.dateCreation = dateCreation;
     }
 
-    public Date getDateSuppression() {
+    public String getDateSuppression() {
         return dateSuppression;
     }
 
-    public void setDateSuppression(Date dateSuppression) {
+    public void setDateSuppression(String dateSuppression) {
         this.dateSuppression = dateSuppression;
     }
 
     @JsonUnwrapped
+    @JacksonXmlElementWrapper(useWrapping = false)
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }

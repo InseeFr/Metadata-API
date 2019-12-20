@@ -1,18 +1,15 @@
 package fr.insee.rmes.modeles.geo;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class IntituleSansArticle {
 
-    @JacksonXmlElementWrapper(useWrapping = false)
     @Schema(example = "Aigle")
     private String intituleSansArticle = null;
 
     @Schema(example = "5")
-    @JacksonXmlProperty(isAttribute = true)
     private String typeArticle = null;
 
     public String getIntituleSansArticle() {
@@ -23,6 +20,7 @@ public class IntituleSansArticle {
         this.intituleSansArticle = intituleSansArticle;
     }
 
+    @JacksonXmlProperty(isAttribute = true)
     public String getTypeArticle() {
         return typeArticle;
     }
