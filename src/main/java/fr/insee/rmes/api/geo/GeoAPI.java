@@ -58,7 +58,7 @@ public class GeoAPI extends MetadataApi {
 
         logger.debug("Received GET request for commune {}", code);
 
-        date = date.isEmpty() ? DateUtils.getDateTodayStringFormat() : date;
+        date = (date == null || date.isEmpty()) ? DateUtils.getDateTodayStringFormat() : date;
 
         Commune commune = new Commune(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
