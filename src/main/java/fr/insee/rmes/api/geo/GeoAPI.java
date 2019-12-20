@@ -54,14 +54,14 @@ public class GeoAPI extends MetadataApi {
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante. ",
-            required = false) @QueryParam(value = "date") String date) {
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
 
         logger.debug("Received GET request for commune {}", code);
 
-        date = (date == null || date.isEmpty()) ? DateUtils.getDateTodayStringFormat() : date;
-
         Commune commune = new Commune(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
+        String csvResult =
+            sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, this.formatDate(date)));
         commune = (Commune) csvUtils.populatePOJO(csvResult, commune);
 
         if (commune.getUri() == null) {
@@ -174,6 +174,15 @@ public class GeoAPI extends MetadataApi {
         }
         else {
             return Response.ok(responseUtils.produceResponse(departement, header)).build();
+        }
+    }
+
+    private String formatDate(String parameter) {
+        if (parameter != null && DateUtils.isValidDate(parameter)) {
+            return parameter;
+        }
+        else {
+            return DateUtils.getDateTodayStringFormat();
         }
     }
 }
