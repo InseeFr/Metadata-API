@@ -60,5 +60,4 @@ public class DateUtils {
         SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         return format.format(c.getTime());
     }
-
 }
