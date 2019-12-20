@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/nomenclature")
-@Tag(name = "nomenclature", description = "Nomenclature API")
+@Tag(name = "nomenclatures", description = "Nomenclature API")
 public class ClassificationApi extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(ClassificationApi.class);
