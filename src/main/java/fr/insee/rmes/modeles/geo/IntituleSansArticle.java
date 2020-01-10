@@ -1,10 +1,8 @@
 package fr.insee.rmes.modeles.geo;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class IntituleGeoGraphieSansArticle {
+public class IntituleSansArticle {
 
     @Schema(example = "Aigle")
     private String intituleSansArticle = null;
@@ -21,7 +19,6 @@ public class IntituleGeoGraphieSansArticle {
         this.intituleSansArticle = intituleSansArticle;
     }
 
-    @JacksonXmlProperty(isAttribute = true)
     public String getTypeArticle() {
         return typeArticle;
     }

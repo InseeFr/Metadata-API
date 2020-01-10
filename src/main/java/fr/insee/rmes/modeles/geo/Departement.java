@@ -28,7 +28,7 @@ public class Departement {
     private Date dateCreation = null;
     @Schema(description = "Date de suppression du département si elle a été supprimée.")
     private Date dateSuppression = null;
-    private IntituleGeoGraphieSansArticle intituleSansArticle;
+    private IntituleSansArticle intituleSansArticle;
     @Schema(example = "Code Insee de la commune préfecture du département.")
     private Commune chefLieu = null;
 
@@ -91,11 +91,11 @@ public class Departement {
     }
 
     @JacksonXmlElementWrapper(useWrapping = false)
-    public IntituleGeoGraphieSansArticle getIntituleSansArticle() {
+    public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }
 
-    public void setIntituleSansArticle(IntituleGeoGraphieSansArticle intituleSansArticle) {
+    public void setIntituleSansArticle(IntituleSansArticle intituleSansArticle) {
         this.intituleSansArticle = intituleSansArticle;
     }
 

@@ -28,7 +28,7 @@ public class Region {
     private Date dateCreation = null;
     @Schema(description = "Date de suppression de la région si elle a été supprimée. ")
     private Date dateSuppression = null;
-    private IntituleGeoGraphieSansArticle intituleSansArticle;
+    private IntituleSansArticle intituleSansArticle;
     @Schema(example = "Code Insee de la commune préfecture de la région")
     private Commune chefLieu = null;
 
@@ -91,11 +91,11 @@ public class Region {
     }
 
     @JacksonXmlElementWrapper(useWrapping = false)
-    public IntituleGeoGraphieSansArticle getIntituleSansArticle() {
+    public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }
 
-    public void setIntituleSansArticle(IntituleGeoGraphieSansArticle intituleSansArticle) {
+    public void setIntituleSansArticle(IntituleSansArticle intituleSansArticle) {
         this.intituleSansArticle = intituleSansArticle;
     }
 
