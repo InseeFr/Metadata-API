@@ -29,20 +29,20 @@ public class Commune {
     private EnumTypeGeographie type = EnumTypeGeographie.COMMUNE;
 
     @Schema(description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943")
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     private String dateCreation = null;
 
     @Schema(description = "Date de suppression de la commune si elle a été supprimée. ")
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     private String dateSuppression = null;
 
-    private IntituleSansArticle intituleSansArticle;
+    private IntituleGeoGraphieSansArticle intituleGeographieSansArticle;
 
     public Commune() {} // No-args constructor needed for JAXB
 
     public Commune(String code) {
         this.code = code;
-        this.intituleSansArticle = new IntituleSansArticle();
+        this.intituleGeographieSansArticle = new IntituleGeoGraphieSansArticle();
     }
 
     @JacksonXmlProperty(isAttribute = true)
@@ -100,20 +100,20 @@ public class Commune {
     @JsonProperty("intituleSansArticle")
     @JacksonXmlProperty(isAttribute = true, localName = "IntituleSansArticle")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public IntituleSansArticle getIntituleSansArticle() {
-        return intituleSansArticle;
+    public IntituleGeoGraphieSansArticle getIntituleGeographieSansArticle() {
+        return intituleGeographieSansArticle;
     }
 
-    public void setIntituleSansArticle(IntituleSansArticle intituleSansArticle) {
-        this.intituleSansArticle = intituleSansArticle;
+    public void setIntituleGeographieSansArticle(IntituleGeoGraphieSansArticle intituleGeographieSansArticle) {
+        this.intituleGeographieSansArticle = intituleGeographieSansArticle;
     }
 
     public void setIntituleSansArticle(String intituleSansArticle) {
-        this.intituleSansArticle.setIntituleSansArticle(intituleSansArticle);
+        this.intituleGeographieSansArticle.setIntituleSansArticle(intituleSansArticle);
     }
 
     public void setTypeArticle(String typeArticle) {
-        this.intituleSansArticle.setTypeArticle(typeArticle);
+        this.intituleGeographieSansArticle.setTypeArticle(typeArticle);
     }
 
 }

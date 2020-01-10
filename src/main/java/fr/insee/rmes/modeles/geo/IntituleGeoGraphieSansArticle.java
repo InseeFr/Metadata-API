@@ -4,7 +4,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class IntituleSansArticle {
+public class IntituleGeoGraphieSansArticle {
 
     @Schema(example = "Aigle")
     private String intituleSansArticle = null;
@@ -12,6 +12,7 @@ public class IntituleSansArticle {
     @Schema(example = "5")
     private String typeArticle = null;
 
+    //@JacksonXmlElementWrapper(useWrapping = false)
     public String getIntituleSansArticle() {
         return intituleSansArticle;
     }
