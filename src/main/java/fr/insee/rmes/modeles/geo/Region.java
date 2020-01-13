@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -19,16 +21,25 @@ public class Region {
 
     @Schema(example = "27")
     private String code = null;
+
     @Schema(example = "http://id.insee.fr/geo/region/27")
     private String uri = null;
+
     @Schema(example = "Bourgogne-Franche-Comté")
     private String intitule = null;
+
     private EnumTypeGeographie type = EnumTypeGeographie.REGION;
+
     @Schema(description = "Date de création de la région si elle n’existait pas au premier COG du 1er janvier 1943")
+    @JsonInclude(Include.NON_EMPTY)
     private Date dateCreation = null;
+
     @Schema(description = "Date de suppression de la région si elle a été supprimée. ")
+    @JsonInclude(Include.NON_EMPTY)
     private Date dateSuppression = null;
+
     private IntituleSansArticle intituleSansArticle;
+
     @Schema(example = "Code Insee de la commune préfecture de la région")
     private Commune chefLieu = null;
 

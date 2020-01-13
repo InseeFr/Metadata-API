@@ -25,13 +25,16 @@ public class Commune {
     @Schema(example = "L'Aigle")
     private String intitule = null;
 
+    @Schema(example = "Commune")
     private EnumTypeGeographie type = EnumTypeGeographie.COMMUNE;
 
-    @Schema(description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943")
+    @Schema(
+        description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943",
+        example = "1943-01-01")
     @JsonInclude(Include.NON_EMPTY)
     private String dateCreation = null;
 
-    @Schema(description = "Date de suppression de la commune si elle a été supprimée. ")
+    @Schema(description = "Date de suppression de la commune si elle a été supprimée. ", example = "2019-01-01")
     @JsonInclude(Include.NON_EMPTY)
     private String dateSuppression = null;
 

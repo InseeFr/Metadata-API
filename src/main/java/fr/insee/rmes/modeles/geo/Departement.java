@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -19,17 +21,26 @@ public class Departement {
 
     @Schema(example = "22")
     private String code = null;
+
     @Schema(example = "http://id.insee.fr/geo/departement/22")
     private String uri = null;
+
     @Schema(example = "Côtes-du-Nord")
     private String intitule = null;
+
     private EnumTypeGeographie type = EnumTypeGeographie.DEPARTEMENT;
+
     @Schema(description = "Date de création du département si elle n’existait pas au premier COG du 1er janvier 1943")
+    @JsonInclude(Include.NON_EMPTY)
     private Date dateCreation = null;
+
     @Schema(description = "Date de suppression du département si elle a été supprimée.")
+    @JsonInclude(Include.NON_EMPTY)
     private Date dateSuppression = null;
+
     private IntituleSansArticle intituleSansArticle;
-    @Schema(example = "Code Insee de la commune préfecture du département.")
+
+    @Schema(description = "Code Insee de la commune préfecture du département.")
     private Commune chefLieu = null;
 
     public Departement() {} // No-args constructor needed for JAXB
