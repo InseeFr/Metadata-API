@@ -1,7 +1,7 @@
 SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
-			?uri a igeo:commune ;
+			?uri a igeo:Commune ;
 				 igeo:codeINSEE '${code}' ;
 				 igeo:codeArticle ?typeArticle ;
 				 igeo:nom ?intitule ;
@@ -15,6 +15,7 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 				?evenementSuppression igeo:suppression ?uri ;
 					                  igeo:date ?dateSuppression.
 			}
-			FILTER(COALESCE(?dateCreation, '0000-01-01T00:00') <= '${date}')
-			FILTER(COALESCE(?dateSuppression, '9999-12-31T23:59') > '${date}')
+
+			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
+			FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
 		}
