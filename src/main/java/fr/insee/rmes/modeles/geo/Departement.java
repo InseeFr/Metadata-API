@@ -28,13 +28,16 @@ public class Departement {
     @Schema(example = "Côtes-du-Nord")
     private String intitule = null;
 
+    @Schema(example = "Departement")
     private EnumTypeGeographie type = EnumTypeGeographie.DEPARTEMENT;
 
-    @Schema(description = "Date de création du département si elle n’existait pas au premier COG du 1er janvier 1943")
+    @Schema(
+        description = "Date de création du département si elle n’existait pas au premier COG du 1er janvier 1943",
+        example = "1943-01-01")
     @JsonInclude(Include.NON_EMPTY)
     private Date dateCreation = null;
 
-    @Schema(description = "Date de suppression du département si elle a été supprimée.")
+    @Schema(description = "Date de suppression du département si elle a été supprimée.", example = "2019-01-01")
     @JsonInclude(Include.NON_EMPTY)
     private Date dateSuppression = null;
 

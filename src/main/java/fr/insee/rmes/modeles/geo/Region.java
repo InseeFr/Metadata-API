@@ -28,19 +28,22 @@ public class Region {
     @Schema(example = "Bourgogne-Franche-Comté")
     private String intitule = null;
 
+    @Schema(example = "Region")
     private EnumTypeGeographie type = EnumTypeGeographie.REGION;
 
-    @Schema(description = "Date de création de la région si elle n’existait pas au premier COG du 1er janvier 1943")
+    @Schema(
+        description = "Date de création de la région si elle n’existait pas au premier COG du 1er janvier 1943",
+        example = "1943-01-01")
     @JsonInclude(Include.NON_EMPTY)
     private Date dateCreation = null;
 
-    @Schema(description = "Date de suppression de la région si elle a été supprimée. ")
+    @Schema(description = "Date de suppression de la région si elle a été supprimée. ", example = "2019-01-01")
     @JsonInclude(Include.NON_EMPTY)
     private Date dateSuppression = null;
 
     private IntituleSansArticle intituleSansArticle;
 
-    @Schema(example = "Code Insee de la commune préfecture de la région")
+    @Schema(description = "Code Insee de la commune préfecture de la région")
     private Commune chefLieu = null;
 
     public Region() {} // No-args constructor needed for JAXB
