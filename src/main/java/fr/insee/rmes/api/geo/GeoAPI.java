@@ -130,7 +130,7 @@ public class GeoAPI extends MetadataApi {
         logger.debug("Received GET request for region {}", code);
 
         Region region = new Region(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegion(code));
+        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, date));
         region = (Region) csvUtils.populatePOJO(csvResult, region);
 
         if (region.getUri() == null) {
@@ -166,7 +166,7 @@ public class GeoAPI extends MetadataApi {
         logger.debug("Received GET request for departement {}", code);
 
         Departement departement = new Departement(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartement(code));
+        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, date));
         departement = (Departement) csvUtils.populatePOJO(csvResult, departement);
 
         if (departement.getUri() == null) {
