@@ -1,4 +1,4 @@
-SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression  ?cheflieu
+SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression  ?chefLieu
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
 			?uri a igeo:Region ;
@@ -18,7 +18,7 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			}
 			OPTIONAL {
 				?uri igeo:prefectureDeRegion ?chefLieuRDF .
-				?chefLieuRDF :codeINSEE ?cheflieu.
+				?chefLieuRDF igeo:codeINSEE ?chefLieu.
 				OPTIONAL {
 					?evenementCreationChefLieu igeo:creation ?chefLieuRDF ;
 					igeo:date ?dateCreationChefLieu .

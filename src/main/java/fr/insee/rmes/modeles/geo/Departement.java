@@ -1,14 +1,11 @@
 package fr.insee.rmes.modeles.geo;
 
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -35,21 +32,22 @@ public class Departement {
         description = "Date de création du département si elle n’existait pas au premier COG du 1er janvier 1943",
         example = "1943-01-01")
     @JsonInclude(Include.NON_EMPTY)
-    private Date dateCreation = null;
+    private String dateCreation = null;
 
     @Schema(description = "Date de suppression du département si elle a été supprimée.", example = "2019-01-01")
     @JsonInclude(Include.NON_EMPTY)
-    private Date dateSuppression = null;
+    private String dateSuppression = null;
 
     private IntituleSansArticle intituleSansArticle;
 
     @Schema(description = "Code Insee de la commune préfecture du département.")
-    private Commune chefLieu = null;
+    private String chefLieu = null;
 
     public Departement() {} // No-args constructor needed for JAXB
 
     public Departement(String code) {
         this.code = code;
+        this.intituleSansArticle = new IntituleSansArticle();
     }
 
     @JacksonXmlProperty(isAttribute = true)
@@ -88,23 +86,22 @@ public class Departement {
         this.type = type;
     }
 
-    public Date getDateCreation() {
+    public String getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(Date dateCreation) {
+    public void setDateCreation(String dateCreation) {
         this.dateCreation = dateCreation;
     }
 
-    public Date getDateSuppression() {
+    public String getDateSuppression() {
         return dateSuppression;
     }
 
-    public void setDateSuppression(Date dateSuppression) {
+    public void setDateSuppression(String dateSuppression) {
         this.dateSuppression = dateSuppression;
     }
 
-    @JacksonXmlElementWrapper(useWrapping = false)
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }
@@ -112,12 +109,21 @@ public class Departement {
     public void setIntituleSansArticle(IntituleSansArticle intituleSansArticle) {
         this.intituleSansArticle = intituleSansArticle;
     }
+    
 
-    public Commune getChefLieu() {
+    public void setIntituleSansArticle(String intituleSansArticle) {
+        this.intituleSansArticle.setIntituleSansArticle(intituleSansArticle);
+    }
+
+    public void setTypeArticle(String typeArticle) {
+        this.intituleSansArticle.setTypeArticle(typeArticle);
+    }
+
+    public String getChefLieu() {
         return chefLieu;
     }
 
-    public void setChefLieu(Commune chefLieu) {
+    public void setChefLieu(String chefLieu) {
         this.chefLieu = chefLieu;
     }
 

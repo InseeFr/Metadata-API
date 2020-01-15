@@ -125,12 +125,12 @@ public class GeoAPI extends MetadataApi {
         @Parameter(
             description = "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
-            schema = @Schema(pattern = "yyyy-MM-dd", type = "date")) @QueryParam(value = "date") String date) {
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
 
         logger.debug("Received GET request for region {}", code);
 
         Region region = new Region(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, date));
+        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, this.formatDate(date)));
         region = (Region) csvUtils.populatePOJO(csvResult, region);
 
         if (region.getUri() == null) {
@@ -161,12 +161,12 @@ public class GeoAPI extends MetadataApi {
         @Parameter(
             description = "Filtre pour renvoyer le département actif à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
-            schema = @Schema(pattern = "yyyy-MM-dd", type = "date")) @QueryParam(value = "date") String date) {
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
 
         logger.debug("Received GET request for departement {}", code);
 
         Departement departement = new Departement(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, date));
+        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, this.formatDate(date)));
         departement = (Departement) csvUtils.populatePOJO(csvResult, departement);
 
         if (departement.getUri() == null) {

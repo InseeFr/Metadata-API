@@ -11,9 +11,11 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.modeles.StringXmlMixIn;
 import fr.insee.rmes.modeles.geo.Commune;
-import fr.insee.rmes.modeles.geo.CommuneJsonMixIn;
+import fr.insee.rmes.modeles.geo.Departement;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import fr.insee.rmes.modeles.geo.IntituleSansArticleXmlMixIn;
+import fr.insee.rmes.modeles.geo.Region;
+import fr.insee.rmes.modeles.geo.ZoneGeoJsonMixIn;
 
 public class ResponseUtils {
 
@@ -29,9 +31,9 @@ public class ResponseUtils {
         }
         else {
             mapper = new ObjectMapper();
-            mapper.addMixIn(Commune.class, CommuneJsonMixIn.class);
-
-
+            mapper.addMixIn(Commune.class, ZoneGeoJsonMixIn.class);
+            mapper.addMixIn(Region.class, ZoneGeoJsonMixIn.class);
+            mapper.addMixIn(Departement.class, ZoneGeoJsonMixIn.class);
         }
         try {
             response = mapper.writeValueAsString(obj);
