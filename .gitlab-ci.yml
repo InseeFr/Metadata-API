@@ -43,7 +43,7 @@ package:
     - mvn $MAVEN_CLI_OPTS package
   artifacts:
     paths:
-      - metadata-api/target/*.war
+      - rmes/metadata-api/target/*.war
     expire_in: 1 day
 
 .deploy: &deploy
@@ -55,7 +55,7 @@ package:
       - $NOM_BRANCHE == $CI_COMMIT_REF_NAME
   image: git-registry.stable.innovation.insee.eu/innovation/images-ci/jdk:8
   script:
-    - curl -T metadata-api/target/*.war ftp://$FTP_USR_W:$FTP_PWD@$FTP_SERVER_W/depot/metadata-api.war
+    - curl -T rmes/metadata-api/target/*.war ftp://$FTP_USR_W:$FTP_PWD@$FTP_SERVER_W/depot/metadata-api.war
 
 deploy-dv:
   <<: *deploy
