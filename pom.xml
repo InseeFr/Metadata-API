@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.insee.rmes</groupId>
@@ -9,9 +10,15 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<jersey.version>2.26-b03</jersey.version>
-		<jackson.version>2.8.8</jackson.version>
-		<log.version>2.8.2</log.version>
+		<jersey.version>2.29.1</jersey.version>
+		<jackson.version>2.10.1</jackson.version>
+		<log.version>2.12.1</log.version>
+		<swagger.version>2.0.10</swagger.version>
+		<junit.version>5.5.2</junit.version>
+		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
+			src/main/java/fr/insee/rmes/modeles/**/*</sonar.exclusions>
+		<sonar.projectKey>${project.groupId}.${project.artifactId}</sonar.projectKey>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -25,11 +32,18 @@
 			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-		    <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-		    <version>${jersey.version}</version>
-		    <scope>test</scope>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>${jersey.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+
+
 		<!-- LOGS -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -46,13 +60,55 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>${log.version}</version>
 		</dependency>
-		
+
+		<!-- test -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Test API -->
+		<dependency>
+			<groupId>org.glassfish.jersey.test-framework</groupId>
+			<artifactId>jersey-test-framework-core</artifactId>
+			<version>${jersey.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
+			<artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+			<version>${jersey.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- No compatibility between Junit5 and jerseyTest -->
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+
 		<!-- Bind csv into POJOs -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -61,34 +117,104 @@
 		</dependency>
 		<!-- XML mapping -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.dataformat</groupId>
-		    <artifactId>jackson-dataformat-xml</artifactId>
-		    <version>${jackson.version}</version>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
+
 		<!-- Swagger -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>4.0.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
- 			<artifactId>swagger-core</artifactId>
-    		<version>2.0.7</version>
+			<artifactId>swagger-core</artifactId>
+			<version>${swagger.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>
-						jersey-container-servlet-core
-					</artifactId>
+							jersey-container-servlet-core
+						</artifactId>
 					<groupId>org.glassfish.jersey.containers</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-   			 <groupId>joda-time</groupId>
-    		<artifactId>joda-time</artifactId>
-    		<version>2.10.1</version>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10.5</version>
+		</dependency>
+
+
+		<!-- Freemarker -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.28</version><!-- change in FreemarkerConfig too -->
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>gitlab</id>
+			<name>depot Gitlab</name>
+			<url>[git@git.stable.innovation.insee.eu:22222]:rmes/metadata-api.git</url>
+		</repository>
+
+	</repositories>
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<plugins>
+			<!-- Plugin lancement des tests -->
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>1.2.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<!-- Plugin pour prise en compte des tests sur SonarQube plate-forme innovation -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<!-- default target/jscoco/site/* -->
+						<configuration>
+							<outputDirectory>target/jacoco-report</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
