@@ -7,9 +7,11 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             WHERE { 
             	   ?report rdf:type sdmx-mm:MetadataReport . 
             		?reporturi sdmx-mm:metadataReport ?report . 
-            		OPTIONAL {			?mas sdmx-mm:metadataAttributeProperty ?uri . 
-            			?mas sdmx-mm:parent ?uriParent . } 
-            		BIND(REPLACE( STR(?uriParent) , '(.*/)(\\w.+$)', '$2' ) AS ?idParent) . 
+            		OPTIONAL {			
+            			?mas sdmx-mm:metadataAttributeProperty ?uri . 
+            			?mas sdmx-mm:parent ?uriParent . 
+            		    BIND(REPLACE( STR(?uriParent) , '(.*/)(\\w.+$)', '$2' ) AS ?idParent) . 	
+            		} 
             		?uri sdmx-mm:concept ?concept . 
             		?concept skos:prefLabel ?titreLg1 ; 
              		 skos:prefLabel ?titreLg2 ; 
