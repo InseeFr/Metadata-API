@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response.Status;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import fr.insee.rmes.config.Configuration;
@@ -26,6 +27,7 @@ public class GeoApiIntegrationTest extends JerseyTest {
         return new ResourceConfig(GeoAPI.class);
     }
 
+    @Ignore
     @Test
     public void givengetCommune_whenCorrectRequest_thenResponseIsOk() {
         Response response = this.target("/geo/commune/59000").request().get();
