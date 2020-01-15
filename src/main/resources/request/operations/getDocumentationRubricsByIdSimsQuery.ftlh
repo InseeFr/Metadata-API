@@ -5,36 +5,27 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             	FROM <http://rdf.insee.fr/graphes/def/simsv2fr> 
             	FROM <http://rdf.insee.fr/graphes/concepts/qualite> 
             WHERE { 
-            	{ 
-            		?report rdf:type sdmx-mm:MetadataReport . 
+            	   ?report rdf:type sdmx-mm:MetadataReport . 
             		?reporturi sdmx-mm:metadataReport ?report . 
-            		OPTIONAL {?mas sdmx-mm:metadataAttributeProperty ?uri . 
+            		OPTIONAL {			?mas sdmx-mm:metadataAttributeProperty ?uri . 
             			?mas sdmx-mm:parent ?uriParent . } 
-            		BIND(REPLACE( STR(?uriParent) , '(.*/)(\\\\w.+$)', '$2' ) AS ?idParent) . 
+            		BIND(REPLACE( STR(?uriParent) , '(.*/)(\\w.+$)', '$2' ) AS ?idParent) . 
             		?uri sdmx-mm:concept ?concept . 
-            		?concept skos:prefLabel ?titreLg1 ; skos:prefLabel ?titreLg2 ; 
+            		?concept skos:prefLabel ?titreLg1 ; 
+             		 skos:prefLabel ?titreLg2 ; 
             		FILTER(lang(?titreLg1) = 'fr') 
             		FILTER(lang(?titreLg2) = 'en') 
-            		BIND(REPLACE( STR(?uri) , '(.*/)(\\\\w.+$)', '$2' ) AS ?id) . 
+            		BIND(REPLACE( STR(?uri) , '(.*/)(\\w.+$)', '$2' ) AS ?id) . 
+		   { 
+               { 
             		?reporturi ?uri ?valeurSimple . 
             		FILTER ( datatype(?valeurSimple) = xsd:date ) 
             		BIND('DATE' AS ?type) . 
             	} 
             				 
             	UNION { 
-            		?report rdf:type sdmx-mm:MetadataReport . 
-            		?reporturi sdmx-mm:metadataReport ?report . 
-            		OPTIONAL {			?mas sdmx-mm:metadataAttributeProperty ?uri . 
-            			?mas sdmx-mm:parent ?uriParent . } 
-            		BIND(REPLACE( STR(?uriParent) , '(.*/)(\\\\w.+$)', '$2' ) AS ?idParent) . 
-            		?uri sdmx-mm:concept ?concept . 
-            		?concept skos:prefLabel ?titreLg1 ; 
-             		 skos:prefLabel ?titreLg2 ; 
-            		FILTER(lang(?titreLg1) = 'fr') 
-            		FILTER(lang(?titreLg2) = 'en') 
             		?reporturi ?uri ?text . 
             		?text rdf:type <http://purl.org/dc/dcmitype/Text> 
-            		BIND(REPLACE( STR(?uri) , '(.*/)(\\\\w.+$)', '$2' ) AS ?id) . 
             		OPTIONAL{ ?text rdf:value ?labelLg1 . 
             			FILTER(lang(?labelLg1) = 'fr') 
             		} 
@@ -46,16 +37,6 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             	} 
             			 
             	UNION { 
-            		?report rdf:type sdmx-mm:MetadataReport . 
-            		?reporturi sdmx-mm:metadataReport ?report . 
-            		OPTIONAL { ?mas sdmx-mm:metadataAttributeProperty ?uri . 
-            			?mas sdmx-mm:parent ?uriParent . } 
-            		BIND(REPLACE( STR(?uriParent) , '(.*/)(\\\\w.+$)', '$2' ) AS ?idParent) . 
-            		?uri sdmx-mm:concept ?concept . 
-            		?concept skos:prefLabel ?titreLg1 ; skos:prefLabel ?titreLg2 ; 
-            		FILTER(lang(?titreLg1) = 'fr') 
-            		FILTER(lang(?titreLg2) = 'en') 
-            		BIND(REPLACE( STR(?uri) , '(.*/)(\\\\w.+$)', '$2' ) AS ?id) . 
             		?reporturi ?uri ?labelLg1 . 
             		FILTER(lang(?labelLg1) = 'fr') 
             		OPTIONAL{?reporturi ?uri ?labelLg2 . 
@@ -63,16 +44,6 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             		BIND('TEXT' AS ?type) . 
             	} 		 
             	UNION { 
-            		?report rdf:type sdmx-mm:MetadataReport . 
-            		?reporturi sdmx-mm:metadataReport ?report . 
-            		OPTIONAL {?mas sdmx-mm:metadataAttributeProperty ?uri . 
-            			?mas sdmx-mm:parent ?uriParent . } 
-            		BIND(REPLACE( STR(?uriParent) , '(.*/)(\\\\w.+$)', '$2' ) AS ?idParent) . 
-            		?uri sdmx-mm:concept ?concept . 
-            		?concept skos:prefLabel ?titreLg1 ; skos:prefLabel ?titreLg2 ; 
-            		FILTER(lang(?titreLg1) = 'fr') 
-            		FILTER(lang(?titreLg2) = 'en') 
-            		BIND(REPLACE( STR(?uri) , '(.*/)(\\\\w.+$)', '$2' ) AS ?id) . 
             		?reporturi ?uri ?codeUri . 
             		?codeUri skos:notation ?valeurSimple . 
             		?codeUri skos:inScheme ?listUri . 
@@ -84,17 +55,7 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             		BIND('CODE_LIST' AS ?type) . 
             	} 
             	UNION { 
-            		?report rdf:type sdmx-mm:MetadataReport . 
-            		?reporturi sdmx-mm:metadataReport ?report . 
-            		OPTIONAL { ?mas sdmx-mm:metadataAttributeProperty ?uri . 
-            			?mas sdmx-mm:parent ?uriParent . } 
-            		BIND(REPLACE( STR(?uriParent) , '(.*/)(\\\\w.+$)', '$2' ) AS ?idParent) . 
-            		?uri sdmx-mm:concept ?concept . 
-            		?concept skos:prefLabel ?titreLg1 ; skos:prefLabel ?titreLg2 ; 
-            		FILTER(lang(?titreLg1) = 'fr') 
-            		FILTER(lang(?titreLg2) = 'en') 
             		?reporturi ?uri ?organisationUri . 
-            		BIND(REPLACE( STR(?uri) , '(.*/)(\\\\w.+$)', '$2' ) AS ?id) . 
             		?organisationUri dcterms:identifier ?valeurSimple . 
             		OPTIONAL { ?organisationUri skos:prefLabel ?labelObjLg1 . 
             			FILTER (lang(?labelObjLg1) = 'fr')} 
@@ -102,4 +63,5 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             			FILTER (lang(?labelObjLg2) = 'en') } 
             		BIND('ORGANISATION' AS ?type) . 
             	} 
+            }
             } 
