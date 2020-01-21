@@ -31,6 +31,12 @@ public class GeoQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getArrondissementByCodeAndDate.ftlh", params);
     }
     
+    public static String getListCommunes(String date) {
+        Map<String, Object> params = buildDateParams(date);
+        return buildRequest(QUERIES_FOLDER, "getListCommunes.ftlh", params);
+    }
+
+
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
         Map<String, Object> params = new HashMap<>();
         params.put("code", code);
@@ -38,6 +44,10 @@ public class GeoQueries extends Queries {
         return params;
     }
     
+    private static Map<String, Object> buildDateParams(String date) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("date", date);
+        return params;
     }
 
     @Deprecated
