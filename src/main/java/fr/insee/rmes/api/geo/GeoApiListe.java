@@ -70,7 +70,7 @@ public class GeoApiListe extends GeoAPI {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = "getcoglistecom",
+        operationId = "getcoglistecomhisto",
         summary = "La requête renvoie toutes les communes connues au COG, présentes ou passées.",
         description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
         responses = {
