@@ -16,14 +16,14 @@ public class GeoQueries extends Queries {
         params.put("date", date);
         return buildRequest(QUERIES_FOLDER, "getCommuneByCodeAndDate.ftlh", params);
     }
-    
+
     public static String getDepartementByCodeAndDate(String code, String date) {
         Map<String, Object> params = new HashMap<>();
         params.put("code", code);
         params.put("date", date);
         return buildRequest(QUERIES_FOLDER, "getDeptByCodeAndDate.ftlh", params);
     }
-    
+
     public static String getRegionByCodeAndDate(String code, String date) {
         Map<String, Object> params = new HashMap<>();
         params.put("code", code);
@@ -67,6 +67,11 @@ public class GeoQueries extends Queries {
             + "')) \n"
             + "FILTER (lang(?intitule) = 'fr') \n"
             + "}";
+    }
+
+    public static String getArrondissementByCodeAndDate(String code, String date) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

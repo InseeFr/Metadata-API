@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.insee.rmes.modeles.geo.Arrondissement;
 import fr.insee.rmes.modeles.geo.Commune;
 import fr.insee.rmes.modeles.geo.Country;
 import fr.insee.rmes.modeles.geo.Departement;
@@ -172,6 +173,42 @@ public class GeoApiIdentification extends GeoAPI {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
             Departement departement = (Departement) csvUtils.populatePOJO(csvResult, new Departement(code));
             return this.generateStatusResponse(departement.getUri(), departement, header);
+        }
+    }
+
+    @Path("/arrondissement/{code: [0-9]{3}}")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcogarr",
+        summary = "Informations sur un arrondissement français identifié par son code (trois chiffres)",
+        responses = {
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Departement.class)))
+        })
+    public Response getArrondissement(
+        @Parameter(
+            description = "Code de l'arrondissement (trois chiffres)",
+            required = true,
+            schema = @Schema(pattern = "[0-9]{3}", type = "string")) @PathParam("code") String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer l’arrondissement actif à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+
+        logger.debug("Received GET request for arrondissement {}", code);
+
+        date = this.formatDate(date);
+
+        if (date == null) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getArrondissementByCodeAndDate(code, date));
+            Arrondissement arrondissement = (Arrondissement) csvUtils.populatePOJO(csvResult, new Arrondissement(code));
+            return this.generateStatusResponse(arrondissement.getUri(), arrondissement, header);
         }
     }
 }
