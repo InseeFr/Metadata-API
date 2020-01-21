@@ -60,10 +60,15 @@ public class GeoAPI extends MetadataApi {
         logger.debug("Received GET request for commune {}", code);
 
         Commune commune = new Commune(code);
-        String csvResult =
-            sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, this.formatDate(date)));
-        commune = (Commune) csvUtils.populatePOJO(csvResult, commune);
+        date = this.formatDate(date);
 
+        if (date == null) {
+            return Response.status(Status.BAD_REQUEST).entity("").build();
+        }
+        else {
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
+            commune = (Commune) csvUtils.populatePOJO(csvResult, commune);
+        }
         if (commune.getUri() == null) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
@@ -130,10 +135,15 @@ public class GeoAPI extends MetadataApi {
         logger.debug("Received GET request for region {}", code);
 
         Region region = new Region(code);
-        String csvResult =
-            sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, this.formatDate(date)));
-        region = (Region) csvUtils.populatePOJO(csvResult, region);
+        date = this.formatDate(date);
 
+        if (date == null) {
+            return Response.status(Status.BAD_REQUEST).entity("").build();
+        }
+        else {
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, date));
+            region = (Region) csvUtils.populatePOJO(csvResult, region);
+        }
         if (region.getUri() == null) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
@@ -167,10 +177,15 @@ public class GeoAPI extends MetadataApi {
         logger.debug("Received GET request for departement {}", code);
 
         Departement departement = new Departement(code);
-        String csvResult =
-            sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, this.formatDate(date)));
-        departement = (Departement) csvUtils.populatePOJO(csvResult, departement);
+        date = this.formatDate(date);
 
+        if (date == null) {
+            return Response.status(Status.BAD_REQUEST).entity("").build();
+        }
+        else {
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, date));
+            departement = (Departement) csvUtils.populatePOJO(csvResult, departement);
+        }
         if (departement.getUri() == null) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
