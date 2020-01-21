@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,7 +67,7 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
             Commune commune = (Commune) csvUtils.populatePOJO(csvResult, new Commune(code));
-            return this.generateStatusResponse(commune.getUri() != null, commune, header);
+            return this.generateStatusResponse( ! StringUtils.isEmpty(commune.getUri()), commune, header);
         }
 
     }
@@ -136,7 +137,7 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, date));
             Region region = (Region) csvUtils.populatePOJO(csvResult, new Region(code));
-            return this.generateStatusResponse(region.getUri() != null, region, header);
+            return this.generateStatusResponse( ! StringUtils.isEmpty(region.getUri()), region, header);
         }
     }
 
@@ -174,7 +175,7 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, date));
             Departement departement = (Departement) csvUtils.populatePOJO(csvResult, new Departement(code));
-            return this.generateStatusResponse(departement.getUri() != null, departement, header);
+            return this.generateStatusResponse( ! StringUtils.isEmpty(departement.getUri()), departement, header);
         }
     }
 
@@ -210,7 +211,7 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getArrondissementByCodeAndDate(code, date));
             Arrondissement arrondissement = (Arrondissement) csvUtils.populatePOJO(csvResult, new Arrondissement(code));
-            return this.generateStatusResponse(arrondissement.getUri() != null, arrondissement, header);
+            return this.generateStatusResponse( ! StringUtils.isEmpty(arrondissement.getUri()), arrondissement, header);
         }
     }
 }

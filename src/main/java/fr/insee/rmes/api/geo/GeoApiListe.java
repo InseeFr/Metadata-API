@@ -64,29 +64,6 @@ public class GeoApiListe extends GeoAPI {
         }
     }
 
-    @Path("/communes/historique")
-    @GET
-    @Produces({
-        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
-    })
-    @Operation(
-        operationId = "getcoglistecomhisto",
-        summary = "La requête renvoie toutes les communes connues au COG, présentes ou passées.",
-        description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
-        responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Commune.class)), description = "Commune")
-        })
-    public Response getListeCommunesHistorique(
-        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
-
-        logger.debug("Received GET request for all communes");
-
-        // TODO change call method
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListCommunes(null));
-        List<Commune> listeCommune = csvUtils.populateMultiPOJO(csvResult, Commune.class);
-        return this.generateStatusResponse( ! listeCommune.isEmpty(), listeCommune, header);
-    }
-
     @Path("/departements")
     @GET
     @Produces({

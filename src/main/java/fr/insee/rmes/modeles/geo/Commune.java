@@ -40,7 +40,10 @@ public class Commune {
 
     private IntituleSansArticle intituleSansArticle;
 
-    public Commune() {} // No-args constructor needed for JAXB
+    // No-args constructor needed for JAXB
+    public Commune() {
+        this.intituleSansArticle = new IntituleSansArticle();
+    }
 
     public Commune(String code) {
         this.code = code;

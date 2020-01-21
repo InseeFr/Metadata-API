@@ -41,7 +41,10 @@ public class Arrondissement {
     @Schema(description = "Code Insee de la commune sous-préfecture de l’arrondissement.")
     private String chefLieu = null;
 
-    public Arrondissement() {} // No-args constructor needed for JAXB
+    // No-args constructor needed for JAXB
+    public Arrondissement() {
+        this.intituleSansArticle = new IntituleSansArticle();
+    }
 
     public Arrondissement(String code) {
         this.code = code;
