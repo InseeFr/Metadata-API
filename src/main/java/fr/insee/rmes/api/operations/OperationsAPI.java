@@ -36,7 +36,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/operations")
-@Tag(name = "operations", description = "Operations API")
+@Tag(name = "opérations", description = "Operations API")
 public class OperationsAPI extends MetadataApi {
 
     private static Logger logger = LogManager.getLogger(OperationsAPI.class);
