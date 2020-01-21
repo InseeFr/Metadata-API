@@ -109,14 +109,14 @@ public class GeoApiListe extends GeoAPI {
         responses = {
             @ApiResponse(content = @Content(schema = @Schema(implementation = Region.class)), description = "Commune")
         })
-    public Response getListeRegion(
+    public Response getListeRegions(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer les régions actives à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
             schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
 
-        logger.debug("Received GET request for all communes");
+        logger.debug("Received GET request for all regions");
 
         date = this.formatDate(date);
 
