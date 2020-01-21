@@ -134,13 +134,13 @@ public class GeoApiIdentification extends GeoAPI {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, date));
             Region region = (Region) csvUtils.populatePOJO(csvResult, new Region(code));
             return this.generateStatusResponse(region.getUri(), region, header);
         }
     }
 
-    @Path("/departement/{code: [0-9]{2}}")
+    @Path("/departement/{code: ^([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])$}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -153,9 +153,9 @@ public class GeoApiIdentification extends GeoAPI {
         })
     public Response getDepartement(
         @Parameter(
-            description = "Code du département (deux chiffres)",
+            description = "Code du département (deux ou trois chiffres, ou 2A, 2B)",
             required = true,
-            schema = @Schema(pattern = "[0-9]{2}", type = "string")) @PathParam("code") String code,
+            schema = @Schema(pattern = "^([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])$", type = "string")) @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer le département actif à la date donnée. Par défaut, c’est la date courante. ",
@@ -170,7 +170,7 @@ public class GeoApiIdentification extends GeoAPI {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, date));
             Departement departement = (Departement) csvUtils.populatePOJO(csvResult, new Departement(code));
             return this.generateStatusResponse(departement.getUri(), departement, header);
         }
