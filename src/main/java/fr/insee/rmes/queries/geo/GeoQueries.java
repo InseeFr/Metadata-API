@@ -35,6 +35,16 @@ public class GeoQueries extends Queries {
         Map<String, Object> params = buildDateParams(date);
         return buildRequest(QUERIES_FOLDER, "getListCommunes.ftlh", params);
     }
+    
+    public static String getListDept(String date) {
+        Map<String, Object> params = buildDateParams(date);
+        return buildRequest(QUERIES_FOLDER, "getListDept.ftlh", params);
+    }
+    
+    public static String getListRegion(String date) {
+        Map<String, Object> params = buildDateParams(date);
+        return buildRequest(QUERIES_FOLDER, "getListRegion.ftlh", params);
+    }
 
 
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
