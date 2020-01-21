@@ -66,7 +66,7 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
             Commune commune = (Commune) csvUtils.populatePOJO(csvResult, new Commune(code));
-            return this.generateStatusResponse(commune.getUri(), commune, header);
+            return this.generateStatusResponse(commune.getUri() != null, commune, header);
         }
 
     }
@@ -136,7 +136,7 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, date));
             Region region = (Region) csvUtils.populatePOJO(csvResult, new Region(code));
-            return this.generateStatusResponse(region.getUri(), region, header);
+            return this.generateStatusResponse(region.getUri() != null, region, header);
         }
     }
 
@@ -155,7 +155,9 @@ public class GeoApiIdentification extends GeoAPI {
         @Parameter(
             description = "Code du département (deux ou trois chiffres, ou 2A, 2B)",
             required = true,
-            schema = @Schema(pattern = "^([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])$", type = "string")) @PathParam("code") String code,
+            schema = @Schema(
+                pattern = "^([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])$",
+                type = "string")) @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer le département actif à la date donnée. Par défaut, c’est la date courante. ",
@@ -172,7 +174,7 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, date));
             Departement departement = (Departement) csvUtils.populatePOJO(csvResult, new Departement(code));
-            return this.generateStatusResponse(departement.getUri(), departement, header);
+            return this.generateStatusResponse(departement.getUri() != null, departement, header);
         }
     }
 
@@ -208,7 +210,7 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getArrondissementByCodeAndDate(code, date));
             Arrondissement arrondissement = (Arrondissement) csvUtils.populatePOJO(csvResult, new Arrondissement(code));
-            return this.generateStatusResponse(arrondissement.getUri(), arrondissement, header);
+            return this.generateStatusResponse(arrondissement.getUri() != null, arrondissement, header);
         }
     }
 }
