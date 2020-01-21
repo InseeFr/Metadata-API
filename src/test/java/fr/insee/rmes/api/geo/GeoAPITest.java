@@ -25,7 +25,7 @@ import fr.insee.rmes.modeles.geo.Region;
 public class GeoAPITest extends AbstractApiTest {
 
     @InjectMocks
-    private GeoAPI geoApi;
+    private GeoApiIdentification geoApi;
 
     private Commune commune = new Commune();
     private Country country = new Country();
