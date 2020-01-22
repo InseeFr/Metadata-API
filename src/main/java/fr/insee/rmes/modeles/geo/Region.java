@@ -43,7 +43,10 @@ public class Region {
     @Schema(description = "Code Insee de la commune préfecture de la région")
     private String chefLieu = null;
 
-    public Region() {} // No-args constructor needed for JAXB
+    // No-args constructor needed for JAXB
+    public Region() {
+        this.intituleSansArticle = new IntituleSansArticle();
+    }
 
     public Region(String code) {
         this.code = code;
@@ -109,7 +112,6 @@ public class Region {
     public void setIntituleSansArticle(IntituleSansArticle intituleSansArticle) {
         this.intituleSansArticle = intituleSansArticle;
     }
-    
 
     public void setIntituleSansArticle(String intituleSansArticle) {
         this.intituleSansArticle.setIntituleSansArticle(intituleSansArticle);
