@@ -179,7 +179,7 @@ public class GeoApiIdentification extends GeoAPI {
         }
     }
 
-    @Path("/arrondissement/{code: [0-9]{3}}")
+    @Path("/arrondissement/{code: (([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -192,9 +192,9 @@ public class GeoApiIdentification extends GeoAPI {
         })
     public Response getArrondissement(
         @Parameter(
-            description = "Code de l'arrondissement (trois chiffres)",
+            description = "Code de l'arrondissement (trois ou quatre caractères)",
             required = true,
-            schema = @Schema(pattern = "[0-9]{3}", type = "string")) @PathParam("code") String code,
+            schema = @Schema(pattern = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]", type = "string")) @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer l’arrondissement actif à la date donnée. Par défaut, c’est la date courante. ",

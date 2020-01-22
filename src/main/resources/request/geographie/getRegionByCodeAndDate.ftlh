@@ -38,5 +38,5 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
 			FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
 		}
-		
+				ORDER BY ?code
 		
