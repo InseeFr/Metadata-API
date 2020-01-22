@@ -11,41 +11,42 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "Commune")
+@JacksonXmlRootElement(localName = "Arrondissement")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Schema(description = "Objet représentant une commune")
-public class Commune {
+@Schema(description = "Objet représentant un arrondissement")
+public class Arrondissement {
 
-    @Schema(example = "55323")
+    @Schema(example = "591")
     private String code = null;
 
-    @Schema(example = "http://id.insee.fr/geo/commune/55323")
+    @Schema(example = "http://id.insee.fr/geo/arrondissement/591")
     private String uri = null;
 
-    @Schema(example = "L'Aigle")
+    @Schema(example = "Avesnes-sur-Helpe")
     private String intitule = null;
 
-    @Schema(example = "Commune")
-    private EnumTypeGeographie type = EnumTypeGeographie.COMMUNE;
+    @Schema(example = "Arrondissement")
+    private EnumTypeGeographie type = EnumTypeGeographie.ARRONDISSEMENT;
 
-    @Schema(
-        description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943",
-        example = "1943-01-01")
+    @Schema(description = "Date de création de l’arrondissement s’il a été créé après le 1er janvier 1993")
     @JsonInclude(Include.NON_EMPTY)
     private String dateCreation = null;
 
-    @Schema(description = "Date de suppression de la commune si elle a été supprimée. ", example = "2019-01-01")
+    @Schema(description = "Date de suppression de l’arrondissement s’il a été supprimé. ")
     @JsonInclude(Include.NON_EMPTY)
     private String dateSuppression = null;
 
     private IntituleSansArticle intituleSansArticle;
 
+    @Schema(description = "Code Insee de la commune sous-préfecture de l’arrondissement.")
+    private String chefLieu = null;
+
     // No-args constructor needed for JAXB
-    public Commune() {
+    public Arrondissement() {
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public Commune(String code) {
+    public Arrondissement(String code) {
         this.code = code;
         this.intituleSansArticle = new IntituleSansArticle();
     }
@@ -118,4 +119,11 @@ public class Commune {
         this.intituleSansArticle.setTypeArticle(typeArticle);
     }
 
+    public String getChefLieu() {
+        return chefLieu;
+    }
+
+    public void setChefLieu(String chefLieu) {
+        this.chefLieu = chefLieu;
+    }
 }

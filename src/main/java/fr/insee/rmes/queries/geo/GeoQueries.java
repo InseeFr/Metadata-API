@@ -8,29 +8,51 @@ import fr.insee.rmes.queries.Queries;
 
 public class GeoQueries extends Queries {
 
+    private static final String NONE = "none";
     private static final String QUERIES_FOLDER = "geographie/";
 
+    /* IDENTIFICATION*/
     public static String getCommuneByCodeAndDate(String code, String date) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("code", code);
-        params.put("date", date);
-        return buildRequest(QUERIES_FOLDER, "getCommuneByCodeAndDate.ftlh", params);
-    }
-    
-    public static String getDepartementByCodeAndDate(String code, String date) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("code", code);
-        params.put("date", date);
-        return buildRequest(QUERIES_FOLDER, "getDeptByCodeAndDate.ftlh", params);
-    }
-    
-    public static String getRegionByCodeAndDate(String code, String date) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("code", code);
-        params.put("date", date);
-        return buildRequest(QUERIES_FOLDER, "getRegionByCodeAndDate.ftlh", params);
+        return queryWithCodeAndDateParam(code, date, "getCommuneByCodeAndDate.ftlh");
     }
 
+    public static String getDepartementByCodeAndDate(String code, String date) {
+        return queryWithCodeAndDateParam(code, date, "getDeptByCodeAndDate.ftlh");
+    }
+
+    public static String getRegionByCodeAndDate(String code, String date) {
+        return queryWithCodeAndDateParam(code, date, "getRegionByCodeAndDate.ftlh");
+    }
+
+    public static String getArrondissementByCodeAndDate(String code, String date) {
+        return queryWithCodeAndDateParam(code, date, "getArrondissementByCodeAndDate.ftlh");
+    }
+    
+    /* LIST */
+    public static String getListCommunes(String date) {
+        return queryWithCodeAndDateParam(NONE, date, "getCommuneByCodeAndDate.ftlh");
+    }
+    
+    public static String getListDept(String date) {
+        return queryWithCodeAndDateParam(NONE, date, "getDeptByCodeAndDate.ftlh");
+    }
+    
+    public static String getListRegion(String date) {
+        return queryWithCodeAndDateParam(NONE, date, "getRegionByCodeAndDate.ftlh");
+    }
+
+    private static String queryWithCodeAndDateParam(String code, String date, String queryFile) {
+        Map<String, Object> params = buildCodeAndDateParams(code, date);
+        return buildRequest(QUERIES_FOLDER, queryFile, params);
+    }
+
+    private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("code", code);
+        params.put("date", date);
+        return params;
+    }
+    
     @Deprecated
     public static String getCountry(String code) {
         return "SELECT ?uri ?intitule ?intituleEntier \n"
@@ -51,22 +73,7 @@ public class GeoQueries extends Queries {
             + "}";
     }
 
-    @Deprecated
-    public static String getRegion(String code) {
-        return "SELECT ?uri ?intitule \n"
-            + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
-            + "WHERE { \n"
-            + "?uri rdf:type igeo:Region . \n"
-            + "?uri igeo:codeINSEE '"
-            + code
-            + "'^^xsd:token . \n"
-            + "?uri igeo:nom ?intitule \n"
-            // Ensure that is not the IGN URI
-            + "FILTER (REGEX(STR(?uri), '"
-            + Configuration.getBaseHost()
-            + "')) \n"
-            + "FILTER (lang(?intitule) = 'fr') \n"
-            + "}";
-    }
+  
+
 
 }
