@@ -2,11 +2,15 @@ SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCrea
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
 			?uri a igeo:Departement ;
-				 igeo:codeINSEE '${code}' ;
 				 igeo:codeArticle ?typeArticle ;
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
+<#if code != "none">
+			?uri igeo:codeINSEE '${code}' .
 			BIND('${code}' as ?code)
+<#else>
+			?uri igeo:codeINSEE ?code .
+</#if>
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
 					               igeo:date ?dateCreation .
@@ -27,8 +31,8 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 					?evenementSuppressionChefLieu igeo:suppression ?chefLieuRDF ;
 					igeo:date ?dateSuppressionChefLieu.
 				}
-				FILTER(!BOUND(?dateCreationChefLieu) || ?dateCreation <= '${date}'^^xsd:date)
-				FILTER(!BOUND(?dateSuppressionChefLieu) || ?dateSuppression > '${date}'^^xsd:date)
+				FILTER(!BOUND(?dateCreationChefLieu) || ?dateCreationChefLieu <= '${date}'^^xsd:date)
+				FILTER(!BOUND(?dateSuppressionChefLieu) || ?dateSuppressionChefLieu > '${date}'^^xsd:date)
 			}
 			
 			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)

@@ -43,7 +43,10 @@ public class Departement {
     @Schema(description = "Code Insee de la commune préfecture du département.")
     private String chefLieu = null;
 
-    public Departement() {} // No-args constructor needed for JAXB
+    // No-args constructor needed for JAXB
+    public Departement() {
+        this.intituleSansArticle = new IntituleSansArticle();
+    }
 
     public Departement(String code) {
         this.code = code;
@@ -109,7 +112,6 @@ public class Departement {
     public void setIntituleSansArticle(IntituleSansArticle intituleSansArticle) {
         this.intituleSansArticle = intituleSansArticle;
     }
-    
 
     public void setIntituleSansArticle(String intituleSansArticle) {
         this.intituleSansArticle.setIntituleSansArticle(intituleSansArticle);
