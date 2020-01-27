@@ -10,7 +10,6 @@ public class IntituleSansArticle {
     @Schema(example = "5")
     private String typeArticle = null;
 
-    //@JacksonXmlElementWrapper(useWrapping = false)
     public String getIntituleSansArticle() {
         return intituleSansArticle;
     }
