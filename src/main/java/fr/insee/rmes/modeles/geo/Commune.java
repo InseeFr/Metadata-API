@@ -26,7 +26,7 @@ public class Commune {
     private String intitule = null;
 
     @Schema(example = "Commune")
-    private EnumTypeGeographie type = EnumTypeGeographie.COMMUNE;
+    private String type = EnumTypeGeographie.COMMUNE.getTypeObjetGeo();
 
     @Schema(
         description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943",
@@ -78,14 +78,16 @@ public class Commune {
         this.intitule = intitule;
     }
 
-    public EnumTypeGeographie getType() {
+    @JacksonXmlProperty(localName = "Type")
+    public String getType() {
         return type;
     }
 
-    public void setType(EnumTypeGeographie type) {
+    public void setType(String type) {
         this.type = type;
     }
 
+    @JacksonXmlProperty(localName = "DateCreation")
     public String getDateCreation() {
         return dateCreation;
     }
@@ -94,6 +96,7 @@ public class Commune {
         this.dateCreation = dateCreation;
     }
 
+    @JacksonXmlProperty(localName = "DateSuppression")
     public String getDateSuppression() {
         return dateSuppression;
     }
@@ -102,6 +105,7 @@ public class Commune {
         this.dateSuppression = dateSuppression;
     }
 
+    @JacksonXmlProperty(localName = "IntituleSansArticle")
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }

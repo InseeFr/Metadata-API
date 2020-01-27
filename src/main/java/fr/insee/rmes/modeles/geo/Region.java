@@ -81,6 +81,7 @@ public class Region {
         this.intitule = intitule;
     }
 
+    @JacksonXmlProperty(localName = "Type")
     public String getType() {
         return type;
     }
@@ -89,6 +90,7 @@ public class Region {
         this.type = type;
     }
 
+    @JacksonXmlProperty(localName = "DateCreation")
     public String getDateCreation() {
         return dateCreation;
     }
@@ -97,6 +99,7 @@ public class Region {
         this.dateCreation = dateCreation;
     }
 
+    @JacksonXmlProperty(localName = "DateSuppression")
     public String getDateSuppression() {
         return dateSuppression;
     }
@@ -105,6 +108,7 @@ public class Region {
         this.dateSuppression = dateSuppression;
     }
 
+    @JacksonXmlProperty(localName = "IntituleSansArticle")
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }
@@ -121,6 +125,7 @@ public class Region {
         this.intituleSansArticle.setTypeArticle(typeArticle);
     }
 
+    @JacksonXmlProperty(localName = "ChefLieu")
     public String getChefLieu() {
         return chefLieu;
     }
