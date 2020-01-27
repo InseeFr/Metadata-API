@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
     @ApiResponse(responseCode = "500", description = "Erreur interne du serveur")
 })
 public abstract class MetadataApi {
+    
+    protected static final String ARRAY = "array";
 
     protected SparqlUtils sparqlUtils;
 

@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.modeles.geo.Commune;
 import fr.insee.rmes.modeles.geo.Departement;
+import fr.insee.rmes.modeles.geo.Departements;
 import fr.insee.rmes.modeles.geo.Region;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "geographie", description = "Geographie API")
 public class GeoApiListe extends GeoAPI {
 
+
     private static Logger logger = LogManager.getLogger(GeoApiListe.class);
 
     @Path("/communes")
@@ -41,7 +43,7 @@ public class GeoApiListe extends GeoAPI {
         summary = "La requête renvoie toutes les communes actives à la date donnée. Par défaut, c’est la date courante.",
         description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Commune.class)), description = "Commune")
+            @ApiResponse(content = @Content(schema = @Schema(type=ARRAY,implementation = Commune.class)), description = "Commune")
         })
     public Response getListeCommunes(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
@@ -74,8 +76,8 @@ public class GeoApiListe extends GeoAPI {
         summary = "La requête renvoie tous les départements actifs à la date donnée. Par défaut, c’est la date courante. ",
         responses = {
             @ApiResponse(
-                content = @Content(schema = @Schema(implementation = Departement.class)),
-                description = "Commune")
+                content = @Content(schema = @Schema(type=ARRAY,implementation = Departement.class)),
+                description = "Départements")
         })
     public Response getListeDepartements(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
@@ -94,7 +96,7 @@ public class GeoApiListe extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListDept(date));
             List<Departement> listeDepartement = csvUtils.populateMultiPOJO(csvResult, Departement.class);
-            return this.generateStatusResponse( ! listeDepartement.isEmpty(), listeDepartement, header);
+            return this.generateListStatusResponse( Departements.class, listeDepartement, header);
         }
     }
 
@@ -107,7 +109,7 @@ public class GeoApiListe extends GeoAPI {
         operationId = "getcoglistere",
         summary = "La requête renvoie toutes les régions actives à la date donnée. Par défaut, c’est la date courante.",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Region.class)), description = "Commune")
+            @ApiResponse(content = @Content(schema = @Schema(type=ARRAY,implementation = Region.class)), description = "Commune")
         })
     public Response getListeRegions(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
