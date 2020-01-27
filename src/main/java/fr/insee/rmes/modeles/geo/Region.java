@@ -26,7 +26,7 @@ public class Region {
     private String intitule = null;
 
     @Schema(example = "Region")
-    private EnumTypeGeographie type = EnumTypeGeographie.REGION;
+    private String type = EnumTypeGeographie.REGION.getTypeObjetGeo();
 
     @Schema(
         description = "Date de création de la région si elle n’existait pas au premier COG du 1er janvier 1943",
@@ -81,14 +81,16 @@ public class Region {
         this.intitule = intitule;
     }
 
-    public EnumTypeGeographie getType() {
+    @JacksonXmlProperty(localName = "Type")
+    public String getType() {
         return type;
     }
 
-    public void setType(EnumTypeGeographie type) {
+    public void setType(String type) {
         this.type = type;
     }
 
+    @JacksonXmlProperty(localName = "DateCreation")
     public String getDateCreation() {
         return dateCreation;
     }
@@ -97,6 +99,7 @@ public class Region {
         this.dateCreation = dateCreation;
     }
 
+    @JacksonXmlProperty(localName = "DateSuppression")
     public String getDateSuppression() {
         return dateSuppression;
     }
@@ -105,6 +108,7 @@ public class Region {
         this.dateSuppression = dateSuppression;
     }
 
+    @JacksonXmlProperty(localName = "IntituleSansArticle")
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }
@@ -121,6 +125,7 @@ public class Region {
         this.intituleSansArticle.setTypeArticle(typeArticle);
     }
 
+    @JacksonXmlProperty(localName = "ChefLieu")
     public String getChefLieu() {
         return chefLieu;
     }

@@ -26,7 +26,7 @@ public class Arrondissement {
     private String intitule = null;
 
     @Schema(example = "Arrondissement")
-    private EnumTypeGeographie type = EnumTypeGeographie.ARRONDISSEMENT;
+    private String type = EnumTypeGeographie.ARRONDISSEMENT.getTypeObjetGeo();
 
     @Schema(description = "Date de création de l’arrondissement s’il a été créé après le 1er janvier 1993")
     @JsonInclude(Include.NON_EMPTY)
@@ -79,14 +79,16 @@ public class Arrondissement {
         this.intitule = intitule;
     }
 
-    public EnumTypeGeographie getType() {
+    @JacksonXmlProperty(localName = "Type")
+    public String getType() {
         return type;
     }
 
-    public void setType(EnumTypeGeographie type) {
+    public void setType(String type) {
         this.type = type;
     }
 
+    @JacksonXmlProperty(localName = "DateCreation")
     public String getDateCreation() {
         return dateCreation;
     }
@@ -95,6 +97,7 @@ public class Arrondissement {
         this.dateCreation = dateCreation;
     }
 
+    @JacksonXmlProperty(localName = "DateSuppression")
     public String getDateSuppression() {
         return dateSuppression;
     }
@@ -103,6 +106,7 @@ public class Arrondissement {
         this.dateSuppression = dateSuppression;
     }
 
+    @JacksonXmlProperty(localName = "IntituleSansArticle")
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }
@@ -119,6 +123,7 @@ public class Arrondissement {
         this.intituleSansArticle.setTypeArticle(typeArticle);
     }
 
+    @JacksonXmlProperty(localName = "ChefLieu")
     public String getChefLieu() {
         return chefLieu;
     }
