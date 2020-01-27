@@ -26,7 +26,7 @@ public class Region {
     private String intitule = null;
 
     @Schema(example = "Region")
-    private EnumTypeGeographie type = EnumTypeGeographie.REGION;
+    private String type = EnumTypeGeographie.REGION.getTypeObjetGeo();
 
     @Schema(
         description = "Date de création de la région si elle n’existait pas au premier COG du 1er janvier 1943",
@@ -81,11 +81,11 @@ public class Region {
         this.intitule = intitule;
     }
 
-    public EnumTypeGeographie getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(EnumTypeGeographie type) {
+    public void setType(String type) {
         this.type = type;
     }
 

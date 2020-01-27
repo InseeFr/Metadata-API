@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import fr.insee.rmes.modeles.geo.Commune;
 import fr.insee.rmes.modeles.geo.Departement;
 import fr.insee.rmes.modeles.geo.Region;
+import fr.insee.rmes.modeles.geo.Regions;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -124,9 +125,10 @@ public class GeoApiListe extends GeoAPI {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListRegion(date));
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListRegion(date));            
             List<Region> listeRegion = csvUtils.populateMultiPOJO(csvResult, Region.class);
-            return this.generateStatusResponse( ! listeRegion.isEmpty(), listeRegion, header);
+            Regions regions = new Regions(listeRegion);
+            return this.generateStatusResponse( ! listeRegion.isEmpty(), regions, header);
         }
     }
 }
