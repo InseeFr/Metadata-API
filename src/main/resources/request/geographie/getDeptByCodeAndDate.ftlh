@@ -31,12 +31,12 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 					?evenementSuppressionChefLieu igeo:suppression ?chefLieuRDF ;
 					igeo:date ?dateSuppressionChefLieu.
 				}
-				FILTER(!BOUND(?dateCreationChefLieu) || ?dateCreation <= '${date}'^^xsd:date)
-				FILTER(!BOUND(?dateSuppressionChefLieu) || ?dateSuppression > '${date}'^^xsd:date)
+				FILTER(!BOUND(?dateCreationChefLieu) || ?dateCreationChefLieu <= '${date}'^^xsd:date)
+				FILTER(!BOUND(?dateSuppressionChefLieu) || ?dateSuppressionChefLieu > '${date}'^^xsd:date)
 			}
 			
 			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
 			FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
 		}
-		
+				ORDER BY ?code
 		
