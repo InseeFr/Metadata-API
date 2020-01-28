@@ -3,6 +3,7 @@ package fr.insee.rmes.api.geo;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -207,5 +208,17 @@ public class GeoApiListeTest extends AbstractApiTest {
         // Call method header content = xml
         Response response = geoApi.getListeRegions(MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenGetListRegion_WhenHeaderIsNotAcceptable() {
+        // Mock methods
+        when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
+        when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
+        list.add(new Region());
+
+        // Call method header content = text plain
+        Response response = geoApi.getListeRegions(MediaType.TEXT_PLAIN, null);
+        Assertions.assertEquals(Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
     }
 }

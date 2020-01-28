@@ -67,7 +67,11 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
             Commune commune = (Commune) csvUtils.populatePOJO(csvResult, new Commune(code));
-            return this.generateStatusResponse( ! StringUtils.isEmpty(commune.getUri()), commune, header);
+            return this
+                .generateStatusResponse(
+                    ! StringUtils.isEmpty(commune.getUri()),
+                    commune,
+                    this.getFirstValidHeader(header));
         }
 
     }
@@ -100,7 +104,7 @@ public class GeoApiIdentification extends GeoAPI {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else {
-            return Response.ok(responseUtils.produceResponse(country, header)).build();
+            return Response.ok(responseUtils.produceResponse(country, this.getFirstValidHeader(header))).build();
         }
 
     }
@@ -137,7 +141,11 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, date));
             Region region = (Region) csvUtils.populatePOJO(csvResult, new Region(code));
-            return this.generateStatusResponse( ! StringUtils.isEmpty(region.getUri()), region, header);
+            return this
+                .generateStatusResponse(
+                    ! StringUtils.isEmpty(region.getUri()),
+                    region,
+                    this.getFirstValidHeader(header));
         }
     }
 
@@ -175,7 +183,11 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, date));
             Departement departement = (Departement) csvUtils.populatePOJO(csvResult, new Departement(code));
-            return this.generateStatusResponse( ! StringUtils.isEmpty(departement.getUri()), departement, header);
+            return this
+                .generateStatusResponse(
+                    ! StringUtils.isEmpty(departement.getUri()),
+                    departement,
+                    this.getFirstValidHeader(header));
         }
     }
 
@@ -213,7 +225,11 @@ public class GeoApiIdentification extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getArrondissementByCodeAndDate(code, date));
             Arrondissement arrondissement = (Arrondissement) csvUtils.populatePOJO(csvResult, new Arrondissement(code));
-            return this.generateStatusResponse( ! StringUtils.isEmpty(arrondissement.getUri()), arrondissement, header);
+            return this
+                .generateStatusResponse(
+                    ! StringUtils.isEmpty(arrondissement.getUri()),
+                    arrondissement,
+                    this.getFirstValidHeader(header));
         }
     }
 }

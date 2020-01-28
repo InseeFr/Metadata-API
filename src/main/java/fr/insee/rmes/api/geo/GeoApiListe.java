@@ -46,7 +46,7 @@ public class GeoApiListe extends GeoAPI {
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Commune.class)),
-                description = "Commune")
+                description = "Communes")
         })
     public Response getListeCommunes(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
@@ -65,7 +65,7 @@ public class GeoApiListe extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListCommunes(date));
             List<Commune> listeCommune = csvUtils.populateMultiPOJO(csvResult, Commune.class);
-            return this.generateListStatusResponse(Communes.class, listeCommune, header);
+            return this.generateListStatusResponse(Communes.class, listeCommune, this.getFirstValidHeader(header));
         }
     }
 
@@ -99,7 +99,8 @@ public class GeoApiListe extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListDept(date));
             List<Departement> listeDepartement = csvUtils.populateMultiPOJO(csvResult, Departement.class);
-            return this.generateListStatusResponse(Departements.class, listeDepartement, header);
+            return this
+                .generateListStatusResponse(Departements.class, listeDepartement, this.getFirstValidHeader(header));
         }
     }
 
@@ -133,8 +134,7 @@ public class GeoApiListe extends GeoAPI {
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListRegion(date));
             List<Region> listeRegion = csvUtils.populateMultiPOJO(csvResult, Region.class);
-            Regions regions = new Regions(listeRegion);
-            return this.generateStatusResponse( ! listeRegion.isEmpty(), regions, header);
+            return this.generateListStatusResponse(Regions.class, listeRegion, this.getFirstValidHeader(header));
         }
     }
 }
