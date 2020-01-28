@@ -11,28 +11,27 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "Regions")
+@JacksonXmlRootElement(localName = "Communes")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Schema(name = "Regions", description = "Tableau représentant les régions")
-public class Regions {
+@Schema(name = "Communes", description = "Tableau représentant les communes")
+public class Communes {
 
-    private List<Region> region = null;
+    private List<Commune> communes = null;
 
-    public Regions() {
+    public Communes() {}
 
+    public Communes(List<Commune> communes) {
+        this.communes = communes;
     }
 
-    public Regions(List<Region> region) {
-        this.region = region;
-    }
-
+    @JacksonXmlProperty(isAttribute = true, localName = "Commune")
     @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "Region")
-    public List<Region> getRegion() {
-        return region;
+    public List<Commune> getCommunes() {
+        return communes;
     }
 
-    public void setRegion(List<Region> region) {
-        this.region = region;
+    public void setCommunes(List<Commune> communes) {
+        this.communes = communes;
     }
+
 }
