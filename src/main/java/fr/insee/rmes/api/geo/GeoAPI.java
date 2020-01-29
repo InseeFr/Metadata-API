@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.MetadataApi;
+import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.utils.DateUtils;
 
 public abstract class GeoAPI extends MetadataApi {
@@ -90,5 +91,13 @@ public abstract class GeoAPI extends MetadataApi {
         else {
             return header;
         }
+    }
+
+    public boolean verifyTypeExists(String type) {
+        return EnumTypeGeographie
+            .stream()
+            .filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(type))
+            .findAny()
+            .isPresent();
     }
 }

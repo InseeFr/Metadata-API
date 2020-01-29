@@ -1,5 +1,7 @@
 package fr.insee.rmes.modeles.geo;
 
+import java.util.stream.Stream;
+
 public enum EnumTypeGeographie {
 
     COMMUNE("Commune"), REGION("Region"), DEPARTEMENT("Departement"), ARRONDISSEMENT("Arrondissement");
@@ -12,6 +14,10 @@ public enum EnumTypeGeographie {
 
     public String getTypeObjetGeo() {
         return typeObjetGeo;
+    }
+
+    public static Stream<EnumTypeGeographie> stream() {
+        return Stream.of(EnumTypeGeographie.values());
     }
 
 }
