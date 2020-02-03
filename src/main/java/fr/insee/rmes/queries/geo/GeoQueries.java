@@ -44,11 +44,35 @@ public class GeoQueries extends Queries {
     
     /* ASCENDANT / DESCENDANT */
     public static String getAscendantsCommune(String code, String date, String type) {     
-        Map<String, Object> params = buildCodeAndDateParams(code, date);
-        params.put("type",type);
-        return buildRequest(QUERIES_FOLDER, "getAscendantsCommuneByCodeTypeDate.ftlh", params);
+        return getAscendantOrDescendantsQuery(code, date, type, "Commune", true);
+    }
+    
+    public static String getAscendantsDepartement(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type, "Departement", true);
+    }
+    
+    public static String getDescendantsCommune(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type, "Commune", false);
+    }
+    
+    public static String getDescendantsDepartement(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type, "Departement", false);
+    }
+    
+    public static String getDescendantsRegion(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type, "Region", false);
     }
 
+
+    private static String getAscendantOrDescendantsQuery(String code, String date, String type, String typeOrigine, boolean ascendant) {
+        Map<String, Object> params = buildCodeAndDateParams(code, date);
+        params.put("type",type);
+        params.put("typeOrigine",typeOrigine);
+        params.put("ascendant",String.valueOf(ascendant));
+        return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
+    }
+
+    
 
     
     /* UTILS */

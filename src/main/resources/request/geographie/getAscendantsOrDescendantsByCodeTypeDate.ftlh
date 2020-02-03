@@ -1,9 +1,15 @@
 SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
-			?enfant a igeo:Commune ;
-			       igeo:codeINSEE '${code}' ;
-					igeo:subdivisionDirecteDe+ ?uri .
+			?origine a igeo:${typeOrigine} ;
+			       igeo:codeINSEE '${code}' .
+				   
+<#if ascendant != "true">
+			?origine igeo:subdivisionDirecteDe+ ?uri .
+<#else>
+			?origine (^:subdivisionDirecteDe)+ ?uri .
+</#if>				   
+				   
 			?uri igeo:codeINSEE ?code ;
 			     a ?type ;
 				 igeo:codeArticle ?typeArticle ;
