@@ -2,7 +2,7 @@ SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?da
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
 			?enfant a igeo:Commune ;
-			?enfant igeo:codeINSEE '${code}' .
+			       igeo:codeINSEE '${code}' ;
 					igeo:subdivisionDirecteDe+ ?uri .
 			?uri igeo:codeINSEE ?code ;
 			     a ?type ;

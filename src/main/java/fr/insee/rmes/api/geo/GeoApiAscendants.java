@@ -16,8 +16,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.modeles.geo.Commune;
-import fr.insee.rmes.modeles.geo.Communes;
 import fr.insee.rmes.modeles.geo.Territoire;
+import fr.insee.rmes.modeles.geo.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -76,8 +76,9 @@ public class GeoApiAscendants extends GeoAPI {
         }
         else {
             String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getAscendantsCommune(code, date, type));
-            List<Territoire> listeCommune = csvUtils.populateMultiPOJO(csvResult, Territoire.class);
-            return this.generateListStatusResponse(Communes.class, listeCommune, this.getFirstValidHeader(header));
+            List<Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, Territoire.class);
+            return this
+                .generateListStatusResponse(Territoires.class, listeTerritoires, this.getFirstValidHeader(header));
         }
     }
 }
