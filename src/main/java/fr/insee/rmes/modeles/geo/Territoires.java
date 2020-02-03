@@ -24,7 +24,7 @@ public class Territoires {
         this.territoires = territoires;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "territoire")
+    @JacksonXmlProperty(isAttribute = true, localName = "Territoire")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Territoire> getTerritoires() {
         return territoires;
