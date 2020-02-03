@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Arrondissement")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant un arrondissement")
-public class Arrondissement {
+public class Arrondissement extends Territoire {
 
     @Schema(example = "591")
     private String code = null;

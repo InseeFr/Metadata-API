@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Region")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant une région")
-public class Region {
+public class Region extends Territoire {
 
     @Schema(example = "27")
     private String code = null;
