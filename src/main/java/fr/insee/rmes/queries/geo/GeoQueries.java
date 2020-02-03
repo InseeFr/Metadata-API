@@ -40,7 +40,18 @@ public class GeoQueries extends Queries {
     public static String getListRegion(String date) {
         return queryWithCodeAndDateParam(NONE, date, "getRegionByCodeAndDate.ftlh");
     }
+    
+    
+    /* ASCENDANT / DESCENDANT */
+    public static String getAscendantsCommune(String code, String date, String type) {     
+        Map<String, Object> params = buildCodeAndDateParams(code, date);
+        params.put("type",type);
+        return buildRequest(QUERIES_FOLDER, "getAscendantsCommuneByCodeTypeDate.ftlh", params);
+    }
 
+
+    
+    /* UTILS */
     private static String queryWithCodeAndDateParam(String code, String date, String queryFile) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
         return buildRequest(QUERIES_FOLDER, queryFile, params);
