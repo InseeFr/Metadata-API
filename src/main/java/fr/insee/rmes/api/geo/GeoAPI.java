@@ -95,7 +95,7 @@ public abstract class GeoAPI extends MetadataApi {
 
     public boolean verifyTypeExists(String type) {
         return EnumTypeGeographie
-            .stream()
+            .streamValuesTypeGeo()
             .filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(type))
             .findAny()
             .isPresent();
