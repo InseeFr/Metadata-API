@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.modeles.geo.Commune;
+import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -57,13 +58,20 @@ public class GeoApiAscendants extends GeoAPI {
         logger.debug("Received GET request for ascendants of commune {}", code);
 
         date = this.formatDate(date);
-        boolean typeExiste = this.verifyTypeExists(type);
+        boolean typeExiste = Boolean.TRUE;
+
+        if (type != null) {
+            typeExiste = this.verifyTypeExists(type);
+        }
+        else {
+            type = "none";
+        }
 
         if (date == null || ! typeExiste) {
             return this.generateBadRequestResponse();
         }
         else {
-            // TODO retour
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getAscendantsCommune(code, date, type));
             return null;
         }
     }
