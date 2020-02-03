@@ -53,14 +53,37 @@ public class CSVUtils {
         while (it.hasNext()) {
             Map<String, String> rowAsMap = it.next();
             if (childClass == Territoire.class) {
-                String valueOfTypeMap = rowAsMap.get("type");
-                String nomType = StringUtils.substringAfterLast(valueOfTypeMap, "#");
-                Class<?> childClassBis =  EnumTypeGeographie.getClassByType(nomType);
-                childClass = (Class<T>) childClassBis;
+                list = this.dealWithTerritoire(childClass, list, mapper, rowAsMap);
             }
-            T activite = mapper.convertValue(rowAsMap, childClass);
-            list.add(activite);
+            else {
+                T activite = mapper.convertValue(rowAsMap, childClass);
+                list.add(activite);
+            }
         }
+        return list;
+    }
+
+    private <T> List<T> dealWithTerritoire(
+        Class<T> childClass,
+        List<T> list,
+        CsvMapper mapper,
+        Map<String, String> rowAsMap) {
+
+        String nomType = StringUtils.substringAfterLast(rowAsMap.get("type"), "#");
+
+        Class<? extends Territoire> classeTerritoire = EnumTypeGeographie.getClassByType(nomType);
+
+        try {
+
+            if (classeTerritoire != null) {
+                Territoire territoireForMapping = mapper.convertValue(rowAsMap, classeTerritoire);
+                list.add(childClass.cast(territoireForMapping));
+            }
+        }
+        catch (ClassCastException e) {
+            logger.error("Error with cast geographie type");
+        }
+
         return list;
     }
 

@@ -12,9 +12,9 @@ public enum EnumTypeGeographie {
 
     private String typeObjetGeo;
 
-    private Class<T> classNameOfGeoType;
+    private Class<? extends Territoire> classNameOfGeoType;
 
-    private <T> EnumTypeGeographie(String typeObjetGeo, Class<T> classNameOfGeoType) {
+    private <T> EnumTypeGeographie(String typeObjetGeo, Class<? extends Territoire> classNameOfGeoType) {
         this.typeObjetGeo = typeObjetGeo;
         this.classNameOfGeoType = classNameOfGeoType;
     }
@@ -23,7 +23,7 @@ public enum EnumTypeGeographie {
         return typeObjetGeo;
     }
 
-    public <T> Class<T> getClassNameOfGeoType() {
+    public <T> Class<? extends Territoire> getClassNameOfGeoType() {
         return classNameOfGeoType;
     }
 
@@ -31,7 +31,7 @@ public enum EnumTypeGeographie {
         return Stream.of(EnumTypeGeographie.values());
     }
 
-    public static <T> Class<T> getClassByType(String type) {
+    public static <T> Class<? extends Territoire> getClassByType(String type) {
         Optional<EnumTypeGeographie> optionalClass =
             streamValuesTypeGeo().filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(type)).findAny();
         return optionalClass.isPresent() ? optionalClass.get().getClassNameOfGeoType() : null;
