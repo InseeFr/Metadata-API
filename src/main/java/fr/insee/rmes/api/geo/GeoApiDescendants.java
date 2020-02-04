@@ -29,23 +29,23 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/geo")
 @Tag(name = "geographie", description = "Geographie API")
-public class GeoApiAscendants extends GeoAPI {
+public class GeoApiDescendants extends GeoAPI {
 
-    private static Logger logger = LogManager.getLogger(GeoApiAscendants.class);
+    private static Logger logger = LogManager.getLogger(GeoApiDescendants.class);
 
-    @Path("/commune/{code: [0-9][0-9AB][0-9]{3}}/ascendants")
+    @Path("/commune/{code: [0-9][0-9AB][0-9]{3}}/descendants")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = "getcogcomasc",
-        summary = "Récupérer les informations concernant les territoires qui contiennent la commune",
+        operationId = "getcogcomdesc",
+        summary = "Récupérer les informations concernant les territoires inclus dans la commune",
         description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
         responses = {
             @ApiResponse(content = @Content(schema = @Schema(implementation = Commune.class)), description = "Commune")
         })
-    public Response getAscendantsFromCommune(
+    public Response getDescendantsFromCommune(
         @Parameter(
             description = "Code de la commune (cinq caractères)",
             required = true,
@@ -76,21 +76,21 @@ public class GeoApiAscendants extends GeoAPI {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getAscendantsCommune(code, date, type));
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDescendantsCommune(code, date, type));
             List<Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, Territoire.class);
             return this
                 .generateListStatusResponse(Territoires.class, listeTerritoires, this.getFirstValidHeader(header));
         }
     }
 
-    @Path("/departement/{code: ([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])}/ascendants")
+    @Path("/departement/{code: ([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])}/descendants")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = "getcogcdepasc",
-        summary = "Récupérer les informations concernant les territoires qui contiennent le département",
+        operationId = "getcogcdepdesc",
+        summary = "Récupérer les informations concernant les territoires inclus dans le département",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Departement.class)),
@@ -129,7 +129,7 @@ public class GeoApiAscendants extends GeoAPI {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getAscendantsDepartement(code, date, type));
+            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDescendantsDepartement(code, date, type));
             List<Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, Territoire.class);
             return this
                 .generateListStatusResponse(Territoires.class, listeTerritoires, this.getFirstValidHeader(header));
