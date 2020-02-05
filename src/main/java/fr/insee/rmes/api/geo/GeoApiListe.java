@@ -14,12 +14,12 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.modeles.geo.Commune;
-import fr.insee.rmes.modeles.geo.Communes;
-import fr.insee.rmes.modeles.geo.Departement;
-import fr.insee.rmes.modeles.geo.Departements;
-import fr.insee.rmes.modeles.geo.Region;
-import fr.insee.rmes.modeles.geo.Regions;
+import fr.insee.rmes.modeles.geo.territoire.Commune;
+import fr.insee.rmes.modeles.geo.territoire.Departement;
+import fr.insee.rmes.modeles.geo.territoire.Region;
+import fr.insee.rmes.modeles.geo.territoires.Communes;
+import fr.insee.rmes.modeles.geo.territoires.Departements;
+import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
-import fr.insee.rmes.modeles.geo.Territoire;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
 
 public class CSVUtils {
 

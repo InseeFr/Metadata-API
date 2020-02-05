@@ -15,11 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.modeles.geo.Arrondissement;
-import fr.insee.rmes.modeles.geo.Commune;
-import fr.insee.rmes.modeles.geo.Country;
-import fr.insee.rmes.modeles.geo.Departement;
-import fr.insee.rmes.modeles.geo.Region;
+import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
+import fr.insee.rmes.modeles.geo.territoire.Commune;
+import fr.insee.rmes.modeles.geo.territoire.Country;
+import fr.insee.rmes.modeles.geo.territoire.Departement;
+import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

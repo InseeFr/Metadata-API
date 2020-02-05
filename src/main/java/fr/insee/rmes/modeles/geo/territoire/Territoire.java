@@ -1,4 +1,4 @@
-package fr.insee.rmes.modeles.geo;
+package fr.insee.rmes.modeles.geo.territoire;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,47 +9,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "Arrondissement")
+@JacksonXmlRootElement(localName = "Territoire")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Schema(description = "Objet représentant un arrondissement")
-public class Arrondissement extends Territoire {
+@Schema(description = "Objet représentant un territoire")
+public abstract class Territoire {
 
-    @Schema(example = "591")
-    private String code = null;
+    protected String code = null;
 
-    @Schema(example = "http://id.insee.fr/geo/arrondissement/591")
-    private String uri = null;
+    protected String uri = null;
 
-    @Schema(example = "Avesnes-sur-Helpe")
-    private String intitule = null;
+    protected String intitule = null;
 
-    @Schema(example = "Arrondissement")
-    private String type = EnumTypeGeographie.ARRONDISSEMENT.getTypeObjetGeo();
+    protected String type;
 
-    @Schema(description = "Date de création de l’arrondissement s’il a été créé après le 1er janvier 1993")
     @JsonInclude(Include.NON_EMPTY)
-    private String dateCreation = null;
+    protected String dateCreation = null;
 
-    @Schema(description = "Date de suppression de l’arrondissement s’il a été supprimé. ")
     @JsonInclude(Include.NON_EMPTY)
-    private String dateSuppression = null;
+    protected String dateSuppression = null;
 
-    private IntituleSansArticle intituleSansArticle;
+    protected IntituleSansArticle intituleSansArticle;
 
-    @Schema(description = "Code Insee de la commune sous-préfecture de l’arrondissement.")
-    private String chefLieu = null;
-
-    // No-args constructor needed for JAXB
-    public Arrondissement() {
-        this.intituleSansArticle = new IntituleSansArticle();
-    }
-
-    public Arrondissement(String code) {
-        this.code = code;
-        this.intituleSansArticle = new IntituleSansArticle();
-    }
+    @JsonInclude(Include.NON_EMPTY)
+    protected String chefLieu = null;
 
     @JacksonXmlProperty(isAttribute = true)
     public String getCode() {

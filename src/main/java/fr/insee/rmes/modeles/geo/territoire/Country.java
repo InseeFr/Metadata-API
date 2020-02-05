@@ -1,4 +1,4 @@
-package fr.insee.rmes.modeles.geo;
+package fr.insee.rmes.modeles.geo.territoire;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

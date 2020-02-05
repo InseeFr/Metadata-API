@@ -1,4 +1,4 @@
-package fr.insee.rmes.modeles.geo;
+package fr.insee.rmes.modeles.geo.territoires;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import fr.insee.rmes.modeles.geo.territoire.Region;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @JacksonXmlRootElement(localName = "Regions")

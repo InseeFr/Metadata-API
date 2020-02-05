@@ -5,8 +5,8 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
-import fr.insee.rmes.modeles.geo.Territoire;
-import fr.insee.rmes.modeles.geo.Territoires;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.Territoires;
 
 public abstract class AbstractGeoAscendantsAnsDescendantsApi extends GeoAPI {
 

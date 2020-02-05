@@ -16,9 +16,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
-import fr.insee.rmes.modeles.geo.Commune;
-import fr.insee.rmes.modeles.geo.Departement;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
+import fr.insee.rmes.modeles.geo.territoire.Commune;
+import fr.insee.rmes.modeles.geo.territoire.Departement;
 
 @ExtendWith(MockitoExtension.class)
 public class GeoApiDescendantsTest extends AbstractApiTest {

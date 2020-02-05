@@ -3,6 +3,12 @@ package fr.insee.rmes.modeles.geo;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
+import fr.insee.rmes.modeles.geo.territoire.Commune;
+import fr.insee.rmes.modeles.geo.territoire.Departement;
+import fr.insee.rmes.modeles.geo.territoire.Region;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
+
 public enum EnumTypeGeographie {
 
     COMMUNE("Commune", Commune.class),
