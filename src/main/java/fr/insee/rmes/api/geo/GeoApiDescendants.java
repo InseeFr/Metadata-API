@@ -96,7 +96,7 @@ public class GeoApiDescendants extends GeoAPI {
                 content = @Content(schema = @Schema(implementation = Departement.class)),
                 description = "Departement")
         })
-    public Response getAscendantsFromDepartement(
+    public Response getDescendantsFromDepartement(
         @Parameter(
             description = "Code du département (deux ou trois chiffres, ou 2A, 2B)",
             required = true,
