@@ -60,7 +60,7 @@ public class GeoApiDescendants extends GeoAPI {
             required = false,
             schema = @Schema(type = "string")) @QueryParam(value = "type") String type) {
 
-        logger.debug("Received GET request for ascendants of commune {}", code);
+        logger.debug("Received GET request for descendants of commune {}", code);
 
         date = this.formatDate(date);
         boolean typeExiste = Boolean.TRUE;
@@ -113,7 +113,7 @@ public class GeoApiDescendants extends GeoAPI {
             required = false,
             schema = @Schema(type = "string")) @QueryParam(value = "type") String type) {
 
-        logger.debug("Received GET request for ascendants of departement {}", code);
+        logger.debug("Received GET request for descendants of departement {}", code);
 
         date = this.formatDate(date);
         boolean typeExiste = Boolean.TRUE;

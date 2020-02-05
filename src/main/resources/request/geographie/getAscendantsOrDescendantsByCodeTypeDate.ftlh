@@ -4,10 +4,10 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			?origine a igeo:${typeOrigine} ;
 			       igeo:codeINSEE '${code}' .
 				   
-<#if ascendant != "true">
+<#if ascendant = "true">
 			?origine igeo:subdivisionDirecteDe+ ?uri .
 <#else>
-			?origine (^:subdivisionDirecteDe)+ ?uri .
+			?uri igeo:subdivisionDirecteDe+ ?origine .
 </#if>				   
 				   
 			?uri igeo:codeINSEE ?code ;
@@ -26,15 +26,15 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			}
 
 			OPTIONAL {
-				?evenementCreationEnfant igeo:creation ?enfant ;
-					               igeo:date ?dateCreationEnfant .
+				?evenementCreationOrigine igeo:creation ?origine ;
+					               igeo:date ?dateCreationOrigine.
 			}
 			OPTIONAL {
-				?evenementSuppressionEnfant igeo:suppression ?enfant ;
-					                  igeo:date ?dateSuppressionEnfant.
+				?evenementSuppressionOrigine igeo:suppression ?origine ;
+					                  igeo:date ?dateSuppressionOrigine.
 			}
-			FILTER(!BOUND(?dateCreationEnfant) || ?dateCreationEnfant <= '${date}'^^xsd:date)
-			FILTER(!BOUND(?dateSuppressionEnfant) || ?dateSuppressionEnfant > '${date}'^^xsd:date)
+			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date)
+			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
 			
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
