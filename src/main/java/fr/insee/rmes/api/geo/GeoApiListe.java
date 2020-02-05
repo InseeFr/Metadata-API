@@ -57,13 +57,12 @@ public class GeoApiListe extends GeoAPI {
 
         logger.debug("Received GET request for all communes");
 
-        date = this.formatDate(date);
-
-        if (date == null) {
+        if ( ! this.verifyParameterDateIsRight(date)) {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListCommunes(date));
+            String csvResult =
+                sparqlUtils.executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date)));
             List<Commune> listeCommune = csvUtils.populateMultiPOJO(csvResult, Commune.class);
             return this.generateListStatusResponse(Communes.class, listeCommune, this.getFirstValidHeader(header));
         }
@@ -91,13 +90,12 @@ public class GeoApiListe extends GeoAPI {
 
         logger.debug("Received GET request for all departements");
 
-        date = this.formatDate(date);
-
-        if (date == null) {
+        if ( ! this.verifyParameterDateIsRight(date)) {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListDept(date));
+            String csvResult =
+                sparqlUtils.executeSparqlQuery(GeoQueries.getListDept(this.formatValidParameterDateIfIsNull(date)));
             List<Departement> listeDepartement = csvUtils.populateMultiPOJO(csvResult, Departement.class);
             return this
                 .generateListStatusResponse(Departements.class, listeDepartement, this.getFirstValidHeader(header));
@@ -126,13 +124,12 @@ public class GeoApiListe extends GeoAPI {
 
         logger.debug("Received GET request for all regions");
 
-        date = this.formatDate(date);
-
-        if (date == null) {
+        if ( ! this.verifyParameterDateIsRight(date)) {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getListRegion(date));
+            String csvResult =
+                sparqlUtils.executeSparqlQuery(GeoQueries.getListRegion(this.formatValidParameterDateIfIsNull(date)));
             List<Region> listeRegion = csvUtils.populateMultiPOJO(csvResult, Region.class);
             return this.generateListStatusResponse(Regions.class, listeRegion, this.getFirstValidHeader(header));
         }

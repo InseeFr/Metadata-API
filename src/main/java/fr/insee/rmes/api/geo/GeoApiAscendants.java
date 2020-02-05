@@ -1,7 +1,5 @@
 package fr.insee.rmes.api.geo;
 
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -17,8 +15,6 @@ import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.modeles.geo.Commune;
 import fr.insee.rmes.modeles.geo.Departement;
-import fr.insee.rmes.modeles.geo.Territoire;
-import fr.insee.rmes.modeles.geo.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/geo")
 @Tag(name = "geographie", description = "Geographie API")
-public class GeoApiAscendants extends GeoAPI {
+public class GeoApiAscendants extends AbstractGeoAscendantsAnsDescendantsApi {
 
     private static Logger logger = LogManager.getLogger(GeoApiAscendants.class);
 
@@ -58,28 +54,24 @@ public class GeoApiAscendants extends GeoAPI {
         @Parameter(
             description = "Filtre sur le type de territoire renvoyé.",
             required = false,
-            schema = @Schema(type = "string")) @QueryParam(value = "type") String type) {
+            schema = @Schema(type = "string")) @QueryParam(value = "type") String typeTerritoire) {
 
         logger.debug("Received GET request for ascendants of commune {}", code);
 
-        date = this.formatDate(date);
-        boolean typeExiste = Boolean.TRUE;
-
-        if (type != null) {
-            typeExiste = this.verifyTypeExists(type);
-        }
-        else {
-            type = "none";
-        }
-
-        if (date == null || ! typeExiste) {
+        if ( ! this.verifyParametersApiAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getAscendantsCommune(code, date, type));
-            List<Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, Territoire.class);
             return this
-                .generateListStatusResponse(Territoires.class, listeTerritoires, this.getFirstValidHeader(header));
+                .generateResponseListOfTerritoireForAscendantsOrDescendants(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getAscendantsCommune(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                    header);
         }
     }
 
@@ -111,28 +103,25 @@ public class GeoApiAscendants extends GeoAPI {
         @Parameter(
             description = "Filtre sur le type de territoire renvoyé.",
             required = false,
-            schema = @Schema(type = "string")) @QueryParam(value = "type") String type) {
+            schema = @Schema(type = "string")) @QueryParam(value = "type") String typeTerritoire) {
 
         logger.debug("Received GET request for ascendants of departement {}", code);
 
-        date = this.formatDate(date);
-        boolean typeExiste = Boolean.TRUE;
-
-        if (type != null) {
-            typeExiste = this.verifyTypeExists(type);
-        }
-        else {
-            type = "none";
-        }
-
-        if (date == null || ! typeExiste) {
+        if ( ! this.verifyParametersApiAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getAscendantsDepartement(code, date, type));
-            List<Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, Territoire.class);
+
             return this
-                .generateListStatusResponse(Territoires.class, listeTerritoires, this.getFirstValidHeader(header));
+                .generateResponseListOfTerritoireForAscendantsOrDescendants(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getAscendantsDepartement(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                    header);
         }
     }
 }

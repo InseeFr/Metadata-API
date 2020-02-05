@@ -16,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.MetadataApi;
-import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.utils.DateUtils;
 
 public abstract class GeoAPI extends MetadataApi {
@@ -61,20 +60,6 @@ public abstract class GeoAPI extends MetadataApi {
         return Response.status(Status.BAD_REQUEST).entity("").build();
     }
 
-    public String formatDate(String parameter) {
-        if (parameter != null) {
-            if (DateUtils.isValidDate(parameter)) {
-                return parameter;
-            }
-            else {
-                return null;
-            }
-        }
-        else {
-            return DateUtils.getDateTodayStringFormat();
-        }
-    }
-
     /**
      * @param header from the url contains the list of headers accepted
      * @return the first valid header
@@ -93,11 +78,12 @@ public abstract class GeoAPI extends MetadataApi {
         }
     }
 
-    public boolean verifyTypeExists(String type) {
-        return EnumTypeGeographie
-            .streamValuesTypeGeo()
-            .filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(type))
-            .findAny()
-            .isPresent();
+    protected boolean verifyParameterDateIsRight(String date) {
+        return (date == null) || (DateUtils.isValidDate(date));
     }
+
+    public String formatValidParameterDateIfIsNull(String date) {
+        return (date != null) ? date : DateUtils.getDateTodayStringFormat();
+    }
+
 }
