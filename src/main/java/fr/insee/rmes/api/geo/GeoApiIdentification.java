@@ -15,11 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.modeles.geo.Arrondissement;
-import fr.insee.rmes.modeles.geo.Commune;
-import fr.insee.rmes.modeles.geo.Country;
-import fr.insee.rmes.modeles.geo.Departement;
-import fr.insee.rmes.modeles.geo.Region;
+import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
+import fr.insee.rmes.modeles.geo.territoire.Commune;
+import fr.insee.rmes.modeles.geo.territoire.Country;
+import fr.insee.rmes.modeles.geo.territoire.Departement;
+import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -59,13 +59,14 @@ public class GeoApiIdentification extends GeoAPI {
 
         logger.debug("Received GET request for commune {}", code);
 
-        date = this.formatDate(date);
-
-        if (date == null) {
+        if ( ! this.verifyParameterDateIsRight(date)) {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCommuneByCodeAndDate(code, date));
+            String csvResult =
+                sparqlUtils
+                    .executeSparqlQuery(
+                        GeoQueries.getCommuneByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date)));
             Commune commune = (Commune) csvUtils.populatePOJO(csvResult, new Commune(code));
             return this
                 .generateStatusResponse(
@@ -133,13 +134,14 @@ public class GeoApiIdentification extends GeoAPI {
 
         logger.debug("Received GET request for region {}", code);
 
-        date = this.formatDate(date);
-
-        if (date == null) {
+        if ( ! this.verifyParameterDateIsRight(date)) {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getRegionByCodeAndDate(code, date));
+            String csvResult =
+                sparqlUtils
+                    .executeSparqlQuery(
+                        GeoQueries.getRegionByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date)));
             Region region = (Region) csvUtils.populatePOJO(csvResult, new Region(code));
             return this
                 .generateStatusResponse(
@@ -175,13 +177,14 @@ public class GeoApiIdentification extends GeoAPI {
 
         logger.debug("Received GET request for departement {}", code);
 
-        date = this.formatDate(date);
-
-        if (date == null) {
+        if ( ! this.verifyParameterDateIsRight(date)) {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getDepartementByCodeAndDate(code, date));
+            String csvResult =
+                sparqlUtils
+                    .executeSparqlQuery(
+                        GeoQueries.getDepartementByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date)));
             Departement departement = (Departement) csvUtils.populatePOJO(csvResult, new Departement(code));
             return this
                 .generateStatusResponse(
@@ -217,13 +220,14 @@ public class GeoApiIdentification extends GeoAPI {
 
         logger.debug("Received GET request for arrondissement {}", code);
 
-        date = this.formatDate(date);
-
-        if (date == null) {
+        if ( ! this.verifyParameterDateIsRight(date)) {
             return this.generateBadRequestResponse();
         }
         else {
-            String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getArrondissementByCodeAndDate(code, date));
+            String csvResult =
+                sparqlUtils
+                    .executeSparqlQuery(
+                        GeoQueries.getArrondissementByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date)));
             Arrondissement arrondissement = (Arrondissement) csvUtils.populatePOJO(csvResult, new Arrondissement(code));
             return this
                 .generateStatusResponse(

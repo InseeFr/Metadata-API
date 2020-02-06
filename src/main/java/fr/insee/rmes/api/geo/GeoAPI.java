@@ -60,20 +60,6 @@ public abstract class GeoAPI extends MetadataApi {
         return Response.status(Status.BAD_REQUEST).entity("").build();
     }
 
-    public String formatDate(String parameter) {
-        if (parameter != null) {
-            if (DateUtils.isValidDate(parameter)) {
-                return parameter;
-            }
-            else {
-                return null;
-            }
-        }
-        else {
-            return DateUtils.getDateTodayStringFormat();
-        }
-    }
-
     /**
      * @param header from the url contains the list of headers accepted
      * @return the first valid header
@@ -91,4 +77,13 @@ public abstract class GeoAPI extends MetadataApi {
             return header;
         }
     }
+
+    protected boolean verifyParameterDateIsRight(String date) {
+        return (date == null) || (DateUtils.isValidDate(date));
+    }
+
+    public String formatValidParameterDateIfIsNull(String date) {
+        return (date != null) ? date : DateUtils.getDateTodayStringFormat();
+    }
+
 }
