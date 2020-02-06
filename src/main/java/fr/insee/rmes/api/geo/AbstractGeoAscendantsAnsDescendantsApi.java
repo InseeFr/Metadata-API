@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.utils.Constants;
 
 public abstract class AbstractGeoAscendantsAnsDescendantsApi extends GeoAPI {
 
@@ -24,7 +25,7 @@ public abstract class AbstractGeoAscendantsAnsDescendantsApi extends GeoAPI {
     }
 
     public String formatValidParametertypeTerritoireIfIsNull(String typeTerritoire) {
-        return (typeTerritoire != null) ? typeTerritoire : "none";
+        return (typeTerritoire != null) ? typeTerritoire : Constants.NONE;
     }
 
     protected Response generateResponseListOfTerritoireForAscendantsOrDescendants(String csvResult, String header) {
