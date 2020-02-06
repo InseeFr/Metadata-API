@@ -16,11 +16,11 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
-import fr.insee.rmes.modeles.geo.Arrondissement;
-import fr.insee.rmes.modeles.geo.Commune;
-import fr.insee.rmes.modeles.geo.Country;
-import fr.insee.rmes.modeles.geo.Departement;
-import fr.insee.rmes.modeles.geo.Region;
+import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
+import fr.insee.rmes.modeles.geo.territoire.Commune;
+import fr.insee.rmes.modeles.geo.territoire.Country;
+import fr.insee.rmes.modeles.geo.territoire.Departement;
+import fr.insee.rmes.modeles.geo.territoire.Region;
 
 @ExtendWith(MockitoExtension.class)
 public class GeoApiIdentificationTest extends AbstractApiTest {

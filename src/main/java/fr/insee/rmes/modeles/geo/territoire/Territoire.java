@@ -1,4 +1,4 @@
-package fr.insee.rmes.modeles.geo;
+package fr.insee.rmes.modeles.geo.territoire;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,46 +9,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "Commune")
+@JacksonXmlRootElement(localName = "Territoire")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Schema(description = "Objet représentant une commune")
-public class Commune {
+@Schema(description = "Objet représentant un territoire")
+public abstract class Territoire {
 
-    @Schema(example = "55323")
-    private String code = null;
+    protected String code = null;
 
-    @Schema(example = "http://id.insee.fr/geo/commune/55323")
-    private String uri = null;
+    protected String uri = null;
 
-    @Schema(example = "L'Aigle")
-    private String intitule = null;
+    protected String intitule = null;
 
-    @Schema(example = "Commune")
-    private String type = EnumTypeGeographie.COMMUNE.getTypeObjetGeo();
+    protected String type;
 
-    @Schema(
-        description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943",
-        example = "1943-01-01")
     @JsonInclude(Include.NON_EMPTY)
-    private String dateCreation = null;
+    protected String dateCreation = null;
 
-    @Schema(description = "Date de suppression de la commune si elle a été supprimée. ", example = "2019-01-01")
     @JsonInclude(Include.NON_EMPTY)
-    private String dateSuppression = null;
+    protected String dateSuppression = null;
 
-    private IntituleSansArticle intituleSansArticle;
+    protected IntituleSansArticle intituleSansArticle;
 
-    // No-args constructor needed for JAXB
-    public Commune() {
-        this.intituleSansArticle = new IntituleSansArticle();
-    }
-
-    public Commune(String code) {
-        this.code = code;
-        this.intituleSansArticle = new IntituleSansArticle();
-    }
+    @JsonInclude(Include.NON_EMPTY)
+    protected String chefLieu = null;
 
     @JacksonXmlProperty(isAttribute = true)
     public String getCode() {
@@ -122,4 +108,12 @@ public class Commune {
         this.intituleSansArticle.setTypeArticle(typeArticle);
     }
 
+    @JacksonXmlProperty(localName = "ChefLieu")
+    public String getChefLieu() {
+        return chefLieu;
+    }
+
+    public void setChefLieu(String chefLieu) {
+        this.chefLieu = chefLieu;
+    }
 }

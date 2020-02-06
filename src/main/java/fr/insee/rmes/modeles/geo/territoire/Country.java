@@ -1,4 +1,4 @@
-package fr.insee.rmes.modeles.geo;
+package fr.insee.rmes.modeles.geo.territoire;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Pays")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant un pays")
-public class Country {
+public class Country extends Territoire {
 
     @Schema(example = "99217")
     private String code = null;

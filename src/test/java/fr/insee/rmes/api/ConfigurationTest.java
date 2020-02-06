@@ -13,29 +13,27 @@ public class ConfigurationTest {
 
     private static String sparqlEndPoint = "";
 
-    //Base for all uri in our database
+    // Base for all uri in our database
     private static String baseHost = "";
-    
-    //folder where documents are stored
+
+    // folder where documents are stored
     private static String fileStorage = "";
-    //Server where documents are stored
+    // Server where documents are stored
     private static String fileStorageLocation = "";
 
-    //API Server
+    // API Server
     private static String swaggerHost = "";
-    //API name
+    // API name
     private static String swaggerBasepath = "";
-    //Build with host and basepath
+    // Build with host and basepath
     private static String swaggerUrl = "";
-    //Https or Http
+    // Https or Http
     private static Boolean requiresSsl = false;
 
     private Properties getProperties() throws IOException {
         Properties props = new Properties();
-        props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
-        this.loadIfExists(props, "rmes-api.properties");
-        this.loadIfExists(props, "rmeswnci.properties");
-        this.loadIfExists(props, "rmeswncz.properties");
+        props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api-test.properties"));
+        this.loadIfExists(props, "rmes-api-test.properties");
         return props;
     }
 

@@ -9,7 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import fr.insee.rmes.modeles.geo.Region;
+import fr.insee.rmes.modeles.geo.territoire.Region;
 
 // TODO needs to be transformed into fonctional test
 
