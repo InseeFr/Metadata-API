@@ -3,7 +3,7 @@ package fr.insee.rmes.modeles.geo.territoire;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 
-public class CommuneAssociee extends Territoire {
+public class CommuneAssociee extends Commune {
 
     // No-args constructor needed for JAXB
     public CommuneAssociee() {
