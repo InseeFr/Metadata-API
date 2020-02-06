@@ -20,9 +20,9 @@ public enum EnumTypeGeographie {
     DEPARTEMENT("Departement", Departement.class),
     ARRONDISSEMENT("Arrondissement", Arrondissement.class),
     CANTON("Canton", Canton.class),
-    COMMUNE_DELEGUEE("Commune deleguee", CommuneDeleguee.class),
-    COMMUNE_ASSOCIEE("Commune associee", CommuneAssociee.class),
-    ARRONDISSEMENT_MUNICIPAL("Arrondissement municipal", ArrondissementMunicipal.class);
+    COMMUNE_DELEGUEE("CommuneDeleguee", CommuneDeleguee.class),
+    COMMUNE_ASSOCIEE("CommuneAssociee", CommuneAssociee.class),
+    ARRONDISSEMENT_MUNICIPAL("ArrondissementMunicipal", ArrondissementMunicipal.class);
 
     private String typeObjetGeo;
 
