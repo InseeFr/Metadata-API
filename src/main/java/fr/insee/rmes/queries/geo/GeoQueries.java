@@ -4,41 +4,66 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.insee.rmes.config.Configuration;
+import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.queries.Queries;
+import fr.insee.rmes.utils.Constants;
 
 public class GeoQueries extends Queries {
 
-    private static final String NONE = "none";
     private static final String QUERIES_FOLDER = "geographie/";
 
     /* IDENTIFICATION*/
     public static String getCommuneByCodeAndDate(String code, String date) {
-        return queryWithCodeAndDateParam(code, date, "getCommuneByCodeAndDate.ftlh");
+        return getTerritoire(code, date, EnumTypeGeographie.COMMUNE);
     }
 
     public static String getDepartementByCodeAndDate(String code, String date) {
-        return queryWithCodeAndDateParam(code, date, "getDeptByCodeAndDate.ftlh");
+        return getTerritoire(code, date, EnumTypeGeographie.DEPARTEMENT);
     }
 
     public static String getRegionByCodeAndDate(String code, String date) {
-        return queryWithCodeAndDateParam(code, date, "getRegionByCodeAndDate.ftlh");
+        return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }
 
     public static String getArrondissementByCodeAndDate(String code, String date) {
-        return queryWithCodeAndDateParam(code, date, "getArrondissementByCodeAndDate.ftlh");
+        return getTerritoire(code, date, EnumTypeGeographie.ARRONDISSEMENT);
+    }
+    
+    public static String getCommuneAssocieeByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.COMMUNE_ASSOCIEE);
+    }
+    
+    public static String getCommuneDelegueeByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.COMMUNE_DELEGUEE);
     }
     
     /* LIST */
     public static String getListCommunes(String date) {
-        return queryWithCodeAndDateParam(NONE, date, "getCommuneByCodeAndDate.ftlh");
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COMMUNE);
     }
     
     public static String getListDept(String date) {
-        return queryWithCodeAndDateParam(NONE, date, "getDeptByCodeAndDate.ftlh");
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.DEPARTEMENT);
     }
     
     public static String getListRegion(String date) {
-        return queryWithCodeAndDateParam(NONE, date, "getRegionByCodeAndDate.ftlh");
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.REGION);
+    }
+    
+    public static String getListArrondissements(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.ARRONDISSEMENT);
+    }
+    
+    public static String getListArrondissementsMunicipaux(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL);
+    }
+    
+    public static String getListCommunesAssociees(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COMMUNE_ASSOCIEE);
+    }
+    
+    public static String getListCommunesDeleguees(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COMMUNE_DELEGUEE);
     }
     
     
@@ -76,9 +101,11 @@ public class GeoQueries extends Queries {
 
     
     /* UTILS */
-    private static String queryWithCodeAndDateParam(String code, String date, String queryFile) {
+    private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
-        return buildRequest(QUERIES_FOLDER, queryFile, params);
+        params.put("territoire",typeGeo.getTypeObjetGeo());
+        params.put("chefLieu",typeGeo.getChefLieuPredicate());
+        return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDate.ftlh", params);
     }
 
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
