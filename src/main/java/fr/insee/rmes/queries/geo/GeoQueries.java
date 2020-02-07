@@ -37,6 +37,11 @@ public class GeoQueries extends Queries {
         return getTerritoire(code, date, EnumTypeGeographie.COMMUNE_DELEGUEE);
     }
     
+    public static String getArrondissementmunicipalByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL);
+    }
+
+    
     /* LIST */
     public static String getListCommunes(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COMMUNE);
@@ -135,10 +140,6 @@ public class GeoQueries extends Queries {
             + "}";
     }
 
-    public static String getArrondissementmunicipalByCodeAndDate(String code, String formatValidParameterDateIfIsNull) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
   
 
