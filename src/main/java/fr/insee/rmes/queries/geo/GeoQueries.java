@@ -135,6 +135,11 @@ public class GeoQueries extends Queries {
             + "}";
     }
 
+    public static String getArrondissementmunicipalByCodeAndDate(String code, String formatValidParameterDateIfIsNull) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
   
 
 
