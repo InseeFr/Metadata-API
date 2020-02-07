@@ -1,5 +1,8 @@
 package fr.insee.rmes.modeles.geo.territoire;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Territoire {
 
     protected String code = null;

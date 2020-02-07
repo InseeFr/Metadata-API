@@ -13,9 +13,7 @@ import fr.insee.rmes.modeles.StringXmlMixIn;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import fr.insee.rmes.modeles.geo.IntituleSansArticleXmlMixIn;
 import fr.insee.rmes.modeles.geo.ZoneGeoJsonMixIn;
-import fr.insee.rmes.modeles.geo.territoire.Commune;
-import fr.insee.rmes.modeles.geo.territoire.Departement;
-import fr.insee.rmes.modeles.geo.territoire.Region;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
 
 public class ResponseUtils {
 
@@ -31,9 +29,7 @@ public class ResponseUtils {
         }
         else {
             mapper = new ObjectMapper();
-            mapper.addMixIn(Commune.class, ZoneGeoJsonMixIn.class);
-            mapper.addMixIn(Region.class, ZoneGeoJsonMixIn.class);
-            mapper.addMixIn(Departement.class, ZoneGeoJsonMixIn.class);
+            mapper.addMixIn(Territoire.class, ZoneGeoJsonMixIn.class);
         }
         try {
             response = mapper.writeValueAsString(obj);
