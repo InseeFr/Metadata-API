@@ -338,7 +338,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = "getcogarr",
+        operationId = "getcogarrmun",
         summary = "Informations sur un arrondissement municipal français identifié par son code (trois chiffres)",
         responses = {
             @ApiResponse(content = @Content(schema = @Schema(implementation = ArrondissementMunicipal.class)))
