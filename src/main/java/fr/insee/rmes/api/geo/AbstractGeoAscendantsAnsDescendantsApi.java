@@ -19,9 +19,7 @@ public abstract class AbstractGeoAscendantsAnsDescendantsApi extends GeoAPI {
         return (typeTerritoire == null)
             || (EnumTypeGeographie
                 .streamValuesTypeGeo()
-                .filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(typeTerritoire))
-                .findAny()
-                .isPresent());
+                .anyMatch(s -> s.getTypeObjetGeo().equalsIgnoreCase(typeTerritoire)));
     }
 
     public String formatValidParametertypeTerritoireIfIsNull(String typeTerritoire) {
