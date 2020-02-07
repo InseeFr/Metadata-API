@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
-import fr.insee.rmes.api.MetadataApi;
+import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.classification.Activite;
 import fr.insee.rmes.modeles.classification.Activites;
 import fr.insee.rmes.modeles.classification.cj.CategorieJuridique;
@@ -44,7 +44,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/codes")
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
-public class CodesAPI extends MetadataApi {
+public class CodesAPI extends AbstractMetadataApi {
 
     private static Logger logger = LogManager.getLogger(CodesAPI.class);
 

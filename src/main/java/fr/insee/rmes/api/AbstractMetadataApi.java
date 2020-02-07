@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
     @ApiResponse(responseCode = "406", description = "L'en-tête HTTP 'Accept' contient une valeur non acceptée"),
     @ApiResponse(responseCode = "500", description = "Erreur interne du serveur")
 })
-public abstract class MetadataApi {
+public abstract class AbstractMetadataApi {
     
     protected static final String ARRAY = "array";
 
@@ -24,7 +24,7 @@ public abstract class MetadataApi {
 
     protected ResponseUtils responseUtils;
 
-    public MetadataApi() {
+    public AbstractMetadataApi() {
 
         this.sparqlUtils = new SparqlUtils();
         this.csvUtils = new CSVUtils();

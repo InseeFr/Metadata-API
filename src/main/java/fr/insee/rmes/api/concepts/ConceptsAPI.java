@@ -17,7 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.api.MetadataApi;
+import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.concepts.Definition;
 import fr.insee.rmes.modeles.concepts.Definitions;
 import fr.insee.rmes.queries.concepts.ConceptsQueries;
@@ -30,7 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/concepts")
 @Tag(name = "concepts", description = "Concepts API")
-public class ConceptsAPI extends MetadataApi {
+public class ConceptsAPI extends AbstractMetadataApi {
 
     private static Logger logger = LogManager.getLogger(ConceptsAPI.class);
 

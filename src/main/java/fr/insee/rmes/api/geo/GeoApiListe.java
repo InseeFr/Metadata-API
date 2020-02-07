@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/geo")
 @Tag(name = "geographie", description = "Geographie API")
-public class GeoApiListe extends GeoAPI {
+public class GeoApiListe extends AbstractGeoApi {
 
     private static Logger logger = LogManager.getLogger(GeoApiListe.class);
 

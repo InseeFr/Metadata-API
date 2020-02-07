@@ -11,7 +11,7 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import fr.insee.rmes.api.geo.GeoAPI;
+import fr.insee.rmes.api.geo.AbstractGeoApi;
 
 // TODO needs to be transformed into fonctional test
 
@@ -20,7 +20,7 @@ public class GeoAPITest extends JerseyTest {
 
     @Override
     public Application configure() {
-        return new ResourceConfig(GeoAPI.class);
+        return new ResourceConfig(AbstractGeoApi.class);
     }
 
     @Test

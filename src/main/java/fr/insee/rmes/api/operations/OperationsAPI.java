@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.api.MetadataApi;
+import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.operations.CsvIndicateur;
 import fr.insee.rmes.modeles.operations.CsvSerie;
 import fr.insee.rmes.modeles.operations.Famille;
@@ -37,7 +37,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/operations")
 @Tag(name = "operations", description = "Operations API")
-public class OperationsAPI extends MetadataApi {
+public class OperationsAPI extends AbstractMetadataApi {
 
     private static Logger logger = LogManager.getLogger(OperationsAPI.class);
     private OperationsApiService operationsApiService = new OperationsApiService();
