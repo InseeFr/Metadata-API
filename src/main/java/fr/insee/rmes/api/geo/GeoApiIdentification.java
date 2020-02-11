@@ -332,7 +332,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
 
     }
 
-    @Path("/arrondissementmunicipal/{code: (([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]}")
+    @Path("/arrondissementmunicipal/{code}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
