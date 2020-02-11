@@ -300,7 +300,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
                 content = @Content(schema = @Schema(implementation = CommuneDeleguee.class)),
                 description = "Commune déléguée")
         })
-    public Response getCommuneAssociée(
+    public Response getCommuneDeleguee(
         @Parameter(
             description = "Code de la commune déléguée (cinq caractères)",
             required = true,
