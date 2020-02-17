@@ -3,15 +3,12 @@ package fr.insee.rmes.modeles.geo.territoire;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
-import fr.insee.rmes.modeles.geo.TerritoireIdResolver;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CUSTOM, include = JsonTypeInfo.As.WRAPPER_OBJECT)
-@JsonTypeIdResolver(value = TerritoireIdResolver.class)
+// @JsonTypeInfo(use = JsonTypeInfo.Id.CUSTOM, include = JsonTypeInfo.As.WRAPPER_OBJECT)
+// @JsonTypeIdResolver(value = TerritoireIdResolver.class)
 public abstract class Territoire {
 
     protected String code = null;
