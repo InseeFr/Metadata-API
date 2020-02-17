@@ -19,7 +19,7 @@ public enum EnumTypeGeographie {
     COMMUNE("Commune", Commune.class, Constants.NONE),
     REGION("Region", Region.class, "prefectureDeRegion"),
     DEPARTEMENT("Departement", Departement.class, "prefecture"),
-    ARRONDISSEMENT("Arrondissement", Arrondissement.class, Constants.NONE),
+    ARRONDISSEMENT("Arrondissement", Arrondissement.class, "sousPrefecture"),
     CANTON("Canton", Canton.class, Constants.NONE),
     COMMUNE_DELEGUEE("CommuneDeleguee", CommuneDeleguee.class, Constants.NONE),
     COMMUNE_ASSOCIEE("CommuneAssociee", CommuneAssociee.class, Constants.NONE),
