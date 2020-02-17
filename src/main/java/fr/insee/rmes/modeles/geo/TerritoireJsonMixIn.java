@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
-public abstract class ZoneGeoJsonMixIn {
+public abstract class TerritoireJsonMixIn {
 
     @JsonCreator
-    public ZoneGeoJsonMixIn(
+    public TerritoireJsonMixIn(
         String code,
         String uri,
         String intitule,
