@@ -22,11 +22,8 @@ public abstract class AbstractGeoAscendantsAnsDescendantsApi extends AbstractGeo
                 .anyMatch(s -> s.getTypeObjetGeo().equalsIgnoreCase(typeTerritoire)));
     }
 
-    // Transformation of the input typeTerritoire : if input is not null, the first letter must be in upper case, the
-    // other letters in lower case
     public String formatValidParametertypeTerritoireIfIsNull(String typeTerritoire) {
-        return (typeTerritoire != null)
-            ? typeTerritoire.substring(0, 1).toUpperCase() + typeTerritoire.substring(1).toLowerCase() : Constants.NONE;
+        return (typeTerritoire != null) ? EnumTypeGeographie.getTypeObjetGeoIgnoreCase(typeTerritoire) : Constants.NONE;
     }
 
     protected Response generateResponseListOfTerritoireForAscendantsOrDescendants(String csvResult, String header) {

@@ -28,10 +28,13 @@ public enum EnumTypeGeographie {
     private String typeObjetGeo;
 
     private Class<? extends Territoire> classNameOfGeoType;
-    
+
     private String chefLieuPredicate;
 
-    private <T> EnumTypeGeographie(String typeObjetGeo, Class<? extends Territoire> classNameOfGeoType, String chefLieuPredicate) {
+    private <T> EnumTypeGeographie(
+        String typeObjetGeo,
+        Class<? extends Territoire> classNameOfGeoType,
+        String chefLieuPredicate) {
         this.typeObjetGeo = typeObjetGeo;
         this.classNameOfGeoType = classNameOfGeoType;
         this.chefLieuPredicate = chefLieuPredicate;
@@ -53,6 +56,15 @@ public enum EnumTypeGeographie {
         Optional<EnumTypeGeographie> optionalClass =
             streamValuesTypeGeo().filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(type)).findAny();
         return optionalClass.isPresent() ? optionalClass.get().getClassNameOfGeoType() : null;
+    }
+
+    public static String getTypeObjetGeoIgnoreCase(String typeObjetGeo) {
+        Optional<EnumTypeGeographie> enumTypeGeographie =
+            EnumTypeGeographie
+                .streamValuesTypeGeo()
+                .filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(typeObjetGeo))
+                .findFirst();
+        return enumTypeGeographie.isPresent() ? enumTypeGeographie.get().getTypeObjetGeo() : null;
     }
 
     public String getChefLieuPredicate() {
