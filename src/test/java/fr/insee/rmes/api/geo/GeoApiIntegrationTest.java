@@ -24,7 +24,7 @@ public class GeoApiIntegrationTest extends JerseyTest {
 
     @Override
     protected Application configure() {
-        return new ResourceConfig(GeoAPI.class);
+        return new ResourceConfig(AbstractGeoApi.class);
     }
 
     @Ignore

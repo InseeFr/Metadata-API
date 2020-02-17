@@ -13,8 +13,7 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.modeles.geo.territoire.Commune;
-import fr.insee.rmes.modeles.geo.territoire.Departement;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,7 +38,9 @@ public class GeoApiDescendants extends AbstractGeoAscendantsAnsDescendantsApi {
         summary = "Récupérer les informations concernant les territoires inclus dans la commune",
         description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Commune.class)), description = "Commune")
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                description = "Commune")
         })
     public Response getDescendantsFromCommune(
         @Parameter(
@@ -85,7 +86,7 @@ public class GeoApiDescendants extends AbstractGeoAscendantsAnsDescendantsApi {
         summary = "Récupérer les informations concernant les territoires inclus dans le département",
         responses = {
             @ApiResponse(
-                content = @Content(schema = @Schema(implementation = Departement.class)),
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = "Departement")
         })
     public Response getDescendantsFromDepartement(
@@ -117,6 +118,53 @@ public class GeoApiDescendants extends AbstractGeoAscendantsAnsDescendantsApi {
                         .executeSparqlQuery(
                             GeoQueries
                                 .getDescendantsDepartement(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                    header);
+        }
+    }
+
+    @Path("/region/{code: [0-9]{2}}/descendants")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcogcregdesc",
+        summary = "Récupérer les informations concernant les territoires inclus dans la région",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                description = "Region")
+        })
+    public Response getDescendantsFromRegion(
+        @Parameter(
+            description = "Code de la région (deux chiffres)",
+            required = true,
+            schema = @Schema(pattern = "[0-9]{2}", type = "string")) @PathParam("code") String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date,
+        @Parameter(
+            description = "Filtre sur le type de territoire renvoyé.",
+            required = false,
+            schema = @Schema(type = "string")) @QueryParam(value = "type") String typeTerritoire) {
+
+        logger.debug("Received GET request for descendants of region {}", code);
+
+        if ( ! this.verifyParametersApiAreValid(typeTerritoire, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoireForAscendantsOrDescendants(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getDescendantsRegion(
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),

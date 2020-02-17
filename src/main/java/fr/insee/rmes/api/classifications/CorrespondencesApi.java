@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import fr.insee.rmes.api.MetadataApi;
+import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.classification.correspondence.Correspondence;
 import fr.insee.rmes.modeles.classification.correspondence.Correspondences;
 import fr.insee.rmes.queries.classifications.CorrespondencesQueries;
@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/correspondances")
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
-public class CorrespondencesApi extends MetadataApi {
+public class CorrespondencesApi extends AbstractMetadataApi {
 
     @GET
     @Produces({

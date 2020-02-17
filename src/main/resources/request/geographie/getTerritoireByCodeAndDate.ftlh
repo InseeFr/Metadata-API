@@ -1,7 +1,7 @@
 SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
-			?uri a igeo:Departement ;
+			?uri a igeo:${territoire} ;
 				 igeo:codeArticle ?typeArticle ;
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
@@ -19,9 +19,10 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 				?evenementSuppression igeo:suppression ?uri ;
 					                  igeo:date ?dateSuppression.
 			}
-			
+
+<#if chefLieu != "none">
 			OPTIONAL {
-				?uri igeo:prefecture ?chefLieuRDF .
+				?uri igeo:${chefLieu} ?chefLieuRDF .
 				?chefLieuRDF igeo:codeINSEE ?chefLieu.
 				OPTIONAL {
 					?evenementCreationChefLieu igeo:creation ?chefLieuRDF ;
@@ -37,6 +38,7 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			
 			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
 			FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
+</#if>
 		}
 				ORDER BY ?code
 		

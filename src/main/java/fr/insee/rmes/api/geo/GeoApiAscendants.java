@@ -13,8 +13,7 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.modeles.geo.territoire.Commune;
-import fr.insee.rmes.modeles.geo.territoire.Departement;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,7 +38,9 @@ public class GeoApiAscendants extends AbstractGeoAscendantsAnsDescendantsApi {
         summary = "Récupérer les informations concernant les territoires qui contiennent la commune",
         description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Commune.class)), description = "Commune")
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                description = "Commune")
         })
     public Response getAscendantsFromCommune(
         @Parameter(
@@ -85,7 +86,7 @@ public class GeoApiAscendants extends AbstractGeoAscendantsAnsDescendantsApi {
         summary = "Récupérer les informations concernant les territoires qui contiennent le département",
         responses = {
             @ApiResponse(
-                content = @Content(schema = @Schema(implementation = Departement.class)),
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = "Departement")
         })
     public Response getAscendantsFromDepartement(

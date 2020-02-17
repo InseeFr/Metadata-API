@@ -14,7 +14,11 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
+import fr.insee.rmes.modeles.geo.territoire.ArrondissementMunicipal;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
+import fr.insee.rmes.modeles.geo.territoire.CommuneAssociee;
+import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
 import fr.insee.rmes.modeles.geo.territoire.Departement;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
@@ -30,7 +34,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/geo")
 @Tag(name = "geographie", description = "Geographie API")
-public class GeoApiListe extends GeoAPI {
+public class GeoApiListe extends AbstractGeoApi {
 
     private static Logger logger = LogManager.getLogger(GeoApiListe.class);
 
@@ -134,4 +138,154 @@ public class GeoApiListe extends GeoAPI {
             return this.generateListStatusResponse(Regions.class, listeRegion, this.getFirstValidHeader(header));
         }
     }
+
+    @Path("/arrondissements")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcoglistearr",
+        summary = "La requête renvoie toutes les arrondissements actifs à la date donnée. Par défaut, c’est la date courante.",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Arrondissement.class)),
+                description = "Commune")
+        })
+    public Response getListeArrondissements(
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer les arrondissements actifs à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+
+        logger.debug("Received GET request for all arrondissements");
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            String csvResult =
+                sparqlUtils
+                    .executeSparqlQuery(GeoQueries.getListArrondissements(this.formatValidParameterDateIfIsNull(date)));
+            List<Arrondissement> listeArrondissement = csvUtils.populateMultiPOJO(csvResult, Arrondissement.class);
+            return this
+                .generateListStatusResponse(Regions.class, listeArrondissement, this.getFirstValidHeader(header));
+        }
+    }
+
+    @Path("/arrondissementsmunicipaux")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcoglistearrmun",
+        summary = "La requête renvoie toutes les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante.",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
+                description = "Commune")
+        })
+    public Response getListeArrondissementsmunicipaux(
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+
+        logger.debug("Received GET request for all arrondissements municipaux");
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            String csvResult =
+                sparqlUtils
+                    .executeSparqlQuery(
+                        GeoQueries.getListArrondissementsMunicipaux(this.formatValidParameterDateIfIsNull(date)));
+            List<ArrondissementMunicipal> listeArrondissementsMunicipaux =
+                csvUtils.populateMultiPOJO(csvResult, ArrondissementMunicipal.class);
+            return this
+                .generateListStatusResponse(
+                    Regions.class,
+                    listeArrondissementsMunicipaux,
+                    this.getFirstValidHeader(header));
+        }
+    }
+
+    @Path("/communesassociees")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcoglistecomaas",
+        summary = "La requête renvoie toutes les communes associées actives à la date donnée. Par défaut, c’est la date courante.",
+        description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = CommuneAssociee.class)),
+                description = "Communes associées")
+        })
+    public Response getListeCommunesAssociées(
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer les communes associées actives à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+
+        logger.debug("Received GET request for all communes associées");
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            String csvResult =
+                sparqlUtils
+                    .executeSparqlQuery(
+                        GeoQueries.getListCommunesAssociees(this.formatValidParameterDateIfIsNull(date)));
+            List<CommuneAssociee> listeCommuneAssociées = csvUtils.populateMultiPOJO(csvResult, CommuneAssociee.class);
+            return this
+                .generateListStatusResponse(Communes.class, listeCommuneAssociées, this.getFirstValidHeader(header));
+        }
+    }
+
+    @Path("/communesdeleguees")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcoglistecom",
+        summary = "La requête renvoie toutes les communes déléguées actives à la date donnée. Par défaut, c’est la date courante.",
+        description = "Cette requête renvoie également les communes des collectivités d'Outre-Mer",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = CommuneDeleguee.class)),
+                description = "Communes déléguées")
+        })
+    public Response getListeCommunesDeleguees(
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer les communes déléguées actives à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+
+        logger.debug("Received GET request for all communes déléguées");
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            String csvResult =
+                sparqlUtils
+                    .executeSparqlQuery(
+                        GeoQueries.getListCommunesDeleguees(this.formatValidParameterDateIfIsNull(date)));
+            List<CommuneDeleguee> listeCommuneDeleguee = csvUtils.populateMultiPOJO(csvResult, CommuneDeleguee.class);
+            return this
+                .generateListStatusResponse(Communes.class, listeCommuneDeleguee, this.getFirstValidHeader(header));
+        }
+    }
+
 }
