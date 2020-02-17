@@ -12,18 +12,17 @@ import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.modeles.StringXmlMixIn;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import fr.insee.rmes.modeles.geo.IntituleSansArticleXmlMixIn;
-import fr.insee.rmes.modeles.geo.ZoneGeoJsonMixIn;
-import fr.insee.rmes.modeles.geo.territoire.Commune;
-import fr.insee.rmes.modeles.geo.territoire.Departement;
-import fr.insee.rmes.modeles.geo.territoire.Region;
+import fr.insee.rmes.modeles.geo.TerritoireJsonMixIn;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
 
 public class ResponseUtils {
 
     private static Logger logger = LogManager.getLogger(ResponseUtils.class);
 
     public String produceResponse(Object obj, String header) {
-        ObjectMapper mapper;
+        ObjectMapper mapper = null;
         String response = "";
+        
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
             mapper = new XmlMapper();
             mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
@@ -31,11 +30,10 @@ public class ResponseUtils {
         }
         else {
             mapper = new ObjectMapper();
-            mapper.addMixIn(Commune.class, ZoneGeoJsonMixIn.class);
-            mapper.addMixIn(Region.class, ZoneGeoJsonMixIn.class);
-            mapper.addMixIn(Departement.class, ZoneGeoJsonMixIn.class);
+            mapper.addMixIn(Territoire.class, TerritoireJsonMixIn.class);
         }
         try {
+
             response = mapper.writeValueAsString(obj);
         }
         catch (Exception e) {
@@ -43,5 +41,6 @@ public class ResponseUtils {
         }
         return response;
     }
+   
 
 }

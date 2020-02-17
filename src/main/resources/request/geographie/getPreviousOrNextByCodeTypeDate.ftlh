@@ -1,4 +1,4 @@
-SELECT DISTINCT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
+SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
 			?origine a igeo:${typeOrigine} ;
@@ -18,6 +18,7 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 				 
 <#if type != "none">
 			?uri a igeo:${type} .
+			BIND('${code}' as ?code) 
 </#if>
 			
 			OPTIONAL {
