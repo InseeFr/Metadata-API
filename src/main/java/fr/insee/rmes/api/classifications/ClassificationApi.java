@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.api.MetadataApi;
+import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.classification.Poste;
 import fr.insee.rmes.modeles.classification.PosteJson;
 import fr.insee.rmes.modeles.classification.PosteXml;
@@ -35,7 +35,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/nomenclature")
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
-public class ClassificationApi extends MetadataApi {
+public class ClassificationApi extends AbstractMetadataApi {
 
     private static Logger logger = LogManager.getLogger(ClassificationApi.class);
 

@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import fr.insee.rmes.api.MetadataApi;
+import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.classification.Classification;
 import fr.insee.rmes.modeles.classification.Classifications;
 import fr.insee.rmes.queries.classifications.ClassificationsQueries;
@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/nomenclatures")
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
-public class ClassificationsApi extends MetadataApi {
+public class ClassificationsApi extends AbstractMetadataApi {
 
     @GET
     @Produces({

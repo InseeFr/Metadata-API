@@ -15,12 +15,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.api.MetadataApi;
+import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.utils.DateUtils;
 
-public abstract class GeoAPI extends MetadataApi {
+public abstract class AbstractGeoApi extends AbstractMetadataApi {
 
-    private static Logger logger = LogManager.getLogger(GeoAPI.class);
+    private static Logger logger = LogManager.getLogger(AbstractGeoApi.class);
 
     public Response generateStatusResponse(boolean objectIsFound, Object o, String header) {
         if (objectIsFound) {

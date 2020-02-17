@@ -7,7 +7,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/healthcheck")
-public class HealthcheckApi extends MetadataApi {
+public class HealthcheckApi extends AbstractMetadataApi {
 
     @GET
     @Produces({

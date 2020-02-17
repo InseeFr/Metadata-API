@@ -7,14 +7,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
-import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "Territoire")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Schema(description = "Objet représentant un territoire")
 public abstract class Territoire {
 
     protected String code = null;
@@ -52,6 +48,15 @@ public abstract class Territoire {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public Territoire() {
+        this.intituleSansArticle = new IntituleSansArticle();
+    }
+
+    public Territoire(String code) {
+        this.code = code;
+        this.intituleSansArticle = new IntituleSansArticle();
     }
 
     @JacksonXmlProperty(localName = "Intitule")

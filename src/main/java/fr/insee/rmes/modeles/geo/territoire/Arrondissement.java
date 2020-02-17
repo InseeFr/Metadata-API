@@ -8,7 +8,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
-import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @JacksonXmlRootElement(localName = "Arrondissement")
@@ -18,14 +17,13 @@ public class Arrondissement extends Territoire {
 
     // No-args constructor needed for JAXB
     public Arrondissement() {
+        super();
         this.type = EnumTypeGeographie.ARRONDISSEMENT.getTypeObjetGeo();
-        this.intituleSansArticle = new IntituleSansArticle();
     }
 
     public Arrondissement(String code) {
+        super();
         this.type = EnumTypeGeographie.ARRONDISSEMENT.getTypeObjetGeo();
-        this.code = code;
-        this.intituleSansArticle = new IntituleSansArticle();
     }
 
     @Override
