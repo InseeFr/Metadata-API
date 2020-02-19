@@ -24,6 +24,7 @@ import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
 import fr.insee.rmes.modeles.geo.territoire.Departement;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.queries.geo.GeoQueries;
+import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,13 +32,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Path("/geo")
-@Tag(name = "geographie", description = "Geographie API")
+@Path(ConstGeoApi.PATH_GEO)
+@Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class GeoApiIdentification extends AbstractGeoApi {
 
     private static Logger logger = LogManager.getLogger(GeoApiIdentification.class);
 
-    @Path("/commune/{code: [0-9][0-9AB][0-9]{3}}")
+    @Path(ConstGeoApi.PATH_COMMUNE + "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -51,14 +52,17 @@ public class GeoApiIdentification extends AbstractGeoApi {
         })
     public Response getCommune(
         @Parameter(
-            description = "Code de la commune (cinq caractères)",
+            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
             required = true,
-            schema = @Schema(pattern = "[0-9][0-9AB][0-9]{3}", type = "string")) @PathParam("code") String code,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_COMMUNE,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
-            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.FORMAT_DATE) String date) {
 
         logger.debug("Received GET request for commune {}", code);
 
@@ -80,7 +84,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
 
     }
 
-    @Path("/pays/{code: 99[0-9]{3}}")
+    @Path(ConstGeoApi.PATH_PAYS + "/{code: " + ConstGeoApi.PATTERN_PAYS + "}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -93,9 +97,11 @@ public class GeoApiIdentification extends AbstractGeoApi {
         })
     public Response getCountry(
         @Parameter(
-            description = "Code du pays (cinq chiffres, débutant par 99)",
+            description = ConstGeoApi.PATTERN_PAYS_DESCRIPTION,
             required = true,
-            schema = @Schema(pattern = "99[0-9]{3}", type = "string")) @PathParam("code") String code,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_PAYS,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
         logger.debug("Received GET request for country {}", code);
@@ -113,7 +119,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
 
     }
 
-    @Path("/region/{code: [0-9]{2}}")
+    @Path(ConstGeoApi.PATH_REGION + "/{code: " + ConstGeoApi.PATTERN_REGION + "}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -126,14 +132,17 @@ public class GeoApiIdentification extends AbstractGeoApi {
         })
     public Response getRegion(
         @Parameter(
-            description = "Code de la région (deux chiffres)",
+            description = ConstGeoApi.PATTERN_REGION_DESCRIPTION,
             required = true,
-            schema = @Schema(pattern = "[0-9]{2}", type = "string")) @PathParam("code") String code,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_REGION,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
-            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.FORMAT_DATE) String date) {
 
         logger.debug("Received GET request for region {}", code);
 
@@ -154,7 +163,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
         }
     }
 
-    @Path("/departement/{code: ([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])}")
+    @Path(ConstGeoApi.PATH_DEPARTEMENT + "/{code: " + ConstGeoApi.PATTERN_DEPARTEMENT + "}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -167,16 +176,17 @@ public class GeoApiIdentification extends AbstractGeoApi {
         })
     public Response getDepartement(
         @Parameter(
-            description = "Code du département (deux ou trois chiffres, ou 2A, 2B)",
+            description = ConstGeoApi.PATTERN_DEPARTEMENT_DESCRIPTION,
             required = true,
             schema = @Schema(
-                pattern = "([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])",
-                type = "string")) @PathParam("code") String code,
+                pattern = ConstGeoApi.PATTERN_DEPARTEMENT,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer le département actif à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
-            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.FORMAT_DATE) String date) {
 
         logger.debug("Received GET request for departement {}", code);
 
@@ -197,7 +207,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
         }
     }
 
-    @Path("/arrondissement/{code: (([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]}")
+    @Path(ConstGeoApi.PATH_ARRONDISSEMENT + "/{code: " + ConstGeoApi.PATTERN_ARRONDISSEMENT + "}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -210,16 +220,17 @@ public class GeoApiIdentification extends AbstractGeoApi {
         })
     public Response getArrondissement(
         @Parameter(
-            description = "Code de l'arrondissement (trois ou quatre caractères)",
+            description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
             required = true,
             schema = @Schema(
-                pattern = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]",
-                type = "string")) @PathParam("code") String code,
+                pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer l’arrondissement actif à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
-            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.FORMAT_DATE) String date) {
 
         logger.debug("Received GET request for arrondissement {}", code);
 
@@ -240,7 +251,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
         }
     }
 
-    @Path("/communeAssociee/{code: [0-9][0-9AB][0-9]{3}}")
+    @Path(ConstGeoApi.PATH_COMMUNE_ASSOCIEE + "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -256,14 +267,17 @@ public class GeoApiIdentification extends AbstractGeoApi {
         })
     public Response getCommuneAssociee(
         @Parameter(
-            description = "Code de la commune associée (cinq caractères)",
+            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
             required = true,
-            schema = @Schema(pattern = "[0-9][0-9AB][0-9]{3}", type = "string")) @PathParam("code") String code,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_COMMUNE,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
-            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.FORMAT_DATE) String date) {
 
         logger.debug("Received GET request for commune associée {}", code);
 
@@ -286,7 +300,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
 
     }
 
-    @Path("/communeDeleguee/{code: [0-9][0-9AB][0-9]{3}}")
+    @Path(ConstGeoApi.PATH_COMMUNE_DELEGUEE + "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -302,14 +316,17 @@ public class GeoApiIdentification extends AbstractGeoApi {
         })
     public Response getCommuneDeleguee(
         @Parameter(
-            description = "Code de la commune déléguée (cinq caractères)",
+            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
             required = true,
-            schema = @Schema(pattern = "[0-9][0-9AB][0-9]{3}", type = "string")) @PathParam("code") String code,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_COMMUNE,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer la commune déléguée active à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
-            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.FORMAT_DATE) String date) {
 
         logger.debug("Received GET request for commune déléguée {}", code);
 
@@ -332,7 +349,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
 
     }
 
-    @Path("/arrondissementMunicipal/{code}")
+    @Path(ConstGeoApi.PATH_ARRONDISSEMENT_MUNICIPAL + "/{code: " + ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL + "}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -345,16 +362,17 @@ public class GeoApiIdentification extends AbstractGeoApi {
         })
     public Response getArrondissementMunicipal(
         @Parameter(
-            description = "Code de l'arrondissement municipal (trois ou quatre caractères)",
+            description = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL_DESCRIPTION,
             required = true,
             schema = @Schema(
-                pattern = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]",
-                type = "string")) @PathParam("code") String code,
+                pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer l’arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante. ",
             required = false,
-            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date) {
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.FORMAT_DATE) String date) {
 
         logger.debug("Received GET request for arrondissement municipal {}", code);
 
