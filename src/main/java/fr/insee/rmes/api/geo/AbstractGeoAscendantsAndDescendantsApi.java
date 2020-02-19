@@ -22,7 +22,7 @@ public abstract class AbstractGeoAscendantsAndDescendantsApi extends AbstractGeo
                 .anyMatch(s -> s.getTypeObjetGeo().equalsIgnoreCase(typeTerritoire)));
     }
 
-    public String formatValidParametertypeTerritoireIfIsNull(String typeTerritoire) {
+    protected String formatValidParametertypeTerritoireIfIsNull(String typeTerritoire) {
         return (typeTerritoire != null) ? EnumTypeGeographie.getTypeObjetGeoIgnoreCase(typeTerritoire) : Constants.NONE;
     }
 

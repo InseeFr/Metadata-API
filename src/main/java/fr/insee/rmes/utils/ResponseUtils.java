@@ -1,5 +1,7 @@
 package fr.insee.rmes.utils;
 
+import java.util.regex.Pattern;
+
 import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,8 +35,9 @@ public class ResponseUtils {
             mapper.addMixIn(Territoire.class, TerritoireJsonMixIn.class);
         }
         try {
-
             response = mapper.writeValueAsString(obj);
+            response = Pattern.compile("<\\/?listeTerritoires>").matcher(response).replaceAll("");
+
         }
         catch (Exception e) {
             logger.error(e.getMessage());
