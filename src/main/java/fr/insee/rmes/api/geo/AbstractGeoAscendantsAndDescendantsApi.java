@@ -9,7 +9,7 @@ import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.utils.Constants;
 
-public abstract class AbstractGeoAscendantsAnsDescendantsApi extends AbstractGeoApi {
+public abstract class AbstractGeoAscendantsAndDescendantsApi extends AbstractGeoApi {
 
     protected boolean verifyParametersApiAreValid(String typeTerritoire, String date) {
         return (this.verifyParameterTypeTerritoireIsRight(typeTerritoire)) && (this.verifyParameterDateIsRight(date));

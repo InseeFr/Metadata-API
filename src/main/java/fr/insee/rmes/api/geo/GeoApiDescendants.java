@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/geo")
 @Tag(name = "geographie", description = "Geographie API")
-public class GeoApiDescendants extends AbstractGeoAscendantsAnsDescendantsApi {
+public class GeoApiDescendants extends AbstractGeoAscendantsAndDescendantsApi {
 
     private static Logger logger = LogManager.getLogger(GeoApiDescendants.class);
 
