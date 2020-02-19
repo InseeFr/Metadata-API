@@ -125,4 +125,204 @@ public class GeoApiAscendants extends AbstractGeoAscendantsAndDescendantsApi {
                     header);
         }
     }
+    
+    @Path("/communeDeleguee/{code: [0-9][0-9AB][0-9]{3}}/ascendants")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcogcomDelasc",
+        summary = "Récupérer les informations concernant les territoires qui contiennent la commune déléguée",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                description = "Commune déléguée")
+        })
+    public Response getAscendantsFromCommuneDeleguee(
+        @Parameter(
+            description = "Code de la commune déléguée",
+            required = true,
+            schema = @Schema(
+                pattern = "[0-9][0-9AB][0-9]{3}",
+                type = "string")) @PathParam("code") String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer la commune déléguée active à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date,
+        @Parameter(
+            description = "Filtre sur le type de territoire renvoyé.",
+            required = false,
+            schema = @Schema(type = "string")) @QueryParam(value = "type") String typeTerritoire) {
+
+        logger.debug("Received GET request for ascendants of communeDeleguee {}", code);
+
+        if ( ! this.verifyParametersApiAreValid(typeTerritoire, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+
+            return this
+                .generateResponseListOfTerritoireForAscendantsOrDescendants(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getAscendantsCommuneDeleguee(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                    header);
+        }
+    }
+    
+    @Path("/communeAssociee/{code: [0-9][0-9AB][0-9]{3}}/ascendants")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcogcomassasc",
+        summary = "Récupérer les informations concernant les territoires qui contiennent la commune associée",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                description = "Commune associée")
+        })
+    public Response getAscendantsFromCommuneAssociee(
+        @Parameter(
+            description = "Code de la commune associée",
+            required = true,
+            schema = @Schema(
+                pattern = "[0-9][0-9AB][0-9]{3}",
+                type = "string")) @PathParam("code") String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer la commune associée active à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date,
+        @Parameter(
+            description = "Filtre sur le type de territoire renvoyé.",
+            required = false,
+            schema = @Schema(type = "string")) @QueryParam(value = "type") String typeTerritoire) {
+
+        logger.debug("Received GET request for ascendants of communeAssociee {}", code);
+
+        if ( ! this.verifyParametersApiAreValid(typeTerritoire, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+
+            return this
+                .generateResponseListOfTerritoireForAscendantsOrDescendants(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getAscendantsCommuneAssociee(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                    header);
+        }
+    }
+    
+    @Path("/arrondissementMunicipal/{code}/ascendants")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcogarrmunasc",
+        summary = "Récupérer les informations concernant les territoires qui contiennent l'arrondissement municipal",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                description = "Arrondissement Municipal")
+        })
+    public Response getAscendantsFromArrondissementMunicipal(
+        @Parameter(
+            description = "Code de l'arrondissement municipal",
+            required = true,
+            schema = @Schema(
+                pattern = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]",
+                type = "string")) @PathParam("code") String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer l'arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date,
+        @Parameter(
+            description = "Filtre sur le type de territoire renvoyé.",
+            required = false,
+            schema = @Schema(type = "string")) @QueryParam(value = "type") String typeTerritoire) {
+
+        logger.debug("Received GET request for ascendants of arrondissement municipal {}", code);
+
+        if ( ! this.verifyParametersApiAreValid(typeTerritoire, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+
+            return this
+                .generateResponseListOfTerritoireForAscendantsOrDescendants(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getAscendantsArrondissementMunicipal(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                    header);
+        }
+    }
+
+    @Path("/arrondissement/{code: (([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]}/ascendants")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcogarrasc",
+        summary = "Récupérer les informations concernant les territoires qui contiennent l'arrondissement",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                description = "Arrondissement")
+        })
+    public Response getAscendantsFromArrondissement(
+        @Parameter(
+            description = "Code de l'arrondissement",
+            required = true,
+            schema = @Schema(
+                pattern = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]",
+                type = "string")) @PathParam("code") String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer l'arrondissement actif à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date,
+        @Parameter(
+            description = "Filtre sur le type de territoire renvoyé.",
+            required = false,
+            schema = @Schema(type = "string")) @QueryParam(value = "type") String typeTerritoire) {
+
+        logger.debug("Received GET request for ascendants of arrondissement {}", code);
+
+        if ( ! this.verifyParametersApiAreValid(typeTerritoire, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+
+            return this
+                .generateResponseListOfTerritoireForAscendantsOrDescendants(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getAscendantsArrondissement(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                    header);
+        }
+    }
 }
