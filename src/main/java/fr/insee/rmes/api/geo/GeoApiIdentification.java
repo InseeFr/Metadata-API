@@ -240,7 +240,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
         }
     }
 
-    @Path("/communeassociee/{code: [0-9][0-9AB][0-9]{3}}")
+    @Path("/communeAssociee/{code: [0-9][0-9AB][0-9]{3}}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -286,7 +286,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
 
     }
 
-    @Path("/communedeleguee/{code: [0-9][0-9AB][0-9]{3}}")
+    @Path("/communeDeleguee/{code: [0-9][0-9AB][0-9]{3}}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -332,7 +332,7 @@ public class GeoApiIdentification extends AbstractGeoApi {
 
     }
 
-    @Path("/arrondissementmunicipal/{code}")
+    @Path("/arrondissementMunicipal/{code}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
