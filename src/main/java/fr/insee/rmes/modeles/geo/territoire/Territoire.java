@@ -7,8 +7,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 
-// @JsonTypeInfo(use = JsonTypeInfo.Id.CUSTOM, include = JsonTypeInfo.As.WRAPPER_OBJECT)
-// @JsonTypeIdResolver(value = TerritoireIdResolver.class)
 public abstract class Territoire {
 
     protected String code = null;
