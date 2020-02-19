@@ -16,9 +16,14 @@
 		<swagger.version>2.0.10</swagger.version>
 		<junit.version>5.5.2</junit.version>
 		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+		<cucumber.version>1.2.4</cucumber.version>
+
+		<!-- Configuration Sonar -->
 		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
 			src/main/java/fr/insee/rmes/modeles/**/*</sonar.exclusions>
 		<sonar.projectKey>${project.groupId}.${project.artifactId}</sonar.projectKey>
+
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -160,7 +165,7 @@
 			<artifactId>freemarker</artifactId>
 			<version>2.3.28</version><!-- change in FreemarkerConfig too -->
 		</dependency>
-		
+
 
 	</dependencies>
 
