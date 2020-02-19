@@ -93,6 +93,9 @@ public class GeoQueries extends Queries {
         return getAscendantOrDescendantsQuery(code, date, type, "Region", false);
     }
 
+    public static String getDescendantsArrondissement(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type, "Arrondissement", false);
+    }
 
     private static String getAscendantOrDescendantsQuery(String code, String date, String type, String typeOrigine, boolean ascendant) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
