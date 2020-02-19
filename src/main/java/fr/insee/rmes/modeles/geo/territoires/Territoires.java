@@ -21,7 +21,6 @@ public class Territoires {
         this.listeTerritoires = territoires;
     }
 
-    @JacksonXmlElementWrapper(useWrapping = false)
     public List<Territoire> getTerritoires() {
         return listeTerritoires;
     }
