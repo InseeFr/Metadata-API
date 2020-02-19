@@ -120,15 +120,13 @@ public class GeoQueries extends Queries {
         return params;
     }
     
-    @Deprecated
+
     public static String getCountry(String code) {
         return "SELECT ?uri ?intitule ?intituleEntier \n"
             + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
             + "WHERE { \n"
             + "?uri rdf:type igeo:Etat . \n"
-            + "?uri igeo:codeINSEE '"
-            + code
-            + "'^^xsd:token . \n"
+            + "?uri igeo:codeINSEE '"  + code       + "' . \n"
             + "?uri igeo:nom ?intitule . \n"
             + "?uri igeo:nomEntier ?intituleEntier . \n"
             // Ensure that is not the dbpedia URI
