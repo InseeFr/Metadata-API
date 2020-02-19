@@ -32,6 +32,9 @@ public class StaticFilter implements javax.servlet.Filter {
         else if (req.getRequestURI().endsWith("/swagger-ui/")) {
             resp.sendRedirect(req.getRequestURI() + "index.html");
         }
+        else if (req.getRequestURI().endsWith("/")) {
+            resp.sendRedirect(req.getRequestURI() + "swagger-ui/index.html");
+        }
         else {
             defaultRequestDispatcher.forward(request, response);
         }
