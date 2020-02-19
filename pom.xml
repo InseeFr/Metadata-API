@@ -161,19 +161,7 @@
 			<version>2.3.28</version><!-- change in FreemarkerConfig too -->
 		</dependency>
 		
-		<!--  KArate for functional tests -->
-		<dependency>
-    		<groupId>com.intuit.karate</groupId>
-    		<artifactId>karate-jersey</artifactId>
-    		<version>0.9.5</version>
-    		<scope>test</scope>
-		</dependency>
-		<dependency>
-    		<groupId>com.intuit.karate</groupId>
-    		<artifactId>karate-junit5</artifactId>
-   		 	<version>0.9.5</version>
-  		  	<scope>test</scope>
-		</dependency>
+
 	</dependencies>
 
 	<repositories>
