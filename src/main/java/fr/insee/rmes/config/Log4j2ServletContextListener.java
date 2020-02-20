@@ -10,6 +10,7 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.web.Log4jServletContextListener;
 import org.apache.logging.log4j.web.Log4jWebSupport;
 
 public class Log4j2ServletContextListener implements ServletContextListener {
@@ -17,10 +18,10 @@ public class Log4j2ServletContextListener implements ServletContextListener {
     private static Logger logger = LogManager.getLogger(Log4j2ServletContextListener.class);
     private String log4j2ConfigFile;
 
-    private Log4j2ServletContextListener listener;
+    private Log4jServletContextListener listener;
 
     public Log4j2ServletContextListener() {
-        this.listener = new Log4j2ServletContextListener();
+        this.listener = new Log4jServletContextListener();
         try {
             this.getEnvironmentProperties();
         }
