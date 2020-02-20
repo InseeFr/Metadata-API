@@ -68,7 +68,6 @@ public class Log4j2ServletContextListener implements ServletContextListener {
         return props;
     }
 
-
     /*
      * load properties on catalina base
      */
@@ -81,5 +80,5 @@ public class Log4j2ServletContextListener implements ServletContextListener {
             r.close();
         }
     }
-    
+
 }

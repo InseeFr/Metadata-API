@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path("/geo")
 @Tag(name = "geographie", description = "Geographie API")
-public class GeoApiDescendants extends AbstractGeoAscendantsAnsDescendantsApi {
+public class GeoApiDescendants extends AbstractGeoAscendantsAndDescendantsApi {
 
     private static Logger logger = LogManager.getLogger(GeoApiDescendants.class);
 
@@ -165,6 +165,53 @@ public class GeoApiDescendants extends AbstractGeoAscendantsAnsDescendantsApi {
                         .executeSparqlQuery(
                             GeoQueries
                                 .getDescendantsRegion(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                    header);
+        }
+    }
+    
+    @Path("/arrondissement/{code: (([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]}/descendants")
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = "getcogarrdesc",
+        summary = "Récupérer les informations concernant les territoires inclus dans l'arrondissement",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                description = "Arrondissement")
+        })
+    public Response getDescendantsFromArrondissement(
+        @Parameter(
+            description = "Code de l'arrondissement",
+            required = true,
+            schema = @Schema(pattern = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]", type = "string")) @PathParam("code") String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer le territoire actif à la date donnée. Par défaut, c’est la date courante. ",
+            required = false,
+            schema = @Schema(type = "string", format = "date")) @QueryParam(value = "date") String date,
+        @Parameter(
+            description = "Filtre sur le type de territoire renvoyé.",
+            required = false,
+            schema = @Schema(type = "string")) @QueryParam(value = "type") String typeTerritoire) {
+
+        logger.debug("Received GET request for descendants of Arrondissement {}", code);
+
+        if ( ! this.verifyParametersApiAreValid(typeTerritoire, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoireForAscendantsOrDescendants(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getDescendantsArrondissement(
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),

@@ -25,6 +25,10 @@
 		<filter-name>default</filter-name>
 		<url-pattern>/swagger-ui/*</url-pattern>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>default</filter-name>
+		<url-pattern>/</url-pattern>
+	</filter-mapping>
 
 	<!-- CORS -->
 	<filter>
