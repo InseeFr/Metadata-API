@@ -72,32 +72,54 @@ public class GeoQueries extends Queries {
     }
     
     
-    /* ASCENDANT / DESCENDANT */
+    /* ASCENDANT */ 
     public static String getAscendantsCommune(String code, String date, String type) {     
-        return getAscendantOrDescendantsQuery(code, date, type, "Commune", true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE, true);
     }
     
     public static String getAscendantsDepartement(String code, String date, String type) {     
-        return getAscendantOrDescendantsQuery(code, date, type, "Departement", true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT, true);
     }
     
+    public static String getAscendantsCommuneDeleguee(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_DELEGUEE, true);
+    }
+    
+    public static String getAscendantsCommuneAssociee(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_ASSOCIEE, true);
+    }
+    
+    public static String getAscendantsArrondissementMunicipal(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL, true);
+    }
+    
+    public static String getAscendantsArrondissement(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT, true);
+    }
+    
+    /* DESCENDANT */
     public static String getDescendantsCommune(String code, String date, String type) {     
-        return getAscendantOrDescendantsQuery(code, date, type, "Commune", false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE, false);
     }
     
     public static String getDescendantsDepartement(String code, String date, String type) {     
-        return getAscendantOrDescendantsQuery(code, date, type, "Departement", false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT, false);
     }
     
     public static String getDescendantsRegion(String code, String date, String type) {     
-        return getAscendantOrDescendantsQuery(code, date, type, "Region", false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.REGION, false);
     }
 
+    public static String getDescendantsArrondissement(String code, String date, String type) {     
+        return getAscendantOrDescendantsQuery(code, date, type,EnumTypeGeographie.ARRONDISSEMENT, false);
+    }
+    
+    
 
-    private static String getAscendantOrDescendantsQuery(String code, String date, String type, String typeOrigine, boolean ascendant) {
+    private static String getAscendantOrDescendantsQuery(String code, String date, String type, EnumTypeGeographie typeOrigine, boolean ascendant) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
         params.put("type",type);
-        params.put("typeOrigine",typeOrigine);
+        params.put("typeOrigine",typeOrigine.getTypeObjetGeo());
         params.put("ascendant",String.valueOf(ascendant));
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
     }
@@ -120,15 +142,13 @@ public class GeoQueries extends Queries {
         return params;
     }
     
-    @Deprecated
+
     public static String getCountry(String code) {
         return "SELECT ?uri ?intitule ?intituleEntier \n"
             + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
             + "WHERE { \n"
             + "?uri rdf:type igeo:Etat . \n"
-            + "?uri igeo:codeINSEE '"
-            + code
-            + "'^^xsd:token . \n"
+            + "?uri igeo:codeINSEE '"  + code       + "' . \n"
             + "?uri igeo:nom ?intitule . \n"
             + "?uri igeo:nomEntier ?intituleEntier . \n"
             // Ensure that is not the dbpedia URI

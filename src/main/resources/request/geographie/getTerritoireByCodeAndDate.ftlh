@@ -35,10 +35,9 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 				FILTER(!BOUND(?dateCreationChefLieu) || ?dateCreationChefLieu <= '${date}'^^xsd:date)
 				FILTER(!BOUND(?dateSuppressionChefLieu) || ?dateSuppressionChefLieu > '${date}'^^xsd:date)
 			}
-			
+</#if>
 			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
 			FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
-</#if>
 		}
 				ORDER BY ?code
 		

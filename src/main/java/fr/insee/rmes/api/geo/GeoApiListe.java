@@ -174,7 +174,7 @@ public class GeoApiListe extends AbstractGeoApi {
         }
     }
 
-    @Path("/arrondissementsmunicipaux")
+    @Path("/arrondissementsMunicipaux")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -214,7 +214,7 @@ public class GeoApiListe extends AbstractGeoApi {
         }
     }
 
-    @Path("/communesassociees")
+    @Path("/communesAssociees")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -251,7 +251,7 @@ public class GeoApiListe extends AbstractGeoApi {
         }
     }
 
-    @Path("/communesdeleguees")
+    @Path("/communesDeleguees")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
