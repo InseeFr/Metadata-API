@@ -2,9 +2,9 @@ package fr.insee.rmes.api.geo;
 
 public class ConstGeoApi {
 
-    public static final String PATH_GEO = "geo";
-    public static final String TAG_NAME = "/geographie";
-    public static final String TAG_DESCRIPTION = "/geo";
+    public static final String PATH_GEO = "/geo";
+    public static final String TAG_NAME = "geographie";
+    public static final String TAG_DESCRIPTION = "Geographie API";
 
     public static final String PATH_COMMUNE = "/commune";
     public static final String PATH_PAYS = "/pays";
