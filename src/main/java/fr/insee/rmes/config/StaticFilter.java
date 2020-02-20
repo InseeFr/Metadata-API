@@ -11,12 +11,16 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class StaticFilter implements javax.servlet.Filter {
     private RequestDispatcher defaultRequestDispatcher;
+    private static Logger logger = LogManager.getLogger(StaticFilter.class);
 
     @Override
     public void destroy() {
-        throw new UnsupportedOperationException();
+        logger.warn("StaticFilter is destroyed");
     }
 
     @Override
