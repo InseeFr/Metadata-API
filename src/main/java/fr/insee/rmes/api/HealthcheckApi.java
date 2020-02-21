@@ -11,9 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 @Path("/healthcheck")
 public class HealthcheckApi extends AbstractMetadataApi {
     
-
-private final static String ASK_QUERY = "ASK { ?a a ?b .}";
-
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -25,5 +22,3 @@ private final static String ASK_QUERY = "ASK { ?a a ?b .}";
         return Response.ok().build();
     }
 }
-
-//https://qfrmessnczlht01.ad.insee.intra/sparql?query=ASK+{+?a+a+?b+.}

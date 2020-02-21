@@ -69,7 +69,21 @@ public class CSVUtils {
         CsvMapper mapper,
         Map<String, String> rowAsMap) {
 
-        String nomType = StringUtils.substringAfterLast(rowAsMap.get("type"), "#");
+        String nomType = null;
+
+        if (rowAsMap.get("type") != null) {
+            nomType = StringUtils.substringAfterLast(rowAsMap.get("type"), "#");
+        }
+        else if (rowAsMap.get("uri") != null) {
+            String[] tabNomType = rowAsMap.get("uri").split("/");
+            int positionTypeTerritoire = 4;
+            if (tabNomType.length > positionTypeTerritoire) {
+                nomType = tabNomType[positionTypeTerritoire];
+            }
+        }
+        else {
+            logger.info("Territoire not found");
+        }
 
         Class<? extends Territoire> classeTerritoire = EnumTypeGeographie.getClassByType(nomType);
 
@@ -77,7 +91,7 @@ public class CSVUtils {
 
             if (classeTerritoire != null) {
                 Territoire territoireForMapping = mapper.convertValue(rowAsMap, classeTerritoire);
-                territoireForMapping.setType(nomType);
+                territoireForMapping.setType(classeTerritoire.getSimpleName());
                 list.add(childClass.cast(territoireForMapping));
             }
         }
