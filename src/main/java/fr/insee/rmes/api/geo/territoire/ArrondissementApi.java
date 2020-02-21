@@ -184,7 +184,7 @@ public class ArrondissementApi extends AbstractGeoApi {
         }
     }
 
-    @Path("/arrondissements")
+    @Path(ConstGeoApi.PATH_LISTE_ARRONDISSEMENT)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML

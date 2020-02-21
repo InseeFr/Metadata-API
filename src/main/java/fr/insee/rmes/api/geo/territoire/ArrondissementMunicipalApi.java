@@ -135,7 +135,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
         }
     }
 
-    @Path("/arrondissementsmunicipaux")
+    @Path(ConstGeoApi.PATH_LISTE_ARRONDISSEMENT_MUNICIPAL)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML

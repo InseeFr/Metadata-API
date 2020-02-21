@@ -141,7 +141,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
         }
     }
 
-    @Path("/communesDeleguees")
+    @Path(ConstGeoApi.PATH_LISTE_COMMUNE_DELEGUEE)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML

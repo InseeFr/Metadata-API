@@ -183,7 +183,7 @@ public class DepartementApi extends AbstractGeoApi {
         }
     }
 
-    @Path("/departements")
+    @Path(ConstGeoApi.PATH_LISTE_DEPARTEMENT)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML

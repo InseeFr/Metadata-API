@@ -132,7 +132,7 @@ public class RegionApi extends AbstractGeoApi {
         }
     }
 
-    @Path("/regions")
+    @Path(ConstGeoApi.PATH_LISTE_REGION)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
