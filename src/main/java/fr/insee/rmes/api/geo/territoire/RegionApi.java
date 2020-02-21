@@ -32,24 +32,24 @@ public class RegionApi extends AbstractGeoApi {
 
     private static Logger logger = LogManager.getLogger(RegionApi.class);
 
-    private final String codePattern = "/{code: " + ConstGeoApi.PATTERN_REGION + "}";
-    private final String litteralIdOperation = "getcogreg";
-    private final String litteralOperationSummary =
+    private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_REGION + "}";
+    private static final String LITTERAL_ID_OPERATION = "getcogreg";
+    private static final String LITTERAL_OPERATION_SUMMARY =
         "Informations sur une region française identifiée par son code (deux chiffres)";
-    private final String litteralResponseDescription = "Region";
-    private final String litteralParameterDateDescription =
+    private static final String LITTERAL_RESPONSE_DESCRIPTION = "Region";
+    private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante.";
-    private final String litteralParameterTypeDescription = "Filtre sur le type de territoire renvoyé.";
+    private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
-    @Path(ConstGeoApi.PATH_REGION + codePattern)
+    @Path(ConstGeoApi.PATH_REGION + CODE_PATTERN)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
-    @Operation(operationId = litteralIdOperation, summary = litteralOperationSummary, responses = {
+    @Operation(operationId = LITTERAL_ID_OPERATION, summary = LITTERAL_OPERATION_SUMMARY, responses = {
         @ApiResponse(
             content = @Content(schema = @Schema(implementation = Region.class)),
-            description = litteralResponseDescription)
+            description = LITTERAL_RESPONSE_DESCRIPTION)
     })
     public Response getRegion(
         @Parameter(
@@ -60,7 +60,7 @@ public class RegionApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
@@ -81,18 +81,18 @@ public class RegionApi extends AbstractGeoApi {
         }
     }
 
-    @Path(ConstGeoApi.PATH_REGION + codePattern + ConstGeoApi.PATH_DESCENDANT)
+    @Path(ConstGeoApi.PATH_REGION + CODE_PATTERN + ConstGeoApi.PATH_DESCENDANT)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = litteralIdOperation + ConstGeoApi.ID_OPERATION_DESCENDANTS,
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
         summary = "Récupérer les informations concernant les territoires inclus dans la region",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
-                description = litteralResponseDescription)
+                description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getDescendantsFromRegion(
         @Parameter(
@@ -103,12 +103,12 @@ public class RegionApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
         @Parameter(
-            description = litteralParameterTypeDescription,
+            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
@@ -138,17 +138,17 @@ public class RegionApi extends AbstractGeoApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = litteralIdOperation + ConstGeoApi.ID_OPERATION_LISTE,
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
         summary = "La requête renvoie toutes les regions actives à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Region.class)),
-                description = litteralResponseDescription)
+                description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getListeRegions(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {

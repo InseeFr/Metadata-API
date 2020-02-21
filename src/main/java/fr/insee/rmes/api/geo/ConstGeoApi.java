@@ -51,4 +51,7 @@ public class ConstGeoApi {
     public static final String ID_OPERATION_ASCENDANTS = "asc";
     public static final String ID_OPERATION_DESCENDANTS = "desc";
     public static final String ID_OPERATION_LISTE = "liste";
+
+    private ConstGeoApi() {}
+
 }

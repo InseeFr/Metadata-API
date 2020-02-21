@@ -31,20 +31,21 @@ public class PaysApi extends AbstractGeoApi {
 
     private static Logger logger = LogManager.getLogger(PaysApi.class);
 
-    private final String codePattern = "/{code: " + ConstGeoApi.PATTERN_PAYS + "}";
-    private final String litteralIdOperation = "getcogpays";
-    private final String litteralOperationSummary = "Informations sur un pays identifié par son code (cinq chiffres)";
-    private final String litteralResponseDescription = "Pays";
+    private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_PAYS + "}";
+    private static final String LITTERAL_ID_OPERATION = "getcogpays";
+    private static final String LITTERAL_OPERATION_SUMMARY =
+        "Informations sur un pays identifié par son code (cinq chiffres)";
+    private static final String LITTERAL_RESPONSE_DESCRIPTION = "Pays";
 
-    @Path(ConstGeoApi.PATH_PAYS + codePattern)
+    @Path(ConstGeoApi.PATH_PAYS + CODE_PATTERN)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
-    @Operation(operationId = litteralIdOperation, summary = litteralOperationSummary, responses = {
+    @Operation(operationId = LITTERAL_ID_OPERATION, summary = LITTERAL_OPERATION_SUMMARY, responses = {
         @ApiResponse(
             content = @Content(schema = @Schema(implementation = Country.class)),
-            description = litteralResponseDescription)
+            description = LITTERAL_RESPONSE_DESCRIPTION)
     })
     public Response getCountry(
         @Parameter(

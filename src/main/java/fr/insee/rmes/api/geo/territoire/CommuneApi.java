@@ -32,30 +32,30 @@ public class CommuneApi extends AbstractGeoApi {
 
     private static Logger logger = LogManager.getLogger(CommuneApi.class);
 
-    private final String codePattern = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
-    private final String litteralIdOperation = "getcogcom";
-    private final String litteralOperationSummary =
+    private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
+    private static final String LITTERAL_ID_OPERATION = "getcogcom";
+    private static final String LITTERAL_OPERATION_SUMMARY =
         "Informations sur une commune française identifiée par son code (cinq caractères)";
-    private final String litteralOperationDescription =
+    private static final String LITTERAL_OPERATION_DESCRIPTION =
         "Cette requête renvoie également les communes des collectivités d'Outre-Mer";
-    private final String litteralResponseDescription = "Commune";
-    private final String litteralParameterDateDescription =
+    private static final String LITTERAL_RESPONSE_DESCRIPTION = "Commune";
+    private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante.";
-    private final String litteralParameterTypeDescription = "Filtre sur le type de territoire renvoyé.";
+    private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
-    @Path(ConstGeoApi.PATH_COMMUNE + codePattern)
+    @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = litteralIdOperation,
-        summary = litteralOperationSummary,
-        description = litteralOperationDescription,
+        operationId = LITTERAL_ID_OPERATION,
+        summary = LITTERAL_OPERATION_SUMMARY,
+        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Commune.class)),
-                description = litteralResponseDescription)
+                description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getCommune(
         @Parameter(
@@ -66,7 +66,7 @@ public class CommuneApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
@@ -87,19 +87,19 @@ public class CommuneApi extends AbstractGeoApi {
         }
     }
 
-    @Path(ConstGeoApi.PATH_COMMUNE + codePattern + ConstGeoApi.PATH_ASCENDANT)
+    @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN + ConstGeoApi.PATH_ASCENDANT)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = litteralIdOperation + ConstGeoApi.ID_OPERATION_ASCENDANTS,
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
         summary = "Récupérer les informations concernant les territoires qui contiennent la commune",
-        description = litteralOperationDescription,
+        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
-                description = litteralResponseDescription)
+                description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getAscendantsFromCommune(
         @Parameter(
@@ -110,12 +110,12 @@ public class CommuneApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
         @Parameter(
-            description = litteralParameterTypeDescription,
+            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
@@ -139,19 +139,19 @@ public class CommuneApi extends AbstractGeoApi {
         }
     }
 
-    @Path(ConstGeoApi.PATH_COMMUNE + codePattern + ConstGeoApi.PATH_DESCENDANT)
+    @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN + ConstGeoApi.PATH_DESCENDANT)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = litteralIdOperation + ConstGeoApi.ID_OPERATION_DESCENDANTS,
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
         summary = "Récupérer les informations concernant les territoires inclus dans la commune",
-        description = litteralOperationDescription,
+        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
-                description = litteralResponseDescription)
+                description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getDescendantsFromCommune(
         @Parameter(
@@ -162,12 +162,12 @@ public class CommuneApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
         @Parameter(
-            description = litteralParameterTypeDescription,
+            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
@@ -197,18 +197,18 @@ public class CommuneApi extends AbstractGeoApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = litteralIdOperation + ConstGeoApi.ID_OPERATION_LISTE,
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
         summary = "La requête renvoie toutes les communes actives à la date donnée. Par défaut, c’est la date courante.",
-        description = litteralOperationDescription,
+        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Commune.class)),
-                description = litteralResponseDescription)
+                description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getListeCommunes(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {

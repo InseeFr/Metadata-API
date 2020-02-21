@@ -88,6 +88,7 @@ public class CommuneApiTest extends AbstractApiTest {
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
+    @Test
     public void givenGetCommuneAscendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
@@ -187,6 +188,7 @@ public class CommuneApiTest extends AbstractApiTest {
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
+    @Test
     public void givenGetCommuneDescendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
