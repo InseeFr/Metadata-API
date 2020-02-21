@@ -1,4 +1,4 @@
-package fr.insee.rmes.api.geo;
+package fr.insee.rmes.api.geo.territoire;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -17,135 +17,74 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
-import fr.insee.rmes.modeles.geo.territoire.Commune;
-import fr.insee.rmes.modeles.geo.territoire.Departement;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 
 @ExtendWith(MockitoExtension.class)
-public class GeoApiListeTest extends AbstractApiTest {
+public class RegionApiTest extends AbstractApiTest {
 
     @InjectMocks
-    private GeoApiListe geoApi;
+    private RegionApi geoApi;
+
+    private Region region = new Region();
 
     @Test
-    public void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
-
-        // Mock
-        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Commune());
-
-        // Call method
-        geoApi.getListeCommunes(MediaType.APPLICATION_JSON, null);
-        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }
-
-    @Test
-    public void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
-
-        // Mock
-        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Commune());
-
-        // Call method
-        geoApi.getListeCommunes(MediaType.APPLICATION_XML, null);
-        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }
-
-    @Test
-    public void givenGetListeCommune_WhenCorrectRequest_thenResponseIsNotFound() {
+    public void givenGetRegion_whenCorrectRequestt_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
-        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
+        region.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.TRUE);
+
+        // Call method
+        geoApi.getRegion("something", MediaType.APPLICATION_JSON, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegion_whenCorrectRequestt_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock methods
+        region.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.TRUE);
+
+        // Call method
+        geoApi.getRegion("something", MediaType.APPLICATION_XML, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegion_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getListeCommunes(MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getRegion("something", MediaType.APPLICATION_XML, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getListeCommunes(MediaType.APPLICATION_JSON, null);
+        response = geoApi.getRegion("something", MediaType.APPLICATION_JSON, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }
 
     @Test
-    public void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsRight() {
+    public void givenGetRegion_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
-        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Commune());
+        region.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getListeCommunes(MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getRegion("something", MediaType.APPLICATION_XML, "2000-01-01");
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
     @Test
-    public void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsBad() {
+    public void givenGetRegion_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListeCommunes(MediaType.APPLICATION_XML, "nimportequoi");
-        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void givenGetListeDepartement_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
-
-        // Mock
-        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Departement());
-
-        // Call method
-        geoApi.getListeDepartements(MediaType.APPLICATION_JSON, null);
-        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }
-
-    @Test
-    public void givenGetListeDepartement_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
-
-        // Mock
-        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Departement());
-
-        // Call method
-        geoApi.getListeDepartements(MediaType.APPLICATION_XML, null);
-        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }
-
-    @Test
-    public void givenGetListeDepartement_WhenCorrectRequest_thenResponseIsNotFound() {
-
-        // Mock methods
-        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
-
-        // Call method header content = xml
-        Response response = geoApi.getListeDepartements(MediaType.APPLICATION_XML, null);
-        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
-
-        // Call method header content = json
-        response = geoApi.getListeDepartements(MediaType.APPLICATION_JSON, null);
-        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
-
-        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
-    }
-
-    @Test
-    public void givenGetListeDepartement_WhenCorrectRequest_thenParameterDateIsRight() {
-
-        // Mock methods
-        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Departement());
-
-        // Call method header content = xml
-        geoApi.getListeDepartements(MediaType.APPLICATION_XML, "2000-01-01");
-        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }
-
-    @Test
-    public void givenGetListeDepartement_WhenCorrectRequest_thenParameterDateIsBad() {
-
-        // Call method header content = xml
-        Response response = geoApi.getListeDepartements(MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getRegion("something", MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 

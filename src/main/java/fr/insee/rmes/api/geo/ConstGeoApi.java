@@ -24,8 +24,8 @@ public class ConstGeoApi {
     public static final String PATH_LISTE_COMMUNE_DELEGUEE = "/communeDeleguee";
     public static final String PATH_LISTE_ARRONDISSEMENT_MUNICIPAL = "/arrondissementMunicipal";
 
-    public static final String PATH_ASCENDANT = "/ascendant";
-    public static final String PATH_DESCENDANT = "/descendant";
+    public static final String PATH_ASCENDANT = "/ascendants";
+    public static final String PATH_DESCENDANT = "/descendants";
     public static final String PATH_SUIVANT = "/suivant";
     public static final String PATH_PRECEDENT = "/precedent";
 
@@ -45,4 +45,8 @@ public class ConstGeoApi {
         "Code de l'arrondissement (trois ou quatre caractères)";
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL_DESCRIPTION =
         "Code de l'arrondissement municipal (trois ou quatre caractères)";
+
+    public static final String ID_OPERATION_ASCENDANTS = "asc";
+    public static final String ID_OPERATION_DESCENDANTS = "desc";
+    public static final String ID_OPERATION_LISTE = "liste";
 }

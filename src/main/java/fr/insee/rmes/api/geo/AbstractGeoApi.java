@@ -16,13 +16,75 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
+import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.DateUtils;
 
 public abstract class AbstractGeoApi extends AbstractMetadataApi {
 
     private static Logger logger = LogManager.getLogger(AbstractGeoApi.class);
 
-    public Response generateStatusResponse(boolean objectIsFound, Object o, String header) {
+    // Method to find a territoire object
+    protected Response generateResponseATerritoireByCode(String csvResult, String header, Territoire territoire) {
+
+        territoire = (Territoire) csvUtils.populatePOJO(csvResult, territoire);
+        return this
+            .generateStatusResponse(
+                ! StringUtils.isEmpty(territoire.getUri()),
+                territoire,
+                this.getFirstValidHeader(header));
+    }
+
+    // Method to find a list of territoires
+    protected Response generateResponseListOfTerritoire(String csvResult, String header) {
+        List<Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, Territoire.class);
+        return this.generateListStatusResponse(Territoires.class, listeTerritoires, this.getFirstValidHeader(header));
+    }
+
+    protected boolean verifyParametersTypeAndDateAreValid(String typeTerritoire, String date) {
+        return (this.verifyParameterTypeTerritoireIsRight(typeTerritoire)) && (this.verifyParameterDateIsRight(date));
+    }
+
+    protected boolean verifyParameterTypeTerritoireIsRight(String typeTerritoire) {
+        return (typeTerritoire == null)
+            || (EnumTypeGeographie
+                .streamValuesTypeGeo()
+                .anyMatch(s -> s.getTypeObjetGeo().equalsIgnoreCase(typeTerritoire)));
+    }
+
+    protected String formatValidParametertypeTerritoireIfIsNull(String typeTerritoire) {
+        return (typeTerritoire != null) ? EnumTypeGeographie.getTypeObjetGeoIgnoreCase(typeTerritoire) : Constants.NONE;
+    }
+
+    protected boolean verifyParameterDateIsRight(String date) {
+        return (date == null) || (DateUtils.isValidDate(date));
+    }
+
+    protected String formatValidParameterDateIfIsNull(String date) {
+        return (date != null) ? date : DateUtils.getDateTodayStringFormat();
+    }
+
+    /**
+     * @param header from the url contains the list of headers accepted
+     * @return the first valid header
+     */
+    protected String getFirstValidHeader(String header) {
+
+        Stream<String> stream = Arrays.stream(header.split(","));
+        Optional<String> validHeader =
+            stream.filter(s -> s.equals(MediaType.APPLICATION_JSON) || s.equals(MediaType.APPLICATION_XML)).findFirst();
+
+        if (validHeader.isPresent()) {
+            return validHeader.get();
+        }
+        else {
+            return header;
+        }
+    }
+
+    protected Response generateStatusResponse(boolean objectIsFound, Object o, String header) {
         if (objectIsFound) {
             return Response.ok(responseUtils.produceResponse(o, header)).build();
         }
@@ -31,7 +93,7 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         }
     }
 
-    public Response generateListStatusResponse(Class<?> listObject, List<?> o, String header) {
+    protected Response generateListStatusResponse(Class<?> listObject, List<?> o, String header) {
         if (o.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
@@ -56,34 +118,7 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         }
     }
 
-    public Response generateBadRequestResponse() {
+    protected Response generateBadRequestResponse() {
         return Response.status(Status.BAD_REQUEST).entity("").build();
     }
-
-    /**
-     * @param header from the url contains the list of headers accepted
-     * @return the first valid header
-     */
-    public String getFirstValidHeader(String header) {
-
-        Stream<String> stream = Arrays.stream(header.split(","));
-        Optional<String> validHeader =
-            stream.filter(s -> s.equals(MediaType.APPLICATION_JSON) || s.equals(MediaType.APPLICATION_XML)).findFirst();
-
-        if (validHeader.isPresent()) {
-            return validHeader.get();
-        }
-        else {
-            return header;
-        }
-    }
-
-    protected boolean verifyParameterDateIsRight(String date) {
-        return (date == null) || (DateUtils.isValidDate(date));
-    }
-
-    public String formatValidParameterDateIfIsNull(String date) {
-        return (date != null) ? date : DateUtils.getDateTodayStringFormat();
-    }
-
 }
