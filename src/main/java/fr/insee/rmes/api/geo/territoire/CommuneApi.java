@@ -17,6 +17,8 @@ import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.Communes;
+import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -136,6 +138,7 @@ public class CommuneApi extends AbstractGeoApi {
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                     header,
+                    Territoires.class,
                     Territoire.class);
         }
     }
@@ -189,6 +192,7 @@ public class CommuneApi extends AbstractGeoApi {
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                     header,
+                    Territoires.class,
                     Territoire.class);
         }
     }
@@ -226,6 +230,7 @@ public class CommuneApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date))),
                     header,
+                    Communes.class,
                     Commune.class);
         }
     }

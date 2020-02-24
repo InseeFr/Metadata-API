@@ -18,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.DateUtils;
 
@@ -41,9 +40,10 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     protected Response generateResponseListOfTerritoire(
         String csvResult,
         String header,
+        Class<?> rootClass,
         Class<? extends Territoire> classObject) {
         List<? extends Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, classObject);
-        return this.generateListStatusResponse(Territoires.class, listeTerritoires, this.getFirstValidHeader(header));
+        return this.generateListStatusResponse(rootClass, listeTerritoires, this.getFirstValidHeader(header));
     }
 
     protected boolean verifyParametersTypeAndDateAreValid(String typeTerritoire, String date) {

@@ -1,4 +1,4 @@
-package fr.insee.rmes.api.geo.territoire;
+package fr.insee.rmes.api.geo;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -13,8 +13,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import fr.insee.rmes.api.geo.AbstractGeoApi;
-import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.Country;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
