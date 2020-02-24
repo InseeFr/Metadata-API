@@ -74,13 +74,6 @@ public class CSVUtils {
         if (rowAsMap.get("type") != null) {
             nomType = StringUtils.substringAfterLast(rowAsMap.get("type"), "#");
         }
-        else if (rowAsMap.get("uri") != null) {
-            String[] tabNomType = rowAsMap.get("uri").split("/");
-            int positionTypeTerritoire = 4;
-            if (tabNomType.length > positionTypeTerritoire) {
-                nomType = tabNomType[positionTypeTerritoire];
-            }
-        }
         else {
             logger.info("Territoire not found");
         }

@@ -128,7 +128,8 @@ public class RegionApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header);
+                    header,
+                    Territoire.class);
         }
     }
 
@@ -164,7 +165,8 @@ public class RegionApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(GeoQueries.getListRegion(this.formatValidParameterDateIfIsNull(date))),
-                    header);
+                    header,
+                    Region.class);
         }
     }
 }

@@ -19,12 +19,12 @@ public class ConstGeoApi {
 
     public static final String PATH_LISTE_COMMUNES = PATH_SEPARATOR + "communes";
     public static final String PATH_LISTE_PAYS = PATH_SEPARATOR + "pays";
-    public static final String PATH_LISTE_REGION = PATH_SEPARATOR + "region";
-    public static final String PATH_LISTE_DEPARTEMENT = PATH_SEPARATOR + "departement";
-    public static final String PATH_LISTE_ARRONDISSEMENT = PATH_SEPARATOR + "arrondissement";
-    public static final String PATH_LISTE_COMMUNE_ASSOCIEE = PATH_SEPARATOR + "communeAssociee";
-    public static final String PATH_LISTE_COMMUNE_DELEGUEE = PATH_SEPARATOR + "communeDeleguee";
-    public static final String PATH_LISTE_ARRONDISSEMENT_MUNICIPAL = PATH_SEPARATOR + "arrondissementMunicipal";
+    public static final String PATH_LISTE_REGION = PATH_SEPARATOR + "regions";
+    public static final String PATH_LISTE_DEPARTEMENT = PATH_SEPARATOR + "departements";
+    public static final String PATH_LISTE_ARRONDISSEMENT = PATH_SEPARATOR + "arrondissements";
+    public static final String PATH_LISTE_COMMUNE_ASSOCIEE = PATH_SEPARATOR + "communesAssociees";
+    public static final String PATH_LISTE_COMMUNE_DELEGUEE = PATH_SEPARATOR + "communesDeleguees";
+    public static final String PATH_LISTE_ARRONDISSEMENT_MUNICIPAL = PATH_SEPARATOR + "arrondissementsMunicipal";
 
     public static final String PATH_ASCENDANT = PATH_SEPARATOR + "ascendants";
     public static final String PATH_DESCENDANT = PATH_SEPARATOR + "descendants";

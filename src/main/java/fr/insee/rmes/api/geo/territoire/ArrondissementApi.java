@@ -129,7 +129,8 @@ public class ArrondissementApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header);
+                    header,
+                    Territoire.class);
         }
     }
 
@@ -180,7 +181,8 @@ public class ArrondissementApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header);
+                    header,
+                    Territoire.class);
         }
     }
 
@@ -217,7 +219,8 @@ public class ArrondissementApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries.getListArrondissements(this.formatValidParameterDateIfIsNull(date))),
-                    header);
+                    header,
+                    Arrondissement.class);
         }
     }
 

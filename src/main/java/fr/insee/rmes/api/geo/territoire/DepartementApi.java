@@ -128,7 +128,8 @@ public class DepartementApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header);
+                    header,
+                    Territoire.class);
         }
     }
 
@@ -179,7 +180,8 @@ public class DepartementApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header);
+                    header,
+                    Territoire.class);
         }
     }
 
@@ -214,7 +216,8 @@ public class DepartementApi extends AbstractGeoApi {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils.executeSparqlQuery(GeoQueries.getListDept(this.formatValidParameterDateIfIsNull(date))),
-                    header);
+                    header,
+                    Departement.class);
         }
     }
 }

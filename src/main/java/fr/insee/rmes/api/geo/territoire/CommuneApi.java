@@ -135,7 +135,8 @@ public class CommuneApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header);
+                    header,
+                    Territoire.class);
         }
     }
 
@@ -187,7 +188,8 @@ public class CommuneApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header);
+                    header,
+                    Territoire.class);
         }
     }
 
@@ -219,12 +221,12 @@ public class CommuneApi extends AbstractGeoApi {
             return this.generateBadRequestResponse();
         }
         else {
-
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date))),
-                    header);
+                    header,
+                    Commune.class);
         }
     }
 }

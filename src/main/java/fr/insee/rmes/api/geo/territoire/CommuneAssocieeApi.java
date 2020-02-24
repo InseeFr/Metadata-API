@@ -137,7 +137,8 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header);
+                    header,
+                    Territoire.class);
         }
     }
 
@@ -175,7 +176,8 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries.getListCommunesAssociees(this.formatValidParameterDateIfIsNull(date))),
-                    header);
+                    header,
+                    CommuneAssociee.class);
         }
     }
 }

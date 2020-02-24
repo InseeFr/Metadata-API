@@ -38,8 +38,11 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     }
 
     // Method to find a list of territoires
-    protected Response generateResponseListOfTerritoire(String csvResult, String header) {
-        List<Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, Territoire.class);
+    protected Response generateResponseListOfTerritoire(
+        String csvResult,
+        String header,
+        Class<? extends Territoire> classObject) {
+        List<? extends Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, classObject);
         return this.generateListStatusResponse(Territoires.class, listeTerritoires, this.getFirstValidHeader(header));
     }
 
