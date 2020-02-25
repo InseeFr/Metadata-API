@@ -55,7 +55,7 @@ package:
       - $NOM_BRANCHE == $CI_COMMIT_REF_NAME
   image: git-registry.stable.innovation.insee.eu/innovation/images-ci/jdk:8
   script:
-    - curl -T target/*.war ftp://$FTP_USR_W:$FTP_PWD@$FTP_SERVER_W/depot/metadata-api.war
+    - curl -T target/*.war ftp://$FTP_USR_W:$FTP_PWD@$FTP_SERVER_W/depot/ROOT.war
 
 deploy-dv:
   <<: *deploy
