@@ -43,7 +43,7 @@ public class ResponseUtils {
             // Remove duplications Territoires objects with tag <territoire> for XML response
             response =
                 Pattern
-                    .compile("(<territoires>)+(.*?)+(<\\/territoires><\\/territoires>)")
+                    .compile("(<territoires>)+([\\D][\\d]*?)+(<\\/territoires><\\/territoires>)")
                     .matcher(response)
                     .replaceAll("");
 
