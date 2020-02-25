@@ -18,6 +18,8 @@ import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.CommunesDeleguees;
+import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,30 +35,30 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
 
     private static Logger logger = LogManager.getLogger(CommuneDelegueeApi.class);
 
-    private final String codePattern = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
-    private final String litteralIdOperation = "getcogcomass";
-    private final String litteralOperationSummary =
+    private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
+    private static final String LITTERAL_ID_OPERATION = "getcogcomdel";
+    private static final String LITTERAL_OPERATION_SUMMARY =
         "Informations sur une commune française identifiée par son code (cinq caractères)";
-    private final String litteralOperationDescription =
+    private static final String LITTERAL_OPERATION_DESCRIPTION =
         "Cette requête renvoie également les communes des collectivités d'Outre-Mer";
-    private final String litteralResponseDescription = "Commune déléguée";
-    private final String litteralParameterDateDescription =
+    private static final String LITTERAL_RESPONSE_DESCRIPTION = "Commune déléguée";
+    private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la commune déléguée active à la date donnée. Par défaut, c’est la date courante.";
-    private final String litteralParameterTypeDescription = "Filtre sur le type de territoire renvoyé.";
+    private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
-    @Path(ConstGeoApi.PATH_COMMUNE_DELEGUEE + codePattern)
+    @Path(ConstGeoApi.PATH_COMMUNE_DELEGUEE + CODE_PATTERN)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = litteralIdOperation,
-        summary = litteralOperationSummary,
-        description = litteralOperationDescription,
+        operationId = LITTERAL_ID_OPERATION,
+        summary = LITTERAL_OPERATION_SUMMARY,
+        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = CommuneDeleguee.class)),
-                description = litteralResponseDescription)
+                description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getCommune(
         @Parameter(
@@ -67,7 +69,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
@@ -89,19 +91,19 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
         }
     }
 
-    @Path(ConstGeoApi.PATH_COMMUNE_DELEGUEE + codePattern + ConstGeoApi.PATH_ASCENDANT)
+    @Path(ConstGeoApi.PATH_COMMUNE_DELEGUEE + CODE_PATTERN + ConstGeoApi.PATH_ASCENDANT)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = litteralIdOperation + ConstGeoApi.ID_OPERATION_ASCENDANTS,
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
         summary = "Récupérer les informations concernant les territoires qui contiennent la commune",
-        description = litteralOperationDescription,
+        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
-                description = litteralResponseDescription)
+                description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getAscendantsFromCommune(
         @Parameter(
@@ -112,12 +114,12 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
         @Parameter(
-            description = litteralParameterTypeDescription,
+            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
@@ -137,7 +139,9 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header);
+                    header,
+                    Territoires.class,
+                    Territoire.class);
         }
     }
 
@@ -147,18 +151,18 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = litteralIdOperation + ConstGeoApi.ID_OPERATION_LISTE,
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
         summary = "La requête renvoie toutes les communes déléguée actives à la date donnée. Par défaut, c’est la date courante.",
-        description = litteralOperationDescription,
+        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Commune.class)),
-                description = litteralResponseDescription)
+                description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getListeCommunes(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = litteralParameterDateDescription,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
@@ -175,7 +179,9 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries.getListCommunesDeleguees(this.formatValidParameterDateIfIsNull(date))),
-                    header);
+                    header,
+                    CommunesDeleguees.class,
+                    CommuneDeleguee.class);
         }
     }
 }

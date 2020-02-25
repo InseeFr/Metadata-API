@@ -1,4 +1,4 @@
-package fr.insee.rmes.api.geo.territoire;
+package fr.insee.rmes.api.geo;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
+import fr.insee.rmes.api.geo.PaysApi;
 import fr.insee.rmes.modeles.geo.Country;
 
 @ExtendWith(MockitoExtension.class)
