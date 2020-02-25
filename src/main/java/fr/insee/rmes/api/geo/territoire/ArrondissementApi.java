@@ -17,6 +17,7 @@ import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.Arrondissements;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -223,7 +224,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                         .executeSparqlQuery(
                             GeoQueries.getListArrondissements(this.formatValidParameterDateIfIsNull(date))),
                     header,
-                    Arrondissement.class,
+                    Arrondissements.class,
                     Arrondissement.class);
         }
     }

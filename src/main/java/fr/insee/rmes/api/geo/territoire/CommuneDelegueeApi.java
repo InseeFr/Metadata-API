@@ -18,6 +18,7 @@ import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.CommunesDeleguees;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -179,7 +180,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
                         .executeSparqlQuery(
                             GeoQueries.getListCommunesDeleguees(this.formatValidParameterDateIfIsNull(date))),
                     header,
-                    CommuneDeleguee.class,
+                    CommunesDeleguees.class,
                     CommuneDeleguee.class);
         }
     }
