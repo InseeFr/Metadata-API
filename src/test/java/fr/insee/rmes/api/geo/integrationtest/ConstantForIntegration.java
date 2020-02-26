@@ -271,4 +271,13 @@ public class ConstantForIntegration {
             + "<Commune code=\"97101\" uri=\"http://id.insee.fr/geo/commune/cf73afd7-a50e-49f8-9b86-23945b0bdfb0\"><Intitule>Les Abymes</Intitule><Type>Commune</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"4\">Abymes</IntituleSansArticle></Commune>"
             + "<Commune code=\"97102\" uri=\"http://id.insee.fr/geo/commune/1eb1a160-fc5d-470e-8bd5-ed98f3621805\"><Intitule>Anse-Bertrand</Intitule><Type>Commune</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"1\">Anse-Bertrand</IntituleSansArticle></Commune>"
             + "</Territoires>";
+    public static final String COMMUNE_ASSOCIEE_MOCK_SERVER_RETURN_GET = null;
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_GET_JSON = null;
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_GET_XML = null;
+    public static final String COMMUNE_ASSOCIEE_MOCK_SERVER_RETURN_LISTE = null;
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_LISTE_TOP_XML = null;
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_LISTE_TOP_JSON = null;
+    public static final String COMMUNE_ASSOCIEE_MOCK_SERVER_RETURN_ASCENDANTS = null;
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_ASCENDANTS_JSON = null;
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_ASCENDANTS_XML = null;
 }
