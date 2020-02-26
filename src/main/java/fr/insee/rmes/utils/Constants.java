@@ -8,4 +8,6 @@ public class Constants {
     public static final String FORMAT_DATE = "date";
     public static final String PARAMETER_DATE = "date";
     public static final String PARAMETER_TYPE = "type";
+
+    private Constants() {}
 }

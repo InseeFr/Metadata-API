@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @Path("/healthcheck")
 public class HealthcheckApi extends AbstractMetadataApi {
-    
+
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
