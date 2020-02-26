@@ -87,7 +87,7 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
                             GeoQueries
                                 .getCommuneAssocieeByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
-                    new Commune(code));
+                    new CommuneAssociee(code));
         }
     }
 

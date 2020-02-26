@@ -9,7 +9,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
+import fr.insee.rmes.modeles.geo.territoire.CommuneAssociee;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @JacksonXmlRootElement(localName = "CommunesAssociees")
@@ -17,21 +17,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "CommunesAssociees", description = "Tableau représentant les communes associées")
 public class CommunesAssociees {
 
-    private List<CommuneDeleguee> communesAssociees = null;
+    private List<CommuneAssociee> communesAssociees = null;
 
     public CommunesAssociees() {}
 
-    public CommunesAssociees(List<CommuneDeleguee> communesAssociees) {
+    public CommunesAssociees(List<CommuneAssociee> communesAssociees) {
         this.communesAssociees = communesAssociees;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "CommuneDeleguee")
+    @JacksonXmlProperty(isAttribute = true, localName = "CommuneAssociee")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<CommuneDeleguee> getCommunesAssociees() {
+    public List<CommuneAssociee> getCommunesAssociees() {
         return communesAssociees;
     }
 
-    public void setCommunesAssociees(List<CommuneDeleguee> communesAssociees) {
+    public void setCommunesAssociees(List<CommuneAssociee> communesAssociees) {
         this.communesAssociees = communesAssociees;
     }
 

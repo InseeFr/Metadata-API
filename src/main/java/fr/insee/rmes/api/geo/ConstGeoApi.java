@@ -24,7 +24,7 @@ public class ConstGeoApi {
     public static final String PATH_LISTE_ARRONDISSEMENT = PATH_SEPARATOR + "arrondissements";
     public static final String PATH_LISTE_COMMUNE_ASSOCIEE = PATH_SEPARATOR + "communesAssociees";
     public static final String PATH_LISTE_COMMUNE_DELEGUEE = PATH_SEPARATOR + "communesDeleguees";
-    public static final String PATH_LISTE_ARRONDISSEMENT_MUNICIPAL = PATH_SEPARATOR + "arrondissementsMunicipal";
+    public static final String PATH_LISTE_ARRONDISSEMENT_MUNICIPAL = PATH_SEPARATOR + "arrondissementsMunicipaux";
 
     public static final String PATH_ASCENDANT = PATH_SEPARATOR + "ascendants";
     public static final String PATH_DESCENDANT = PATH_SEPARATOR + "descendants";
