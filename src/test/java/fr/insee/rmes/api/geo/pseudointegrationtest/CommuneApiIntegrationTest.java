@@ -1,4 +1,4 @@
-package fr.insee.rmes.api.geo.integrationtest;
+package fr.insee.rmes.api.geo.pseudointegrationtest;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -21,6 +21,8 @@ public class CommuneApiIntegrationTest {
 
     @InjectMocks
     private CommuneApi geoApi;
+    private final static String CODE = "01002";
+    private final static String CODE_DESCENDANTS = "01015";
 
     @Mock
     protected SparqlUtils mockSparqlUtils;
@@ -34,7 +36,7 @@ public class CommuneApiIntegrationTest {
     public void givengetCommune_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_GET);
-        Response response = geoApi.getCommune("01002", MediaType.APPLICATION_JSON, null);
+        Response response = geoApi.getCommune(CODE, MediaType.APPLICATION_JSON, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_GET_JSON, response.getEntity());
     }
@@ -43,7 +45,7 @@ public class CommuneApiIntegrationTest {
     public void givengetCommune_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_GET);
-        Response response = geoApi.getCommune("01002", MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getCommune(CODE, MediaType.APPLICATION_XML, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_GET_XML, response.getEntity());
     }
@@ -70,7 +72,7 @@ public class CommuneApiIntegrationTest {
     public void givengetAscendantsCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_ASCENDANTS);
-        Response response = geoApi.getAscendantsFromCommune("01002", MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getAscendantsFromCommune(CODE, MediaType.APPLICATION_JSON, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_ASCENDANTS_JSON, response.getEntity());
     }
@@ -79,7 +81,7 @@ public class CommuneApiIntegrationTest {
     public void givengetAscendantsCommunes_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_ASCENDANTS);
-        Response response = geoApi.getAscendantsFromCommune("01002", MediaType.APPLICATION_XML, null, null);
+        Response response = geoApi.getAscendantsFromCommune(CODE, MediaType.APPLICATION_XML, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_ASCENDANTS_XML, response.getEntity());
     }
@@ -88,7 +90,7 @@ public class CommuneApiIntegrationTest {
     public void givengetDescendantsCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_DESCENDANTS);
-        Response response = geoApi.getDescendantsFromCommune("01015", MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getDescendantsFromCommune(CODE_DESCENDANTS, MediaType.APPLICATION_JSON, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_DESCENDANTS_JSON, response.getEntity());
     }
@@ -97,7 +99,7 @@ public class CommuneApiIntegrationTest {
     public void givengetDescendantsCommunes_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_DESCENDANTS);
-        Response response = geoApi.getDescendantsFromCommune("01015", MediaType.APPLICATION_XML, null, null);
+        Response response = geoApi.getDescendantsFromCommune(CODE_DESCENDANTS, MediaType.APPLICATION_XML, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_DESCENDANTS_XML, response.getEntity());
     }

@@ -1,4 +1,4 @@
-package fr.insee.rmes.api.geo.integrationtest;
+package fr.insee.rmes.api.geo.pseudointegrationtest;
 
 public class ConstantForIntegration {
 
@@ -271,13 +271,181 @@ public class ConstantForIntegration {
             + "<Commune code=\"97101\" uri=\"http://id.insee.fr/geo/commune/cf73afd7-a50e-49f8-9b86-23945b0bdfb0\"><Intitule>Les Abymes</Intitule><Type>Commune</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"4\">Abymes</IntituleSansArticle></Commune>"
             + "<Commune code=\"97102\" uri=\"http://id.insee.fr/geo/commune/1eb1a160-fc5d-470e-8bd5-ed98f3621805\"><Intitule>Anse-Bertrand</Intitule><Type>Commune</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"1\">Anse-Bertrand</IntituleSansArticle></Commune>"
             + "</Territoires>";
-    public static final String COMMUNE_ASSOCIEE_MOCK_SERVER_RETURN_GET = null;
-    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_GET_JSON = null;
-    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_GET_XML = null;
-    public static final String COMMUNE_ASSOCIEE_MOCK_SERVER_RETURN_LISTE = null;
-    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_LISTE_TOP_XML = null;
-    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_LISTE_TOP_JSON = null;
-    public static final String COMMUNE_ASSOCIEE_MOCK_SERVER_RETURN_ASCENDANTS = null;
-    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_ASCENDANTS_JSON = null;
-    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_ASCENDANTS_XML = null;
+
+    public static final String COMMUNE_ASSOCIEE_MOCK_SERVER_RETURN_GET =
+        "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
+            + "http://id.insee.fr/geo/communeAssociee/d4d9337b-25fe-4945-ba1c-14026d6f323b,01120,0,Cordieux,Cordieux,1973-01-01,,\r\n";
+
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_GET_JSON =
+        "{\"code\":\"01120\",\"uri\":\"http://id.insee.fr/geo/communeAssociee/d4d9337b-25fe-4945-ba1c-14026d6f323b\",\"type\":\"CommuneAssociee\",\"dateCreation\":\"1973-01-01\",\"intituleSansArticle\":\"Cordieux\",\"typeArticle\":\"0\",\"intitule\":\"Cordieux\"}";
+
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_GET_XML =
+        "<CommuneAssociee code=\"01120\" uri=\"http://id.insee.fr/geo/communeAssociee/d4d9337b-25fe-4945-ba1c-14026d6f323b\"><Intitule>Cordieux</Intitule><Type>CommuneAssociee</Type><DateCreation>1973-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Cordieux</IntituleSansArticle></CommuneAssociee>";
+
+    public static final String COMMUNE_ASSOCIEE_MOCK_SERVER_RETURN_LISTE =
+        "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
+            + "http://id.insee.fr/geo/communeAssociee/d4d9337b-25fe-4945-ba1c-14026d6f323b,01120,0,Cordieux,Cordieux,1973-01-01,,\r\n"
+            + "http://id.insee.fr/geo/communeAssociee/0447fef4-7543-486b-ba77-91f2263521b3,01324,0,Rignat,Rignat,1974-01-01,,\r\n"
+            + "http://id.insee.fr/geo/communeAssociee/a3777eee-2bd3-4558-b530-e07e4d5168a4,02285,1,Escaufourt,Escaufourt,1973-09-01,,\r\n"
+            + "http://id.insee.fr/geo/communeAssociee/59a155d3-8db8-4a55-a41d-fe0abc28f4e2,02300,0,Fargniers,Fargniers,1974-01-01,,";
+
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_LISTE_TOP_JSON =
+        "["
+            + "{\"code\":\"01120\",\"uri\":\"http://id.insee.fr/geo/communeAssociee/d4d9337b-25fe-4945-ba1c-14026d6f323b\",\"type\":\"CommuneAssociee\",\"dateCreation\":\"1973-01-01\",\"intituleSansArticle\":\"Cordieux\",\"typeArticle\":\"0\",\"intitule\":\"Cordieux\"},"
+            + "{\"code\":\"01324\",\"uri\":\"http://id.insee.fr/geo/communeAssociee/0447fef4-7543-486b-ba77-91f2263521b3\",\"type\":\"CommuneAssociee\",\"dateCreation\":\"1974-01-01\",\"intituleSansArticle\":\"Rignat\",\"typeArticle\":\"0\",\"intitule\":\"Rignat\"},"
+            + "{\"code\":\"02285\",\"uri\":\"http://id.insee.fr/geo/communeAssociee/a3777eee-2bd3-4558-b530-e07e4d5168a4\",\"type\":\"CommuneAssociee\",\"dateCreation\":\"1973-09-01\",\"intituleSansArticle\":\"Escaufourt\",\"typeArticle\":\"1\",\"intitule\":\"Escaufourt\"},"
+            + "{\"code\":\"02300\",\"uri\":\"http://id.insee.fr/geo/communeAssociee/59a155d3-8db8-4a55-a41d-fe0abc28f4e2\",\"type\":\"CommuneAssociee\",\"dateCreation\":\"1974-01-01\",\"intituleSansArticle\":\"Fargniers\",\"typeArticle\":\"0\",\"intitule\":\"Fargniers\"}"
+            + "]";
+
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_LISTE_TOP_XML =
+        "<CommunesAssociees>"
+            + "<CommuneAssociee code=\"01120\" uri=\"http://id.insee.fr/geo/communeAssociee/d4d9337b-25fe-4945-ba1c-14026d6f323b\"><Intitule>Cordieux</Intitule><Type>CommuneAssociee</Type><DateCreation>1973-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Cordieux</IntituleSansArticle></CommuneAssociee>"
+            + "<CommuneAssociee code=\"01324\" uri=\"http://id.insee.fr/geo/communeAssociee/0447fef4-7543-486b-ba77-91f2263521b3\"><Intitule>Rignat</Intitule><Type>CommuneAssociee</Type><DateCreation>1974-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Rignat</IntituleSansArticle></CommuneAssociee>"
+            + "<CommuneAssociee code=\"02285\" uri=\"http://id.insee.fr/geo/communeAssociee/a3777eee-2bd3-4558-b530-e07e4d5168a4\"><Intitule>Escaufourt</Intitule><Type>CommuneAssociee</Type><DateCreation>1973-09-01</DateCreation><IntituleSansArticle typeArticle=\"1\">Escaufourt</IntituleSansArticle></CommuneAssociee>"
+            + "<CommuneAssociee code=\"02300\" uri=\"http://id.insee.fr/geo/communeAssociee/59a155d3-8db8-4a55-a41d-fe0abc28f4e2\"><Intitule>Fargniers</Intitule><Type>CommuneAssociee</Type><DateCreation>1974-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Fargniers</IntituleSansArticle></CommuneAssociee>"
+            + "</CommunesAssociees>";
+
+    public static final String COMMUNE_ASSOCIEE_MOCK_SERVER_RETURN_ASCENDANTS =
+        "uri,code,type,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
+            + "http://id.insee.fr/geo/arrondissement/bafd343b-c49a-4c79-a79a-349415d23127,012,http://rdf.insee.fr/def/geo#Arrondissement,0,Bourg-en-Bresse,Bourg-en-Bresse,2017-01-01,,01053\r\n"
+            + "http://id.insee.fr/geo/commune/10417a27-eae8-41b7-837c-28e1b415ef77,01262,http://rdf.insee.fr/def/geo#Commune,0,Montluel,Montluel,1973-01-01,,\r\n"
+            + "http://id.insee.fr/geo/departement/f1d6d530-6cad-4e87-9e68-cdfaadd912bc,01,http://rdf.insee.fr/def/geo#Departement,5,Ain,Ain,1943-01-01,,01053\r\n"
+            + "http://id.insee.fr/geo/region/6db44a21-5ae3-41b5-b16d-0ab30964f78d,84,http://rdf.insee.fr/def/geo#Region,1,Auvergne-Rhône-Alpes,Auvergne-Rhône-Alpes,2016-01-01,,69123\r\n";
+
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_ASCENDANTS_JSON =
+        "["
+            + "{\"code\":\"012\",\"uri\":\"http://id.insee.fr/geo/arrondissement/bafd343b-c49a-4c79-a79a-349415d23127\",\"type\":\"Arrondissement\",\"dateCreation\":\"2017-01-01\",\"intituleSansArticle\":\"Bourg-en-Bresse\",\"typeArticle\":\"0\",\"chefLieu\":\"01053\",\"intitule\":\"Bourg-en-Bresse\"},"
+            + "{\"code\":\"01262\",\"uri\":\"http://id.insee.fr/geo/commune/10417a27-eae8-41b7-837c-28e1b415ef77\",\"type\":\"Commune\",\"dateCreation\":\"1973-01-01\",\"intituleSansArticle\":\"Montluel\",\"typeArticle\":\"0\",\"intitule\":\"Montluel\"},"
+            + "{\"code\":\"01\",\"uri\":\"http://id.insee.fr/geo/departement/f1d6d530-6cad-4e87-9e68-cdfaadd912bc\",\"type\":\"Departement\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Ain\",\"typeArticle\":\"5\",\"chefLieu\":\"01053\",\"intitule\":\"Ain\"},"
+            + "{\"code\":\"84\",\"uri\":\"http://id.insee.fr/geo/region/6db44a21-5ae3-41b5-b16d-0ab30964f78d\",\"type\":\"Region\",\"dateCreation\":\"2016-01-01\",\"intituleSansArticle\":\"Auvergne-Rhône-Alpes\",\"typeArticle\":\"1\",\"chefLieu\":\"69123\",\"intitule\":\"Auvergne-Rhône-Alpes\"}"
+            + "]";
+
+    public static final Object COMMUNE_ASSOCIEE_EXPECTED_RESPONSE_ASCENDANTS_XML =
+        "<Territoires>"
+            + "<Arrondissement code=\"012\" uri=\"http://id.insee.fr/geo/arrondissement/bafd343b-c49a-4c79-a79a-349415d23127\"><Intitule>Bourg-en-Bresse</Intitule><Type>Arrondissement</Type><DateCreation>2017-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse</IntituleSansArticle><ChefLieu>01053</ChefLieu></Arrondissement>"
+            + "<Commune code=\"01262\" uri=\"http://id.insee.fr/geo/commune/10417a27-eae8-41b7-837c-28e1b415ef77\"><Intitule>Montluel</Intitule><Type>Commune</Type><DateCreation>1973-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Montluel</IntituleSansArticle></Commune>"
+            + "<Departement code=\"01\" uri=\"http://id.insee.fr/geo/departement/f1d6d530-6cad-4e87-9e68-cdfaadd912bc\"><Intitule>Ain</Intitule><Type>Departement</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"5\">Ain</IntituleSansArticle><ChefLieu>01053</ChefLieu></Departement>"
+            + "<Region code=\"84\" uri=\"http://id.insee.fr/geo/region/6db44a21-5ae3-41b5-b16d-0ab30964f78d\"><Intitule>Auvergne-Rhône-Alpes</Intitule><Type>Region</Type><DateCreation>2016-01-01</DateCreation><IntituleSansArticle typeArticle=\"1\">Auvergne-Rhône-Alpes</IntituleSansArticle><ChefLieu>69123</ChefLieu></Region>"
+            + "</Territoires>";
+
+    public static final String ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_GET =
+        "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
+            + "http://id.insee.fr/geo/arrondissementMunicipal/05b3eb1f-7563-492e-bf33-0b3f481fff8c,75107,0,Paris 7e Arrondissement,Paris 7e Arrondissement,1943-01-01,,\r\n";
+
+    public static final Object ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_GET_JSON =
+        "{\"code\":\"75107\",\"uri\":\"http://id.insee.fr/geo/arrondissementMunicipal/05b3eb1f-7563-492e-bf33-0b3f481fff8c\",\"type\":\"Arrondissement\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Paris 7e Arrondissement\",\"typeArticle\":\"0\",\"intitule\":\"Paris 7e Arrondissement\"}";
+
+    public static final Object ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_GET_XML =
+        "<Arrondissement code=\"75107\" uri=\"http://id.insee.fr/geo/arrondissementMunicipal/05b3eb1f-7563-492e-bf33-0b3f481fff8c\"><Intitule>Paris 7e Arrondissement</Intitule><Type>Arrondissement</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Paris 7e Arrondissement</IntituleSansArticle></Arrondissement>";
+
+    public static final String ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_LISTE =
+        "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
+            + "http://id.insee.fr/geo/arrondissementMunicipal/12e426af-7d95-4349-bef4-424e02292ffe,13201,0,Marseille 1er Arrondissement,Marseille 1er Arrondissement,1946-10-18,,\r\n"
+            + "http://id.insee.fr/geo/arrondissementMunicipal/6cfdc10f-93ec-428a-8f25-15ae4a9f2c93,13202,0,Marseille 2e Arrondissement,Marseille 2e Arrondissement,1946-10-18,,\r\n"
+            + "http://id.insee.fr/geo/arrondissementMunicipal/0e41b1c6-5c50-42c9-a091-c47a3e01df72,13203,0,Marseille 3e Arrondissement,Marseille 3e Arrondissement,1946-10-18,,\r\n"
+            + "http://id.insee.fr/geo/arrondissementMunicipal/68e37efb-59b2-4e17-955d-a80e107ec5f4,13204,0,Marseille 4e Arrondissement,Marseille 4e Arrondissement,1946-10-18,,";
+
+    public static final Object ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_LISTE_TOP_JSON =
+        "["
+            + "{\"code\":\"13201\",\"uri\":\"http://id.insee.fr/geo/arrondissementMunicipal/12e426af-7d95-4349-bef4-424e02292ffe\",\"type\":\"ArrondissementMunicipal\",\"dateCreation\":\"1946-10-18\",\"intituleSansArticle\":\"Marseille 1er Arrondissement\",\"typeArticle\":\"0\",\"intitule\":\"Marseille 1er Arrondissement\"},"
+            + "{\"code\":\"13202\",\"uri\":\"http://id.insee.fr/geo/arrondissementMunicipal/6cfdc10f-93ec-428a-8f25-15ae4a9f2c93\",\"type\":\"ArrondissementMunicipal\",\"dateCreation\":\"1946-10-18\",\"intituleSansArticle\":\"Marseille 2e Arrondissement\",\"typeArticle\":\"0\",\"intitule\":\"Marseille 2e Arrondissement\"},"
+            + "{\"code\":\"13203\",\"uri\":\"http://id.insee.fr/geo/arrondissementMunicipal/0e41b1c6-5c50-42c9-a091-c47a3e01df72\",\"type\":\"ArrondissementMunicipal\",\"dateCreation\":\"1946-10-18\",\"intituleSansArticle\":\"Marseille 3e Arrondissement\",\"typeArticle\":\"0\",\"intitule\":\"Marseille 3e Arrondissement\"},"
+            + "{\"code\":\"13204\",\"uri\":\"http://id.insee.fr/geo/arrondissementMunicipal/68e37efb-59b2-4e17-955d-a80e107ec5f4\",\"type\":\"ArrondissementMunicipal\",\"dateCreation\":\"1946-10-18\",\"intituleSansArticle\":\"Marseille 4e Arrondissement\",\"typeArticle\":\"0\",\"intitule\":\"Marseille 4e Arrondissement\"}"
+            + "]";
+
+    public static final Object ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_LISTE_TOP_XML =
+        "<ArrondissementsMunicipaux>"
+            + "<ArrondissementMunicipal code=\"13201\" uri=\"http://id.insee.fr/geo/arrondissementMunicipal/12e426af-7d95-4349-bef4-424e02292ffe\"><Intitule>Marseille 1er Arrondissement</Intitule><Type>ArrondissementMunicipal</Type><DateCreation>1946-10-18</DateCreation><IntituleSansArticle typeArticle=\"0\">Marseille 1er Arrondissement</IntituleSansArticle></ArrondissementMunicipal>"
+            + "<ArrondissementMunicipal code=\"13202\" uri=\"http://id.insee.fr/geo/arrondissementMunicipal/6cfdc10f-93ec-428a-8f25-15ae4a9f2c93\"><Intitule>Marseille 2e Arrondissement</Intitule><Type>ArrondissementMunicipal</Type><DateCreation>1946-10-18</DateCreation><IntituleSansArticle typeArticle=\"0\">Marseille 2e Arrondissement</IntituleSansArticle></ArrondissementMunicipal>"
+            + "<ArrondissementMunicipal code=\"13203\" uri=\"http://id.insee.fr/geo/arrondissementMunicipal/0e41b1c6-5c50-42c9-a091-c47a3e01df72\"><Intitule>Marseille 3e Arrondissement</Intitule><Type>ArrondissementMunicipal</Type><DateCreation>1946-10-18</DateCreation><IntituleSansArticle typeArticle=\"0\">Marseille 3e Arrondissement</IntituleSansArticle></ArrondissementMunicipal>"
+            + "<ArrondissementMunicipal code=\"13204\" uri=\"http://id.insee.fr/geo/arrondissementMunicipal/68e37efb-59b2-4e17-955d-a80e107ec5f4\"><Intitule>Marseille 4e Arrondissement</Intitule><Type>ArrondissementMunicipal</Type><DateCreation>1946-10-18</DateCreation><IntituleSansArticle typeArticle=\"0\">Marseille 4e Arrondissement</IntituleSansArticle></ArrondissementMunicipal>"
+            + "</ArrondissementsMunicipaux>";
+
+    public static final String ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_ASCENDANTS =
+        "uri,code,type,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
+            + "http://id.insee.fr/geo/arrondissement/0f7adb14-b9a3-4d32-a988-2a354ccd816a,751,http://rdf.insee.fr/def/geo#Arrondissement,0,Paris,Paris,1993-01-01,,75056\r\n"
+            + "http://id.insee.fr/geo/commune/13f2d896-0276-4902-a1a0-aef01746068e,75056,http://rdf.insee.fr/def/geo#Commune,0,Paris,Paris,1943-01-01,,\r\n"
+            + "http://id.insee.fr/geo/departement/aabe2556-309c-4a9b-b2e7-ae6668d36c5b,75,http://rdf.insee.fr/def/geo#Departement,0,Paris,Paris,1968-01-01,,75056\r\n"
+            + "http://id.insee.fr/geo/region/19325a20-8819-4c91-98e4-3060727e3d41,11,http://rdf.insee.fr/def/geo#Region,1,Île-de-France,Île-de-France,1982-03-02,,75056\r\n";
+
+    public static final Object ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_ASCENDANTS_JSON =
+        "["
+            + "{\"code\":\"751\",\"uri\":\"http://id.insee.fr/geo/arrondissement/0f7adb14-b9a3-4d32-a988-2a354ccd816a\",\"type\":\"Arrondissement\",\"dateCreation\":\"1993-01-01\",\"intituleSansArticle\":\"Paris\",\"typeArticle\":\"0\",\"chefLieu\":\"75056\",\"intitule\":\"Paris\"},"
+            + "{\"code\":\"75056\",\"uri\":\"http://id.insee.fr/geo/commune/13f2d896-0276-4902-a1a0-aef01746068e\",\"type\":\"Commune\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Paris\",\"typeArticle\":\"0\",\"intitule\":\"Paris\"},"
+            + "{\"code\":\"75\",\"uri\":\"http://id.insee.fr/geo/departement/aabe2556-309c-4a9b-b2e7-ae6668d36c5b\",\"type\":\"Departement\",\"dateCreation\":\"1968-01-01\",\"intituleSansArticle\":\"Paris\",\"typeArticle\":\"0\",\"chefLieu\":\"75056\",\"intitule\":\"Paris\"},"
+            + "{\"code\":\"11\",\"uri\":\"http://id.insee.fr/geo/region/19325a20-8819-4c91-98e4-3060727e3d41\",\"type\":\"Region\",\"dateCreation\":\"1982-03-02\",\"intituleSansArticle\":\"Île-de-France\",\"typeArticle\":\"1\",\"chefLieu\":\"75056\",\"intitule\":\"Île-de-France\"}"
+            + "]";
+
+    public static final Object ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_ASCENDANTS_XML =
+        "<Territoires>"
+            + "<Arrondissement code=\"751\" uri=\"http://id.insee.fr/geo/arrondissement/0f7adb14-b9a3-4d32-a988-2a354ccd816a\"><Intitule>Paris</Intitule><Type>Arrondissement</Type><DateCreation>1993-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Paris</IntituleSansArticle><ChefLieu>75056</ChefLieu></Arrondissement>"
+            + "<Commune code=\"75056\" uri=\"http://id.insee.fr/geo/commune/13f2d896-0276-4902-a1a0-aef01746068e\"><Intitule>Paris</Intitule><Type>Commune</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Paris</IntituleSansArticle></Commune>"
+            + "<Departement code=\"75\" uri=\"http://id.insee.fr/geo/departement/aabe2556-309c-4a9b-b2e7-ae6668d36c5b\"><Intitule>Paris</Intitule><Type>Departement</Type><DateCreation>1968-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Paris</IntituleSansArticle><ChefLieu>75056</ChefLieu></Departement>"
+            + "<Region code=\"11\" uri=\"http://id.insee.fr/geo/region/19325a20-8819-4c91-98e4-3060727e3d41\"><Intitule>Île-de-France</Intitule><Type>Region</Type><DateCreation>1982-03-02</DateCreation><IntituleSansArticle typeArticle=\"1\">Île-de-France</IntituleSansArticle><ChefLieu>75056</ChefLieu></Region>"
+            + "</Territoires>";
+
+    public static final String COMMUNE_DELEGUEE_MOCK_SERVER_RETURN_GET =
+        "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
+            + "http://id.insee.fr/geo/communeDeleguee/0028aa0b-7e3a-488a-8cd0-18baa0038c0e,50564,0,Sainteny,Sainteny,2016-01-01,,\r\n";
+
+    public static final Object COMMUNE_DELEGUEE_EXPECTED_RESPONSE_GET_JSON =
+        "{\"code\":\"50564\",\"uri\":\"http://id.insee.fr/geo/communeDeleguee/0028aa0b-7e3a-488a-8cd0-18baa0038c0e\",\"type\":\"CommuneDeleguee\",\"dateCreation\":\"2016-01-01\",\"intituleSansArticle\":\"Sainteny\",\"typeArticle\":\"0\",\"intitule\":\"Sainteny\"}";
+
+    public static final Object COMMUNE_DELEGUEE_EXPECTED_RESPONSE_GET_XML =
+        "<CommuneDeleguee code=\"50564\" uri=\"http://id.insee.fr/geo/communeDeleguee/0028aa0b-7e3a-488a-8cd0-18baa0038c0e\"><Intitule>Sainteny</Intitule><Type>CommuneDeleguee</Type><DateCreation>2016-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Sainteny</IntituleSansArticle></CommuneDeleguee>";
+
+    public static final String COMMUNE_DELEGUEE_MOCK_SERVER_RETURN_LISTE =
+        "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
+            + "http://id.insee.fr/geo/communeDeleguee/641df128-1268-495a-900d-41ab5bbeccff,01015,1,Arbignieu,Arbignieu,2016-01-01,,\r\n"
+            + "http://id.insee.fr/geo/communeDeleguee/6f68d69d-37b8-4a4d-9396-e44cb29e2196,01025,0,Bâgé-la-Ville,Bâgé-la-Ville,2018-01-01,,\r\n"
+            + "http://id.insee.fr/geo/communeDeleguee/22761b1a-5c65-432b-ba46-14f7db70e9d5,01033,0,Bellegarde-sur-Valserine,Bellegarde-sur-Valserine,2019-01-01,,\r\n"
+            + "http://id.insee.fr/geo/communeDeleguee/332702ee-93ad-4895-87cf-11f54603bd50,01036,0,Belmont-Luthézieu,Belmont-Luthézieu,2019-01-01,,";
+
+    public static final Object COMMUNE_DELEGUEE_EXPECTED_RESPONSE_LISTE_TOP_JSON =
+        "["
+            + "{\"code\":\"01015\",\"uri\":\"http://id.insee.fr/geo/communeDeleguee/641df128-1268-495a-900d-41ab5bbeccff\",\"type\":\"CommuneDeleguee\",\"dateCreation\":\"2016-01-01\",\"intituleSansArticle\":\"Arbignieu\",\"typeArticle\":\"1\",\"intitule\":\"Arbignieu\"},"
+            + "{\"code\":\"01025\",\"uri\":\"http://id.insee.fr/geo/communeDeleguee/6f68d69d-37b8-4a4d-9396-e44cb29e2196\",\"type\":\"CommuneDeleguee\",\"dateCreation\":\"2018-01-01\",\"intituleSansArticle\":\"Bâgé-la-Ville\",\"typeArticle\":\"0\",\"intitule\":\"Bâgé-la-Ville\"},"
+            + "{\"code\":\"01033\",\"uri\":\"http://id.insee.fr/geo/communeDeleguee/22761b1a-5c65-432b-ba46-14f7db70e9d5\",\"type\":\"CommuneDeleguee\",\"dateCreation\":\"2019-01-01\",\"intituleSansArticle\":\"Bellegarde-sur-Valserine\",\"typeArticle\":\"0\",\"intitule\":\"Bellegarde-sur-Valserine\"},"
+            + "{\"code\":\"01036\",\"uri\":\"http://id.insee.fr/geo/communeDeleguee/332702ee-93ad-4895-87cf-11f54603bd50\",\"type\":\"CommuneDeleguee\",\"dateCreation\":\"2019-01-01\",\"intituleSansArticle\":\"Belmont-Luthézieu\",\"typeArticle\":\"0\",\"intitule\":\"Belmont-Luthézieu\"}"
+            + "]";
+
+    public static final Object COMMUNE_DELEGUEE_EXPECTED_RESPONSE_LISTE_TOP_XML =
+        "<CommunesDeleguees>"
+            + "<CommuneDeleguee code=\"01015\" uri=\"http://id.insee.fr/geo/communeDeleguee/641df128-1268-495a-900d-41ab5bbeccff\"><Intitule>Arbignieu</Intitule><Type>CommuneDeleguee</Type><DateCreation>2016-01-01</DateCreation><IntituleSansArticle typeArticle=\"1\">Arbignieu</IntituleSansArticle></CommuneDeleguee>"
+            + "<CommuneDeleguee code=\"01025\" uri=\"http://id.insee.fr/geo/communeDeleguee/6f68d69d-37b8-4a4d-9396-e44cb29e2196\"><Intitule>Bâgé-la-Ville</Intitule><Type>CommuneDeleguee</Type><DateCreation>2018-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Bâgé-la-Ville</IntituleSansArticle></CommuneDeleguee>"
+            + "<CommuneDeleguee code=\"01033\" uri=\"http://id.insee.fr/geo/communeDeleguee/22761b1a-5c65-432b-ba46-14f7db70e9d5\"><Intitule>Bellegarde-sur-Valserine</Intitule><Type>CommuneDeleguee</Type><DateCreation>2019-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Bellegarde-sur-Valserine</IntituleSansArticle></CommuneDeleguee>"
+            + "<CommuneDeleguee code=\"01036\" uri=\"http://id.insee.fr/geo/communeDeleguee/332702ee-93ad-4895-87cf-11f54603bd50\"><Intitule>Belmont-Luthézieu</Intitule><Type>CommuneDeleguee</Type><DateCreation>2019-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Belmont-Luthézieu</IntituleSansArticle></CommuneDeleguee>"
+            + "</CommunesDeleguees>";
+
+    public static final String COMMUNE_DELEGUEE_MOCK_SERVER_RETURN_ASCENDANTS =
+        "uri,code,type,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
+            + "http://id.insee.fr/geo/arrondissement/e5baa41e-009d-40d0-87ab-9c6615b13f44,504,http://rdf.insee.fr/def/geo#Arrondissement,0,Saint-Lô,Saint-Lô,2019-01-01,,50502\r\n"
+            + "http://id.insee.fr/geo/commune/c160c88a-4359-4754-9ce5-e77ddf93abb1,50564,http://rdf.insee.fr/def/geo#Commune,0,Terre-et-Marais,Terre-et-Marais,2016-01-01,,\r\n"
+            + "http://id.insee.fr/geo/departement/de67dbb1-3cf4-44bc-8221-49ece0fe1128,50,http://rdf.insee.fr/def/geo#Departement,3,Manche,Manche,1943-01-01,,50502\r\n"
+            + "http://id.insee.fr/geo/region/de9ed89d-ec4d-453c-952e-f76f4426fe0c,28,http://rdf.insee.fr/def/geo#Region,0,Normandie,Normandie,2016-01-01,,76540\r\n";
+
+    public static final Object COMMUNE_DELEGUEE_EXPECTED_RESPONSE_ASCENDANTS_JSON =
+        "["
+            + "{\"code\":\"504\",\"uri\":\"http://id.insee.fr/geo/arrondissement/e5baa41e-009d-40d0-87ab-9c6615b13f44\",\"type\":\"Arrondissement\",\"dateCreation\":\"2019-01-01\",\"intituleSansArticle\":\"Saint-Lô\",\"typeArticle\":\"0\",\"chefLieu\":\"50502\",\"intitule\":\"Saint-Lô\"},"
+            + "{\"code\":\"50564\",\"uri\":\"http://id.insee.fr/geo/commune/c160c88a-4359-4754-9ce5-e77ddf93abb1\",\"type\":\"Commune\",\"dateCreation\":\"2016-01-01\",\"intituleSansArticle\":\"Terre-et-Marais\",\"typeArticle\":\"0\",\"intitule\":\"Terre-et-Marais\"},"
+            + "{\"code\":\"50\",\"uri\":\"http://id.insee.fr/geo/departement/de67dbb1-3cf4-44bc-8221-49ece0fe1128\",\"type\":\"Departement\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Manche\",\"typeArticle\":\"3\",\"chefLieu\":\"50502\",\"intitule\":\"Manche\"},"
+            + "{\"code\":\"28\",\"uri\":\"http://id.insee.fr/geo/region/de9ed89d-ec4d-453c-952e-f76f4426fe0c\",\"type\":\"Region\",\"dateCreation\":\"2016-01-01\",\"intituleSansArticle\":\"Normandie\",\"typeArticle\":\"0\",\"chefLieu\":\"76540\",\"intitule\":\"Normandie\"}"
+            + "]";
+
+    public static final Object COMMUNE_DELEGUEE_EXPECTED_RESPONSE_ASCENDANTS_XML =
+        "<Territoires>"
+            + "<Arrondissement code=\"504\" uri=\"http://id.insee.fr/geo/arrondissement/e5baa41e-009d-40d0-87ab-9c6615b13f44\"><Intitule>Saint-Lô</Intitule><Type>Arrondissement</Type><DateCreation>2019-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Saint-Lô</IntituleSansArticle><ChefLieu>50502</ChefLieu></Arrondissement>"
+            + "<Commune code=\"50564\" uri=\"http://id.insee.fr/geo/commune/c160c88a-4359-4754-9ce5-e77ddf93abb1\"><Intitule>Terre-et-Marais</Intitule><Type>Commune</Type><DateCreation>2016-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Terre-et-Marais</IntituleSansArticle></Commune>"
+            + "<Departement code=\"50\" uri=\"http://id.insee.fr/geo/departement/de67dbb1-3cf4-44bc-8221-49ece0fe1128\"><Intitule>Manche</Intitule><Type>Departement</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"3\">Manche</IntituleSansArticle><ChefLieu>50502</ChefLieu></Departement>"
+            + "<Region code=\"28\" uri=\"http://id.insee.fr/geo/region/de9ed89d-ec4d-453c-952e-f76f4426fe0c\"><Intitule>Normandie</Intitule><Type>Region</Type><DateCreation>2016-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Normandie</IntituleSansArticle><ChefLieu>76540</ChefLieu></Region>"
+            + "</Territoires>";
+
+    public static final String PAYS_MOCK_SERVER_RETURN_GET =
+        "uri,intitule,intituleEntier\r\n" + "http://id.insee.fr/geo/pays/99350,MAROC,ROYAUME DU MAROC\r\n" + "";
+
+    public static final Object PAYS_EXPECTED_RESPONSE_GET_JSON =
+        "{\"code\":\"99350\",\"uri\":\"http://id.insee.fr/geo/pays/99350\",\"intitule\":\"MAROC\",\"intituleEntier\":\"ROYAUME DU MAROC\"}";
+
+    public static final Object PAYS_EXPECTED_RESPONSE_GET_XML =
+        "<Pays code=\"99350\" uri=\"http://id.insee.fr/geo/pays/99350\"><Intitule>MAROC</Intitule><IntituleEntier>ROYAUME DU MAROC</IntituleEntier></Pays>";
 }
