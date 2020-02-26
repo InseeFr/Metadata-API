@@ -53,7 +53,7 @@ public class RegionApi extends AbstractGeoApi {
             content = @Content(schema = @Schema(implementation = Region.class)),
             description = LITTERAL_RESPONSE_DESCRIPTION)
     })
-    public Response getRegion(
+    public Response getByCode(
         @Parameter(
             description = ConstGeoApi.PATTERN_REGION_DESCRIPTION,
             required = true,
@@ -96,7 +96,7 @@ public class RegionApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getDescendantsFromRegion(
+    public Response getDescendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_REGION_DESCRIPTION,
             required = true,
@@ -149,7 +149,7 @@ public class RegionApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Region.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getListeRegions(
+    public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,

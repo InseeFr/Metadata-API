@@ -53,7 +53,7 @@ public class DepartementApi extends AbstractGeoApi {
             content = @Content(schema = @Schema(implementation = Departement.class)),
             description = LITTERAL_RESPONSE_DESCRIPTION)
     })
-    public Response getDepartement(
+    public Response getByCode(
         @Parameter(
             description = ConstGeoApi.PATTERN_DEPARTEMENT_DESCRIPTION,
             required = true,
@@ -96,7 +96,7 @@ public class DepartementApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getAscendantsFromDepartement(
+    public Response getAscendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_DEPARTEMENT_DESCRIPTION,
             required = true,
@@ -149,7 +149,7 @@ public class DepartementApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getDescendantsFromDepartement(
+    public Response getDescendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_DEPARTEMENT_DESCRIPTION,
             required = true,
@@ -202,7 +202,7 @@ public class DepartementApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Departement.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getListeDepartements(
+    public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,

@@ -35,7 +35,7 @@ public class PaysApiIntegrationTest {
     public void givengetDepartement_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.PAYS_MOCK_SERVER_RETURN_GET);
-        Response response = geoApi.getCountry(CODE, MediaType.APPLICATION_JSON);
+        Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_JSON);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.PAYS_EXPECTED_RESPONSE_GET_JSON, response.getEntity());
     }
@@ -44,7 +44,7 @@ public class PaysApiIntegrationTest {
     public void givengetDepartement_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.PAYS_MOCK_SERVER_RETURN_GET);
-        Response response = geoApi.getCountry(CODE, MediaType.APPLICATION_XML);
+        Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_XML);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.PAYS_EXPECTED_RESPONSE_GET_XML, response.getEntity());
     }

@@ -35,7 +35,7 @@ public class PaysApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
 
         // Call method
-        geoApi.getCountry("something", MediaType.APPLICATION_JSON);
+        geoApi.getByCode("something", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -47,7 +47,7 @@ public class PaysApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
 
         // Mock methods
-        geoApi.getCountry("something", MediaType.APPLICATION_XML);
+        geoApi.getByCode("something", MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -58,11 +58,11 @@ public class PaysApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getCountry("something", MediaType.APPLICATION_XML);
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getCountry("something", MediaType.APPLICATION_JSON);
+        response = geoApi.getByCode("something", MediaType.APPLICATION_JSON);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());

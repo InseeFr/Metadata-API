@@ -35,7 +35,7 @@ public class ArrondissementApiIntegrationTest {
     public void givengetArrondissement_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_GET);
-        Response response = geoApi.getArrondissement(CODE, MediaType.APPLICATION_JSON, null);
+        Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_JSON, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_GET_JSON, response.getEntity());
     }
@@ -44,7 +44,7 @@ public class ArrondissementApiIntegrationTest {
     public void givengetArrondissement_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_GET);
-        Response response = geoApi.getArrondissement(CODE, MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_XML, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_GET_XML, response.getEntity());
     }
@@ -53,7 +53,7 @@ public class ArrondissementApiIntegrationTest {
     public void givengetListeArrondissements_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_LISTE);
-        Response response = geoApi.getListeArrondissements(MediaType.APPLICATION_JSON, null);
+        Response response = geoApi.getListe(MediaType.APPLICATION_JSON, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_LISTE_TOP_JSON, response.getEntity());
     }
@@ -62,7 +62,7 @@ public class ArrondissementApiIntegrationTest {
     public void givengetListeArrondissements_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_LISTE);
-        Response response = geoApi.getListeArrondissements(MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_LISTE_TOP_XML, response.getEntity());
     }
@@ -71,7 +71,7 @@ public class ArrondissementApiIntegrationTest {
     public void givengetAscendantsArrondissements_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_ASCENDANTS);
-        Response response = geoApi.getAscendantsFromArrondissement(CODE, MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getAscendants(CODE, MediaType.APPLICATION_JSON, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_ASCENDANTS_JSON, response.getEntity());
     }
@@ -80,7 +80,7 @@ public class ArrondissementApiIntegrationTest {
     public void givengetAscendantsArrondissements_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_ASCENDANTS);
-        Response response = geoApi.getAscendantsFromArrondissement(CODE, MediaType.APPLICATION_XML, null, null);
+        Response response = geoApi.getAscendants(CODE, MediaType.APPLICATION_XML, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_ASCENDANTS_XML, response.getEntity());
     }
@@ -89,7 +89,7 @@ public class ArrondissementApiIntegrationTest {
     public void givengetDescendantsArrondissements_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_DESCENDANTS);
-        Response response = geoApi.getDescendantsFromArrondissement(CODE, MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_JSON, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_DESCENDANTS_JSON, response.getEntity());
     }
@@ -98,7 +98,7 @@ public class ArrondissementApiIntegrationTest {
     public void givengetDescendantsArrondissements_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_DESCENDANTS);
-        Response response = geoApi.getDescendantsFromArrondissement(CODE, MediaType.APPLICATION_XML, null, null);
+        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_XML, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_DESCENDANTS_XML, response.getEntity());
     }

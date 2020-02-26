@@ -54,7 +54,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             content = @Content(schema = @Schema(implementation = Arrondissement.class)),
             description = LITTERAL_RESPONSE_DESCRIPTION)
     })
-    public Response getArrondissementMunicipal(
+    public Response getByCode(
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL_DESCRIPTION,
             required = true,
@@ -100,7 +100,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getAscendantsFromArrondissementMunicipal(
+    public Response getAscendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL_DESCRIPTION,
             required = true,
@@ -153,7 +153,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Arrondissement.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getListeArrondissementsMunicipaux(
+    public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,

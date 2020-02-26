@@ -40,7 +40,7 @@ public class ArrondissementApi extends AbstractGeoApi {
         "Informations sur un arrondissement français identifié par son code (trois caractères)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Arrondissement";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
-        "Filtre pour renvoyer la arrondissement actif à la date donnée. Par défaut, c’est la date courante.";
+        "Filtre pour renvoyer l'arrondissement actif à la date donnée. Par défaut, c’est la date courante.";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
     @Path(ConstGeoApi.PATH_ARRONDISSEMENT + CODE_PATTERN)
@@ -53,7 +53,7 @@ public class ArrondissementApi extends AbstractGeoApi {
             content = @Content(schema = @Schema(implementation = Arrondissement.class)),
             description = LITTERAL_RESPONSE_DESCRIPTION)
     })
-    public Response getArrondissement(
+    public Response getByCode(
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
             required = true,
@@ -97,7 +97,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getAscendantsFromArrondissement(
+    public Response getAscendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
             required = true,
@@ -150,7 +150,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getDescendantsFromArrondissement(
+    public Response getDescendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
             required = true,
@@ -203,7 +203,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Arrondissement.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getListeArrondissements(
+    public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,

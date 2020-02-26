@@ -59,7 +59,7 @@ public class CommuneApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(implementation = Commune.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getCommune(
+    public Response getByCode(
         @Parameter(
             description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
             required = true,
@@ -103,7 +103,7 @@ public class CommuneApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getAscendantsFromCommune(
+    public Response getAscendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
             required = true,
@@ -157,7 +157,7 @@ public class CommuneApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getDescendantsFromCommune(
+    public Response getDescendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
             required = true,
@@ -211,7 +211,7 @@ public class CommuneApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Commune.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getListeCommunes(
+    public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,

@@ -45,7 +45,7 @@ public class PaysApi extends AbstractGeoApi {
             content = @Content(schema = @Schema(implementation = Country.class)),
             description = LITTERAL_RESPONSE_DESCRIPTION)
     })
-    public Response getCountry(
+    public Response getByCode(
         @Parameter(
             description = ConstGeoApi.PATTERN_PAYS_DESCRIPTION,
             required = true,

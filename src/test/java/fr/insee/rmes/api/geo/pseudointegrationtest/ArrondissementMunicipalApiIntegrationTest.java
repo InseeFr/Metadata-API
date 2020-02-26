@@ -35,7 +35,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
     public void givengetArrondissementMunicipal_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_GET);
-        Response response = geoApi.getArrondissementMunicipal(CODE, MediaType.APPLICATION_JSON, null);
+        Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_JSON, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_GET_JSON, response.getEntity());
     }
@@ -44,7 +44,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
     public void givengetArrondissementMunicipal_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_GET);
-        Response response = geoApi.getArrondissementMunicipal(CODE, MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_XML, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_GET_XML, response.getEntity());
     }
@@ -53,7 +53,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
     public void givengetListeArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_LISTE);
-        Response response = geoApi.getListeArrondissementsMunicipaux(MediaType.APPLICATION_JSON, null);
+        Response response = geoApi.getListe(MediaType.APPLICATION_JSON, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(
             ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_LISTE_TOP_JSON,
@@ -64,7 +64,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
     public void givengetListeArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_LISTE);
-        Response response = geoApi.getListeArrondissementsMunicipaux(MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(
             ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_LISTE_TOP_XML,
@@ -76,7 +76,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_ASCENDANTS);
         Response response =
-            geoApi.getAscendantsFromArrondissementMunicipal(CODE, MediaType.APPLICATION_JSON, null, null);
+            geoApi.getAscendants(CODE, MediaType.APPLICATION_JSON, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(
             ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_ASCENDANTS_JSON,
@@ -88,7 +88,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_ASCENDANTS);
         Response response =
-            geoApi.getAscendantsFromArrondissementMunicipal(CODE, MediaType.APPLICATION_XML, null, null);
+            geoApi.getAscendants(CODE, MediaType.APPLICATION_XML, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(
             ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_ASCENDANTS_XML,
