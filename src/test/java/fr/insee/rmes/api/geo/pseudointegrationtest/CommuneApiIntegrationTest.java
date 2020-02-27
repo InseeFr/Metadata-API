@@ -103,5 +103,23 @@ public class CommuneApiIntegrationTest {
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_DESCENDANTS_XML, response.getEntity());
     }
+    
+    @Test
+    public void givengetPrecedentsCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getPrecedent(CODE, MediaType.APPLICATION_JSON, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_PRECEDENTS_JSON, response.getEntity());
+    }
+
+    @Test
+    public void givengetPrecedentsCommunes_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getPrecedent(CODE, MediaType.APPLICATION_XML, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_PRECEDENTS_XML, response.getEntity());
+    }
 
 }

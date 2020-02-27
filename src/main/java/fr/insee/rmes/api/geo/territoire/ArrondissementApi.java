@@ -266,7 +266,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getSuivantArrondissement(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getNextArrondissement(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
                     Arrondissements.class,
                     Arrondissement.class);
@@ -310,7 +310,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getPrecedentArrondissement(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getPreviousArrondissement(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
                     Arrondissements.class,
                     Arrondissement.class);

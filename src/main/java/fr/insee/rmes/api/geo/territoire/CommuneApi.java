@@ -272,7 +272,7 @@ public class CommuneApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getSuivantCommune(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getNextCommune(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
                     Communes.class,
                     Commune.class);
@@ -316,7 +316,7 @@ public class CommuneApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getPrecedentCommune(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getPreviousCommune(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
                     Communes.class,
                     Commune.class);

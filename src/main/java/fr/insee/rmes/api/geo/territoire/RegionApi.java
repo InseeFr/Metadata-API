@@ -211,7 +211,7 @@ public class RegionApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getSuivantRegion(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getNextRegion(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
                     Regions.class,
                     Region.class);
@@ -255,7 +255,7 @@ public class RegionApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getPrecedentRegion(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getPreviousRegion(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
                     Regions.class,
                     Region.class);

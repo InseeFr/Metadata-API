@@ -217,7 +217,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getSuivantArrondissementMunicipal(code, this.formatValidParameterDateIfIsNull(date))),
+                                .getNextArrondissementMunicipal(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
                     ArrondissementsMunicipaux.class,
                     ArrondissementMunicipal.class);
@@ -262,7 +262,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getPrecedentArrondissementMunicipal(
+                                .getPreviousArrondissementMunicipal(
                                     code,
                                     this.formatValidParameterDateIfIsNull(date))),
                     header,

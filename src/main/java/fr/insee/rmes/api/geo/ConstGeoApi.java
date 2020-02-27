@@ -28,8 +28,8 @@ public class ConstGeoApi {
 
     public static final String PATH_ASCENDANT = PATH_SEPARATOR + "ascendants";
     public static final String PATH_DESCENDANT = PATH_SEPARATOR + "descendants";
-    public static final String PATH_SUIVANT = PATH_SEPARATOR + "suivant";
-    public static final String PATH_PRECEDENT = PATH_SEPARATOR + "precedent";
+    public static final String PATH_SUIVANT = PATH_SEPARATOR + "suivants";
+    public static final String PATH_PRECEDENT = PATH_SEPARATOR + "precedents";
 
     public static final String PATTERN_COMMUNE = "[0-9][0-9AB][0-9]{3}";
     public static final String PATTERN_PAYS = "99[0-9]{3}";

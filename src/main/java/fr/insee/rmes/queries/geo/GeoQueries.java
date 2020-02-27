@@ -125,56 +125,56 @@ public class GeoQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
     }
 
-    // SUIVANT
-    public static String getSuivantCommune(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.COMMUNE, false);
+    // NEXT
+    public static String getNextCommune(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.COMMUNE, false);
     }
 
-    public static String getSuivantDepartement(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.DEPARTEMENT, false);
+    public static String getNextDepartement(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.DEPARTEMENT, false);
     }
 
-    public static String getSuivantRegion(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.REGION, false);
+    public static String getNextRegion(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, false);
     }
 
-    public static String getSuivantArrondissement(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT, false);
+    public static String getNextArrondissement(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT, false);
     }
 
-    public static String getSuivantArrondissementMunicipal(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL, false);
+    public static String getNextArrondissementMunicipal(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL, false);
     }
 
-    // PRECEDENT
-    public static String getPrecedentCommune(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.COMMUNE, true);
+    // PREVIOUS
+    public static String getPreviousCommune(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.COMMUNE, true);
     }
 
-    public static String getPrecedentDepartement(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.DEPARTEMENT, true);
+    public static String getPreviousDepartement(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.DEPARTEMENT, true);
     }
 
-    public static String getPrecedentRegion(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.REGION, true);
+    public static String getPreviousRegion(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, true);
     }
 
-    public static String getPrecedentArrondissement(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT, true);
+    public static String getPreviousArrondissement(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT, true);
     }
 
-    public static String getPrecedentArrondissementMunicipal(String code, String date) {
-        return getPrecedentsOrSuivantsQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL, true);
+    public static String getPreviousArrondissementMunicipal(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL, true);
     }
 
-    private static String getPrecedentsOrSuivantsQuery(
+    private static String getPreviousOrNextQuery(
         String code,
         String date,
         EnumTypeGeographie typeOrigine,
         boolean precedent) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
         params.put("typeOrigine", typeOrigine.getTypeObjetGeo());
-        params.put("ascendant", String.valueOf(precedent));
+        params.put("previous", String.valueOf(precedent));
         return buildRequest(QUERIES_FOLDER, "getPreviousOrNextByCodeTypeDate.ftlh", params);
     }
 

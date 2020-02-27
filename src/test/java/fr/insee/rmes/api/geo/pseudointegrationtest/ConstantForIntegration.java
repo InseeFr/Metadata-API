@@ -72,7 +72,37 @@ public class ConstantForIntegration {
             + "<CommuneDeleguee code=\"01015\" uri=\"http://id.insee.fr/geo/communeDeleguee/641df128-1268-495a-900d-41ab5bbeccff\"><Intitule>Arbignieu</Intitule><Type>CommuneDeleguee</Type><DateCreation>2016-01-01</DateCreation><IntituleSansArticle typeArticle=\"1\">Arbignieu</IntituleSansArticle></CommuneDeleguee>"
             + "<CommuneDeleguee code=\"01340\" uri=\"http://id.insee.fr/geo/communeDeleguee/aa807dbe-2394-4e56-8216-3b1ca361608e\"><Intitule>Saint-Bois</Intitule><Type>CommuneDeleguee</Type><DateCreation>2016-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Saint-Bois</IntituleSansArticle></CommuneDeleguee>"
             + "</Territoires>";
-
+    
+    
+    public static final String COMMUNE_MOCK_SERVER_RETURN_PRECEDENTS = "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n" + 
+        "http://id.insee.fr/geo/commune/339c2d61-c685-4643-ab69-df8c86bbf2b0,Commune,01004,1,Ambérieu,Ambérieu,1943-01-01,1955-03-31,\r\n" ;
+    
+    public static final String COMMUNE_EXPECTED_RESPONSE_PRECEDENTS_JSON = "[" + 
+        "{" + 
+        "\"code\":\"01004\"," + 
+        "\"uri\":\"http://id.insee.fr/geo/commune/339c2d61-c685-4643-ab69-df8c86bbf2b0\"," + 
+        "\"type\":\"Commune\"," + 
+        "\"dateCreation\":\"1943-01-01\"," + 
+        "\"dateSuppression\":\"1955-03-31\"," + 
+        "\"intituleSansArticle\":\"Ambérieu\"," + 
+        "\"typeArticle\":\"1\"," + 
+        "\"intitule\":\"Ambérieu\"" + 
+        "}" + 
+        "]";
+    
+    public static final String COMMUNE_EXPECTED_RESPONSE_PRECEDENTS_XML ="<Communes>" + 
+        "<Commune code=\"01004\" uri=\"http://id.insee.fr/geo/commune/339c2d61-c685-4643-ab69-df8c86bbf2b0\">" + 
+        "<Intitule>Ambérieu</Intitule>" + 
+        "<Type>Commune</Type>" + 
+        "<DateCreation>1943-01-01</DateCreation>" + 
+        "<DateSuppression>1955-03-31</DateSuppression>" + 
+        "<IntituleSansArticle typeArticle=\"1\">Ambérieu</IntituleSansArticle>" + 
+        "</Commune>" + 
+        "</Communes>";
+    
+  
+    
+    
     public static final String DEPARTEMENT_MOCK_SERVER_RETURN_GET =
         "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/departement/f1d6d530-6cad-4e87-9e68-cdfaadd912bc,01,5,Ain,Ain,1943-01-01,,01053\r\n";
