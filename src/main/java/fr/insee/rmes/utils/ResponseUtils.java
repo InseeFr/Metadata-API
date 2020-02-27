@@ -36,12 +36,19 @@ public class ResponseUtils {
         }
         try {
             response = mapper.writeValueAsString(obj);
+
+            // Remove XML tag <listeTerritoires>
             response = Pattern.compile("<\\/?listeTerritoires>").matcher(response).replaceAll("");
+            // Remove duplications Territoires objects with tag <territoire> for XML response
+            response = Pattern.compile("(<territoires )(.+?)(<\\/territoires>)").matcher(response).replaceAll("");
+            // Remove last tags territoires
+            response = Pattern.compile("(<territoires><\\/territoires>)").matcher(response).replaceAll("");
 
         }
         catch (Exception e) {
             logger.error(e.getMessage());
         }
+
         return response;
     }
 
