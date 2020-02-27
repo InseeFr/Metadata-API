@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,6 +23,7 @@ public class DepartementApiIntegrationTest {
     @InjectMocks
     private DepartementApi geoApi;
     private final static String CODE = "01";
+    private final static String CODE_PREC_OR_SUIV = "78";
 
     @Mock
     protected SparqlUtils mockSparqlUtils;
@@ -101,6 +103,47 @@ public class DepartementApiIntegrationTest {
         Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_XML, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.DEPARTEMENT_EXPECTED_RESPONSE_DESCENDANTS_XML, response.getEntity());
+    }
+
+    // TODO remove annotation ignore
+    @Ignore
+    @Test
+    public void givengetPrecedentsDepartements_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.DEPARTEMENT_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getPrecedent(CODE_PREC_OR_SUIV, MediaType.APPLICATION_JSON, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_JSON, response.getEntity());
+    }
+
+    @Ignore
+    @Test
+    public void givengetPrecedentsDepartements_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.DEPARTEMENT_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getPrecedent(CODE_PREC_OR_SUIV, MediaType.APPLICATION_XML, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_XML, response.getEntity());
+    }
+
+    @Ignore
+    @Test
+    public void givengetSuivantsDepartements_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.DEPARTEMENT_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getSuivant(CODE_PREC_OR_SUIV, MediaType.APPLICATION_JSON, "1943-01-01");
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_JSON, response.getEntity());
+    }
+
+    @Ignore
+    @Test
+    public void givengetSuivantsDepartements_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.DEPARTEMENT_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getSuivant(CODE_PREC_OR_SUIV, MediaType.APPLICATION_XML, "1943-01-01");
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_XML, response.getEntity());
     }
 
 }

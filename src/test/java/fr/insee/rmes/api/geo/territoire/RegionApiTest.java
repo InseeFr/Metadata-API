@@ -161,7 +161,7 @@ public class RegionApiTest extends AbstractApiTest {
         Response response = geoApi.getListe(MediaType.TEXT_PLAIN, null);
         Assertions.assertEquals(Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetRegionDescendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
@@ -219,8 +219,7 @@ public class RegionApiTest extends AbstractApiTest {
     public void givenGetRegionDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -257,8 +256,129 @@ public class RegionApiTest extends AbstractApiTest {
     public void givenGetRegionDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenGetRegionSuivant_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Region());
+
+        // Call method
+        geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegionSuivant_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Region());
+
+        // Call method
+        geoApi.getSuivant("something", MediaType.APPLICATION_XML, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegionSuivant_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
+
+        // Call method header content = xml
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        // Call method header content = json
+        response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegionSuivant_WhenCorrectRequest_thenParameterDateIsRight() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Region());
+
+        // Call method header content = xml
+        geoApi.getSuivant("something", MediaType.APPLICATION_XML, "2000-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegionSuivant_WhenCorrectRequest_thenParameterDateIsBad() {
+
+        // Call method header content = xml
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenGetRegionPrecedent_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Region());
+
+        // Call method
+        geoApi.getPrecedent("something", MediaType.APPLICATION_JSON, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegionPrecedent_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Region());
+
+        // Call method
+        geoApi.getPrecedent("something", MediaType.APPLICATION_XML, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegionPrecedent_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
+
+        // Call method header content = xml
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        // Call method header content = json
+        response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegionPrecedent_WhenCorrectRequest_thenParameterDateIsRight() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Region());
+
+        // Call method header content = xml
+        geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "2000-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetRegionPrecedent_WhenCorrectRequest_thenParameterDateIsBad() {
+
+        // Call method header content = xml
+        Response response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 }

@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -85,4 +86,44 @@ public class RegionApiIntegrationTest {
         assertEquals(ConstantForIntegration.REGION_EXPECTED_RESPONSE_DESCENDANTS_XML, response.getEntity());
     }
 
+    // TODO remove annotation ignore
+    @Ignore
+    @Test
+    public void givengetPrecedentsRegions_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.REGION_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getPrecedent(CODE, MediaType.APPLICATION_JSON, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.REGION_EXPECTED_RESPONSE_PRECEDENTS_JSON, response.getEntity());
+    }
+
+    @Ignore
+    @Test
+    public void givengetPrecedentsRegions_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.REGION_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getPrecedent(CODE, MediaType.APPLICATION_XML, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.REGION_EXPECTED_RESPONSE_PRECEDENTS_XML, response.getEntity());
+    }
+
+    @Ignore
+    @Test
+    public void givengetSuivantsRegions_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.REGION_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getSuivant(CODE, MediaType.APPLICATION_JSON, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.REGION_EXPECTED_RESPONSE_PRECEDENTS_JSON, response.getEntity());
+    }
+
+    @Ignore
+    @Test
+    public void givengetSuivantsRegions_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.REGION_MOCK_SERVER_RETURN_PRECEDENTS);
+        Response response = geoApi.getSuivant(CODE, MediaType.APPLICATION_XML, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.REGION_EXPECTED_RESPONSE_PRECEDENTS_XML, response.getEntity());
+    }
 }
