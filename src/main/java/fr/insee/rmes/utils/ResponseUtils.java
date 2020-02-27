@@ -39,13 +39,10 @@ public class ResponseUtils {
 
             // Remove XML tag <listeTerritoires>
             response = Pattern.compile("<\\/?listeTerritoires>").matcher(response).replaceAll("");
-
             // Remove duplications Territoires objects with tag <territoire> for XML response
-            response =
-                Pattern
-                    .compile("(<territoires>)+(.*?)+(<\\/territoires><\\/territoires>)")
-                    .matcher(response)
-                    .replaceAll("");
+            response = Pattern.compile("(<territoires )(.+?)(<\\/territoires>)").matcher(response).replaceAll("");
+            // Remove last tags territoires
+            response = Pattern.compile("(<territoires><\\/territoires>)").matcher(response).replaceAll("");
 
         }
         catch (Exception e) {

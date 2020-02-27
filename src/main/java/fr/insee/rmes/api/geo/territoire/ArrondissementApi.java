@@ -40,7 +40,7 @@ public class ArrondissementApi extends AbstractGeoApi {
         "Informations sur un arrondissement français identifié par son code (trois caractères)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Arrondissement";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
-        "Filtre pour renvoyer la arrondissement actif à la date donnée. Par défaut, c’est la date courante.";
+        "Filtre pour renvoyer l'arrondissement actif à la date donnée. Par défaut, c’est la date courante.";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
     @Path(ConstGeoApi.PATH_ARRONDISSEMENT + CODE_PATTERN)
@@ -53,7 +53,7 @@ public class ArrondissementApi extends AbstractGeoApi {
             content = @Content(schema = @Schema(implementation = Arrondissement.class)),
             description = LITTERAL_RESPONSE_DESCRIPTION)
     })
-    public Response getArrondissement(
+    public Response getByCode(
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
             required = true,
@@ -97,7 +97,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getAscendantsFromArrondissement(
+    public Response getAscendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
             required = true,
@@ -150,7 +150,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getDescendantsFromArrondissement(
+    public Response getDescendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
             required = true,
@@ -203,7 +203,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Arrondissement.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getListeArrondissements(
+    public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
@@ -229,4 +229,91 @@ public class ArrondissementApi extends AbstractGeoApi {
         }
     }
 
+    @Path(ConstGeoApi.PATH_ARRONDISSEMENT + CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
+        summary = "Récupérer les informations concernant les arrondissements qui succèdent à l'arrondissement",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Arrondissement.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getSuivant(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date) {
+
+        logger.debug("Received GET request for suivant arrondissement {}", code);
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries.getNextArrondissement(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    Arrondissements.class,
+                    Arrondissement.class);
+        }
+    }
+
+    @Path(ConstGeoApi.PATH_ARRONDISSEMENT + CODE_PATTERN + ConstGeoApi.PATH_PRECEDENT)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
+        summary = "Récupérer les informations concernant les arrondissements qui précèdent l'arrondissement",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Arrondissement.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getPrecedent(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date) {
+
+        logger.debug("Received GET request for precedent arrondissement {}", code);
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries.getPreviousArrondissement(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    Arrondissements.class,
+                    Arrondissement.class);
+        }
+    }
 }

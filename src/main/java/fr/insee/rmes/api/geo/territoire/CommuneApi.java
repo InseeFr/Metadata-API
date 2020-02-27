@@ -59,7 +59,7 @@ public class CommuneApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(implementation = Commune.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getCommune(
+    public Response getByCode(
         @Parameter(
             description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
             required = true,
@@ -103,7 +103,7 @@ public class CommuneApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getAscendantsFromCommune(
+    public Response getAscendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
             required = true,
@@ -157,7 +157,7 @@ public class CommuneApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getDescendantsFromCommune(
+    public Response getDescendants(
         @Parameter(
             description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
             required = true,
@@ -211,7 +211,7 @@ public class CommuneApi extends AbstractGeoApi {
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Commune.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
-    public Response getListeCommunes(
+    public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
@@ -229,6 +229,94 @@ public class CommuneApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    Communes.class,
+                    Commune.class);
+        }
+    }
+
+    @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
+        summary = "Récupérer les informations concernant les communes qui succèdent à la commune",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Commune.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getSuivant(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_COMMUNE,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date) {
+
+        logger.debug("Received GET request for suivant commune {}", code);
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries.getNextCommune(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    Communes.class,
+                    Commune.class);
+        }
+    }
+
+    @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN + ConstGeoApi.PATH_PRECEDENT)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
+        summary = "Récupérer les informations concernant les communes qui précèdent la commune",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Commune.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getPrecedent(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_COMMUNE,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date) {
+
+        logger.debug("Received GET request for precedent commune {}", code);
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries.getPreviousCommune(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
                     Communes.class,
                     Commune.class);

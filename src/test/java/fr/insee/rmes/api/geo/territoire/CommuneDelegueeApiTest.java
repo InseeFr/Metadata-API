@@ -35,7 +35,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(commune, Boolean.TRUE);
 
         // Call method
-        geoApi.getCommune("something", MediaType.APPLICATION_JSON, null);
+        geoApi.getByCode("something", MediaType.APPLICATION_JSON, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -47,7 +47,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(commune, Boolean.TRUE);
 
         // Call method
-        geoApi.getCommune("something", MediaType.APPLICATION_XML, null);
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -58,11 +58,11 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(commune, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getCommune("something", MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getCommune("something", MediaType.APPLICATION_JSON, null);
+        response = geoApi.getByCode("something", MediaType.APPLICATION_JSON, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -76,7 +76,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(commune, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getCommune("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -84,7 +84,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
     public void givenGetCommune_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getCommune("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -95,7 +95,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method
-        geoApi.getAscendantsFromCommune("something", MediaType.APPLICATION_JSON, null, null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_JSON, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -107,7 +107,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method
-        geoApi.getAscendantsFromCommune("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -118,11 +118,11 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getAscendantsFromCommune("something", MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_JSON, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getAscendantsFromCommune("something", MediaType.APPLICATION_XML, null, null);
+        response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -136,7 +136,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method header content = xml
-        geoApi.getAscendantsFromCommune("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -145,7 +145,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         Response response =
-            geoApi.getAscendantsFromCommune("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+            geoApi.getAscendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -157,7 +157,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method header content = xml
-        geoApi.getAscendantsFromCommune("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -170,7 +170,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         geoApi
-            .getAscendantsFromCommune(
+            .getAscendants(
                 "something",
                 MediaType.APPLICATION_XML,
                 null,
@@ -183,7 +183,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         Response response =
-            geoApi.getAscendantsFromCommune("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+            geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -195,7 +195,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method
-        geoApi.getListeCommunes(MediaType.APPLICATION_JSON, null);
+        geoApi.getListe(MediaType.APPLICATION_JSON, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -207,7 +207,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method
-        geoApi.getListeCommunes(MediaType.APPLICATION_XML, null);
+        geoApi.getListe(MediaType.APPLICATION_XML, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -218,11 +218,11 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getListeCommunes(MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getListeCommunes(MediaType.APPLICATION_JSON, null);
+        response = geoApi.getListe(MediaType.APPLICATION_JSON, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -236,7 +236,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method header content = xml
-        geoApi.getListeCommunes(MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getListe(MediaType.APPLICATION_XML, "2000-01-01");
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -244,7 +244,7 @@ public class CommuneDelegueeApiTest extends AbstractApiTest {
     public void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListeCommunes(MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 

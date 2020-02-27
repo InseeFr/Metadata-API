@@ -34,11 +34,11 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(arrondissement, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getArrondissementMunicipal("something", MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getArrondissementMunicipal("something", MediaType.APPLICATION_JSON, null);
+        response = geoApi.getByCode("something", MediaType.APPLICATION_JSON, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -52,7 +52,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(arrondissement, Boolean.TRUE);
 
         // Call method
-        geoApi.getArrondissementMunicipal("something", MediaType.APPLICATION_JSON, null);
+        geoApi.getByCode("something", MediaType.APPLICATION_JSON, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -64,7 +64,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(arrondissement, Boolean.TRUE);
 
         // Call method
-        geoApi.getArrondissementMunicipal("something", MediaType.APPLICATION_XML, null);
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -76,7 +76,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(arrondissement, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getArrondissementMunicipal("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -84,10 +84,10 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
     public void givenGetArrondissement_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getArrondissementMunicipal("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetArrondissementAscendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
@@ -96,7 +96,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         list.add(new Arrondissement());
 
         // Call method
-        geoApi.getAscendantsFromArrondissementMunicipal("something", MediaType.APPLICATION_JSON, null, null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_JSON, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -108,7 +108,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         list.add(new ArrondissementMunicipal());
 
         // Call method
-        geoApi.getAscendantsFromArrondissementMunicipal("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -119,11 +119,11 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getAscendantsFromArrondissementMunicipal("something", MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_JSON, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getAscendantsFromArrondissementMunicipal("something", MediaType.APPLICATION_XML, null, null);
+        response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -137,7 +137,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         list.add(new ArrondissementMunicipal());
 
         // Call method header content = xml
-        geoApi.getAscendantsFromArrondissementMunicipal("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -145,8 +145,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
     public void givenGetArrondissementMunicipalAscendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getAscendantsFromArrondissementMunicipal("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -158,7 +157,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         list.add(new ArrondissementMunicipal());
 
         // Call method header content = xml
-        geoApi.getAscendantsFromArrondissementMunicipal("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -171,7 +170,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         geoApi
-            .getAscendantsFromArrondissementMunicipal(
+            .getAscendants(
                 "something",
                 MediaType.APPLICATION_XML,
                 null,
@@ -183,11 +182,10 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
     public void givenGetArrondissementMunicipalAscendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getAscendantsFromArrondissementMunicipal("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetListeArrondissementMunicipal_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
@@ -196,7 +194,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         list.add(new ArrondissementMunicipal());
 
         // Call method
-        geoApi.getListeArrondissementsMunicipaux(MediaType.APPLICATION_JSON, null);
+        geoApi.getListe(MediaType.APPLICATION_JSON, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -208,7 +206,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         list.add(new ArrondissementMunicipal());
 
         // Call method
-        geoApi.getListeArrondissementsMunicipaux(MediaType.APPLICATION_XML, null);
+        geoApi.getListe(MediaType.APPLICATION_XML, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -219,11 +217,11 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getListeArrondissementsMunicipaux(MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getListeArrondissementsMunicipaux(MediaType.APPLICATION_JSON, null);
+        response = geoApi.getListe(MediaType.APPLICATION_JSON, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -237,7 +235,7 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
         list.add(new ArrondissementMunicipal());
 
         // Call method header content = xml
-        geoApi.getListeArrondissementsMunicipaux(MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getListe(MediaType.APPLICATION_XML, "2000-01-01");
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -245,7 +243,130 @@ public class ArrondissementMunicipalApiTest extends AbstractApiTest {
     public void givenGetListeArrondissementMunicipal_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListeArrondissementsMunicipaux(MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
+
+    @Test
+    public void givenGetArrondissementMunicipalSuivant_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new ArrondissementMunicipal());
+
+        // Call method
+        geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetArrondissementMunicipalSuivant_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new ArrondissementMunicipal());
+
+        // Call method
+        geoApi.getSuivant("something", MediaType.APPLICATION_XML, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetArrondissementMunicipalSuivant_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
+
+        // Call method header content = xml
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        // Call method header content = json
+        response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetArrondissementMunicipalSuivant_WhenCorrectRequest_thenParameterDateIsRight() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new ArrondissementMunicipal());
+
+        // Call method header content = xml
+        geoApi.getSuivant("something", MediaType.APPLICATION_XML, "2000-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetArrondissementMunicipalSuivant_WhenCorrectRequest_thenParameterDateIsBad() {
+
+        // Call method header content = xml
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenGetArrondissementMunicipalPrecedent_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new ArrondissementMunicipal());
+
+        // Call method
+        geoApi.getPrecedent("something", MediaType.APPLICATION_JSON, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetArrondissementMunicipalPrecedent_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new ArrondissementMunicipal());
+
+        // Call method
+        geoApi.getPrecedent("something", MediaType.APPLICATION_XML, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetArrondissementMunicipalPrecedent_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
+
+        // Call method header content = xml
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        // Call method header content = json
+        response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetArrondissementMunicipalPrecedent_WhenCorrectRequest_thenParameterDateIsRight() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new ArrondissementMunicipal());
+
+        // Call method header content = xml
+        geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "2000-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetArrondissementMunicipalPrecedent_WhenCorrectRequest_thenParameterDateIsBad() {
+
+        // Call method header content = xml
+        Response response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
 }

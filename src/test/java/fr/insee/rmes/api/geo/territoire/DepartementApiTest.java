@@ -34,11 +34,11 @@ public class DepartementApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(departement, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getDepartement("something", MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getDepartement("something", MediaType.APPLICATION_JSON, null);
+        response = geoApi.getByCode("something", MediaType.APPLICATION_JSON, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -52,7 +52,7 @@ public class DepartementApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(departement, Boolean.TRUE);
 
         // Call method
-        geoApi.getDepartement("something", MediaType.APPLICATION_JSON, null);
+        geoApi.getByCode("something", MediaType.APPLICATION_JSON, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -64,7 +64,7 @@ public class DepartementApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(departement, Boolean.TRUE);
 
         // Call method
-        geoApi.getDepartement("something", MediaType.APPLICATION_XML, null);
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -76,7 +76,7 @@ public class DepartementApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(departement, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getDepartement("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -84,7 +84,7 @@ public class DepartementApiTest extends AbstractApiTest {
     public void givenGetDepartement_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getDepartement("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -96,7 +96,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method
-        geoApi.getListeDepartements(MediaType.APPLICATION_JSON, null);
+        geoApi.getListe(MediaType.APPLICATION_JSON, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -108,7 +108,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method
-        geoApi.getListeDepartements(MediaType.APPLICATION_XML, null);
+        geoApi.getListe(MediaType.APPLICATION_XML, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -119,11 +119,11 @@ public class DepartementApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getListeDepartements(MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getListeDepartements(MediaType.APPLICATION_JSON, null);
+        response = geoApi.getListe(MediaType.APPLICATION_JSON, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -137,7 +137,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method header content = xml
-        geoApi.getListeDepartements(MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getListe(MediaType.APPLICATION_XML, "2000-01-01");
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -145,7 +145,7 @@ public class DepartementApiTest extends AbstractApiTest {
     public void givenGetListeDepartement_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListeDepartements(MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -156,7 +156,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method
-        geoApi.getAscendantsFromDepartement("something", MediaType.APPLICATION_JSON, null, null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_JSON, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -168,7 +168,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method
-        geoApi.getAscendantsFromDepartement("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -179,11 +179,11 @@ public class DepartementApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getAscendantsFromDepartement("something", MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_JSON, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getAscendantsFromDepartement("something", MediaType.APPLICATION_XML, null, null);
+        response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -197,7 +197,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method header content = xml
-        geoApi.getAscendantsFromDepartement("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -205,8 +205,7 @@ public class DepartementApiTest extends AbstractApiTest {
     public void givenGetDepartementAscendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getAscendantsFromDepartement("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -218,7 +217,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method header content = xml
-        geoApi.getAscendantsFromDepartement("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -231,11 +230,7 @@ public class DepartementApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         geoApi
-            .getAscendantsFromDepartement(
-                "something",
-                MediaType.APPLICATION_XML,
-                null,
-                EnumTypeGeographie.COMMUNE.getTypeObjetGeo());
+            .getAscendants("something", MediaType.APPLICATION_XML, null, EnumTypeGeographie.COMMUNE.getTypeObjetGeo());
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -243,8 +238,7 @@ public class DepartementApiTest extends AbstractApiTest {
     public void givenGetDepartementAscendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getAscendantsFromDepartement("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -255,7 +249,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method
-        geoApi.getDescendantsFromDepartement("something", MediaType.APPLICATION_JSON, null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -267,7 +261,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method
-        geoApi.getDescendantsFromDepartement("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -278,11 +272,11 @@ public class DepartementApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getDescendantsFromDepartement("something", MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getDescendantsFromDepartement("something", MediaType.APPLICATION_XML, null, null);
+        response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -296,7 +290,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method header content = xml
-        geoApi.getDescendantsFromDepartement("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -304,8 +298,7 @@ public class DepartementApiTest extends AbstractApiTest {
     public void givenGetDepartementDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getDescendantsFromDepartement("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -317,7 +310,7 @@ public class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method header content = xml
-        geoApi.getDescendantsFromDepartement("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -330,11 +323,7 @@ public class DepartementApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         geoApi
-            .getDescendantsFromDepartement(
-                "something",
-                MediaType.APPLICATION_XML,
-                null,
-                EnumTypeGeographie.COMMUNE.getTypeObjetGeo());
+            .getDescendants("something", MediaType.APPLICATION_XML, null, EnumTypeGeographie.COMMUNE.getTypeObjetGeo());
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -342,8 +331,130 @@ public class DepartementApiTest extends AbstractApiTest {
     public void givenGetDepartementDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getDescendantsFromDepartement("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
+
+    @Test
+    public void givenGetDepartementSuivant_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Departement());
+
+        // Call method
+        geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartementSuivant_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Departement());
+
+        // Call method
+        geoApi.getSuivant("something", MediaType.APPLICATION_XML, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartementSuivant_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
+
+        // Call method header content = xml
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        // Call method header content = json
+        response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartementSuivant_WhenCorrectRequest_thenParameterDateIsRight() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Departement());
+
+        // Call method header content = xml
+        geoApi.getSuivant("something", MediaType.APPLICATION_XML, "2000-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartementSuivant_WhenCorrectRequest_thenParameterDateIsBad() {
+
+        // Call method header content = xml
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenGetDepartementPrecedent_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Departement());
+
+        // Call method
+        geoApi.getPrecedent("something", MediaType.APPLICATION_JSON, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartementPrecedent_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Departement());
+
+        // Call method
+        geoApi.getPrecedent("something", MediaType.APPLICATION_XML, null);
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartementPrecedent_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
+
+        // Call method header content = xml
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        // Call method header content = json
+        response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, null);
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartementPrecedent_WhenCorrectRequest_thenParameterDateIsRight() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Departement());
+
+        // Call method header content = xml
+        geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "2000-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetDepartementPrecedent_WhenCorrectRequest_thenParameterDateIsBad() {
+
+        // Call method header content = xml
+        Response response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
 }

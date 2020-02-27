@@ -2,10 +2,7 @@ package fr.insee.rmes.api.geo;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -67,24 +64,6 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
 
     protected String formatValidParameterDateIfIsNull(String date) {
         return (date != null) ? date : DateUtils.getDateTodayStringFormat();
-    }
-
-    /**
-     * @param header from the url contains the list of headers accepted
-     * @return the first valid header
-     */
-    protected String getFirstValidHeader(String header) {
-
-        Stream<String> stream = Arrays.stream(header.split(","));
-        Optional<String> validHeader =
-            stream.filter(s -> s.equals(MediaType.APPLICATION_JSON) || s.equals(MediaType.APPLICATION_XML)).findFirst();
-
-        if (validHeader.isPresent()) {
-            return validHeader.get();
-        }
-        else {
-            return header;
-        }
     }
 
     protected Response generateStatusResponse(boolean objectIsFound, Object o, String header) {
