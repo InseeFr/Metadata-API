@@ -229,4 +229,91 @@ public class ArrondissementApi extends AbstractGeoApi {
         }
     }
 
+    @Path(ConstGeoApi.PATH_ARRONDISSEMENT + CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
+        summary = "Récupérer les informations concernant les arrondissements qui succèdent à l'arrondissement",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Arrondissement.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getSuivant(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date) {
+
+        logger.debug("Received GET request for suivant arrondissement {}", code);
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries.getSuivantArrondissement(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    Arrondissements.class,
+                    Arrondissement.class);
+        }
+    }
+
+    @Path(ConstGeoApi.PATH_ARRONDISSEMENT + CODE_PATTERN + ConstGeoApi.PATH_PRECEDENT)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
+        summary = "Récupérer les informations concernant les arrondissements qui précèdent l'arrondissement",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Arrondissement.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getPrecedent(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date) {
+
+        logger.debug("Received GET request for precedent arrondissement {}", code);
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries.getPrecedentArrondissement(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    Arrondissements.class,
+                    Arrondissement.class);
+        }
+    }
 }

@@ -173,6 +173,7 @@ public class GeoQueries extends Queries {
         EnumTypeGeographie typeOrigine,
         boolean precedent) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
+        params.put("typeOrigine", typeOrigine.getTypeObjetGeo());
         params.put("ascendant", String.valueOf(precedent));
         return buildRequest(QUERIES_FOLDER, "getPreviousOrNextByCodeTypeDate.ftlh", params);
     }

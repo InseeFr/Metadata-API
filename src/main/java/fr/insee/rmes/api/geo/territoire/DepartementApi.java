@@ -225,4 +225,92 @@ public class DepartementApi extends AbstractGeoApi {
                     Departement.class);
         }
     }
+
+    @Path(ConstGeoApi.PATH_DEPARTEMENT + CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
+        summary = "Récupérer les informations concernant les departements qui succèdent au departement",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Departement.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getSuivant(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_DEPARTEMENT_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_DEPARTEMENT,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser le departement de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date) {
+
+        logger.debug("Received GET request for suivant departement {}", code);
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries.getSuivantDepartement(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    Departements.class,
+                    Departement.class);
+        }
+    }
+
+    @Path(ConstGeoApi.PATH_DEPARTEMENT + CODE_PATTERN + ConstGeoApi.PATH_PRECEDENT)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
+        summary = "Récupérer les informations concernant les departements qui précèdent le departement",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Departement.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getPrecedent(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_DEPARTEMENT_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_DEPARTEMENT,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser le departement de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date) {
+
+        logger.debug("Received GET request for precedent departement {}", code);
+
+        if ( ! this.verifyParameterDateIsRight(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries.getPrecedentDepartement(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    Departements.class,
+                    Departement.class);
+        }
+    }
 }
