@@ -58,10 +58,14 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         return (typeTerritoire != null) ? EnumTypeGeographie.getTypeObjetGeoIgnoreCase(typeTerritoire) : Constants.NONE;
     }
 
-    protected boolean verifyParameterDateIsRight(String date) {
-        return (date == null) || (DateUtils.isValidDate(date));
+    protected boolean verifyParameterDateIsRight(String date, boolean withHistory) {
+        return (date == null) || (DateUtils.isValidDate(date)) || (withHistory && date.equals("*"));
     }
 
+    protected boolean verifyParameterDateIsRight(String date) {
+        return verifyParameterDateIsRight(date, false);
+    }
+    
     protected String formatValidParameterDateIfIsNull(String date) {
         return (date != null) ? date : DateUtils.getDateTodayStringFormat();
     }

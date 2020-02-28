@@ -221,7 +221,7 @@ public class CommuneApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for all communes");
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRight(date, true)) {
             return this.generateBadRequestResponse();
         }
         else {
