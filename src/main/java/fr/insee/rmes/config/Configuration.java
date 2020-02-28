@@ -36,6 +36,7 @@ public class Configuration {
         this.loadIfExists(props, "rmes-api.properties");
         this.loadIfExists(props, "rmeswnci.properties");
         this.loadIfExists(props, "rmeswncz.properties");
+        this.loadIfExists(props, "rmes-metadata-api.properties");
         return props;
     }
 
