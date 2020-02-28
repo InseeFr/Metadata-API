@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
+import fr.insee.rmes.modeles.concepts.Concept;
 import fr.insee.rmes.modeles.concepts.Definition;
 import fr.insee.rmes.modeles.concepts.Definitions;
 import fr.insee.rmes.queries.concepts.ConceptsQueries;
@@ -93,9 +94,9 @@ public class ConceptsAPI extends AbstractMetadataApi {
 
         logger.debug("Received GET request for Concept: {}", id);
 
-        Definition concept = new Definition(id);
+        Concept concept = new Concept(id);
         String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));
-        concept = (Definition) csvUtils.populatePOJO(csvResult, concept);
+        concept = (Concept) csvUtils.populatePOJO(csvResult, concept);
 
         if (concept.getUri() == null) {
             return Response.status(Status.NOT_FOUND).entity("").build();
