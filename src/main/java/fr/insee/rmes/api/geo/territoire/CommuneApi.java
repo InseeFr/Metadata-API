@@ -322,4 +322,53 @@ public class CommuneApi extends AbstractGeoApi {
                     Commune.class);
         }
     }
+    
+    @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN + ConstGeoApi.PATH_PROJECTION)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
+        summary = "Récupérer les informations concernant les communes qui résultent de la projection de la commune à la date passée en paramètre. ",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Commune.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getProjection(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_COMMUNE,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date,
+        @Parameter(
+            description = "Date vers laquelle est projetée la commune. Paramètre obligatoire (erreur 400 si absent)",
+            required = true,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
+
+        logger.debug("Received GET request for commune {} projection", code);
+
+        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection) ) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries.getProjectionCommune(code, this.formatValidParameterDateIfIsNull(date), dateProjection)),
+                    header,
+                    Communes.class,
+                    Commune.class);
+        }
+    }
 }

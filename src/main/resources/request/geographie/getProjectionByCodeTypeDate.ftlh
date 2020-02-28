@@ -8,18 +8,18 @@ WHERE {
 			       
 				   
 <#if previous = "true">
-			?evenementCreationOrigine igeo:creation ?origine ;
+			?evenementCreationOrigine igeo:creation+ ?origine ;
 					     			  igeo:date ?dateCreationOrigine.
 			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date)
 
-			?evenementCreationOrigine igeo:suppression ?uri .
+			?evenementCreationOrigine igeo:suppression+ ?uri .
 
 <#else>
-			?evenementSuppressionOrigine igeo:suppression ?origine ;
+			?evenementSuppressionOrigine igeo:suppression+ ?origine ;
 					                  igeo:date ?dateSuppressionOrigine.
 			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
 		                  	                  
-			?evenementSuppressionOrigine igeo:creation ?uri .
+			?evenementSuppressionOrigine igeo:creation+ ?uri .
 </#if>					
 
 			?uri a igeo:${typeOrigine} ;
@@ -39,7 +39,9 @@ WHERE {
 			OPTIONAL {
 			 	?uri ((igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion)/igeo:codeINSEE) ?chefLieu.
 			}
-		   
+			
+			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${dateProjection}'^^xsd:date)
+			FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${dateProjection}'^^xsd:date)
 				   
 		
 }

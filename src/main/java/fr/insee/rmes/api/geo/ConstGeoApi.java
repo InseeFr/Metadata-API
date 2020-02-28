@@ -30,6 +30,8 @@ public class ConstGeoApi {
     public static final String PATH_DESCENDANT = PATH_SEPARATOR + "descendants";
     public static final String PATH_SUIVANT = PATH_SEPARATOR + "suivants";
     public static final String PATH_PRECEDENT = PATH_SEPARATOR + "precedents";
+    public static final String PATH_PROJECTION = PATH_SEPARATOR + "projetes";
+
 
     public static final String PATTERN_COMMUNE = "[0-9][0-9AB][0-9]{3}";
     public static final String PATTERN_PAYS = "99[0-9]{3}";
@@ -53,6 +55,8 @@ public class ConstGeoApi {
     public static final String ID_OPERATION_LISTE = "liste";
     public static final String ID_OPERATION_PRECEDENT = "prec";
     public static final String ID_OPERATION_SUIVANT = "suiv";
+    public static final String ID_OPERATION_PROJECTION = "proj";
+
 
     private ConstGeoApi() {}
 
