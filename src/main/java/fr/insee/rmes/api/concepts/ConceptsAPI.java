@@ -83,7 +83,7 @@ public class ConceptsAPI extends AbstractMetadataApi {
         operationId = "getconcept",
         summary = "Informations sur la définition d'un concept statistique de l'Insee",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Definition.class)), description="Concept")
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Concept.class)), description="Concept")
         })
     public Response getConceptById(
         @Parameter(
