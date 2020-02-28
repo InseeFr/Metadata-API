@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
+import fr.insee.rmes.modeles.concepts.Concept;
 import fr.insee.rmes.modeles.concepts.Definition;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,6 +26,8 @@ public class ConceptsAPITest extends AbstractApiTest {
     private ConceptsAPI conceptsAPI;
 
     private Definition definition = new Definition();
+    private Concept concept = new Concept();
+
 
     @Test
     public void givenGetConcepts_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
@@ -86,8 +89,8 @@ public class ConceptsAPITest extends AbstractApiTest {
     public void givenGetConceptById_whenCorrectRequest_thenResponseIsOk() {
 
         // Mock
-        definition.setUri("aUri");
-        this.mockUtilsMethodsThenReturnOnePojo(definition, Boolean.TRUE);
+        concept.setUri("aUri");
+        this.mockUtilsMethodsThenReturnOnePojo(concept, Boolean.TRUE);
 
         // Call method
         conceptsAPI.getConceptById("something", MediaType.APPLICATION_JSON);
@@ -98,7 +101,7 @@ public class ConceptsAPITest extends AbstractApiTest {
     public void givenGetConceptById_whenCorrectRequest_andDefinitionNotFound_thenResponseIsNotFound() {
 
         // Mock
-        this.mockUtilsMethodsThenReturnOnePojo(definition, Boolean.FALSE);
+        this.mockUtilsMethodsThenReturnOnePojo(concept, Boolean.FALSE);
 
         // Call method
         Response response = conceptsAPI.getConceptById("something", MediaType.APPLICATION_JSON);
