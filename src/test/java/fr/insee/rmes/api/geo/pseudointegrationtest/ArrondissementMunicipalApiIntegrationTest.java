@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -95,9 +94,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
             response.getEntity());
     }
 
-    // TODO remove annotation ignore
 
-    @Ignore
     @Test
     public void givengetPrecedentsArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
@@ -109,7 +106,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
             response.getEntity());
     }
 
-    @Ignore
+
     @Test
     public void givengetPrecedentsArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
@@ -121,7 +118,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
             response.getEntity());
     }
 
-    @Ignore
+ 
     @Test
     public void givengetSuivantsArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
@@ -133,7 +130,7 @@ public class ArrondissementMunicipalApiIntegrationTest {
             response.getEntity());
     }
 
-    @Ignore
+
     @Test
     public void givengetSuivantsArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))

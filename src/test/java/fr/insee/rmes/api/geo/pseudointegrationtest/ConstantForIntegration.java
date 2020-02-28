@@ -170,15 +170,15 @@ public class ConstantForIntegration {
         "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/departement/21cde70f-d7be-4410-9a04-5f6f73dc5e70,Departement,78,3,Seine-et-Oise,Seine-et-Oise,1943-01-01,1968-01-01,78646\r\n"
             + "";
-    public static final String DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_JSON = "";
-    public static final String DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_XML = "";
+    public static final String DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_JSON = "[{\"code\":\"78\",\"uri\":\"http://id.insee.fr/geo/departement/21cde70f-d7be-4410-9a04-5f6f73dc5e70\",\"type\":\"Departement\",\"dateCreation\":\"1943-01-01\",\"dateSuppression\":\"1968-01-01\",\"intituleSansArticle\":\"Seine-et-Oise\",\"typeArticle\":\"3\",\"chefLieu\":\"78646\",\"intitule\":\"Seine-et-Oise\"}]";
+    public static final String DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_XML = "<Departements><Departement code=\"78\" uri=\"http://id.insee.fr/geo/departement/21cde70f-d7be-4410-9a04-5f6f73dc5e70\"><Intitule>Seine-et-Oise</Intitule><Type>Departement</Type><DateCreation>1943-01-01</DateCreation><DateSuppression>1968-01-01</DateSuppression><IntituleSansArticle typeArticle=\"3\">Seine-et-Oise</IntituleSansArticle><ChefLieu>78646</ChefLieu></Departement></Departements>";
     public static final String DEPARTEMENT_MOCK_SERVER_RETURN_SUIVANTS =
         "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/departement/816c56af-148a-4a63-b68b-792f7b608bab,Departement,78,4,Yvelines,Yvelines,1968-01-01,,78646\r\n"
             + "http://id.insee.fr/geo/departement/41c663b2-29cd-44ee-9d72-04836804dd99,Departement,91,5,Essonne,Essonne,1968-01-01,,91228\r\n"
             + "http://id.insee.fr/geo/departement/49cc57f5-a9ff-4a9e-819d-def0a63a1fac,Departement,95,2,Val-d'Oise,Val-d'Oise,1968-01-01,,95500\r\n";
-    public static final String DEPARTEMENT_EXPECTED_RESPONSE_SUIVANTS_JSON = "";
-    public static final String DEPARTEMENT_EXPECTED_RESPONSE_SUIVANTS_XML = "";
+    public static final String DEPARTEMENT_EXPECTED_RESPONSE_SUIVANTS_JSON = "[{\"code\":\"78\",\"uri\":\"http://id.insee.fr/geo/departement/816c56af-148a-4a63-b68b-792f7b608bab\",\"type\":\"Departement\",\"dateCreation\":\"1968-01-01\",\"intituleSansArticle\":\"Yvelines\",\"typeArticle\":\"4\",\"chefLieu\":\"78646\",\"intitule\":\"Yvelines\"},{\"code\":\"91\",\"uri\":\"http://id.insee.fr/geo/departement/41c663b2-29cd-44ee-9d72-04836804dd99\",\"type\":\"Departement\",\"dateCreation\":\"1968-01-01\",\"intituleSansArticle\":\"Essonne\",\"typeArticle\":\"5\",\"chefLieu\":\"91228\",\"intitule\":\"Essonne\"},{\"code\":\"95\",\"uri\":\"http://id.insee.fr/geo/departement/49cc57f5-a9ff-4a9e-819d-def0a63a1fac\",\"type\":\"Departement\",\"dateCreation\":\"1968-01-01\",\"intituleSansArticle\":\"Val-d'Oise\",\"typeArticle\":\"2\",\"chefLieu\":\"95500\",\"intitule\":\"Val-d'Oise\"}]";
+    public static final String DEPARTEMENT_EXPECTED_RESPONSE_SUIVANTS_XML = "<Departements><Departement code=\"78\" uri=\"http://id.insee.fr/geo/departement/816c56af-148a-4a63-b68b-792f7b608bab\"><Intitule>Yvelines</Intitule><Type>Departement</Type><DateCreation>1968-01-01</DateCreation><IntituleSansArticle typeArticle=\"4\">Yvelines</IntituleSansArticle><ChefLieu>78646</ChefLieu></Departement><Departement code=\"91\" uri=\"http://id.insee.fr/geo/departement/41c663b2-29cd-44ee-9d72-04836804dd99\"><Intitule>Essonne</Intitule><Type>Departement</Type><DateCreation>1968-01-01</DateCreation><IntituleSansArticle typeArticle=\"5\">Essonne</IntituleSansArticle><ChefLieu>91228</ChefLieu></Departement><Departement code=\"95\" uri=\"http://id.insee.fr/geo/departement/49cc57f5-a9ff-4a9e-819d-def0a63a1fac\"><Intitule>Val-d'Oise</Intitule><Type>Departement</Type><DateCreation>1968-01-01</DateCreation><IntituleSansArticle typeArticle=\"2\">Val-d'Oise</IntituleSansArticle><ChefLieu>95500</ChefLieu></Departement></Departements>";
 
     // **********************
     // ARRONDISSEMENT
@@ -333,13 +333,13 @@ public class ConstantForIntegration {
     public static final String REGION_MOCK_SERVER_RETURN_PRECEDENTS =
         "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/region/a38fd4fc-ac62-421f-84ab-048ec6e124b7,Region,01,3,Guadeloupe,Guadeloupe,1982-03-02,2007-07-15,97105\r\n";
-    public static final String REGION_EXPECTED_RESPONSE_PRECEDENTS_JSON = "";
-    public static final String REGION_EXPECTED_RESPONSE_PRECEDENTS_XML = "";
+    public static final String REGION_EXPECTED_RESPONSE_PRECEDENTS_JSON = "[{\"code\":\"01\",\"uri\":\"http://id.insee.fr/geo/region/a38fd4fc-ac62-421f-84ab-048ec6e124b7\",\"type\":\"Region\",\"dateCreation\":\"1982-03-02\",\"dateSuppression\":\"2007-07-15\",\"intituleSansArticle\":\"Guadeloupe\",\"typeArticle\":\"3\",\"chefLieu\":\"97105\",\"intitule\":\"Guadeloupe\"}]";
+    public static final String REGION_EXPECTED_RESPONSE_PRECEDENTS_XML = "<Regions><Region code=\"01\" uri=\"http://id.insee.fr/geo/region/a38fd4fc-ac62-421f-84ab-048ec6e124b7\"><Intitule>Guadeloupe</Intitule><Type>Region</Type><DateCreation>1982-03-02</DateCreation><DateSuppression>2007-07-15</DateSuppression><IntituleSansArticle typeArticle=\"3\">Guadeloupe</IntituleSansArticle><ChefLieu>97105</ChefLieu></Region></Regions>";
     public static final String REGION_MOCK_SERVER_RETURN_SUIVANTS =
         "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/region/a464366d-321a-49ae-ba50-2624c4468657,Region,01,3,Guadeloupe,Guadeloupe,2007-07-15,,97105\r\n";
-    public static final String REGION_EXPECTED_RESPONSE_SUIVANTS_JSON = "";
-    public static final String REGION_EXPECTED_RESPONSE_SUIVANTS_XML = "";
+    public static final String REGION_EXPECTED_RESPONSE_SUIVANTS_JSON = "[{\"code\":\"01\",\"uri\":\"http://id.insee.fr/geo/region/a464366d-321a-49ae-ba50-2624c4468657\",\"type\":\"Region\",\"dateCreation\":\"2007-07-15\",\"intituleSansArticle\":\"Guadeloupe\",\"typeArticle\":\"3\",\"chefLieu\":\"97105\",\"intitule\":\"Guadeloupe\"}]";
+    public static final String REGION_EXPECTED_RESPONSE_SUIVANTS_XML = "<Regions><Region code=\"01\" uri=\"http://id.insee.fr/geo/region/a464366d-321a-49ae-ba50-2624c4468657\"><Intitule>Guadeloupe</Intitule><Type>Region</Type><DateCreation>2007-07-15</DateCreation><IntituleSansArticle typeArticle=\"3\">Guadeloupe</IntituleSansArticle><ChefLieu>97105</ChefLieu></Region></Regions>";
 
     // **********************
     // COMMUNE ASSOCIEE
