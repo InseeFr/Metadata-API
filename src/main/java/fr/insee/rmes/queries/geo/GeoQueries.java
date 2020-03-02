@@ -112,8 +112,6 @@ public class GeoQueries extends Queries {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT, false);
     }
 
-   
-
     // NEXT
     public static String getNextCommune(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.COMMUNE, false);
@@ -155,19 +153,30 @@ public class GeoQueries extends Queries {
     public static String getPreviousArrondissementMunicipal(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL, true);
     }
-    
+
     // PROJECTION
     public static String getProjectionCommune(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.COMMUNE);
     }
-    
 
+    public static String getProjectionDepartement(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.DEPARTEMENT);
+    }
 
+    public static String getProjectionRegion(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.REGION);
+    }
 
+    public static String getProjectionArrondissement(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.ARRONDISSEMENT);
+    }
 
+    public static String getProjectionArrondissementMunicipal(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL);
+    }
 
     /* UTILS */
-    
+
     private static String getProjectionQuery(
         String code,
         String date,
@@ -180,7 +189,7 @@ public class GeoQueries extends Queries {
         params.put("dateProjection", String.valueOf(dateProjection));
         return buildRequest(QUERIES_FOLDER, "getProjectionByCodeTypeDate.ftlh", params);
     }
-    
+
     private static String getAscendantOrDescendantsQuery(
         String code,
         String date,
@@ -193,7 +202,7 @@ public class GeoQueries extends Queries {
         params.put("ascendant", String.valueOf(ascendant));
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
     }
-    
+
     private static String getPreviousOrNextQuery(
         String code,
         String date,
@@ -204,7 +213,7 @@ public class GeoQueries extends Queries {
         params.put("previous", String.valueOf(precedent));
         return buildRequest(QUERIES_FOLDER, "getPreviousOrNextByCodeTypeDate.ftlh", params);
     }
-    
+
     private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
         params.put("territoire", typeGeo.getTypeObjetGeo());
