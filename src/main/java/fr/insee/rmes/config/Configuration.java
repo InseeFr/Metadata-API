@@ -1,7 +1,5 @@
 package fr.insee.rmes.config;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -10,53 +8,31 @@ import org.apache.logging.log4j.Logger;
 
 public class Configuration {
     private static Logger logger = LogManager.getLogger(Configuration.class);
+    private PropertiesLoading propertiesLoading = new PropertiesLoading();
 
     private static String sparqlEndPoint = "";
 
-    //Base for all uri in our database
+    // Base for all uri in our database
     private static String baseHost = "";
-    
-    //folder where documents are stored
+
+    // folder where documents are stored
     private static String fileStorage = "";
-    //Server where documents are stored
+    // Server where documents are stored
     private static String fileStorageLocation = "";
 
-    //API Server
+    // API Server
     private static String swaggerHost = "";
-    //API name
+    // API name
     private static String swaggerBasepath = "";
-    //Build with host and basepath
+    // Build with host and basepath
     private static String swaggerUrl = "";
-    //Https or Http
+    // Https or Http
     private static Boolean requiresSsl = false;
-
-    private Properties getProperties() throws IOException {
-        Properties props = new Properties();
-        props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
-        this.loadIfExists(props, "rmes-api.properties");
-        this.loadIfExists(props, "rmeswnci.properties");
-        this.loadIfExists(props, "rmeswncz.properties");
-        this.loadIfExists(props, "rmes-metadata-api.properties");
-        return props;
-    }
-
-    /*
-     * load properties on catalina base
-     */
-    private void loadIfExists(Properties props, String filename) throws IOException {
-        File f;
-        f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
-        if (f.exists() && ! f.isDirectory()) {
-            FileReader r = new FileReader(f);
-            props.load(r);
-            r.close();
-        }
-    }
 
     public Configuration() {
         Properties props = null;
         try {
-            props = this.getProperties();
+            props = propertiesLoading.getProperties();
 
             sparqlEndPoint = props.getProperty("fr.insee.rmes.api.sparqlEndpoint");
             baseHost = props.getProperty("fr.insee.rmes.api.baseHost");
@@ -66,7 +42,8 @@ public class Configuration {
             swaggerHost = props.getProperty("fr.insee.rmes.api.host");
             swaggerBasepath = props.getProperty("fr.insee.rmes.api.basepath");
             requiresSsl = Boolean.valueOf(props.getProperty("fr.insee.rmes.api.force.ssl"));
-            swaggerUrl = (requiresSsl ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
+            swaggerUrl =
+                (Boolean.TRUE.equals(requiresSsl) ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
 
         }
         catch (IOException e) {

@@ -1,7 +1,6 @@
 package fr.insee.rmes.config;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -19,6 +18,7 @@ public class Log4j2ServletContextListener implements ServletContextListener {
     private String log4j2ConfigFile;
 
     private Log4jServletContextListener listener;
+    private PropertiesLoading propertiesLoading = new PropertiesLoading();
 
     public Log4j2ServletContextListener() {
         this.listener = new Log4jServletContextListener();
@@ -44,7 +44,7 @@ public class Log4j2ServletContextListener implements ServletContextListener {
     }
 
     private void getEnvironmentProperties() throws IOException {
-        Properties props = this.getProperties();
+        Properties props = propertiesLoading.getProperties();
         this.log4j2ConfigFile = "log4j2.xml";
         String log4jInternalFile =
             String.format("%s/webapps/%s", System.getProperty("catalina.base"), log4j2ConfigFile);
@@ -58,27 +58,4 @@ public class Log4j2ServletContextListener implements ServletContextListener {
             this.log4j2ConfigFile = String.format(log4JExternalFile);
         }
     }
-
-    private Properties getProperties() throws IOException {
-        Properties props = new Properties();
-        props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
-        this.loadIfExists(props, "rmes-api.properties");
-        this.loadIfExists(props, "rmeswnci.properties");
-        this.loadIfExists(props, "rmeswncz.properties");
-        return props;
-    }
-
-    /*
-     * load properties on catalina base
-     */
-    private void loadIfExists(Properties props, String filename) throws IOException {
-        File f;
-        f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
-        if (f.exists() && ! f.isDirectory()) {
-            FileReader r = new FileReader(f);
-            props.load(r);
-            r.close();
-        }
-    }
-
 }
