@@ -46,6 +46,26 @@ public abstract class Territoire {
         this.uri = uri;
     }
 
+    public Territoire(
+        String code,
+        String uri,
+        String intitule,
+        String type,
+        String dateCreation,
+        String dateSuppression,
+        IntituleSansArticle intituleSansArticle,
+        String chefLieu) {
+        super();
+        this.code = code;
+        this.uri = uri;
+        this.intitule = intitule;
+        this.type = type;
+        this.dateCreation = dateCreation;
+        this.dateSuppression = dateSuppression;
+        this.intituleSansArticle = intituleSansArticle;
+        this.chefLieu = chefLieu;
+    }
+
     public Territoire() {
         this.intituleSansArticle = new IntituleSansArticle();
     }

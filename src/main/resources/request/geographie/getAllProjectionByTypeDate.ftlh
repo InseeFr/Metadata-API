@@ -54,4 +54,4 @@ WHERE {
 				   
 		
 }
-ORDER BY  ?code
+ORDER BY  ?codeOrigine ?code

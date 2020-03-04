@@ -14,11 +14,16 @@ import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
+import fr.insee.rmes.modeles.geo.territoire.Projection;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.Projections;
+import fr.insee.rmes.queries.geo.CsvGeoUtils;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.DateUtils;
 
 public abstract class AbstractGeoApi extends AbstractMetadataApi {
+
+    protected CsvGeoUtils csvGeoUtils = new CsvGeoUtils();
 
     private static Logger logger = LogManager.getLogger(AbstractGeoApi.class);
 
@@ -79,6 +84,13 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         }
     }
 
+    /**
+     * 
+     * @param listObject :  for XML, pojo containing a list
+     * @param o : for JSON, list of pojo
+     * @param header
+     * @return
+     */
     protected Response generateListStatusResponse(Class<?> listObject, List<?> o, String header) {
         if (o.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
@@ -106,5 +118,11 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
 
     protected Response generateBadRequestResponse() {
         return Response.status(Status.BAD_REQUEST).entity("").build();
+    }
+    
+    // Method to find a list of projections
+    protected Response generateResponseListOfProjection(String csvResult, String header) {
+        List<Projection> listProj = csvGeoUtils.populateProjections(csvResult);
+        return this.generateListStatusResponse(Projections.class, listProj, this.getFirstValidHeader(header));
     }
 }

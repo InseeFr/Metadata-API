@@ -174,6 +174,27 @@ public class GeoQueries extends Queries {
     public static String getProjectionArrondissementMunicipal(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL);
     }
+    
+    // ALL PROJECTIONs
+    public static String getAllProjectionCommune(String date, String dateProjection) {
+        return getAllProjectionQuery(date, dateProjection, EnumTypeGeographie.COMMUNE);
+    }
+
+    public static String getAllProjectionDepartement(String date, String dateProjection) {
+        return getAllProjectionQuery(date, dateProjection, EnumTypeGeographie.DEPARTEMENT);
+    }
+
+    public static String getAllProjectionRegion(String date, String dateProjection) {
+        return getAllProjectionQuery(date, dateProjection, EnumTypeGeographie.REGION);
+    }
+
+    public static String getAllProjectionArrondissement(String date, String dateProjection) {
+        return getAllProjectionQuery(date, dateProjection, EnumTypeGeographie.ARRONDISSEMENT);
+    }
+
+    public static String getAllProjectionArrondissementMunicipal( String date, String dateProjection) {
+        return getAllProjectionQuery(date, dateProjection, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL);
+    }
 
     /* UTILS */
 
@@ -188,6 +209,19 @@ public class GeoQueries extends Queries {
         params.put("previous", String.valueOf(previous));
         params.put("dateProjection", String.valueOf(dateProjection));
         return buildRequest(QUERIES_FOLDER, "getProjectionByCodeTypeDate.ftlh", params);
+    }
+    
+    private static String getAllProjectionQuery(
+        String date,
+        String dateProjection,
+        EnumTypeGeographie typeOrigine) {
+        boolean previous = dateProjection.compareTo(date) <= 0;
+        Map<String, Object> params = new HashMap<>();
+        params.put("date", date);
+        params.put("typeOrigine", typeOrigine.getTypeObjetGeo());
+        params.put("previous", String.valueOf(previous));
+        params.put("dateProjection", String.valueOf(dateProjection));
+        return buildRequest(QUERIES_FOLDER, "getAllProjectionByTypeDate.ftlh", params);
     }
 
     private static String getAscendantOrDescendantsQuery(

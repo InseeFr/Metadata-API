@@ -17,6 +17,7 @@ import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
@@ -312,6 +313,49 @@ public class RegionApi extends AbstractGeoApi {
                     header,
                     Regions.class,
                     Region.class);
+        }
+    }
+    
+    @Path(ConstGeoApi.PATH_LISTE_REGION + ConstGeoApi.PATH_PROJECTION)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTIONS,
+        summary = "Récupérer la projection des régions vers la date passée en paramètre.",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Projections.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getAllProjections(
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser les régions de départ. Par défaut, c’est la date courante qui est utilisée.",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date,
+        @Parameter(
+            description = "Date vers laquelle sont projetées les régions. Paramètre obligatoire (erreur 400 si absent)",
+            required = true,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
+
+        logger.debug("Received GET request for all regions {} projections");
+
+        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfProjection(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getAllProjectionRegion(this.formatValidParameterDateIfIsNull(date),
+                                    dateProjection)),
+                    header);
         }
     }
 }
