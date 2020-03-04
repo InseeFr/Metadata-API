@@ -10,7 +10,14 @@ WHERE {
 <#if previous = "true">
 			?evenementCreationOrigine igeo:creation ?origine ;
 					     			  igeo:date ?dateCreationOrigine.
+			
 			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date)
+			OPTIONAL{
+					?evenementSuppressionOrigine igeo:suppression ?origine ;
+					                  igeo:date ?dateSuppressionOrigine.
+			 }
+			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
+			
 
 			?evenementCreationOrigine igeo:suppression ?uri .
 
@@ -18,7 +25,14 @@ WHERE {
 			?evenementSuppressionOrigine igeo:suppression ?origine ;
 					                  igeo:date ?dateSuppressionOrigine.
 			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
-		                  	                  
+		    OPTIONAL{
+		    		?evenementCreationOrigine igeo:creation ?origine ;
+									igeo:date ?dateCreationOrigine.
+			}
+			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date)
+		    
+			
+			
 			?evenementSuppressionOrigine igeo:creation ?uri .
 </#if>					
 
