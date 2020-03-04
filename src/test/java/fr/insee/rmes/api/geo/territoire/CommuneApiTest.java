@@ -145,8 +145,7 @@ public class CommuneApiTest extends AbstractApiTest {
     public void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getAscendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -183,8 +182,7 @@ public class CommuneApiTest extends AbstractApiTest {
     public void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -245,8 +243,7 @@ public class CommuneApiTest extends AbstractApiTest {
     public void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -283,8 +280,7 @@ public class CommuneApiTest extends AbstractApiTest {
     public void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -348,7 +344,7 @@ public class CommuneApiTest extends AbstractApiTest {
         Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
-    
+
     @Test
     public void givenGetCommunePrecedents_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
@@ -360,7 +356,7 @@ public class CommuneApiTest extends AbstractApiTest {
         geoApi.getPrecedent("something", MediaType.APPLICATION_JSON, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
-    
+
     @Test
     public void givenGetCommunePrecedents_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
@@ -406,8 +402,7 @@ public class CommuneApiTest extends AbstractApiTest {
     public void givenGetCommunePrecedents_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -422,7 +417,7 @@ public class CommuneApiTest extends AbstractApiTest {
         geoApi.getPrecedent("something", MediaType.APPLICATION_XML, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
-    
+
     @Test
     public void givenGetCommuneSuivants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
@@ -434,7 +429,7 @@ public class CommuneApiTest extends AbstractApiTest {
         geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
-    
+
     @Test
     public void givenGetCommuneSuivants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
@@ -480,8 +475,7 @@ public class CommuneApiTest extends AbstractApiTest {
     public void givenGetCommuneSuivants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response =
-            geoApi.getSuivant("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, "nimportequoi");
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -495,6 +489,96 @@ public class CommuneApiTest extends AbstractApiTest {
         // Call method header content = xml
         geoApi.getSuivant("something", MediaType.APPLICATION_XML, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetCommuneProjetes_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Commune());
+
+        // Call method
+        geoApi.getProjection("something", MediaType.APPLICATION_JSON, null, "2019-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetCommuneProjetes_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Commune());
+
+        // Call method
+        geoApi.getProjection("something", MediaType.APPLICATION_XML, null, "2019-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetCommuneProjetes_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
+
+        // Call method header content = xml
+        Response response = geoApi.getProjection("something", MediaType.APPLICATION_JSON, null, "2019-01-01");
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        // Call method header content = json
+        response = geoApi.getProjection("something", MediaType.APPLICATION_XML, null, "2019-01-01");
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateIsRight() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Commune());
+
+        // Call method header content = xml
+        geoApi.getProjection("something", MediaType.APPLICATION_XML, "2000-01-01", "2019-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateIsBad() {
+
+        // Call method header content = xml
+        Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", "2019-01-01");
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateProjeteIsRight() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Commune());
+
+        // Call method header content = xml
+        geoApi.getProjection("something", MediaType.APPLICATION_XML, "2000-01-01", "2019-01-01");
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateProjeteIsBad() {
+
+        // Call method header content = xml
+        Response response =
+            geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", "nimportequoi");
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateProjeteIsNull() {
+
+        // Call method header content = xml
+        Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
 }

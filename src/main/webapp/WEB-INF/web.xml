@@ -13,7 +13,7 @@
 	</context-param>
 
 	<listener>
-		<listener-class>fr.insee.rmes.config.Log4j2ServletContextListener</listener-class>
+		<listener-class>fr.insee.rmes.config.Configuration</listener-class>
 	</listener>
 
 	<!-- DEFAULT FOR STATIC PAGES -->

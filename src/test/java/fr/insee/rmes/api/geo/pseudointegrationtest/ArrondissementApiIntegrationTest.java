@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -106,8 +105,6 @@ public class ArrondissementApiIntegrationTest {
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_DESCENDANTS_XML, response.getEntity());
     }
 
-    // TODO remove annotation ignore
-    @Ignore
     @Test
     public void givengetPrecedentsArrondissements_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
@@ -117,7 +114,6 @@ public class ArrondissementApiIntegrationTest {
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_PRECEDENTS_JSON, response.getEntity());
     }
 
-    @Ignore
     @Test
     public void givengetPrecedentsArrondissements_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
@@ -127,7 +123,6 @@ public class ArrondissementApiIntegrationTest {
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_PRECEDENTS_XML, response.getEntity());
     }
 
-    @Ignore
     @Test
     public void givengetSuivantsArrondissements_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
@@ -137,7 +132,6 @@ public class ArrondissementApiIntegrationTest {
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_SUIVANTS_JSON, response.getEntity());
     }
 
-    @Ignore
     @Test
     public void givengetSuivantsArrondissements_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
