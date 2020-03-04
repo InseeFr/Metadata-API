@@ -28,6 +28,18 @@ public class Commune extends Territoire {
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
+    public Commune(
+        String code,
+        String uri,
+        String intitule,
+        String type,
+        String dateCreation,
+        String dateSuppression,
+        IntituleSansArticle intituleSansArticle,
+        String chefLieu) {
+        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
+    }
+
     @Override
     @JacksonXmlProperty(isAttribute = true)
     @Schema(example = "55323")

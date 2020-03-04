@@ -288,7 +288,7 @@ public class ArrondissementApi extends AbstractGeoApi {
         })
     public Response getPrecedent(
         @Parameter(
-            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT,
@@ -311,6 +311,59 @@ public class ArrondissementApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries.getPreviousArrondissement(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    Arrondissements.class,
+                    Arrondissement.class);
+        }
+    }
+
+    @Path(ConstGeoApi.PATH_ARRONDISSEMENT + CODE_PATTERN + ConstGeoApi.PATH_PROJECTION)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
+        summary = "Récupérer les informations concernant les arrondissements qui résultent de la projection de l'arrondissement à la date passée en paramètre. ",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = Arrondissement.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getProjection(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_ARRONDISSEMENT_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date,
+        @Parameter(
+            description = "Date vers laquelle est projetée l'arrondissement. Paramètre obligatoire (erreur 400 si absent)",
+            required = true,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
+
+        logger.debug("Received GET request for arrondissement {} projection", code);
+
+        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getProjectionArrondissement(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    dateProjection)),
                     header,
                     Arrondissements.class,
                     Arrondissement.class);

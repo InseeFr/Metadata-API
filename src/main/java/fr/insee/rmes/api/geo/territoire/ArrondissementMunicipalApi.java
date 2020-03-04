@@ -262,9 +262,60 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getPreviousArrondissementMunicipal(
+                                .getPreviousArrondissementMunicipal(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    ArrondissementsMunicipaux.class,
+                    ArrondissementMunicipal.class);
+        }
+    }
+
+    @Path(ConstGeoApi.PATH_ARRONDISSEMENT_MUNICIPAL + CODE_PATTERN + ConstGeoApi.PATH_PROJECTION)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
+        summary = "Récupérer les informations concernant les arrondissements municipaux qui résultent de la projection de l'arrondissement municipal à la date passée en paramètre. ",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(implementation = ArrondissementMunicipal.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getProjection(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL,
+                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour préciser l'arrondissement municipal de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date,
+        @Parameter(
+            description = "Date vers laquelle est projetée l'arrondissement municipal. Paramètre obligatoire (erreur 400 si absent)",
+            required = true,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
+
+        logger.debug("Received GET request for arrondissementMunicipal {} projection", code);
+
+        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getProjectionArrondissementMunicipal(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date))),
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    dateProjection)),
                     header,
                     ArrondissementsMunicipaux.class,
                     ArrondissementMunicipal.class);
