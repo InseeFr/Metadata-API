@@ -15,47 +15,48 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 
 public class Projection {
-    
+
     private static Logger logger = LogManager.getLogger(Projection.class);
-    
+
     @JacksonXmlElementWrapper(useWrapping = false)
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
-    Territoire origine ;
-    
+    Territoire origine;
+
     @JsonIgnore
-    List<Territoire> projetes =  new ArrayList<>();
-    
+    List<Territoire> projetes = new ArrayList<>();
+
     @JacksonXmlElementWrapper(useWrapping = false)
-   @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
-   Territoires listeProj;
-    
-    public Projection() {
-    }
-    
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
+    Territoires listeProj;
+
+    public Projection() {}
+
     public Projection(Territoire origine, Territoire t) {
         this.origine = origine;
-        addProjete(t);
+        this.addProjete(t);
     }
-  
+
     public Territoire getOrigine() {
         return origine;
     }
+
     public void setOrigine(Territoire origine) {
         this.origine = origine;
     }
-   
+
     public List<Territoire> getProjetes() {
         return projetes;
     }
+
     public void setProjetes(List<Territoire> projetes) {
         this.projetes = projetes;
     }
-    
+
     @JsonIgnore
     public String getIdentifiant() {
         return origine.getUri();
     }
-    
+
     public void addProjete(Territoire t) {
         projetes.add(t);
     }
@@ -73,6 +74,6 @@ public class Projection {
 
     public void setListeProj(Territoires listeProj) {
         this.listeProj = listeProj;
-    }    
-    
+    }
+
 }

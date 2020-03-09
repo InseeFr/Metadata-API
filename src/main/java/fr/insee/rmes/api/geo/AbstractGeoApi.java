@@ -68,9 +68,9 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     }
 
     protected boolean verifyParameterDateIsRight(String date) {
-        return verifyParameterDateIsRight(date, false);
+        return this.verifyParameterDateIsRight(date, false);
     }
-    
+
     protected String formatValidParameterDateIfIsNull(String date) {
         return (date != null) ? date : DateUtils.getDateTodayStringFormat();
     }
@@ -85,8 +85,7 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     }
 
     /**
-     * 
-     * @param listObject :  for XML, pojo containing a list
+     * @param listObject : for XML, pojo containing a list
      * @param o : for JSON, list of pojo
      * @param header
      * @return
@@ -119,7 +118,7 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     protected Response generateBadRequestResponse() {
         return Response.status(Status.BAD_REQUEST).entity("").build();
     }
-    
+
     // Method to find a list of projections
     protected Response generateResponseListOfProjection(String csvResult, String header) {
         List<Projection> listProj = csvGeoUtils.populateProjections(csvResult);
