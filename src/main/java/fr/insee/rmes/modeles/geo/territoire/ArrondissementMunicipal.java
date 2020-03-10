@@ -15,4 +15,16 @@ public class ArrondissementMunicipal extends Territoire {
         this.code = code;
         this.intituleSansArticle = new IntituleSansArticle();
     }
+
+    public ArrondissementMunicipal(
+        String code,
+        String uri,
+        String intitule,
+        String type,
+        String dateCreation,
+        String dateSuppression,
+        IntituleSansArticle intituleSansArticle,
+        String chefLieu) {
+        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
+    }
 }

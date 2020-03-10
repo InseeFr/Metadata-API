@@ -353,8 +353,7 @@ public class RegionApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getAllProjectionRegion(this.formatValidParameterDateIfIsNull(date),
-                                    dateProjection)),
+                                .getAllProjectionRegion(this.formatValidParameterDateIfIsNull(date), dateProjection)),
                     header);
         }
     }
