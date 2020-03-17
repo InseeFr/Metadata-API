@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Arrondissements")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Arrondissements", description = "Tableau représentant les arrondissements")
-public class Arrondissements {
+public class Arrondissements extends Territoires{
 
     private List<Arrondissement> arrondissements = null;
 

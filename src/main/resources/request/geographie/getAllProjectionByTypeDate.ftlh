@@ -19,16 +19,26 @@ WHERE {
 <#if previous = "true">
 			?evenementCreationOrigine igeo:creation+ ?origine ;
 					     			  igeo:date ?dateCreationOrigine.
-			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date)
-
-			?evenementCreationOrigine igeo:suppression+ ?uri .
+			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date) 
+			OPTIONAL{	
+				?evenementCreationOrigine igeo:suppression+ ?uriProj .
+			}
+			BIND(IF((!BOUND(?uriProj)&&(?dateCreationOrigine <= '${dateProjection}'^^xsd:date)),
+				?origine, 
+				IF(!BOUND(?uriProj),"no response",?uriProj)) 
+				AS ?uri).
 
 <#else>
 			?evenementSuppressionOrigine igeo:suppression+ ?origine ;
 					                  igeo:date ?dateSuppressionOrigine.
 			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
-		                  	                  
-			?evenementSuppressionOrigine igeo:creation+ ?uri .
+		      OPTIONAL{              
+				?evenementSuppressionOrigine igeo:creation+ ?uriProj .
+			}
+			BIND(IF((!BOUND(?uriProj)&&(?dateSuppressionOrigine >= '${dateProjection}'^^xsd:date)),
+				?origine, 
+				IF(!BOUND(?uriProj),"no response",?uriProj)) 
+				AS ?uri).
 </#if>					
 
 			?uri a igeo:${typeOrigine} ;

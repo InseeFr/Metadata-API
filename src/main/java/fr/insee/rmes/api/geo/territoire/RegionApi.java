@@ -342,7 +342,7 @@ public class RegionApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
 
-        logger.debug("Received GET request for all regions {} projections");
+        logger.debug("Received GET request for all regions projections");
 
         if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
             return this.generateBadRequestResponse();
@@ -353,8 +353,7 @@ public class RegionApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getAllProjectionRegion(this.formatValidParameterDateIfIsNull(date),
-                                    dateProjection)),
+                                .getAllProjectionRegion(this.formatValidParameterDateIfIsNull(date), dateProjection)),
                     header);
         }
     }

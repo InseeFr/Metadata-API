@@ -2,6 +2,7 @@ package fr.insee.rmes.modeles.geo.territoires;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -21,6 +22,7 @@ public class Territoires {
         this.listeTerritoires = territoires;
     }
 
+    @JsonIgnore
     public List<Territoire> getTerritoires() {
         return listeTerritoires;
     }
