@@ -1,5 +1,6 @@
-SELECT ?uri ?intituleFr ?intituleEn ?replaces ?isReplacedBy 
-?definitionFr ?definitionEn ?editorialNoteFr ?editorialNoteEn ?scopeNoteFr ?scopeNoteEn
+SELECT distinct ?uri ?intituleFr ?intituleEn ?replaces ?isReplacedBy 
+?definitionFr ?definitionEn ?editorialNoteFr ?editorialNoteEn ?scopeNoteFr ?scopeNoteEn ?updateDate
+FROM <http://rdf.insee.fr/graphes/concepts/definitions>
 WHERE { 
 			?uri skos:inScheme ?uriScheme . 
 			FILTER(REGEX(STR(?uriScheme),'/concepts/definitions/scheme')) 
@@ -12,6 +13,10 @@ WHERE {
 			OPTIONAL{ ?uri dcterms:replaces ?replaces } 
 			OPTIONAL{ ?isReplacedBy dcterms:replaces ?uri } 
 			
+			OPTIONAL{ ?uri dcterms:modified ?updateDate } 
+			OPTIONAL{ ?uri dcterms:replaces ?replaces } 
+
+			
 			
 			OPTIONAL {
 				?uri skos:definition ?defFr . 
@@ -19,8 +24,10 @@ WHERE {
 				?defFr evoc:noteLiteral ?definitionFr . 
 				?defFr insee:conceptVersion ?v . 
 				filter not exists {
-					?defFr insee:conceptVersion ?v2
-					filter (?v2 > ?dv)
+					?uri skos:definition ?def2Fr . 
+					?def2Fr dcterms:language 'fr'^^xsd:language . 
+					?def2Fr insee:conceptVersion ?v2
+					filter (?v2 > ?v)
 				}
 			}  .
 			
@@ -29,18 +36,23 @@ WHERE {
 				?defEn evoc:noteLiteral ?definitionEn . 
 				?defEn insee:conceptVersion ?v . 
 				filter not exists {
-					?defEn insee:conceptVersion ?v2
-					filter (?v2 > ?dv)
+					?uri skos:definition ?def2En . 
+					?def2En dcterms:language 'en'^^xsd:language . 
+					?def2En insee:conceptVersion ?v2
+					filter (?v2 > ?v)
 				}
 			} .  
 
-			OPTIONAL {?uri skos:scopeNote ?scopeFr . 
+			OPTIONAL {
+				?uri skos:scopeNote ?scopeFr . 
 				?scopeFr dcterms:language 'fr'^^xsd:language . 
 				?scopeFr evoc:noteLiteral ?scopeNoteFr . 
 				?scopeFr insee:conceptVersion ?v .
 				filter not exists {
-					?scopeFr insee:conceptVersion ?v2
-					filter (?v2 > ?dv)
+					?uri skos:scopeNote ?scope2Fr .
+					?scope2Fr dcterms:language 'fr'^^xsd:language . 
+					?scope2Fr insee:conceptVersion ?v2
+					filter (?v2 > ?v)
 				}				
 			} .  
 
@@ -49,30 +61,39 @@ WHERE {
 				?scopeEn evoc:noteLiteral ?scopeNoteEn . 
 				?scopeEn insee:conceptVersion ?v . 
 				filter not exists {
-					?scopeEn insee:conceptVersion ?v2
-					filter (?v2 > ?dv)
+					?uri skos:scopeNote ?scope2En .
+					?scope2En dcterms:language 'fr'^^xsd:language . 
+					?scope2En insee:conceptVersion ?v2
+					filter (?v2 > ?v)
 				}
 			} . 
 
-			OPTIONAL {?uri skos:editorialNote ?editorialFr . 
+			OPTIONAL {
+				?uri skos:editorialNote ?editorialFr . 
 				?editorialFr dcterms:language 'fr'^^xsd:language . 
 				?editorialFr evoc:noteLiteral ?editorialNoteFr . 
 				?editorialFr insee:conceptVersion ?v .
 				filter not exists {
-					?editorialFr insee:conceptVersion ?v2
-					filter (?v2 > ?dv)
+					?uri skos:editorialNote ?editorial2Fr . 
+					?editorial2Fr dcterms:language 'fr'^^xsd:language . 
+					?editorial2Fr insee:conceptVersion ?v2
+					filter (?v2 > ?v)
 				}				
 			} . 
 
-			OPTIONAL {?uri skos:editorialNote ?editorialEn . 
+			OPTIONAL {
+				?uri skos:editorialNote ?editorialEn . 
 				?editorialEn dcterms:language 'en'^^xsd:language . 
 				?editorialEn evoc:noteLiteral ?editorialNoteEn . 
 				?editorialEn insee:conceptVersion ?v . 
 				filter not exists {
-					?editorialEn insee:conceptVersion ?v2
-					filter (?v2 > ?dv)
+					?uri skos:editorialNote ?editorial2En . 
+					?editorial2En dcterms:language 'en'^^xsd:language . 
+					?editorial2En insee:conceptVersion ?v2
+					filter (?v2 > ?v)
 				}
 			} . 
 
 }
-ORDER BY ?labelFr
+ORDER BY DESC(?updateDate) 
+LIMIT 1

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
+import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @JacksonXmlRootElement(localName = "Departement")
@@ -24,6 +25,18 @@ public class Departement extends Territoire {
     public Departement(String code) {
         super();
         this.type = EnumTypeGeographie.DEPARTEMENT.getTypeObjetGeo();
+    }
+
+    public Departement(
+        String code,
+        String uri,
+        String intitule,
+        String type,
+        String dateCreation,
+        String dateSuppression,
+        IntituleSansArticle intituleSansArticle,
+        String chefLieu) {
+        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
     }
 
     @Override

@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Projections")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Projections", description = "Tableau représentant les projections")
-public class Projections {
+public class Projections extends Territoires {
 
     private List<Projection> projection = null;
     
