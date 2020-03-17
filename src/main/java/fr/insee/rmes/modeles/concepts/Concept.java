@@ -47,6 +47,9 @@ public class Concept {
     @JsonAlias("isReplacedBy")
     @JsonInclude(Include.NON_EMPTY)
     private String estRemplacePar = null;
+    
+    @JsonInclude(Include.NON_EMPTY)
+    private String updateDate = null;
 
     public Concept() {}
 
@@ -180,6 +183,14 @@ public class Concept {
 
     public void setEstRemplacePar(String estRemplacePar) {
         this.estRemplacePar = estRemplacePar;
+    }
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
     }
 
 }
