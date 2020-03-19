@@ -49,7 +49,7 @@ public class Concept {
     private String estRemplacePar = null;
     
     @JsonInclude(Include.NON_EMPTY)
-    private String updateDate = null;
+    private String dateMiseAJour = null;
 
     public Concept() {}
 
@@ -185,12 +185,12 @@ public class Concept {
         this.estRemplacePar = estRemplacePar;
     }
 
-    public String getUpdateDate() {
-        return updateDate;
+    public String getDateMiseAJour() {
+        return dateMiseAJour;
     }
 
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
+    public void setDateMiseAJour(String dateMiseAJour) {
+        this.dateMiseAJour = dateMiseAJour;
     }
 
 }
