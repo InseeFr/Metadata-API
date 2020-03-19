@@ -1,5 +1,5 @@
 SELECT distinct ?uri ?intituleFr ?intituleEn ?replaces ?isReplacedBy 
-?definitionFr ?definitionEn ?editorialNoteFr ?editorialNoteEn ?scopeNoteFr ?scopeNoteEn ?updateDate
+?definitionFr ?definitionEn ?editorialNoteFr ?editorialNoteEn ?scopeNoteFr ?scopeNoteEn ?dateMiseAJour
 FROM <http://rdf.insee.fr/graphes/concepts/definitions>
 WHERE { 
 			?uri skos:inScheme ?uriScheme . 
@@ -13,7 +13,7 @@ WHERE {
 			OPTIONAL{ ?uri dcterms:replaces ?replaces } 
 			OPTIONAL{ ?isReplacedBy dcterms:replaces ?uri } 
 			
-			OPTIONAL{ ?uri dcterms:modified ?updateDate } 
+			OPTIONAL{ ?uri dcterms:modified ?dateMiseAJour } 
 			OPTIONAL{ ?uri dcterms:replaces ?replaces } 
 
 			
@@ -95,5 +95,5 @@ WHERE {
 			} . 
 
 }
-ORDER BY DESC(?updateDate) 
+ORDER BY DESC(?dateMiseAJour) 
 LIMIT 1
