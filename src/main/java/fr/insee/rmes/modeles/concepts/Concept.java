@@ -35,7 +35,7 @@ public class Concept {
     private List<StringWithLang> definition= new ArrayList<>();
     
     @JsonInclude(Include.NON_EMPTY)
-    private List<StringWithLang> editorialNote= new ArrayList<>();
+    private List<StringWithLang> noteEditoriale= new ArrayList<>();
     
     @JsonInclude(Include.NON_EMPTY)
     private List<StringWithLang> scopeNote= new ArrayList<>();
@@ -145,26 +145,25 @@ public class Concept {
         }
     }
     
-    @JacksonXmlProperty(localName = "remarques")
-    @JsonProperty(value="remarques")
+    @JsonProperty(value = "noteEditoriale")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<StringWithLang> getEditorialNote() {
-        return editorialNote;
+    public List<StringWithLang> getNoteEditoriale() {
+        return noteEditoriale;
     }
 
-    public void setEditorialNote(List<StringWithLang> editorialNote) {
-        this.editorialNote = editorialNote;
+    public void setNoteEditoriale(List<StringWithLang> editorialNote) {
+        this.noteEditoriale = editorialNote;
     }
     
     public void setEditorialNoteFr(String editorialNoteFr) {
         if (!editorialNoteFr.equals("")) {
-            editorialNote.add(new StringWithLang(editorialNoteFr, Lang.FR));
+            noteEditoriale.add(new StringWithLang(editorialNoteFr, Lang.FR));
         }
     }
     
     public void setEditorialNoteEn(String editorialNoteEn) {
         if (!editorialNoteEn.equals("")) {
-            editorialNote.add(new StringWithLang(editorialNoteEn, Lang.EN));
+            noteEditoriale.add(new StringWithLang(editorialNoteEn, Lang.EN));
         }
     }
 
@@ -186,7 +185,7 @@ public class Concept {
     }
 
     public String getDateMiseAJour() {
-        return dateMiseAJour;
+        return dateMiseAJour.substring(0,10);
     }
 
     public void setDateMiseAJour(String dateMiseAJour) {
