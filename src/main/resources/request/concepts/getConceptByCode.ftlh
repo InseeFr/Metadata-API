@@ -22,11 +22,11 @@ WHERE {
 				?uri skos:definition ?defFr . 
 				?defFr dcterms:language 'fr'^^xsd:language . 
 				?defFr evoc:noteLiteral ?definitionFr . 
-				?defFr insee:conceptVersion ?v . 
+				?defFr pav:version ?v . 
 				filter not exists {
 					?uri skos:definition ?def2Fr . 
 					?def2Fr dcterms:language 'fr'^^xsd:language . 
-					?def2Fr insee:conceptVersion ?v2
+					?def2Fr pav:version ?v2
 					filter (?v2 > ?v)
 				}
 			}  .
@@ -34,11 +34,11 @@ WHERE {
 			OPTIONAL {?uri skos:definition ?defEn . 
 				?defEn dcterms:language 'en'^^xsd:language . 
 				?defEn evoc:noteLiteral ?definitionEn . 
-				?defEn insee:conceptVersion ?v . 
+				?defEn pav:version ?v . 
 				filter not exists {
 					?uri skos:definition ?def2En . 
 					?def2En dcterms:language 'en'^^xsd:language . 
-					?def2En insee:conceptVersion ?v2
+					?def2En pav:version ?v2
 					filter (?v2 > ?v)
 				}
 			} .  
@@ -47,11 +47,11 @@ WHERE {
 				?uri skos:scopeNote ?scopeFr . 
 				?scopeFr dcterms:language 'fr'^^xsd:language . 
 				?scopeFr evoc:noteLiteral ?scopeNoteFr . 
-				?scopeFr insee:conceptVersion ?v .
+				?scopeFr pav:version ?v .
 				filter not exists {
 					?uri skos:scopeNote ?scope2Fr .
 					?scope2Fr dcterms:language 'fr'^^xsd:language . 
-					?scope2Fr insee:conceptVersion ?v2
+					?scope2Fr pav:version ?v2
 					filter (?v2 > ?v)
 				}				
 			} .  
@@ -59,11 +59,11 @@ WHERE {
 			OPTIONAL {?uri skos:scopeNote ?scopeEn . 
 				?scopeEn dcterms:language 'en'^^xsd:language . 
 				?scopeEn evoc:noteLiteral ?scopeNoteEn . 
-				?scopeEn insee:conceptVersion ?v . 
+				?scopeEn pav:version ?v . 
 				filter not exists {
 					?uri skos:scopeNote ?scope2En .
 					?scope2En dcterms:language 'fr'^^xsd:language . 
-					?scope2En insee:conceptVersion ?v2
+					?scope2En pav:version ?v2
 					filter (?v2 > ?v)
 				}
 			} . 
@@ -72,11 +72,11 @@ WHERE {
 				?uri skos:editorialNote ?editorialFr . 
 				?editorialFr dcterms:language 'fr'^^xsd:language . 
 				?editorialFr evoc:noteLiteral ?editorialNoteFr . 
-				?editorialFr insee:conceptVersion ?v .
+				?editorialFr pav:version ?v .
 				filter not exists {
 					?uri skos:editorialNote ?editorial2Fr . 
 					?editorial2Fr dcterms:language 'fr'^^xsd:language . 
-					?editorial2Fr insee:conceptVersion ?v2
+					?editorial2Fr pav:version ?v2
 					filter (?v2 > ?v)
 				}				
 			} . 
@@ -85,11 +85,11 @@ WHERE {
 				?uri skos:editorialNote ?editorialEn . 
 				?editorialEn dcterms:language 'en'^^xsd:language . 
 				?editorialEn evoc:noteLiteral ?editorialNoteEn . 
-				?editorialEn insee:conceptVersion ?v . 
+				?editorialEn pav:version ?v . 
 				filter not exists {
 					?uri skos:editorialNote ?editorial2En . 
 					?editorial2En dcterms:language 'en'^^xsd:language . 
-					?editorial2En insee:conceptVersion ?v2
+					?editorial2En pav:version ?v2
 					filter (?v2 > ?v)
 				}
 			} . 
