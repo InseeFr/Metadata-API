@@ -24,9 +24,10 @@ public abstract class Queries {
             temp.process(params, out);
         }
         catch (IOException | TemplateException e) {
-            logger.error("Can't read query "+ fileName);
+            logger.error("Can't read query {}", fileName);
         }
         return out.toString();
     }
+    
 
 }
