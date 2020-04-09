@@ -20,13 +20,15 @@ WHERE {
 				AS ?uri).
 
 <#else>
+	OPTIONAL{
 			?evenementSuppressionOrigine igeo:suppression+ ?origine ;
 					                  igeo:date ?dateSuppressionOrigine.
 			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
 		    OPTIONAL{              
 				?evenementSuppressionOrigine igeo:creation+ ?uriProj .
 			}
-			BIND(IF((!BOUND(?uriProj)&&(?dateSuppressionOrigine >= '${dateProjection}'^^xsd:date)),
+		}
+			BIND(IF((!BOUND(?uriProj)&&(?dateSuppressionOrigine >= '${dateProjection}'^^xsd:date|| !BOUND(?dateSuppressionOrigine))),
 				?origine, 
 				IF(!BOUND(?uriProj),"no response",?uriProj)) 
 				AS ?uri).

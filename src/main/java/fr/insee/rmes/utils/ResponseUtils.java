@@ -49,7 +49,7 @@ public class ResponseUtils {
 
             if ( ! response.isEmpty() && obj.getClass() == Projections.class) {
 
-                if (header.equals(MediaType.APPLICATION_XML)) {
+                if (header != null && header.equals(MediaType.APPLICATION_XML)) {
                     // Remove XML tag <origine>
                     response = Pattern.compile("<\\/?origine>").matcher(response).replaceAll("");
                     // Remove XML tag <listeProj>
