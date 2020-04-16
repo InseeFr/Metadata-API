@@ -13,6 +13,8 @@ public class PropertiesLoading {
         props = this.loadIfExists(props, "rmes-api.properties");
         props = this.loadIfExists(props, "rmeswnci.properties");
         props = this.loadIfExists(props, "rmeswncz.properties");
+        props = this.loadIfExists(props, "rmeswncd.properties");
+
         return props;
     }
 
