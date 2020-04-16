@@ -5,30 +5,36 @@ WHERE {
 			?origine a igeo:${typeOrigine} ;
 			       igeo:codeINSEE '${code}' .
 			 BIND('${typeOrigine}' as ?type)       
-			       
-				   
-<#if previous = "true">
-			?evenementCreationOrigine igeo:creation+ ?origine ;
-					     			  igeo:date ?dateCreationOrigine.
-			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date) 
-			OPTIONAL{	
-				?evenementCreationOrigine igeo:suppression+ ?uriProj .
+			 
+			 OPTIONAL{
+				?evenementCreationOrigine igeo:creation ?origine ;
+					                  	igeo:date ?dateCreationOrigine.
+				FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date) 
+
 			}
+			OPTIONAL{
+				?evenementSuppressionOrigine igeo:suppression ?origine ;
+					                  igeo:date ?dateSuppressionOrigine.
+				FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
+			}
+
+			   
+<#if previous = "true">
+		OPTIONAL{          		
+				?origine (^igeo:creation/igeo:suppression)+ ?uriProj .
+		}
+		
 			BIND(IF((!BOUND(?uriProj)&&(?dateCreationOrigine <= '${dateProjection}'^^xsd:date)),
 				?origine, 
 				IF(!BOUND(?uriProj),"no response",?uriProj)) 
 				AS ?uri).
 
 <#else>
-	OPTIONAL{
-			?evenementSuppressionOrigine igeo:suppression+ ?origine ;
-					                  igeo:date ?dateSuppressionOrigine.
-			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
-		    OPTIONAL{              
-				?evenementSuppressionOrigine igeo:creation+ ?uriProj .
-			}
+		OPTIONAL{          		
+				?origine (^igeo:suppression/igeo:creation)+ ?uriProj .
 		}
-			BIND(IF((!BOUND(?uriProj)&&(?dateSuppressionOrigine >= '${dateProjection}'^^xsd:date|| !BOUND(?dateSuppressionOrigine))),
+		
+		BIND(IF((!BOUND(?uriProj)&&(?dateSuppressionOrigine >= '${dateProjection}'^^xsd:date|| !BOUND(?dateSuppressionOrigine))),
 				?origine, 
 				IF(!BOUND(?uriProj),"no response",?uriProj)) 
 				AS ?uri).
