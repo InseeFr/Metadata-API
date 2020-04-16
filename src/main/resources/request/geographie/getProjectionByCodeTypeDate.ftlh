@@ -9,14 +9,15 @@ WHERE {
 			 OPTIONAL{
 				?evenementCreationOrigine igeo:creation ?origine ;
 					                  	igeo:date ?dateCreationOrigine.
-				FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date) 
-
 			}
 			OPTIONAL{
 				?evenementSuppressionOrigine igeo:suppression ?origine ;
 					                  igeo:date ?dateSuppressionOrigine.
-				FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
 			}
+			
+			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date) 
+			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
+
 
 			   
 <#if previous = "true">
