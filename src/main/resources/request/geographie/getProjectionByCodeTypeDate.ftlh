@@ -19,28 +19,29 @@ WHERE {
 			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
 
 
+			BIND(IF (
+				(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${dateProjection}'^^xsd:date)
+				&& (!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${dateProjection}'^^xsd:date),
+			?origine,
+			"0"
+		) AS ?origineProj)
 			   
 <#if previous = "true">
 		OPTIONAL{          		
 				?origine (^igeo:creation/igeo:suppression)+ ?uriProj .
 		}
-		
-			BIND(IF((!BOUND(?uriProj)&&(?dateCreationOrigine <= '${dateProjection}'^^xsd:date)),
-				?origine, 
-				IF(!BOUND(?uriProj),"no response",?uriProj)) 
-				AS ?uri).
 
 <#else>
 		OPTIONAL{          		
 				?origine (^igeo:suppression/igeo:creation)+ ?uriProj .
 		}
-		
-		BIND(IF((!BOUND(?uriProj)&&(?dateSuppressionOrigine >= '${dateProjection}'^^xsd:date|| !BOUND(?dateSuppressionOrigine))),
+
+</#if>				
+
+		BIND(IF((?origineProj != "0"),
 				?origine, 
 				IF(!BOUND(?uriProj),"no response",?uriProj)) 
 				AS ?uri).
-
-</#if>					
 
 			?uri a igeo:${typeOrigine} ;
 					igeo:codeINSEE ?code ;
