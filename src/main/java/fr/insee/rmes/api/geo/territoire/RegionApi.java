@@ -17,7 +17,6 @@ import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
@@ -315,7 +314,8 @@ public class RegionApi extends AbstractGeoApi {
                     Region.class);
         }
     }
-    
+   
+    /*
     @Path(ConstGeoApi.PATH_LISTE_REGION + ConstGeoApi.PATH_PROJECTION)
     @GET
     @Produces({
@@ -357,4 +357,5 @@ public class RegionApi extends AbstractGeoApi {
                     header);
         }
     }
+    */
 }
