@@ -19,7 +19,6 @@ import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
 import fr.insee.rmes.modeles.geo.territoire.ArrondissementMunicipal;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.ArrondissementsMunicipaux;
-import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -323,6 +322,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
         }
     }
 
+    /*
     @Path(ConstGeoApi.PATH_LISTE_ARRONDISSEMENT_MUNICIPAL + ConstGeoApi.PATH_PROJECTION)
     @GET
     @Produces({
@@ -365,5 +365,5 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                                     dateProjection)),
                     header);
         }
-    }
+    }*/
 }
