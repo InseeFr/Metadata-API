@@ -10,6 +10,13 @@ import fr.insee.rmes.utils.Constants;
 
 public class GeoQueries extends Queries {
 
+    private static final String CODE = "code";
+    private static final String ASCENDANT = "ascendant";
+    private static final String TYPE = "type";
+    private static final String DATE_PROJECTION = "dateProjection";
+    private static final String DATE = "date";
+    private static final String TYPE_ORIGINE = "typeOrigine";
+    private static final String PREVIOUS = "previous";
     private static final String QUERIES_FOLDER = "geographie/";
 
     /* IDENTIFICATION */
@@ -205,9 +212,9 @@ public class GeoQueries extends Queries {
         EnumTypeGeographie typeOrigine) {
         boolean previous = dateProjection.compareTo(date) <= 0;
         Map<String, Object> params = buildCodeAndDateParams(code, date);
-        params.put("typeOrigine", typeOrigine.getTypeObjetGeo());
-        params.put("previous", String.valueOf(previous));
-        params.put("dateProjection", String.valueOf(dateProjection));
+        params.put(TYPE_ORIGINE, typeOrigine.getTypeObjetGeo());
+        params.put(PREVIOUS, String.valueOf(previous));
+        params.put(DATE_PROJECTION, String.valueOf(dateProjection));
         return buildRequest(QUERIES_FOLDER, "getProjectionByCodeTypeDate.ftlh", params);
     }
     
@@ -217,10 +224,10 @@ public class GeoQueries extends Queries {
         EnumTypeGeographie typeOrigine) {
         boolean previous = dateProjection.compareTo(date) <= 0;
         Map<String, Object> params = new HashMap<>();
-        params.put("date", date);
-        params.put("typeOrigine", typeOrigine.getTypeObjetGeo());
-        params.put("previous", String.valueOf(previous));
-        params.put("dateProjection", String.valueOf(dateProjection));
+        params.put(DATE, date);
+        params.put(TYPE_ORIGINE, typeOrigine.getTypeObjetGeo());
+        params.put(PREVIOUS, String.valueOf(previous));
+        params.put(DATE_PROJECTION, String.valueOf(dateProjection));
         return buildRequest(QUERIES_FOLDER, "getAllProjectionByTypeDate.ftlh", params);
     }
 
@@ -231,9 +238,9 @@ public class GeoQueries extends Queries {
         EnumTypeGeographie typeOrigine,
         boolean ascendant) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
-        params.put("type", type);
-        params.put("typeOrigine", typeOrigine.getTypeObjetGeo());
-        params.put("ascendant", String.valueOf(ascendant));
+        params.put(TYPE, type);
+        params.put(TYPE_ORIGINE, typeOrigine.getTypeObjetGeo());
+        params.put(ASCENDANT, String.valueOf(ascendant));
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
     }
 
@@ -243,8 +250,8 @@ public class GeoQueries extends Queries {
         EnumTypeGeographie typeOrigine,
         boolean precedent) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
-        params.put("typeOrigine", typeOrigine.getTypeObjetGeo());
-        params.put("previous", String.valueOf(precedent));
+        params.put(TYPE_ORIGINE, typeOrigine.getTypeObjetGeo());
+        params.put(PREVIOUS, String.valueOf(precedent));
         return buildRequest(QUERIES_FOLDER, "getPreviousOrNextByCodeTypeDate.ftlh", params);
     }
 
@@ -257,8 +264,8 @@ public class GeoQueries extends Queries {
 
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
         Map<String, Object> params = new HashMap<>();
-        params.put("code", code);
-        params.put("date", date);
+        params.put(CODE, code);
+        params.put(DATE, date);
         return params;
     }
 
