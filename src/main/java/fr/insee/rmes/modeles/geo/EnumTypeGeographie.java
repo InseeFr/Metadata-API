@@ -54,12 +54,12 @@ public enum EnumTypeGeographie {
         return typeObjetGeo;
     }
 
-    public <T> Class<? extends Territoire> getClassNameOfGeoType() {
+    public Class<? extends Territoire> getClassNameOfGeoType() {
         return classNameOfGeoType;
     }
     
 
-    public <T> Class<? extends Territoires> getClassPluralGeoType() {
+    public Class<? extends Territoires> getClassPluralGeoType() {
         return classPluralGeoType;
     }
 
@@ -67,12 +67,12 @@ public enum EnumTypeGeographie {
         return Stream.of(EnumTypeGeographie.values());
     }
 
-    public static <T> Class<? extends Territoire> getClassByType(String type) {
+    public static Class<? extends Territoire> getClassByType(String type) {
         Optional<EnumTypeGeographie> optionalClass = getOptionalEnumType(type);
         return optionalClass.isPresent() ? optionalClass.get().getClassNameOfGeoType() : null;
     }
     
-    public static <T> Class<? extends Territoires> getPluralClassByType(String type) {
+    public static Class<? extends Territoires> getPluralClassByType(String type) {
         Optional<EnumTypeGeographie> optionalClass = getOptionalEnumType(type);
         return optionalClass.isPresent() ? optionalClass.get().getClassPluralGeoType() : null;
     }

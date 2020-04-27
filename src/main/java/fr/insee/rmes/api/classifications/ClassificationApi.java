@@ -47,14 +47,17 @@ public class ClassificationApi extends AbstractMetadataApi {
     @Operation(
         operationId = "getClassificationByCode",
         summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
-        responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Postes.class)), description="Liste de postes")
-        })
+            responses = {
+                @ApiResponse(
+                    content = @Content(schema = @Schema(type = ARRAY, implementation = Poste.class)))
+            })
     public Response getClassificationByCode(
         @Parameter(
             required = true,
-            description = "Identifiant de la nomenclature (hors cj)") @PathParam("code") String code,
+            description = "Identifiant de la nomenclature (hors cj)", 
+            example ="nafr2") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+        
         logger.debug("Received GET request for classification {}", code);
 
 
@@ -84,12 +87,12 @@ public class ClassificationApi extends AbstractMetadataApi {
         operationId = "getClassificationTreeByCode",
         summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Postes.class)), description="Liste de postes")
-        })
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Poste.class)))        })
     public Response getClassificationTreeByCode(
         @Parameter(
             required = true,
-            description = "Identifiant de la nomenclature (hors cj)") @PathParam("code") String code,
+            description = "Identifiant de la nomenclature (hors cj)", example = "nafr2") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request for classification tree {}", code);
 
