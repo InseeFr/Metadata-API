@@ -13,11 +13,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant une classe de la NAF 2008 (rév. 2)")
 public class ClasseNAF2008 {
-    @Schema(example = "27.40")
+    @Schema(example = "46.66")
     private String code = null;
-    @Schema(example = "http://id.insee.fr/codes/nafr2/classe/27.40")
+    @Schema(example = "http://id.insee.fr/codes/nafr2/classe/46.66")
     private String uri = null;
-    @Schema(example = "Fabrication d'appareils d'éclairage électrique")
+    @Schema(example = "Commerce de gros d'autres machines et équipements de bureau")
     private String intitule = null;
 
     public ClasseNAF2008() {} // No-args constructor needed for JAXB

@@ -44,12 +44,14 @@ public class ConceptsAPI extends AbstractMetadataApi {
         operationId = "getConcepts",
         summary = "Informations sur les définitions des concepts statistiques de l'Insee",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Definitions.class)), description="Concepts")
-        })
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = "array", implementation = Definition.class)),
+                description = "Concepts")
+            })
     public Response getConcepts(
         @Parameter(
             description = "Recherche dans les libellés",
-            schema = @Schema(type = "string")) @QueryParam("libelle") String libelle,
+            schema = @Schema(type = "string"), example="élect") @QueryParam("libelle") String libelle,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
         logger.debug("Received GET request concepts");

@@ -59,7 +59,7 @@ public class CodesAPI extends AbstractMetadataApi {
     public Response getCategorieJuridiqueNiveauII(
         @Parameter(
             required = true,
-            description = "Identifiant de la catégorie juridique de niveau 2 (deux chiffres)") @PathParam("code") String code,
+            description = "Identifiant de la catégorie juridique de niveau 2 (deux chiffres)", example="10") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
         logger.debug("Received GET request for CJ 2nd level {}", code);
 
@@ -84,7 +84,7 @@ public class CodesAPI extends AbstractMetadataApi {
     public Response getCategorieJuridiqueNiveauIII(
         @Parameter(
             required = true,
-            description = "Identifiant de la catégorie juridique de niveau 3 (quatre chiffres)") @PathParam("code") String code,
+            description = "Identifiant de la catégorie juridique de niveau 3 (quatre chiffres)", example="7112") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
         logger.debug("Received GET request for CJ 3rd level {}", code);
 
@@ -111,9 +111,9 @@ public class CodesAPI extends AbstractMetadataApi {
             @ApiResponse(content = @Content(schema = @Schema(implementation = CategoriesJuridiques.class)), description="Catégorie juridique")
         })
     public Response getCategoriesJuridiques(
-        @Parameter(required = true, description = "Code de la catégorie juridique") @QueryParam("code") String code,
+        @Parameter(required = true, description = "Code de la catégorie juridique", example="5307") @QueryParam("code") String code,
         @Parameter(
-            description = "Date à laquelle la catégorie juridique est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)") @QueryParam("date") String date,
+            description = "Date à laquelle la catégorie juridique est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)", example="2020-05-11") @QueryParam("date") String date,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
         logger.debug("Received GET request for CJ 2nd level {} date: {}", code, date);
 
@@ -160,7 +160,7 @@ public class CodesAPI extends AbstractMetadataApi {
     public Response getSousClasseNAF2008(
         @Parameter(
             required = true,
-            description = "Code de la sous-classe (deux chiffres, un point, deux chiffres et une lettre majuscule)") @PathParam("code") String code,
+            description = "Code de la sous-classe (deux chiffres, un point, deux chiffres et une lettre majuscule)", example="33.16Z") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
         logger.debug("Received GET request for NAF sub-class {}", code);
 
@@ -188,7 +188,7 @@ public class CodesAPI extends AbstractMetadataApi {
     public Response getClasseNAF2008(
         @Parameter(
             required = true,
-            description = "Code de la classe (deux chiffres, un point, deux chiffres)") @PathParam("code") String code,
+            description = "Code de la classe (deux chiffres, un point, deux chiffres)", example = "46.66") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
         logger.debug("Received GET request for NAF rev. 2 class {}", code);
 
@@ -216,7 +216,7 @@ public class CodesAPI extends AbstractMetadataApi {
     public Response getClasseNAF2003(
         @Parameter(
             required = true,
-            description = "Code de la classe (deux chiffres, un point, deux chiffres)") @PathParam("code") String code,
+            description = "Code de la classe (deux chiffres, un point, un chiffre, une lettre majuscule)", example = "28.1C") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
         logger.debug("Received GET request for NAF rev. 1 class {}", code);
 
@@ -244,7 +244,7 @@ public class CodesAPI extends AbstractMetadataApi {
     public Response getClasseNAF1993(
         @Parameter(
             required = true,
-            description = "Code de la classe (deux chiffres, un point, deux chiffres)") @PathParam("code") String code,
+            description = "Code de la classe (deux chiffres, un point,  un chiffre, une lettre majuscule)", example = "28.1C") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
         logger.debug("Received GET request for NAF class {}", code);
 
@@ -272,7 +272,7 @@ public class CodesAPI extends AbstractMetadataApi {
     public Response getGroupeNA1973(
         @Parameter(
             required = true,
-            description = "Code du groupe (deux chiffres, un point, deux chiffres)") @PathParam("code") String code,
+            description = "Code du groupe (deux chiffres, un point, deux chiffres)", example="45.23") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
         logger.debug("Received GET request for NA 1973 group {}", code);
 
@@ -298,7 +298,7 @@ public class CodesAPI extends AbstractMetadataApi {
             @ApiResponse(content = @Content(schema = @Schema(implementation = Activites.class)), description="Activités")
         })
     public Response getActivities(
-        @Parameter(required = true, description = "Code de l'activité") @QueryParam("code") String code,
+        @Parameter(required = true, description = "Code de l'activité", example="25.2") @QueryParam("code") String code,
         @Parameter(
             description = "Date à laquelle l'activité est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)") @QueryParam("date") String date,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {

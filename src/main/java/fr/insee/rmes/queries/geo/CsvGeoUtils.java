@@ -14,7 +14,6 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 import fr.insee.rmes.modeles.geo.territoire.CsvProjection;
 import fr.insee.rmes.modeles.geo.territoire.Projection;
-import fr.insee.rmes.modeles.geo.territoire.Territoire;
 
 public class CsvGeoUtils {
     
@@ -27,8 +26,8 @@ public class CsvGeoUtils {
      * @param childClass : POJO class
      * @return
      */
-    public <T extends Territoire> List<Projection> populateProjections(String csv) {
-        Map<String,Projection> alreadyCreated = new HashMap<String, Projection>();
+    public List<Projection> populateProjections(String csv) {
+        Map<String,Projection> alreadyCreated = new HashMap<>();
 
         try {
             CsvMapper mapper = new CsvMapper();

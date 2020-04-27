@@ -21,39 +21,39 @@ public class Association {
 
     @JacksonXmlProperty(localName = "Source")
     @JsonProperty("source")
-    private Poste itemSource;
+    private PosteCorrespondence itemSource;
 
     @JacksonXmlProperty(localName = "Cible")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JsonProperty("cibles")
     @Schema(description = "Liste des postes cibles")
-    private List<Poste> itemTargets;
+    private List<PosteCorrespondence> itemTargets;
 
     public Association() {
 
     }
 
-    public Association(Poste k, List<Poste> v) {
+    public Association(PosteCorrespondence k, List<PosteCorrespondence> v) {
 
         this.itemSource = k;
         this.itemTargets = v;
 
     }
 
-    public Poste getItemSource() {
+    public PosteCorrespondence getItemSource() {
         return itemSource;
     }
 
-    public void setItemSource(Poste ItemSource) {
-        this.itemSource = ItemSource;
+    public void setItemSource(PosteCorrespondence itemSource) {
+        this.itemSource = itemSource;
     }
 
-    public List<Poste> getItemTargets() {
+    public List<PosteCorrespondence> getItemTargets() {
         return itemTargets;
     }
 
-    public void setItemTargets(List<Poste> ItemTargets) {
-        this.itemTargets = ItemTargets;
+    public void setItemTargets(List<PosteCorrespondence> itemTargets) {
+        this.itemTargets = itemTargets;
     }
 
 }

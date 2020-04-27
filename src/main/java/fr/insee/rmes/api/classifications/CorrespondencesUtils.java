@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 import fr.insee.rmes.modeles.classification.correspondence.Association;
 import fr.insee.rmes.modeles.classification.correspondence.Associations;
-import fr.insee.rmes.modeles.classification.correspondence.Poste;
+import fr.insee.rmes.modeles.classification.correspondence.PosteCorrespondence;
 import fr.insee.rmes.modeles.classification.correspondence.RawCorrespondence;
 
 public class CorrespondencesUtils {
@@ -23,11 +23,11 @@ public class CorrespondencesUtils {
     /* when id correspondence */
     public static Associations getCorrespondenceByCorrespondenceId(List<RawCorrespondence> rawItemsList) {
 
-        Map<Poste, List<Poste>> mapSourceTargetItems = getTreeMapTargetItemsBySourceByCorrespondenceId(rawItemsList);
+        Map<PosteCorrespondence, List<PosteCorrespondence>> mapSourceTargetItems = getTreeMapTargetItemsBySourceByCorrespondenceId(rawItemsList);
         return organizeItemTreeMap(mapSourceTargetItems);
     }
 
-    private static Associations organizeItemTreeMap(Map<Poste, List<Poste>> mapSourceTargetItems) {
+    private static Associations organizeItemTreeMap(Map<PosteCorrespondence, List<PosteCorrespondence>> mapSourceTargetItems) {
         Associations associations = new Associations();
         mapSourceTargetItems.forEach((k, v) -> {
 
@@ -46,17 +46,17 @@ public class CorrespondencesUtils {
      * @param rawItemsList
      * @return
      */
-    public static Map<Poste, List<Poste>> getTreeMapTargetItemsBySourceByCorrespondenceId(
+    public static Map<PosteCorrespondence, List<PosteCorrespondence>> getTreeMapTargetItemsBySourceByCorrespondenceId(
         List<RawCorrespondence> rawItemsList) {
         /* TreeMap for ordering map keys */
-        Map<Poste, List<Poste>> groupedListItems = new TreeMap<>();
+        Map<PosteCorrespondence, List<PosteCorrespondence>> groupedListItems = new TreeMap<>();
         for (RawCorrespondence curRawCorrespondence : rawItemsList) {
-            Poste posteSource = newPoste1(curRawCorrespondence);
+            PosteCorrespondence posteSource = newPoste1(curRawCorrespondence);
             if ( ! groupedListItems.containsKey(posteSource)) { // initialize map if new item source
-                groupedListItems.put(posteSource, new ArrayList<Poste>());
+                groupedListItems.put(posteSource, new ArrayList<PosteCorrespondence>());
             }
             // add targetItem
-            Poste targetPoste = newPoste2(curRawCorrespondence);
+            PosteCorrespondence targetPoste = newPoste2(curRawCorrespondence);
             groupedListItems.get(posteSource).add(targetPoste);
         }
         return groupedListItems;
@@ -67,7 +67,7 @@ public class CorrespondencesUtils {
         String codeClassification,
         List<RawCorrespondence> rawItemsList) {
 
-        Map<Poste, List<Poste>> mapSourceTargetItems =
+        Map<PosteCorrespondence, List<PosteCorrespondence>> mapSourceTargetItems =
             getTreeMapTargetItemsBySourceByClassificationsIds(codeClassification, rawItemsList);
         return organizeItemTreeMap(mapSourceTargetItems);
     }
@@ -75,12 +75,12 @@ public class CorrespondencesUtils {
     /**
      * for handling asymetrical correspondencies in RDF data
      */
-    public static Map<Poste, List<Poste>> getTreeMapTargetItemsBySourceByClassificationsIds(
+    public static Map<PosteCorrespondence, List<PosteCorrespondence>> getTreeMapTargetItemsBySourceByClassificationsIds(
         String codeClassificationSource,
         List<RawCorrespondence> rawItemsList) {
 
         /* TreeMap for ordering map keys */
-        Map<Poste, List<Poste>> groupedListItems = new TreeMap<>();
+        Map<PosteCorrespondence, List<PosteCorrespondence>> groupedListItems = new TreeMap<>();
 
         /*
          * Classification correspondences are not symetrical in database => answering question : what is source / target
@@ -91,9 +91,9 @@ public class CorrespondencesUtils {
         boolean poste1IsSource = isPoste1Source(codeClassificationSource, rawItemsList);
 
         for (RawCorrespondence curRawCorrespondence : rawItemsList) {
-            Poste posteSource = mapRawObjectToItemCorrespondence(curRawCorrespondence, poste1IsSource);
+            PosteCorrespondence posteSource = mapRawObjectToItemCorrespondence(curRawCorrespondence, poste1IsSource);
             if ( ! groupedListItems.containsKey(posteSource)) {// initialize map
-                groupedListItems.put(posteSource, new ArrayList<Poste>());
+                groupedListItems.put(posteSource, new ArrayList<PosteCorrespondence>());
             }
             // add targetItem
             groupedListItems
@@ -122,20 +122,20 @@ public class CorrespondencesUtils {
         return ! uriPoste1FromRaw.contains(classifSource);
     }
 
-    private static Poste mapRawObjectToItemCorrespondence(RawCorrespondence corresp, boolean poste1IsSource) {
+    private static PosteCorrespondence mapRawObjectToItemCorrespondence(RawCorrespondence corresp, boolean poste1IsSource) {
         return (poste1IsSource ? newPoste2(corresp) : newPoste1(corresp));
     }
 
-    private static Poste newPoste1(RawCorrespondence corresp) {
-        return new Poste(
+    private static PosteCorrespondence newPoste1(RawCorrespondence corresp) {
+        return new PosteCorrespondence(
             corresp.getCodePoste1(),
             corresp.getUriPoste1(),
             corresp.getIntituleFrPoste1(),
             corresp.getIntituleEnPoste1());
     }
 
-    private static Poste newPoste2(RawCorrespondence corresp) {
-        return new Poste(
+    private static PosteCorrespondence newPoste2(RawCorrespondence corresp) {
+        return new PosteCorrespondence(
             corresp.getCodePoste2(),
             corresp.getUriPoste2(),
             corresp.getIntituleFrPoste2(),

@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "Successful operation"),
+    @ApiResponse(responseCode = "200", description = "Opération réussie"),
     @ApiResponse(responseCode = "400", description = "La syntaxe de la requête est incorrecte"),
     @ApiResponse(responseCode = "401", description = "Une authentification est nécessaire pour accéder à la ressource"),
     @ApiResponse(responseCode = "404", description = "Ressource non trouvée"),
