@@ -48,7 +48,7 @@ public class ConstGeoApi {
     public static final String PATTERN_ARRONDISSEMENT_DESCRIPTION =
         "Code de l'arrondissement (trois ou quatre caractères)";
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL_DESCRIPTION =
-        "Code de l'arrondissement municipal (trois ou quatre caractères)";
+        "Code de l'arrondissement municipal (cinq caractères)";
 
     public static final String ID_OPERATION_ASCENDANTS = "asc";
     public static final String ID_OPERATION_DESCENDANTS = "desc";

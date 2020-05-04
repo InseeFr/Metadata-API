@@ -33,16 +33,21 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class ArrondissementMunicipalApi extends AbstractGeoApi {
 
+
     private static Logger logger = LogManager.getLogger(ArrondissementMunicipalApi.class);
 
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogarrmun";
     private static final String LITTERAL_OPERATION_SUMMARY =
         "Informations sur un arrondissement municipal français identifié par son code (cinq caractères)";
-    private static final String LITTERAL_RESPONSE_DESCRIPTION = "Arrondissement";
+    private static final String LITTERAL_RESPONSE_DESCRIPTION = "Arrondissement municipal";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
-        "Filtre pour renvoyer la arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante.";
+        "Filtre pour renvoyer la arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
+    
+    private static final String LITTERAL_DATE_PROJECTION_DESCRIPTION = "Date vers laquelle est projetée l'arrondissement municipal. Paramètre obligatoire (erreur 400 si absent, Format : 'AAAA-MM-JJ'))";
+    private static final String LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION = "Filtre pour préciser l'arrondissement municipal de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')";
+
 
     @Path(ConstGeoApi.PATH_ARRONDISSEMENT_MUNICIPAL + CODE_PATTERN)
     @GET
@@ -51,7 +56,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(operationId = LITTERAL_ID_OPERATION, summary = LITTERAL_OPERATION_SUMMARY, responses = {
         @ApiResponse(
-            content = @Content(schema = @Schema(implementation = Arrondissement.class)),
+            content = @Content(schema = @Schema(implementation = ArrondissementMunicipal.class)),
             description = LITTERAL_RESPONSE_DESCRIPTION)
     })
     public Response getByCode(
@@ -150,7 +155,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
         summary = "La requête renvoie toutes les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
-                content = @Content(schema = @Schema(type = ARRAY, implementation = Arrondissement.class)),
+                content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getListe(
@@ -186,10 +191,10 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
-        summary = "Récupérer les informations concernant les arrondissement municipals qui succèdent à la arrondissement municipal",
+        summary = "Récupérer les informations concernant les arrondissements municipaux qui succèdent à l'arrondissement municipal",
         responses = {
             @ApiResponse(
-                content = @Content(schema = @Schema(implementation = ArrondissementMunicipal.class)),
+                content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getSuivant(
@@ -201,7 +206,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour préciser la arrondissement municipal de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            description = LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
@@ -234,7 +239,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
         summary = "Récupérer les informations concernant les arrondissement municipaux qui précèdent l'arrondissement municipal",
         responses = {
             @ApiResponse(
-                content = @Content(schema = @Schema(implementation = ArrondissementMunicipal.class)),
+                content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getPrecedent(
@@ -246,7 +251,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour préciser l'arrondissement municipal de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            description = LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
@@ -279,7 +284,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
         summary = "Récupérer les informations concernant les arrondissements municipaux qui résultent de la projection de l'arrondissement municipal à la date passée en paramètre. ",
         responses = {
             @ApiResponse(
-                content = @Content(schema = @Schema(implementation = ArrondissementMunicipal.class)),
+                content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getProjection(
@@ -291,12 +296,12 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour préciser l'arrondissement municipal de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            description = LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
         @Parameter(
-            description = "Date vers laquelle est projetée l'arrondissement municipal. Paramètre obligatoire (erreur 400 si absent)",
+            description = LITTERAL_DATE_PROJECTION_DESCRIPTION,
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
