@@ -25,7 +25,7 @@ public class IntituleSansArticle {
         this.intituleSansArticle = intituleSansArticle;
     }
 
-    @JacksonXmlProperty(localName = "TypeArticle", isAttribute = true)
+    @JacksonXmlProperty(isAttribute = true)
     @JsonProperty("typeArticle")
     public String getTypeArticle() {
         return typeArticle;
