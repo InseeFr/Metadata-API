@@ -203,11 +203,13 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING),
+            example="69385") @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION,
             required = false,
+            example="A960-01-01",
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
@@ -246,6 +248,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL_DESCRIPTION,
             required = true,
+            example="69385",
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL,
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
