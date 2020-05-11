@@ -48,6 +48,9 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     private static final String LITTERAL_DATE_PROJECTION_DESCRIPTION = "Date vers laquelle est projetée l'arrondissement municipal. Paramètre obligatoire (erreur 400 si absent, Format : 'AAAA-MM-JJ'))";
     private static final String LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION = "Filtre pour préciser l'arrondissement municipal de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')";
 
+    private static final String LITTERAL_CODE_EXAMPLE = "69385";
+    private static final String LITTERAL_DATE_PROJETE_EXAMPLE = "2011-12-31";
+    private static final String LITTERAL_DATE_EXAMPLE = "1960-01-01";
 
     @Path(ConstGeoApi.PATH_ARRONDISSEMENT_MUNICIPAL + CODE_PATTERN)
     @GET
@@ -65,7 +68,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
@@ -204,12 +207,12 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL,
                 type = Constants.TYPE_STRING),
-            example="69385") @PathParam(Constants.CODE) String code,
+            example=LITTERAL_CODE_EXAMPLE) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION,
             required = false,
-            example="A960-01-01",
+            example=LITTERAL_DATE_EXAMPLE,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
@@ -248,7 +251,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
         @Parameter(
             description = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL_DESCRIPTION,
             required = true,
-            example="69385",
+            example=LITTERAL_CODE_EXAMPLE,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL,
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
@@ -296,17 +299,17 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION,
             required = false,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
         @Parameter(
             description = LITTERAL_DATE_PROJECTION_DESCRIPTION,
             required = true,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_PROJETE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
 
         logger.debug("Received GET request for arrondissementMunicipal {} projection", code);
