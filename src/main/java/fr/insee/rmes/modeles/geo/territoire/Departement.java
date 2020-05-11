@@ -86,7 +86,7 @@ public class Departement extends Territoire {
 
     @Override
     @JacksonXmlProperty(localName = "ChefLieu")
-    @Schema(description = "Code Insee de la commune préfecture du département.")
+    @Schema(description = "Code Insee de la commune préfecture du département.", example="22278")
     public String getChefLieu() {
         return chefLieu;
     }
