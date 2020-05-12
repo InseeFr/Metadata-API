@@ -51,7 +51,7 @@ public class PaysApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_PAYS,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example="99217")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
         logger.debug("Received GET request for country {}", code);

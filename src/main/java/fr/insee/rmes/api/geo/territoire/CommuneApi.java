@@ -32,6 +32,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class CommuneApi extends AbstractGeoApi {
 
+    private static final String LITTERAL_DATE_EXAMPLE = "1945-06-26";
+
     private static Logger logger = LogManager.getLogger(CommuneApi.class);
 
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
@@ -42,9 +44,12 @@ public class CommuneApi extends AbstractGeoApi {
         "Cette requête renvoie également les communes des collectivités d'Outre-Mer";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Commune";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
-        "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante.";
+        "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
+    private static final String LITTERAL_CODE_EXAMPLE = "14475";
+
+    
     @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN)
     @GET
     @Produces({
@@ -65,7 +70,7 @@ public class CommuneApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
@@ -109,7 +114,7 @@ public class CommuneApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
@@ -163,7 +168,7 @@ public class CommuneApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example="13055")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
@@ -173,7 +178,7 @@ public class CommuneApi extends AbstractGeoApi {
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
-            schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
+            schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
         logger.debug("Received GET request for descendants of commune {}", code);
@@ -254,12 +259,12 @@ public class CommuneApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
         logger.debug("Received GET request for suivant commune {}", code);
@@ -298,10 +303,10 @@ public class CommuneApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
@@ -330,7 +335,7 @@ public class CommuneApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
-        summary = "Récupérer les informations concernant les communes qui résultent de la projection de la commune à la date passée en paramètre. ",
+        summary = "Récupérer les informations concernant les communes qui résultent de la projection de la commune à la date passée en paramètre.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Commune.class)),
@@ -342,17 +347,17 @@ public class CommuneApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
         @Parameter(
-            description = "Date vers laquelle est projetée la commune. Paramètre obligatoire (erreur 400 si absent)",
+            description = "Date vers laquelle est projetée la commune. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
             required = true,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
 
         logger.debug("Received GET request for commune {} projection", code);

@@ -49,6 +49,7 @@ public class ClassificationApi extends AbstractMetadataApi {
         summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
             responses = {
                 @ApiResponse(
+                    description="Liste des postes de la nomenclature",
                     content = @Content(schema = @Schema(type = ARRAY, implementation = Poste.class)))
             })
     public Response getClassificationByCode(
@@ -88,6 +89,7 @@ public class ClassificationApi extends AbstractMetadataApi {
         summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
         responses = {
             @ApiResponse(
+                description="Liste des postes de la nomenclature",
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Poste.class)))        })
     public Response getClassificationTreeByCode(
         @Parameter(
