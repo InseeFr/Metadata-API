@@ -85,10 +85,5 @@ public class Commune extends Territoire {
         return dateSuppression;
     }
 
-    @Override
-    @JacksonXmlProperty(localName = "IntituleSansArticle")
-    public IntituleSansArticle getIntituleSansArticle() {
-        return intituleSansArticle;
-    }
 
 }

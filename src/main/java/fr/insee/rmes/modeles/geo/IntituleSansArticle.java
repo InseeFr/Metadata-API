@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JsonPropertyOrder({"intituleSansArticle", "typeArticle"})
 public class IntituleSansArticle {
 
-    @Schema(example = "Aigle")
+    //@Schema(example = "Aigle")
     private String label = null;
 
     @Schema(example = "5")
@@ -19,8 +19,9 @@ public class IntituleSansArticle {
 
     
     @JacksonXmlText
-    @JsonProperty("intituleSansArticle")
+   // @JsonProperty("intituleSansArticle")
     @JacksonXmlProperty(localName="intituleSansArticle")
+    @Schema(example = "Aigle")
     public String getIntituleSansArticle() {
         return label;
     }
