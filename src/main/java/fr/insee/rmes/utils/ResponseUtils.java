@@ -12,8 +12,6 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.modeles.StringXmlMixIn;
-import fr.insee.rmes.modeles.geo.IntituleSansArticle;
-import fr.insee.rmes.modeles.geo.IntituleSansArticleXmlMixIn;
 import fr.insee.rmes.modeles.geo.TerritoireJsonMixIn;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
@@ -29,7 +27,6 @@ public class ResponseUtils {
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
             mapper = new XmlMapper();
             mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
-            mapper.addMixIn(IntituleSansArticle.class, IntituleSansArticleXmlMixIn.class);
         }
         else {
 
@@ -54,9 +51,6 @@ public class ResponseUtils {
                     response = Pattern.compile("<\\/?origine>").matcher(response).replaceAll("");
                     // Remove XML tag <listeProj>
                     response = Pattern.compile("<\\/?listeProj>").matcher(response).replaceAll("");
-                }
-                else {
-                    // TODO json
                 }
             }
 

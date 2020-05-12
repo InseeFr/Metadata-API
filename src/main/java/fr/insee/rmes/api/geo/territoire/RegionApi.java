@@ -40,8 +40,13 @@ public class RegionApi extends AbstractGeoApi {
         "Informations sur une region française identifiée par son code (deux chiffres)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Region";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
-        "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante.";
+        "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
+
+    private static final String LITTERAL_CODE_EXAMPLE = "06";
+    private static final String LITTERAL_CODE_HISTORY_EXAMPLE = "44";
+
+    private static final String LITTERAL_DATE_EXAMPLE = "2000-01-01";
 
     @Path(ConstGeoApi.PATH_REGION + CODE_PATTERN)
     @GET
@@ -59,7 +64,7 @@ public class RegionApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_REGION,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
@@ -102,7 +107,7 @@ public class RegionApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_REGION,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
@@ -193,12 +198,12 @@ public class RegionApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_REGION,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example="41")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour préciser la region de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            description = "Filtre pour préciser la region de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
         logger.debug("Received GET request for suivant region {}", code);
@@ -237,10 +242,10 @@ public class RegionApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_REGION,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_HISTORY_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour préciser la region de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            description = "Filtre pour préciser la region de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
@@ -281,17 +286,17 @@ public class RegionApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_REGION,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_HISTORY_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour préciser la region de départ. Par défaut, c’est la date courante qui est utilisée. ",
+            description = "Filtre pour préciser la region de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
         @Parameter(
-            description = "Date vers laquelle est projetée la region. Paramètre obligatoire (erreur 400 si absent)",
+            description = "Date vers laquelle est projetée la region. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
             required = true,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
 
         logger.debug("Received GET request for region {} projection", code);

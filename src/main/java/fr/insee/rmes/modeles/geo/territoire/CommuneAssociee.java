@@ -30,14 +30,14 @@ public class CommuneAssociee extends Territoire {
 
     @Override
     @JacksonXmlProperty(isAttribute = true)
-    @Schema(example = "55323")
+    @Schema(example = "14463")
     public String getCode() {
         return code;
     }
 
     @Override
     @JacksonXmlProperty(isAttribute = true)
-    @Schema(example = "http://id.insee.fr/geo/communeAssociee/55323")
+    @Schema(example = "http://id.insee.fr/geo/communeAssociee/14463")
     public String getUri() {
         return uri;
     }
@@ -45,7 +45,7 @@ public class CommuneAssociee extends Territoire {
     @Override
     @JacksonXmlProperty(localName = "Intitule")
     @JsonProperty(value = "intitule")
-    @Schema(example = "L'Aigle")
+    @Schema(example = "Neuilly-le-Malherbe")
     public String getIntitule() {
         return intitule;
     }

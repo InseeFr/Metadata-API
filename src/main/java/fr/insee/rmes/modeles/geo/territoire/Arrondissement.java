@@ -71,7 +71,7 @@ public class Arrondissement extends Territoire {
     @Override
     @JacksonXmlProperty(localName = "DateCreation")
     @Schema(
-        description = "Date de création de l'arrondissement si elle n’existait pas au premier COG du 1er janvier 1943",
+        description = "Date de création de l'arrondissement s'il n’existait pas au premier COG du 1er janvier 1943",
         example = "1943-01-01")
     public String getDateCreation() {
         return dateCreation;
@@ -79,7 +79,7 @@ public class Arrondissement extends Territoire {
 
     @Override
     @JacksonXmlProperty(localName = "DateSuppression")
-    @Schema(description = "Date de suppression de l'arrondissement si elle a été supprimée. ", example = "2019-01-01")
+    @Schema(description = "Date de suppression de l'arrondissement s'il a été supprimé. ", example = "2019-01-01")
     public String getDateSuppression() {
         return dateSuppression;
     }
