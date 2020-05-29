@@ -30,14 +30,14 @@ public class CommuneDeleguee extends Territoire {
 
     @Override
     @JacksonXmlProperty(isAttribute = true)
-    @Schema(example = "55323")
+    @Schema(example = "46248")
     public String getCode() {
         return code;
     }
 
     @Override
     @JacksonXmlProperty(isAttribute = true)
-    @Schema(example = "http://id.insee.fr/geo/communeDeleguee/55323")
+    @Schema(example = "http://id.insee.fr/geo/communeDeleguee/46248")
     public String getUri() {
         return uri;
     }

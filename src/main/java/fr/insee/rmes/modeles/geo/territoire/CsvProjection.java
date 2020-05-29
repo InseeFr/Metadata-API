@@ -2,10 +2,16 @@ package fr.insee.rmes.modeles.geo.territoire;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 
 public class CsvProjection {
+    
+    private static Logger logger = LogManager.getLogger(CsvProjection.class);
+
 
     protected String type;
 
@@ -60,7 +66,7 @@ public class CsvProjection {
                         chefLieuOrigine);
         }
         catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
+            logger.error("Error in getTerritoireOrigine - {}",e.getMessage());
         }
         return t;
     }
@@ -91,7 +97,7 @@ public class CsvProjection {
                         chefLieu);
         }
         catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
+            logger.error("Error in getTerritoireProjete - {}",e.getMessage());
         }
         return t;
     }

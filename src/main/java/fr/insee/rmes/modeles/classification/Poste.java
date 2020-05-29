@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Schema(description = "Objet représentant un poste d'une nomenclature")
 public class Poste {
-    @Schema(example = "http://id.insee.fr/codes/nafr2/sousClasse/23.99Z")
+    @Schema(description = "URI du poste de la nomenclature",example = "http://id.insee.fr/codes/nafr2/sousClasse/23.99Z")
     String uri;
     @Schema(example = "23.99Z")
     String code;
@@ -31,19 +31,22 @@ public class Poste {
     String intituleFr;
     @Schema(example = "Manufacture of other non-metallic mineral products n.e.c.")
     String intituleEn;
-    @Schema(example = "exemple contenu limite")
+    @Schema(example = "exemple de contenu limite")
     String contenuLimite;
-    @Schema(example = "exemple contenu central")
+    @Schema(example = "exemple de contenu central")
     String contenuCentral;
-    @Schema(example = "exemple exclusions")
+    @Schema(example = "exemple d'exclusions")
     String contenuExclu;
     @Schema(example = "exemple de contenu général")
     String noteGenerale;
 
     @JsonInclude(Include.NON_NULL)
+    @Schema(implementation=Poste.class)
     List<Poste> postesEnfants;
 
-    public Poste() {} // No-args constructor needed for JAXB
+    public Poste() {
+        // No-args constructor needed for JAXB
+    }
 
     @JacksonXmlProperty(isAttribute = true)
     public String getUri() {
@@ -126,8 +129,26 @@ public class Poste {
     }
 
     public void addPosteEnfant(Poste posteEnfant) {
-        if (postesEnfants == null) postesEnfants = new ArrayList<>();
+        if (postesEnfants == null) {
+            postesEnfants = new ArrayList<>();
+        }
         postesEnfants.add(posteEnfant);
+    }
+
+    public String getContenuLimite() {
+        return contenuLimite;
+    }
+
+    public String getContenuCentral() {
+        return contenuCentral;
+    }
+
+    public String getContenuExclu() {
+        return contenuExclu;
+    }
+
+    public String getNoteGenerale() {
+        return noteGenerale;
     }
 
 }

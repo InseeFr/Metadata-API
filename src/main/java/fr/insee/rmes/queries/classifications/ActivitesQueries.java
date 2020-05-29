@@ -5,6 +5,10 @@ import org.joda.time.DateTime;
 import fr.insee.rmes.config.Configuration;
 
 public class ActivitesQueries {
+    
+    private ActivitesQueries() {
+        throw new IllegalStateException("Utility class");
+      }
 
     public static String getActiviteByCodeAndDate(String code, DateTime date) {
         return "SELECT ?code ?uri ?intitule ?dateDebutValidite ?dateFinValidite WHERE { \n"

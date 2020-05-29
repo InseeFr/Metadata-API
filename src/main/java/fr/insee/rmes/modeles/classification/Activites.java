@@ -16,22 +16,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Tableau représentant des activités")
 public class Activites {
 
-    private List<Activite> activites = null;
+    private List<Activite> activitesList = null;
 
     public Activites() {} // No-args constructor needed for JAXB
 
     public Activites(List<Activite> activites) {
-        this.activites = activites;
+        this.activitesList = activites;
     }
 
     @JacksonXmlProperty(isAttribute = true, localName = "Activite")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Activite> getActivites() {
-        return activites;
+        return activitesList;
     }
 
     public void setActivites(List<Activite> activites) {
-        this.activites = activites;
+        this.activitesList = activites;
     }
 
 }

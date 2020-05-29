@@ -43,9 +43,11 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
         "Cette requête renvoie également les communes des collectivités d'Outre-Mer";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Commune déléguée";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
-        "Filtre pour renvoyer la commune déléguée active à la date donnée. Par défaut, c’est la date courante.";
+        "Filtre pour renvoyer la commune déléguée active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
+    private static final String LITTERAL_CODE_EXAMPLE = "46248";
+    
     @Path(ConstGeoApi.PATH_COMMUNE_DELEGUEE + CODE_PATTERN)
     @GET
     @Produces({
@@ -66,7 +68,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
@@ -111,7 +113,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,

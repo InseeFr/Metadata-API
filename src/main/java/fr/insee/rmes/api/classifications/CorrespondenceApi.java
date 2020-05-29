@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
+import fr.insee.rmes.modeles.classification.correspondence.Association;
 import fr.insee.rmes.modeles.classification.correspondence.Associations;
 import fr.insee.rmes.modeles.classification.correspondence.RawCorrespondence;
 import fr.insee.rmes.queries.classifications.CorrespondencesQueries;
@@ -36,12 +37,15 @@ public class CorrespondenceApi extends AbstractMetadataApi {
         operationId = "getCorrespondenceByCode",
         summary = "Correspondance entre deux nomenclatures",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Associations.class)), description="Correspondances entre deux nomenclatures")
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Association.class)),
+                description = "Correspondances entre deux nomenclatures")
         })
     public Response getCorrespondencesById(
         @Parameter(
             required = true,
-            description = "Identifiant de la correspondance") @PathParam("idCorrespondance") String idCorrespondance,
+            description = "Identifiant de la correspondance",
+            example = "nafr2-cpfr21") @PathParam("idCorrespondance") String idCorrespondance,
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult =
@@ -52,18 +56,12 @@ public class CorrespondenceApi extends AbstractMetadataApi {
         List<RawCorrespondence> rawItemsList = csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
 
         if (rawItemsList != null && ! rawItemsList.isEmpty()) {
-
             /* raw sparql result fields order must be got in shape 1 source -> many targets */
             Associations itemsList = CorrespondencesUtils.getCorrespondenceByCorrespondenceId(rawItemsList);
-
             return Response.ok(responseUtils.produceResponse(itemsList, header)).build();
-
         }
-
         else {
-
             return Response.status(Status.NOT_FOUND).entity("").build();
-
         }
     }
 
@@ -76,15 +74,19 @@ public class CorrespondenceApi extends AbstractMetadataApi {
         operationId = "getCorrespondenceByClassificationCodes",
         summary = " Liste des associations de correspondance entre deux nomenclatures",
         responses = {
-            @ApiResponse(content = @Content(schema = @Schema(implementation = Associations.class)), description="Correspondances entre deux nomenclatures")
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Association.class)),
+                description = "Correspondances entre deux nomenclatures")
         })
     public Response getCorrespondenceByIds(
         @Parameter(
             required = true,
-            description = "Identifiant de la nomenclature source") @PathParam("idNomenclatureSource") String codeClassification,
+            description = "Identifiant de la nomenclature source",
+            example = "nafr2") @PathParam("idNomenclatureSource") String codeClassification,
         @Parameter(
             required = true,
-            description = "Identifiant de la nomenclature cible") @PathParam("idNomenclatureCible") String targetCodeClassification,
+            description = "Identifiant de la nomenclature cible",
+            example = "cpfr21") @PathParam("idNomenclatureCible") String targetCodeClassification,
         @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
         String csvResult =
@@ -99,19 +101,14 @@ public class CorrespondenceApi extends AbstractMetadataApi {
         List<RawCorrespondence> rawItemsList = csvUtils.populateMultiPOJO(csvResult, RawCorrespondence.class);
 
         if (rawItemsList != null && ! rawItemsList.isEmpty()) {
-
             /* raw sparql result fields order must be handled according to source / target classifications */
             Associations itemsList =
                 CorrespondencesUtils.getCorrespondenceByclassificationIds(targetCodeClassification, rawItemsList);
-
             return Response.ok(responseUtils.produceResponse(itemsList, header)).build();
-
         }
 
         else {
-
             return Response.status(Status.NOT_FOUND).entity("").build();
-
         }
     }
 
