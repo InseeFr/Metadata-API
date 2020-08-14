@@ -3,11 +3,14 @@
              WHERE { 
              	?uri rdf:type sdmx-mm:MetadataReport .   
              		 
-             	 OPTIONAL{ ?uri sdmx-mm:target ?cible .  
-             BIND(STRAFTER(STR(?cible),'/') AS ?idCible) . 
-             			  ?cible rdfs:label ?labelCibleLg1 . 
+             OPTIONAL{ 
+             	 ?uri sdmx-mm:target ?cible .  
+             	 BIND(STRAFTER(STR(?cible),'/') AS ?idCible) . 
+             			  
+             	 ?cible rdfs:label ?labelCibleLg1 . 
              			  FILTER(lang(?labelCibleLg1) = 'fr') 
-             			  OPTIONAL{?cible rdfs:label ?labelCibleLg2 . 
+             			  
+             	OPTIONAL{?cible rdfs:label ?labelCibleLg2 . 
              			  FILTER(lang(?labelCibleLg2) = 'en') }  
              } 
              				 
@@ -18,6 +21,6 @@
              		FILTER(lang(?labelLg2) = 'en') 
              	 } 
              				 
-             	FILTER(STRENDS(STR(?uri), '${ idSims}')) 
-             BIND ( ${ idSims} AS ?id )  
+             	FILTER(STRENDS(STR(?uri), '${idSims}')) 
+             BIND ( ${idSims} AS ?id )  
              } 

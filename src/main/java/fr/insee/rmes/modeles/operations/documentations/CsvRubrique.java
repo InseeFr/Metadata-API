@@ -20,6 +20,10 @@ public class CsvRubrique {
 
     private Boolean hasDoc;
 
+    private String maxOccurs;
+    
+    private String geoUri;
+    
     public String getId() {
         return id;
     }
@@ -130,6 +134,22 @@ public class CsvRubrique {
 
     public void setTitreLg2(String titreLg2) {
         this.titreLg2 = titreLg2;
+    }
+
+    public String getMaxOccurs() {
+        return maxOccurs;
+    }
+
+    public void setMaxOccurs(String maxOccurs) {
+        this.maxOccurs = maxOccurs;
+    }
+
+    public String getGeoUri() {
+        return geoUri;
+    }
+
+    public void setGeoUri(String geoUri) {
+        this.geoUri = geoUri;
     }
 
 }

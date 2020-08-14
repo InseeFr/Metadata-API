@@ -29,7 +29,7 @@ public class Rubrique {
 
     /* CODE_LIST */
     @JsonInclude(Include.NON_NULL)
-    private SimpleObject valeurCode;
+    private List<SimpleObject> valeurCode;
 
     /* DATE */
     @JsonInclude(Include.NON_NULL)
@@ -38,6 +38,10 @@ public class Rubrique {
     /* ORGANISATION */
     @JsonInclude(Include.NON_NULL)
     private SimpleObject valeurOrganisation;
+    
+    /* GEOGRAPHY */
+    @JsonInclude(Include.NON_NULL)
+    private SimpleObject valeurGeographie;
 
     /* TEXT - RICH_TEXT */
     @JsonInclude(Include.NON_NULL)
@@ -115,14 +119,7 @@ public class Rubrique {
         }
     }
 
-    public SimpleObject getValeurCode() {
-        return this.valeurCode;
-    }
-
-    public void setValeurCode(SimpleObject so) {
-        this.valeurCode = so;
-    }
-
+   
     public SimpleObject getValeurOrganisation() {
         return valeurOrganisation;
     }
@@ -151,6 +148,29 @@ public class Rubrique {
 
     public void setDocuments(List<Document> documents) {
         this.documents = documents;
+    }
+
+    public List<SimpleObject> getValeurCode() {
+        return valeurCode;
+    }
+
+    public void setValeurCode(List<SimpleObject> valeurCode) {
+        this.valeurCode = valeurCode;
+    }
+    
+    public void addValeurCode(SimpleObject so) {
+        if (valeurCode == null) {
+            valeurCode = new ArrayList<>();
+        }
+        this.valeurCode.add(so);
+    }
+
+    public SimpleObject getValeurGeographie() {
+        return valeurGeographie;
+    }
+
+    public void setValeurGeographie(SimpleObject valeurGeographie) {
+        this.valeurGeographie = valeurGeographie;
     }
 
 }

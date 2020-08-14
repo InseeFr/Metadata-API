@@ -1,9 +1,10 @@
 package fr.insee.rmes.api.operations;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -128,7 +129,7 @@ public class OperationsApiService {
     public List<Rubrique> getListRubriques(String id) {
         String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationRubrics(id));
         List<CsvRubrique> csvRubriques = csvUtils.populateMultiPOJO(csvResult, CsvRubrique.class);
-        List<Rubrique> rubriques = new ArrayList<>();
+        Map<String,Rubrique> rubriquesById = new HashMap<>();
         for (CsvRubrique cr : csvRubriques) {
             Rubrique r = new Rubrique(cr.getId(), cr.getUri(), cr.getType());
             r.setTitre(cr.getTitreLg1(), cr.getTitreLg2());
@@ -138,13 +139,19 @@ public class OperationsApiService {
                     r.setValeurSimple(cr.getValeurSimple());
                 break;
                 case "CODE_LIST":
-                    SimpleObject valeurCode =
-                        new SimpleObject(
+                    SimpleObject codeListElement = new SimpleObject(
                             cr.getValeurSimple(),
                             cr.getCodeUri(),
                             cr.getLabelObjLg1(),
                             cr.getLabelObjLg2());
-                    r.setValeurCode(valeurCode);
+
+                    if (cr.getMaxOccurs() != null && rubriquesById.containsKey(cr.getId())) {
+                        r = rubriquesById.get(cr.getId());
+                        r.addValeurCode(codeListElement);
+                        rubriquesById.remove(cr.getId());
+                    }else {
+                        r.setValeurCode(Stream.of(codeListElement).collect(Collectors.toList()));
+                    }
                 break;
                 case "ORGANISATION":
                     SimpleObject valeurOrg =
@@ -166,12 +173,21 @@ public class OperationsApiService {
                     r.setLabelLg1(cr.getLabelLg1());
                     r.setLabelLg2(cr.getLabelLg2());
                 break;
+                case "GEOGRAPHY":
+                    SimpleObject valeurGeo =
+                    new SimpleObject(
+                        cr.getValeurSimple(),
+                        cr.getGeoUri(),
+                        cr.getLabelObjLg1(),
+                        cr.getLabelObjLg2());
+                r.setValeurGeographie(valeurGeo);;
+                break;
                 default:
                 break;
             }
-            rubriques.add(r);
+            rubriquesById.putIfAbsent(r.getId(), r);
         }
-        return rubriques;
+        return rubriquesById.values().stream().collect(Collectors.toList());
 
     }
 
