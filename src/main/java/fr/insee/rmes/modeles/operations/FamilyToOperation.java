@@ -32,7 +32,9 @@ public class FamilyToOperation {
 
     private String simsId = null;
 
-    public FamilyToOperation() {}
+    public FamilyToOperation() {
+        //empty constructor
+    }
 
     public String getFamilyId() {
         return familyId;
