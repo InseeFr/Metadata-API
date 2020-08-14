@@ -180,7 +180,7 @@ public class OperationsApiService {
                         cr.getGeoUri(),
                         cr.getLabelObjLg1(),
                         cr.getLabelObjLg2());
-                r.setValeurGeographie(valeurGeo);;
+                r.setValeurGeographie(valeurGeo);
                 break;
                 default:
                 break;
