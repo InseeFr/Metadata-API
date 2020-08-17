@@ -30,7 +30,7 @@ public class Indicateur {
     private List<StringWithLang> historyNote;
 
     @JsonInclude(Include.NON_NULL)
-    private SimpleObject creator;
+    private SimpleObject publisher;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> contributors;
     @JsonInclude(Include.NON_NULL)
@@ -271,12 +271,12 @@ public class Indicateur {
     @JsonProperty("organismeResponsable")
     @JacksonXmlProperty(isAttribute = true, localName = "organismeResponsable")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public SimpleObject getCreator() {
-        return creator;
+    public SimpleObject getPublisher() {
+        return publisher;
     }
 
-    public void setCreator(SimpleObject creator) {
-        this.creator = creator;
+    public void setPublisher(SimpleObject publisher) {
+        this.publisher = publisher;
     }
 
     @JsonProperty("partenaire")

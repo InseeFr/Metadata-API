@@ -148,10 +148,10 @@ public class OperationsQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getLinkDifferentTypeByObjectQuery.ftlh", params);
     }
 
-    public static String getCreatorsBySeries(String idSeries) {
+    public static String getPublishersBySeries(String idSeries) {
         Map<String,Object> params = new HashMap<>();
         params.put(ID_SERIES, idSeries);
-        return buildRequest(QUERIES_FOLDER, "getCreatorsBySeriesQuery.ftlh", params);
+        return buildRequest(QUERIES_FOLDER, "getPublishersBySeriesQuery.ftlh", params);
     }
 
     public static String getContributorsBySeries(String idSeries) {

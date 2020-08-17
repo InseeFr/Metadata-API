@@ -25,10 +25,10 @@ public class CsvIndicateur {
     private String periodicityLabelLg2;
     private String periodicityId;
 
-    private String uriCreator;
-    private String idCreator;
-    private String labelFrCreator;
-    private String labelEnCreator;
+    private String uriPublisher;
+    private String idPublisher;
+    private String labelFrPublisher;
+    private String labelEnPublisher;
 
     private String simsId = null;
 
@@ -178,36 +178,36 @@ public class CsvIndicateur {
         this.periodicityId = periodicityId;
     }
 
-    public String getUriCreator() {
-        return uriCreator;
+    public String getUriPublisher() {
+        return uriPublisher;
     }
 
-    public void setUriCreator(String uriCreator) {
-        this.uriCreator = uriCreator;
+    public void setUriPublisher(String uriPublisher) {
+        this.uriPublisher = uriPublisher;
     }
 
-    public String getIdCreator() {
-        return idCreator;
+    public String getIdPublisher() {
+        return idPublisher;
     }
 
-    public void setIdCreator(String idCreator) {
-        this.idCreator = idCreator;
+    public void setIdPublisher(String idPublisher) {
+        this.idPublisher = idPublisher;
     }
 
-    public String getLabelFrCreator() {
-        return labelFrCreator;
+    public String getLabelFrPublisher() {
+        return labelFrPublisher;
     }
 
-    public void setLabelFrCreator(String labelFrCreator) {
-        this.labelFrCreator = labelFrCreator;
+    public void setLabelFrPublisher(String labelFrPublisher) {
+        this.labelFrPublisher = labelFrPublisher;
     }
 
-    public String getLabelEnCreator() {
-        return labelEnCreator;
+    public String getLabelEnPublisher() {
+        return labelEnPublisher;
     }
 
-    public void setLabelEnCreator(String labelEnCreator) {
-        this.labelEnCreator = labelEnCreator;
+    public void setLabelEnPublisher(String labelEnPublisher) {
+        this.labelEnPublisher = labelEnPublisher;
     }
 
     public String getId() {

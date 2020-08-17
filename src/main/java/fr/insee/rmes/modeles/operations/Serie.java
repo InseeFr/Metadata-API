@@ -57,7 +57,7 @@ public class Serie {
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> seeAlso;
     @JsonInclude(Include.NON_NULL)
-    private List<SimpleObject> creators;
+    private List<SimpleObject> publishers;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> contributors;
 
@@ -275,12 +275,12 @@ public class Serie {
     @JsonProperty("organismeResponsable")
     @JacksonXmlProperty(isAttribute = true, localName = "organismeResponsable")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<SimpleObject> getCreators() {
-        return creators;
+    public List<SimpleObject> getPublishers() {
+        return publishers;
     }
 
-    public void setCreators(List<SimpleObject> creators) {
-        this.creators = creators;
+    public void setPublishers(List<SimpleObject> publishers) {
+        this.publishers = publishers;
     }
 
     @JsonProperty("partenaire")

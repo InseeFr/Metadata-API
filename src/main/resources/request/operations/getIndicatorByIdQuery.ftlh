@@ -2,7 +2,7 @@
              ?historyNoteLg1 ?historyNoteLg2 
              ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?periodicityId 
              ?hasContributor ?hasReplaces ?hasIsReplacedBy ?hasSeeAlso ?hasWasGeneratedBy 
-             ?uriCreator ?idCreator ?labelFrCreator ?labelEnCreator 
+             ?uriPublisher ?idPublisher ?labelFrPublisher ?labelEnPublisher 
 
              WHERE { 
              FILTER(STRENDS(STR(?indic),'/produits/indicateur/${idIndic}')) . 
@@ -38,12 +38,12 @@
             				BIND(STRAFTER(STR(?periodicity),'/codes/frequence/') AS ?periodicityId) .  
             		} 
 
-             OPTIONAL {?indic dcterms:creator ?uriCreator . 
-             		?uriCreator dcterms:identifier ?idCreator . 
-            			?uriCreator skos:prefLabel ?labelFrCreator . 		 
-            			FILTER (lang(?labelFrCreator) = 'fr') 		 
-            			OPTIONAL{?uriCreator skos:prefLabel ?labelEnCreator . 		 
-            					FILTER (lang(?labelEnCreator) = 'en')} 		 
+             OPTIONAL {?indic dcterms:publisher ?uriPublisher . 
+             		?uriPublisher dcterms:identifier ?idPublisher . 
+            			?uriPublisher skos:prefLabel ?labelFrPublisher . 		 
+            			FILTER (lang(?labelFrPublisher) = 'fr') 		 
+            			OPTIONAL{?uriPublisher skos:prefLabel ?labelEnPublisher . 		 
+            					FILTER (lang(?labelEnPublisher) = 'en')} 		 
              } 
             		BIND(EXISTS{?indic dcterms:contributor ?a} AS ?hasContributor) . 
             		BIND(EXISTS{?indic dcterms:replaces ?b} AS ?hasReplaces) .  
