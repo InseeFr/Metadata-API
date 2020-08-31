@@ -33,7 +33,7 @@ public class SwaggerConfig extends ResourceConfig {
                 (servletConfig != null ? servletConfig.getServletContext() : "ServletConfig is null"));
 
         // describe API
-        Info info = new Info().title("API RMéS").version("2.0.0").description("API sur les métadonnées de l'Insee");
+        Info info = new Info().title("API RMéS").version("2.0.1").description("API sur les métadonnées de l'Insee");
         openApi.info(info);
 
         // set Server API
