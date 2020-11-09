@@ -14,8 +14,8 @@
 		<jackson.version>2.10.1</jackson.version>
 		<log.version>2.13.3</log.version>
 		<swagger.version>2.0.10</swagger.version>
-		<junit.version>5.5.2</junit.version>
-		<maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+		<junit.version>5.7.0</junit.version>
+		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<cucumber.version>1.2.4</cucumber.version>
 
 		<!-- Configuration Sonar -->
@@ -78,6 +78,12 @@
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+    		<groupId>org.junit.jupiter</groupId>
+    		<artifactId>junit-jupiter-params</artifactId>
+			<version>${junit.version}</version>
+    		<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>

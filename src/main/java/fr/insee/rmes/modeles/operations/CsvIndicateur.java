@@ -32,7 +32,10 @@ public class CsvIndicateur {
 
     private String simsId = null;
 
-    public CsvIndicateur() {}// No-args constructor needed for JAXB
+    public CsvIndicateur() {
+    	// No-args constructor needed for JAXB
+    	
+    }
 
     public String getLabelLg1() {
         return labelLg1;

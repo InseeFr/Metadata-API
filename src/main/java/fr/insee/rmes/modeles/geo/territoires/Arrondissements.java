@@ -19,7 +19,9 @@ public class Arrondissements extends Territoires{
 
     private List<Arrondissement> arrondissements = null;
 
-    public Arrondissements() {}
+    public Arrondissements() {
+    	// No-args constructor needed for JAXB
+    }
 
     public Arrondissements(List<Arrondissement> arrondissements) {
         this.arrondissements = arrondissements;

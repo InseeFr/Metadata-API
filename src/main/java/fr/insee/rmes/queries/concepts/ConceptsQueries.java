@@ -11,7 +11,6 @@ public class ConceptsQueries extends Queries {
     
     private static final String QUERIES_FOLDER = "concepts/";
 
-
     public static String getConceptsByLabel(String label) {
 
         return "SELECT ?id ?uri ?intitule ?remplace ?estRemplacePar WHERE { \n"

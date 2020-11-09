@@ -1,11 +1,19 @@
 package fr.insee.rmes.queries.classifications;
 
 public class CorrespondencesQueries {
+	
+	  private CorrespondencesQueries() {
+		    throw new IllegalStateException("Utility class");
+	  }
 
-    // correspondence/{id correspondence}
+    /**
+     * correspondence/{id correspondence}
+     * @param correspondenceId
+     * @return
+     */
     public static String getCorrespondenceById(String correspondenceId) {
 
-        String query =
+        return
             "select distinct ?uriPoste1 ?codePoste1 ?intituleFrPoste1 ?intituleEnPoste1 ?uriPoste2 ?codePoste2 ?intituleFrPoste2 ?intituleEnPoste2 \n"
                 + "where {  \n"
                 + "  ?tableCorrespondance xkos:compares ?nomenclature.\n"
@@ -30,14 +38,17 @@ public class CorrespondencesQueries {
                 + "} \n"
                 + "ORDER BY ?uriPoste1 ?uriPoste2";
 
-        return query;
-
     }
 
-    // correspondence/{id1 classification}/{id2 classification}
+	/**
+	 * correspondence/{id1 classification}/{id2 classification}
+	 * @param classificationCode
+	 * @param targetClassificationCode
+	 * @return
+	 */
     public static String getCorrespondenceByIds(String classificationCode, String targetClassificationCode) {
 
-        String query =
+        return 
             "select distinct ?uriPoste1 ?codePoste1 ?intituleFrPoste1 ?intituleEnPoste1 ?uriPoste2 ?codePoste2 ?intituleFrPoste2 ?intituleEnPoste2 \n"
                 + "where {  \n"
                 + "  ?tableCorrespondance xkos:compares ?nomenclature.\n"
@@ -77,13 +88,11 @@ public class CorrespondencesQueries {
                 + "} \n"
                 + "ORDER BY ?orderingSource ?orderingTarget";
 
-        return query;
-
     }
 
     public static String getAllCorrespondences() {
 
-        String query =
+        return
             "select ?id ?idSource ?idCible ?uri  ?intituleFr ?intituleEn ?descriptionFr ?descriptionEn\n"
                 + "where {  \n"
                 + "  ?uri rdf:type xkos:Correspondence.\n"
@@ -100,7 +109,6 @@ public class CorrespondencesQueries {
                 + "  optional { bind ( strafter(str(?id ), '-' ) as ?idCible ) }\n"
                 + "} \n";
 
-        return query;
     }
 
 }

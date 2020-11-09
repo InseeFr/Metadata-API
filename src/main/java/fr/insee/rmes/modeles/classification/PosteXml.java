@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 public class PosteXml extends Poste {
 
     @JsonRawValue // don't encode XML
+    @Override
     public String getContenuLimite() {
         if (StringUtils.isNotEmpty(contenuLimite)) {
             return "<ContenuLimite>" + contenuLimite + "</ContenuLimite>";
@@ -16,6 +17,7 @@ public class PosteXml extends Poste {
     }
 
     @JsonRawValue
+    @Override
     public String getContenuCentral() {
         if (StringUtils.isNotEmpty(contenuCentral)) {
             return "<ContenuCentral>" + contenuCentral + "</ContenuCentral>";
@@ -25,6 +27,7 @@ public class PosteXml extends Poste {
     }
 
     @JsonRawValue
+    @Override
     public String getContenuExclu() {
         if (StringUtils.isNotEmpty(contenuExclu)) {
             return "<ContenuExclu>" + contenuExclu + "</ContenuExclu>";
@@ -34,6 +37,7 @@ public class PosteXml extends Poste {
     }
 
     @JsonRawValue
+    @Override
     public String getNoteGenerale() {
         if (StringUtils.isNotEmpty(noteGenerale)) {
             return "<NoteGenerale>" + noteGenerale + "</NoteGenerale>";

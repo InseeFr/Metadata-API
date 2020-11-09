@@ -29,7 +29,7 @@ public class Famille {
 
     public Famille(String uri, String id, String labelLg1, String labelLg2, Serie serie) {
         if (serie != null) {
-            this.setSeries(new ArrayList<Serie>());
+            this.setSeries(new ArrayList<>());
             series.add(serie);
         }
         this.id = id;
@@ -52,7 +52,7 @@ public class Famille {
 
     public void addSerie(Serie serie) {
         if (series == null) {
-            this.setSeries(new ArrayList<Serie>());
+            this.setSeries(new ArrayList<>());
         }
         this.series.add(serie);
     }

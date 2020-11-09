@@ -27,7 +27,7 @@ import fr.insee.rmes.modeles.classification.naf2008.ClasseNAF2008;
 import fr.insee.rmes.modeles.classification.naf2008.SousClasseNAF2008;
 
 @ExtendWith(MockitoExtension.class)
-public class CodesAPITest extends AbstractApiTest {
+class CodesAPITest extends AbstractApiTest {
 
     @InjectMocks
     private CodesAPI codesAPI;
@@ -41,7 +41,7 @@ public class CodesAPITest extends AbstractApiTest {
     Object groupeNa1973 = new GroupeNA1973();
 
     @Test
-    public void givenGetCategorieJuridiqueNiveauII_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetCategorieJuridiqueNiveauII_whenCorrectRequest_thenResponseIsOk() {
         ((CategorieJuridiqueNiveauII) cj2).setUri("uri");
 
         // Mock
@@ -57,7 +57,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCategorieJuridiqueNiveauII_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
+    void givenGetCategorieJuridiqueNiveauII_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(cj2, Boolean.FALSE);
@@ -69,7 +69,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCategorieJuridiqueNiveauIII_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetCategorieJuridiqueNiveauIII_whenCorrectRequest_thenResponseIsOk() {
         ((CategorieJuridiqueNiveauIII) cj3).setUri("uri");
 
         // Mock
@@ -85,7 +85,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCategorieJuridiqueNiveauIII_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
+    void givenGetCategorieJuridiqueNiveauIII_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(cj3, Boolean.FALSE);
@@ -97,7 +97,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCategoriesJuridiques_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetCategoriesJuridiques_whenCorrectRequest_thenResponseIsOk() {
         list.add(new CategorieJuridique("1"));
 
         // Mock
@@ -119,7 +119,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCategoriesJuridiques_whenCorrectRequest_andCJNotFound_thenResponseIsNotFound() {
+    void givenGetCategoriesJuridiques_whenCorrectRequest_andCJNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -136,7 +136,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCategoriesJuridiques_whenBadRequest_thenResponseIsBadRequest() {
+    void givenGetCategoriesJuridiques_whenBadRequest_thenResponseIsBadRequest() {
         // Call method
         Response response = codesAPI.getCategoriesJuridiques("", "1234", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -144,7 +144,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetSousClasseNAF2008_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetSousClasseNAF2008_whenCorrectRequest_thenResponseIsOk() {
         ((SousClasseNAF2008) ssClasseNaf).setUri("uri");
 
         // Mock
@@ -160,7 +160,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetSousClasseNAF2008_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
+    void givenGetSousClasseNAF2008_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(ssClasseNaf, Boolean.FALSE);
@@ -172,7 +172,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClasseNAF2008_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetClasseNAF2008_whenCorrectRequest_thenResponseIsOk() {
         ((ClasseNAF2008) classeNaf).setUri("uri");
 
         // Mock
@@ -188,7 +188,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClasseNAF2008_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
+    void givenGetClasseNAF2008_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(classeNaf, Boolean.FALSE);
@@ -200,7 +200,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClasseNAF2003_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetClasseNAF2003_whenCorrectRequest_thenResponseIsOk() {
         ((ClasseNAF2003) classeNaf2003).setUri("uri");
 
         // Mock
@@ -216,7 +216,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClasseNAF2003_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
+    void givenGetClasseNAF2003_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(classeNaf2003, Boolean.FALSE);
@@ -228,7 +228,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClasseNAF1993_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetClasseNAF1993_whenCorrectRequest_thenResponseIsOk() {
         ((ClasseNAF1993) classeNaf1993).setUri("uri");
 
         // Mock
@@ -244,7 +244,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClasseNAF1993_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
+    void givenGetClasseNAF1993_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(classeNaf1993, Boolean.FALSE);
@@ -256,7 +256,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClasseNA1973_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetClasseNA1973_whenCorrectRequest_thenResponseIsOk() {
         ((GroupeNA1973) groupeNa1973).setUri("uri");
 
         // Mock
@@ -272,7 +272,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClasseNA1973_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
+    void givenGetClasseNA1973_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(groupeNa1973, Boolean.FALSE);
@@ -284,7 +284,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetActivities_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetActivities_whenCorrectRequest_thenResponseIsOk() {
         list.add(new Activite());
 
         // Mock
@@ -306,7 +306,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetActivities_whenCorrectRequest_andNotFound_thenResponseIsNotFound() {
+    void givenGetActivities_whenCorrectRequest_andNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -319,7 +319,7 @@ public class CodesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetActivities_whenBadRequest_thenResponseIsBadRequest() {
+    void givenGetActivities_whenBadRequest_thenResponseIsBadRequest() {
         // Call method
         Response response = codesAPI.getActivities("", "1234", MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());

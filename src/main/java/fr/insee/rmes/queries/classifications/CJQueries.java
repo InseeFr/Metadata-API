@@ -106,5 +106,9 @@ public class CJQueries {
             + "} \n"
             + "ORDER BY ?dateDebutValidite";
     }
+    
+	  private CJQueries() {
+		    throw new IllegalStateException("Utility class");
+	  }
 
 }

@@ -18,9 +18,11 @@ import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
+import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -381,7 +383,8 @@ public class CommuneApi extends AbstractGeoApi {
         }
     }
 
-   /* @Path(ConstGeoApi.PATH_LISTE_COMMUNES + ConstGeoApi.PATH_PROJECTION)
+    @Hidden
+    @Path(ConstGeoApi.PATH_LISTE_COMMUNES + ConstGeoApi.PATH_PROJECTION)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -421,5 +424,5 @@ public class CommuneApi extends AbstractGeoApi {
                                 .getAllProjectionCommune(this.formatValidParameterDateIfIsNull(date), dateProjection)),
                     header);
         }
-    }*/
+    }
 }

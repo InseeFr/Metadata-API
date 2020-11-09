@@ -13,7 +13,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 public abstract class Queries {
-
+	
     private static Logger logger = LogManager.getLogger(Queries.class);
 
     public static String buildRequest(String root, String fileName, Map<String, Object> params)  {

@@ -76,35 +76,35 @@ public class Serie {
 
     public void addOperation(Operation op) {
         if (operations == null) {
-            this.setOperations(new ArrayList<Operation>());
+            this.setOperations(new ArrayList<>());
         }
         this.operations.add(op);
     }
 
     public void addIndicateur(Indicateur indic) {
         if (indicateurs == null) {
-            this.setIndicateurs(new ArrayList<Indicateur>());
+            this.setIndicateurs(new ArrayList<>());
         }
         this.indicateurs.add(indic);
     }
 
     public void addSeeAlso(SimpleObject sa) {
         if (seeAlso == null) {
-            this.setSeeAlso(new ArrayList<SimpleObject>());
+            this.setSeeAlso(new ArrayList<>());
         }
         this.seeAlso.add(sa);
     }
 
     public void addReplaces(Serie rep) {
         if (replaces == null) {
-            this.setReplaces(new ArrayList<Serie>());
+            this.setReplaces(new ArrayList<>());
         }
         this.replaces.add(rep);
     }
 
     public void addIsReplacedBy(Serie irb) {
         if (isReplacedBy == null) {
-            this.setIsReplacedBy(new ArrayList<Serie>());
+            this.setIsReplacedBy(new ArrayList<>());
         }
         this.isReplacedBy.add(irb);
     }

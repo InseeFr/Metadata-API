@@ -4,7 +4,8 @@ FROM <http://rdf.insee.fr/graphes/concepts/definitions>
 WHERE { 
 			?uri skos:inScheme ?uriScheme . 
 			FILTER(REGEX(STR(?uriScheme),'/concepts/definitions/scheme')) 
-			?uri skos:notation '${id}' . 
+			FILTER(REGEX(STR(?uri),'/concepts/definition/${id}')) . 
+
 			?uri skos:prefLabel ?intituleFr . 
 			FILTER(lang(?intituleFr) = 'fr') 
 			?uri skos:prefLabel ?intituleEn . 

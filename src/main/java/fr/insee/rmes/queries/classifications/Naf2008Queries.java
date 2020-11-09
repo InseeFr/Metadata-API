@@ -3,6 +3,10 @@ package fr.insee.rmes.queries.classifications;
 import fr.insee.rmes.config.Configuration;
 
 public class Naf2008Queries {
+	
+	  private Naf2008Queries() {
+		    throw new IllegalStateException("Utility class");
+	  }
 
     public static String getClasseNAF2008(String code) {
         return "SELECT ?uri ?intitule WHERE { \n"

@@ -20,7 +20,7 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 
 @ExtendWith(MockitoExtension.class)
-public class CommuneApiTest extends AbstractApiTest {
+class CommuneApiTest extends AbstractApiTest {
 
     @InjectMocks
     private CommuneApi geoApi;
@@ -28,7 +28,7 @@ public class CommuneApiTest extends AbstractApiTest {
     private Commune commune = new Commune();
 
     @Test
-    public void givenGetCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         commune.setUri("something");
@@ -40,7 +40,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommune_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetCommune_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         commune.setUri("something");
@@ -52,7 +52,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommune_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetCommune_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnOnePojo(commune, Boolean.FALSE);
@@ -69,7 +69,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommune_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetCommune_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         commune.setUri("something");
@@ -81,7 +81,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommune_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetCommune_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
@@ -89,7 +89,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneAscendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetCommuneAscendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -101,7 +101,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneAscendants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetCommuneAscendants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -113,7 +113,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneAscendants_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetCommuneAscendants_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -130,7 +130,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -142,7 +142,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
@@ -150,7 +150,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterTypeIsNull() {
+    void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterTypeIsNull() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -162,7 +162,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterTypeIsRight() {
+    void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterTypeIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -179,7 +179,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterTypeIsBad() {
+    void givenGetCommuneAscendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
@@ -187,7 +187,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneDescendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetCommuneDescendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -199,7 +199,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneDescendants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetCommuneDescendants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -211,7 +211,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneDescendants_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetCommuneDescendants_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -228,7 +228,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -240,7 +240,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
@@ -248,7 +248,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterTypeIsNull() {
+    void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterTypeIsNull() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -260,7 +260,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterTypeIsRight() {
+    void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterTypeIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -277,7 +277,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
+    void givenGetCommuneDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
@@ -285,7 +285,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -297,7 +297,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -309,7 +309,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeCommune_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetListeCommune_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -326,7 +326,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -338,7 +338,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
@@ -346,7 +346,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommunePrecedents_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetCommunePrecedents_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -358,7 +358,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommunePrecedents_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetCommunePrecedents_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -370,7 +370,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommunePrecedents_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetCommunePrecedents_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -387,7 +387,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommunePrecedents_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetCommunePrecedents_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -399,7 +399,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommunePrecedents_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetCommunePrecedents_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "nimportequoi");
@@ -407,7 +407,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommunePrecedents_WhenCorrectRequest_thenParameterTypeIsNull() {
+    void givenGetCommunePrecedents_WhenCorrectRequest_thenParameterTypeIsNull() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -419,7 +419,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneSuivants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetCommuneSuivants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -431,7 +431,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneSuivants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetCommuneSuivants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -443,7 +443,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneSuivants_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetCommuneSuivants_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -460,7 +460,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneSuivants_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetCommuneSuivants_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -472,7 +472,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneSuivants_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetCommuneSuivants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, "nimportequoi");
@@ -480,7 +480,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneSuivants_WhenCorrectRequest_thenParameterTypeIsNull() {
+    void givenGetCommuneSuivants_WhenCorrectRequest_thenParameterTypeIsNull() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -492,7 +492,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneProjetes_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetCommuneProjetes_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -504,7 +504,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneProjetes_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetCommuneProjetes_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -516,7 +516,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneProjetes_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetCommuneProjetes_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -533,7 +533,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -545,7 +545,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", "2019-01-01");
@@ -553,7 +553,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateProjeteIsRight() {
+    void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateProjeteIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -565,7 +565,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateProjeteIsBad() {
+    void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateProjeteIsBad() {
 
         // Call method header content = xml
         Response response =
@@ -574,7 +574,7 @@ public class CommuneApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateProjeteIsNull() {
+    void givenGetCommuneProjetes_WhenCorrectRequest_thenParameterDateProjeteIsNull() {
 
         // Call method header content = xml
         Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", null);

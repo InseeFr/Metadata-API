@@ -44,16 +44,12 @@ public class ResponseUtils {
             // Remove last tags territoires
             response = Pattern.compile("(<territoires><\\/territoires>)").matcher(response).replaceAll("");
 
-            if ( ! response.isEmpty() && obj.getClass() == Projections.class) {
-
-                if (header != null && header.equals(MediaType.APPLICATION_XML)) {
+            if ( ! response.isEmpty() && obj.getClass() == Projections.class && header != null && header.equals(MediaType.APPLICATION_XML)) {
                     // Remove XML tag <origine>
                     response = Pattern.compile("<\\/?origine>").matcher(response).replaceAll("");
                     // Remove XML tag <listeProj>
                     response = Pattern.compile("<\\/?listeProj>").matcher(response).replaceAll("");
-                }
             }
-
         }
         catch (Exception e) {
             logger.error(e.getMessage());

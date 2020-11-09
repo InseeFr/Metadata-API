@@ -16,11 +16,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
-import fr.insee.rmes.api.geo.PaysApi;
 import fr.insee.rmes.modeles.geo.Country;
 
 @ExtendWith(MockitoExtension.class)
-public class PaysApiTest extends AbstractApiTest {
+class PaysApiTest extends AbstractApiTest {
 
     @InjectMocks
     private PaysApi geoApi;
@@ -28,7 +27,7 @@ public class PaysApiTest extends AbstractApiTest {
     private Country country = new Country();
 
     @Test
-    public void givenGetCountry_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetCountry_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Call method
         country.setUri("something");
@@ -40,7 +39,7 @@ public class PaysApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCountry_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetCountry_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Call method
         country.setUri("something");
@@ -52,7 +51,7 @@ public class PaysApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.FALSE);

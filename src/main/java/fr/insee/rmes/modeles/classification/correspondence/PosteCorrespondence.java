@@ -1,5 +1,7 @@
 package fr.insee.rmes.modeles.classification.correspondence;
 
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -25,7 +27,9 @@ public class PosteCorrespondence implements Comparable<Object> {
         this.intituleEn = intituleEn;
     }
 
-    public PosteCorrespondence() {};// No-args constructor needed for JAXB
+    public PosteCorrespondence() {
+    	// No-args constructor needed for JAXB
+    }
 
     @JacksonXmlProperty(isAttribute = true)
     public String getCode() {
@@ -65,16 +69,30 @@ public class PosteCorrespondence implements Comparable<Object> {
 
     @Override
     public int compareTo(Object p) {
-
         PosteCorrespondence posteToCompare = (PosteCorrespondence) p;
         String posteToCompareUri = posteToCompare.getUri();
         if (this.uri.equals(posteToCompareUri)) {
-
             return 0;
-
         }
-
         return 1;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(code, intituleEn, intituleFr, uri);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PosteCorrespondence other = (PosteCorrespondence) obj;
+		return Objects.equals(code, other.code) && Objects.equals(intituleEn, other.intituleEn)
+				&& Objects.equals(intituleFr, other.intituleFr) && Objects.equals(uri, other.uri);
+	}
 
 }
