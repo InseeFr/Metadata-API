@@ -16,6 +16,7 @@ import fr.insee.rmes.modeles.operations.CsvSerie;
 import fr.insee.rmes.modeles.operations.Famille;
 import fr.insee.rmes.modeles.operations.FamilyToOperation;
 import fr.insee.rmes.modeles.operations.Indicateur;
+import fr.insee.rmes.modeles.operations.ObjectWithSimsId;
 import fr.insee.rmes.modeles.operations.Operation;
 import fr.insee.rmes.modeles.operations.Serie;
 import fr.insee.rmes.modeles.operations.SimpleObject;
@@ -324,7 +325,7 @@ public class OperationsApiService {
         }
         if (Boolean.TRUE.equals(csvIndic.isHasSeeAlso())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoByIndic(idIndicateur));
-            List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
+            List<ObjectWithSimsId> liste = csvUtils.populateMultiPOJO(csv, ObjectWithSimsId.class);
             i.setSeeAlso(liste);
         }
         if (Boolean.TRUE.equals(csvIndic.isHasWasGeneratedBy())) {

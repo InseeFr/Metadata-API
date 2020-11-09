@@ -15,11 +15,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "ObjetSimple", description = "Objet simple")
 public class SimpleObject {
 
-    private String id = null;
+	protected String id = null;
     @Schema(example = "http://id.insee.fr/...")
-    private String uri = null;
+    protected String uri = null;
 
-    private List<StringWithLang> label = new ArrayList<>();
+    protected List<StringWithLang> label = new ArrayList<>();
 
     public String getId() {
         return id;
