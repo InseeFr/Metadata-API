@@ -23,6 +23,9 @@
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<cucumber.version>1.2.4</cucumber.version>
 		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		
 		<!-- Configuration Sonar -->
 		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
 			src/main/java/fr/insee/rmes/modeles/**/*</sonar.exclusions>
