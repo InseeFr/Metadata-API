@@ -24,6 +24,7 @@
 		<cucumber.version>1.2.4</cucumber.version>
 		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		
 		
 		<!-- Configuration Sonar -->
@@ -191,6 +192,7 @@
 		      <filtering>true</filtering>
 		    </resource>
   		  </resources>   
+  		  
 		<pluginManagement>
 			<plugins>
 				<!-- Plugin lancement des tests -->
@@ -251,6 +253,7 @@
 			        <outputFormats>JSON,YAML</outputFormats>
 			        <prettyPrint>true</prettyPrint>
 			        <applicationClass>fr.insee.rmes.config</applicationClass>
+			        <encoding>UTF-8</encoding>	        
 			      </configuration>
 			      <executions>
 			        <execution>
