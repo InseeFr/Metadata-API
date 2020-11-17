@@ -22,6 +22,7 @@ import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -321,7 +322,7 @@ public class RegionApi extends AbstractGeoApi {
         }
     }
    
-    
+    @Hidden
     @Path(ConstGeoApi.PATH_LISTE_REGION + ConstGeoApi.PATH_PROJECTION)
     @GET
     @Produces({
