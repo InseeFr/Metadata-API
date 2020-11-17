@@ -4,10 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.insee.rmes</groupId>
 	<artifactId>metadata-api</artifactId>
-	<version>2.0.1</version>
 	<packaging>war</packaging>
 	<name>Implementation of the RMéS metadata API</name>
+	
+	<version>2.0.1</version>
+	
 	<properties>
+		<title>API RMéS</title>
+		<description>API sur les métadonnées de l'Insee</description>
+	
+		<!--  Dependencies' version -->
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<jersey.version>2.29.1</jersey.version>
@@ -17,14 +23,17 @@
 		<junit.version>5.7.0</junit.version>
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<cucumber.version>1.2.4</cucumber.version>
-
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+		
 		<!-- Configuration Sonar -->
 		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
 			src/main/java/fr/insee/rmes/modeles/**/*</sonar.exclusions>
 		<sonar.projectKey>${project.groupId}.${project.artifactId}</sonar.projectKey>
-
-
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
@@ -175,59 +184,87 @@
 
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>gitlab</id>
-			<name>depot Gitlab</name>
-			<url>[git@git.stable.innovation.insee.eu:22222]:rmes/metadata-api.git</url>
-		</repository>
 
-	</repositories>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
-		<plugins>
-			<!-- Plugin lancement des tests -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
-				<configuration>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.junit.platform</groupId>
-						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>1.2.0</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
-			<!-- Plugin pour prise en compte des tests sur SonarQube plate-forme innovation -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.4</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<!-- default target/jscoco/site/* -->
-						<configuration>
-							<outputDirectory>target/jacoco-report</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
+		  <resources>
+		    <resource>
+		      <directory>src/main/resources</directory>
+		      <filtering>true</filtering>
+		    </resource>
+  		  </resources>   
+  		  
+		<pluginManagement>
+			<plugins>
+				<!-- Plugin lancement des tests -->
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+					<configuration>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.junit.platform</groupId>
+							<artifactId>junit-platform-surefire-provider</artifactId>
+							<version>1.2.0</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+	
+				<!-- Plugin pour prise en compte des tests sur SonarQube plate-forme innovation -->
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.8.4</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>jacoco-report</id>
+							<phase>test</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+							<!-- default target/jscoco/site/* -->
+							<configuration>
+								<outputDirectory>target/jacoco-report</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				
+				<!-- Generate openapi.json , see : https://github.com/openapi-tools/swagger-maven-plugin-->
+			    <plugin>
+			      <groupId>io.openapitools.swagger</groupId>
+			      <artifactId>swagger-maven-plugin</artifactId>
+			      <version>2.1.5</version>
+			      <configuration>
+			        <resourcePackages>
+	          		  <resourcePackage>fr.insee.rmes.api</resourcePackage>
+			        </resourcePackages>
+			        <useResourcePackagesChildren>true</useResourcePackagesChildren>
+			        <outputDirectory>target/</outputDirectory>
+			        <outputFilename>openapi</outputFilename>
+			        <outputFormats>JSON,YAML</outputFormats>
+			        <prettyPrint>true</prettyPrint>
+			        <applicationClass>fr.insee.rmes.config</applicationClass>
+			        <encoding>UTF-8</encoding>	        
+			      </configuration>
+			      <executions>
+			        <execution>
+			          <goals>
+			            <goal>generate</goal>
+			          </goals>
+			        </execution>
+			      </executions>
+			    </plugin>    
+			</plugins>
+		 </pluginManagement>
 	</build>
 </project>

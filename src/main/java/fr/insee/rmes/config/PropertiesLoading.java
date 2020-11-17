@@ -9,6 +9,7 @@ public class PropertiesLoading {
 
 	public Properties getProperties() throws IOException {
 		Properties props = new Properties();
+		props.load(this.getClass().getClassLoader().getResourceAsStream("api-stable.properties"));
 		props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
 		props = this.loadIfExists(props, "rmes-api.properties");
 		props = this.loadIfExists(props, "rmeswnci.properties");

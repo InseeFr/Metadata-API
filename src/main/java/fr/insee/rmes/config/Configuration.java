@@ -28,11 +28,19 @@ public class Configuration {
     private static String swaggerUrl = "";
     // Https or Http
     private static Boolean requiresSsl = false;
-
+    
+    private static String version = "";
+    private static String title = "";
+    private static String description = "";
+    
     public Configuration() {
         Properties props = null;
         try {
             props = propertiesLoading.getProperties();
+            
+            version = props.getProperty("fr.insee.rmes.api.version");
+            title = props.getProperty("fr.insee.rmes.api.title");
+            description = props.getProperty("fr.insee.rmes.api.description");
 
             sparqlEndPoint = props.getProperty("fr.insee.rmes.api.sparqlEndpoint");
             baseHost = props.getProperty("fr.insee.rmes.api.baseHost");
@@ -115,5 +123,29 @@ public class Configuration {
     public static void setRequiresSsl(Boolean requiresSsl) {
         Configuration.requiresSsl = requiresSsl;
     }
+
+	public static String getVersion() {
+		return version;
+	}
+
+	public static void setVersion(String version) {
+		Configuration.version = version;
+	}
+
+	public static String getTitle() {
+		return title;
+	}
+
+	public static void setTitle(String title) {
+		Configuration.title = title;
+	}
+
+	public static String getDescription() {
+		return description;
+	}
+
+	public static void setDescription(String description) {
+		Configuration.description = description;
+	}
 
 }

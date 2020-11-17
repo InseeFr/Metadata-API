@@ -23,6 +23,8 @@ import fr.insee.rmes.utils.DateUtils;
 
 public abstract class AbstractGeoApi extends AbstractMetadataApi {
 
+    protected static final String LITTERAL_PARAMETER_DATE_WITH_HISTORY = ". Le paramètre '*' permet de renvoyer tout l'historique.";
+	
     protected CsvGeoUtils csvGeoUtils = new CsvGeoUtils();
 
     private static Logger logger = LogManager.getLogger(AbstractGeoApi.class);
@@ -49,7 +51,7 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     }
 
     protected boolean verifyParametersTypeAndDateAreValid(String typeTerritoire, String date) {
-        return (this.verifyParameterTypeTerritoireIsRight(typeTerritoire)) && (this.verifyParameterDateIsRight(date));
+        return (this.verifyParameterTypeTerritoireIsRight(typeTerritoire)) && (this.verifyParameterDateIsRightWithoutHistory(date));
     }
 
     protected boolean verifyParameterTypeTerritoireIsRight(String typeTerritoire) {
@@ -63,12 +65,16 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         return (typeTerritoire != null) ? EnumTypeGeographie.getTypeObjetGeoIgnoreCase(typeTerritoire) : Constants.NONE;
     }
 
-    protected boolean verifyParameterDateIsRight(String date, boolean withHistory) {
+    private boolean verifyParameterDateIsRight(String date, boolean withHistory) {
         return (date == null) || (DateUtils.isValidDate(date)) || (withHistory && date.equals("*"));
     }
 
-    protected boolean verifyParameterDateIsRight(String date) {
+    protected boolean verifyParameterDateIsRightWithoutHistory(String date) {
         return this.verifyParameterDateIsRight(date, false);
+    }
+    
+    protected boolean verifyParameterDateIsRightWithHistory(String date) {
+        return this.verifyParameterDateIsRight(date, true);
     }
 
     protected String formatValidParameterDateIfIsNull(String date) {
