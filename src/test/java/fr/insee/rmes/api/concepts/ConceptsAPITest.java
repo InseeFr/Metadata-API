@@ -25,7 +25,6 @@ class ConceptsAPITest extends AbstractApiTest {
     @InjectMocks
     private ConceptsAPI conceptsAPI;
 
-    private Definition definition = new Definition();
     private Concept concept = new Concept();
 
 

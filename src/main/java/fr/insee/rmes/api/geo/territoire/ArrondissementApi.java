@@ -79,7 +79,7 @@ public class ArrondissementApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for arrondissement {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -216,14 +216,14 @@ public class ArrondissementApi extends AbstractGeoApi {
     public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
         logger.debug("Received GET request for all arrondissements");
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -268,7 +268,7 @@ public class ArrondissementApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for suivant arrondissement {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -312,7 +312,7 @@ public class ArrondissementApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for precedent arrondissement {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -361,7 +361,7 @@ public class ArrondissementApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for arrondissement {} projection", code);
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -409,7 +409,7 @@ public class ArrondissementApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for all arrondissements projections");
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {

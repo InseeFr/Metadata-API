@@ -228,15 +228,17 @@ class ArrondissementApiTest extends AbstractApiTest {
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }
 
-    @Test
-    void givenGetListeArrondissement_WhenCorrectRequest_thenParameterDateIsRight() {
+    @ParameterizedTest
+    @ValueSource(strings = {"2000-01-01", "*"})
+    @NullSource //default = current day
+    void givenGetListeArrondissement_WhenCorrectRequest_thenParameterDateIsRight(String date) {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
         list.add(new Arrondissement());
 
         // Call method header content = xml
-        geoApi.getListe(MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getListe(MediaType.APPLICATION_XML, date);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
