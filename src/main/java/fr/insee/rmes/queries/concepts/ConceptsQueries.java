@@ -30,7 +30,7 @@ public class ConceptsQueries extends Queries {
 
     public static String getConceptById(String id) {
         Map<String,Object> params = new HashMap<>();
-        params.put("id", id);
+        params.put("conceptId", id);
         return buildRequest(QUERIES_FOLDER, "getConceptByCode.ftlh", params);
     }
 
