@@ -32,6 +32,8 @@
 		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
 			src/main/java/fr/insee/rmes/modeles/**/*</sonar.exclusions>
 		<sonar.projectKey>${project.groupId}.${project.artifactId}</sonar.projectKey>
+		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+		
 	</properties>
 	
 	<dependencies>
