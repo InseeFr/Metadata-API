@@ -49,7 +49,7 @@ public class Rubrique {
 
     /* RICH_TEXT */
     @JsonInclude(Include.NON_NULL)
-    private List<Document> documents;
+    private List<RubriqueRichText> richTexts;
 
     public Rubrique(String id, String uri, String type) {
         this.id = id;
@@ -140,14 +140,21 @@ public class Rubrique {
         }
     }
 
-    @JacksonXmlProperty(localName = "document")
-    @JacksonXmlElementWrapper(localName = "documents", useWrapping = true)
-    public List<Document> getDocuments() {
-        return documents;
+    @JacksonXmlProperty(localName = "contenu")
+    @JacksonXmlElementWrapper(localName = "contenus", useWrapping = true)
+    public List<RubriqueRichText> getRichTexts() {
+        return richTexts;
     }
 
-    public void setDocuments(List<Document> documents) {
-        this.documents = documents;
+    public void setRichTexts(List<RubriqueRichText> richTexts) {
+        this.richTexts = richTexts;
+    }
+    
+    public void addRichTexts(RubriqueRichText r) {
+        if (richTexts == null) {
+        	richTexts = new ArrayList<>();
+        }
+        this.richTexts.add(r);
     }
 
     public List<SimpleObject> getValeurCode() {

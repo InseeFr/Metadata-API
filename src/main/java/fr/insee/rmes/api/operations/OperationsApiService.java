@@ -23,9 +23,11 @@ import fr.insee.rmes.modeles.operations.SimpleObject;
 import fr.insee.rmes.modeles.operations.documentations.CsvRubrique;
 import fr.insee.rmes.modeles.operations.documentations.Document;
 import fr.insee.rmes.modeles.operations.documentations.Rubrique;
+import fr.insee.rmes.modeles.operations.documentations.RubriqueRichText;
 import fr.insee.rmes.queries.operations.OperationsQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.FileUtils;
+import fr.insee.rmes.utils.Lang;
 import fr.insee.rmes.utils.SparqlUtils;
 
 public class OperationsApiService {
@@ -132,66 +134,87 @@ public class OperationsApiService {
         List<CsvRubrique> csvRubriques = csvUtils.populateMultiPOJO(csvResult, CsvRubrique.class);
         Map<String,Rubrique> rubriquesById = new HashMap<>();
         for (CsvRubrique cr : csvRubriques) {
-            Rubrique r = new Rubrique(cr.getId(), cr.getUri(), cr.getType());
-            r.setTitre(cr.getTitreLg1(), cr.getTitreLg2());
-            r.setIdParent(cr.getIdParent());
-            switch (cr.getType()) {
-                case "DATE":
-                    r.setValeurSimple(cr.getValeurSimple());
-                break;
-                case "CODE_LIST":
-                    SimpleObject codeListElement = new SimpleObject(
-                            cr.getValeurSimple(),
-                            cr.getCodeUri(),
-                            cr.getLabelObjLg1(),
-                            cr.getLabelObjLg2());
-
-                    if (cr.getMaxOccurs() != null && rubriquesById.containsKey(cr.getId())) {
-                        r = rubriquesById.get(cr.getId());
-                        r.addValeurCode(codeListElement);
-                        rubriquesById.remove(cr.getId());
-                    }else {
-                        r.setValeurCode(Stream.of(codeListElement).collect(Collectors.toList()));
-                    }
-                break;
-                case "ORGANISATION":
-                    SimpleObject valeurOrg =
-                        new SimpleObject(
-                            cr.getValeurSimple(),
-                            cr.getOrganisationUri(),
-                            cr.getLabelObjLg1(),
-                            cr.getLabelObjLg2());
-                    r.setValeurOrganisation(valeurOrg);
-                break;
-                case "RICH_TEXT":
-                    if (Boolean.TRUE.equals(cr.isHasDoc())) {
-                        String csvDocs = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId()));
-                        List<Document> docs = csvUtils.populateMultiPOJO(csvDocs, Document.class);
-                        r.setDocuments(docs);
-                    }
-                break;
-                case "TEXT":
-                    r.setLabelLg1(cr.getLabelLg1());
-                    r.setLabelLg2(cr.getLabelLg2());
-                break;
-                case "GEOGRAPHY":
-                    SimpleObject valeurGeo =
-                    new SimpleObject(
-                        cr.getValeurSimple(),
-                        cr.getGeoUri(),
-                        cr.getLabelObjLg1(),
-                        cr.getLabelObjLg2());
-                r.setValeurGeographie(valeurGeo);
-                break;
-                default:
-                break;
-            }
-            rubriquesById.putIfAbsent(r.getId(), r);
+            addCsvRubricToRubricMap(id, rubriquesById, cr);
         }
         return rubriquesById.values().stream().collect(Collectors.toList());
 
     }
 
+	private void addCsvRubricToRubricMap(String id, Map<String, Rubrique> rubriquesById, CsvRubrique cr) {
+		Rubrique r = new Rubrique(cr.getId(), cr.getUri(), cr.getType());
+		r.setTitre(cr.getTitreLg1(), cr.getTitreLg2());
+		r.setIdParent(cr.getIdParent());
+		switch (cr.getType()) {
+		    case "DATE":
+		        r.setValeurSimple(cr.getValeurSimple());
+		    break;
+		    case "CODE_LIST":
+		        SimpleObject codeListElement = new SimpleObject(
+		                cr.getValeurSimple(),
+		                cr.getCodeUri(),
+		                cr.getLabelObjLg1(),
+		                cr.getLabelObjLg2());
+
+		        if (cr.getMaxOccurs() != null && rubriquesById.containsKey(cr.getId())) {
+		            r = rubriquesById.get(cr.getId());
+		            r.addValeurCode(codeListElement);
+		            rubriquesById.remove(cr.getId());
+		        }else {
+		            r.setValeurCode(Stream.of(codeListElement).collect(Collectors.toList()));
+		        }
+		    break;
+		    case "ORGANISATION":
+		        SimpleObject valeurOrg =
+		            new SimpleObject(
+		                cr.getValeurSimple(),
+		                cr.getOrganisationUri(),
+		                cr.getLabelObjLg1(),
+		                cr.getLabelObjLg2());
+		        r.setValeurOrganisation(valeurOrg);
+		    break;
+		    case "RICH_TEXT":
+		    	RubriqueRichText richTextLg1 = new RubriqueRichText(cr.getLabelLg1(), Lang.FR);                         	                	
+		        if (Boolean.TRUE.equals(cr.isHasDocLg1())) {
+		            String csvDocs = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId(), Lang.FR));
+		            List<Document> docs = csvUtils.populateMultiPOJO(csvDocs, Document.class);
+		            richTextLg1.setDocuments(docs);
+		        }
+		        r.addRichTexts(richTextLg1);
+		        if (StringUtils.isNotEmpty(cr.getLabelLg2())) {
+		        	RubriqueRichText richTextLg2 = new RubriqueRichText(cr.getLabelLg2(), Lang.EN);                         	                	
+		            if (Boolean.TRUE.equals(cr.isHasDocLg2())) {
+		                String csvDocs = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId(), Lang.EN));
+		                List<Document> docs = csvUtils.populateMultiPOJO(csvDocs, Document.class);
+		                richTextLg2.setDocuments(docs);
+		            }
+		            r.addRichTexts(richTextLg2);
+		        }                    
+		    break;
+		    case "TEXT":
+		        r.setLabelLg1(cr.getLabelLg1());
+		        r.setLabelLg2(cr.getLabelLg2());
+		    break;
+		    case "GEOGRAPHY":
+		        SimpleObject valeurGeo =
+		        new SimpleObject(
+		            cr.getValeurSimple(),
+		            cr.getGeoUri(),
+		            cr.getLabelObjLg1(),
+		            cr.getLabelObjLg2());
+		    r.setValeurGeographie(valeurGeo);
+		    break;
+		    default:
+		    break;
+		}
+		rubriquesById.putIfAbsent(r.getId(), r);
+	}
+
+	/**
+	 * Transform csvSeries in Serie
+	 * @param csvSerie
+	 * @param idSeries
+	 * @return
+	 */
     public Serie getSerie(CsvSerie csvSerie, String idSeries) {
         Serie s =
             new Serie(
