@@ -1,6 +1,7 @@
 package fr.insee.rmes.modeles.operations.documentations;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -58,6 +59,23 @@ public class RubriqueRichText {
     public void setDocuments(List<Document> documents) {
         this.documents = documents;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(documents, lang, string);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RubriqueRichText other = (RubriqueRichText) obj;
+		return Objects.equals(documents, other.documents) && lang == other.lang && Objects.equals(string, other.string);
+	}
 
 
 }

@@ -2,6 +2,7 @@ package fr.insee.rmes.modeles.operations.documentations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -63,5 +64,23 @@ public class Document {
     public void setUrl(String url) {
         this.url = url;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(dateMiseAJour, label, langue, url);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Document other = (Document) obj;
+		return Objects.equals(dateMiseAJour, other.dateMiseAJour) && Objects.equals(label, other.label)
+				&& Objects.equals(langue, other.langue) && Objects.equals(url, other.url);
+	}
 
 }

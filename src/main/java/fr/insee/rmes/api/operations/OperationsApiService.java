@@ -33,10 +33,17 @@ import fr.insee.rmes.utils.SparqlUtils;
 public class OperationsApiService {
 
     private static Logger logger = LogManager.getLogger(OperationsApiService.class);
-    private SparqlUtils sparqlUtils = new SparqlUtils();
-    private CSVUtils csvUtils = new CSVUtils();
+    
+    private SparqlUtils sparqlUtils;
+    private CSVUtils csvUtils;
 
-    public Map<String, Famille> getListeFamilyToOperation(List<FamilyToOperation> opList) {
+    public OperationsApiService() {
+		super();
+		sparqlUtils = new SparqlUtils();
+		csvUtils = new CSVUtils();
+	}
+
+	public Map<String, Famille> getListeFamilyToOperation(List<FamilyToOperation> opList) {
         Map<String, Famille> familyMap = new HashMap<>();
         Map<String, Serie> serieMap = new HashMap<>();
 

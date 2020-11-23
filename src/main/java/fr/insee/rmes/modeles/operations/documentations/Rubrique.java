@@ -2,6 +2,7 @@ package fr.insee.rmes.modeles.operations.documentations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -179,5 +180,29 @@ public class Rubrique {
     public void setValeurGeographie(SimpleObject valeurGeographie) {
         this.valeurGeographie = valeurGeographie;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, idParent, label, richTexts, titre, type, uri, valeurCode, valeurGeographie,
+				valeurOrganisation, valeurSimple);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Rubrique other = (Rubrique) obj;
+		return Objects.equals(id, other.id) && Objects.equals(idParent, other.idParent)
+				&& Objects.equals(label, other.label) && Objects.equals(richTexts, other.richTexts)
+				&& Objects.equals(titre, other.titre) && Objects.equals(type, other.type)
+				&& Objects.equals(uri, other.uri) && Objects.equals(valeurCode, other.valeurCode)
+				&& Objects.equals(valeurGeographie, other.valeurGeographie)
+				&& Objects.equals(valeurOrganisation, other.valeurOrganisation)
+				&& Objects.equals(valeurSimple, other.valeurSimple);
+	}
 
 }
