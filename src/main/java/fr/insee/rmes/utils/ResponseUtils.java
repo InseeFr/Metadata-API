@@ -15,6 +15,8 @@ import fr.insee.rmes.modeles.StringXmlMixIn;
 import fr.insee.rmes.modeles.geo.TerritoireJsonMixIn;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
+import fr.insee.rmes.modeles.operations.documentations.RubriqueRichText;
+import fr.insee.rmes.modeles.operations.documentations.RubriqueRichTextXmlMixIn;
 
 public class ResponseUtils {
 
@@ -27,6 +29,8 @@ public class ResponseUtils {
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
             mapper = new XmlMapper();
             mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
+            mapper.addMixIn(RubriqueRichText.class, RubriqueRichTextXmlMixIn.class);
+
         }
         else {
 
