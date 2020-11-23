@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.insee.rmes.queries.Queries;
+import fr.insee.rmes.utils.Lang;
 
 public class OperationsQueries extends Queries {
 
@@ -42,13 +43,17 @@ public class OperationsQueries extends Queries {
     public static String getDocumentationRubrics(String idSims) {
         Map<String,Object> params = new HashMap<>();
         params.put(ID_SIMS, idSims);
+        params.put("LG1_CL", Lang.FR.getUri());
+        params.put("LG2_CL", Lang.EN.getUri());
+
         return buildRequest(QUERIES_FOLDER, "getDocumentationRubricsByIdSimsQuery.ftlh", params);
     }
 
-    public static String getDocuments(String idSims, String idRubric) {
+    public static String getDocuments(String idSims, String idRubric, Lang lang) {
         Map<String,Object> params = new HashMap<>();
         params.put(ID_SIMS, idSims);
         params.put("idRubric", idRubric);
+        params.put("LANG", lang.getUri());
         return buildRequest(QUERIES_FOLDER, "getDocumentsQueryByIdSimsIdRubric.ftlh", params);
     }
 

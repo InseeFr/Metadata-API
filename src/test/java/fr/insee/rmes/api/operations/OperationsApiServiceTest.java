@@ -9,22 +9,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.operations.Famille;
 import fr.insee.rmes.modeles.operations.FamilyToOperation;
-import fr.insee.rmes.utils.FileUtils;
 
 @ExtendWith(MockitoExtension.class)
 class OperationsApiServiceTest extends AbstractApiTest {
 
     @InjectMocks
     private OperationsApiService operationsApiService;
-
-    @Mock
-    protected FileUtils mockFileUtils;
 
     private List<FamilyToOperation> opList = new ArrayList<>();
     private Map<String, Famille> familyMap = new HashMap<>();
@@ -99,13 +94,12 @@ class OperationsApiServiceTest extends AbstractApiTest {
 
     @Test
     void givenRemoveExclusions_whenFileIsEmpty() {
-        // FamilyToOperation familyToOperation = this.getAFamilyToOperation("1");
-        // opList.add(familyToOperation);
         opList.add(this.getAFamilyToOperation("1"));
         opList.add(this.getAFamilyToOperation("2"));
         opList = operationsApiService.removeExclusions(opList);
         Assertions.assertEquals(2, opList.size());
 
     }
+    
 
 }

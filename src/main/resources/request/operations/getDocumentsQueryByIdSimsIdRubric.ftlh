@@ -2,6 +2,7 @@ SELECT ?url ?labelLg1 ?labelLg2 ?dateMiseAJour ?langue
            FROM <http://rdf.insee.fr/graphes/qualite/rapport/${idSims}> 
            WHERE { 
            	 ?text rdf:type <http://purl.org/dc/dcmitype/Text> . 
+           	 ?text dcterms:language <${LANG}> .
            	 ?text insee:additionalMaterial ?document . 
            	 ?document rdf:type <http://xmlns.com/foaf/0.1/Document> . 
            	 

@@ -1,5 +1,7 @@
 package fr.insee.rmes.modeles;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.insee.rmes.utils.Lang;
@@ -35,5 +37,22 @@ public class StringWithLang {
     public void setLang(Lang lang) {
         this.lang = lang;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(lang, string);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StringWithLang other = (StringWithLang) obj;
+		return lang == other.lang && Objects.equals(string, other.string);
+	}
 
 }
