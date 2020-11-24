@@ -63,7 +63,7 @@ WHERE {
 				?scopeEn pav:version ?v . 
 				filter not exists {
 					?uri skos:scopeNote ?scope2En .
-					?scope2En dcterms:language 'fr'^^xsd:language . 
+					?scope2En dcterms:language 'en'^^xsd:language . 
 					?scope2En pav:version ?v2
 					filter (?v2 > ?v)
 				}
