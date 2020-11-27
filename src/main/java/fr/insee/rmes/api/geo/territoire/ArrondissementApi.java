@@ -42,7 +42,7 @@ public class ArrondissementApi extends AbstractGeoApi {
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_ARRONDISSEMENT + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogarr";
     private static final String LITTERAL_OPERATION_SUMMARY =
-        "Informations sur un arrondissement français identifié par son code (trois caractères)";
+        "Informations sur un arrondissement français identifié par son code (trois ou quatre caractères)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Arrondissement";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer l'arrondissement actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
@@ -101,7 +101,7 @@ public class ArrondissementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
-        summary = "Récupérer les informations concernant les territoires qui contiennent l'arrondissement",
+        summary = "Informations concernant les territoires qui contiennent l'arrondissement",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -116,7 +116,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires contenant l'arrondissement actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -154,7 +154,7 @@ public class ArrondissementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
-        summary = "Récupérer les informations concernant les territoires inclus dans l'arrondissement",
+        summary = "Informations concernant les territoires inclus dans l'arrondissement",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -169,7 +169,7 @@ public class ArrondissementApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires inclus dans l'arrondissement actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -207,7 +207,7 @@ public class ArrondissementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-        summary = "La requête renvoie toutes les arrondissements actifs à la date donnée. Par défaut, c’est la date courante.",
+        summary = "Informations sur tous les arrondissements actifs à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Arrondissement.class)),
@@ -216,7 +216,7 @@ public class ArrondissementApi extends AbstractGeoApi {
     public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
+            description = "Filtre pour renvoyer les arrondissements actifs à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
@@ -246,7 +246,7 @@ public class ArrondissementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
-        summary = "Récupérer les informations concernant les arrondissements qui succèdent à l'arrondissement",
+        summary = "Informations concernant les arrondissements qui succèdent à l'arrondissement",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Arrondissement.class)),
@@ -290,7 +290,7 @@ public class ArrondissementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
-        summary = "Récupérer les informations concernant les arrondissements qui précèdent l'arrondissement",
+        summary = "Informations concernant les arrondissements qui précèdent l'arrondissement",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Arrondissement.class)),
@@ -334,7 +334,7 @@ public class ArrondissementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
-        summary = "Récupérer les informations concernant les arrondissements qui résultent de la projection de l'arrondissement à la date passée en paramètre. ",
+        summary = "Informations concernant les arrondissements qui résultent de la projection de l'arrondissement à la date passée en paramètre. ",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Arrondissement.class)),

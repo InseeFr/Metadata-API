@@ -41,7 +41,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogarrmun";
     private static final String LITTERAL_OPERATION_SUMMARY =
-        "Informations sur un arrondissement municipal français identifié par son code (cinq caractères)";
+        "Informations sur un arrondissement municipal identifié par son code (cinq caractères)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Arrondissement municipal";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
@@ -104,7 +104,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
-        summary = "Récupérer les informations concernant les territoires qui contiennent l'arrondissement municipal",
+        summary = "Informations concernant les territoires qui contiennent l'arrondissement municipal",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -119,7 +119,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires contenant l'arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -157,7 +157,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-        summary = "La requête renvoie toutes les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante.",
+        summary = "Informations sur tous les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
@@ -196,7 +196,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
-        summary = "Récupérer les informations concernant les arrondissements municipaux qui succèdent à l'arrondissement municipal",
+        summary = "Informations concernant les arrondissements municipaux qui succèdent à l'arrondissement municipal",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
@@ -243,7 +243,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
-        summary = "Récupérer les informations concernant les arrondissement municipaux qui précèdent l'arrondissement municipal",
+        summary = "Informations concernant les arrondissement municipaux qui précèdent l'arrondissement municipal",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
@@ -289,7 +289,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
-        summary = "Récupérer les informations concernant les arrondissements municipaux qui résultent de la projection de l'arrondissement municipal à la date passée en paramètre. ",
+        summary = "Informations concernant les arrondissements municipaux qui résultent de la projection de l'arrondissement municipal à la date passée en paramètre. ",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),

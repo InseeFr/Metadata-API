@@ -38,9 +38,7 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogcomass";
     private static final String LITTERAL_OPERATION_SUMMARY =
-        "Informations sur une commune française identifiée par son code (cinq caractères)";
-    private static final String LITTERAL_OPERATION_DESCRIPTION =
-        "Cette requête renvoie également les communes des collectivités d'Outre-Mer";
+        "Informations sur une commune associée identifiée par son code (cinq caractères)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Commune associée";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la commune associée active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
@@ -57,7 +55,6 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
     @Operation(
         operationId = LITTERAL_ID_OPERATION,
         summary = LITTERAL_OPERATION_SUMMARY,
-        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = CommuneAssociee.class)),
@@ -65,7 +62,7 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
         })
     public Response getByCode(
         @Parameter(
-            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            description = ConstGeoApi.PATTERN_COMMUNE_ASSOCIEE_DESCRIPTION,
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
@@ -101,8 +98,7 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
-        summary = "Récupérer les informations concernant les territoires qui contiennent la commune",
-        description = LITTERAL_OPERATION_DESCRIPTION,
+        summary = "Informations concernant les territoires qui contiennent la commune associée",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -110,14 +106,14 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
         })
     public Response getAscendants(
         @Parameter(
-            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            description = ConstGeoApi.PATTERN_COMMUNE_ASSOCIEE_DESCRIPTION,
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
                 type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires contenant la commune associée active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -155,8 +151,7 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-        summary = "La requête renvoie toutes les communes associée actives à la date donnée. Par défaut, c’est la date courante.",
-        description = LITTERAL_OPERATION_DESCRIPTION,
+        summary = "Informations sur toutes les communes associées actives à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Commune.class)),
@@ -165,7 +160,7 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
     public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
+            description = "Filtre pour renvoyer les communes associées actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
