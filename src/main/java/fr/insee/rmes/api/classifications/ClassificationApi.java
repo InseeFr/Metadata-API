@@ -37,100 +37,78 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class ClassificationApi extends AbstractMetadataApi {
 
-    private static Logger logger = LogManager.getLogger(ClassificationApi.class);
+	private static Logger logger = LogManager.getLogger(ClassificationApi.class);
 
-    @GET
-    @Path("/{code}/postes")
-    @Produces({
-        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
-    })
-    @Operation(
-        operationId = "getClassificationByCode",
-        summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
-            responses = {
-                @ApiResponse(
-                    description="Liste des postes de la nomenclature",
-                    content = @Content(schema = @Schema(type = ARRAY, implementation = Poste.class)))
-            })
-    public Response getClassificationByCode(
-        @Parameter(
-            required = true,
-            description = "Identifiant de la nomenclature (hors cj)", 
-            example ="nafr2") @PathParam("code") String code,
-        @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
-        
-        logger.debug("Received GET request for classification {}", code);
+	@GET
+	@Path("/{code}/postes")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Operation(operationId = "getClassificationByCode", summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")", responses = {
+			@ApiResponse(description = "Liste des postes de la nomenclature", content = {
+					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = ARRAY, implementation = PosteJson.class)),
+					@Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(type = ARRAY, implementation = PosteXml.class)) }) })
+	public Response getClassificationByCode(
+			@Parameter(required = true, description = "Identifiant de la nomenclature (hors cj)", example = "nafr2") @PathParam("code") String code,
+			@Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
+		logger.debug("Received GET request for classification {}", code);
 
-        final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
-        final List<Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
+		final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
+		final List<Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
 
-        if (itemsList.isEmpty()) {
-            return Response.status(Status.NOT_FOUND).entity("").build();
-        }
-        else if (header.equals(MediaType.APPLICATION_XML)) {
-            final List<? extends Poste> itemsListXml = csvUtils.populateMultiPOJO(csvResult, PosteXml.class);
-            return Response.ok(responseUtils.produceResponse(new Postes(itemsListXml), header)).build();
-        }
-        else {
-            final List<? extends Poste> itemsListJson =
-                csvUtils.populateMultiPOJO(csvResult, PosteJson.class);
-            return Response.ok(responseUtils.produceResponse(itemsListJson, header)).build();
-        }
-    }
+		if (itemsList.isEmpty()) {
+			return Response.status(Status.NOT_FOUND).entity("").build();
+		} else if (header.equals(MediaType.APPLICATION_XML)) {
+			final List<? extends Poste> itemsListXml = csvUtils.populateMultiPOJO(csvResult, PosteXml.class);
+			return Response.ok(responseUtils.produceResponse(new Postes(itemsListXml), header)).build();
+		} else {
+			final List<? extends Poste> itemsListJson = csvUtils.populateMultiPOJO(csvResult, PosteJson.class);
+			return Response.ok(responseUtils.produceResponse(itemsListJson, header)).build();
+		}
+	}
 
-    @GET
-    @Path("/{code}/arborescence")
-    @Produces({
-        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
-    })
-    @Operation(
-        operationId = "getClassificationTreeByCode",
-        summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")",
-        responses = {
-            @ApiResponse(
-                description="Liste des postes de la nomenclature",
-                content = @Content(schema = @Schema(type = ARRAY, implementation = Poste.class)))        })
-    public Response getClassificationTreeByCode(
-        @Parameter(
-            required = true,
-            description = "Identifiant de la nomenclature (hors cj)", example = "nafr2") @PathParam("code") String code,
-        @Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
-        logger.debug("Received GET request for classification tree {}", code);
+	@GET
+	@Path("/{code}/arborescence")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Operation(operationId = "getClassificationTreeByCode", summary = "Liste des postes d'une nomenclature (autres que \"catégories juridiques\")", responses = {
+			@ApiResponse(description = "Liste des postes de la nomenclature", content = {
+					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = ARRAY, implementation = PosteJson.class)),
+					@Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(type = ARRAY, implementation = PosteXml.class)) }) })
+	public Response getClassificationTreeByCode(
+			@Parameter(required = true, description = "Identifiant de la nomenclature (hors cj)", example = "nafr2") @PathParam("code") String code,
+			@Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
+		logger.debug("Received GET request for classification tree {}", code);
 
-        final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
-        final List<? extends Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
+		final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
+		final List<? extends Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
 
-        if (itemsList.isEmpty()) {
-            return Response.status(Status.NOT_FOUND).entity("").build();
-        }
+		if (itemsList.isEmpty()) {
+			return Response.status(Status.NOT_FOUND).entity("").build();
+		}
 
-        if (header.equals(MediaType.APPLICATION_XML)) {
-            final List<PosteXml> root = this.getTree(csvResult, PosteXml.class);
-            return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
-        }
-        else {
-            final List<PosteJson> root = this.getTree(csvResult, PosteJson.class);
-            return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
-        }
-    }
+		if (header.equals(MediaType.APPLICATION_XML)) {
+			final List<PosteXml> root = this.getTree(csvResult, PosteXml.class);
+			return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
+		} else {
+			final List<PosteJson> root = this.getTree(csvResult, PosteJson.class);
+			return Response.ok(responseUtils.produceResponse(new Postes(root), header)).build();
+		}
+	}
 
-    private <P> List<P> getTree(String csvResult, Class<P> posteClass) {
-        final List<P> root = new ArrayList<>();
-        final List<P> liste = csvUtils.populateMultiPOJO(csvResult, posteClass);
-        final Map<String, P> postes =
-            liste.stream().collect(Collectors.toMap(p -> ((Poste) p).getCode(), Function.identity()));
+	private <P> List<P> getTree(String csvResult, Class<P> posteClass) {
+		final List<P> root = new ArrayList<>();
+		final List<P> liste = csvUtils.populateMultiPOJO(csvResult, posteClass);
+		final Map<String, P> postes = liste.stream()
+				.collect(Collectors.toMap(p -> ((Poste) p).getCode(), Function.identity()));
 
-        for (final P poste : liste) {
-            if (StringUtils.isNotEmpty(((Poste) poste).getCodeParent())) {
-                final P posteParent = postes.get(((Poste) poste).getCodeParent());
-                ((Poste) posteParent).addPosteEnfant((Poste) poste);
-            }
-            else {
-                root.add(poste);
-            }
-        }
-        return root;
-    }
+		for (final P poste : liste) {
+			if (StringUtils.isNotEmpty(((Poste) poste).getCodeParent())) {
+				final P posteParent = postes.get(((Poste) poste).getCodeParent());
+				((Poste) posteParent).addPosteEnfant((Poste) poste);
+			} else {
+				root.add(poste);
+			}
+		}
+		return root;
+	}
 
 }

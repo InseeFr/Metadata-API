@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Poste")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Schema(description = "Objet représentant un poste d'une nomenclature")
+@Schema(description = "Objet représentant un poste d'une nomenclature", oneOf = { PosteJson.class, PosteXml.class })
 public class Poste {
     @Schema(description = "URI du poste de la nomenclature",example = "http://id.insee.fr/codes/nafr2/sousClasse/23.99Z")
     String uri;
@@ -31,17 +31,12 @@ public class Poste {
     String intituleFr;
     @Schema(example = "Manufacture of other non-metallic mineral products n.e.c.")
     String intituleEn;
-    @Schema(example = "exemple de contenu limite")
     String contenuLimite;
-    @Schema(example = "exemple de contenu central")
     String contenuCentral;
-    @Schema(example = "exemple d'exclusions")
     String contenuExclu;
-    @Schema(example = "exemple de contenu général")
     String noteGenerale;
 
-    @JsonInclude(Include.NON_NULL)
-    @Schema(implementation=Poste.class)
+
     List<Poste> postesEnfants;
 
     public Poste() {
@@ -120,6 +115,8 @@ public class Poste {
 
     @JacksonXmlProperty(isAttribute = true, localName = "Poste")
     @JacksonXmlElementWrapper(useWrapping = false)
+    @JsonInclude(Include.NON_NULL)
+    @Schema(implementation=Poste.class, example="")
     public List<Poste> getPostesEnfants() {
         return postesEnfants;
     }
@@ -135,14 +132,20 @@ public class Poste {
         postesEnfants.add(posteEnfant);
     }
 
+//    @Schema(example = "exemple de contenu limite", name = "ContenuLimite")
+//    @JacksonXmlProperty(localName = "ContenuLimite")
     public String getContenuLimite() {
         return contenuLimite;
     }
 
+//    @Schema(example = "exemple de contenu central", name="ContenuCentral")
+//    @JacksonXmlProperty(localName = "ContenuCentral")
     public String getContenuCentral() {
         return contenuCentral;
     }
 
+    //@Schema(example = "exemple d'exclusions", name="ContenuExclu")
+    //@JacksonXmlProperty(localName = "ContenuExclu")
     public String getContenuExclu() {
         return contenuExclu;
     }
