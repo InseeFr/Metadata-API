@@ -18,9 +18,11 @@ import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Departement;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Departements;
+import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,10 +39,8 @@ public class DepartementApi extends AbstractGeoApi {
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_DEPARTEMENT + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogdep";
     private static final String LITTERAL_OPERATION_SUMMARY =
-        "Informations sur un departement français identifiée par son code (deux caractères)";
+        "Informations sur un departement identifié par son code (deux ou trois caractères)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Departement";
-    private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
-        "Filtre pour renvoyer la departement active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
     private static final String LITTERAL_CODE_EXAMPLE = "22";
@@ -66,14 +66,14 @@ public class DepartementApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer la département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
         logger.debug("Received GET request for departement {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -94,7 +94,7 @@ public class DepartementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
-        summary = "Récupérer les informations concernant les territoires qui contiennent la departement",
+        summary = "Informations concernant les territoires qui contiennent la departement",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -109,7 +109,7 @@ public class DepartementApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires contenant le département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -147,7 +147,7 @@ public class DepartementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
-        summary = "Récupérer les informations concernant les territoires inclus dans le departement",
+        summary = "Informations concernant les territoires inclus dans le departement",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -162,7 +162,7 @@ public class DepartementApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires inclus dans le département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -200,7 +200,7 @@ public class DepartementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-        summary = "La requête renvoie toutes les departements actifs à la date donnée. Par défaut, c’est la date courante.",
+        summary = "Informations sur tous les départements actifs à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Departement.class)),
@@ -209,14 +209,14 @@ public class DepartementApi extends AbstractGeoApi {
     public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer le département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
         logger.debug("Received GET request for all departements");
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -237,7 +237,7 @@ public class DepartementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
-        summary = "Récupérer les informations concernant les departements qui succèdent au departement",
+        summary = "Informations concernant les départements qui succèdent au département",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Departement.class)),
@@ -259,7 +259,7 @@ public class DepartementApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for suivant departement {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -281,7 +281,7 @@ public class DepartementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
-        summary = "Récupérer les informations concernant les departements qui précèdent le departement",
+        summary = "Informations concernant les departements qui précèdent le departement",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Departement.class)),
@@ -303,7 +303,7 @@ public class DepartementApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for precedent departement {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -325,7 +325,7 @@ public class DepartementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
-        summary = "Récupérer les informations concernant les departements qui résultent de la projection du departement à la date passée en paramètre. ",
+        summary = "Informations concernant les départements qui résultent de la projection du département à la date passée en paramètre. ",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Departement.class)),
@@ -352,7 +352,7 @@ public class DepartementApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for departement {} projection", code);
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -371,7 +371,8 @@ public class DepartementApi extends AbstractGeoApi {
         }
     }
 
-   /* @Path(ConstGeoApi.PATH_LISTE_DEPARTEMENT + ConstGeoApi.PATH_PROJECTION)
+    @Hidden
+    @Path(ConstGeoApi.PATH_LISTE_DEPARTEMENT + ConstGeoApi.PATH_PROJECTION)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -399,7 +400,7 @@ public class DepartementApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for all departements projections");
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -413,5 +414,5 @@ public class DepartementApi extends AbstractGeoApi {
                                     dateProjection)),
                     header);
         }
-    } */
+    } 
 }

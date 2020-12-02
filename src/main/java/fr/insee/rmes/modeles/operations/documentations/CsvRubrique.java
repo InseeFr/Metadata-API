@@ -18,8 +18,14 @@ public class CsvRubrique {
     private String labelObjLg1;
     private String labelObjLg2;
 
-    private Boolean hasDoc;
+    private Boolean hasDocLg1;
+    private Boolean hasDocLg2;
 
+
+    private String maxOccurs;
+    
+    private String geoUri;
+    
     public String getId() {
         return id;
     }
@@ -92,15 +98,23 @@ public class CsvRubrique {
         this.organisationUri = organisationUri;
     }
 
-    public Boolean isHasDoc() {
-        return hasDoc;
-    }
+    public Boolean isHasDocLg1() {
+		return hasDocLg1;
+	}
 
-    public void setHasDoc(Boolean hasDoc) {
-        this.hasDoc = hasDoc;
-    }
+	public void setHasDocLg1(Boolean hasDocLg1) {
+		this.hasDocLg1 = hasDocLg1;
+	}
 
-    public String getLabelObjLg1() {
+	public Boolean isHasDocLg2() {
+		return hasDocLg2;
+	}
+
+	public void setHasDocLg2(Boolean hasDocLg2) {
+		this.hasDocLg2 = hasDocLg2;
+	}
+
+	public String getLabelObjLg1() {
         return labelObjLg1;
     }
 
@@ -130,6 +144,22 @@ public class CsvRubrique {
 
     public void setTitreLg2(String titreLg2) {
         this.titreLg2 = titreLg2;
+    }
+
+    public String getMaxOccurs() {
+        return maxOccurs;
+    }
+
+    public void setMaxOccurs(String maxOccurs) {
+        this.maxOccurs = maxOccurs;
+    }
+
+    public String getGeoUri() {
+        return geoUri;
+    }
+
+    public void setGeoUri(String geoUri) {
+        this.geoUri = geoUri;
     }
 
 }

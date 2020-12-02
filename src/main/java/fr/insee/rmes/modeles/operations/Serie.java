@@ -57,7 +57,7 @@ public class Serie {
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> seeAlso;
     @JsonInclude(Include.NON_NULL)
-    private List<SimpleObject> creators;
+    private List<SimpleObject> publishers;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> contributors;
 
@@ -76,35 +76,35 @@ public class Serie {
 
     public void addOperation(Operation op) {
         if (operations == null) {
-            this.setOperations(new ArrayList<Operation>());
+            this.setOperations(new ArrayList<>());
         }
         this.operations.add(op);
     }
 
     public void addIndicateur(Indicateur indic) {
         if (indicateurs == null) {
-            this.setIndicateurs(new ArrayList<Indicateur>());
+            this.setIndicateurs(new ArrayList<>());
         }
         this.indicateurs.add(indic);
     }
 
     public void addSeeAlso(SimpleObject sa) {
         if (seeAlso == null) {
-            this.setSeeAlso(new ArrayList<SimpleObject>());
+            this.setSeeAlso(new ArrayList<>());
         }
         this.seeAlso.add(sa);
     }
 
     public void addReplaces(Serie rep) {
         if (replaces == null) {
-            this.setReplaces(new ArrayList<Serie>());
+            this.setReplaces(new ArrayList<>());
         }
         this.replaces.add(rep);
     }
 
     public void addIsReplacedBy(Serie irb) {
         if (isReplacedBy == null) {
-            this.setIsReplacedBy(new ArrayList<Serie>());
+            this.setIsReplacedBy(new ArrayList<>());
         }
         this.isReplacedBy.add(irb);
     }
@@ -275,12 +275,12 @@ public class Serie {
     @JsonProperty("organismeResponsable")
     @JacksonXmlProperty(isAttribute = true, localName = "organismeResponsable")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<SimpleObject> getCreators() {
-        return creators;
+    public List<SimpleObject> getPublishers() {
+        return publishers;
     }
 
-    public void setCreators(List<SimpleObject> creators) {
-        this.creators = creators;
+    public void setPublishers(List<SimpleObject> publishers) {
+        this.publishers = publishers;
     }
 
     @JsonProperty("partenaire")

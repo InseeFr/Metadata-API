@@ -1,9 +1,12 @@
 package fr.insee.rmes.queries.classifications;
 
 public class ClassificationsQueries {
+	
+	  private ClassificationsQueries() {
+		    throw new IllegalStateException("Utility class");
+	  }
 
-    public static String getClassification(String classificationId) {
-
+    public static String getClassification(String classificationId) {	
         return "SELECT ?uri	?code ?uriParent ?codeParent ?intituleFr ?intituleEn "
             + "?noteGenerale ?contenuLimite ?contenuCentral ?contenuExclu \n"
             + " FROM <http://rdf.insee.fr/graphes/codes/"

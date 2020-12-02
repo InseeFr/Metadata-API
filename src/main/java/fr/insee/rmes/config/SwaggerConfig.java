@@ -22,7 +22,7 @@ import io.swagger.v3.oas.models.servers.Server;
 public class SwaggerConfig extends ResourceConfig {
 
     private static final Logger logger = LogManager.getLogger(SwaggerConfig.class);
-
+    
     public SwaggerConfig(@Context ServletConfig servletConfig) {
         super();
         OpenAPI openApi = new OpenAPI();
@@ -33,7 +33,7 @@ public class SwaggerConfig extends ResourceConfig {
                 (servletConfig != null ? servletConfig.getServletContext() : "ServletConfig is null"));
 
         // describe API
-        Info info = new Info().title("API RMéS").version("2.0.0").description("API sur les métadonnées de l'Insee");
+        Info info = new Info().title(Configuration.getTitle()).version(Configuration.getVersion()).description(Configuration.getDescription());
         openApi.info(info);
 
         // set Server API
@@ -54,6 +54,10 @@ public class SwaggerConfig extends ResourceConfig {
         openApiResource.setOpenApiConfiguration(oasConfig);
         this.register(openApiResource);
         this.register(MultiPartFeature.class);
+        
     }
+    
+
+    
 
 }

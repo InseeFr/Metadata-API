@@ -11,7 +11,6 @@ public class ConceptsQueries extends Queries {
     
     private static final String QUERIES_FOLDER = "concepts/";
 
-
     public static String getConceptsByLabel(String label) {
 
         return "SELECT ?id ?uri ?intitule ?remplace ?estRemplacePar WHERE { \n"
@@ -31,7 +30,7 @@ public class ConceptsQueries extends Queries {
 
     public static String getConceptById(String id) {
         Map<String,Object> params = new HashMap<>();
-        params.put("id", id);
+        params.put("conceptId", id);
         return buildRequest(QUERIES_FOLDER, "getConceptByCode.ftlh", params);
     }
 

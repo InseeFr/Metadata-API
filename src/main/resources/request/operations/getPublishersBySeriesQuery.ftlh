@@ -2,7 +2,7 @@ SELECT ?id ?labelFr ?labelEn ?uri
             {	 
             	?series a insee:StatisticalOperationSeries . 
             	FILTER(STRAFTER(STR(?series),'/operations/serie/') = '${idSeries}') 	 
-            	?series dcterms:creator ?uri. 		 
+            	?series dcterms:publisher ?uri. 		 
             	?uri skos:prefLabel ?labelFr . 		 
             	FILTER (lang(?labelFr) = 'fr') 		 
             	OPTIONAL{?uri skos:prefLabel ?labelEn . 		 

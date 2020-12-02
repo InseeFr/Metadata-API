@@ -13,7 +13,7 @@ import fr.insee.rmes.modeles.classification.correspondence.RawCorrespondence;
 public class CorrespondencesUtils {
 
     private CorrespondencesUtils() {
-        super();
+    	// No-args constructor needed for JAXB
     }
 
     /**
@@ -53,7 +53,7 @@ public class CorrespondencesUtils {
         for (RawCorrespondence curRawCorrespondence : rawItemsList) {
             PosteCorrespondence posteSource = newPoste1(curRawCorrespondence);
             if ( ! groupedListItems.containsKey(posteSource)) { // initialize map if new item source
-                groupedListItems.put(posteSource, new ArrayList<PosteCorrespondence>());
+                groupedListItems.put(posteSource, new ArrayList<>());
             }
             // add targetItem
             PosteCorrespondence targetPoste = newPoste2(curRawCorrespondence);
@@ -93,7 +93,7 @@ public class CorrespondencesUtils {
         for (RawCorrespondence curRawCorrespondence : rawItemsList) {
             PosteCorrespondence posteSource = mapRawObjectToItemCorrespondence(curRawCorrespondence, poste1IsSource);
             if ( ! groupedListItems.containsKey(posteSource)) {// initialize map
-                groupedListItems.put(posteSource, new ArrayList<PosteCorrespondence>());
+                groupedListItems.put(posteSource, new ArrayList<>());
             }
             // add targetItem
             groupedListItems

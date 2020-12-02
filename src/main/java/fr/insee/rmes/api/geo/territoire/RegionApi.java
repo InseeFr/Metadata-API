@@ -17,10 +17,12 @@ import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,7 +39,7 @@ public class RegionApi extends AbstractGeoApi {
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_REGION + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogreg";
     private static final String LITTERAL_OPERATION_SUMMARY =
-        "Informations sur une region française identifiée par son code (deux chiffres)";
+        "Informations sur une région identifiée par son code (deux chiffres)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Region";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
@@ -74,7 +76,7 @@ public class RegionApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for region {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -95,7 +97,7 @@ public class RegionApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
-        summary = "Récupérer les informations concernant les territoires inclus dans la region",
+        summary = "Informations concernant les territoires inclus dans la région",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -110,7 +112,7 @@ public class RegionApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires inclus dans la région active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -148,7 +150,7 @@ public class RegionApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-        summary = "La requête renvoie toutes les regions actives à la date donnée. Par défaut, c’est la date courante.",
+        summary = "Informations sur toutes les régions actives à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Region.class)),
@@ -157,14 +159,14 @@ public class RegionApi extends AbstractGeoApi {
     public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les régions actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
         logger.debug("Received GET request for all regions");
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -186,7 +188,7 @@ public class RegionApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
-        summary = "Récupérer les informations concernant les regions qui succèdent à la region",
+        summary = "Informations concernant les régions qui succèdent à la région",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Region.class)),
@@ -208,7 +210,7 @@ public class RegionApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for suivant region {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -230,7 +232,7 @@ public class RegionApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
-        summary = "Récupérer les informations concernant les regions qui précèdent la region",
+        summary = "Informations concernant les régions qui précèdent la région",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Region.class)),
@@ -252,7 +254,7 @@ public class RegionApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for precedent region {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -274,7 +276,7 @@ public class RegionApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
-        summary = "Récupérer les informations concernant les regions qui résultent de la projection de la region à la date passée en paramètre. ",
+        summary = "Informations concernant les regions qui résultent de la projection de la région à la date passée en paramètre. ",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Region.class)),
@@ -301,7 +303,7 @@ public class RegionApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for region {} projection", code);
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -320,7 +322,7 @@ public class RegionApi extends AbstractGeoApi {
         }
     }
    
-    /*
+    @Hidden
     @Path(ConstGeoApi.PATH_LISTE_REGION + ConstGeoApi.PATH_PROJECTION)
     @GET
     @Produces({
@@ -349,7 +351,7 @@ public class RegionApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for all regions projections");
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -362,5 +364,5 @@ public class RegionApi extends AbstractGeoApi {
                     header);
         }
     }
-    */
+    
 }

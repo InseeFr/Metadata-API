@@ -2,6 +2,7 @@ package fr.insee.rmes.modeles.operations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,11 +16,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "ObjetSimple", description = "Objet simple")
 public class SimpleObject {
 
-    private String id = null;
+	protected String id = null;
     @Schema(example = "http://id.insee.fr/...")
-    private String uri = null;
+    protected String uri = null;
 
-    private List<StringWithLang> label = new ArrayList<>();
+    protected List<StringWithLang> label = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -73,5 +74,22 @@ public class SimpleObject {
             label.add(new StringWithLang(labelEn, Lang.EN));
         }
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, label, uri);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleObject other = (SimpleObject) obj;
+		return Objects.equals(id, other.id) && Objects.equals(label, other.label) && Objects.equals(uri, other.uri);
+	}
 
 }

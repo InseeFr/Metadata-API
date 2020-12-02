@@ -37,11 +37,13 @@ public class CsvSerie {
     private Boolean hasIndic = null;
 
     private Boolean hasContributor = null;
-    private Boolean hasCreator = null;
+    private Boolean hasPublisher = null;
 
     private String simsId = null;
 
-    public CsvSerie() {}// No-args constructor needed for JAXB
+    public CsvSerie() {// No-args constructor needed for JAXB
+        }
+    
 
     public String getFamilyId() {
         return familyId;
@@ -259,14 +261,6 @@ public class CsvSerie {
         this.hasContributor = hasContributor;
     }
 
-    public Boolean isHasCreator() {
-        return hasCreator;
-    }
-
-    public void setHasCreator(Boolean hasCreator) {
-        this.hasCreator = hasCreator;
-    }
-
     public String getSeriesAltLabelLg1() {
         return seriesAltLabelLg1;
     }
@@ -281,6 +275,14 @@ public class CsvSerie {
 
     public void setSeriesAltLabelLg2(String seriesAltLabelLg2) {
         this.seriesAltLabelLg2 = seriesAltLabelLg2;
+    }
+
+    public Boolean isHasPublisher() {
+        return hasPublisher;
+    }
+
+    public void setHasPublisher(Boolean hasPublisher) {
+        this.hasPublisher = hasPublisher;
     }
 
 }

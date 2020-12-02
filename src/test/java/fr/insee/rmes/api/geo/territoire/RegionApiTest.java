@@ -12,6 +12,9 @@ import javax.ws.rs.core.Response.Status;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,7 +24,7 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 
 @ExtendWith(MockitoExtension.class)
-public class RegionApiTest extends AbstractApiTest {
+class RegionApiTest extends AbstractApiTest {
 
     @InjectMocks
     private RegionApi geoApi;
@@ -29,7 +32,7 @@ public class RegionApiTest extends AbstractApiTest {
     private Region region = new Region();
 
     @Test
-    public void givenGetRegion_whenCorrectRequestt_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetRegion_whenCorrectRequestt_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         region.setUri("something");
@@ -41,7 +44,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegion_whenCorrectRequestt_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetRegion_whenCorrectRequestt_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         region.setUri("something");
@@ -53,7 +56,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegion_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetRegion_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.FALSE);
@@ -70,7 +73,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegion_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetRegion_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         region.setUri("something");
@@ -82,7 +85,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegion_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetRegion_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
@@ -90,7 +93,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeRegion_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetListeRegion_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -102,7 +105,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeRegion_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetListeRegion_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -114,7 +117,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeRegion_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetListeRegion_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -130,20 +133,22 @@ public class RegionApiTest extends AbstractApiTest {
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }
 
-    @Test
-    public void givenGetListeRegion_WhenCorrectRequest_thenParameterDateIsRight() {
+    @ParameterizedTest
+    @ValueSource(strings = {"2000-01-01", "*"})
+    @NullSource //default = current day
+    void givenGetListeRegion_WhenCorrectRequest_thenParameterDateIsRight(String date) {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
         list.add(new Region());
 
         // Call method header content = xml
-        geoApi.getListe(MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getListe(MediaType.APPLICATION_XML, date);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
     @Test
-    public void givenGetListeRegion_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetListeRegion_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
@@ -151,7 +156,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListRegion_WhenHeaderIsNotAcceptable() {
+    void givenGetListRegion_WhenHeaderIsNotAcceptable() {
         // Mock methods
         when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
         when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
@@ -163,7 +168,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionDescendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetRegionDescendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -175,7 +180,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionDescendants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetRegionDescendants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -187,7 +192,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionDescendants_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetRegionDescendants_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -204,7 +209,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionDescendants_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetRegionDescendants_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -216,7 +221,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetRegionDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
@@ -224,7 +229,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionDescendants_WhenCorrectRequest_thenParameterTypeIsNull() {
+    void givenGetRegionDescendants_WhenCorrectRequest_thenParameterTypeIsNull() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -236,7 +241,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionDescendants_WhenCorrectRequest_thenParameterTypeIsRight() {
+    void givenGetRegionDescendants_WhenCorrectRequest_thenParameterTypeIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -253,7 +258,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
+    void givenGetRegionDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
@@ -261,7 +266,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionSuivant_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetRegionSuivant_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -273,7 +278,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionSuivant_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetRegionSuivant_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -285,7 +290,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionSuivant_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetRegionSuivant_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -302,7 +307,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionSuivant_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetRegionSuivant_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -314,7 +319,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionSuivant_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetRegionSuivant_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, "nimportequoi");
@@ -322,7 +327,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionPrecedent_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetRegionPrecedent_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -334,7 +339,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionPrecedent_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetRegionPrecedent_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -346,7 +351,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionPrecedent_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetRegionPrecedent_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -363,7 +368,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionPrecedent_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetRegionPrecedent_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -375,7 +380,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionPrecedent_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetRegionPrecedent_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "nimportequoi");
@@ -383,7 +388,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionProjetes_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetRegionProjetes_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -395,7 +400,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionProjetes_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetRegionProjetes_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -407,7 +412,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionProjetes_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetRegionProjetes_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -424,7 +429,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -436,7 +441,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", "2019-01-01");
@@ -444,7 +449,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateProjeteIsRight() {
+    void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateProjeteIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -456,7 +461,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateProjeteIsBad() {
+    void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateProjeteIsBad() {
 
         // Call method header content = xml
         Response response =
@@ -465,7 +470,7 @@ public class RegionApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateProjeteIsNull() {
+    void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateProjeteIsNull() {
 
         // Call method header content = xml
         Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", null);

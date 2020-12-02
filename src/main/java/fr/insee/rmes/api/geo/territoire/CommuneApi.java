@@ -18,9 +18,11 @@ import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
+import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,8 +42,6 @@ public class CommuneApi extends AbstractGeoApi {
     private static final String LITTERAL_ID_OPERATION = "getcogcom";
     private static final String LITTERAL_OPERATION_SUMMARY =
         "Informations sur une commune française identifiée par son code (cinq caractères)";
-    private static final String LITTERAL_OPERATION_DESCRIPTION =
-        "Cette requête renvoie également les communes des collectivités d'Outre-Mer";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Commune";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
@@ -58,7 +58,6 @@ public class CommuneApi extends AbstractGeoApi {
     @Operation(
         operationId = LITTERAL_ID_OPERATION,
         summary = LITTERAL_OPERATION_SUMMARY,
-        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Commune.class)),
@@ -80,7 +79,7 @@ public class CommuneApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for commune {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -101,8 +100,7 @@ public class CommuneApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
-        summary = "Récupérer les informations concernant les territoires qui contiennent la commune",
-        description = LITTERAL_OPERATION_DESCRIPTION,
+        summary = "Informations concernant les territoires qui contiennent la commune",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -117,7 +115,7 @@ public class CommuneApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires contenant la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -155,8 +153,7 @@ public class CommuneApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
-        summary = "Récupérer les informations concernant les territoires inclus dans la commune",
-        description = LITTERAL_OPERATION_DESCRIPTION,
+        summary = "Informations concernant les territoires inclus dans la commune",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -171,7 +168,7 @@ public class CommuneApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example="13055")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires inclus dans la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -209,8 +206,7 @@ public class CommuneApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-        summary = "La requête renvoie toutes les communes actives à la date donnée. Par défaut, c’est la date courante.",
-        description = LITTERAL_OPERATION_DESCRIPTION,
+        summary = "Informations sur toutes les communes actives à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Commune.class)),
@@ -219,14 +215,14 @@ public class CommuneApi extends AbstractGeoApi {
     public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les communes actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
         logger.debug("Received GET request for all communes");
 
-        if ( ! this.verifyParameterDateIsRight(date, true)) {
+        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -247,7 +243,7 @@ public class CommuneApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
-        summary = "Récupérer les informations concernant les communes qui succèdent à la commune",
+        summary = "Informations concernant les communes qui succèdent à la commune",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Commune.class)),
@@ -269,7 +265,7 @@ public class CommuneApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for suivant commune {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -291,7 +287,7 @@ public class CommuneApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
-        summary = "Récupérer les informations concernant les communes qui précèdent la commune",
+        summary = "Informations concernant les communes qui précèdent la commune",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Commune.class)),
@@ -313,7 +309,7 @@ public class CommuneApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for precedent commune {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -335,7 +331,7 @@ public class CommuneApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
-        summary = "Récupérer les informations concernant les communes qui résultent de la projection de la commune à la date passée en paramètre.",
+        summary = "Informations concernant les communes qui résultent de la projection de la commune à la date passée en paramètre.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = Commune.class)),
@@ -362,7 +358,7 @@ public class CommuneApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for commune {} projection", code);
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -381,7 +377,8 @@ public class CommuneApi extends AbstractGeoApi {
         }
     }
 
-   /* @Path(ConstGeoApi.PATH_LISTE_COMMUNES + ConstGeoApi.PATH_PROJECTION)
+    @Hidden
+    @Path(ConstGeoApi.PATH_LISTE_COMMUNES + ConstGeoApi.PATH_PROJECTION)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -409,7 +406,7 @@ public class CommuneApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for all communes projections");
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -421,5 +418,5 @@ public class CommuneApi extends AbstractGeoApi {
                                 .getAllProjectionCommune(this.formatValidParameterDateIfIsNull(date), dateProjection)),
                     header);
         }
-    }*/
+    }
 }

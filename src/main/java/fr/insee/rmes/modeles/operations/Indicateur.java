@@ -30,7 +30,7 @@ public class Indicateur {
     private List<StringWithLang> historyNote;
 
     @JsonInclude(Include.NON_NULL)
-    private SimpleObject creator;
+    private SimpleObject publisher;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> contributors;
     @JsonInclude(Include.NON_NULL)
@@ -38,7 +38,7 @@ public class Indicateur {
     @JsonInclude(Include.NON_NULL)
     private List<Indicateur> isReplacedBy;
     @JsonInclude(Include.NON_NULL)
-    private List<SimpleObject> seeAlso;
+    private List<ObjectWithSimsId> seeAlso;
     @JsonInclude(Include.NON_NULL)
     private List<Serie> wasGeneratedBy;
 
@@ -129,11 +129,11 @@ public class Indicateur {
     public void setAltLabel(String altLabelLg1, String altLabelLg2) {
         if ( ! altLabelLg1.equals("")) {
             this.initAltLabel();
-            label.add(new StringWithLang(altLabelLg1, Lang.FR));
+            altLabel.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
         if ( ! altLabelLg2.equals("")) {
             this.initAltLabel();
-            label.add(new StringWithLang(altLabelLg2, Lang.EN));
+            altLabel.add(new StringWithLang(altLabelLg2, Lang.EN));
         }
     }
 
@@ -143,23 +143,23 @@ public class Indicateur {
         }
     }
 
-    public void addSeeAlso(SimpleObject sa) {
+    public void addSeeAlso(ObjectWithSimsId sa) {
         if (seeAlso == null) {
-            this.setSeeAlso(new ArrayList<SimpleObject>());
+            this.setSeeAlso(new ArrayList<>());
         }
         this.seeAlso.add(sa);
     }
 
     public void addReplaces(Indicateur rep) {
         if (replaces == null) {
-            this.setReplaces(new ArrayList<Indicateur>());
+            this.setReplaces(new ArrayList<>());
         }
         this.replaces.add(rep);
     }
 
     public void addIsReplacedBy(Indicateur irb) {
         if (isReplacedBy == null) {
-            this.setIsReplacedBy(new ArrayList<Indicateur>());
+            this.setIsReplacedBy(new ArrayList<>());
         }
         this.isReplacedBy.add(irb);
     }
@@ -189,11 +189,11 @@ public class Indicateur {
     @JsonProperty("voirAussi")
     @JacksonXmlProperty(isAttribute = true, localName = "voirAussi")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<SimpleObject> getSeeAlso() {
+    public List<ObjectWithSimsId> getSeeAlso() {
         return seeAlso;
     }
 
-    public void setSeeAlso(List<SimpleObject> seeAlso) {
+    public void setSeeAlso(List<ObjectWithSimsId> seeAlso) {
         this.seeAlso = seeAlso;
     }
 
@@ -271,12 +271,12 @@ public class Indicateur {
     @JsonProperty("organismeResponsable")
     @JacksonXmlProperty(isAttribute = true, localName = "organismeResponsable")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public SimpleObject getCreator() {
-        return creator;
+    public SimpleObject getPublisher() {
+        return publisher;
     }
 
-    public void setCreator(SimpleObject creator) {
-        this.creator = creator;
+    public void setPublisher(SimpleObject publisher) {
+        this.publisher = publisher;
     }
 
     @JsonProperty("partenaire")

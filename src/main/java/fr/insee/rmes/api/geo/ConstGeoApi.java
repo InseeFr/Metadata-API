@@ -41,10 +41,13 @@ public class ConstGeoApi {
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
 
     public static final String PATTERN_COMMUNE_DESCRIPTION = "Code de la commune (cinq caractères)";
+    public static final String PATTERN_COMMUNE_ASSOCIEE_DESCRIPTION = "Code de la commune associée (cinq caractères)";
+    public static final String PATTERN_COMMUNE_DELEGUEE_DESCRIPTION = "Code de la commune déléguée (cinq caractères)";
+
     public static final String PATTERN_PAYS_DESCRIPTION = "Code du pays (cinq chiffres, débutant par 99)";
     public static final String PATTERN_REGION_DESCRIPTION = "Code de la région (deux chiffres)";
     public static final String PATTERN_DEPARTEMENT_DESCRIPTION =
-        "Code du département (deux ou trois chiffres, ou 2A, 2B)";
+        "Code du département (deux ou trois caractères)";
     public static final String PATTERN_ARRONDISSEMENT_DESCRIPTION =
         "Code de l'arrondissement (trois ou quatre caractères)";
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL_DESCRIPTION =

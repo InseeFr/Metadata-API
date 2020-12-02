@@ -24,7 +24,7 @@ public class Associations {
     private List<Association> associations = new ArrayList<>();
 
     public Associations() {
-
+    	// No-args constructor needed for JAXB
     }
 
     public List<Association> getAssociations() {

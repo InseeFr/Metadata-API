@@ -19,7 +19,9 @@ public class Classification {
     @Schema(example = "Nomenclature d'activités française - NAF rév. 2")
     String intitule;
 
-    public Classification() {}
+    public Classification() {
+    	super();
+    }
 
     @JacksonXmlProperty(isAttribute = true)
     public String getCode() {

@@ -26,7 +26,7 @@ import fr.insee.rmes.modeles.operations.FamilyToOperation;
 import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 
 @ExtendWith(MockitoExtension.class)
-public class OperationsAPITest extends AbstractApiTest {
+class OperationsAPITest extends AbstractApiTest {
 
     @InjectMocks
     private OperationsAPI operationsAPI;
@@ -39,7 +39,7 @@ public class OperationsAPITest extends AbstractApiTest {
     private CsvIndicateur csvIndic = new CsvIndicateur();
 
     @Test
-    public void givenGetOperationsTree_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetOperationsTree_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
         list.add(new FamilyToOperation());
@@ -53,7 +53,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetOperationsTree_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetOperationsTree_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock
         list.add(new FamilyToOperation());
@@ -67,7 +67,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetOperationsTree_whenCorrectRequest_andDiffusuerIsInseeFr_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetOperationsTree_whenCorrectRequest_andDiffusuerIsInseeFr_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
         list.add(new FamilyToOperation());
@@ -81,7 +81,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetOperationsTree_whenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetOperationsTree_whenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -97,7 +97,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetDocumentation_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetDocumentation_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
         sims.setUri("something");
@@ -109,7 +109,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetDocumentation_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetDocumentation_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock
         sims.setUri("something");
@@ -121,7 +121,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetDocumentation_whenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetDocumentation_whenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(sims, Boolean.FALSE);
@@ -137,7 +137,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetSeries_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetSeries_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
         csvSerie.setSeriesId("something");
@@ -149,7 +149,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetSeries_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetSeries_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock
         csvSerie.setSeriesId("something");
@@ -161,7 +161,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetSeries_whenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetSeries_whenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(csvSerie, Boolean.FALSE);
@@ -177,7 +177,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetIndicateur_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetIndicateur_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
         csvIndic.setId("something");
@@ -189,7 +189,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetIndicateur_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetIndicateur_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock
         csvIndic.setId("something");
@@ -201,7 +201,7 @@ public class OperationsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetIndicateur_whenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetIndicateur_whenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(csvIndic, Boolean.FALSE);

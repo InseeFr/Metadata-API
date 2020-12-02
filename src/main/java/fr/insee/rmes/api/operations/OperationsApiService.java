@@ -1,9 +1,10 @@
 package fr.insee.rmes.api.operations;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -15,24 +16,34 @@ import fr.insee.rmes.modeles.operations.CsvSerie;
 import fr.insee.rmes.modeles.operations.Famille;
 import fr.insee.rmes.modeles.operations.FamilyToOperation;
 import fr.insee.rmes.modeles.operations.Indicateur;
+import fr.insee.rmes.modeles.operations.ObjectWithSimsId;
 import fr.insee.rmes.modeles.operations.Operation;
 import fr.insee.rmes.modeles.operations.Serie;
 import fr.insee.rmes.modeles.operations.SimpleObject;
 import fr.insee.rmes.modeles.operations.documentations.CsvRubrique;
 import fr.insee.rmes.modeles.operations.documentations.Document;
 import fr.insee.rmes.modeles.operations.documentations.Rubrique;
+import fr.insee.rmes.modeles.operations.documentations.RubriqueRichText;
 import fr.insee.rmes.queries.operations.OperationsQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.FileUtils;
+import fr.insee.rmes.utils.Lang;
 import fr.insee.rmes.utils.SparqlUtils;
 
 public class OperationsApiService {
 
     private static Logger logger = LogManager.getLogger(OperationsApiService.class);
-    private SparqlUtils sparqlUtils = new SparqlUtils();
-    private CSVUtils csvUtils = new CSVUtils();
+    
+    private SparqlUtils sparqlUtils;
+    private CSVUtils csvUtils;
 
-    public Map<String, Famille> getListeFamilyToOperation(List<FamilyToOperation> opList) {
+    public OperationsApiService() {
+		super();
+		sparqlUtils = new SparqlUtils();
+		csvUtils = new CSVUtils();
+	}
+
+	public Map<String, Famille> getListeFamilyToOperation(List<FamilyToOperation> opList) {
         Map<String, Famille> familyMap = new HashMap<>();
         Map<String, Serie> serieMap = new HashMap<>();
 
@@ -128,53 +139,89 @@ public class OperationsApiService {
     public List<Rubrique> getListRubriques(String id) {
         String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationRubrics(id));
         List<CsvRubrique> csvRubriques = csvUtils.populateMultiPOJO(csvResult, CsvRubrique.class);
-        List<Rubrique> rubriques = new ArrayList<>();
+        Map<String,Rubrique> rubriquesById = new HashMap<>();
         for (CsvRubrique cr : csvRubriques) {
-            Rubrique r = new Rubrique(cr.getId(), cr.getUri(), cr.getType());
-            r.setTitre(cr.getTitreLg1(), cr.getTitreLg2());
-            r.setIdParent(cr.getIdParent());
-            switch (cr.getType()) {
-                case "DATE":
-                    r.setValeurSimple(cr.getValeurSimple());
-                break;
-                case "CODE_LIST":
-                    SimpleObject valeurCode =
-                        new SimpleObject(
-                            cr.getValeurSimple(),
-                            cr.getCodeUri(),
-                            cr.getLabelObjLg1(),
-                            cr.getLabelObjLg2());
-                    r.setValeurCode(valeurCode);
-                break;
-                case "ORGANISATION":
-                    SimpleObject valeurOrg =
-                        new SimpleObject(
-                            cr.getValeurSimple(),
-                            cr.getOrganisationUri(),
-                            cr.getLabelObjLg1(),
-                            cr.getLabelObjLg2());
-                    r.setValeurOrganisation(valeurOrg);
-                break;
-                case "RICH_TEXT":
-                    if (Boolean.TRUE.equals(cr.isHasDoc())) {
-                        String csvDocs = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId()));
-                        List<Document> docs = csvUtils.populateMultiPOJO(csvDocs, Document.class);
-                        r.setDocuments(docs);
-                    }
-                break;
-                case "TEXT":
-                    r.setLabelLg1(cr.getLabelLg1());
-                    r.setLabelLg2(cr.getLabelLg2());
-                break;
-                default:
-                break;
-            }
-            rubriques.add(r);
+            addCsvRubricToRubricMap(id, rubriquesById, cr);
         }
-        return rubriques;
+        return rubriquesById.values().stream().collect(Collectors.toList());
 
     }
 
+	private void addCsvRubricToRubricMap(String id, Map<String, Rubrique> rubriquesById, CsvRubrique cr) {
+		Rubrique r = new Rubrique(cr.getId(), cr.getUri(), cr.getType());
+		r.setTitre(cr.getTitreLg1(), cr.getTitreLg2());
+		r.setIdParent(cr.getIdParent());
+		switch (cr.getType()) {
+		    case "DATE":
+		        r.setValeurSimple(cr.getValeurSimple());
+		    break;
+		    case "CODE_LIST":
+		        SimpleObject codeListElement = new SimpleObject(
+		                cr.getValeurSimple(),
+		                cr.getCodeUri(),
+		                cr.getLabelObjLg1(),
+		                cr.getLabelObjLg2());
+
+		        if (cr.getMaxOccurs() != null && rubriquesById.containsKey(cr.getId())) {
+		            r = rubriquesById.get(cr.getId());
+		            r.addValeurCode(codeListElement);
+		            rubriquesById.remove(cr.getId());
+		        }else {
+		            r.setValeurCode(Stream.of(codeListElement).collect(Collectors.toList()));
+		        }
+		    break;
+		    case "ORGANISATION":
+		        SimpleObject valeurOrg =
+		            new SimpleObject(
+		                cr.getValeurSimple(),
+		                cr.getOrganisationUri(),
+		                cr.getLabelObjLg1(),
+		                cr.getLabelObjLg2());
+		        r.setValeurOrganisation(valeurOrg);
+		    break;
+		    case "RICH_TEXT":
+		    	RubriqueRichText richTextLg1 = new RubriqueRichText(cr.getLabelLg1(), Lang.FR);                         	                	
+		        if (Boolean.TRUE.equals(cr.isHasDocLg1())) {
+		            String csvDocs = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId(), Lang.FR));
+		            List<Document> docs = csvUtils.populateMultiPOJO(csvDocs, Document.class);
+		            richTextLg1.setDocuments(docs);
+		        }
+		        r.addRichTexts(richTextLg1);
+		        if (StringUtils.isNotEmpty(cr.getLabelLg2())) {
+		        	RubriqueRichText richTextLg2 = new RubriqueRichText(cr.getLabelLg2(), Lang.EN);                         	                	
+		            if (Boolean.TRUE.equals(cr.isHasDocLg2())) {
+		                String csvDocs = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId(), Lang.EN));
+		                List<Document> docs = csvUtils.populateMultiPOJO(csvDocs, Document.class);
+		                richTextLg2.setDocuments(docs);
+		            }
+		            r.addRichTexts(richTextLg2);
+		        }                    
+		    break;
+		    case "TEXT":
+		        r.setLabelLg1(cr.getLabelLg1());
+		        r.setLabelLg2(cr.getLabelLg2());
+		    break;
+		    case "GEOGRAPHY":
+		        SimpleObject valeurGeo =
+		        new SimpleObject(
+		            cr.getValeurSimple(),
+		            cr.getGeoUri(),
+		            cr.getLabelObjLg1(),
+		            cr.getLabelObjLg2());
+		    r.setValeurGeographie(valeurGeo);
+		    break;
+		    default:
+		    break;
+		}
+		rubriquesById.putIfAbsent(r.getId(), r);
+	}
+
+	/**
+	 * Transform csvSeries in Serie
+	 * @param csvSerie
+	 * @param idSeries
+	 * @return
+	 */
     public Serie getSerie(CsvSerie csvSerie, String idSeries) {
         Serie s =
             new Serie(
@@ -249,10 +296,10 @@ public class OperationsApiService {
             List<Serie> liste = csvUtils.populateMultiPOJO(csv, Serie.class);
             s.setReplaces(liste);
         }
-        if (Boolean.TRUE.equals(csvSerie.isHasCreator())) {
-            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getCreatorsBySeries(idSeries));
+        if (Boolean.TRUE.equals(csvSerie.isHasPublisher())) {
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getPublishersBySeries(idSeries));
             List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
-            s.setCreators(liste);
+            s.setPublishers(liste);
         }
         if (Boolean.TRUE.equals(csvSerie.isHasContributor())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsBySeries(idSeries));
@@ -282,14 +329,14 @@ public class OperationsApiService {
             i.setHistoryNoteLg1(csvIndic.getHistoryNoteLg1());
             i.setHistoryNoteLg2(csvIndic.getHistoryNoteLg2());
         }
-        if (StringUtils.isNotEmpty(csvIndic.getIdCreator())) {
-            SimpleObject creator =
+        if (StringUtils.isNotEmpty(csvIndic.getIdPublisher())) {
+            SimpleObject publisher =
                 new SimpleObject(
-                    csvIndic.getIdCreator(),
-                    csvIndic.getUriCreator(),
-                    csvIndic.getLabelFrCreator(),
-                    csvIndic.getLabelEnCreator());
-            i.setCreator(creator);
+                    csvIndic.getIdPublisher(),
+                    csvIndic.getUriPublisher(),
+                    csvIndic.getLabelFrPublisher(),
+                    csvIndic.getLabelEnPublisher());
+            i.setPublisher(publisher);
         }
         if (Boolean.TRUE.equals(csvIndic.isHasContributor())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsByIndic(idIndicateur));
@@ -308,7 +355,7 @@ public class OperationsApiService {
         }
         if (Boolean.TRUE.equals(csvIndic.isHasSeeAlso())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoByIndic(idIndicateur));
-            List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
+            List<ObjectWithSimsId> liste = csvUtils.populateMultiPOJO(csv, ObjectWithSimsId.class);
             i.setSeeAlso(liste);
         }
         if (Boolean.TRUE.equals(csvIndic.isHasWasGeneratedBy())) {

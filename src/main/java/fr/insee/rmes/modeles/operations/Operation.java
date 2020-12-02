@@ -19,7 +19,7 @@ public class Operation {
 
     private String id = null;
 
-    private List<StringWithLang> label = new ArrayList<StringWithLang>();
+    private List<StringWithLang> label = new ArrayList<>();
 
     @Schema(example = "http://id.insee.fr/operations/operation/s1")
     private String uri = null;
@@ -107,13 +107,13 @@ public class Operation {
             if (altLabel == null) {
                 altLabel = new ArrayList<>();
             }
-            label.add(new StringWithLang(altLabelLg1, Lang.FR));
+            altLabel.add(new StringWithLang(altLabelLg1, Lang.FR));
         }
         if ( ! altLabelLg2.equals("")) {
             if (altLabel == null) {
                 altLabel = new ArrayList<>();
             }
-            label.add(new StringWithLang(altLabelLg2, Lang.EN));
+            altLabel.add(new StringWithLang(altLabelLg2, Lang.EN));
         }
     }
 

@@ -19,9 +19,11 @@ import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
 import fr.insee.rmes.modeles.geo.territoire.ArrondissementMunicipal;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.ArrondissementsMunicipaux;
+import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,7 +41,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_ARRONDISSEMENT_MUNICIPAL + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogarrmun";
     private static final String LITTERAL_OPERATION_SUMMARY =
-        "Informations sur un arrondissement municipal français identifié par son code (cinq caractères)";
+        "Informations sur un arrondissement municipal identifié par son code (cinq caractères)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Arrondissement municipal";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
@@ -78,7 +80,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for arrondissement municipal {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -102,7 +104,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
-        summary = "Récupérer les informations concernant les territoires qui contiennent l'arrondissement municipal",
+        summary = "Informations concernant les territoires qui contiennent l'arrondissement municipal",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -117,7 +119,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires contenant l'arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -155,7 +157,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-        summary = "La requête renvoie toutes les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante.",
+        summary = "Informations sur tous les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
@@ -164,14 +166,14 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = LITTERAL_PARAMETER_DATE_DESCRIPTION + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
         logger.debug("Received GET request for all arrondissements municipaux");
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -194,7 +196,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
-        summary = "Récupérer les informations concernant les arrondissements municipaux qui succèdent à l'arrondissement municipal",
+        summary = "Informations concernant les arrondissements municipaux qui succèdent à l'arrondissement municipal",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
@@ -218,7 +220,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for suivant arrondissement municipal {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -241,7 +243,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
-        summary = "Récupérer les informations concernant les arrondissement municipaux qui précèdent l'arrondissement municipal",
+        summary = "Informations concernant les arrondissement municipaux qui précèdent l'arrondissement municipal",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
@@ -264,7 +266,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for precedent arrondissement municipal {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -287,7 +289,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
-        summary = "Récupérer les informations concernant les arrondissements municipaux qui résultent de la projection de l'arrondissement municipal à la date passée en paramètre. ",
+        summary = "Informations concernant les arrondissements municipaux qui résultent de la projection de l'arrondissement municipal à la date passée en paramètre. ",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = ArrondissementMunicipal.class)),
@@ -314,7 +316,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for arrondissementMunicipal {} projection", code);
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -333,7 +335,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
         }
     }
 
-    /*
+    @Hidden
     @Path(ConstGeoApi.PATH_LISTE_ARRONDISSEMENT_MUNICIPAL + ConstGeoApi.PATH_PROJECTION)
     @GET
     @Produces({
@@ -362,7 +364,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for all arrondissements municipaux projections");
 
-        if ( ! this.verifyParameterDateIsRight(date) || ! this.verifyParameterDateIsRight(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -376,5 +378,5 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                                     dateProjection)),
                     header);
         }
-    }*/
+    }
 }

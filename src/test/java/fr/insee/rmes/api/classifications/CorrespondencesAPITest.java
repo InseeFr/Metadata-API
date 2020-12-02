@@ -19,13 +19,13 @@ import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.classification.Activite;
 
 @ExtendWith(MockitoExtension.class)
-public class CorrespondencesAPITest extends AbstractApiTest {
+class CorrespondencesAPITest extends AbstractApiTest {
 
     @InjectMocks
     private CorrespondencesApi correspondencesApi;
 
     @Test
-    public void givenGetAllCorrespondences_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetAllCorrespondences_whenCorrectRequest_thenResponseIsOk() {
         list.add(new Activite());
 
         // Mock
@@ -41,7 +41,7 @@ public class CorrespondencesAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetAllCorrespondences_whenCorrectRequest_andNotFound_thenResponseIsNotFound() {
+    void givenGetAllCorrespondences_whenCorrectRequest_andNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);

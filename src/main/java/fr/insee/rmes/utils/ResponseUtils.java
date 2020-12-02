@@ -15,6 +15,8 @@ import fr.insee.rmes.modeles.StringXmlMixIn;
 import fr.insee.rmes.modeles.geo.TerritoireJsonMixIn;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
+import fr.insee.rmes.modeles.operations.documentations.RubriqueRichText;
+import fr.insee.rmes.modeles.operations.documentations.RubriqueRichTextXmlMixIn;
 
 public class ResponseUtils {
 
@@ -27,6 +29,8 @@ public class ResponseUtils {
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
             mapper = new XmlMapper();
             mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
+            mapper.addMixIn(RubriqueRichText.class, RubriqueRichTextXmlMixIn.class);
+
         }
         else {
 
@@ -44,16 +48,12 @@ public class ResponseUtils {
             // Remove last tags territoires
             response = Pattern.compile("(<territoires><\\/territoires>)").matcher(response).replaceAll("");
 
-            if ( ! response.isEmpty() && obj.getClass() == Projections.class) {
-
-                if (header != null && header.equals(MediaType.APPLICATION_XML)) {
+            if ( ! response.isEmpty() && obj.getClass() == Projections.class && header != null && header.equals(MediaType.APPLICATION_XML)) {
                     // Remove XML tag <origine>
                     response = Pattern.compile("<\\/?origine>").matcher(response).replaceAll("");
                     // Remove XML tag <listeProj>
                     response = Pattern.compile("<\\/?listeProj>").matcher(response).replaceAll("");
-                }
             }
-
         }
         catch (Exception e) {
             logger.error(e.getMessage());

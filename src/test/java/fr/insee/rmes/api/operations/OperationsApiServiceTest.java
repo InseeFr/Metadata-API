@@ -9,28 +9,23 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.operations.Famille;
 import fr.insee.rmes.modeles.operations.FamilyToOperation;
-import fr.insee.rmes.utils.FileUtils;
 
 @ExtendWith(MockitoExtension.class)
-public class OperationsApiServiceTest extends AbstractApiTest {
+class OperationsApiServiceTest extends AbstractApiTest {
 
     @InjectMocks
     private OperationsApiService operationsApiService;
-
-    @Mock
-    protected FileUtils mockFileUtils;
 
     private List<FamilyToOperation> opList = new ArrayList<>();
     private Map<String, Famille> familyMap = new HashMap<>();
 
     @Test
-    public void givenGetListeFamilyToOperation_whenListIsEmpty() {
+    void givenGetListeFamilyToOperation_whenListIsEmpty() {
         Assertions.assertEquals(familyMap, operationsApiService.getListeFamilyToOperation(opList));
     }
 
@@ -52,14 +47,14 @@ public class OperationsApiServiceTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeFamilyToOperation_whenListContainsOneFamilyToOperation() {
+    void givenGetListeFamilyToOperation_whenListContainsOneFamilyToOperation() {
         opList.add(this.getAFamilyToOperation("1"));
         familyMap = operationsApiService.getListeFamilyToOperation(opList);
         Assertions.assertTrue(familyMap.containsKey("1"));
     }
 
     @Test
-    public void givenGetListeFamilyToOperation_whenListContainsOneFamilyToOperationWitOperationId() {
+    void givenGetListeFamilyToOperation_whenListContainsOneFamilyToOperationWitOperationId() {
         FamilyToOperation familyToOperation = this.getAFamilyToOperation("1");
         familyToOperation.setOperation("1");
         familyToOperation.setOperationId("1");
@@ -74,7 +69,7 @@ public class OperationsApiServiceTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeFamilyToOperation_whenListContainsOneFamilyToOperationWitSims() {
+    void givenGetListeFamilyToOperation_whenListContainsOneFamilyToOperationWitSims() {
         FamilyToOperation familyToOperation = this.getAFamilyToOperation("1");
         familyToOperation.setSimsId("1");
         opList.add(familyToOperation);
@@ -83,7 +78,7 @@ public class OperationsApiServiceTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetListeFamilyToOperation_whenListContainsOneFamilyToOperationWitIndicId() {
+    void givenGetListeFamilyToOperation_whenListContainsOneFamilyToOperationWitIndicId() {
         FamilyToOperation familyToOperation = this.getAFamilyToOperation("1");
         familyToOperation.setIndic("1");
         familyToOperation.setIndicId("1");
@@ -98,14 +93,13 @@ public class OperationsApiServiceTest extends AbstractApiTest {
     }
 
     @Test
-    public void givenRemoveExclusions_whenFileIsEmpty() {
-        // FamilyToOperation familyToOperation = this.getAFamilyToOperation("1");
-        // opList.add(familyToOperation);
+    void givenRemoveExclusions_whenFileIsEmpty() {
         opList.add(this.getAFamilyToOperation("1"));
         opList.add(this.getAFamilyToOperation("2"));
         opList = operationsApiService.removeExclusions(opList);
         Assertions.assertEquals(2, opList.size());
 
     }
+    
 
 }

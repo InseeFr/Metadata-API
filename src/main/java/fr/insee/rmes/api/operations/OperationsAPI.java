@@ -44,7 +44,7 @@ public class OperationsAPI extends AbstractMetadataApi {
     private static Logger logger = LogManager.getLogger(OperationsAPI.class);
     private OperationsApiService operationsApiService = new OperationsApiService();
     
-    @Hidden
+ 
     @Path("/arborescence")
     @GET
     @Produces({
@@ -81,7 +81,7 @@ public class OperationsAPI extends AbstractMetadataApi {
             Map<String, Famille> familyMap = operationsApiService.getListeFamilyToOperation(opList);
 
             if (header.equals(MediaType.APPLICATION_XML)) {
-                Familles familles = new Familles(new ArrayList<Famille>(familyMap.values()));
+                Familles familles = new Familles(new ArrayList<>(familyMap.values()));
                 return Response.ok(responseUtils.produceResponse(familles, header)).build();
             }
             else {
@@ -91,7 +91,7 @@ public class OperationsAPI extends AbstractMetadataApi {
 
     }
 
-    @Hidden
+
     @Path("/documentation/{id: [0-9]{4}}")
     @GET
     @Produces({
@@ -124,7 +124,7 @@ public class OperationsAPI extends AbstractMetadataApi {
         }
     }
 
-    @Hidden
+
     @Path("/serie/{idSeries}")
     @GET
     @Produces({
@@ -155,7 +155,7 @@ public class OperationsAPI extends AbstractMetadataApi {
         }
     }
 
-    @Hidden
+
     @Path("/indicateur/{idIndicateur}")
     @GET
     @Produces({

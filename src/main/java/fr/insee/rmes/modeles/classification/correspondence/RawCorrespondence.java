@@ -76,6 +76,6 @@ public class RawCorrespondence {
 
     public void setIntituleEnPoste2(String intituleEnPoste2) {
         this.intituleEnPoste2 = intituleEnPoste2;
-    };
+    }
 
 }

@@ -14,13 +14,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Objet représentant un pays")
 public class Country  {
 
-    @Schema(example = "99217")
+    @Schema(example = "99254")
     private String code = null;
-    @Schema(example = "http://id.insee.fr/geo/pays/99217")
+    @Schema(example = "http://id.insee.fr/geo/pays/99254")
     private String uri = null;
-    @Schema(example = "Japon")
+    @Schema(example = "CHYPRE")
     private String intitule = null;
-    @Schema(example = "Japon")
+    @Schema(example = "RÉPUBLIQUE DE CHYPRE")
     private String intituleEntier = null;
 
     public Country() {} // No-args constructor needed for JAXB

@@ -20,17 +20,16 @@ import fr.insee.rmes.modeles.concepts.Concept;
 import fr.insee.rmes.modeles.concepts.Definition;
 
 @ExtendWith(MockitoExtension.class)
-public class ConceptsAPITest extends AbstractApiTest {
+class ConceptsAPITest extends AbstractApiTest {
 
     @InjectMocks
     private ConceptsAPI conceptsAPI;
 
-    private Definition definition = new Definition();
     private Concept concept = new Concept();
 
 
     @Test
-    public void givenGetConcepts_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetConcepts_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
         list.add(new Definition());
@@ -42,7 +41,7 @@ public class ConceptsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetConcepts_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetConcepts_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock
         list.add(new Definition());
@@ -54,7 +53,7 @@ public class ConceptsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetConcepts_WhenBadRequest_andHeaderContentIsNull_thenResponseIsNotAcceptable() {
+    void givenGetConcepts_WhenBadRequest_andHeaderContentIsNull_thenResponseIsNotAcceptable() {
 
         // Mock
         list.add(new Definition());
@@ -72,7 +71,7 @@ public class ConceptsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetConcepts_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetConcepts_WhenCorrectRequest_thenResponseIsNotFound() {
 
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
@@ -86,7 +85,7 @@ public class ConceptsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetConceptById_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetConceptById_whenCorrectRequest_thenResponseIsOk() {
 
         // Mock
         concept.setUri("aUri");
@@ -98,7 +97,7 @@ public class ConceptsAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetConceptById_whenCorrectRequest_andDefinitionNotFound_thenResponseIsNotFound() {
+    void givenGetConceptById_whenCorrectRequest_andDefinitionNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnOnePojo(concept, Boolean.FALSE);

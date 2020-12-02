@@ -29,7 +29,7 @@ public class Correspondence {
     String descriptionEn;
 
     public Correspondence() {
-
+    	// No-args constructor needed for JAXB
     }
 
     @JacksonXmlProperty(isAttribute = true)

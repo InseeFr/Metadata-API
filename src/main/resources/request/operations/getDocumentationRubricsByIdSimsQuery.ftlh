@@ -1,9 +1,11 @@
-SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?labelLg2 ?codeUri ?organisationUri ?hasDoc ?labelObjLg1 ?labelObjLg2      
+SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?labelLg2 ?codeUri ?organisationUri ?hasDocLg1 ?hasDocLg2 ?labelObjLg1 ?labelObjLg2  ?maxOccurs ?geoUri   
             	FROM <http://rdf.insee.fr/graphes/qualite/rapport/${idSims}> 
             	FROM <http://rdf.insee.fr/graphes/codes> 
             	FROM <http://rdf.insee.fr/graphes/organisations> 
-            	FROM <http://rdf.insee.fr/graphes/def/simsv2fr> 
             	FROM <http://rdf.insee.fr/graphes/concepts/qualite> 
+            	FROM <http://rdf.insee.fr/graphes/qualite/simsv2fr> 
+            	FROM NAMED <http://rdf.insee.fr/graphes/geo/cog>
+            	FROM NAMED <http://rdf.insee.fr/graphes/qualite/territoires>
             WHERE { 
             	   ?report rdf:type sdmx-mm:MetadataReport . 
             		?reporturi sdmx-mm:metadataReport ?report . 
@@ -14,7 +16,7 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             		} 
             		?uri sdmx-mm:concept ?concept . 
             		?concept skos:prefLabel ?titreLg1 ; 
-             		 skos:prefLabel ?titreLg2 ; 
+             		 		 skos:prefLabel ?titreLg2 ; 
             		FILTER(lang(?titreLg1) = 'fr') 
             		FILTER(lang(?titreLg2) = 'en') 
             		BIND(REPLACE( STR(?uri) , '(.*/)(\\w.+$)', '$2' ) AS ?id) . 
@@ -25,16 +27,28 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             		BIND('DATE' AS ?type) . 
             	} 
             				 
+            				 
+            <#-- RangeType.RICHTEXT  -->				 
             	UNION { 
-            		?reporturi ?uri ?text . 
-            		?text rdf:type <http://purl.org/dc/dcmitype/Text> 
-            		OPTIONAL{ ?text rdf:value ?labelLg1 . 
-            			FILTER(lang(?labelLg1) = 'fr') 
+            		?reporturi ?uri ?textLg1 . 
+            		?textLg1 rdf:type <http://purl.org/dc/dcmitype/Text> .
+            		FILTER(EXISTS{?textLg1 dcterms:language <${LG1_CL}>})
+
+            		OPTIONAL{ 
+            			?textLg1 rdf:value ?labelLg1 . 
             		} 
-            		OPTIONAL{?text rdf:value ?labelLg2 . 
-            			FILTER(lang(?labelLg2) = 'en') 
-            		} 
-            		BIND(EXISTS{?text insee:additionalMaterial ?doc} AS ?hasDoc) 
+            		BIND(EXISTS{?textLg1 insee:additionalMaterial ?docLg1} AS ?hasDocLg1) 
+
+            		OPTIONAL {
+						 ?reporturi ?uri ?textLg2 .
+						 ?textLg2 rdf:type <http://purl.org/dc/dcmitype/Text>  .
+						 FILTER(EXISTS{?textLg2 dcterms:language <${LG2_CL}>})
+
+						OPTIONAL{ 
+							?textLg2 rdf:value ?labelLg2 
+						}
+						BIND(EXISTS{?textLg2 insee:additionalMaterial ?docLg2} AS ?hasDocLg2)
+			 		}
             		BIND('RICH_TEXT' AS ?type) . 
             	} 
             			 
@@ -54,7 +68,11 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             		FILTER (lang(?labelObjLg1) = 'fr') . 
             		?codeUri skos:prefLabel ?labelObjLg2 . 
             		FILTER (lang(?labelObjLg2) = 'en') . 
-            		BIND('CODE_LIST' AS ?type) . 
+            		BIND('CODE_LIST' AS ?type) .
+            		OPTIONAL {
+						?mas sdmx-mm:metadataAttributeProperty ?uri . 
+						?mas sdmx-mm:maxOccurs ?maxOccurs
+					}		
             	} 
             	UNION { 
             		?reporturi ?uri ?organisationUri . 
@@ -65,5 +83,14 @@ SELECT ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labelLg1 ?lab
             			FILTER (lang(?labelObjLg2) = 'en') } 
             		BIND('ORGANISATION' AS ?type) . 
             	} 
+            	UNION {
+					?reporturi ?uri ?geoUri . 
+					GRAPH  ?g {
+						?geoUri skos:prefLabel|igeo:name ?labelObjLg1 .
+						FILTER (lang(?labelObjLg1) = 'fr')
+					}
+					BIND(REPLACE( STR(?geoUri) , '(.*/)(\\w.+$)', '$2' ) AS ?valeurSimple)
+					BIND('GEOGRAPHY' AS ?type) .
+				} 
             }
             } 

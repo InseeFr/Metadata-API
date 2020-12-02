@@ -2,6 +2,7 @@ package fr.insee.rmes.modeles.operations.documentations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,7 +30,7 @@ public class Rubrique {
 
     /* CODE_LIST */
     @JsonInclude(Include.NON_NULL)
-    private SimpleObject valeurCode;
+    private List<SimpleObject> valeurCode;
 
     /* DATE */
     @JsonInclude(Include.NON_NULL)
@@ -38,6 +39,10 @@ public class Rubrique {
     /* ORGANISATION */
     @JsonInclude(Include.NON_NULL)
     private SimpleObject valeurOrganisation;
+    
+    /* GEOGRAPHY */
+    @JsonInclude(Include.NON_NULL)
+    private SimpleObject valeurGeographie;
 
     /* TEXT - RICH_TEXT */
     @JsonInclude(Include.NON_NULL)
@@ -45,7 +50,7 @@ public class Rubrique {
 
     /* RICH_TEXT */
     @JsonInclude(Include.NON_NULL)
-    private List<Document> documents;
+    private List<RubriqueRichText> richTexts;
 
     public Rubrique(String id, String uri, String type) {
         this.id = id;
@@ -115,14 +120,7 @@ public class Rubrique {
         }
     }
 
-    public SimpleObject getValeurCode() {
-        return this.valeurCode;
-    }
-
-    public void setValeurCode(SimpleObject so) {
-        this.valeurCode = so;
-    }
-
+   
     public SimpleObject getValeurOrganisation() {
         return valeurOrganisation;
     }
@@ -143,14 +141,68 @@ public class Rubrique {
         }
     }
 
-    @JacksonXmlProperty(localName = "document")
-    @JacksonXmlElementWrapper(localName = "documents", useWrapping = true)
-    public List<Document> getDocuments() {
-        return documents;
+    @JacksonXmlProperty(localName = "contenu")
+    @JacksonXmlElementWrapper(localName = "contenus", useWrapping = true)
+    public List<RubriqueRichText> getRichTexts() {
+        return richTexts;
     }
 
-    public void setDocuments(List<Document> documents) {
-        this.documents = documents;
+    public void setRichTexts(List<RubriqueRichText> richTexts) {
+        this.richTexts = richTexts;
     }
+    
+    public void addRichTexts(RubriqueRichText r) {
+        if (richTexts == null) {
+        	richTexts = new ArrayList<>();
+        }
+        this.richTexts.add(r);
+    }
+
+    public List<SimpleObject> getValeurCode() {
+        return valeurCode;
+    }
+
+    public void setValeurCode(List<SimpleObject> valeurCode) {
+        this.valeurCode = valeurCode;
+    }
+    
+    public void addValeurCode(SimpleObject so) {
+        if (valeurCode == null) {
+            valeurCode = new ArrayList<>();
+        }
+        this.valeurCode.add(so);
+    }
+
+    public SimpleObject getValeurGeographie() {
+        return valeurGeographie;
+    }
+
+    public void setValeurGeographie(SimpleObject valeurGeographie) {
+        this.valeurGeographie = valeurGeographie;
+    }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, idParent, label, richTexts, titre, type, uri, valeurCode, valeurGeographie,
+				valeurOrganisation, valeurSimple);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Rubrique other = (Rubrique) obj;
+		return Objects.equals(id, other.id) && Objects.equals(idParent, other.idParent)
+				&& Objects.equals(label, other.label) && Objects.equals(richTexts, other.richTexts)
+				&& Objects.equals(titre, other.titre) && Objects.equals(type, other.type)
+				&& Objects.equals(uri, other.uri) && Objects.equals(valeurCode, other.valeurCode)
+				&& Objects.equals(valeurGeographie, other.valeurGeographie)
+				&& Objects.equals(valeurOrganisation, other.valeurOrganisation)
+				&& Objects.equals(valeurSimple, other.valeurSimple);
+	}
 
 }

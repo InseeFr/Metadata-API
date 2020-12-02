@@ -19,13 +19,13 @@ import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.classification.PosteJson;
 
 @ExtendWith(MockitoExtension.class)
-public class ClassificationAPITest extends AbstractApiTest {
+class ClassificationAPITest extends AbstractApiTest {
 
     @InjectMocks
     private ClassificationApi classificationAPI;
 
     @Test
-    public void givenGetClassificationById_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetClassificationById_whenCorrectRequest_thenResponseIsOk() {
         list.add(new PosteJson());
 
         // Mock
@@ -41,7 +41,7 @@ public class ClassificationAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClassificationById_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
+    void givenGetClassificationById_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -53,7 +53,7 @@ public class ClassificationAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClassificationTreeById_whenCorrectRequest_thenResponseIsOk() {
+    void givenGetClassificationTreeById_whenCorrectRequest_thenResponseIsOk() {
         list.add(new PosteJson());
 
         // Mock
@@ -69,7 +69,7 @@ public class ClassificationAPITest extends AbstractApiTest {
     }
 
     @Test
-    public void givenGetClassificationTreeById_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
+    void givenGetClassificationTreeById_whenCorrectRequest_andClassificationNotFound_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);

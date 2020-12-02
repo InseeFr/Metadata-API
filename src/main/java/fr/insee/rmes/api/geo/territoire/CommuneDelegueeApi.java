@@ -38,9 +38,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogcomdel";
     private static final String LITTERAL_OPERATION_SUMMARY =
-        "Informations sur une commune française identifiée par son code (cinq caractères)";
-    private static final String LITTERAL_OPERATION_DESCRIPTION =
-        "Cette requête renvoie également les communes des collectivités d'Outre-Mer";
+        "Informations sur une commune déléguée identifiée par son code (cinq caractères)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Commune déléguée";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la commune déléguée active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
@@ -56,7 +54,6 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
     @Operation(
         operationId = LITTERAL_ID_OPERATION,
         summary = LITTERAL_OPERATION_SUMMARY,
-        description = LITTERAL_OPERATION_DESCRIPTION,
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(implementation = CommuneDeleguee.class)),
@@ -64,7 +61,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
         })
     public Response getByCode(
         @Parameter(
-            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            description = ConstGeoApi.PATTERN_COMMUNE_DELEGUEE_DESCRIPTION,
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
@@ -78,7 +75,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
 
         logger.debug("Received GET request for commune déléguée {}", code);
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -100,8 +97,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
-        summary = "Récupérer les informations concernant les territoires qui contiennent la commune",
-        description = LITTERAL_OPERATION_DESCRIPTION,
+        summary = "Informations concernant les territoires qui contiennent la commune déléguée",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -109,14 +105,14 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
         })
     public Response getAscendants(
         @Parameter(
-            description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+            description = ConstGeoApi.PATTERN_COMMUNE_DELEGUEE_DESCRIPTION,
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
                 type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les territoires contenant la commune déléguée active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -154,8 +150,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-        summary = "La requête renvoie toutes les communes déléguée actives à la date donnée. Par défaut, c’est la date courante.",
-        description = LITTERAL_OPERATION_DESCRIPTION,
+        summary = "Informations sur toutes les communes déléguées actives à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Commune.class)),
@@ -164,14 +159,14 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
     public Response getListe(
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+            description = "Filtre pour renvoyer les communes déléguées actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
         logger.debug("Received GET request for all communes déléguées");
 
-        if ( ! this.verifyParameterDateIsRight(date)) {
+        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
