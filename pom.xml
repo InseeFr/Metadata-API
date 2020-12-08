@@ -11,7 +11,7 @@
 	
 	<properties>
 		<title>API RM\u00e9S</title>
-		<description>API sur les métadonnées de l'Insee</description>
+		<description>API sur les m\u00e9tadonn\u00e9es de l'Insee</description>
 	
 		<!--  Dependencies' version -->
 		<maven.compiler.source>1.8</maven.compiler.source>
