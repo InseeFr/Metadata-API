@@ -10,7 +10,7 @@
 	<version>2.0.2</version>
 	
 	<properties>
-		<title>API RMéS</title>
+		<title>API RM\u00e9S</title>
 		<description>API sur les métadonnées de l'Insee</description>
 	
 		<!--  Dependencies' version -->

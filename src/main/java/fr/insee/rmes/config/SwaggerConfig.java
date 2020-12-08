@@ -1,5 +1,7 @@
 package fr.insee.rmes.config;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,7 +35,7 @@ public class SwaggerConfig extends ResourceConfig {
                 (servletConfig != null ? servletConfig.getServletContext() : "ServletConfig is null"));
 
         // describe API
-        Info info = new Info().title(Configuration.getTitle()).version(Configuration.getVersion()).description(Configuration.getDescription());
+        Info info = new Info().title(Configuration.getTitle()).version(convertInUtf8(Configuration.getVersion())).description(convertInUtf8(Configuration.getDescription()));
         openApi.info(info);
 
         // set Server API
@@ -55,6 +57,11 @@ public class SwaggerConfig extends ResourceConfig {
         this.register(openApiResource);
         this.register(MultiPartFeature.class);
         
+    }
+    
+    private String convertInUtf8(String strToEncode) {
+    	ByteBuffer buffer = StandardCharsets.UTF_8.encode(strToEncode); 
+    	return StandardCharsets.UTF_8.decode(buffer).toString();
     }
     
 
