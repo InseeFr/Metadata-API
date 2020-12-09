@@ -21,13 +21,18 @@ public class Definition {
     private String id = null;
     @Schema(example = "http://id.insee.fr/concepts/definition/c2066")
     private String uri = null;
+    
     @Schema(example = "Intitulé du concept à définir")
     private String intitule = null;
-    
-    private String replaces = null;
-    
+        
+    @JsonInclude(Include.NON_EMPTY)
+    private SimpleObject remplace = null;
+
     @Schema(example = "http://id.insee.fr/concepts/definition/c1500")
-    private String isReplacedBy = null;
+    @JsonInclude(Include.NON_EMPTY)
+    private SimpleObject estRemplacePar = null;
+    
+    
 
     public Definition() {}
 
@@ -63,30 +68,39 @@ public class Definition {
         this.intitule = intitule;
     }
 
-    @JacksonXmlProperty(localName = "Remplace")
-    @JsonProperty(value = "remplace")
-    @JsonInclude(Include.NON_NULL)
-    public String getReplaces() {
-        return replaces;
-    }
 
-    public void setReplaces(String replaces) {
-        if (StringUtils.isNotBlank(replaces)) {
-            this.replaces = replaces;
-        }
-    }
 
-    @JacksonXmlProperty(localName = "EstRemplacePar")
-    @JsonProperty(value = "estRemplacePar")
-    @JsonInclude(Include.NON_NULL)
-    public String getIsReplacedBy() {
-        return isReplacedBy;
-    }
+	public void setReplaces(String replaces) {
+		if (StringUtils.isNotEmpty(replaces)) {
+			remplace = new SimpleObject(getIdByUri(replaces),replaces);
+		}
+	}
 
-    public void setIsReplacedBy(String isReplacedBy) {
-        if (StringUtils.isNotBlank(isReplacedBy)) {
-            this.isReplacedBy = isReplacedBy;
-        }
-    }
+	private String getIdByUri(String str) {
+		if (StringUtils.isEmpty(str)) return null;
+		int index=str.lastIndexOf('/')+1;
+		return str.substring(index,str.length());
+	}
+
+
+	public void setIsReplacedBy(String isReplacedBy) {
+		if (StringUtils.isNotEmpty(isReplacedBy)) {
+			estRemplacePar = new SimpleObject(getIdByUri(isReplacedBy),isReplacedBy);
+		}
+	}
+
+	@JacksonXmlProperty(localName = "Remplace")
+	@JsonProperty(value = "remplace")
+	@JsonInclude(Include.NON_NULL)
+	public SimpleObject getRemplace() {
+		return remplace;
+	}
+
+	@JacksonXmlProperty(localName = "EstRemplacePar")
+	@JsonProperty(value = "estRemplacePar")
+	@JsonInclude(Include.NON_NULL)
+	public SimpleObject getEstRemplacePar() {
+		return estRemplacePar;
+	}
 
 }

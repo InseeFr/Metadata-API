@@ -12,8 +12,9 @@ public class ConceptsQueries extends Queries {
     private static final String QUERIES_FOLDER = "concepts/";
 
     public static String getConceptsByLabel(String label) {
-
-        return "SELECT ?id ?uri ?intitule ?remplace ?estRemplacePar WHERE { \n"
+        return "SELECT ?id ?uri ?intitule ?replaces ?isReplacedBy "
+        		+ "FROM <http://rdf.insee.fr/graphes/concepts/definitions> "
+        		+ "WHERE { \n"
             + "?uri skos:inScheme ?conceptScheme . \n"
             + "FILTER(REGEX(STR(?conceptScheme),'/concepts/definitions/scheme')) \n"
             + "?uri skos:notation ?id . \n"
@@ -22,8 +23,8 @@ public class ConceptsQueries extends Queries {
             + "FILTER(CONTAINS(LCASE(STR(?intitule)),\""
             + (StringUtils.isEmpty(label) ? "" : label.toLowerCase())
             + "\"))"
-            + "OPTIONAL{ ?uri dcterms:replaces ?remplace } \n"
-            + "OPTIONAL{ ?estRemplacePar dcterms:replaces ?uri } \n"
+            + "OPTIONAL{ ?uri dcterms:replaces ?replaces } \n"
+            + "OPTIONAL{ ?isReplacedBy dcterms:replaces ?uri } \n"
             + "}"
             + "ORDER BY ?intitule";
     }
