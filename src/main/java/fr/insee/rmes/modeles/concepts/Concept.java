@@ -75,7 +75,8 @@ public class Concept {
         this.uri = uri;
     }
 
-    @JacksonXmlProperty(localName = "intitule")
+    @JsonProperty(value = "intitule")
+    @JacksonXmlProperty(localName = "Intitule")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getIntitule() {
         return intitule;
@@ -97,7 +98,8 @@ public class Concept {
         }
     }
     
-    @JacksonXmlProperty(localName = "definition")
+    @JsonProperty(value = "definition")
+    @JacksonXmlProperty(localName = "Definition")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getDefinition() {
         return definition;
@@ -123,7 +125,7 @@ public class Concept {
 
 
     
-    @JacksonXmlProperty(localName = "definitionCourte")
+    @JacksonXmlProperty(localName = "DefinitionCourte")
     @JsonProperty(value="definitionCourte")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getScopeNote() {
@@ -146,6 +148,7 @@ public class Concept {
         }
     }
     
+    @JacksonXmlProperty(localName = "NoteEditoriale")
     @JsonProperty(value = "noteEditoriale")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getNoteEditoriale() {
@@ -168,15 +171,20 @@ public class Concept {
         }
     }
 
-
+    @JsonProperty(value = "remplace")
+    @JacksonXmlProperty(localName = "Remplace")
     public SimpleObject getRemplace() {
         return remplace;
     }
 
+    @JsonProperty(value = "estRemplacePar")
+    @JacksonXmlProperty(localName = "EstRemplacePar")
     public SimpleObject getEstRemplacePar() {
         return estRemplacePar;
     }
 
+    @JsonProperty(value = "dateMiseAJour")
+    @JacksonXmlProperty(localName = "DateMiseAJour")
     public String getDateMiseAJour() {
         return dateMiseAJour.substring(0,10);
     }

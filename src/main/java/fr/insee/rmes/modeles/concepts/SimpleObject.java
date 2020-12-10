@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(name = "Concept", description = "concept lié")
 public class SimpleObject {
-
+	@Schema(example = "c1500")
 	protected String id = null;
     @Schema(example = "http://id.insee.fr/...")
     protected String uri = null;

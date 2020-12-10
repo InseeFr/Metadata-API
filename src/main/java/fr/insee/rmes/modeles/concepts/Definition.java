@@ -28,7 +28,6 @@ public class Definition {
     @JsonInclude(Include.NON_EMPTY)
     private SimpleObject remplace = null;
 
-    @Schema(example = "http://id.insee.fr/concepts/definition/c1500")
     @JsonInclude(Include.NON_EMPTY)
     private SimpleObject estRemplacePar = null;
     
