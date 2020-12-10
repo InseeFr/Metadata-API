@@ -3,6 +3,8 @@ package fr.insee.rmes.modeles.classification;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -21,9 +23,9 @@ public class Activite {
     @Schema(example = "Culture de céréales ; cultures industrielles")
     private String intitule = null;
     
-    @Schema(name ="DateDebutValidite", example = "2003-01-01", format="date")
+    @Schema(example = "2003-01-01", format="date")
     private String issued = null;
-    @Schema(name ="DateFinValidite", example = "2007-12-31", format="date")
+    @Schema( example = "2007-12-31", format="date")
     private String valid = null;
 
     public Activite() {} // No-args constructor needed for JAXB
@@ -62,6 +64,7 @@ public class Activite {
 
     @JacksonXmlProperty(localName = "DateDebutValidite")
     @JsonProperty(value = "dateDebutValidite")
+    @JsonInclude(Include.NON_EMPTY)
     public String getIssued() {
         return issued;
     }
@@ -72,6 +75,7 @@ public class Activite {
 
     @JacksonXmlProperty(localName = "DateFinValidite")
     @JsonProperty(value = "dateFinValidite")
+    @JsonInclude(Include.NON_EMPTY)
     public String getValid() {
         return valid;
     }

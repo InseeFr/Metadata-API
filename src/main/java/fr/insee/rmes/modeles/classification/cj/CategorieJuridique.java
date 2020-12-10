@@ -3,7 +3,9 @@ package fr.insee.rmes.modeles.classification.cj;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -61,6 +63,7 @@ public class CategorieJuridique {
 
     @JacksonXmlProperty(localName = "DateDebutValidite")
     @JsonProperty(value = "dateDebutValidite")
+    @JsonInclude(Include.NON_EMPTY)
     public String getIssued() {
         return issued;
     }
@@ -71,6 +74,7 @@ public class CategorieJuridique {
 
     @JacksonXmlProperty(localName = "DateFinValidite")
     @JsonProperty(value = "dateFinValidite")
+    @JsonInclude(Include.NON_EMPTY)
     public String getValid() {
         return valid;
     }

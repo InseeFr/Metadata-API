@@ -6,7 +6,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -40,13 +41,12 @@ public class Concept {
     @JsonInclude(Include.NON_EMPTY)
     private List<StringWithLang> scopeNote= new ArrayList<>();
     
-    @JsonAlias("replaces")
     @JsonInclude(Include.NON_EMPTY)
-    private String remplace = null;
+    private SimpleObject remplace = null;
+
     @Schema(example = "http://id.insee.fr/concepts/definition/c1500")
-    @JsonAlias("isReplacedBy")
     @JsonInclude(Include.NON_EMPTY)
-    private String estRemplacePar = null;
+    private SimpleObject estRemplacePar = null;
     
     @JsonInclude(Include.NON_EMPTY)
     private String dateMiseAJour = null;
@@ -75,7 +75,8 @@ public class Concept {
         this.uri = uri;
     }
 
-    @JacksonXmlProperty(localName = "intitule")
+    @JsonProperty(value = "intitule")
+    @JacksonXmlProperty(localName = "Intitule")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getIntitule() {
         return intitule;
@@ -97,7 +98,8 @@ public class Concept {
         }
     }
     
-    @JacksonXmlProperty(localName = "definition")
+    @JsonProperty(value = "definition")
+    @JacksonXmlProperty(localName = "Definition")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getDefinition() {
         return definition;
@@ -107,6 +109,7 @@ public class Concept {
         this.definition = definition;
     }
     
+   
     @JsonProperty(value = "definitionFr")
     public void setDefinitionFr(String definitionFr) {
         if (!definitionFr.equals("")) {
@@ -122,7 +125,7 @@ public class Concept {
 
 
     
-    @JacksonXmlProperty(localName = "definitionCourte")
+    @JacksonXmlProperty(localName = "DefinitionCourte")
     @JsonProperty(value="definitionCourte")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getScopeNote() {
@@ -145,6 +148,7 @@ public class Concept {
         }
     }
     
+    @JacksonXmlProperty(localName = "NoteEditoriale")
     @JsonProperty(value = "noteEditoriale")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getNoteEditoriale() {
@@ -167,23 +171,20 @@ public class Concept {
         }
     }
 
-
-    public String getRemplace() {
+    @JsonProperty(value = "remplace")
+    @JacksonXmlProperty(localName = "Remplace")
+    public SimpleObject getRemplace() {
         return remplace;
     }
 
-    public void setRemplace(String remplace) {
-        this.remplace = remplace;
-    }
-
-    public String getEstRemplacePar() {
+    @JsonProperty(value = "estRemplacePar")
+    @JacksonXmlProperty(localName = "EstRemplacePar")
+    public SimpleObject getEstRemplacePar() {
         return estRemplacePar;
     }
 
-    public void setEstRemplacePar(String estRemplacePar) {
-        this.estRemplacePar = estRemplacePar;
-    }
-
+    @JsonProperty(value = "dateMiseAJour")
+    @JacksonXmlProperty(localName = "DateMiseAJour")
     public String getDateMiseAJour() {
         return dateMiseAJour.substring(0,10);
     }
@@ -191,5 +192,24 @@ public class Concept {
     public void setDateMiseAJour(String dateMiseAJour) {
         this.dateMiseAJour = dateMiseAJour;
     }
+
+	public void setReplaces(String replaces) {
+		if (StringUtils.isNotEmpty(replaces)) {
+			remplace = new SimpleObject(getIdByUri(replaces),replaces);
+		}
+	}
+
+	private String getIdByUri(String str) {
+		if (StringUtils.isEmpty(str)) return null;
+		int index=str.lastIndexOf('/')+1;
+		return str.substring(index,str.length());
+	}
+
+
+	public void setIsReplacedBy(String isReplacedBy) {
+		if (StringUtils.isNotEmpty(isReplacedBy)) {
+			estRemplacePar = new SimpleObject(getIdByUri(isReplacedBy),isReplacedBy);
+		}
+	}
 
 }
