@@ -17,6 +17,7 @@ import fr.insee.rmes.modeles.classification.correspondence.Association;
 import fr.insee.rmes.modeles.classification.correspondence.Associations;
 import fr.insee.rmes.modeles.classification.correspondence.RawCorrespondence;
 import fr.insee.rmes.queries.classifications.CorrespondencesQueries;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,10 +25,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Hidden
 @Path("/correspondance")
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class CorrespondenceApi extends AbstractMetadataApi {
 
+	@Hidden
     @GET
     @Path("/{idCorrespondance}")
     @Produces({
@@ -65,6 +68,7 @@ public class CorrespondenceApi extends AbstractMetadataApi {
         }
     }
 
+	@Hidden
     @GET
     @Path("/{idNomenclatureSource}/{idNomenclatureCible}")
     @Produces({
