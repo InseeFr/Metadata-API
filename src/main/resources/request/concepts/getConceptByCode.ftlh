@@ -1,5 +1,6 @@
-SELECT distinct ?uri ?intituleFr ?intituleEn ?replaces ?isReplacedBy 
-?definitionFr ?definitionEn ?editorialNoteFr ?editorialNoteEn ?scopeNoteFr ?scopeNoteEn ?dateMiseAJour
+SELECT distinct ?uri ?intituleFr ?intituleEn 
+?definitionFr ?definitionEn ?editorialNoteFr ?editorialNoteEn ?scopeNoteFr ?scopeNoteEn
+ ?dateMiseAJour ?hasLink
 FROM <http://rdf.insee.fr/graphes/concepts/definitions>
 WHERE { 
 			?uri skos:inScheme ?uriScheme . 
@@ -11,13 +12,10 @@ WHERE {
 			?uri skos:prefLabel ?intituleEn . 
 			FILTER(lang(?intituleEn) = 'en') 
 
-			OPTIONAL{ ?uri dcterms:replaces ?replaces } 
-			OPTIONAL{ ?isReplacedBy dcterms:replaces ?uri } 
+			BIND(EXISTS{?uri dcterms:replaces|^dcterms:replaces ?repl } AS ?hasLink)
 			
 			OPTIONAL{ ?uri dcterms:modified ?dateMiseAJour } 
-			OPTIONAL{ ?uri dcterms:replaces ?replaces } 
-
-			
+		
 			
 			OPTIONAL {
 				?uri skos:definition ?defFr . 
