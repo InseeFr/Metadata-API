@@ -36,7 +36,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Hidden
 @Path("/operations")
 @Tag(name = "operations", description = "Operations API")
 public class OperationsAPI extends AbstractMetadataApi {
@@ -44,7 +43,7 @@ public class OperationsAPI extends AbstractMetadataApi {
     private static Logger logger = LogManager.getLogger(OperationsAPI.class);
     private OperationsApiService operationsApiService = new OperationsApiService();
     
-    @Hidden
+    
     @Path("/arborescence")
     @GET
     @Produces({
@@ -91,7 +90,7 @@ public class OperationsAPI extends AbstractMetadataApi {
 
     }
 
-    @Hidden
+    
     @Path("/documentation/{id: [0-9]{4}}")
     @GET
     @Produces({
@@ -124,7 +123,7 @@ public class OperationsAPI extends AbstractMetadataApi {
         }
     }
 
-    @Hidden
+    
     @Path("/serie/{idSeries}")
     @GET
     @Produces({
@@ -155,7 +154,7 @@ public class OperationsAPI extends AbstractMetadataApi {
         }
     }
 
-    @Hidden
+    
     @Path("/indicateur/{idIndicateur}")
     @GET
     @Produces({

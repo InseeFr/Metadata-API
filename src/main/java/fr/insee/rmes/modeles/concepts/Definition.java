@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,22 +21,32 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@XmlRootElement(name = "IntituleDefinition")
 @JacksonXmlRootElement(localName = "IntituleDefinition")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "IntituleDefinition", description = "Objet représentant la définition d'un concept statistique de l'Insee")
 public class Definition {
 
+	@XmlAttribute
+    @Schema(example = "c2066")
     private String id = null;
+	
+	@XmlAttribute
     @Schema(example = "http://id.insee.fr/concepts/definition/c2066")
     private String uri = null;
     
+    @XmlElement(name = "Intitule")
     @Schema(example = "Intitulé du concept à définir")
     private String intitule = null;
         
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name = "Remplace")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<SimpleObject> remplace = new ArrayList<>();
 
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name = "EstRemplacePar")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<SimpleObject> estRemplacePar =  new ArrayList<>();
     
     private Boolean hasLink;
@@ -64,7 +77,6 @@ public class Definition {
     }
 
     @JacksonXmlProperty(localName = "Intitule")
-    @JsonProperty(value = "intitule")
     public String getIntitule() {
         return intitule;
     }
@@ -74,14 +86,12 @@ public class Definition {
     }
 
 
-    @JsonProperty(value = "remplace")
     @JacksonXmlProperty(localName = "Remplace")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getRemplace() {
         return remplace;
     }
 
-    @JsonProperty(value = "estRemplacePar")
     @JacksonXmlProperty(localName = "EstRemplacePar")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getEstRemplacePar() {
