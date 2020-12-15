@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.concepts.Concept;
+import fr.insee.rmes.modeles.concepts.ConceptLink;
 import fr.insee.rmes.modeles.concepts.Definition;
 import fr.insee.rmes.modeles.concepts.Definitions;
 import fr.insee.rmes.queries.concepts.ConceptsQueries;
@@ -61,6 +62,14 @@ public class ConceptsAPI extends AbstractMetadataApi {
         String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptsByLabel(label));
         List<Definition> conceptList = csvUtils.populateMultiPOJO(csvResult, Definition.class);
 
+        conceptList.forEach(concept -> {
+            if (Boolean.TRUE.equals(concept.getHasLink())) {
+              	 String csvLinks = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptLinks(concept.getId()));
+              	 List<ConceptLink> links = csvUtils.populateMultiPOJO(csvLinks, ConceptLink.class);
+              	 concept.setLinks(links);
+              }
+        });
+        
         if (conceptList.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
@@ -91,7 +100,7 @@ public class ConceptsAPI extends AbstractMetadataApi {
         @Parameter(
             required = true,
             description = "Identifiant du concept (format : c[0-9]{4})",
-            schema = @Schema(pattern = "c[0-9]{4}", type = "string")) @PathParam("id") String id,
+            schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066") @PathParam("id") String id,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
         logger.debug("Received GET request for Concept: {}", id);
@@ -99,6 +108,11 @@ public class ConceptsAPI extends AbstractMetadataApi {
         Concept concept = new Concept(id);
         String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));
         concept = (Concept) csvUtils.populatePOJO(csvResult, concept);
+        if (Boolean.TRUE.equals(concept.getHasLink())) {
+        	 String csvLinks = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptLinks(id));
+        	 List<ConceptLink> links = csvUtils.populateMultiPOJO(csvLinks, ConceptLink.class);
+        	 concept.setLinks(links);
+        }
 
         if (concept.getUri() == null) {
             return Response.status(Status.NOT_FOUND).entity("").build();

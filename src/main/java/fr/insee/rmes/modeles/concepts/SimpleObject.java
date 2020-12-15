@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class SimpleObject {
 	@Schema(example = "c1500")
 	protected String id = null;
-    @Schema(example = "http://id.insee.fr/...")
+    @Schema(example = "http://id.insee.fr/concepts/definition/c1500")
     protected String uri = null;
 
 

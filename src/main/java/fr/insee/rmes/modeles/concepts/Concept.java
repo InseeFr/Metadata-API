@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,8 +28,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Definition", description = "Objet représentant la définition d'un concept statistique de l'Insee")
 public class Concept {
- 
+
 	@XmlAttribute
+    @Schema(example = "c2066")
     private String id = null;
  
 	@XmlAttribute
@@ -54,16 +56,22 @@ public class Concept {
     @JacksonXmlElementWrapper(useWrapping = false)
     private List<StringWithLang> scopeNote= new ArrayList<>();
     
+
+    private Boolean hasLink;
+    
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name = "Remplace")
-    private SimpleObject remplace = null;
+    @JacksonXmlElementWrapper(useWrapping = false)
+    private List<SimpleObject> remplace = new ArrayList<>();
 
-    @Schema(example = "http://id.insee.fr/concepts/definition/c1500")
+
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name = "EstRemplacePar")
-    @JacksonXmlProperty(localName ="EstRemplacePar")
-    private SimpleObject estRemplacePar = null;
+    @JacksonXmlElementWrapper(useWrapping = false)
+    private List<SimpleObject> estRemplacePar = new ArrayList<>();
+
     
+    @Schema(example = "2020-11-10", pattern = "AAAA-MM-JJ")
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name = "DateMiseAJour")
     private String dateMiseAJour = null;
@@ -187,12 +195,14 @@ public class Concept {
     }
 
     @JacksonXmlProperty(localName = "Remplace")
-    public SimpleObject getRemplace() {
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<SimpleObject> getRemplace() {
         return remplace;
     }
 
     @JacksonXmlProperty(localName = "EstRemplacePar")
-    public SimpleObject getEstRemplacePar() {
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<SimpleObject> getEstRemplacePar() {
         return estRemplacePar;
     }
 
@@ -205,23 +215,25 @@ public class Concept {
         this.dateMiseAJour = dateMiseAJour;
     }
 
-	public void setReplaces(String replaces) {
-		if (StringUtils.isNotEmpty(replaces)) {
-			remplace = new SimpleObject(getIdByUri(replaces),replaces);
-		}
+    @JsonIgnore
+    public Boolean getHasLink() {
+		return hasLink;
 	}
 
-	private String getIdByUri(String str) {
-		if (StringUtils.isEmpty(str)) return null;
-		int index=str.lastIndexOf('/')+1;
-		return str.substring(index,str.length());
+    @JsonProperty(value = "hasLink")
+	public void setHasLink(Boolean hasLink) {
+		this.hasLink = hasLink;
 	}
 
-
-	public void setIsReplacedBy(String isReplacedBy) {
-		if (StringUtils.isNotEmpty(isReplacedBy)) {
-			estRemplacePar = new SimpleObject(getIdByUri(isReplacedBy),isReplacedBy);
-		}
+	public void setLinks(List<ConceptLink> links) {
+		links.forEach(link -> {
+			SimpleObject so = new SimpleObject(link.getId(), link.getUri());
+			if (StringUtils.equals("replaces",link.getTypeOfLink())) {
+				remplace.add(so);
+			}else if (StringUtils.equals("isReplacedBy",link.getTypeOfLink())) {
+				estRemplacePar.add(so);
+			}
+		});		
 	}
 
 }

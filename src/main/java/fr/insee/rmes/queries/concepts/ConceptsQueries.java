@@ -12,7 +12,7 @@ public class ConceptsQueries extends Queries {
     private static final String QUERIES_FOLDER = "concepts/";
 
     public static String getConceptsByLabel(String label) {
-        return "SELECT ?id ?uri ?intitule ?replaces ?isReplacedBy "
+        return "SELECT ?id ?uri ?intitule ?hasLink "
         		+ "FROM <http://rdf.insee.fr/graphes/concepts/definitions> "
         		+ "WHERE { \n"
             + "?uri skos:inScheme ?conceptScheme . \n"
@@ -22,9 +22,8 @@ public class ConceptsQueries extends Queries {
             + "FILTER(lang(?intitule) = 'fr') \n"
             + "FILTER(CONTAINS(LCASE(STR(?intitule)),\""
             + (StringUtils.isEmpty(label) ? "" : label.toLowerCase())
-            + "\"))"
-            + "OPTIONAL{ ?uri dcterms:replaces ?replaces } \n"
-            + "OPTIONAL{ ?isReplacedBy dcterms:replaces ?uri } \n"
+            + "\")) \n"
+            + "BIND(EXISTS{?uri dcterms:replaces|^dcterms:replaces ?repl } AS ?hasLink) \n"
             + "}"
             + "ORDER BY ?intitule";
     }
@@ -35,4 +34,11 @@ public class ConceptsQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getConceptByCode.ftlh", params);
     }
 
+    public static String getConceptLinks(String id) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("uriConcept", "http://id.insee.fr/concepts/definition/"+id);
+        return buildRequest(QUERIES_FOLDER, "getLinkedConceptsQuery.ftlh", params);
+    }
+
+    
 }
