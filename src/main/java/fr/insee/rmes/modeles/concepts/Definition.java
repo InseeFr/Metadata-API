@@ -1,13 +1,18 @@
 package fr.insee.rmes.modeles.concepts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -26,11 +31,12 @@ public class Definition {
     private String intitule = null;
         
     @JsonInclude(Include.NON_EMPTY)
-    private SimpleObject remplace = null;
+    private List<SimpleObject> remplace = new ArrayList<>();
 
     @JsonInclude(Include.NON_EMPTY)
-    private SimpleObject estRemplacePar = null;
+    private List<SimpleObject> estRemplacePar =  new ArrayList<>();
     
+    private Boolean hasLink;
     
 
     public Definition() {}
@@ -68,38 +74,39 @@ public class Definition {
     }
 
 
+    @JsonProperty(value = "remplace")
+    @JacksonXmlProperty(localName = "Remplace")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<SimpleObject> getRemplace() {
+        return remplace;
+    }
 
-	public void setReplaces(String replaces) {
-		if (StringUtils.isNotEmpty(replaces)) {
-			remplace = new SimpleObject(getIdByUri(replaces),replaces);
-		}
+    @JsonProperty(value = "estRemplacePar")
+    @JacksonXmlProperty(localName = "EstRemplacePar")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<SimpleObject> getEstRemplacePar() {
+        return estRemplacePar;
+    }
+
+    @JsonIgnore
+	public Boolean getHasLink() {
+		return hasLink;
 	}
 
-	private String getIdByUri(String str) {
-		if (StringUtils.isEmpty(str)) return null;
-		int index=str.lastIndexOf('/')+1;
-		return str.substring(index,str.length());
+    @JsonProperty(value = "hasLink")
+	public void setHasLink(Boolean hasLink) {
+		this.hasLink = hasLink;
 	}
 
-
-	public void setIsReplacedBy(String isReplacedBy) {
-		if (StringUtils.isNotEmpty(isReplacedBy)) {
-			estRemplacePar = new SimpleObject(getIdByUri(isReplacedBy),isReplacedBy);
-		}
-	}
-
-	@JacksonXmlProperty(localName = "Remplace")
-	@JsonProperty(value = "remplace")
-	@JsonInclude(Include.NON_NULL)
-	public SimpleObject getRemplace() {
-		return remplace;
-	}
-
-	@JacksonXmlProperty(localName = "EstRemplacePar")
-	@JsonProperty(value = "estRemplacePar")
-	@JsonInclude(Include.NON_NULL)
-	public SimpleObject getEstRemplacePar() {
-		return estRemplacePar;
+	public void setLinks(List<ConceptLink> links) {
+		links.forEach(link -> {
+			SimpleObject so = new SimpleObject(link.getId(), link.getUri());
+			if (StringUtils.equals("replaces",link.getTypeOfLink())) {
+				remplace.add(so);
+			}else if (StringUtils.equals("isReplacedBy",link.getTypeOfLink())) {
+				estRemplacePar.add(so);
+			}
+		});		
 	}
 
 }
