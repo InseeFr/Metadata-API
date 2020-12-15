@@ -2,10 +2,13 @@ package fr.insee.rmes.modeles.concepts;
 
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(name = "Concept", description = "concept lié")
-public class SimpleObject {
+@XmlRootElement(name="ConceptSuivant")
+@Schema(name = "ConceptSuivant", description = "concept lié")
+public class ConceptSuivant {
 	@Schema(example = "c1500")
 	protected String id = null;
     @Schema(example = "http://id.insee.fr/concepts/definition/c1500")
@@ -20,12 +23,12 @@ public class SimpleObject {
         this.id = id;
     }
 
-    public SimpleObject(String id, String uri) {
+    public ConceptSuivant(String id, String uri) {
         this.id = id;
         this.uri = uri;
     }
 
-    public SimpleObject() {
+    public ConceptSuivant() {
         super();
     }
 
@@ -51,7 +54,7 @@ public class SimpleObject {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SimpleObject other = (SimpleObject) obj;
+		ConceptSuivant other = (ConceptSuivant) obj;
 		return Objects.equals(id, other.id) && Objects.equals(uri, other.uri);
 	}
 

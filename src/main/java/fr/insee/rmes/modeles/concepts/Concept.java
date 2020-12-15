@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.StringUtils;
@@ -59,16 +60,9 @@ public class Concept {
 
     private Boolean hasLink;
     
-    @JsonInclude(Include.NON_EMPTY)
-    @XmlElement(name = "Remplace")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    private List<SimpleObject> remplace = new ArrayList<>();
+    private List<ConceptPrecedent> remplace = new ArrayList<>();
 
-
-    @JsonInclude(Include.NON_EMPTY)
-    @XmlElement(name = "EstRemplacePar")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    private List<SimpleObject> estRemplacePar = new ArrayList<>();
+    private List<ConceptSuivant> estRemplacePar = new ArrayList<>();
 
     
     @Schema(example = "2020-11-10", pattern = "AAAA-MM-JJ")
@@ -194,15 +188,21 @@ public class Concept {
         }
     }
 
-    @JacksonXmlProperty(localName = "Remplace")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public List<SimpleObject> getRemplace() {
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("conceptsPrecedents")
+    @XmlElementWrapper(name = "ConceptsPrecedents")
+    @JacksonXmlElementWrapper(localName = "ConceptsPrecedents")
+    @JacksonXmlProperty(localName = "ConceptPrecedent")
+    public List<ConceptPrecedent> getRemplace() {
         return remplace;
     }
 
-    @JacksonXmlProperty(localName = "EstRemplacePar")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public List<SimpleObject> getEstRemplacePar() {
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("conceptsSuivants") //json example
+    @XmlElementWrapper(name = "ConceptsSuivants") //xml example list
+    @JacksonXmlElementWrapper(localName = "ConceptsSuivants") //xml response
+    @JacksonXmlProperty(localName = "ConceptSuivant") //xml response
+    public List<ConceptSuivant> getEstRemplacePar() {
         return estRemplacePar;
     }
 
@@ -227,10 +227,12 @@ public class Concept {
 
 	public void setLinks(List<ConceptLink> links) {
 		links.forEach(link -> {
-			SimpleObject so = new SimpleObject(link.getId(), link.getUri());
+			
 			if (StringUtils.equals("replaces",link.getTypeOfLink())) {
+				ConceptPrecedent so = new ConceptPrecedent(link.getId(), link.getUri());
 				remplace.add(so);
 			}else if (StringUtils.equals("isReplacedBy",link.getTypeOfLink())) {
+				ConceptSuivant so = new ConceptSuivant(link.getId(), link.getUri());
 				estRemplacePar.add(so);
 			}
 		});		
