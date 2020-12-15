@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,38 +23,57 @@ import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@XmlRootElement(name = "Definition")
 @JacksonXmlRootElement(localName = "Definition")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Definition", description = "Objet représentant la définition d'un concept statistique de l'Insee")
 public class Concept {
+
+	@XmlAttribute
     @Schema(example = "c2066")
     private String id = null;
+ 
+	@XmlAttribute
     @Schema(example = "http://id.insee.fr/concepts/definition/c2066")
     private String uri = null;
     
+    @XmlElement(name = "Intitule")
     @JsonInclude(Include.NON_EMPTY)
     private List<StringWithLang> intitule = new ArrayList<>();
     
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name = "Definition")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<StringWithLang> definition= new ArrayList<>();
     
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name="NoteEditoriale")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<StringWithLang> noteEditoriale= new ArrayList<>();
     
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name = "DefinitionCourte")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<StringWithLang> scopeNote= new ArrayList<>();
     
 
     private Boolean hasLink;
     
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name = "Remplace")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<SimpleObject> remplace = new ArrayList<>();
 
+
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name = "EstRemplacePar")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<SimpleObject> estRemplacePar = new ArrayList<>();
+
     
     @Schema(example = "2020-11-10", pattern = "AAAA-MM-JJ")
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name = "DateMiseAJour")
     private String dateMiseAJour = null;
 
     public Concept() {}
@@ -78,7 +100,7 @@ public class Concept {
         this.uri = uri;
     }
 
-    @JsonProperty(value = "intitule")
+
     @JacksonXmlProperty(localName = "Intitule")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getIntitule() {
@@ -101,7 +123,7 @@ public class Concept {
         }
     }
     
-    @JsonProperty(value = "definition")
+
     @JacksonXmlProperty(localName = "Definition")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getDefinition() {
@@ -127,7 +149,6 @@ public class Concept {
     }
 
 
-    
     @JacksonXmlProperty(localName = "DefinitionCourte")
     @JsonProperty(value="definitionCourte")
     @JacksonXmlElementWrapper(useWrapping = false)
@@ -152,7 +173,6 @@ public class Concept {
     }
     
     @JacksonXmlProperty(localName = "NoteEditoriale")
-    @JsonProperty(value = "noteEditoriale")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getNoteEditoriale() {
         return noteEditoriale;
@@ -174,26 +194,23 @@ public class Concept {
         }
     }
 
-    @JsonProperty(value = "remplace")
     @JacksonXmlProperty(localName = "Remplace")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getRemplace() {
         return remplace;
     }
 
-    @JsonProperty(value = "estRemplacePar")
     @JacksonXmlProperty(localName = "EstRemplacePar")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getEstRemplacePar() {
         return estRemplacePar;
     }
 
-    @JsonProperty(value = "dateMiseAJour")
-    @JacksonXmlProperty(localName = "DateMiseAJour")
     public String getDateMiseAJour() {
         return dateMiseAJour.substring(0,10);
     }
 
+    @JacksonXmlProperty(localName = "DateMiseAJour")
     public void setDateMiseAJour(String dateMiseAJour) {
         this.dateMiseAJour = dateMiseAJour;
     }

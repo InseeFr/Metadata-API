@@ -2,6 +2,8 @@ package fr.insee.rmes.modeles;
 
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAttribute;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.insee.rmes.utils.Lang;
@@ -14,6 +16,7 @@ public class StringWithLang {
     
     @Schema(example = "fr")
     @JsonProperty("langue")
+    @XmlAttribute
     private Lang lang = null;
 
     public String getString() {
