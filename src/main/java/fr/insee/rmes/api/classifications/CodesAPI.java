@@ -35,7 +35,6 @@ import fr.insee.rmes.queries.classifications.Naf1993Queries;
 import fr.insee.rmes.queries.classifications.Naf2003Queries;
 import fr.insee.rmes.queries.classifications.Naf2008Queries;
 import fr.insee.rmes.utils.DateUtils;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -100,7 +99,7 @@ public class CodesAPI extends AbstractMetadataApi {
         return Response.ok(responseUtils.produceResponse(cjNiveau3, header)).build();
     }
 
-    @Hidden
+    
     @Path("/cj")
     @GET
     @Produces({
@@ -204,7 +203,7 @@ public class CodesAPI extends AbstractMetadataApi {
         return Response.ok(responseUtils.produceResponse(classe, header)).build();
     }
 
-    @Hidden
+    
     @Path("/nafr1/classe/{code: [0-9]{2}\\.[0-9][A-Z]}")
     @GET
     @Produces({
@@ -233,7 +232,7 @@ public class CodesAPI extends AbstractMetadataApi {
         return Response.ok(responseUtils.produceResponse(classe, header)).build();
     }
 
-    @Hidden
+    
     @Path("/naf/classe/{code: [0-9]{2}\\.[0-9][A-Z]}")
     @GET
     @Produces({
@@ -262,7 +261,7 @@ public class CodesAPI extends AbstractMetadataApi {
         return Response.ok(responseUtils.produceResponse(classe, header)).build();
     }
 
-    @Hidden
+    
     @Path("/na73/groupe/{code: [0-9]{2}\\.[0-9]{2}}")
     @GET
     @Produces({
@@ -291,7 +290,7 @@ public class CodesAPI extends AbstractMetadataApi {
         return Response.ok(responseUtils.produceResponse(groupe, header)).build();
     }
 
-    @Hidden
+    
     @Path("/activites")
     @GET
     @Produces({
