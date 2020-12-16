@@ -1,33 +1,53 @@
 package fr.insee.rmes.modeles.concepts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@XmlRootElement(name = "Definition")//for openapi example
 @JacksonXmlRootElement(localName = "IntituleDefinition")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "IntituleDefinition", description = "Objet représentant la définition d'un concept statistique de l'Insee")
 public class Definition {
 
+	@XmlAttribute
+    @Schema(example = "c2066")
     private String id = null;
+	
+	@XmlAttribute
     @Schema(example = "http://id.insee.fr/concepts/definition/c2066")
     private String uri = null;
+    
+    @XmlElement(name = "Intitule")
     @Schema(example = "Intitulé du concept à définir")
     private String intitule = null;
+        
+    @JsonInclude(Include.NON_EMPTY)
+    private List<ConceptPrecedent> remplace = new ArrayList<>();
+
+    @JsonInclude(Include.NON_EMPTY)
+    private List<ConceptSuivant> estRemplacePar =  new ArrayList<>();
     
-    private String replaces = null;
+    private Boolean hasLink;
     
-    @Schema(example = "http://id.insee.fr/concepts/definition/c1500")
-    private String isReplacedBy = null;
 
     public Definition() {}
 
@@ -54,7 +74,6 @@ public class Definition {
     }
 
     @JacksonXmlProperty(localName = "Intitule")
-    @JsonProperty(value = "intitule")
     public String getIntitule() {
         return intitule;
     }
@@ -63,30 +82,46 @@ public class Definition {
         this.intitule = intitule;
     }
 
-    @JacksonXmlProperty(localName = "Remplace")
-    @JsonProperty(value = "remplace")
-    @JsonInclude(Include.NON_NULL)
-    public String getReplaces() {
-        return replaces;
+
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("conceptsPrecedents")
+    @XmlElementWrapper(name = "ConceptsPrecedents")
+    @JacksonXmlElementWrapper(localName = "ConceptsPrecedents")
+    @JacksonXmlProperty(localName = "ConceptPrecedent")
+    public List<ConceptPrecedent> getRemplace() {
+        return remplace;
     }
 
-    public void setReplaces(String replaces) {
-        if (StringUtils.isNotBlank(replaces)) {
-            this.replaces = replaces;
-        }
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("conceptsSuivants") //json example
+    @XmlElementWrapper(name = "ConceptsSuivants") //xml example list
+    @JacksonXmlElementWrapper(localName = "ConceptsSuivants") //xml response
+    @JacksonXmlProperty(localName = "ConceptSuivant") //xml response
+    public List<ConceptSuivant> getEstRemplacePar() {
+        return estRemplacePar;
     }
 
-    @JacksonXmlProperty(localName = "EstRemplacePar")
-    @JsonProperty(value = "estRemplacePar")
-    @JsonInclude(Include.NON_NULL)
-    public String getIsReplacedBy() {
-        return isReplacedBy;
-    }
+    @JsonIgnore
+	public Boolean getHasLink() {
+		return hasLink;
+	}
 
-    public void setIsReplacedBy(String isReplacedBy) {
-        if (StringUtils.isNotBlank(isReplacedBy)) {
-            this.isReplacedBy = isReplacedBy;
-        }
-    }
+    @JsonProperty(value = "hasLink")
+	public void setHasLink(Boolean hasLink) {
+		this.hasLink = hasLink;
+	}
+
+	public void setLinks(List<ConceptLink> links) {
+		links.forEach(link -> {
+			
+			if (StringUtils.equals("replaces",link.getTypeOfLink())) {
+				ConceptPrecedent so = new ConceptPrecedent(link.getId(), link.getUri());
+				remplace.add(so);
+			}else if (StringUtils.equals("isReplacedBy",link.getTypeOfLink())) {
+				ConceptSuivant so = new ConceptSuivant(link.getId(), link.getUri());
+				estRemplacePar.add(so);
+			}
+		});		
+	}
 
 }

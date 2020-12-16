@@ -1,5 +1,7 @@
 package fr.insee.rmes.modeles.geo.territoire;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -7,6 +9,7 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@XmlRootElement(name = "ArrondissementMunicipal")
 public class ArrondissementMunicipal extends Territoire {
     // No-args constructor needed for JAXB
     public ArrondissementMunicipal() {

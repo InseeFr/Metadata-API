@@ -2,6 +2,7 @@ package fr.insee.rmes.modeles.geo.territoire;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -11,6 +12,7 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@XmlRootElement(name = "Departement")
 @JacksonXmlRootElement(localName = "Departement")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant un departement")
