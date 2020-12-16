@@ -1,31 +1,46 @@
 package fr.insee.rmes.modeles.geo.territoire;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@XmlRootElement(name="Territoire")
 public abstract class Territoire {
 
+	@XmlAttribute
     protected String code = null;
-
+	
+	@XmlAttribute
     protected String uri = null;
-
+	
+	@XmlElement(name="Intitule")
     protected String intitule = null;
-
+	
+	@XmlElement(name="Type")
     protected String type;
 
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name="DateCreation")
+    @Schema(example ="1992-09-09")
     protected String dateCreation = null;
 
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name="DateSuppression")
+    @Schema(example ="2015-10-10")
     protected String dateSuppression = null;
 
     protected IntituleSansArticle intituleSansArticle;
 
     @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name="ChefLieu")
     protected String chefLieu = null;
 
     @JacksonXmlProperty(isAttribute = true)

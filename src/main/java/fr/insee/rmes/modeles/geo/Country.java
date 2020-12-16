@@ -2,6 +2,9 @@ package fr.insee.rmes.modeles.geo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -9,6 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@XmlRootElement(name = "Pays")
 @JacksonXmlRootElement(localName = "Pays")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant un pays")
@@ -29,6 +33,7 @@ public class Country  {
         this.code = code;
     }
 
+    @XmlAttribute
     @JacksonXmlProperty(isAttribute = true)
     public String getCode() {
         return code;
@@ -38,6 +43,7 @@ public class Country  {
         this.code = code;
     }
 
+    @XmlAttribute
     @JacksonXmlProperty(isAttribute = true)
     public String getUri() {
         return uri;
@@ -47,6 +53,7 @@ public class Country  {
         this.uri = uri;
     }
 
+    @XmlElement(name = "Intitule")
     @JacksonXmlProperty(localName = "Intitule")
     @JsonProperty(value = "intitule")
     public String getIntitule() {
@@ -57,6 +64,7 @@ public class Country  {
         this.intitule = intitule;
     }
 
+    @XmlElement(name = "IntituleEntier")
     @JacksonXmlProperty(localName = "IntituleEntier")
     @JsonProperty(value = "intituleEntier")
     public String getIntituleEntier() {
