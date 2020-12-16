@@ -22,7 +22,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@XmlRootElement(name = "IntituleDefinition")
+@XmlRootElement(name = "Definition")//for openapi example
 @JacksonXmlRootElement(localName = "IntituleDefinition")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "IntituleDefinition", description = "Objet représentant la définition d'un concept statistique de l'Insee")

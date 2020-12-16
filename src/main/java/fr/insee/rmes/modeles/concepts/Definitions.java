@@ -25,7 +25,7 @@ public class Definitions {
     }
 
     @JacksonXmlProperty(isAttribute = true, localName = "Definition")
-    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlElementWrapper(useWrapping = false, localName = "Definition")
     public List<Definition> getConcepts() {
         return definitions;
     }
