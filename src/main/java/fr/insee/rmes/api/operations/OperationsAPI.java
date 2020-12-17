@@ -28,7 +28,6 @@ import fr.insee.rmes.modeles.operations.FamilyToOperation;
 import fr.insee.rmes.modeles.operations.Indicateur;
 import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 import fr.insee.rmes.queries.operations.OperationsQueries;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

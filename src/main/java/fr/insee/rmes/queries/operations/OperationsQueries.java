@@ -17,15 +17,15 @@ public class OperationsQueries extends Queries {
     private static final String ID_SIMS = "idSims";
     private static final String QUERIES_FOLDER = "operations/";
     
-    public static String getSeries(String id) {
+    public static String getSeries(String idSeries) {
         Map<String,Object> params = new HashMap<>();
-        params.put("id", id);
+        params.put("idSeries", idSeries);
         return buildRequest(QUERIES_FOLDER, "getSeriesByIdQuery.ftlh", params);
     }
 
     public static String getOperationBySeries(String idSeries) {
         Map<String,Object> params = new HashMap<>();
-        params.put("id", idSeries);
+        params.put("idSeries", idSeries);
         return buildRequest(QUERIES_FOLDER, "getOperationBySeriesQuery.ftlh", params);
     }
 

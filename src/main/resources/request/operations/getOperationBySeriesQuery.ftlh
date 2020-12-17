@@ -1,7 +1,7 @@
  SELECT ?id ?labelFr ?labelEn ?uri ?simsId 
              {	 
              	?series a insee:StatisticalOperationSeries . 
-             	FILTER(STRAFTER(STR(?series),'/operations/serie/') = '${id}') 	 
+             	FILTER(STRAFTER(STR(?series),'/operations/serie/') = '${idSeries}') 	 
              	?series dcterms:hasPart ?uri . 		 
              	?uri a insee:StatisticalOperation . 		 
              	?uri skos:prefLabel ?labelFr . 		 

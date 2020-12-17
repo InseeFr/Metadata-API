@@ -9,7 +9,7 @@
             
            	{  
            		?series a insee:StatisticalOperationSeries . 
-           		FILTER(STRAFTER(STR(?series),'/operations/serie/') = '${id}')  
+           		FILTER(STRAFTER(STR(?series),'/operations/serie/') = '${idSeries}')  
            		BIND(STRAFTER(STR(?series),'/operations/serie/') AS ?seriesId)  
            		?series skos:prefLabel ?seriesLabelLg1 .  
            		FILTER (lang(?seriesLabelLg1) = 'fr')  
