@@ -216,6 +216,7 @@ public class Concept {
     }
 
     @JsonIgnore
+    @javax.xml.bind.annotation.XmlTransient
     public Boolean getHasLink() {
 		return hasLink;
 	}
