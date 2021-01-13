@@ -86,7 +86,7 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
             	UNION {
 					?reporturi ?uri ?geoUri . 
 					GRAPH  ?g {
-						?geoUri skos:prefLabel|igeo:name ?labelObjLg1 .
+						?geoUri skos:prefLabel|igeo:name|rdfs:label ?labelObjLg1 .
 						FILTER (lang(?labelObjLg1) = 'fr')
 					}
 					BIND(REPLACE( STR(?geoUri) , '(.*/)(\\w.+$)', '$2' ) AS ?valeurSimple)
