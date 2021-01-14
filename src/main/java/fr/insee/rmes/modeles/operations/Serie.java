@@ -57,7 +57,7 @@ public class Serie {
     @JsonInclude(Include.NON_NULL)
     private List<SerieSuivante> isReplacedBy;
     @JsonInclude(Include.NON_NULL)
-    private List<SimpleObject> seeAlso;
+    private List<ObjectWithSimsId> seeAlso;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> publishers;
     @JsonInclude(Include.NON_NULL)
@@ -90,7 +90,7 @@ public class Serie {
         this.indicateurs.add(indic);
     }
 
-    public void addSeeAlso(SimpleObject sa) {
+    public void addSeeAlso(ObjectWithSimsId sa) {
         if (seeAlso == null) {
             this.setSeeAlso(new ArrayList<>());
         }
@@ -213,11 +213,11 @@ public class Serie {
     @JsonProperty("voirAussi")
     @JacksonXmlProperty(isAttribute = true, localName = "VoirAussi")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<SimpleObject> getSeeAlso() {
+    public List<ObjectWithSimsId> getSeeAlso() {
         return seeAlso;
     }
 
-    public void setSeeAlso(List<SimpleObject> seeAlso) {
+    public void setSeeAlso(List<ObjectWithSimsId> seeAlso) {
         this.seeAlso = seeAlso;
     }
 

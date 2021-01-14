@@ -285,7 +285,7 @@ public class OperationsApiService {
         }
         if (Boolean.TRUE.equals(csvSerie.isHasSeeAlso())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeeAlsoBySeries(idSeries));
-            List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
+            List<ObjectWithSimsId> liste = csvUtils.populateMultiPOJO(csv, ObjectWithSimsId.class);
             s.setSeeAlso(liste);
         }
         if (Boolean.TRUE.equals(csvSerie.isHasIsReplacedBy())) {

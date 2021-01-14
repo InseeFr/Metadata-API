@@ -6,8 +6,6 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -21,9 +19,6 @@ public class SimpleObject {
 	protected String id = null;
     @Schema(example = "http://id.insee.fr/...")
     protected String uri = null;
-    
-    @JsonInclude(Include.NON_EMPTY)
-    protected String simsId = null;
 
     protected List<StringWithLang> label = new ArrayList<>();
 
@@ -95,14 +90,6 @@ public class SimpleObject {
 			return false;
 		SimpleObject other = (SimpleObject) obj;
 		return Objects.equals(id, other.id) && Objects.equals(label, other.label) && Objects.equals(uri, other.uri);
-	}
-
-	public String getSimsId() {
-		return simsId;
-	}
-
-	public void setSimsId(String simsId) {
-		this.simsId = simsId;
 	}
 
 }
