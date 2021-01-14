@@ -19,6 +19,8 @@ import fr.insee.rmes.modeles.operations.Indicateur;
 import fr.insee.rmes.modeles.operations.ObjectWithSimsId;
 import fr.insee.rmes.modeles.operations.Operation;
 import fr.insee.rmes.modeles.operations.Serie;
+import fr.insee.rmes.modeles.operations.SeriePrecedente;
+import fr.insee.rmes.modeles.operations.SerieSuivante;
 import fr.insee.rmes.modeles.operations.SimpleObject;
 import fr.insee.rmes.modeles.operations.documentations.CsvRubrique;
 import fr.insee.rmes.modeles.operations.documentations.Document;
@@ -288,12 +290,12 @@ public class OperationsApiService {
         }
         if (Boolean.TRUE.equals(csvSerie.isHasIsReplacedBy())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getIsReplacedByBySeries(idSeries));
-            List<Serie> liste = csvUtils.populateMultiPOJO(csv, Serie.class);
+            List<SerieSuivante> liste = csvUtils.populateMultiPOJO(csv, SerieSuivante.class);
             s.setIsReplacedBy(liste);
         }
         if (Boolean.TRUE.equals(csvSerie.isHasReplaces())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getReplacesBySeries(idSeries));
-            List<Serie> liste = csvUtils.populateMultiPOJO(csv, Serie.class);
+            List<SeriePrecedente> liste = csvUtils.populateMultiPOJO(csv, SeriePrecedente.class);
             s.setReplaces(liste);
         }
         if (Boolean.TRUE.equals(csvSerie.isHasPublisher())) {

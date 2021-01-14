@@ -3,6 +3,8 @@ package fr.insee.rmes.modeles.operations;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElementWrapper;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -51,9 +53,9 @@ public class Serie {
     private List<Indicateur> indicateurs;
 
     @JsonInclude(Include.NON_NULL)
-    private List<Serie> replaces;
+    private List<SeriePrecedente> replaces;
     @JsonInclude(Include.NON_NULL)
-    private List<Serie> isReplacedBy;
+    private List<SerieSuivante> isReplacedBy;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> seeAlso;
     @JsonInclude(Include.NON_NULL)
@@ -95,14 +97,14 @@ public class Serie {
         this.seeAlso.add(sa);
     }
 
-    public void addReplaces(Serie rep) {
+    public void addReplaces(SeriePrecedente rep) {
         if (replaces == null) {
             this.setReplaces(new ArrayList<>());
         }
         this.replaces.add(rep);
     }
 
-    public void addIsReplacedBy(Serie irb) {
+    public void addIsReplacedBy(SerieSuivante irb) {
         if (isReplacedBy == null) {
             this.setIsReplacedBy(new ArrayList<>());
         }
@@ -123,6 +125,7 @@ public class Serie {
         return label;
     }
 
+    @JacksonXmlProperty(localName = "SimsId")
     public String getSimsId() {
         return simsId;
     }
@@ -172,6 +175,7 @@ public class Serie {
         return family;
     }
 
+    @JacksonXmlProperty(localName = "Type")
     public SimpleObject getType() {
         return type;
     }
@@ -180,30 +184,34 @@ public class Serie {
         this.type = type;
     }
 
-    @JsonProperty("remplace")
-    @JacksonXmlProperty(isAttribute = true, localName = "remplace")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public List<Serie> getReplaces() {
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("seriesPrecedentes")
+    @XmlElementWrapper(name = "SeriesPrecedentes")
+    @JacksonXmlElementWrapper(localName = "SeriesPrecedentes")
+    @JacksonXmlProperty(localName = "SeriePrecedente")
+    public List<SeriePrecedente> getReplaces() {
         return replaces;
     }
 
-    public void setReplaces(List<Serie> replaces) {
+    public void setReplaces(List<SeriePrecedente> replaces) {
         this.replaces = replaces;
     }
 
-    @JsonProperty("estRemplacePar")
-    @JacksonXmlProperty(isAttribute = true, localName = "estRemplacePar")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public List<Serie> getIsReplacedBy() {
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("seriesSuivantes") //json example
+    @XmlElementWrapper(name = "SeriesSuivantes") //xml example list
+    @JacksonXmlElementWrapper(localName = "SeriesSuivantes") //xml response
+    @JacksonXmlProperty(localName = "SerieSuivante") //xml response
+    public List<SerieSuivante> getIsReplacedBy() {
         return isReplacedBy;
     }
 
-    public void setIsReplacedBy(List<Serie> isReplacedBy) {
+    public void setIsReplacedBy(List<SerieSuivante> isReplacedBy) {
         this.isReplacedBy = isReplacedBy;
     }
 
     @JsonProperty("voirAussi")
-    @JacksonXmlProperty(isAttribute = true, localName = "voirAussi")
+    @JacksonXmlProperty(isAttribute = true, localName = "VoirAussi")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getSeeAlso() {
         return seeAlso;
@@ -214,7 +222,7 @@ public class Serie {
     }
 
     @JsonProperty("periodicite")
-    @JacksonXmlProperty(isAttribute = true, localName = "periodicite")
+    @JacksonXmlProperty(isAttribute = true, localName = "Periodicite")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getAccrualPeriodicity() {
         return accrualPeriodicity;
@@ -225,7 +233,7 @@ public class Serie {
     }
 
     @JsonProperty("resume")
-    @JacksonXmlProperty(localName = "resume")
+    @JacksonXmlProperty(localName = "Resume")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getAbstractSerie() {
         return abstractSerie;
@@ -249,7 +257,7 @@ public class Serie {
     }
 
     @JsonProperty("noteHistorique")
-    @JacksonXmlProperty(localName = "noteHistorique")
+    @JacksonXmlProperty(localName = "NoteHistorique")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getHistoryNote() {
         return historyNote;
@@ -273,7 +281,7 @@ public class Serie {
     }
 
     @JsonProperty("organismeResponsable")
-    @JacksonXmlProperty(isAttribute = true, localName = "organismeResponsable")
+    @JacksonXmlProperty(isAttribute = true, localName = "OrganismeResponsable")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getPublishers() {
         return publishers;
@@ -284,7 +292,7 @@ public class Serie {
     }
 
     @JsonProperty("partenaire")
-    @JacksonXmlProperty(isAttribute = true, localName = "partenaire")
+    @JacksonXmlProperty(isAttribute = true, localName = "Partenaire")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getContributors() {
         return contributors;
@@ -308,7 +316,7 @@ public class Serie {
         }
     }
 
-    @JacksonXmlProperty(localName = "altLabel")
+    @JacksonXmlProperty(localName = "AltLabel")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getAltLabel() {
         return altLabel;
