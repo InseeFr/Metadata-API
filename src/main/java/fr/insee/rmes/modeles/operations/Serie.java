@@ -236,7 +236,7 @@ public class Serie {
     }
 
     public void setAbstractLg2(String abstractLg2) {
-        setAbstract(abstractLg2, Lang.FR);
+        setAbstract(abstractLg2, Lang.EN);
     }
 
     private void setAbstract(String abstr, Lang lang) {
