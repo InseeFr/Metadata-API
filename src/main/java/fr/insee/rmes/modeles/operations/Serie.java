@@ -280,9 +280,12 @@ public class Serie {
         }
     }
 
-    @JsonProperty("organismeResponsable")
-    @JacksonXmlProperty(isAttribute = true, localName = "OrganismeResponsable")
-    @JacksonXmlElementWrapper(useWrapping = false)
+
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("organismesResponsables") //json example
+    @XmlElementWrapper(name = "OrganismesResponsables") //xml example list
+    @JacksonXmlElementWrapper(localName = "OrganismesResponsables") //xml response
+    @JacksonXmlProperty(localName = "OrganismeResponsable") //xml response
     public List<SimpleObject> getPublishers() {
         return publishers;
     }
@@ -291,9 +294,11 @@ public class Serie {
         this.publishers = publishers;
     }
 
-    @JsonProperty("partenaire")
-    @JacksonXmlProperty(isAttribute = true, localName = "Partenaire")
-    @JacksonXmlElementWrapper(useWrapping = false)
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("partenaires") //json example
+    @XmlElementWrapper(name = "Partenaires") //xml example list
+    @JacksonXmlElementWrapper(localName = "Partenaires") //xml response
+    @JacksonXmlProperty(localName = "Partenaire") //xml response
     public List<SimpleObject> getContributors() {
         return contributors;
     }
