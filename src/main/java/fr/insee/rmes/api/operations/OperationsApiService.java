@@ -308,6 +308,11 @@ public class OperationsApiService {
             List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             s.setContributors(liste);
         }
+        if (Boolean.TRUE.equals(csvSerie.isHasCreator())) {
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getCreatorsBySeries(idSeries));
+            List<String> liste = sparqlUtils.getResponseAsList(csv);
+            s.setCreators(liste);
+        }
         return s;
     }
 

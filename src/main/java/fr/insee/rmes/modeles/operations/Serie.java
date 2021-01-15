@@ -62,6 +62,8 @@ public class Serie {
     private List<SimpleObject> publishers;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> contributors;
+    @JsonInclude(Include.NON_EMPTY)
+    private List<String> creators;
 
     public Serie(String uri, String id, String labelLg1, String labelLg2) {
         this.id = id;
@@ -307,6 +309,20 @@ public class Serie {
         this.contributors = contributors;
     }
 
+    
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("proprietaires") //json example
+    @XmlElementWrapper(name = "Proprietaires") //xml example list
+    @JacksonXmlElementWrapper(localName = "Proprietaires") //xml response
+    @JacksonXmlProperty(localName = "Proprietaire") //xml response
+    public List<String> getCreators() {
+        return creators;
+    }
+
+    public void setCreators(List<String> creators) {
+        this.creators = creators;
+    }
+    
     public void setLabelFr(String labelFr) {
         setLabel(labelFr, Lang.FR);
     }

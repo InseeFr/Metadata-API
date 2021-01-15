@@ -176,4 +176,10 @@ public class OperationsQueries extends Queries {
         params.put(ID_INDIC, idIndic);
         return buildRequest(QUERIES_FOLDER, "getIndicatorByIdQuery.ftlh", params);
     }
+
+	public static String getCreatorsBySeries(String idSeries) {
+	    Map<String,Object> params = new HashMap<>();
+        params.put(ID_SERIES, idSeries);
+        return buildRequest(QUERIES_FOLDER, "getCreatorsBySeriesQuery.ftlh", params);
+    }
 }

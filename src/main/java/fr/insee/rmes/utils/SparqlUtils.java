@@ -2,6 +2,9 @@ package fr.insee.rmes.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -37,6 +40,14 @@ public class SparqlUtils {
         catch (UnsupportedEncodingException e) {
             return "Issue while encoding: " + e.getMessage();
         }
+    }
+    
+    
+    public List<String> getResponseAsList(String response){
+    	List<String> list = new ArrayList<String>(Arrays.asList(response.split("\r\n")));
+    	list.remove(0);
+    	return list;
+    	
     }
 
 }
