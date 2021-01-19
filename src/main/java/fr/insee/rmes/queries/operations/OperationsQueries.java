@@ -19,13 +19,13 @@ public class OperationsQueries extends Queries {
     
     public static String getSeries(String idSeries) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idSeries", idSeries);
+        params.put(ID_SERIES, idSeries);
         return buildRequest(QUERIES_FOLDER, "getSeriesByIdQuery.ftlh", params);
     }
 
     public static String getOperationBySeries(String idSeries) {
         Map<String,Object> params = new HashMap<>();
-        params.put("idSeries", idSeries);
+        params.put(ID_SERIES, idSeries);
         return buildRequest(QUERIES_FOLDER, "getOperationBySeriesQuery.ftlh", params);
     }
 
