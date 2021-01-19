@@ -44,7 +44,7 @@ public class SparqlUtils {
     
     
     public List<String> getResponseAsList(String response){
-    	List<String> list = new ArrayList<String>(Arrays.asList(response.split("\r\n")));
+    	List<String> list = new ArrayList<>(Arrays.asList(response.split("\r\n")));
     	list.remove(0);
     	return list;
     	
