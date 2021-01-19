@@ -66,6 +66,7 @@ public class Indicateur {
         super();
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     public String getId() {
         return id;
     }
@@ -94,6 +95,7 @@ public class Indicateur {
         }
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "uri")
     public String getUri() {
         return uri;
     }

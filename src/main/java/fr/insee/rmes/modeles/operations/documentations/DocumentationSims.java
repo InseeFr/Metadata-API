@@ -29,6 +29,7 @@ public class DocumentationSims {
 
     private List<Rubrique> rubriques = new ArrayList<>();
 
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     public String getId() {
         return id;
     }
@@ -37,6 +38,7 @@ public class DocumentationSims {
         this.id = id;
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "uri")
     public String getUri() {
         return uri;
     }

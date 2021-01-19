@@ -113,6 +113,7 @@ public class Serie {
         this.isReplacedBy.add(irb);
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     public String getId() {
         return id;
     }
@@ -121,7 +122,7 @@ public class Serie {
         this.id = id;
     }
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
@@ -138,7 +139,7 @@ public class Serie {
         }
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "Operation")
+    @JacksonXmlProperty(localName = "Operation")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Operation> getOperations() {
         return operations;
@@ -148,7 +149,7 @@ public class Serie {
         this.operations = operations;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "Indicateur")
+    @JacksonXmlProperty( localName = "Indicateur")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Indicateur> getIndicateurs() {
         return indicateurs;
@@ -158,6 +159,7 @@ public class Serie {
         this.indicateurs = indicateurs;
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "uri")
     public String getUri() {
         return uri;
     }
@@ -171,7 +173,7 @@ public class Serie {
     }
 
     @JsonProperty("famille")
-    @JacksonXmlProperty(isAttribute = true, localName = "Famille")
+    @JacksonXmlProperty(localName = "Famille")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getFamily() {
         return family;
@@ -213,7 +215,7 @@ public class Serie {
     }
 
     @JsonProperty("voirAussi")
-    @JacksonXmlProperty(isAttribute = true, localName = "VoirAussi")
+    @JacksonXmlProperty( localName = "VoirAussi")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<ObjectWithSimsId> getSeeAlso() {
         return seeAlso;
@@ -224,7 +226,7 @@ public class Serie {
     }
 
     @JsonProperty("periodicite")
-    @JacksonXmlProperty(isAttribute = true, localName = "Periodicite")
+    @JacksonXmlProperty( localName = "Periodicite")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getAccrualPeriodicity() {
         return accrualPeriodicity;

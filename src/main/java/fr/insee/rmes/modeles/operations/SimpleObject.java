@@ -22,6 +22,7 @@ public class SimpleObject {
 
     protected List<StringWithLang> label = new ArrayList<>();
 
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     public String getId() {
         return id;
     }
@@ -45,6 +46,7 @@ public class SimpleObject {
         super();
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "uri")
     public String getUri() {
         return uri;
     }

@@ -57,6 +57,7 @@ public class Famille {
         this.series.add(serie);
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     public String getId() {
         return id;
     }
@@ -65,7 +66,7 @@ public class Famille {
         this.id = id;
     }
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
@@ -75,6 +76,7 @@ public class Famille {
         this.label = label;
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "uri")
     public String getUri() {
         return uri;
     }
@@ -83,7 +85,7 @@ public class Famille {
         this.uri = uri;
     }
 
-    @JacksonXmlProperty(localName = "altLabel")
+    @JacksonXmlProperty(localName = "AltLabel")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getAltLabel() {
         return altLabel;
