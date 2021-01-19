@@ -74,7 +74,7 @@ public class Indicateur {
         this.id = id;
     }
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
@@ -84,6 +84,7 @@ public class Indicateur {
         this.label = label;
     }
 
+    @JacksonXmlProperty(localName = "SimsId")
     public String getSimsId() {
         return simsId;
     }
@@ -116,7 +117,7 @@ public class Indicateur {
         }
     }
 
-    @JacksonXmlProperty(localName = "altLabel")
+    @JacksonXmlProperty(localName = "AltLabel")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getAltLabel() {
         return altLabel;
