@@ -3,7 +3,9 @@ package fr.insee.rmes.modeles.operations;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
@@ -31,6 +33,8 @@ public class ObjectWithSimsId extends SimpleObject {
 	}
 
     @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty(value = "idRapportQualite")
+    @JacksonXmlProperty(localName = "IdRapportQualite")
 	public String getSimsId() {
 		return simsId;
 	}

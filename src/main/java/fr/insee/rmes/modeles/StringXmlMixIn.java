@@ -10,7 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 public abstract class StringXmlMixIn {
 
     @JsonCreator
-    public StringXmlMixIn(String string, @JsonProperty("langue") String lang) {}
+    public StringXmlMixIn(String string, String lang) {}
 
     //@JsonProperty("contenu")
     //@JsonRawValue
@@ -19,7 +19,7 @@ public abstract class StringXmlMixIn {
     abstract String getString();
 
     @JacksonXmlProperty(isAttribute = true)
-    @JsonProperty("langue")
+    @JsonProperty("xmllang")
     abstract String getLang();
 
 }

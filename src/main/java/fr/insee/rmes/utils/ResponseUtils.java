@@ -40,7 +40,8 @@ public class ResponseUtils {
 
         try {
             response = mapper.writeValueAsString(obj);
-
+            // Replace XML namespace xmllang => xml:lang
+            response = Pattern.compile("xmllang=").matcher(response).replaceAll("xml:lang=");
             // Remove XML tag <listeTerritoires>
             response = Pattern.compile("<\\/?listeTerritoires>").matcher(response).replaceAll("");
             // Remove duplications Territoires objects with tag <territoire> for XML response

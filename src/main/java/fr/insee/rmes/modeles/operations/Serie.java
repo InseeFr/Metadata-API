@@ -3,8 +3,6 @@ package fr.insee.rmes.modeles.operations;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElementWrapper;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -128,7 +126,8 @@ public class Serie {
         return label;
     }
 
-    @JacksonXmlProperty(localName = "SimsId")
+    @JsonProperty(value = "idRapportQualite")
+    @JacksonXmlProperty(localName = "IdRapportQualite")
     public String getSimsId() {
         return simsId;
     }
@@ -190,9 +189,10 @@ public class Serie {
 
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("seriesPrecedentes")
-    @XmlElementWrapper(name = "SeriesPrecedentes")
-    @JacksonXmlElementWrapper(localName = "SeriesPrecedentes")
+//    @XmlElementWrapper(name = "SeriesPrecedentes")
+//    @JacksonXmlElementWrapper(localName = "SeriesPrecedentes")
     @JacksonXmlProperty(localName = "SeriePrecedente")
+    @JacksonXmlElementWrapper(useWrapping = false)
     public List<SeriePrecedente> getReplaces() {
         return replaces;
     }
@@ -203,9 +203,10 @@ public class Serie {
 
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("seriesSuivantes") //json example
-    @XmlElementWrapper(name = "SeriesSuivantes") //xml example list
-    @JacksonXmlElementWrapper(localName = "SeriesSuivantes") //xml response
+//    @XmlElementWrapper(name = "SeriesSuivantes") //xml example list
+//    @JacksonXmlElementWrapper(localName = "SeriesSuivantes") //xml response
     @JacksonXmlProperty(localName = "SerieSuivante") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
     public List<SerieSuivante> getIsReplacedBy() {
         return isReplacedBy;
     }
@@ -214,8 +215,8 @@ public class Serie {
         this.isReplacedBy = isReplacedBy;
     }
 
-    @JsonProperty("voirAussi")
-    @JacksonXmlProperty( localName = "VoirAussi")
+    @JsonProperty("reference")
+    @JacksonXmlProperty( localName = "Reference")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<ObjectWithSimsId> getSeeAlso() {
         return seeAlso;
@@ -287,9 +288,10 @@ public class Serie {
 
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("organismesResponsables") //json example
-    @XmlElementWrapper(name = "OrganismesResponsables") //xml example list
-    @JacksonXmlElementWrapper(localName = "OrganismesResponsables") //xml response
+//    @XmlElementWrapper(name = "OrganismesResponsables") //xml example list
+//    @JacksonXmlElementWrapper(localName = "OrganismesResponsables") //xml response
     @JacksonXmlProperty(localName = "OrganismeResponsable") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getPublishers() {
         return publishers;
     }
@@ -300,9 +302,10 @@ public class Serie {
 
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("partenaires") //json example
-    @XmlElementWrapper(name = "Partenaires") //xml example list
-    @JacksonXmlElementWrapper(localName = "Partenaires") //xml response
+//    @XmlElementWrapper(name = "Partenaires") //xml example list
+//    @JacksonXmlElementWrapper(localName = "Partenaires") //xml response
     @JacksonXmlProperty(localName = "Partenaire") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getContributors() {
         return contributors;
     }
@@ -314,9 +317,10 @@ public class Serie {
     
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("proprietaires") //json example
-    @XmlElementWrapper(name = "Proprietaires") //xml example list
-    @JacksonXmlElementWrapper(localName = "Proprietaires") //xml response
+//    @XmlElementWrapper(name = "Proprietaires") //xml example list
+//    @JacksonXmlElementWrapper(localName = "Proprietaires") //xml response
     @JacksonXmlProperty(localName = "Proprietaire") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
     public List<String> getCreators() {
         return creators;
     }
