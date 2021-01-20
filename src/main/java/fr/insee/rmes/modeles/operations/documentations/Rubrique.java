@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlElementWrapper;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonClassDescription;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -67,7 +71,7 @@ public class Rubrique {
         return uri;
     }
 
-    @JacksonXmlProperty(localName = "titre")
+    @JacksonXmlProperty(localName = "Titre")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getTitre() {
         return titre;
@@ -77,6 +81,7 @@ public class Rubrique {
         this.titre = titre;
     }
 
+    @JacksonXmlProperty(localName = "IdParent")
     public String getIdParent() {
         return idParent;
     }
@@ -85,19 +90,21 @@ public class Rubrique {
         this.idParent = idParent;
     }
 
+    @JacksonXmlProperty(localName = "Type")
     public String getType() {
         return type;
     }
 
-    public String getValeurSimple() {
-        return valeurSimple;
-    }
+//    @JacksonXmlProperty(localName = "Valeur")
+//    public String getValeurSimple() {
+//        return valeurSimple;
+//    }
 
     public void setValeurSimple(String valeurSimple) {
         this.valeurSimple = valeurSimple;
     }
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
@@ -121,10 +128,10 @@ public class Rubrique {
         }
     }
 
-   
-    public SimpleObject getValeurOrganisation() {
-        return valeurOrganisation;
-    }
+//    @JacksonXmlProperty(localName = "Valeur")
+//    public SimpleObject getValeurOrganisation() {
+//        return valeurOrganisation;
+//    }
 
     public void setValeurOrganisation(SimpleObject valeurOrganisation) {
         this.valeurOrganisation = valeurOrganisation;
@@ -142,8 +149,8 @@ public class Rubrique {
         }
     }
 
-    @JacksonXmlProperty(localName = "contenu")
-    @JacksonXmlElementWrapper(localName = "contenus", useWrapping = true)
+    @JacksonXmlProperty(localName = "Contenu")
+    @JacksonXmlElementWrapper(localName = "Contenus", useWrapping = true)
     public List<RubriqueRichText> getRichTexts() {
         return richTexts;
     }
@@ -159,9 +166,14 @@ public class Rubrique {
         this.richTexts.add(r);
     }
 
-    public List<SimpleObject> getValeurCode() {
-        return valeurCode;
-    }
+//    @JsonInclude(Include.NON_EMPTY)
+//    @JsonProperty("valeurs") //json example
+//    @XmlElementWrapper(name = "Valeurs") //xml example list
+//    @JacksonXmlElementWrapper(localName = "Valeurs") //xml response
+//    @JacksonXmlProperty(localName = "Valeur") //xml response
+//    public List<SimpleObject> getValeurCode() {
+//        return valeurCode;
+//    }
 
     public void setValeurCode(List<SimpleObject> valeurCode) {
         this.valeurCode = valeurCode;
@@ -173,10 +185,11 @@ public class Rubrique {
         }
         this.valeurCode.add(so);
     }
-
-    public SimpleObject getValeurGeographie() {
-        return valeurGeographie;
-    }
+//
+//    @JsonIgnore
+//    public SimpleObject getValeurGeographie() {
+//        return valeurGeographie;
+//    }
 
     public void setValeurGeographie(SimpleObject valeurGeographie) {
         this.valeurGeographie = valeurGeographie;
@@ -205,5 +218,15 @@ public class Rubrique {
 				&& Objects.equals(valeurOrganisation, other.valeurOrganisation)
 				&& Objects.equals(valeurSimple, other.valeurSimple);
 	}
+	
+	 @JsonInclude(Include.NON_NULL)
+    @JacksonXmlProperty(localName = "Valeur")
+	public Object getValeur() {
+    	if (StringUtils.isNotEmpty(valeurSimple)) return valeurSimple;
+    	else if (valeurCode != null && !valeurCode.isEmpty()) return valeurCode;
+    	else if (valeurOrganisation != null) return valeurOrganisation;
+    	else if (valeurGeographie != null) return valeurGeographie;
+    	return null;
+    }
 
 }

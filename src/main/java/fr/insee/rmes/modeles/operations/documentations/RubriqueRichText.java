@@ -1,5 +1,6 @@
 package fr.insee.rmes.modeles.operations.documentations;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,7 +36,8 @@ public class RubriqueRichText {
 	}
 
 	public String getString() {
-        return string;
+		if (string == null) return null;
+		else return new String(string.getBytes(), StandardCharsets.UTF_8);
     }
 
     public void setString(String string) {
@@ -50,8 +52,8 @@ public class RubriqueRichText {
         this.lang = lang;
     }
 
-    @JacksonXmlProperty(localName = "document")
-    @JacksonXmlElementWrapper(localName = "documents", useWrapping = true)
+    @JacksonXmlProperty(localName = "Document")
+    @JacksonXmlElementWrapper(localName = "Documents", useWrapping = true)
     public List<Document> getDocuments() {
         return documents;
     }
