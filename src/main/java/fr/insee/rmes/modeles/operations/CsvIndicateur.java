@@ -14,7 +14,6 @@ public class CsvIndicateur {
     private String historyNoteLg1;
     private String historyNoteLg2;
 
-    private Boolean hasContributor;
     private Boolean hasReplaces;
     private Boolean hasIsReplacedBy;
     private Boolean hasSeeAlso;
@@ -25,11 +24,11 @@ public class CsvIndicateur {
     private String periodicityLabelLg2;
     private String periodicityId;
 
-    private String uriPublisher;
-    private String idPublisher;
-    private String labelFrPublisher;
-    private String labelEnPublisher;
+    private Boolean hasContributor ;
+    private Boolean hasPublisher ;
+    private Boolean hasCreator ;
 
+    
     private String simsId = null;
 
     public CsvIndicateur() {
@@ -181,38 +180,6 @@ public class CsvIndicateur {
         this.periodicityId = periodicityId;
     }
 
-    public String getUriPublisher() {
-        return uriPublisher;
-    }
-
-    public void setUriPublisher(String uriPublisher) {
-        this.uriPublisher = uriPublisher;
-    }
-
-    public String getIdPublisher() {
-        return idPublisher;
-    }
-
-    public void setIdPublisher(String idPublisher) {
-        this.idPublisher = idPublisher;
-    }
-
-    public String getLabelFrPublisher() {
-        return labelFrPublisher;
-    }
-
-    public void setLabelFrPublisher(String labelFrPublisher) {
-        this.labelFrPublisher = labelFrPublisher;
-    }
-
-    public String getLabelEnPublisher() {
-        return labelEnPublisher;
-    }
-
-    public void setLabelEnPublisher(String labelEnPublisher) {
-        this.labelEnPublisher = labelEnPublisher;
-    }
-
     public String getId() {
         return id;
     }
@@ -228,5 +195,23 @@ public class CsvIndicateur {
     public void setIndic(String indic) {
         this.indic = indic;
     }
+    
+    public Boolean isHasPublisher() {
+        return hasPublisher;
+    }
+
+    public void setHasPublisher(Boolean hasPublisher) {
+        this.hasPublisher = hasPublisher;
+    }
+
+
+	public Boolean isHasCreator() {
+		return hasCreator;
+	}
+
+
+	public void setHasCreator(Boolean hasCreator) {
+		this.hasCreator = hasCreator;
+	}
 
 }

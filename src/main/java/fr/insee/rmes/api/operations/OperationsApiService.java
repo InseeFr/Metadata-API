@@ -338,14 +338,15 @@ public class OperationsApiService {
             i.setHistoryNoteLg1(csvIndic.getHistoryNoteLg1());
             i.setHistoryNoteLg2(csvIndic.getHistoryNoteLg2());
         }
-        if (StringUtils.isNotEmpty(csvIndic.getIdPublisher())) {
-            SimpleObject publisher =
-                new SimpleObject(
-                    csvIndic.getIdPublisher(),
-                    csvIndic.getUriPublisher(),
-                    csvIndic.getLabelFrPublisher(),
-                    csvIndic.getLabelEnPublisher());
-            i.setPublisher(publisher);
+        if (Boolean.TRUE.equals(csvIndic.isHasPublisher())) {
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getPublishersByIndic(idIndicateur));
+            List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
+            i.setPublishers(liste);
+        }
+        if (Boolean.TRUE.equals(csvIndic.isHasCreator())) {
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getCreatorsByIndic(idIndicateur));
+            List<String> liste = sparqlUtils.getResponseAsList(csv);
+            i.setCreators(liste);
         }
         if (Boolean.TRUE.equals(csvIndic.isHasContributor())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsByIndic(idIndicateur));

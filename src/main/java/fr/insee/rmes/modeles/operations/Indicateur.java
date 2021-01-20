@@ -32,10 +32,6 @@ public class Indicateur {
     private List<StringWithLang> historyNote;
 
     @JsonInclude(Include.NON_NULL)
-    private SimpleObject publisher;
-    @JsonInclude(Include.NON_NULL)
-    private List<SimpleObject> contributors;
-    @JsonInclude(Include.NON_NULL)
     private List<IndicateurPrecedent> replaces;
     @JsonInclude(Include.NON_NULL)
     private List<IndicateurSuivant> isReplacedBy;
@@ -43,6 +39,13 @@ public class Indicateur {
     private List<ObjectWithSimsId> seeAlso;
     @JsonInclude(Include.NON_NULL)
     private List<Serie> wasGeneratedBy;
+    
+    @JsonInclude(Include.NON_NULL)
+    private List<SimpleObject> publishers;
+    @JsonInclude(Include.NON_NULL)
+    private List<SimpleObject> contributors;
+    @JsonInclude(Include.NON_EMPTY)
+    private List<String> creators;
 
     @JsonInclude(Include.NON_NULL)
     private SimpleObject accrualPeriodicity = null;
@@ -277,26 +280,44 @@ public class Indicateur {
         }
     }
 
-    @JsonProperty("organismeResponsable")
-    @JacksonXmlProperty(isAttribute = true, localName = "organismeResponsable")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public SimpleObject getPublisher() {
-        return publisher;
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("organismesResponsables") //json example
+    @XmlElementWrapper(name = "OrganismesResponsables") //xml example list
+    @JacksonXmlElementWrapper(localName = "OrganismesResponsables") //xml response
+    @JacksonXmlProperty(localName = "OrganismeResponsable") //xml response
+    public List<SimpleObject> getPublishers() {
+        return publishers;
     }
 
-    public void setPublisher(SimpleObject publisher) {
-        this.publisher = publisher;
+    public void setPublishers(List<SimpleObject> publishers) {
+        this.publishers = publishers;
     }
 
-    @JsonProperty("partenaire")
-    @JacksonXmlProperty(isAttribute = true, localName = "partenaire")
-    @JacksonXmlElementWrapper(useWrapping = false)
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("partenaires") //json example
+    @XmlElementWrapper(name = "Partenaires") //xml example list
+    @JacksonXmlElementWrapper(localName = "Partenaires") //xml response
+    @JacksonXmlProperty(localName = "Partenaire") //xml response
     public List<SimpleObject> getContributors() {
         return contributors;
     }
 
     public void setContributors(List<SimpleObject> contributors) {
         this.contributors = contributors;
+    }
+
+    
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("proprietaires") //json example
+    @XmlElementWrapper(name = "Proprietaires") //xml example list
+    @JacksonXmlElementWrapper(localName = "Proprietaires") //xml response
+    @JacksonXmlProperty(localName = "Proprietaire") //xml response
+    public List<String> getCreators() {
+        return creators;
+    }
+
+    public void setCreators(List<String> creators) {
+        this.creators = creators;
     }
 
 }
