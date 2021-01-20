@@ -16,6 +16,8 @@ import fr.insee.rmes.modeles.operations.CsvSerie;
 import fr.insee.rmes.modeles.operations.Famille;
 import fr.insee.rmes.modeles.operations.FamilyToOperation;
 import fr.insee.rmes.modeles.operations.Indicateur;
+import fr.insee.rmes.modeles.operations.IndicateurPrecedent;
+import fr.insee.rmes.modeles.operations.IndicateurSuivant;
 import fr.insee.rmes.modeles.operations.ObjectWithSimsId;
 import fr.insee.rmes.modeles.operations.Operation;
 import fr.insee.rmes.modeles.operations.Serie;
@@ -336,14 +338,15 @@ public class OperationsApiService {
             i.setHistoryNoteLg1(csvIndic.getHistoryNoteLg1());
             i.setHistoryNoteLg2(csvIndic.getHistoryNoteLg2());
         }
-        if (StringUtils.isNotEmpty(csvIndic.getIdPublisher())) {
-            SimpleObject publisher =
-                new SimpleObject(
-                    csvIndic.getIdPublisher(),
-                    csvIndic.getUriPublisher(),
-                    csvIndic.getLabelFrPublisher(),
-                    csvIndic.getLabelEnPublisher());
-            i.setPublisher(publisher);
+        if (Boolean.TRUE.equals(csvIndic.isHasPublisher())) {
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getPublishersByIndic(idIndicateur));
+            List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
+            i.setPublishers(liste);
+        }
+        if (Boolean.TRUE.equals(csvIndic.isHasCreator())) {
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getCreatorsByIndic(idIndicateur));
+            List<String> liste = sparqlUtils.getResponseAsList(csv);
+            i.setCreators(liste);
         }
         if (Boolean.TRUE.equals(csvIndic.isHasContributor())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsByIndic(idIndicateur));
@@ -352,12 +355,12 @@ public class OperationsApiService {
         }
         if (Boolean.TRUE.equals(csvIndic.isHasReplaces())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getReplacesByIndic(idIndicateur));
-            List<Indicateur> liste = csvUtils.populateMultiPOJO(csv, Indicateur.class);
+            List<IndicateurPrecedent> liste = csvUtils.populateMultiPOJO(csv, IndicateurPrecedent.class);
             i.setReplaces(liste);
         }
         if (Boolean.TRUE.equals(csvIndic.isHasIsReplacedBy())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getIsReplacedByByIndic(idIndicateur));
-            List<Indicateur> liste = csvUtils.populateMultiPOJO(csv, Indicateur.class);
+            List<IndicateurSuivant> liste = csvUtils.populateMultiPOJO(csv, IndicateurSuivant.class);
             i.setIsReplacedBy(liste);
         }
         if (Boolean.TRUE.equals(csvIndic.isHasSeeAlso())) {

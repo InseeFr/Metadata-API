@@ -3,6 +3,8 @@ package fr.insee.rmes.modeles.operations;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElementWrapper;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -30,17 +32,20 @@ public class Indicateur {
     private List<StringWithLang> historyNote;
 
     @JsonInclude(Include.NON_NULL)
-    private SimpleObject publisher;
+    private List<IndicateurPrecedent> replaces;
     @JsonInclude(Include.NON_NULL)
-    private List<SimpleObject> contributors;
-    @JsonInclude(Include.NON_NULL)
-    private List<Indicateur> replaces;
-    @JsonInclude(Include.NON_NULL)
-    private List<Indicateur> isReplacedBy;
+    private List<IndicateurSuivant> isReplacedBy;
     @JsonInclude(Include.NON_NULL)
     private List<ObjectWithSimsId> seeAlso;
     @JsonInclude(Include.NON_NULL)
     private List<Serie> wasGeneratedBy;
+    
+    @JsonInclude(Include.NON_NULL)
+    private List<SimpleObject> publishers;
+    @JsonInclude(Include.NON_NULL)
+    private List<SimpleObject> contributors;
+    @JsonInclude(Include.NON_EMPTY)
+    private List<String> creators;
 
     @JsonInclude(Include.NON_NULL)
     private SimpleObject accrualPeriodicity = null;
@@ -75,7 +80,7 @@ public class Indicateur {
         this.id = id;
     }
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
@@ -85,6 +90,7 @@ public class Indicateur {
         this.label = label;
     }
 
+    @JacksonXmlProperty(localName = "SimsId")
     public String getSimsId() {
         return simsId;
     }
@@ -118,7 +124,7 @@ public class Indicateur {
         }
     }
 
-    @JacksonXmlProperty(localName = "altLabel")
+    @JacksonXmlProperty(localName = "AltLabel")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getAltLabel() {
         return altLabel;
@@ -152,44 +158,48 @@ public class Indicateur {
         this.seeAlso.add(sa);
     }
 
-    public void addReplaces(Indicateur rep) {
+    public void addReplaces(IndicateurPrecedent rep) {
         if (replaces == null) {
             this.setReplaces(new ArrayList<>());
         }
         this.replaces.add(rep);
     }
 
-    public void addIsReplacedBy(Indicateur irb) {
+    public void addIsReplacedBy(IndicateurSuivant irb) {
         if (isReplacedBy == null) {
             this.setIsReplacedBy(new ArrayList<>());
         }
         this.isReplacedBy.add(irb);
     }
 
-    @JsonProperty("remplace")
-    @JacksonXmlProperty(isAttribute = true, localName = "remplace")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public List<Indicateur> getReplaces() {
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("indicateursPrecedents") //json example
+    @XmlElementWrapper(name = "IndicateursPrecedents") //xml example list
+    @JacksonXmlElementWrapper(localName = "IndicateursPrecedents") //xml response
+    @JacksonXmlProperty(localName = "IndicateurPrecedent") //xml response
+    public List<IndicateurPrecedent> getReplaces() {
         return replaces;
     }
 
-    public void setReplaces(List<Indicateur> replaces) {
+    public void setReplaces(List<IndicateurPrecedent> replaces) {
         this.replaces = replaces;
     }
 
-    @JsonProperty("estRemplacePar")
-    @JacksonXmlProperty(isAttribute = true, localName = "estRemplacePar")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public List<Indicateur> getIsReplacedBy() {
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("indicateursSuivants") //json example
+    @XmlElementWrapper(name = "IndicateursSuivants") //xml example list
+    @JacksonXmlElementWrapper(localName = "IndicateursSuivants") //xml response
+    @JacksonXmlProperty(localName = "IndicateurSuivant") //xml response
+    public List<IndicateurSuivant> getIsReplacedBy() {
         return isReplacedBy;
     }
 
-    public void setIsReplacedBy(List<Indicateur> isReplacedBy) {
+    public void setIsReplacedBy(List<IndicateurSuivant> isReplacedBy) {
         this.isReplacedBy = isReplacedBy;
     }
 
     @JsonProperty("voirAussi")
-    @JacksonXmlProperty(isAttribute = true, localName = "voirAussi")
+    @JacksonXmlProperty(isAttribute = true, localName = "VoirAussi")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<ObjectWithSimsId> getSeeAlso() {
         return seeAlso;
@@ -200,7 +210,7 @@ public class Indicateur {
     }
 
     @JsonProperty("produitDe")
-    @JacksonXmlProperty(isAttribute = true, localName = "produitDe")
+    @JacksonXmlProperty(isAttribute = true, localName = "ProduitDe")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Serie> getWasGeneratedBy() {
         return wasGeneratedBy;
@@ -211,7 +221,7 @@ public class Indicateur {
     }
 
     @JsonProperty("periodicite")
-    @JacksonXmlProperty(isAttribute = true, localName = "periodicite")
+    @JacksonXmlProperty(isAttribute = true, localName = "Periodicite")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getAccrualPeriodicity() {
         return accrualPeriodicity;
@@ -222,7 +232,7 @@ public class Indicateur {
     }
 
     @JsonProperty("resume")
-    @JacksonXmlProperty(localName = "resume")
+    @JacksonXmlProperty(localName = "Resume")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getAbstractIndic() {
         return abstractIndic;
@@ -270,26 +280,44 @@ public class Indicateur {
         }
     }
 
-    @JsonProperty("organismeResponsable")
-    @JacksonXmlProperty(isAttribute = true, localName = "organismeResponsable")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    public SimpleObject getPublisher() {
-        return publisher;
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("organismesResponsables") //json example
+    @XmlElementWrapper(name = "OrganismesResponsables") //xml example list
+    @JacksonXmlElementWrapper(localName = "OrganismesResponsables") //xml response
+    @JacksonXmlProperty(localName = "OrganismeResponsable") //xml response
+    public List<SimpleObject> getPublishers() {
+        return publishers;
     }
 
-    public void setPublisher(SimpleObject publisher) {
-        this.publisher = publisher;
+    public void setPublishers(List<SimpleObject> publishers) {
+        this.publishers = publishers;
     }
 
-    @JsonProperty("partenaire")
-    @JacksonXmlProperty(isAttribute = true, localName = "partenaire")
-    @JacksonXmlElementWrapper(useWrapping = false)
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("partenaires") //json example
+    @XmlElementWrapper(name = "Partenaires") //xml example list
+    @JacksonXmlElementWrapper(localName = "Partenaires") //xml response
+    @JacksonXmlProperty(localName = "Partenaire") //xml response
     public List<SimpleObject> getContributors() {
         return contributors;
     }
 
     public void setContributors(List<SimpleObject> contributors) {
         this.contributors = contributors;
+    }
+
+    
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("proprietaires") //json example
+    @XmlElementWrapper(name = "Proprietaires") //xml example list
+    @JacksonXmlElementWrapper(localName = "Proprietaires") //xml response
+    @JacksonXmlProperty(localName = "Proprietaire") //xml response
+    public List<String> getCreators() {
+        return creators;
+    }
+
+    public void setCreators(List<String> creators) {
+        this.creators = creators;
     }
 
 }

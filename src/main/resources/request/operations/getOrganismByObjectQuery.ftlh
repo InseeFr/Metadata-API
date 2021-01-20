@@ -1,8 +1,8 @@
 SELECT ?id ?labelFr ?labelEn ?uri 
             {	 
-            	?indic a insee:StatisticalIndicator . 
-            	FILTER(STRAFTER(STR(?indic),'/produits/indicateur/') = '${idIndic}') 	 
-            	?indic dcterms:contributor ?uri. 		 
+            	?object a ${typeObject} . 
+            	FILTER(STRAFTER(STR(?object),'${uriObject}') = '${idObject}') 	 
+            	?object ${linkPredicate} ?uri. 		 
             	?uri skos:prefLabel ?labelFr . 		 
             	FILTER (lang(?labelFr) = 'fr') 		 
             	OPTIONAL{?uri skos:prefLabel ?labelEn . 		 
