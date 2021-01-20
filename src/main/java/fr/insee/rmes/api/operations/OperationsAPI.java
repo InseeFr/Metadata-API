@@ -91,7 +91,7 @@ public class OperationsAPI extends AbstractMetadataApi {
     }
 
     
-    @Path("/documentation/{id: [0-9]{4}}")
+    @Path("/rapportQualite/{id: [0-9]{4}}")
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
