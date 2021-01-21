@@ -1,8 +1,8 @@
- SELECT ?id ?labelFr ?labelEn ?uri ?simsId 
+ SELECT distinct ?id ?labelFr ?labelEn ?uri ?simsId 
              {	 
              	?series a insee:StatisticalOperationSeries . 
              	FILTER(STRAFTER(STR(?series),'/operations/serie/') = '${idSeries}') 	 
-             	?series dcterms:hasPart ?uri . 		 
+             	?series dcterms:hasPart|^dcterms:isPartOf ?uri . 		 
              	?uri a insee:StatisticalOperation . 		 
              	?uri skos:prefLabel ?labelFr . 		 
              	FILTER (lang(?labelFr) = 'fr') 		 

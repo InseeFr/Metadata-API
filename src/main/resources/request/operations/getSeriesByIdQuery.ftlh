@@ -63,7 +63,7 @@
            		BIND(EXISTS{?series rdfs:seeAlso ?seeAlso} AS ?hasSeeAlso) 
            		BIND(EXISTS{?series dcterms:isReplacedBy ?isReplacedBy} AS ?hasIsReplacedBy) 
            		BIND(EXISTS{?series dcterms:replaces ?replaces} AS ?hasReplaces) 
-           		BIND(EXISTS{?series dcterms:hasPart ?operation} AS ?hasOperation) 
+           		BIND(EXISTS{?series dcterms:hasPart|^dcterms:isPartOf ?operation} AS ?hasOperation) 
            		BIND(EXISTS{?indic prov:wasGeneratedBy ?series} AS ?hasIndic) 
            		BIND(EXISTS{?series dcterms:publisher ?publisher} AS ?hasPublisher) 
            		BIND(EXISTS{?series dcterms:contributor ?contrib} AS ?hasContributor) 
