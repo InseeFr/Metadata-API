@@ -42,7 +42,7 @@ public class Serie {
     private SimpleObject accrualPeriodicity = null;
 
     @Schema(example = "1011")
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     private String simsId = null;
 
     @JsonInclude(Include.NON_NULL)
@@ -126,12 +126,13 @@ public class Serie {
         return label;
     }
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonProperty(value = "idRapportQualite")
     @JacksonXmlProperty(localName = "IdRapportQualite")
     public String getSimsId() {
         return simsId;
     }
-
+    @JsonProperty(value="simsId")
     public void setSimsId(String simsId) {
         if ( ! simsId.equals("")) {
             this.simsId = simsId;
@@ -215,6 +216,7 @@ public class Serie {
         this.isReplacedBy = isReplacedBy;
     }
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("reference")
     @JacksonXmlProperty( localName = "Reference")
     @JacksonXmlElementWrapper(useWrapping = false)

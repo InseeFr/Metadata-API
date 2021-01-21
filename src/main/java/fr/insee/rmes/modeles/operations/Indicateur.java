@@ -257,7 +257,7 @@ public class Indicateur {
     }
 
     @JsonProperty("noteHistorique")
-    @JacksonXmlProperty(localName = "noteHistorique")
+    @JacksonXmlProperty(localName = "NoteHistorique")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getHistoryNote() {
         return historyNote;
