@@ -1,5 +1,6 @@
 SELECT ?url ?labelLg1 ?labelLg2 ?dateMiseAJour ?langue 
            FROM <http://rdf.insee.fr/graphes/qualite/rapport/${idSims}> 
+           FROM <http://rdf.insee.fr/graphes/qualite/documents>
            WHERE { 
            	 ?text rdf:type <http://purl.org/dc/dcmitype/Text> . 
            	 ?text dcterms:language <${LANG}> .

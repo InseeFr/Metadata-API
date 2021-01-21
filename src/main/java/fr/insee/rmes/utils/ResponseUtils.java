@@ -1,5 +1,6 @@
 package fr.insee.rmes.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
@@ -40,7 +41,8 @@ public class ResponseUtils {
 
         try {
             response = mapper.writeValueAsString(obj);
-
+            // Replace XML namespace xmllang => xml:lang
+            response = Pattern.compile("xmllang=").matcher(response).replaceAll("xml:lang=");
             // Remove XML tag <listeTerritoires>
             response = Pattern.compile("<\\/?listeTerritoires>").matcher(response).replaceAll("");
             // Remove duplications Territoires objects with tag <territoire> for XML response
@@ -59,7 +61,7 @@ public class ResponseUtils {
             logger.error(e.getMessage());
         }
 
-        return response;
+        return new String(response.getBytes(), StandardCharsets.UTF_8);
     }
 
 }

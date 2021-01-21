@@ -1,7 +1,10 @@
 package fr.insee.rmes.modeles.operations.documentations;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
+
+import javax.xml.bind.annotation.XmlValue;
 
 import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 import fr.insee.rmes.utils.Lang;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,7 +21,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class RubriqueRichText {
 
 
-	 @JsonProperty("label")
+
 	 private String string = null;
 	    
 	 @Schema(example = "fr")
@@ -33,9 +37,13 @@ public class RubriqueRichText {
 		this.string = string;
 		this.lang = lang;
 	}
-
+    
+    @JacksonXmlText
+    @XmlValue
+	 @JsonProperty("texte")
 	public String getString() {
-        return string;
+		if (string == null) return null;
+		else return new String(string.getBytes(), StandardCharsets.UTF_8);
     }
 
     public void setString(String string) {
@@ -50,8 +58,8 @@ public class RubriqueRichText {
         this.lang = lang;
     }
 
-    @JacksonXmlProperty(localName = "document")
-    @JacksonXmlElementWrapper(localName = "documents", useWrapping = true)
+    @JacksonXmlProperty(localName = "Document")
+    @JacksonXmlElementWrapper(useWrapping = false)
     public List<Document> getDocuments() {
         return documents;
     }

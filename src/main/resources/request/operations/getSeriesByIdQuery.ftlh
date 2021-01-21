@@ -5,11 +5,11 @@
            				 ?periodicityLabelLg1 ?typeLabelLg1 
            				 ?periodicityLabelLg2 ?typeLabelLg2 
            				 ?periodicityId ?typeId 
-           				?hasSeeAlso ?hasIsReplacedBy ?hasReplaces ?hasOperation ?hasIndic ?hasPublisher ?hasContributor  
+           				?hasSeeAlso ?hasIsReplacedBy ?hasReplaces ?hasOperation ?hasIndic ?hasPublisher ?hasContributor  ?hasCreator
             
            	{  
            		?series a insee:StatisticalOperationSeries . 
-           		FILTER(STRAFTER(STR(?series),'/operations/serie/') = '${id}')  
+           		FILTER(STRAFTER(STR(?series),'/operations/serie/') = '${idSeries}')  
            		BIND(STRAFTER(STR(?series),'/operations/serie/') AS ?seriesId)  
            		?series skos:prefLabel ?seriesLabelLg1 .  
            		FILTER (lang(?seriesLabelLg1) = 'fr')  
@@ -67,6 +67,7 @@
            		BIND(EXISTS{?indic prov:wasGeneratedBy ?series} AS ?hasIndic) 
            		BIND(EXISTS{?series dcterms:publisher ?publisher} AS ?hasPublisher) 
            		BIND(EXISTS{?series dcterms:contributor ?contrib} AS ?hasContributor) 
+           		BIND(EXISTS{?series dc:creator ?creator} AS ?hasCreator) 
 
             
            	} 

@@ -30,22 +30,22 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
             				 
             <#-- RangeType.RICHTEXT  -->				 
             	UNION { 
-            		?reporturi ?uri ?textLg1 . 
+            	{	?reporturi ?uri ?textLg1 . 
             		?textLg1 rdf:type <http://purl.org/dc/dcmitype/Text> .
-            		FILTER(EXISTS{?textLg1 dcterms:language <${LG1_CL}>})
+            		?textLg1 dcterms:language <${LG1_CL}>
 
             		OPTIONAL{ 
             			?textLg1 rdf:value ?labelLg1 . 
             		} 
             		BIND(EXISTS{?textLg1 insee:additionalMaterial ?docLg1} AS ?hasDocLg1) 
-
+					}
             		OPTIONAL {
 						 ?reporturi ?uri ?textLg2 .
 						 ?textLg2 rdf:type <http://purl.org/dc/dcmitype/Text>  .
-						 FILTER(EXISTS{?textLg2 dcterms:language <${LG2_CL}>})
+						 ?textLg2 dcterms:language <${LG2_CL}>
 
 						OPTIONAL{ 
-							?textLg2 rdf:value ?labelLg2 
+							?textLg2 rdf:value ?labelLg2 .
 						}
 						BIND(EXISTS{?textLg2 insee:additionalMaterial ?docLg2} AS ?hasDocLg2)
 			 		}
@@ -86,7 +86,7 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
             	UNION {
 					?reporturi ?uri ?geoUri . 
 					GRAPH  ?g {
-						?geoUri skos:prefLabel|igeo:name ?labelObjLg1 .
+						?geoUri skos:prefLabel|igeo:name|rdfs:label ?labelObjLg1 .
 						FILTER (lang(?labelObjLg1) = 'fr')
 					}
 					BIND(REPLACE( STR(?geoUri) , '(.*/)(\\w.+$)', '$2' ) AS ?valeurSimple)

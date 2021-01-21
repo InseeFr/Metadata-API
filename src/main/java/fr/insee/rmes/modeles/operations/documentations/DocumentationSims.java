@@ -10,13 +10,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.modeles.operations.SimpleObject;
 import fr.insee.rmes.utils.Lang;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JsonClassDescription("Objet représentant une documentation SIMS")
+@JsonClassDescription("Objet représentant un rapport qualité (documentation SIMS)")
+@JacksonXmlRootElement(localName = "RapportQualite")
 public class DocumentationSims {
 
     private String id = null;
@@ -29,6 +31,7 @@ public class DocumentationSims {
 
     private List<Rubrique> rubriques = new ArrayList<>();
 
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     public String getId() {
         return id;
     }
@@ -37,6 +40,7 @@ public class DocumentationSims {
         this.id = id;
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "uri")
     public String getUri() {
         return uri;
     }
@@ -45,7 +49,7 @@ public class DocumentationSims {
         this.uri = uri;
     }
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;

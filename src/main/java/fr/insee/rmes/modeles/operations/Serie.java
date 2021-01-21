@@ -42,7 +42,7 @@ public class Serie {
     private SimpleObject accrualPeriodicity = null;
 
     @Schema(example = "1011")
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     private String simsId = null;
 
     @JsonInclude(Include.NON_NULL)
@@ -51,15 +51,17 @@ public class Serie {
     private List<Indicateur> indicateurs;
 
     @JsonInclude(Include.NON_NULL)
-    private List<Serie> replaces;
+    private List<SeriePrecedente> replaces;
     @JsonInclude(Include.NON_NULL)
-    private List<Serie> isReplacedBy;
+    private List<SerieSuivante> isReplacedBy;
     @JsonInclude(Include.NON_NULL)
-    private List<SimpleObject> seeAlso;
+    private List<ObjectWithSimsId> seeAlso;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> publishers;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> contributors;
+    @JsonInclude(Include.NON_EMPTY)
+    private List<String> creators;
 
     public Serie(String uri, String id, String labelLg1, String labelLg2) {
         this.id = id;
@@ -88,27 +90,28 @@ public class Serie {
         this.indicateurs.add(indic);
     }
 
-    public void addSeeAlso(SimpleObject sa) {
+    public void addSeeAlso(ObjectWithSimsId sa) {
         if (seeAlso == null) {
             this.setSeeAlso(new ArrayList<>());
         }
         this.seeAlso.add(sa);
     }
 
-    public void addReplaces(Serie rep) {
+    public void addReplaces(SeriePrecedente rep) {
         if (replaces == null) {
             this.setReplaces(new ArrayList<>());
         }
         this.replaces.add(rep);
     }
 
-    public void addIsReplacedBy(Serie irb) {
+    public void addIsReplacedBy(SerieSuivante irb) {
         if (isReplacedBy == null) {
             this.setIsReplacedBy(new ArrayList<>());
         }
         this.isReplacedBy.add(irb);
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     public String getId() {
         return id;
     }
@@ -117,23 +120,26 @@ public class Serie {
         this.id = id;
     }
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
     }
 
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty(value = "idRapportQualite")
+    @JacksonXmlProperty(localName = "IdRapportQualite")
     public String getSimsId() {
         return simsId;
     }
-
+    @JsonProperty(value="simsId")
     public void setSimsId(String simsId) {
         if ( ! simsId.equals("")) {
             this.simsId = simsId;
         }
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "Operation")
+    @JacksonXmlProperty(localName = "Operation")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Operation> getOperations() {
         return operations;
@@ -143,7 +149,7 @@ public class Serie {
         this.operations = operations;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "Indicateur")
+    @JacksonXmlProperty( localName = "Indicateur")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Indicateur> getIndicateurs() {
         return indicateurs;
@@ -153,6 +159,7 @@ public class Serie {
         this.indicateurs = indicateurs;
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "uri")
     public String getUri() {
         return uri;
     }
@@ -166,12 +173,13 @@ public class Serie {
     }
 
     @JsonProperty("famille")
-    @JacksonXmlProperty(isAttribute = true, localName = "Famille")
+    @JacksonXmlProperty(localName = "Famille")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getFamily() {
         return family;
     }
 
+    @JacksonXmlProperty(localName = "Type")
     public SimpleObject getType() {
         return type;
     }
@@ -180,41 +188,48 @@ public class Serie {
         this.type = type;
     }
 
-    @JsonProperty("remplace")
-    @JacksonXmlProperty(isAttribute = true, localName = "remplace")
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("seriesPrecedentes")
+//    @XmlElementWrapper(name = "SeriesPrecedentes")
+//    @JacksonXmlElementWrapper(localName = "SeriesPrecedentes")
+    @JacksonXmlProperty(localName = "SeriePrecedente")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<Serie> getReplaces() {
+    public List<SeriePrecedente> getReplaces() {
         return replaces;
     }
 
-    public void setReplaces(List<Serie> replaces) {
+    public void setReplaces(List<SeriePrecedente> replaces) {
         this.replaces = replaces;
     }
 
-    @JsonProperty("estRemplacePar")
-    @JacksonXmlProperty(isAttribute = true, localName = "estRemplacePar")
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("seriesSuivantes") //json example
+//    @XmlElementWrapper(name = "SeriesSuivantes") //xml example list
+//    @JacksonXmlElementWrapper(localName = "SeriesSuivantes") //xml response
+    @JacksonXmlProperty(localName = "SerieSuivante") //xml response
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<Serie> getIsReplacedBy() {
+    public List<SerieSuivante> getIsReplacedBy() {
         return isReplacedBy;
     }
 
-    public void setIsReplacedBy(List<Serie> isReplacedBy) {
+    public void setIsReplacedBy(List<SerieSuivante> isReplacedBy) {
         this.isReplacedBy = isReplacedBy;
     }
 
-    @JsonProperty("voirAussi")
-    @JacksonXmlProperty(isAttribute = true, localName = "voirAussi")
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("reference")
+    @JacksonXmlProperty( localName = "Reference")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<SimpleObject> getSeeAlso() {
+    public List<ObjectWithSimsId> getSeeAlso() {
         return seeAlso;
     }
 
-    public void setSeeAlso(List<SimpleObject> seeAlso) {
+    public void setSeeAlso(List<ObjectWithSimsId> seeAlso) {
         this.seeAlso = seeAlso;
     }
 
     @JsonProperty("periodicite")
-    @JacksonXmlProperty(isAttribute = true, localName = "periodicite")
+    @JacksonXmlProperty( localName = "Periodicite")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getAccrualPeriodicity() {
         return accrualPeriodicity;
@@ -225,7 +240,7 @@ public class Serie {
     }
 
     @JsonProperty("resume")
-    @JacksonXmlProperty(localName = "resume")
+    @JacksonXmlProperty(localName = "Resume")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getAbstractSerie() {
         return abstractSerie;
@@ -236,7 +251,7 @@ public class Serie {
     }
 
     public void setAbstractLg2(String abstractLg2) {
-        setAbstract(abstractLg2, Lang.FR);
+        setAbstract(abstractLg2, Lang.EN);
     }
 
     private void setAbstract(String abstr, Lang lang) {
@@ -249,7 +264,7 @@ public class Serie {
     }
 
     @JsonProperty("noteHistorique")
-    @JacksonXmlProperty(localName = "noteHistorique")
+    @JacksonXmlProperty(localName = "NoteHistorique")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getHistoryNote() {
         return historyNote;
@@ -272,8 +287,12 @@ public class Serie {
         }
     }
 
-    @JsonProperty("organismeResponsable")
-    @JacksonXmlProperty(isAttribute = true, localName = "organismeResponsable")
+
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("organismesResponsables") //json example
+//    @XmlElementWrapper(name = "OrganismesResponsables") //xml example list
+//    @JacksonXmlElementWrapper(localName = "OrganismesResponsables") //xml response
+    @JacksonXmlProperty(localName = "OrganismeResponsable") //xml response
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getPublishers() {
         return publishers;
@@ -283,8 +302,11 @@ public class Serie {
         this.publishers = publishers;
     }
 
-    @JsonProperty("partenaire")
-    @JacksonXmlProperty(isAttribute = true, localName = "partenaire")
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("partenaires") //json example
+//    @XmlElementWrapper(name = "Partenaires") //xml example list
+//    @JacksonXmlElementWrapper(localName = "Partenaires") //xml response
+    @JacksonXmlProperty(localName = "Partenaire") //xml response
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getContributors() {
         return contributors;
@@ -294,6 +316,21 @@ public class Serie {
         this.contributors = contributors;
     }
 
+    
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("proprietaires") //json example
+//    @XmlElementWrapper(name = "Proprietaires") //xml example list
+//    @JacksonXmlElementWrapper(localName = "Proprietaires") //xml response
+    @JacksonXmlProperty(localName = "Proprietaire") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<String> getCreators() {
+        return creators;
+    }
+
+    public void setCreators(List<String> creators) {
+        this.creators = creators;
+    }
+    
     public void setLabelFr(String labelFr) {
         setLabel(labelFr, Lang.FR);
     }
@@ -308,7 +345,7 @@ public class Serie {
         }
     }
 
-    @JacksonXmlProperty(localName = "altLabel")
+    @JacksonXmlProperty(localName = "AltLabel")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getAltLabel() {
         return altLabel;

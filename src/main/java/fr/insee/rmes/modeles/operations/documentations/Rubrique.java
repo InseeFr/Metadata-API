@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -58,15 +59,16 @@ public class Rubrique {
         this.type = type;
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     public String getId() {
         return id;
     }
-
+    @JacksonXmlProperty(isAttribute = true, localName = "uri")
     public String getUri() {
         return uri;
     }
 
-    @JacksonXmlProperty(localName = "titre")
+    @JacksonXmlProperty(localName = "Titre")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getTitre() {
         return titre;
@@ -76,6 +78,7 @@ public class Rubrique {
         this.titre = titre;
     }
 
+    @JacksonXmlProperty(localName = "IdParent")
     public String getIdParent() {
         return idParent;
     }
@@ -84,10 +87,13 @@ public class Rubrique {
         this.idParent = idParent;
     }
 
+    @JacksonXmlProperty(localName = "Type")
     public String getType() {
         return type;
     }
-
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("valeur") //json example
+    @JacksonXmlProperty(localName = "Valeur")
     public String getValeurSimple() {
         return valeurSimple;
     }
@@ -96,7 +102,7 @@ public class Rubrique {
         this.valeurSimple = valeurSimple;
     }
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
@@ -120,11 +126,17 @@ public class Rubrique {
         }
     }
 
-   
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("organismes") //json example
+//    @XmlElementWrapper(name = "Valeurs") //xml example list
+//    @JacksonXmlElementWrapper(localName = "Valeurs") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "Organisme") //xml response
     public SimpleObject getValeurOrganisation() {
         return valeurOrganisation;
     }
 
+    
     public void setValeurOrganisation(SimpleObject valeurOrganisation) {
         this.valeurOrganisation = valeurOrganisation;
     }
@@ -141,8 +153,9 @@ public class Rubrique {
         }
     }
 
-    @JacksonXmlProperty(localName = "contenu")
-    @JacksonXmlElementWrapper(localName = "contenus", useWrapping = true)
+    @JsonProperty(value = "contenus")
+    @JacksonXmlProperty(localName = "Contenu")
+    @JacksonXmlElementWrapper(useWrapping = false)
     public List<RubriqueRichText> getRichTexts() {
         return richTexts;
     }
@@ -158,6 +171,12 @@ public class Rubrique {
         this.richTexts.add(r);
     }
 
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("codes") //json example
+//    @XmlElementWrapper(name = "Valeurs") //xml example list
+//    @JacksonXmlElementWrapper(localName = "Valeurs") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "Code") //xml response
     public List<SimpleObject> getValeurCode() {
         return valeurCode;
     }
@@ -173,6 +192,10 @@ public class Rubrique {
         this.valeurCode.add(so);
     }
 
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("territoire") //json example
+    @JacksonXmlProperty(localName = "Territoire") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getValeurGeographie() {
         return valeurGeographie;
     }
@@ -204,5 +227,7 @@ public class Rubrique {
 				&& Objects.equals(valeurOrganisation, other.valeurOrganisation)
 				&& Objects.equals(valeurSimple, other.valeurSimple);
 	}
+	
+
 
 }

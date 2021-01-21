@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -48,6 +49,7 @@ public class Operation {
         super();
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     public String getId() {
         return id;
     }
@@ -56,16 +58,20 @@ public class Operation {
         this.id = id;
     }
 
+    @JsonProperty(value = "idRapportQualite")
+    @JacksonXmlProperty(localName = "IdRapportQualite")
     public String getSimsId() {
         return simsId;
     }
 
+    @JsonProperty(value="simsId")
     public void setSimsId(String simsId) {
         if (StringUtils.isNotEmpty(simsId)) {
             this.simsId = simsId;
         }
     }
 
+    @JacksonXmlProperty(isAttribute = true, localName = "uri")
     public String getUri() {
         return uri;
     }
@@ -74,7 +80,7 @@ public class Operation {
         this.uri = uri;
     }
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
@@ -96,7 +102,7 @@ public class Operation {
         }
     }
 
-    @JacksonXmlProperty(localName = "altLabel")
+    @JacksonXmlProperty(localName = "AltLabel")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getAltLabel() {
         return altLabel;

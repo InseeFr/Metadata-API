@@ -4,20 +4,18 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 public abstract class RubriqueRichTextXmlMixIn {
 
     @JsonCreator
-    public RubriqueRichTextXmlMixIn(@JsonProperty("label") String string, @JsonProperty("langue") String lang, List<Document> documents) {}
+    public RubriqueRichTextXmlMixIn(String string, String lang, List<Document> documents) {}
 
-	 @JsonProperty("label")
-	 @JsonRawValue
+    @JsonProperty("Texte")
     abstract String getString();
 
     @JacksonXmlProperty(isAttribute = true)
-    @JsonProperty("langue")
+    @JsonProperty("xmllang")
     abstract String getLang();
     
     abstract List<Document> getDocuments();

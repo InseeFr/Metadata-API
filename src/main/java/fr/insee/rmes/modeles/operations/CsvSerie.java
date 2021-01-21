@@ -38,6 +38,7 @@ public class CsvSerie {
 
     private Boolean hasContributor = null;
     private Boolean hasPublisher = null;
+    private Boolean hasCreator = null;
 
     private String simsId = null;
 
@@ -284,5 +285,15 @@ public class CsvSerie {
     public void setHasPublisher(Boolean hasPublisher) {
         this.hasPublisher = hasPublisher;
     }
+
+
+	public Boolean isHasCreator() {
+		return hasCreator;
+	}
+
+
+	public void setHasCreator(Boolean hasCreator) {
+		this.hasCreator = hasCreator;
+	}
 
 }
