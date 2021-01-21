@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,7 +65,13 @@ public class ResponseUtils {
             logger.error(e.getMessage());
         }
 
-        return new String(response.getBytes(), StandardCharsets.UTF_8);
+        return encodeResponse(response);
+    }
+    
+    public String encodeResponse(String response) {
+    	String ret = StringEscapeUtils.unescapeXml(response);
+    	ret = StringEscapeUtils.unescapeHtml4(ret);
+    	return new String(ret.getBytes(), StandardCharsets.UTF_8);
     }
 
 }

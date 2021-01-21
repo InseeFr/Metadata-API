@@ -4,15 +4,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.XmlValue;
-
 import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 import fr.insee.rmes.utils.Lang;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -38,8 +35,6 @@ public class RubriqueRichText {
 		this.lang = lang;
 	}
     
-    @JacksonXmlText
-    @XmlValue
 	 @JsonProperty("texte")
 	public String getString() {
 		if (string == null) return null;
