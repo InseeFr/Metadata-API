@@ -39,6 +39,7 @@ public class ObjectWithSimsId extends SimpleObject {
 		return simsId;
 	}
 
+    @JsonProperty(value="simsId")
 	public void setSimsId(String simsId) {
 		this.simsId = simsId;
 	}

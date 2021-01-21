@@ -94,6 +94,7 @@ public class Indicateur {
         return simsId;
     }
 
+    @JsonProperty(value = "simsId")
     public void setSimsId(String simsId) {
         if (StringUtils.isNotEmpty(simsId)) {
             this.simsId = simsId;
