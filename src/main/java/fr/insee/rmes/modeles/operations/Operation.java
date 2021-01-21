@@ -64,6 +64,7 @@ public class Operation {
         return simsId;
     }
 
+    @JsonProperty(value="simsId")
     public void setSimsId(String simsId) {
         if (StringUtils.isNotEmpty(simsId)) {
             this.simsId = simsId;
