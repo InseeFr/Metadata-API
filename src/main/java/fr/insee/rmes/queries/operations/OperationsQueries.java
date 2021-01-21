@@ -191,4 +191,8 @@ public class OperationsQueries extends Queries {
 	public static String getCreatorsByIndic(String idIndicateur) {
 		return getCreatorByObject(idIndicateur, INDICATOR_RDF_MODEL, INDICATOR_BASEURI);
 	}
+
+	public static String getDataCollectorsBySeries(String idSeries) {
+		return getOrganismByObject(idSeries, "dcterms:dataCollector", SERIES_RDF_MODEL, SERIES_BASEURI);
+	}
 }

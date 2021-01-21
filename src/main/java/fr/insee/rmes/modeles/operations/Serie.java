@@ -60,6 +60,8 @@ public class Serie {
     private List<SimpleObject> publishers;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> contributors;
+    @JsonInclude(Include.NON_NULL)
+    private List<SimpleObject> dataCollectors;
     @JsonInclude(Include.NON_EMPTY)
     private List<String> creators;
 
@@ -310,6 +312,18 @@ public class Serie {
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getContributors() {
         return contributors;
+    }
+
+    public void setDataCollectors(List<SimpleObject> dataCollectors) {
+        this.dataCollectors = dataCollectors;
+    }
+
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("serviceCollecteur") //json example
+    @JacksonXmlProperty(localName = "ServiceCollecteur") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<SimpleObject> getDataCollectors() {
+        return dataCollectors;
     }
 
     public void setContributors(List<SimpleObject> contributors) {
