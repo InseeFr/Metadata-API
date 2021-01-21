@@ -20,7 +20,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-import fr.insee.rmes.modeles.StringWithLang;
 import fr.insee.rmes.utils.Lang;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -40,22 +39,22 @@ public class Concept {
     
     @XmlElement(name = "Intitule")
     @JsonInclude(Include.NON_EMPTY)
-    private List<StringWithLang> intitule = new ArrayList<>();
+    private List<StringWithLangConcept> intitule = new ArrayList<>();
     
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name = "Definition")
     @JacksonXmlElementWrapper(useWrapping = false)
-    private List<StringWithLang> definition= new ArrayList<>();
+    private List<StringWithLangConcept> definition= new ArrayList<>();
     
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="NoteEditoriale")
     @JacksonXmlElementWrapper(useWrapping = false)
-    private List<StringWithLang> noteEditoriale= new ArrayList<>();
+    private List<StringWithLangConcept> noteEditoriale= new ArrayList<>();
     
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name = "DefinitionCourte")
     @JacksonXmlElementWrapper(useWrapping = false)
-    private List<StringWithLang> scopeNote= new ArrayList<>();
+    private List<StringWithLangConcept> scopeNote= new ArrayList<>();
     
 
     private Boolean hasLink;
@@ -97,34 +96,34 @@ public class Concept {
 
     @JacksonXmlProperty(localName = "Intitule")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<StringWithLang> getIntitule() {
+    public List<StringWithLangConcept> getIntitule() {
         return intitule;
     }
 
-    public void setIntitule(List<StringWithLang> intitule) {
+    public void setIntitule(List<StringWithLangConcept> intitule) {
         this.intitule = intitule;
     }
     
     public void setIntituleFr(String intituleFr) {
         if (!intituleFr.equals("")) {
-            intitule.add(new StringWithLang(intituleFr, Lang.FR));
+            intitule.add(new StringWithLangConcept(intituleFr, Lang.FR));
         }
     }
     
     public void setIntituleEn(String intituleEn) {
         if (!intituleEn.equals("")) {
-            intitule.add(new StringWithLang(intituleEn, Lang.EN));
+            intitule.add(new StringWithLangConcept(intituleEn, Lang.EN));
         }
     }
     
 
     @JacksonXmlProperty(localName = "Definition")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<StringWithLang> getDefinition() {
+    public List<StringWithLangConcept> getDefinition() {
         return definition;
     }
 
-    public void setDefinition(List<StringWithLang> definition) {
+    public void setDefinition(List<StringWithLangConcept> definition) {
         this.definition = definition;
     }
     
@@ -132,13 +131,13 @@ public class Concept {
     @JsonProperty(value = "definitionFr")
     public void setDefinitionFr(String definitionFr) {
         if (!definitionFr.equals("")) {
-            definition.add(new StringWithLang(definitionFr, Lang.FR));
+            definition.add(new StringWithLangConcept(definitionFr, Lang.FR));
         }
     }
     
     public void setDefinitionEn(String definitionEn) {
         if (!definitionEn.equals("")) {
-            definition.add(new StringWithLang(definitionEn, Lang.EN));
+            definition.add(new StringWithLangConcept(definitionEn, Lang.EN));
         }
     }
 
@@ -146,45 +145,45 @@ public class Concept {
     @JacksonXmlProperty(localName = "DefinitionCourte")
     @JsonProperty(value="definitionCourte")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<StringWithLang> getScopeNote() {
+    public List<StringWithLangConcept> getScopeNote() {
         return scopeNote;
     }
 
-    public void setScopeNote(List<StringWithLang> scopeNote) {
+    public void setScopeNote(List<StringWithLangConcept> scopeNote) {
         this.scopeNote = scopeNote;
     }
     
     public void setScopeNoteFr(String scopeNoteFr) {
         if (!scopeNoteFr.equals("")) {
-            scopeNote.add(new StringWithLang(scopeNoteFr, Lang.FR));
+            scopeNote.add(new StringWithLangConcept(scopeNoteFr, Lang.FR));
         }
     }
     
     public void setScopeNoteEn(String scopeNoteEn) {
         if (!scopeNoteEn.equals("")) {
-            scopeNote.add(new StringWithLang(scopeNoteEn, Lang.EN));
+            scopeNote.add(new StringWithLangConcept(scopeNoteEn, Lang.EN));
         }
     }
     
     @JacksonXmlProperty(localName = "NoteEditoriale")
     @JacksonXmlElementWrapper(useWrapping = false)
-    public List<StringWithLang> getNoteEditoriale() {
+    public List<StringWithLangConcept> getNoteEditoriale() {
         return noteEditoriale;
     }
 
-    public void setNoteEditoriale(List<StringWithLang> editorialNote) {
+    public void setNoteEditoriale(List<StringWithLangConcept> editorialNote) {
         this.noteEditoriale = editorialNote;
     }
     
     public void setEditorialNoteFr(String editorialNoteFr) {
         if (!editorialNoteFr.equals("")) {
-            noteEditoriale.add(new StringWithLang(editorialNoteFr, Lang.FR));
+            noteEditoriale.add(new StringWithLangConcept(editorialNoteFr, Lang.FR));
         }
     }
     
     public void setEditorialNoteEn(String editorialNoteEn) {
         if (!editorialNoteEn.equals("")) {
-            noteEditoriale.add(new StringWithLang(editorialNoteEn, Lang.EN));
+            noteEditoriale.add(new StringWithLangConcept(editorialNoteEn, Lang.EN));
         }
     }
 
