@@ -1,5 +1,6 @@
 package fr.insee.rmes.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
@@ -60,7 +61,7 @@ public class ResponseUtils {
             logger.error(e.getMessage());
         }
 
-        return response;
+        return new String(response.getBytes(), StandardCharsets.UTF_8);
     }
 
 }

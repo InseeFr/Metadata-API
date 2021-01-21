@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -90,11 +91,12 @@ public class Rubrique {
     public String getType() {
         return type;
     }
-
-//    @JacksonXmlProperty(localName = "Valeur")
-//    public String getValeurSimple() {
-//        return valeurSimple;
-//    }
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("valeur") //json example
+    @JacksonXmlProperty(localName = "Valeur")
+    public String getValeurSimple() {
+        return valeurSimple;
+    }
 
     public void setValeurSimple(String valeurSimple) {
         this.valeurSimple = valeurSimple;
@@ -124,11 +126,17 @@ public class Rubrique {
         }
     }
 
-//    @JacksonXmlProperty(localName = "Valeur")
-//    public SimpleObject getValeurOrganisation() {
-//        return valeurOrganisation;
-//    }
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("organismes") //json example
+//    @XmlElementWrapper(name = "Valeurs") //xml example list
+//    @JacksonXmlElementWrapper(localName = "Valeurs") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "Organisme") //xml response
+    public SimpleObject getValeurOrganisation() {
+        return valeurOrganisation;
+    }
 
+    
     public void setValeurOrganisation(SimpleObject valeurOrganisation) {
         this.valeurOrganisation = valeurOrganisation;
     }
@@ -145,8 +153,9 @@ public class Rubrique {
         }
     }
 
+    @JsonProperty(value = "contenus")
     @JacksonXmlProperty(localName = "Contenu")
-    @JacksonXmlElementWrapper(localName = "Contenus", useWrapping = true)
+    @JacksonXmlElementWrapper(useWrapping = false)
     public List<RubriqueRichText> getRichTexts() {
         return richTexts;
     }
@@ -162,14 +171,15 @@ public class Rubrique {
         this.richTexts.add(r);
     }
 
-//    @JsonInclude(Include.NON_EMPTY)
-//    @JsonProperty("valeurs") //json example
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("codes") //json example
 //    @XmlElementWrapper(name = "Valeurs") //xml example list
 //    @JacksonXmlElementWrapper(localName = "Valeurs") //xml response
-//    @JacksonXmlProperty(localName = "Valeur") //xml response
-//    public List<SimpleObject> getValeurCode() {
-//        return valeurCode;
-//    }
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "Code") //xml response
+    public List<SimpleObject> getValeurCode() {
+        return valeurCode;
+    }
 
     public void setValeurCode(List<SimpleObject> valeurCode) {
         this.valeurCode = valeurCode;
@@ -181,11 +191,14 @@ public class Rubrique {
         }
         this.valeurCode.add(so);
     }
-//
-//    @JsonIgnore
-//    public SimpleObject getValeurGeographie() {
-//        return valeurGeographie;
-//    }
+
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("territoire") //json example
+    @JacksonXmlProperty(localName = "Territoire") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public SimpleObject getValeurGeographie() {
+        return valeurGeographie;
+    }
 
     public void setValeurGeographie(SimpleObject valeurGeographie) {
         this.valeurGeographie = valeurGeographie;
@@ -215,14 +228,6 @@ public class Rubrique {
 				&& Objects.equals(valeurSimple, other.valeurSimple);
 	}
 	
-	 @JsonInclude(Include.NON_NULL)
-    @JacksonXmlProperty(localName = "Valeur")
-	public Object getValeur() {
-    	if (StringUtils.isNotEmpty(valeurSimple)) return valeurSimple;
-    	else if (valeurCode != null && !valeurCode.isEmpty()) return valeurCode;
-    	else if (valeurOrganisation != null) return valeurOrganisation;
-    	else if (valeurGeographie != null) return valeurGeographie;
-    	return null;
-    }
+
 
 }
