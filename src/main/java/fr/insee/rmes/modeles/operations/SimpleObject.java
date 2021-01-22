@@ -57,7 +57,7 @@ public class SimpleObject {
         this.uri = uri;
     }
 
-
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;

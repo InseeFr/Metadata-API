@@ -37,6 +37,8 @@ public class CsvSerie {
     private Boolean hasIndic = null;
 
     private Boolean hasContributor = null;
+    private Boolean hasDataCollector = null;
+
     private Boolean hasPublisher = null;
     private Boolean hasCreator = null;
 
@@ -260,6 +262,14 @@ public class CsvSerie {
 
     public void setHasContributor(Boolean hasContributor) {
         this.hasContributor = hasContributor;
+    }
+    
+    public Boolean isHasDataCollector() {
+        return hasDataCollector;
+    }
+
+    public void setHasDataCollector(Boolean hasDataCollector) {
+        this.hasDataCollector = hasDataCollector;
     }
 
     public String getSeriesAltLabelLg1() {
