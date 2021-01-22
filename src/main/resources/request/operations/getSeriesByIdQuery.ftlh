@@ -5,7 +5,8 @@
            				 ?periodicityLabelLg1 ?typeLabelLg1 
            				 ?periodicityLabelLg2 ?typeLabelLg2 
            				 ?periodicityId ?typeId 
-           				?hasSeeAlso ?hasIsReplacedBy ?hasReplaces ?hasOperation ?hasIndic ?hasPublisher ?hasContributor  ?hasCreator
+           				?hasSeeAlso ?hasIsReplacedBy ?hasReplaces ?hasOperation ?hasIndic 
+           				?hasPublisher ?hasContributor  ?hasCreator ?hasDataCollector
             
            	{  
            		?series a insee:StatisticalOperationSeries . 

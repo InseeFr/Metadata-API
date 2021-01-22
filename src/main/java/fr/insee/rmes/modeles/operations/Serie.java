@@ -230,8 +230,8 @@ public class Serie {
         this.seeAlso = seeAlso;
     }
 
-    @JsonProperty("periodicite")
-    @JacksonXmlProperty( localName = "Periodicite")
+    @JsonProperty("frequenceCollecte")
+    @JacksonXmlProperty( localName = "FrequenceCollecte")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getAccrualPeriodicity() {
         return accrualPeriodicity;

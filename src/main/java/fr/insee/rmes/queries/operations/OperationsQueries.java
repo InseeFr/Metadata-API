@@ -193,6 +193,6 @@ public class OperationsQueries extends Queries {
 	}
 
 	public static String getDataCollectorsBySeries(String idSeries) {
-		return getOrganismByObject(idSeries, "dcterms:dataCollector", SERIES_RDF_MODEL, SERIES_BASEURI);
+		return getOrganismByObject(idSeries, "insee:dataCollector", SERIES_RDF_MODEL, SERIES_BASEURI);
 	}
 }
