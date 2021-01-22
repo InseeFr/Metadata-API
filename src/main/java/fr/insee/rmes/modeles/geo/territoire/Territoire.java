@@ -81,6 +81,24 @@ public abstract class Territoire {
         this.chefLieu = chefLieu;
     }
 
+    public Territoire(
+        String code,
+        String uri,
+        String intitule,
+        String type,
+        String dateCreation,
+        String dateSuppression,
+        IntituleSansArticle intituleSansArticle) {
+        super();
+        this.code = code;
+        this.uri = uri;
+        this.intitule = intitule;
+        this.type = type;
+        this.dateCreation = dateCreation;
+        this.dateSuppression = dateSuppression;
+        this.intituleSansArticle = intituleSansArticle;
+    }
+    
     public Territoire() {
         this.intituleSansArticle = new IntituleSansArticle();
     }

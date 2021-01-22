@@ -12,6 +12,7 @@ import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
 import fr.insee.rmes.modeles.geo.territoire.Departement;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
 import fr.insee.rmes.modeles.geo.territoires.Arrondissements;
 import fr.insee.rmes.modeles.geo.territoires.ArrondissementsMunicipaux;
 import fr.insee.rmes.modeles.geo.territoires.Cantons;
@@ -21,6 +22,7 @@ import fr.insee.rmes.modeles.geo.territoires.CommunesDeleguees;
 import fr.insee.rmes.modeles.geo.territoires.Departements;
 import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.geo.territoires.ZonesEmploi;
 import fr.insee.rmes.utils.Constants;
 
 public enum EnumTypeGeographie {
@@ -32,8 +34,13 @@ public enum EnumTypeGeographie {
     CANTON("Canton", Canton.class,Cantons.class, Constants.NONE),
     COMMUNE_DELEGUEE("CommuneDeleguee", CommuneDeleguee.class,CommunesDeleguees.class, Constants.NONE),
     COMMUNE_ASSOCIEE("CommuneAssociee", CommuneAssociee.class,CommunesAssociees.class, Constants.NONE),
-    ARRONDISSEMENT_MUNICIPAL("ArrondissementMunicipal", ArrondissementMunicipal.class,ArrondissementsMunicipaux.class, Constants.NONE);
+    ARRONDISSEMENT_MUNICIPAL("ArrondissementMunicipal", ArrondissementMunicipal.class,ArrondissementsMunicipaux.class, Constants.NONE),
+	ZONE_EMPLOI("Zone d'emploi", ZoneEmploi.class,ZonesEmploi.class, Constants.NONE);
+	 
+//	  AIRE_ATTRACTION("Aire d'attraction", AireAttraction.class,AireAttraction.class, Constants.NONE),
+//	  UNITE_URBAINE("Unité urbaine", UniteUrbaine.class,UniteUrbaine.class, Constants.NONE),
 
+	
     private String typeObjetGeo;
     private Class<? extends Territoire> classNameOfGeoType;
     private Class<? extends Territoires> classPluralGeoType;
