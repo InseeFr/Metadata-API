@@ -222,8 +222,8 @@ public class Indicateur {
         this.wasGeneratedBy = wasGeneratedBy;
     }
 
-    @JsonProperty("periodicite")
-    @JacksonXmlProperty(isAttribute = true, localName = "Periodicite")
+    @JsonProperty("frequenceDiffusion")
+    @JacksonXmlProperty(isAttribute = true, localName = "FrequenceDiffusion")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getAccrualPeriodicity() {
         return accrualPeriodicity;
