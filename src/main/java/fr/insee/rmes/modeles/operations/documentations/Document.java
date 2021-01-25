@@ -7,6 +7,8 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonClassDescription;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -37,7 +39,7 @@ public class Document {
         }
     }
 
-    
+    @JsonInclude(Include.NON_NULL)
     @JacksonXmlProperty(localName = "DateMiseAJour")
     public String getDateMiseAJour() {
         return dateMiseAJour;

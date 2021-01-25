@@ -9,12 +9,13 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 public abstract class RubriqueRichTextXmlMixIn {
 
     @JsonCreator
-    public RubriqueRichTextXmlMixIn(String string, String lang, List<Document> documents) {}
+    public RubriqueRichTextXmlMixIn(String string, @JsonProperty("xmllang") String lang, List<Document> documents) {}
 
     @JsonProperty("Texte")
     abstract String getString();
 
-    @JacksonXmlProperty(isAttribute = true)
+    
+    @JacksonXmlProperty(isAttribute = true, localName = "xmllang")
     @JsonProperty("xmllang")
     abstract String getLang();
     

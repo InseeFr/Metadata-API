@@ -78,6 +78,7 @@ public class Rubrique {
         this.titre = titre;
     }
 
+    @JsonInclude(Include.NON_EMPTY)
     @JacksonXmlProperty(localName = "IdParent")
     public String getIdParent() {
         return idParent;
@@ -92,8 +93,8 @@ public class Rubrique {
         return type;
     }
     @JsonInclude(Include.NON_EMPTY)
-    @JsonProperty("valeur") //json example
-    @JacksonXmlProperty(localName = "Valeur")
+    @JsonProperty("date") //json example
+    @JacksonXmlProperty(localName = "Date")
     public String getValeurSimple() {
         return valeurSimple;
     }
