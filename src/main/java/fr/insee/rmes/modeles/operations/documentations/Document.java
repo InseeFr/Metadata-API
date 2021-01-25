@@ -21,7 +21,7 @@ public class Document {
     private String langue;
     private String url;
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
@@ -37,6 +37,8 @@ public class Document {
         }
     }
 
+    
+    @JacksonXmlProperty(localName = "DateMiseAJour")
     public String getDateMiseAJour() {
         return dateMiseAJour;
     }
@@ -45,6 +47,7 @@ public class Document {
         this.dateMiseAJour = dateMiseAJour;
     }
 
+    @JacksonXmlProperty(localName = "Langue")
     public String getLangue() {
         return langue;
     }
@@ -53,6 +56,7 @@ public class Document {
         this.langue = langue;
     }
 
+    @JacksonXmlProperty(localName = "Url")
     public String getUrl() {
         if (url != null && url.contains(Configuration.getFileStorage())) {
             String[] temp = url.split(Configuration.getFileStorage());
