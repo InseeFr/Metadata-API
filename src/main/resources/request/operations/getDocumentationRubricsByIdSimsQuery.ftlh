@@ -2,6 +2,7 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
             	FROM <http://rdf.insee.fr/graphes/qualite/rapport/${idSims}> 
             	FROM <http://rdf.insee.fr/graphes/codes> 
             	FROM <http://rdf.insee.fr/graphes/organisations> 
+            	FROM <http://rdf.insee.fr/graphes/organisations/insee> 
             	FROM <http://rdf.insee.fr/graphes/concepts/qualite> 
             	FROM <http://rdf.insee.fr/graphes/qualite/simsv2fr> 
             	FROM NAMED <http://rdf.insee.fr/graphes/geo/cog>
@@ -81,7 +82,7 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
             			FILTER (lang(?labelObjLg1) = 'fr')} 
             		OPTIONAL {?organisationUri skos:prefLabel ?labelObjLg2 . 
             			FILTER (lang(?labelObjLg2) = 'en') } 
-            		BIND('ORGANISATION' AS ?type) . 
+            		BIND('ORGANIZATION' AS ?type) . 
             	} 
             	UNION {
 					?reporturi ?uri ?geoUri . 

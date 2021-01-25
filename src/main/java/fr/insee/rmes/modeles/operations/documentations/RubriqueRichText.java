@@ -22,7 +22,6 @@ public class RubriqueRichText {
 	 private String string = null;
 	    
 	 @Schema(example = "fr")
-	 @JsonProperty("langue")
 	 private Lang lang = null;
 
     @JsonInclude(Include.NON_NULL)
@@ -45,6 +44,7 @@ public class RubriqueRichText {
         this.string = string;
     }
 
+	 @JsonProperty("langue")
     public String getLang() {
         return lang.getLang();
     }

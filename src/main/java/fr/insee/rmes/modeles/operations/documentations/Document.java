@@ -7,6 +7,8 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonClassDescription;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -21,7 +23,7 @@ public class Document {
     private String langue;
     private String url;
 
-    @JacksonXmlProperty(localName = "label")
+    @JacksonXmlProperty(localName = "Label")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getLabel() {
         return label;
@@ -37,6 +39,8 @@ public class Document {
         }
     }
 
+    @JsonInclude(Include.NON_NULL)
+    @JacksonXmlProperty(localName = "DateMiseAJour")
     public String getDateMiseAJour() {
         return dateMiseAJour;
     }
@@ -45,6 +49,7 @@ public class Document {
         this.dateMiseAJour = dateMiseAJour;
     }
 
+    @JacksonXmlProperty(localName = "Langue")
     public String getLangue() {
         return langue;
     }
@@ -53,6 +58,7 @@ public class Document {
         this.langue = langue;
     }
 
+    @JacksonXmlProperty(localName = "Url")
     public String getUrl() {
         if (url != null && url.contains(Configuration.getFileStorage())) {
             String[] temp = url.split(Configuration.getFileStorage());
