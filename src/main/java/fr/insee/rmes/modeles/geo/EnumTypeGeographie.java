@@ -35,7 +35,7 @@ public enum EnumTypeGeographie {
     COMMUNE_DELEGUEE("CommuneDeleguee", CommuneDeleguee.class,CommunesDeleguees.class, Constants.NONE),
     COMMUNE_ASSOCIEE("CommuneAssociee", CommuneAssociee.class,CommunesAssociees.class, Constants.NONE),
     ARRONDISSEMENT_MUNICIPAL("ArrondissementMunicipal", ArrondissementMunicipal.class,ArrondissementsMunicipaux.class, Constants.NONE),
-	ZONE_EMPLOI("Zone d'emploi", ZoneEmploi.class,ZonesEmploi.class, Constants.NONE);
+	ZONE_EMPLOI("ZoneDEmploi2020", ZoneEmploi.class,ZonesEmploi.class, Constants.NONE);
 	 
 //	  AIRE_ATTRACTION("Aire d'attraction", AireAttraction.class,AireAttraction.class, Constants.NONE),
 //	  UNITE_URBAINE("Unité urbaine", UniteUrbaine.class,UniteUrbaine.class, Constants.NONE),

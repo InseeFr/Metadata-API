@@ -25,7 +25,7 @@ public class ZonesEmploi extends Territoires {
         this.zonesEmploi = zonesEmploi;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "Commune")
+    @JacksonXmlProperty(isAttribute = true, localName = "ZoneEmploi")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<ZoneEmploi> getZonesEmploi() {
         return zonesEmploi;

@@ -4,6 +4,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -16,7 +17,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
+import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @ExtendWith(MockitoExtension.class)
 public class ZoneEmploiAPITest extends AbstractApiTest {
@@ -30,7 +33,7 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
      */    
     
     @Test
-    void givenGetCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetZoneEmploi_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
     	zoneEmploi.setUri("something");
@@ -42,7 +45,7 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
     
     @Test
-    void givenGetCommune_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetZoneEmploi_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
     	zoneEmploi.setUri("something");
@@ -54,7 +57,7 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
     
     @Test
-    void givenGetCommune_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetZoneEmploi_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnOnePojo(zoneEmploi, Boolean.FALSE);
@@ -71,7 +74,7 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetCommune_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetZoneEmploi_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
     	zoneEmploi.setUri("something");
@@ -83,7 +86,7 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetCommune_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetZoneEmploi_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");

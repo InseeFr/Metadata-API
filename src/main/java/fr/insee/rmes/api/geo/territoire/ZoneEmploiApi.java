@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
-import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -24,12 +23,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Path(ConstGeoApi.PATH_GEO)
+@Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class ZoneEmploiApi  extends AbstractGeoApi {
 
 	private static final String LITTERAL_DATE_EXAMPLE = "1945-06-26";
 
-	private static Logger logger = LogManager.getLogger(CommuneApi.class);
+	private static Logger logger = LogManager.getLogger(ZoneEmploiApi.class);
 
 	private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_ZONE_EMPLOI + "}";
 	private static final String LITTERAL_ID_OPERATION = "getcogze";
@@ -40,7 +42,7 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
 			"Filtre pour renvoyer la zone d'emploi active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
 	private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
-	private static final String LITTERAL_CODE_EXAMPLE = "14475";
+	private static final String LITTERAL_CODE_EXAMPLE = "2415";
 
 
 	@Path(ConstGeoApi.PATH_ZONE_EMPLOI + CODE_PATTERN)
@@ -82,7 +84,7 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
 							.executeSparqlQuery(
 									GeoQueries.getZoneEmploiByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
 							header,
-							new Commune(code));
+							new ZoneEmploi(code));
 		}
 	}
 
