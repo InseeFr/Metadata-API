@@ -2,24 +2,21 @@ package fr.insee.rmes.modeles.operations.documentations;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlValue;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 public abstract class RubriqueRichTextXmlMixIn {
 
     @JsonCreator
-    public RubriqueRichTextXmlMixIn(@JsonProperty("label") String string, @JsonProperty("langue") String lang, List<Document> documents) {}
+    public RubriqueRichTextXmlMixIn(String string, @JsonProperty("xmllang") String lang, List<Document> documents) {}
 
-    @JacksonXmlText
-    @XmlValue
+    @JsonProperty("Texte")
     abstract String getString();
 
-    @JacksonXmlProperty(isAttribute = true)
-    @JsonProperty("langue")
+    
+    @JacksonXmlProperty(isAttribute = true, localName = "xmllang")
+    @JsonProperty("xmllang")
     abstract String getLang();
     
     abstract List<Document> getDocuments();

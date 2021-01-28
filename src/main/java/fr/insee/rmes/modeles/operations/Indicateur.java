@@ -47,7 +47,7 @@ public class Indicateur {
 
     @JsonInclude(Include.NON_NULL)
     private SimpleObject accrualPeriodicity = null;
-
+    
     @JsonInclude(Include.NON_NULL)
     @Schema(example = "1011")
     private String simsId = null;
@@ -94,6 +94,7 @@ public class Indicateur {
         return simsId;
     }
 
+    @JsonProperty(value = "simsId")
     public void setSimsId(String simsId) {
         if (StringUtils.isNotEmpty(simsId)) {
             this.simsId = simsId;
@@ -210,8 +211,8 @@ public class Indicateur {
         this.seeAlso = seeAlso;
     }
 
-    @JsonProperty("produitDe")
-    @JacksonXmlProperty(isAttribute = true, localName = "ProduitDe")
+    @JsonProperty("serieContributrice")
+    @JacksonXmlProperty(isAttribute = true, localName = "SerieContributrice")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Serie> getWasGeneratedBy() {
         return wasGeneratedBy;
@@ -221,8 +222,8 @@ public class Indicateur {
         this.wasGeneratedBy = wasGeneratedBy;
     }
 
-    @JsonProperty("periodicite")
-    @JacksonXmlProperty(isAttribute = true, localName = "Periodicite")
+    @JsonProperty("frequenceDiffusion")
+    @JacksonXmlProperty(isAttribute = true, localName = "FrequenceDiffusion")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getAccrualPeriodicity() {
         return accrualPeriodicity;
@@ -257,7 +258,7 @@ public class Indicateur {
     }
 
     @JsonProperty("noteHistorique")
-    @JacksonXmlProperty(localName = "noteHistorique")
+    @JacksonXmlProperty(localName = "NoteHistorique")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getHistoryNote() {
         return historyNote;
@@ -323,5 +324,8 @@ public class Indicateur {
     public void setCreators(List<String> creators) {
         this.creators = creators;
     }
+    
+    
+
 
 }

@@ -174,7 +174,7 @@ public class OperationsApiService {
 		            r.setValeurCode(Stream.of(codeListElement).collect(Collectors.toList()));
 		        }
 		    break;
-		    case "ORGANISATION":
+		    case "ORGANIZATION":
 		        SimpleObject valeurOrg =
 		            new SimpleObject(
 		                cr.getValeurSimple(),
@@ -309,6 +309,11 @@ public class OperationsApiService {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getContributorsBySeries(idSeries));
             List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
             s.setContributors(liste);
+        }
+        if (Boolean.TRUE.equals(csvSerie.isHasDataCollector())) {
+            String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getDataCollectorsBySeries(idSeries));
+            List<SimpleObject> liste = csvUtils.populateMultiPOJO(csv, SimpleObject.class);
+            s.setDataCollectors(liste);
         }
         if (Boolean.TRUE.equals(csvSerie.isHasCreator())) {
             String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getCreatorsBySeries(idSeries));

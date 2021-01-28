@@ -18,11 +18,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class RubriqueRichText {
 
 
-	 @JsonProperty("label")
+
 	 private String string = null;
 	    
 	 @Schema(example = "fr")
-	 @JsonProperty("langue")
 	 private Lang lang = null;
 
     @JsonInclude(Include.NON_NULL)
@@ -34,7 +33,8 @@ public class RubriqueRichText {
 		this.string = string;
 		this.lang = lang;
 	}
-
+    
+	 @JsonProperty("texte")
 	public String getString() {
 		if (string == null) return null;
 		else return new String(string.getBytes(), StandardCharsets.UTF_8);
@@ -44,6 +44,7 @@ public class RubriqueRichText {
         this.string = string;
     }
 
+	 @JsonProperty("langue")
     public String getLang() {
         return lang.getLang();
     }
@@ -53,7 +54,7 @@ public class RubriqueRichText {
     }
 
     @JacksonXmlProperty(localName = "Document")
-    @JacksonXmlElementWrapper(localName = "Documents", useWrapping = true)
+    @JacksonXmlElementWrapper(useWrapping = false)
     public List<Document> getDocuments() {
         return documents;
     }

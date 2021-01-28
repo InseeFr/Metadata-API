@@ -5,7 +5,8 @@
            				 ?periodicityLabelLg1 ?typeLabelLg1 
            				 ?periodicityLabelLg2 ?typeLabelLg2 
            				 ?periodicityId ?typeId 
-           				?hasSeeAlso ?hasIsReplacedBy ?hasReplaces ?hasOperation ?hasIndic ?hasPublisher ?hasContributor  ?hasCreator
+           				?hasSeeAlso ?hasIsReplacedBy ?hasReplaces ?hasOperation ?hasIndic 
+           				?hasPublisher ?hasContributor  ?hasCreator ?hasDataCollector
             
            	{  
            		?series a insee:StatisticalOperationSeries . 
@@ -63,10 +64,12 @@
            		BIND(EXISTS{?series rdfs:seeAlso ?seeAlso} AS ?hasSeeAlso) 
            		BIND(EXISTS{?series dcterms:isReplacedBy ?isReplacedBy} AS ?hasIsReplacedBy) 
            		BIND(EXISTS{?series dcterms:replaces ?replaces} AS ?hasReplaces) 
-           		BIND(EXISTS{?series dcterms:hasPart ?operation} AS ?hasOperation) 
+           		BIND(EXISTS{?series dcterms:hasPart|^dcterms:isPartOf ?operation} AS ?hasOperation) 
            		BIND(EXISTS{?indic prov:wasGeneratedBy ?series} AS ?hasIndic) 
            		BIND(EXISTS{?series dcterms:publisher ?publisher} AS ?hasPublisher) 
            		BIND(EXISTS{?series dcterms:contributor ?contrib} AS ?hasContributor) 
+           		BIND(EXISTS{?series insee:dataCollector ?datacoll} AS ?hasDataCollector) 
+
            		BIND(EXISTS{?series dc:creator ?creator} AS ?hasCreator) 
 
             

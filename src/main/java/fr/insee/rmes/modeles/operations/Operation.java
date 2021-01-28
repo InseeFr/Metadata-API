@@ -26,7 +26,7 @@ public class Operation {
     private String uri = null;
 
     @Schema(example = "1011")
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     private String simsId = null;
 
     @JsonInclude(Include.NON_NULL)
@@ -58,12 +58,14 @@ public class Operation {
         this.id = id;
     }
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonProperty(value = "idRapportQualite")
     @JacksonXmlProperty(localName = "IdRapportQualite")
     public String getSimsId() {
         return simsId;
     }
 
+    @JsonProperty(value="simsId")
     public void setSimsId(String simsId) {
         if (StringUtils.isNotEmpty(simsId)) {
             this.simsId = simsId;

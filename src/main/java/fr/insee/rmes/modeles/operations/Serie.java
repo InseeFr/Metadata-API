@@ -42,7 +42,7 @@ public class Serie {
     private SimpleObject accrualPeriodicity = null;
 
     @Schema(example = "1011")
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     private String simsId = null;
 
     @JsonInclude(Include.NON_NULL)
@@ -60,6 +60,8 @@ public class Serie {
     private List<SimpleObject> publishers;
     @JsonInclude(Include.NON_NULL)
     private List<SimpleObject> contributors;
+    @JsonInclude(Include.NON_NULL)
+    private List<SimpleObject> dataCollectors;
     @JsonInclude(Include.NON_EMPTY)
     private List<String> creators;
 
@@ -126,12 +128,13 @@ public class Serie {
         return label;
     }
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonProperty(value = "idRapportQualite")
     @JacksonXmlProperty(localName = "IdRapportQualite")
     public String getSimsId() {
         return simsId;
     }
-
+    @JsonProperty(value="simsId")
     public void setSimsId(String simsId) {
         if ( ! simsId.equals("")) {
             this.simsId = simsId;
@@ -215,6 +218,7 @@ public class Serie {
         this.isReplacedBy = isReplacedBy;
     }
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("reference")
     @JacksonXmlProperty( localName = "Reference")
     @JacksonXmlElementWrapper(useWrapping = false)
@@ -226,8 +230,8 @@ public class Serie {
         this.seeAlso = seeAlso;
     }
 
-    @JsonProperty("periodicite")
-    @JacksonXmlProperty( localName = "Periodicite")
+    @JsonProperty("frequenceCollecte")
+    @JacksonXmlProperty( localName = "FrequenceCollecte")
     @JacksonXmlElementWrapper(useWrapping = false)
     public SimpleObject getAccrualPeriodicity() {
         return accrualPeriodicity;
@@ -308,6 +312,18 @@ public class Serie {
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getContributors() {
         return contributors;
+    }
+
+    public void setDataCollectors(List<SimpleObject> dataCollectors) {
+        this.dataCollectors = dataCollectors;
+    }
+
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonProperty("serviceCollecteur") //json example
+    @JacksonXmlProperty(localName = "ServiceCollecteur") //xml response
+    @JacksonXmlElementWrapper(useWrapping = false)
+    public List<SimpleObject> getDataCollectors() {
+        return dataCollectors;
     }
 
     public void setContributors(List<SimpleObject> contributors) {
