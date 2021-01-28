@@ -22,8 +22,8 @@
 		<log.version>2.13.3</log.version>
 		<swagger.version>2.0.10</swagger.version>
 		<junit.version>5.7.0</junit.version>
-		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-		
+		<maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+				
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		
@@ -36,7 +36,6 @@
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
-        <sonar.encoding>UTF-8</sonar.encoding>
 		
 		
 	</properties>
@@ -208,23 +207,30 @@
   		  
 		<pluginManagement>
 			<plugins>
-				<!-- Plugin lancement des tests -->
-				<plugin>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven-surefire-plugin.version}</version>
-					<configuration>
-						<includes>
-							<include>**/*Test.java</include>
-						</includes>
-					</configuration>
-					<dependencies>
-						<dependency>
-							<groupId>org.junit.platform</groupId>
-							<artifactId>junit-platform-surefire-provider</artifactId>
-							<version>1.2.0</version>
-						</dependency>
-					</dependencies>
-				</plugin>
+
+				<!-- Pour l'exécution des tests unitaires -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>**/*Test.java</include>
+							</includes>
+						</configuration>
+
+					</execution>
+				</executions>
+			</plugin>
+				
 				
 				<plugin>
                 	<groupId>org.sonarsource.scanner.maven</groupId>
@@ -237,25 +243,27 @@
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.8.4</version>
+					<version>0.8.5</version>
 					<executions>
 						<execution>
+							<id>jacoco-initialize</id>
 							<goals>
 								<goal>prepare-agent</goal>
 							</goals>
 						</execution>
 						<execution>
-							<id>jacoco-report</id>
-							<phase>test</phase>
+							<id>jacoco-site</id>
+							<phase>package</phase>
 							<goals>
 								<goal>report</goal>
 							</goals>
-							<!-- default target/jscoco/site/* -->
-							<configuration>
-								<outputDirectory>target/jacoco-report</outputDirectory>
-							</configuration>
 						</execution>
 					</executions>
+					<configuration>
+						<destFile>${sonar.jacoco.reportPath}</destFile>
+						<append>true</append>
+					</configuration>
+
 				</plugin>
 				
 				<!-- Generate openapi.json , see : https://github.com/openapi-tools/swagger-maven-plugin-->
