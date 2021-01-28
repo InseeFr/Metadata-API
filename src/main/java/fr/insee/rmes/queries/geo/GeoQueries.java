@@ -20,6 +20,10 @@ public class GeoQueries extends Queries {
     private static final String QUERIES_FOLDER = "geographie/";
 
     /* IDENTIFICATION */
+    public static String getZoneEmploiByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.ZONE_EMPLOI);
+    }
+    
     public static String getCommuneByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.COMMUNE);
     }
