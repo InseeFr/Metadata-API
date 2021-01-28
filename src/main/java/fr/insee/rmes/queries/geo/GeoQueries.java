@@ -24,6 +24,14 @@ public class GeoQueries extends Queries {
         return getTerritoire(code, date, EnumTypeGeographie.ZONE_EMPLOI);
     }
     
+    public static String getUniteUrbaineByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.UNITE_URBAINE);
+    }
+    
+    public static String getAireAttractionByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.AIRE_ATTRACTION);
+    }
+    
     public static String getCommuneByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.COMMUNE);
     }
@@ -113,6 +121,14 @@ public class GeoQueries extends Queries {
 
     public static String getDescendantsZoneEmploi(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ZONE_EMPLOI, false);
+    }
+    
+    public static String getDescendantsAireAttraction(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.AIRE_ATTRACTION, false);
+    }
+    
+    public static String getDescendantsUniteUrbaine(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.UNITE_URBAINE, false);
     }
     
     public static String getDescendantsDepartement(String code, String date, String type) {
