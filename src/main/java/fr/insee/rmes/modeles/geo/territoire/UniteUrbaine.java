@@ -12,25 +12,25 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@XmlRootElement(name = "Zone d'emploi")
-@JacksonXmlRootElement(localName = "Zone d'emploi")
+@XmlRootElement(name = "Unité urbaine")
+@JacksonXmlRootElement(localName = "Unité urbaine")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Schema(description = "Objet représentant une zone d'emploi")
-public class ZoneEmploi extends Territoire {
+@Schema(description = "Objet représentant une unité urbaine")
+public class UniteUrbaine extends Territoire {
 
 	  // No-args constructor needed for JAXB
-    public ZoneEmploi() {
-        this.type = EnumTypeGeographie.ZONE_EMPLOI.getTypeObjetGeo();
+    public UniteUrbaine() {
+        this.type = EnumTypeGeographie.UNITE_URBAINE.getTypeObjetGeo();
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public ZoneEmploi(String code) {
-        this.type = EnumTypeGeographie.ZONE_EMPLOI.getTypeObjetGeo();
+    public UniteUrbaine(String code) {
+        this.type = EnumTypeGeographie.UNITE_URBAINE.getTypeObjetGeo();
         this.code = code;
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public ZoneEmploi(
+    public UniteUrbaine(
         String code,
         String uri,
         String intitule,
@@ -45,14 +45,14 @@ public class ZoneEmploi extends Territoire {
 
     @Override
     @JacksonXmlProperty(isAttribute = true)
-    @Schema(example = "2415")
+    @Schema(example = "01121")
     public String getCode() {
         return code;
     }
 
     @Override
     @JacksonXmlProperty(isAttribute = true)
-    @Schema(example = "http://id.insee.fr/geo/ZoneDEmploi2020/2415")
+    @Schema(example = "http://id.insee.fr/geo/uniteUrbaine2020/01121")
     public String getUri() {
         return uri;
     }
@@ -60,14 +60,14 @@ public class ZoneEmploi extends Territoire {
     @Override
     @JacksonXmlProperty(localName = "Intitule")
     @JsonProperty(value = "intitule")
-    @Schema(example = "Vierzon")
+    @Schema(example = "Jujurieux")
     public String getIntitule() {
         return intitule;
     }
 
     @Override
     @JacksonXmlProperty(localName = "Type")
-    @Schema(example = "Zone d'emploi")
+    @Schema(example = "Unité urbaine")
     public String getType() {
         return type;
     }
@@ -75,7 +75,7 @@ public class ZoneEmploi extends Territoire {
     @Override
     @JacksonXmlProperty(localName = "DateCreation")
     @Schema(
-        description = "Date de création de la zone d'emploi si elle n’existait pas au premier COG du 1er janvier 1943",
+        description = "Date de création de l'unité urbaine si elle n’existait pas au premier COG du 1er janvier 1943",
         example = "1943-01-01")
     public String getDateCreation() {
         return dateCreation;
@@ -83,7 +83,7 @@ public class ZoneEmploi extends Territoire {
 
     @Override
     @JacksonXmlProperty(localName = "DateSuppression")
-    @Schema(description = "Date de suppression de la zone d'emploi si elle a été supprimée. ", example = "2019-01-01")
+    @Schema(description = "Date de suppression de l'unité urbaine si elle a été supprimée. ", example = "2019-01-01")
     public String getDateSuppression() {
         return dateSuppression;
     }
