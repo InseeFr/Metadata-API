@@ -15,7 +15,9 @@ import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
+import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -88,4 +90,59 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
 		}
 	}
 
+	@Path(ConstGeoApi.PATH_ZONE_EMPLOI + CODE_PATTERN + ConstGeoApi.PATH_DESCENDANT)
+    @GET
+    @Produces({
+        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
+        summary = "Informations concernant les territoires inclus dans la zone d'emploi",
+        responses = {
+            @ApiResponse(
+                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                description = LITTERAL_RESPONSE_DESCRIPTION)
+        })
+    public Response getDescendants(
+        @Parameter(
+            description = ConstGeoApi.PATTERN_ZONE_EMPLOI_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                pattern = ConstGeoApi.PATTERN_ZONE_EMPLOI,
+                type = Constants.TYPE_STRING, example="2415")) @PathParam(Constants.CODE) String code,
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+        @Parameter(
+            description = "Filtre pour renvoyer les territoires inclus dans la zone d'emploi active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                value = Constants.PARAMETER_DATE) String date,
+        @Parameter(
+            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
+            required = false,
+            schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
+                value = Constants.PARAMETER_TYPE) String typeTerritoire) {
+
+        logger.debug("Received GET request for descendants of zone d'emploi {}", code);
+
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                .generateResponseListOfTerritoire(
+                    sparqlUtils
+                        .executeSparqlQuery(
+                            GeoQueries
+                                .getDescendantsZoneEmploi(
+                                    code,
+                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                    header,
+                    Territoires.class,
+                    Territoire.class);
+        }
+    }
+
+	
+	
 }

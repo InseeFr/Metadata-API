@@ -111,6 +111,10 @@ public class GeoQueries extends Queries {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE, false);
     }
 
+    public static String getDescendantsZoneEmploi(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ZONE_EMPLOI, false);
+    }
+    
     public static String getDescendantsDepartement(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT, false);
     }
