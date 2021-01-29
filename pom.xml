@@ -225,9 +225,11 @@
 							<includes>
 								<include>**/*Test.java</include>
 							</includes>
-							<reuseForks>false</reuseForks>
-        					<forkCount>1</forkCount> 
-        					<encoding>UTF-8</encoding>
+							<!-- https://carlobertoldi.wordpress.com/2012/03/12/maven-unit-tests-and-those-funny-characters/ -->
+							<encoding>UTF-8</encoding>
+       						<inputEncoding>UTF-8</inputEncoding>
+        					<outputEncoding>UTF-8</outputEncoding>
+        					<argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea -Dfile.encoding=UTF-8</argLine>
 						</configuration>
 
 					</execution>
