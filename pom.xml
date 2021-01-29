@@ -39,7 +39,8 @@
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <version.maven-jacoco>0.8.5</version.maven-jacoco>
 		<version.maven-sonar>3.7.0.1746</version.maven-sonar>
-		<!-- <argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea -Dfile.encoding=UTF-8</argLine>-->
+		 <argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea -Dfile.encoding=UTF-8</argLine>
+
 	</properties>
 	
 	<dependencies>
@@ -223,7 +224,6 @@
         			<outputEncoding>UTF-8</outputEncoding>
 					<!-- permet la surcharge de maven-surefire-plugin tout en fonctionnant avec jacoco -->
 					<!-- <argLine>${argLine}</argLine>	MAVEN surcharge with properties	 -->
-					<argLine>-Dfile.encoding=UTF8 ${argLine}</argLine>		
     			</configuration>
 
 				<executions>
@@ -269,7 +269,7 @@
 							<id>jacoco-site</id>
 							<phase>test</phase>
 							<goals>
-								<goal>report</goal>
+								<goal>report-site</goal>
 							</goals>
 						</execution>
 						<execution>
@@ -277,6 +277,13 @@
 							<phase>report</phase>
 							<goals>
 								<goal>report-aggregate</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>default-report</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>report</goal>
 							</goals>
 						</execution>
 					</executions>
