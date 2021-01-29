@@ -270,18 +270,11 @@
 								<goal>report</goal>
 							</goals>
 						</execution>
-							<execution>
+						<execution>
 							<id>report</id>
 							<phase>report</phase>
 							<goals>
 								<goal>report-aggregate</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>default-report</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>report</goal>
 							</goals>
 						</execution>
 					</executions>
