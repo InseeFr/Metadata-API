@@ -219,11 +219,9 @@
        				 <junitArtifactName>junit:junit</junitArtifactName>
         			<encoding>UTF-8</encoding>
        				 <inputEncoding>UTF-8</inputEncoding>
-        				<outputEncoding>UTF-8</outputEncoding>
-				
+        			<outputEncoding>UTF-8</outputEncoding>
 					<!-- permet la surcharge de maven-surefire-plugin tout en fonctionnant avec jacoco -->
-					<argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
-				
+					<argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>				
     			</configuration>
 
 				<executions>
@@ -238,11 +236,7 @@
 							<includes>
 								<include>**/*Test.java</include>
 							</includes>
-							<!-- https://carlobertoldi.wordpress.com/2012/03/12/maven-unit-tests-and-those-funny-characters/ -->
 							<encoding>UTF-8</encoding>
-       						<inputEncoding>UTF-8</inputEncoding>
-        					<outputEncoding>UTF-8</outputEncoding>
-        					<argLine> -Dfile.encoding=UTF-8</argLine>
 						</configuration>
 
 					</execution>
@@ -290,12 +284,6 @@
 					</configuration>
 
 				</plugin>
-				
-				<plugin>
-					<groupId>org.sonarsource.scanner.maven</groupId>
-					<artifactId>sonar-maven-plugin</artifactId>
-				</plugin>
-				
 				
 				<!-- Generate openapi.json , see : https://github.com/openapi-tools/swagger-maven-plugin-->
 			    <plugin>
