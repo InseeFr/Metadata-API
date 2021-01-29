@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
+import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -29,25 +29,25 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Path(ConstGeoApi.PATH_GEO)
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
-public class ZoneEmploiApi  extends AbstractGeoApi {
+public class UniteUrbaineApi  extends AbstractGeoApi {
 
 	private static final String LITTERAL_DATE_EXAMPLE = "1945-06-26";
 
-	private static Logger logger = LogManager.getLogger(ZoneEmploiApi.class);
+	private static Logger logger = LogManager.getLogger(UniteUrbaineApi.class);
 
-	private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_ZONE_EMPLOI + "}";
+	private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_UNITE_URBAINE + "}";
 	private static final String LITTERAL_ID_OPERATION = "getcogze";
 	private static final String LITTERAL_OPERATION_SUMMARY =
-			"Informations sur une zone d'emploi française identifiée par son code (quatre chiffres)";
-	private static final String LITTERAL_RESPONSE_DESCRIPTION = "Zone d'emploi";
+			"Informations sur une unité urbaine française identifiée par son code (cinq chiffres)";
+	private static final String LITTERAL_RESPONSE_DESCRIPTION = "Unité urbaine";
 	private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
-			"Filtre pour renvoyer la zone d'emploi active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
+			"Filtre pour renvoyer l'unité urbaine active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
 	private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
-	private static final String LITTERAL_CODE_EXAMPLE = "2415";
+	private static final String LITTERAL_CODE_EXAMPLE = "01121";
 
 
-	@Path(ConstGeoApi.PATH_ZONE_EMPLOI + CODE_PATTERN)
+	@Path(ConstGeoApi.PATH_UNITE_URBAINE + CODE_PATTERN)
 	@GET
 	@Produces({
 		MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -57,15 +57,15 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
 			summary = LITTERAL_OPERATION_SUMMARY,
 			responses = {
 					@ApiResponse(
-							content = @Content(schema = @Schema(implementation = ZoneEmploi.class)),
+							content = @Content(schema = @Schema(implementation = UniteUrbaine.class)),
 							description = LITTERAL_RESPONSE_DESCRIPTION)
 			})
 	public Response getByCode(
 			@Parameter(
-					description = ConstGeoApi.PATTERN_ZONE_EMPLOI_DESCRIPTION,
+					description = ConstGeoApi.PATTERN_UNITE_URBAINE_DESCRIPTION,
 					required = true,
 					schema = @Schema(
-							pattern = ConstGeoApi.PATTERN_ZONE_EMPLOI,
+							pattern = ConstGeoApi.PATTERN_UNITE_URBAINE,
 							type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
 			@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
 			@Parameter(
@@ -74,7 +74,7 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
 					schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 							value = Constants.PARAMETER_DATE) String date) {
 
-		logger.debug("Received GET request for zone d'emploi {}", code);
+		logger.debug("Received GET request for unité urbaine {}", code);
 
 		if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
 			return this.generateBadRequestResponse();
@@ -84,20 +84,20 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
 					.generateResponseATerritoireByCode(
 							sparqlUtils
 							.executeSparqlQuery(
-									GeoQueries.getZoneEmploiByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+									GeoQueries.getUniteUrbaineByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
 							header,
-							new ZoneEmploi(code));
+							new UniteUrbaine(code));
 		}
 	}
 
-	@Path(ConstGeoApi.PATH_ZONE_EMPLOI + CODE_PATTERN + ConstGeoApi.PATH_DESCENDANT)
+	@Path(ConstGeoApi.PATH_UNITE_URBAINE + CODE_PATTERN + ConstGeoApi.PATH_DESCENDANT)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
-        summary = "Informations concernant les territoires inclus dans la zone d'emploi",
+        summary = "Informations concernant les territoires inclus dans l'unité urbaine",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
@@ -105,14 +105,14 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
         })
     public Response getDescendants(
         @Parameter(
-            description = ConstGeoApi.PATTERN_ZONE_EMPLOI_DESCRIPTION,
+            description = ConstGeoApi.PATTERN_UNITE_URBAINE_DESCRIPTION,
             required = true,
             schema = @Schema(
-                pattern = ConstGeoApi.PATTERN_ZONE_EMPLOI,
-                type = Constants.TYPE_STRING, example="2415")) @PathParam(Constants.CODE) String code,
+                pattern = ConstGeoApi.PATTERN_UNITE_URBAINE,
+                type = Constants.TYPE_STRING, example="01121")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
-            description = "Filtre pour renvoyer les territoires inclus dans la zone d'emploi active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+            description = "Filtre pour renvoyer les territoires inclus dans l'unité urbaine active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date,
@@ -122,7 +122,7 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug("Received GET request for descendants of zone d'emploi {}", code);
+        logger.debug("Received GET request for descendants of unité urbaine {}", code);
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
@@ -133,7 +133,7 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getDescendantsZoneEmploi(
+                                .getDescendantsUniteUrbaine(
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
@@ -146,3 +146,4 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
 	
 	
 }
+

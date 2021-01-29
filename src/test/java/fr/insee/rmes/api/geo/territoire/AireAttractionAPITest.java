@@ -17,25 +17,25 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
-import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
+import fr.insee.rmes.modeles.geo.territoire.AireAttraction;
 
 @ExtendWith(MockitoExtension.class)
-public class ZoneEmploiAPITest extends AbstractApiTest {
+public class AireAttractionAPITest extends AbstractApiTest {
 
     @InjectMocks
-    private ZoneEmploiApi geoApi;
-    private ZoneEmploi zoneEmploi = new ZoneEmploi();
+    private AireAttractionApi geoApi;
+    private AireAttraction aireAttraction = new AireAttraction();
     
     /*
      * Test Identification methods
      */    
     
     @Test
-    void givenGetZoneEmploi_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetAireAttraction_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
-    	zoneEmploi.setUri("something");
-        this.mockUtilsMethodsThenReturnOnePojo(zoneEmploi, Boolean.TRUE);
+    	aireAttraction.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(aireAttraction, Boolean.TRUE);
 
         // Call method
         geoApi.getByCode("something", MediaType.APPLICATION_JSON, null);
@@ -43,11 +43,11 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
     
     @Test
-    void givenGetZoneEmploi_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetAireAttraction_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
-    	zoneEmploi.setUri("something");
-        this.mockUtilsMethodsThenReturnOnePojo(zoneEmploi, Boolean.TRUE);
+    	aireAttraction.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(aireAttraction, Boolean.TRUE);
 
         // Call method
         geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
@@ -55,10 +55,10 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
     
     @Test
-    void givenGetZoneEmploi_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetAireAttraction_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
-        this.mockUtilsMethodsThenReturnOnePojo(zoneEmploi, Boolean.FALSE);
+        this.mockUtilsMethodsThenReturnOnePojo(aireAttraction, Boolean.FALSE);
 
         // Call method header content = xml
         Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
@@ -72,11 +72,11 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetZoneEmploi_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetAireAttraction_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
-    	zoneEmploi.setUri("something");
-        this.mockUtilsMethodsThenReturnOnePojo(zoneEmploi, Boolean.TRUE);
+    	aireAttraction.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(aireAttraction, Boolean.TRUE);
 
         // Call method header content = xml
         geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
@@ -84,7 +84,7 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetZoneEmploi_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetAireAttraction_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
@@ -96,11 +96,11 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
      */
     
     @Test
-    void givenGetZoneEmploiDescendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    void givenGetAireAttractionDescendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new ZoneEmploi());
+        list.add(new AireAttraction());
 
         // Call method
         geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null);
@@ -108,11 +108,11 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetZoneEmploiDescendants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    void givenGetAireAttractionDescendants_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new ZoneEmploi());
+        list.add(new AireAttraction());
 
         // Call method
         geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
@@ -120,7 +120,7 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetZoneEmploiDescendants_WhenCorrectRequest_thenResponseIsNotFound() {
+    void givenGetAireAttractionDescendants_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -137,11 +137,11 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetZoneEmploiDescendants_WhenCorrectRequest_thenParameterDateIsRight() {
+    void givenGetAireAttractionDescendants_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new ZoneEmploi());
+        list.add(new AireAttraction());
 
         // Call method header content = xml
         geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
@@ -149,7 +149,7 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetZoneEmploiDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
+    void givenGetAireAttractionDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
@@ -157,11 +157,11 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetZoneEmploiDescendants_WhenCorrectRequest_thenParameterTypeIsNull() {
+    void givenGetAireAttractionDescendants_WhenCorrectRequest_thenParameterTypeIsNull() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new ZoneEmploi());
+        list.add(new AireAttraction());
 
         // Call method header content = xml
         geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
@@ -169,11 +169,11 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetZoneEmploiDescendants_WhenCorrectRequest_thenParameterTypeIsRight() {
+    void givenGetAireAttractionDescendants_WhenCorrectRequest_thenParameterTypeIsRight() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new ZoneEmploi());
+        list.add(new AireAttraction());
 
         // Call method header content = xml
         geoApi
@@ -186,7 +186,7 @@ public class ZoneEmploiAPITest extends AbstractApiTest {
     }
 
     @Test
-    void givenGetZoneEmploiDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
+    void givenGetAireAttractionDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
         Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
