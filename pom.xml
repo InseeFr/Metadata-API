@@ -271,6 +271,15 @@
 							</goals>
 						</execution>
 						<execution>
+<<<<<<< HEAD
+=======
+							<id>default-prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+>>>>>>> parent of 0667b39... Update pom.xml
 							<id>report</id>
 							<phase>report</phase>
 							<goals>
