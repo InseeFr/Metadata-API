@@ -220,8 +220,10 @@
         			<encoding>UTF-8</encoding>
        				 <inputEncoding>UTF-8</inputEncoding>
         				<outputEncoding>UTF-8</outputEncoding>
-        				<argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea
-        						-Dfile.encoding=UTF-8</argLine>
+				<configuration>
+					<!-- permet la surcharge de maven-surefire-plugin tout en fonctionnant avec jacoco -->
+					<argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
+				</configuration>
     			</configuration>
 				<executions>
 					<execution>
@@ -275,7 +277,13 @@
 								<goal>report-aggregate</goal>
 							</goals>
 						</execution>
-						
+						<execution>
+							<id>default-report</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
 					</executions>
 					<configuration>
 						<destFile>${sonar.jacoco.reportPath}</destFile>
