@@ -213,6 +213,15 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
+				<!-- https://carlobertoldi.wordpress.com/2012/03/12/maven-unit-tests-and-those-funny-characters/ -->
+				<configuration>
+       				 <junitArtifactName>junit:junit</junitArtifactName>
+        			<encoding>UTF-8</encoding>
+       				 <inputEncoding>UTF-8</inputEncoding>
+        				<outputEncoding>UTF-8</outputEncoding>
+        				<argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea
+        						-Dfile.encoding=UTF-8</argLine>
+    			</configuration>
 				<executions>
 					<execution>
 						<id>test</id>
@@ -225,13 +234,8 @@
 							<includes>
 								<include>**/*Test.java</include>
 							</includes>
-							<!-- https://carlobertoldi.wordpress.com/2012/03/12/maven-unit-tests-and-those-funny-characters/ -->
 							<encoding>UTF-8</encoding>
-       						<inputEncoding>UTF-8</inputEncoding>
-        					<outputEncoding>UTF-8</outputEncoding>
-        					<argLine> -Dfile.encoding=UTF-8</argLine>
 						</configuration>
-
 					</execution>
 				</executions>
 			</plugin>
