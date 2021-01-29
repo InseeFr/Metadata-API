@@ -38,7 +38,7 @@
         <sonar.language>java</sonar.language>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <version.maven-jacoco>0.8.5</version.maven-jacoco>
-		<version.maven-sonar>3.6.1.1688</version.maven-sonar>
+		<version.maven-sonar>3.7.0.1746</version.maven-sonar>
 	</properties>
 	
 	<dependencies>
@@ -222,7 +222,7 @@
         				<outputEncoding>UTF-8</outputEncoding>
 				<configuration>
 					<!-- permet la surcharge de maven-surefire-plugin tout en fonctionnant avec jacoco -->
-					<argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea -Dfile.encoding=UTF-8</argLine>
+					<argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
 				</configuration>
     			</configuration>
 				<executions>
@@ -247,7 +247,7 @@
 				<plugin>
                 	<groupId>org.sonarsource.scanner.maven</groupId>
                 	<artifactId>sonar-maven-plugin</artifactId>
-                	<version>3.7.0.1746</version>
+                	<version>${version.maven-sonar}</version>
             	</plugin>
 				
 	
@@ -268,12 +268,6 @@
 							<phase>test</phase>
 							<goals>
 								<goal>report</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>default-prepare-agent</id>
-							<goals>
-								<goal>prepare-agent</goal>
 							</goals>
 						</execution>
 						<execution>
