@@ -38,7 +38,7 @@ public class AireAttractionApi  extends AbstractGeoApi {
 	private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_AIRE_ATTRACTION + "}";
 	private static final String LITTERAL_ID_OPERATION = "getcogze";
 	private static final String LITTERAL_OPERATION_SUMMARY =
-			"Informations sur une aire d'attraction française identifiée par son code (trois chiffres)";
+			"Informations sur une aire d'attraction française identifiée par son code (trois caractères)";
 	private static final String LITTERAL_RESPONSE_DESCRIPTION = "Aire d'attraction";
 	private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
 			"Filtre pour renvoyer l'aire d'attraction active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";

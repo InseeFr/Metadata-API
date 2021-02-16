@@ -38,7 +38,7 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
 	private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_UNITE_URBAINE + "}";
 	private static final String LITTERAL_ID_OPERATION = "getcogze";
 	private static final String LITTERAL_OPERATION_SUMMARY =
-			"Informations sur une unité urbaine française identifiée par son code (cinq chiffres)";
+			"Informations sur une unité urbaine française identifiée par son code (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)";
 	private static final String LITTERAL_RESPONSE_DESCRIPTION = "Unité urbaine";
 	private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
 			"Filtre pour renvoyer l'unité urbaine active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";

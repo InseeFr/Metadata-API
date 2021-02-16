@@ -44,8 +44,8 @@ public class ConstGeoApi {
     public static final String PATTERN_PAYS = "99[0-9]{3}";
     public static final String PATTERN_REGION = "[0-9]{2}";
     public static final String PATTERN_ZONE_EMPLOI = "[0-9]{4}";
-    public static final String PATTERN_UNITE_URBAINE = "[0-9]{5}";
-    public static final String PATTERN_AIRE_ATTRACTION = "[0-9]{3}";
+    public static final String PATTERN_UNITE_URBAINE = "[0-9][a-zA-Z0-9][0-9]{3}";
+    public static final String PATTERN_AIRE_ATTRACTION = "[a-zA-Z0-9]{3}";
     public static final String PATTERN_DEPARTEMENT = "([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])";
     public static final String PATTERN_ARRONDISSEMENT = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]";
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
