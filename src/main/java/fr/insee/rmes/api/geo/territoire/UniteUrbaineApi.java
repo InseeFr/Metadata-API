@@ -15,9 +15,12 @@ import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
+import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine;
+import fr.insee.rmes.modeles.geo.territoires.Communes;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.geo.territoires.UnitesUrbaines;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +41,7 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
 	private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_UNITE_URBAINE + "}";
 	private static final String LITTERAL_ID_OPERATION = "getcogze";
 	private static final String LITTERAL_OPERATION_SUMMARY =
-			"Informations sur une unité urbaine française identifiée par son code (cinq chiffres)";
+			"Informations sur une unité urbaine française identifiée par son code (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)";
 	private static final String LITTERAL_RESPONSE_DESCRIPTION = "Unité urbaine";
 	private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
 			"Filtre pour renvoyer l'unité urbaine active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
@@ -143,7 +146,42 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
         }
     }
 
-	
+	   @Path(ConstGeoApi.PATH_LISTE_UNITE_URBAINE)
+	    @GET
+	    @Produces({
+	        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+	    })
+	    @Operation(
+	        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
+	        summary = "Informations sur toutes les unités urbaines actives à la date donnée. Par défaut, c’est la date courante.",
+	        responses = {
+	            @ApiResponse(
+	                content = @Content(schema = @Schema(type = ARRAY, implementation = UniteUrbaine.class)),
+	                description = LITTERAL_RESPONSE_DESCRIPTION)
+	        })
+	    public Response getListe(
+	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+	        @Parameter(
+	            description = "Filtre pour renvoyer les unités urbaines actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
+	            required = false,
+	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+	                value = Constants.PARAMETER_DATE) String date) {
+
+	        logger.debug("Received GET request for all urban areas");
+
+	        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+	            return this.generateBadRequestResponse();
+	        }
+	        else {
+	            return this
+	                .generateResponseListOfTerritoire(
+	                    sparqlUtils
+	                        .executeSparqlQuery(GeoQueries.getListUnitesUrbaines(this.formatValidParameterDateIfIsNull(date))),
+	                    header,
+	                    UnitesUrbaines.class,
+	                    UniteUrbaine.class);
+	        }
+	    }
 	
 }
 

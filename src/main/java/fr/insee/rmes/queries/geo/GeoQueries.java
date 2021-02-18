@@ -65,14 +65,26 @@ public class GeoQueries extends Queries {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COMMUNE);
     }
 
-    public static String getListDept(String date) {
+    public static String getListDepartements(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.DEPARTEMENT);
     }
 
-    public static String getListRegion(String date) {
+    public static String getListRegions(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.REGION);
     }
 
+    public static String getListAiresAttraction(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.AIRE_ATTRACTION);
+    }
+    
+    public static String getListUnitesUrbaines(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.UNITE_URBAINE);
+    }
+    
+    public static String getListZonesEmploi(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.ZONE_EMPLOI);
+    }
+    
     public static String getListArrondissements(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.ARRONDISSEMENT);
     }

@@ -174,7 +174,7 @@ public class RegionApi extends AbstractGeoApi {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListRegion(this.formatValidParameterDateIfIsNull(date))),
+                        .executeSparqlQuery(GeoQueries.getListRegions(this.formatValidParameterDateIfIsNull(date))),
                     header,
                     Regions.class,
                     Region.class);
