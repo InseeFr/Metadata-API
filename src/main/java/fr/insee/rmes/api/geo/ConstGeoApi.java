@@ -20,7 +20,7 @@ public class ConstGeoApi {
     public static final String PATH_COMMUNE_DELEGUEE = PATH_SEPARATOR + "communeDeleguee";
     public static final String PATH_ARRONDISSEMENT_MUNICIPAL = PATH_SEPARATOR + "arrondissementMunicipal";
 
-    public static final String PATH_LISTE_COMMUNES = PATH_SEPARATOR + "communes";
+    public static final String PATH_LISTE_COMMUNE = PATH_SEPARATOR + "communes";
     public static final String PATH_LISTE_PAYS = PATH_SEPARATOR + "pays";
     public static final String PATH_LISTE_REGION = PATH_SEPARATOR + "regions";
     public static final String PATH_LISTE_DEPARTEMENT = PATH_SEPARATOR + "departements";
