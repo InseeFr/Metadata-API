@@ -12,9 +12,9 @@ public class ConstGeoApi {
     public static final String PATH_PAYS = PATH_SEPARATOR + "pays";
     public static final String PATH_REGION = PATH_SEPARATOR + "region";
     public static final String PATH_DEPARTEMENT = PATH_SEPARATOR + "departement";
-    public static final String PATH_ZONE_EMPLOI = PATH_SEPARATOR + "zoneEmploi";
-    public static final String PATH_AIRE_ATTRACTION = PATH_SEPARATOR + "aireAttraction";
-    public static final String PATH_UNITE_URBAINE = PATH_SEPARATOR + "uniteUrbaine";
+    public static final String PATH_ZONE_EMPLOI = PATH_SEPARATOR + "zoneDEmploi2020";
+    public static final String PATH_AIRE_ATTRACTION = PATH_SEPARATOR + "aireDAttractionDesVilles2020";
+    public static final String PATH_UNITE_URBAINE = PATH_SEPARATOR + "uniteUrbaine2020";
     public static final String PATH_ARRONDISSEMENT = PATH_SEPARATOR + "arrondissement";
     public static final String PATH_COMMUNE_ASSOCIEE = PATH_SEPARATOR + "communeAssociee";
     public static final String PATH_COMMUNE_DELEGUEE = PATH_SEPARATOR + "communeDeleguee";
@@ -28,9 +28,9 @@ public class ConstGeoApi {
     public static final String PATH_LISTE_COMMUNE_ASSOCIEE = PATH_SEPARATOR + "communesAssociees";
     public static final String PATH_LISTE_COMMUNE_DELEGUEE = PATH_SEPARATOR + "communesDeleguees";
     public static final String PATH_LISTE_ARRONDISSEMENT_MUNICIPAL = PATH_SEPARATOR + "arrondissementsMunicipaux";
-    public static final String PATH_LISTE_ZONE_EMPLOI = PATH_SEPARATOR + "zonesEmploi";
-    public static final String PATH_LISTE_AIRE_ATTRACTION = PATH_SEPARATOR + "airesAttraction";
-    public static final String PATH_LISTE_UNITE_URBAINE = PATH_SEPARATOR + "unitesUrbaines";
+    public static final String PATH_LISTE_ZONE_EMPLOI = PATH_SEPARATOR + "zonesDEmploi2020";
+    public static final String PATH_LISTE_AIRE_ATTRACTION = PATH_SEPARATOR + "airesDAttractionDesVilles2020";
+    public static final String PATH_LISTE_UNITE_URBAINE = PATH_SEPARATOR + "unitesUrbaines2020";
    
     
     public static final String PATH_ASCENDANT = PATH_SEPARATOR + "ascendants";
