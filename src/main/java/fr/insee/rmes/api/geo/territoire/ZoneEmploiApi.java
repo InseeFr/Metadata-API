@@ -17,8 +17,8 @@ import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
-import fr.insee.rmes.modeles.geo.territoires.ZonesEmploi;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.geo.territoires.ZonesEmploi;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +32,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class ZoneEmploiApi  extends AbstractGeoApi {
 
-	private static final String LITTERAL_DATE_EXAMPLE = "1945-06-26";
 
 	private static Logger logger = LogManager.getLogger(ZoneEmploiApi.class);
 
