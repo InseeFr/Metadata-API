@@ -15,7 +15,7 @@ SELECT DISTINCT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?family ?familyAltLabe
            FILTER (lang(?familyAltLabelLg2) = 'en') } . 
            	BIND(STRAFTER(STR(?family),'/operations/famille/') AS ?familyId ) . 
            
-           	?family dcterms:hasPart ?series . 
+           	?family dcterms:hasPart|^dcterms:isPartOf ?series . 
            	?series a insee:StatisticalOperationSeries .  
            	?series skos:prefLabel ?seriesLabelLg1 . 
            	FILTER (lang(?seriesLabelLg1) = 'fr') 
@@ -28,7 +28,7 @@ SELECT DISTINCT ?familyId ?familyLabelLg1 ?familyLabelLg2 ?family ?familyAltLabe
            	BIND(STRAFTER(STR(?series),'/operations/serie/') AS ?seriesId) . 
 
             
-           	{OPTIONAL {?series dcterms:hasPart ?operation . 
+           	{OPTIONAL {?series dcterms:hasPart|^dcterms:isPartOf ?operation . 
            		?operation a insee:StatisticalOperation .  
            		?operation skos:prefLabel ?opLabelLg1 . 
            		FILTER (lang(?opLabelLg1) = 'fr') 
