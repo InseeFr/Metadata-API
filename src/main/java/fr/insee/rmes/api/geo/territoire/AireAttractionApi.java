@@ -35,7 +35,7 @@ public class AireAttractionApi  extends AbstractGeoApi {
 	private static Logger logger = LogManager.getLogger(AireAttractionApi.class);
 
 	private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_AIRE_ATTRACTION + "}";
-	private static final String LITTERAL_ID_OPERATION = "getcogze";
+	private static final String LITTERAL_ID_OPERATION = "getcogaav";
 	private static final String LITTERAL_OPERATION_SUMMARY =
 			"Informations sur une aire d'attraction française identifiée par son code (trois caractères)";
 	private static final String LITTERAL_RESPONSE_DESCRIPTION = "Aire d'attraction";

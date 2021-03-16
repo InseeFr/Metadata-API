@@ -36,7 +36,7 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
 	private static Logger logger = LogManager.getLogger(UniteUrbaineApi.class);
 
 	private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_UNITE_URBAINE + "}";
-	private static final String LITTERAL_ID_OPERATION = "getcogze";
+	private static final String LITTERAL_ID_OPERATION = "getcoguu";
 	private static final String LITTERAL_OPERATION_SUMMARY =
 			"Informations sur une unité urbaine française identifiée par son code (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)";
 	private static final String LITTERAL_RESPONSE_DESCRIPTION = "Unité urbaine";
