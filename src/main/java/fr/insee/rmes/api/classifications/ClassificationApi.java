@@ -26,6 +26,7 @@ import fr.insee.rmes.modeles.classification.PosteJson;
 import fr.insee.rmes.modeles.classification.PosteXml;
 import fr.insee.rmes.modeles.classification.Postes;
 import fr.insee.rmes.queries.classifications.ClassificationsQueries;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,14 +34,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
+@Hidden
 @Path("/nomenclature")
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class ClassificationApi extends AbstractMetadataApi {
 
 	private static Logger logger = LogManager.getLogger(ClassificationApi.class);
 
-	
+	@Hidden
 	@GET
 	@Path("/{code}/postes")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -68,7 +69,7 @@ public class ClassificationApi extends AbstractMetadataApi {
 		}
 	}
 
-	
+	@Hidden
 	@GET
 	@Path("/{code}/arborescence")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
