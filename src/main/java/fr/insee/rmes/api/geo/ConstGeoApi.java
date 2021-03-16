@@ -12,12 +12,15 @@ public class ConstGeoApi {
     public static final String PATH_PAYS = PATH_SEPARATOR + "pays";
     public static final String PATH_REGION = PATH_SEPARATOR + "region";
     public static final String PATH_DEPARTEMENT = PATH_SEPARATOR + "departement";
+    public static final String PATH_ZONE_EMPLOI = PATH_SEPARATOR + "zoneDEmploi2020";
+    public static final String PATH_AIRE_ATTRACTION = PATH_SEPARATOR + "aireDAttractionDesVilles2020";
+    public static final String PATH_UNITE_URBAINE = PATH_SEPARATOR + "uniteUrbaine2020";
     public static final String PATH_ARRONDISSEMENT = PATH_SEPARATOR + "arrondissement";
     public static final String PATH_COMMUNE_ASSOCIEE = PATH_SEPARATOR + "communeAssociee";
     public static final String PATH_COMMUNE_DELEGUEE = PATH_SEPARATOR + "communeDeleguee";
     public static final String PATH_ARRONDISSEMENT_MUNICIPAL = PATH_SEPARATOR + "arrondissementMunicipal";
 
-    public static final String PATH_LISTE_COMMUNES = PATH_SEPARATOR + "communes";
+    public static final String PATH_LISTE_COMMUNE = PATH_SEPARATOR + "communes";
     public static final String PATH_LISTE_PAYS = PATH_SEPARATOR + "pays";
     public static final String PATH_LISTE_REGION = PATH_SEPARATOR + "regions";
     public static final String PATH_LISTE_DEPARTEMENT = PATH_SEPARATOR + "departements";
@@ -25,7 +28,11 @@ public class ConstGeoApi {
     public static final String PATH_LISTE_COMMUNE_ASSOCIEE = PATH_SEPARATOR + "communesAssociees";
     public static final String PATH_LISTE_COMMUNE_DELEGUEE = PATH_SEPARATOR + "communesDeleguees";
     public static final String PATH_LISTE_ARRONDISSEMENT_MUNICIPAL = PATH_SEPARATOR + "arrondissementsMunicipaux";
-
+    public static final String PATH_LISTE_ZONE_EMPLOI = PATH_SEPARATOR + "zonesDEmploi2020";
+    public static final String PATH_LISTE_AIRE_ATTRACTION = PATH_SEPARATOR + "airesDAttractionDesVilles2020";
+    public static final String PATH_LISTE_UNITE_URBAINE = PATH_SEPARATOR + "unitesUrbaines2020";
+   
+    
     public static final String PATH_ASCENDANT = PATH_SEPARATOR + "ascendants";
     public static final String PATH_DESCENDANT = PATH_SEPARATOR + "descendants";
     public static final String PATH_SUIVANT = PATH_SEPARATOR + "suivants";
@@ -36,6 +43,9 @@ public class ConstGeoApi {
     public static final String PATTERN_COMMUNE = "[0-9][0-9AB][0-9]{3}";
     public static final String PATTERN_PAYS = "99[0-9]{3}";
     public static final String PATTERN_REGION = "[0-9]{2}";
+    public static final String PATTERN_ZONE_EMPLOI = "[0-9]{4}";
+    public static final String PATTERN_UNITE_URBAINE = "[0-9][a-zA-Z0-9][0-9]{3}";
+    public static final String PATTERN_AIRE_ATTRACTION = "[a-zA-Z0-9]{3}";
     public static final String PATTERN_DEPARTEMENT = "([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])";
     public static final String PATTERN_ARRONDISSEMENT = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]";
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
@@ -43,7 +53,9 @@ public class ConstGeoApi {
     public static final String PATTERN_COMMUNE_DESCRIPTION = "Code de la commune (cinq caractères)";
     public static final String PATTERN_COMMUNE_ASSOCIEE_DESCRIPTION = "Code de la commune associée (cinq caractères)";
     public static final String PATTERN_COMMUNE_DELEGUEE_DESCRIPTION = "Code de la commune déléguée (cinq caractères)";
-
+    public static final String PATTERN_ZONE_EMPLOI_DESCRIPTION = "Code de la zone d'emploi (quatre chiffres)";
+    public static final String PATTERN_UNITE_URBAINE_DESCRIPTION = "Code de l'unité urbaine (cinq chiffres)";
+    public static final String PATTERN_AIRE_ATTRACTION_DESCRIPTION = "Code de l'aire d'attraction (trois chiffres)";
     public static final String PATTERN_PAYS_DESCRIPTION = "Code du pays (cinq chiffres, débutant par 99)";
     public static final String PATTERN_REGION_DESCRIPTION = "Code de la région (deux chiffres)";
     public static final String PATTERN_DEPARTEMENT_DESCRIPTION =

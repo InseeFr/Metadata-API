@@ -174,7 +174,7 @@ public class OperationsApiService {
 		            r.setValeurCode(Stream.of(codeListElement).collect(Collectors.toList()));
 		        }
 		    break;
-		    case "ORGANISATION":
+		    case "ORGANIZATION":
 		        SimpleObject valeurOrg =
 		            new SimpleObject(
 		                cr.getValeurSimple(),

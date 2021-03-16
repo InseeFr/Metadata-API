@@ -199,7 +199,7 @@ public class CommuneApi extends AbstractGeoApi {
         }
     }
 
-    @Path(ConstGeoApi.PATH_LISTE_COMMUNES)
+    @Path(ConstGeoApi.PATH_LISTE_COMMUNE)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -378,7 +378,7 @@ public class CommuneApi extends AbstractGeoApi {
     }
 
     @Hidden
-    @Path(ConstGeoApi.PATH_LISTE_COMMUNES + ConstGeoApi.PATH_PROJECTION)
+    @Path(ConstGeoApi.PATH_LISTE_COMMUNE + ConstGeoApi.PATH_PROJECTION)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML

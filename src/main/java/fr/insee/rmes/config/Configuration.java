@@ -37,26 +37,30 @@ public class Configuration {
         Properties props = null;
         try {
             props = propertiesLoading.getProperties();
-            
-            version = props.getProperty("fr.insee.rmes.api.version");
-            title = props.getProperty("fr.insee.rmes.api.title");
-            description = props.getProperty("fr.insee.rmes.api.description");
-
-            sparqlEndPoint = props.getProperty("fr.insee.rmes.api.sparqlEndpoint");
-            baseHost = props.getProperty("fr.insee.rmes.api.baseHost");
-            fileStorage = props.getProperty("fr.insee.rmes.api.fileStorage");
-            fileStorageLocation = props.getProperty("fr.insee.rmes.storage.document");
-
-            swaggerHost = props.getProperty("fr.insee.rmes.api.host");
-            swaggerBasepath = props.getProperty("fr.insee.rmes.api.basepath");
-            requiresSsl = Boolean.valueOf(props.getProperty("fr.insee.rmes.api.force.ssl"));
-            swaggerUrl =
-                (Boolean.TRUE.equals(requiresSsl) ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
-
+            setConfig(props);
         }
         catch (IOException e) {
             logger.error("Configuration error, can't read properties", e);
         }
+
+    }
+    
+    private static void setConfig(Properties props) {
+
+        version = props.getProperty("fr.insee.rmes.api.version");
+        title = props.getProperty("fr.insee.rmes.api.title");
+        description = props.getProperty("fr.insee.rmes.api.description");
+
+        sparqlEndPoint = props.getProperty("fr.insee.rmes.api.sparqlEndpoint");
+        baseHost = props.getProperty("fr.insee.rmes.api.baseHost");
+        fileStorage = props.getProperty("fr.insee.rmes.api.fileStorage");
+        fileStorageLocation = props.getProperty("fr.insee.rmes.storage.document");
+
+        swaggerHost = props.getProperty("fr.insee.rmes.api.host");
+        swaggerBasepath = props.getProperty("fr.insee.rmes.api.basepath");
+        requiresSsl = Boolean.valueOf(props.getProperty("fr.insee.rmes.api.force.ssl"));
+        swaggerUrl =
+            (Boolean.TRUE.equals(requiresSsl) ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
 
     }
 

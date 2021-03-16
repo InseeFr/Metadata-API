@@ -223,7 +223,7 @@ public class DepartementApi extends AbstractGeoApi {
 
             return this
                 .generateResponseListOfTerritoire(
-                    sparqlUtils.executeSparqlQuery(GeoQueries.getListDept(this.formatValidParameterDateIfIsNull(date))),
+                    sparqlUtils.executeSparqlQuery(GeoQueries.getListDepartements(this.formatValidParameterDateIfIsNull(date))),
                     header,
                     Departements.class,
                     Departement.class);

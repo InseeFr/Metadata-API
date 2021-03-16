@@ -20,6 +20,18 @@ public class GeoQueries extends Queries {
     private static final String QUERIES_FOLDER = "geographie/";
 
     /* IDENTIFICATION */
+    public static String getZoneEmploiByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.ZONE_EMPLOI);
+    }
+    
+    public static String getUniteUrbaineByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.UNITE_URBAINE);
+    }
+    
+    public static String getAireAttractionByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.AIRE_ATTRACTION);
+    }
+    
     public static String getCommuneByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.COMMUNE);
     }
@@ -53,14 +65,26 @@ public class GeoQueries extends Queries {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COMMUNE);
     }
 
-    public static String getListDept(String date) {
+    public static String getListDepartements(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.DEPARTEMENT);
     }
 
-    public static String getListRegion(String date) {
+    public static String getListRegions(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.REGION);
     }
 
+    public static String getListAiresAttraction(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.AIRE_ATTRACTION);
+    }
+    
+    public static String getListUnitesUrbaines(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.UNITE_URBAINE);
+    }
+    
+    public static String getListZonesEmploi(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.ZONE_EMPLOI);
+    }
+    
     public static String getListArrondissements(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.ARRONDISSEMENT);
     }
@@ -107,6 +131,18 @@ public class GeoQueries extends Queries {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE, false);
     }
 
+    public static String getDescendantsZoneEmploi(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ZONE_EMPLOI, false);
+    }
+    
+    public static String getDescendantsAireAttraction(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.AIRE_ATTRACTION, false);
+    }
+    
+    public static String getDescendantsUniteUrbaine(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.UNITE_URBAINE, false);
+    }
+    
     public static String getDescendantsDepartement(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT, false);
     }
