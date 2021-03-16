@@ -1,3 +1,4 @@
+2.0.4 : Ajout des services géographie zonages d'étude (zones d'emploi, unités urbaines, aires d'attraction). Services nomenclatures et opérations toujours cachés.
 2.0.3 : Services nomenclatures cachés pour le portail. Corrections des services concepts pour ouverture sur le portail des API.
 2.0.2 : Correction des services nomenclatures. Ouverture des services géographie sur le portail des API en recette uniquement
 2.0.1 : Version utilisée pour les tests de charge de septembre 2020. Pas de changement particulier. Non taggé sur Github
