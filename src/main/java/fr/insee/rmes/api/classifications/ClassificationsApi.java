@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class ClassificationsApi extends AbstractMetadataApi {
 
-	
+
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML

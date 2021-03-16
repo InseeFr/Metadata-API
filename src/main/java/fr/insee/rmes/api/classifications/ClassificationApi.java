@@ -33,14 +33,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
 @Path("/nomenclature")
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class ClassificationApi extends AbstractMetadataApi {
 
 	private static Logger logger = LogManager.getLogger(ClassificationApi.class);
 
-	
 	@GET
 	@Path("/{code}/postes")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -68,7 +66,6 @@ public class ClassificationApi extends AbstractMetadataApi {
 		}
 	}
 
-	
 	@GET
 	@Path("/{code}/arborescence")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
