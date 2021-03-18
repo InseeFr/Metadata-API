@@ -87,8 +87,10 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
             	UNION {
 					?reporturi ?uri ?geoUri . 
 					GRAPH  ?g {
-						?geoUri skos:prefLabel|igeo:name|rdfs:label ?labelObjLg1 .
-						FILTER (lang(?labelObjLg1) = 'fr')
+						?geoUri skos:prefLabel|igeo:nom|rdfs:label ?labelObjLg1 .
+						 <#-- COG has no lang type  -->		
+							FILTER (lang(?labelObjLg1) = 'fr' || (langmatches(lang(?labelObjLg1), '') ))
+						
 					}
 					BIND(REPLACE( STR(?geoUri) , '(.*/)(\\w.+$)', '$2' ) AS ?valeurSimple)
 					BIND('GEOGRAPHY' AS ?type) .
