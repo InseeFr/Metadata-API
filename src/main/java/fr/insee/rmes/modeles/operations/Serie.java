@@ -192,8 +192,6 @@ public class Serie {
 
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("seriesPrecedentes")
-//    @XmlElementWrapper(name = "SeriesPrecedentes")
-//    @JacksonXmlElementWrapper(localName = "SeriesPrecedentes")
     @JacksonXmlProperty(localName = "SeriePrecedente")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SeriePrecedente> getReplaces() {
@@ -206,8 +204,6 @@ public class Serie {
 
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("seriesSuivantes") //json example
-//    @XmlElementWrapper(name = "SeriesSuivantes") //xml example list
-//    @JacksonXmlElementWrapper(localName = "SeriesSuivantes") //xml response
     @JacksonXmlProperty(localName = "SerieSuivante") //xml response
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SerieSuivante> getIsReplacedBy() {
@@ -219,7 +215,7 @@ public class Serie {
     }
 
     @JsonInclude(Include.NON_EMPTY)
-    @JsonProperty("reference")
+    @JsonProperty("references")
     @JacksonXmlProperty( localName = "Reference")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<ObjectWithSimsId> getSeeAlso() {
@@ -292,8 +288,6 @@ public class Serie {
 
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("organismesResponsables") //json example
-//    @XmlElementWrapper(name = "OrganismesResponsables") //xml example list
-//    @JacksonXmlElementWrapper(localName = "OrganismesResponsables") //xml response
     @JacksonXmlProperty(localName = "OrganismeResponsable") //xml response
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getPublishers() {
@@ -306,8 +300,6 @@ public class Serie {
 
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("partenaires") //json example
-//    @XmlElementWrapper(name = "Partenaires") //xml example list
-//    @JacksonXmlElementWrapper(localName = "Partenaires") //xml response
     @JacksonXmlProperty(localName = "Partenaire") //xml response
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getContributors() {
@@ -319,7 +311,7 @@ public class Serie {
     }
 
     @JsonInclude(Include.NON_EMPTY)
-    @JsonProperty("serviceCollecteur") //json example
+    @JsonProperty("servicesCollecteurs") //json example
     @JacksonXmlProperty(localName = "ServiceCollecteur") //xml response
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<SimpleObject> getDataCollectors() {
@@ -333,8 +325,6 @@ public class Serie {
     
     @JsonInclude(Include.NON_EMPTY)
     @JsonProperty("proprietaires") //json example
-//    @XmlElementWrapper(name = "Proprietaires") //xml example list
-//    @JacksonXmlElementWrapper(localName = "Proprietaires") //xml response
     @JacksonXmlProperty(localName = "Proprietaire") //xml response
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<String> getCreators() {

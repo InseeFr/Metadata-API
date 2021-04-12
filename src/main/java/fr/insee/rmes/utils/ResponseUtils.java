@@ -5,10 +5,12 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
@@ -35,37 +37,48 @@ public class ResponseUtils {
             mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
             mapper.addMixIn(StringWithLangConcept.class, StringXmlMixInConcept.class);
             mapper.addMixIn(RubriqueRichText.class, RubriqueRichTextXmlMixIn.class);
+            
+            try {
+                response = mapper.writeValueAsString(obj);
+                // Replace XML namespace xmllang => xml:lang
+                response = Pattern.compile("xmllang=").matcher(response).replaceAll("xml:lang=");
+                // Remove XML tag <listeTerritoires>
+                response = Pattern.compile("<\\/?listeTerritoires>").matcher(response).replaceAll("");
+                // Remove duplications Territoires objects with tag <territoire> for XML response
+                response = Pattern.compile("(<territoires )(.+?)(<\\/territoires>)").matcher(response).replaceAll("");
+                // Remove last tags territoires
+                response = Pattern.compile("(<territoires><\\/territoires>)").matcher(response).replaceAll("");
+
+                if ( ! response.isEmpty() && obj.getClass() == Projections.class) {
+                        // Remove XML tag <origine>
+                        response = Pattern.compile("<\\/?origine>").matcher(response).replaceAll("");
+                        // Remove XML tag <listeProj>
+                        response = Pattern.compile("<\\/?listeProj>").matcher(response).replaceAll("");
+                }
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+            
+            response = encodeResponse(response);
 
         }
         else {
 
             mapper = new ObjectMapper();
             mapper.addMixIn(Territoire.class, TerritoireJsonMixIn.class);
+            try {
+				response = mapper.writeValueAsString(obj);
+			} catch (JsonProcessingException e) {
+				  logger.error(e.getMessage());
+			}
+            response = encodeJsonResponse(response);
+
         }
 
-        try {
-            response = mapper.writeValueAsString(obj);
-            // Replace XML namespace xmllang => xml:lang
-            response = Pattern.compile("xmllang=").matcher(response).replaceAll("xml:lang=");
-            // Remove XML tag <listeTerritoires>
-            response = Pattern.compile("<\\/?listeTerritoires>").matcher(response).replaceAll("");
-            // Remove duplications Territoires objects with tag <territoire> for XML response
-            response = Pattern.compile("(<territoires )(.+?)(<\\/territoires>)").matcher(response).replaceAll("");
-            // Remove last tags territoires
-            response = Pattern.compile("(<territoires><\\/territoires>)").matcher(response).replaceAll("");
 
-            if ( ! response.isEmpty() && obj.getClass() == Projections.class && header != null && header.equals(MediaType.APPLICATION_XML)) {
-                    // Remove XML tag <origine>
-                    response = Pattern.compile("<\\/?origine>").matcher(response).replaceAll("");
-                    // Remove XML tag <listeProj>
-                    response = Pattern.compile("<\\/?listeProj>").matcher(response).replaceAll("");
-            }
-        }
-        catch (Exception e) {
-            logger.error(e.getMessage());
-        }
 
-        return encodeResponse(response);
+        return response;
     }
     
     public String encodeResponse(String response) {
@@ -73,5 +86,12 @@ public class ResponseUtils {
     	ret = StringEscapeUtils.unescapeHtml4(ret);
     	return new String(ret.getBytes(), StandardCharsets.UTF_8);
     }
+    
+    public String encodeJsonResponse(String response) {
+    	String ret = response.replaceAll("\\R", " ")//remove break lines that makes JSON invalid (breakline in texts are in <p>)
+					         .replace('"', '\"'); //remove quote
+    	return new String(ret.getBytes(), StandardCharsets.UTF_8);
+    }
+
 
 }

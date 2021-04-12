@@ -68,6 +68,7 @@ public class Rubrique {
         return uri;
     }
 
+    @JsonProperty("titres")
     @JacksonXmlProperty(localName = "Titre")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getTitre() {
@@ -128,9 +129,7 @@ public class Rubrique {
     }
 
     @JsonInclude(Include.NON_EMPTY)
-    @JsonProperty("organismes") //json example
-//    @XmlElementWrapper(name = "Valeurs") //xml example list
-//    @JacksonXmlElementWrapper(localName = "Valeurs") //xml response
+    @JsonProperty("organisme") //json example
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Organisme") //xml response
     public SimpleObject getValeurOrganisation() {

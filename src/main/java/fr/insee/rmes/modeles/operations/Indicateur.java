@@ -200,7 +200,7 @@ public class Indicateur {
         this.isReplacedBy = isReplacedBy;
     }
 
-    @JsonProperty("reference")
+    @JsonProperty("references")
     @JacksonXmlProperty(isAttribute = true, localName = "Reference")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<ObjectWithSimsId> getSeeAlso() {
@@ -211,7 +211,7 @@ public class Indicateur {
         this.seeAlso = seeAlso;
     }
 
-    @JsonProperty("serieContributrice")
+    @JsonProperty("seriesContributrices")
     @JacksonXmlProperty(isAttribute = true, localName = "SerieContributrice")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Serie> getWasGeneratedBy() {
