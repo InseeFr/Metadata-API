@@ -68,7 +68,7 @@ public class Rubrique {
         return uri;
     }
 
-    @JsonProperty("titres")
+    @JsonProperty("titre")
     @JacksonXmlProperty(localName = "Titre")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<StringWithLang> getTitre() {
