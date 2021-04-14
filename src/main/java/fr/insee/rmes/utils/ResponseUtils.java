@@ -5,9 +5,9 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.stax2.XMLOutputFactory2;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,13 +26,14 @@ import fr.insee.rmes.modeles.operations.documentations.RubriqueRichTextXmlMixIn;
 public class ResponseUtils {
 
     private static Logger logger = LogManager.getLogger(ResponseUtils.class);
-
+    
     public String produceResponse(Object obj, String header) {
-        ObjectMapper mapper = null;
         String response = "";
 
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
-            mapper = new XmlMapper();
+        	XmlMapper mapper = new XmlMapper();
+            mapper.getFactory().getXMLOutputFactory().setProperty(XMLOutputFactory2.P_TEXT_ESCAPER, 
+            		new CustomXmlEscapingWriterFactory());
             mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
             mapper.addMixIn(StringWithLangConcept.class, StringXmlMixInConcept.class);
             mapper.addMixIn(RubriqueRichText.class, RubriqueRichTextXmlMixIn.class);
@@ -59,12 +60,11 @@ public class ResponseUtils {
                 logger.error(e.getMessage());
             }
             
-            response = encodeResponse(response);
+            response = encodeXmlResponse(response);
 
         }
         else {
-
-            mapper = new ObjectMapper();
+        	ObjectMapper mapper = new ObjectMapper();
             mapper.addMixIn(Territoire.class, TerritoireJsonMixIn.class);
             try {
 				response = mapper.writeValueAsString(obj);
@@ -74,16 +74,11 @@ public class ResponseUtils {
             response = encodeJsonResponse(response);
 
         }
-
-
-
         return response;
     }
     
-    public String encodeResponse(String response) {
-    	String ret = StringEscapeUtils.unescapeXml(response);
-    	ret = StringEscapeUtils.unescapeHtml4(ret);
-    	return new String(ret.getBytes(), StandardCharsets.UTF_8);
+    public String encodeXmlResponse(String response) {
+    	return new String(response.getBytes(), StandardCharsets.UTF_8);
     }
     
     public String encodeJsonResponse(String response) {
