@@ -18,16 +18,19 @@ public class OperationsQueries extends Queries {
 	private static final String QUERIES_FOLDER = "operations/";
 
 	
-	/**TREE**/
+	/**FAMILY**/
 	
-	public static String getOperationTree() {
-		return buildRequest(QUERIES_FOLDER, "getOperationTreeQuery.ftlh", null);
-
+	public static String getFamilies() {
+		return buildRequest(QUERIES_FOLDER, "getListFamilies.ftlh", null);
 	}
 	
 	
 	
 	/**SERIES**/
+	
+	public static String getSeries() {
+		return buildRequest(QUERIES_FOLDER, "getListSeries.ftlh", null);
+	}
 	
 	public static String getSeries(String idSeries) {
 		Map<String, Object> params = new HashMap<>();
@@ -47,7 +50,19 @@ public class OperationsQueries extends Queries {
 		return buildRequest(QUERIES_FOLDER, "getIndicBySeriesQuery.ftlh", params);
 	}
 	
+	/** OPERATIONS */
+	public static String getOperations() {
+		return buildRequest(QUERIES_FOLDER, "getListOperations.ftlh", null);
+	}
+	
+	
 	/** INDIC **/
+	public static String getIndicators() {
+		return buildRequest(QUERIES_FOLDER, "getListIndicators.ftlh", null);
+	}
+	
+	
+	
 	public static String getSeriesByIndic(String idIndic) {
 		Map<String, Object> params = new HashMap<>();
 		params.put(ID_INDIC, idIndic);

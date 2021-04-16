@@ -73,6 +73,23 @@ public class Serie {
         }
         this.uri = uri;
     }
+    
+    public Serie(CsvSerie csv) {
+        this.id = csv.getSeriesId();
+        label.add(new StringWithLang(csv.getSeriesLabelLg1(), Lang.FR));
+        if ( ! csv.getSeriesLabelLg2().equals("")) {
+            label.add(new StringWithLang(csv.getSeriesLabelLg2(), Lang.EN));
+        }
+        this.uri = csv.getSeries();
+        if (!csv.getSeriesAltLabelLg1().equals("")) {
+        	altLabel = new ArrayList<>();
+        	altLabel.add(new StringWithLang(csv.getSeriesAltLabelLg1(), Lang.FR));
+        }
+        if (!csv.getSeriesAltLabelLg2().equals("")) {
+        	if (altLabel == null) {altLabel = new ArrayList<>(); }
+            label.add(new StringWithLang(csv.getSeriesAltLabelLg2(), Lang.EN));
+        }
+    }
 
     public Serie() {
         super();

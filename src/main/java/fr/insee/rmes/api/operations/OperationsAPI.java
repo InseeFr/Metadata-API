@@ -3,6 +3,7 @@ package fr.insee.rmes.api.operations;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -20,11 +21,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
+import fr.insee.rmes.modeles.operations.CsvFamily;
 import fr.insee.rmes.modeles.operations.CsvIndicateur;
 import fr.insee.rmes.modeles.operations.CsvSerie;
 import fr.insee.rmes.modeles.operations.Famille;
 import fr.insee.rmes.modeles.operations.Familles;
-import fr.insee.rmes.modeles.operations.FamilyToOperation;
 import fr.insee.rmes.modeles.operations.Indicateur;
 import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 import fr.insee.rmes.queries.operations.OperationsQueries;
@@ -66,18 +67,18 @@ public class OperationsAPI extends AbstractMetadataApi {
 
         logger.debug("Received GET request operations tree");
 
-        String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getOperationTree());
-        List<FamilyToOperation> opList = csvUtils.populateMultiPOJO(csvResult, FamilyToOperation.class);
-
-        if (opList.isEmpty()) {
+        String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getFamilies());
+        List<CsvFamily> familyList = csvUtils.populateMultiPOJO(csvResult, CsvFamily.class);
+      
+        if (familyList.isEmpty()) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else {
-
+        	Map<String,List<String>> exclusions = new HashMap<>();
             if (StringUtils.equals(diffuseur, "insee.fr")) {
-                opList = operationsApiService.removeExclusions(opList);
+            	exclusions = operationsApiService.readExclusions();
             }
-            Map<String, Famille> familyMap = operationsApiService.getListeFamilyToOperation(opList);
+        	Map<String, Famille> familyMap = operationsApiService.getListeFamilyToOperation(familyList,exclusions);
 
             if (header.equals(MediaType.APPLICATION_XML)) {
                 Familles familles = new Familles(new ArrayList<>(familyMap.values()));

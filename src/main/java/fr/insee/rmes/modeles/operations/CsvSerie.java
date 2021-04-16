@@ -1,5 +1,7 @@
 package fr.insee.rmes.modeles.operations;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class CsvSerie {
 
     private String familyId = null;
@@ -49,7 +51,11 @@ public class CsvSerie {
     
 
     public String getFamilyId() {
-        return familyId;
+        if (familyId != null) return familyId;
+		if (StringUtils.isEmpty(family)) {return null ;}
+		if (family.contains("\\")) return StringUtils.substringAfterLast(family, "\\");
+		return StringUtils.substringAfterLast(family, "/");
+        
     }
 
     public void setFamilyId(String familyId) {

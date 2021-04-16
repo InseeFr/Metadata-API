@@ -39,6 +39,23 @@ public class Famille {
         }
         this.uri = uri;
     }
+    
+    public Famille(CsvFamily csv) {
+        this.id = csv.getId();
+        label.add(new StringWithLang(csv.getLabelLg1(), Lang.FR));
+        if (!csv.getLabelLg2().equals("")) {
+            label.add(new StringWithLang(csv.getLabelLg2(), Lang.EN));
+        }
+        this.uri = csv.getUri();
+        if (!csv.getAltlabelLg1().equals("")) {
+        	altLabel = new ArrayList<>();
+        	altLabel.add(new StringWithLang(csv.getAltlabelLg1(), Lang.FR));
+        }
+        if (!csv.getAltlabelLg2().equals("")) {
+        	if (altLabel == null) {altLabel = new ArrayList<>(); }
+            label.add(new StringWithLang(csv.getAltlabelLg2(), Lang.EN));
+        }
+    }
 
     @JacksonXmlProperty(isAttribute = true, localName = "Serie")
     @JacksonXmlElementWrapper(useWrapping = false)

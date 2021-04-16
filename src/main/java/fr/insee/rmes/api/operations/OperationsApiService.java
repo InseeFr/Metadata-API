@@ -1,5 +1,6 @@
 package fr.insee.rmes.api.operations;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.config.Configuration;
+import fr.insee.rmes.modeles.operations.CsvFamily;
 import fr.insee.rmes.modeles.operations.CsvIndicateur;
+import fr.insee.rmes.modeles.operations.CsvOperation;
 import fr.insee.rmes.modeles.operations.CsvSerie;
 import fr.insee.rmes.modeles.operations.Famille;
-import fr.insee.rmes.modeles.operations.FamilyToOperation;
 import fr.insee.rmes.modeles.operations.Indicateur;
 import fr.insee.rmes.modeles.operations.IndicateurPrecedent;
 import fr.insee.rmes.modeles.operations.IndicateurSuivant;
@@ -46,98 +48,101 @@ public class OperationsApiService {
 		sparqlUtils = new SparqlUtils();
 		csvUtils = new CSVUtils();
 	}
+    
+	public Map<String, Famille> getListeFamilyToOperation(List<CsvFamily> familiesList, Map<String,List<String>> listObjToRemove) {
+		//put families in a map
+		Map<String, Famille> familyMap = familiesList.stream()
+				      .collect(Collectors.toMap(CsvFamily::getId, family -> new Famille(family)));
+		        
+		
+		//get all series and put in a map
+        String csvSeriesResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeries());
+        List<CsvSerie> seriesList = csvUtils.populateMultiPOJO(csvSeriesResult, CsvSerie.class);
+        
+        Map<String, Serie> serieMap = seriesList.stream()
+			      .collect(Collectors.toMap(CsvSerie::getSeriesId, serie -> new Serie(serie)));
+        
 
-	public Map<String, Famille> getListeFamilyToOperation(List<FamilyToOperation> opList) {
-        Map<String, Famille> familyMap = new HashMap<>();
-        Map<String, Serie> serieMap = new HashMap<>();
+             
+        //get all operations
+        String csvOpResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getOperations());
+        List<CsvOperation> opList = csvUtils.populateMultiPOJO(csvOpResult, CsvOperation.class);
+        for (CsvOperation csvOperation : opList) {
+			if (!listObjToRemove.containsKey("operation") || !listObjToRemove.get("operation").contains(csvOperation.getId())){
+            Operation o = new Operation(
+            		csvOperation.getUri(),
+            		csvOperation.getId(),
+            		csvOperation.getLabelLg1(),
+            		csvOperation.getLabelLg2(),
+            		csvOperation.getSimsId());
+                o.setAltLabel(csvOperation.getAltlabelLg1(), csvOperation.getAltlabelLg2());
+                serieMap.get(csvOperation.getSeriesId()).addOperation(o);
+			}
+		}
+        
+        //get all indicators
+        String csvIndicResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getIndicators());
+        List<CsvIndicateur> indicList = csvUtils.populateMultiPOJO(csvIndicResult, CsvIndicateur.class);
+        
+        for (CsvIndicateur csvIndic : indicList) {
+			if (!listObjToRemove.containsKey("indicateur") || !listObjToRemove.get("indicateur").contains(csvIndic.getId())){
 
-        for (FamilyToOperation familyToOperation : opList) {
-            if ( ! serieMap.containsKey(familyToOperation.getSeriesId())) {
-                Serie s =
-                    new Serie(
-                        familyToOperation.getSeries(),
-                        familyToOperation.getSeriesId(),
-                        familyToOperation.getSeriesLabelLg1(),
-                        familyToOperation.getSeriesLabelLg2());
-                s.setAltLabel(familyToOperation.getSeriesAltLabelLg1(), familyToOperation.getSeriesAltLabelLg2());
-                serieMap.put(s.getId(), s);
-                String fId = familyToOperation.getFamilyId();
-                if (familyMap.containsKey(fId)) {
-                    familyMap.get(fId).addSerie(s);
-                }
-                else {
-                    // create family
-                    Famille f =
-                        new Famille(
-                            familyToOperation.getFamily(),
-                            familyToOperation.getFamilyId(),
-                            familyToOperation.getFamilyLabelLg1(),
-                            familyToOperation.getFamilyLabelLg2(),
-                            s);
-                    f.setAltLabel(familyToOperation.getFamilyAltLabelLg1(), familyToOperation.getFamilyAltLabelLg2());
-                    familyMap.put(f.getId(), f);
-                }
-            }
-            if (StringUtils.isNotEmpty(familyToOperation.getOperationId())) {
-                Operation o =
-                    new Operation(
-                        familyToOperation.getOperation(),
-                        familyToOperation.getOperationId(),
-                        familyToOperation.getOpLabelLg1(),
-                        familyToOperation.getOpLabelLg2(),
-                        familyToOperation.getSimsId());
-                o.setAltLabel(familyToOperation.getOpAltLabelLg1(), familyToOperation.getOpAltLabelLg2());
-                serieMap.get(familyToOperation.getSeriesId()).addOperation(o);
-            }
-            else if (StringUtils.isNotEmpty(familyToOperation.getIndicId())) {
-                Indicateur i =
-                    new Indicateur(
-                        familyToOperation.getIndic(),
-                        familyToOperation.getIndicId(),
-                        familyToOperation.getIndicLabelLg1(),
-                        familyToOperation.getIndicLabelLg2(),
-                        familyToOperation.getSimsId());
-                i.setAltLabel(familyToOperation.getIndicAltLabelLg1(), familyToOperation.getIndicAltLabelLg2());
-                serieMap.get(familyToOperation.getSeriesId()).addIndicateur(i);
-            }
-            else if (StringUtils.isNotEmpty(familyToOperation.getSimsId())) {
-                // sims linked to serie
-                serieMap.get(familyToOperation.getSeriesId()).setSimsId(familyToOperation.getSimsId());
-            }
+        	Indicateur i = new Indicateur(
+        			csvIndic.getIndic(),
+        			csvIndic.getId(),
+            		csvIndic.getLabelLg1(),
+            		csvIndic.getLabelLg2(),
+            		csvIndic.getSimsId());
+                i.setAltLabel(csvIndic.getAltLabelLg1(), csvIndic.getAltLabelLg2());
+                
+                //Get series
+                String csv = sparqlUtils.executeSparqlQuery(OperationsQueries.getWasGeneratedByByIndic(i.getId()));
+                List<Serie> liste = csvUtils.populateMultiPOJO(csv, Serie.class);
+                i.setWasGeneratedBy(liste);
+                for (Serie s : liste) {
+                    serieMap.get(s.getId()).addIndicateur(i);
+				}
+			}
+		}
+		
+		for (CsvSerie csvSerie : seriesList) {
+			if (!listObjToRemove.containsKey("serie") || !listObjToRemove.get("serie").contains(csvSerie.getSeriesId())){
+				familyMap.get(csvSerie.getFamilyId()).addSerie(serieMap.get(csvSerie.getSeriesId()));
+			}
         }
+        
+		if (listObjToRemove.containsKey("famille")){
+			for (String idFamilyToRemove : listObjToRemove.get("famille")) {
+				familyMap.remove(idFamilyToRemove);
+			}
+		}
+ 
+		
         return familyMap;
-    }
+	}
 
-    public List<FamilyToOperation> removeExclusions(List<FamilyToOperation> opList) {
+    public Map<String,List<String>> readExclusions() {
+    	Map<String,List<String>> exclusions = new HashMap<>();
         String path = String.format("%s/storage/%s", Configuration.getFileStorage(), "exclusionsInseeFr.txt");
         List<List<String>> fileContent = FileUtils.readFile(path, ";");
         if (fileContent == null || fileContent.isEmpty()) {
             logger.warn("Exclusion file empty");
-            return opList;
+            return exclusions;
         }
         for (List<String> line : fileContent) {
             String type = line.get(0).trim();
-            String id = line.get(1).trim();
-
-            switch (type) {
-                case "famille":
-                    opList.removeIf(op -> (op.getFamilyId().equals(id)));
-                break;
-                case "serie":
-                    opList.removeIf(op -> (op.getSeriesId().equals(id)));
-                break;
-                case "operation":
-                    opList.removeIf(op -> (op.getOperationId().equals(id)));
-                break;
-                case "indicateur":
-                    opList.removeIf(op -> (op.getIndicId().equals(id)));
-                break;
-                default:
-                    logger.warn("Unknown exclusion type : {}", type);
-                break;
+            String idToRemove = line.get(1).trim();
+            if (exclusions.containsKey(type)) {
+            	List<String> newList = exclusions.get(type);
+            	newList.add(idToRemove);
+            	exclusions.put(type, newList);
+            }else {
+            	List<String> newList = new ArrayList<>();
+            	newList.add(idToRemove);
+            	exclusions.put(type, newList);
             }
         }
-        return opList;
+        return exclusions;
     }
 
     public List<Rubrique> getListRubriques(String id) {
