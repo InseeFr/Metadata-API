@@ -1,4 +1,4 @@
-SELECT DISTINCT ?id ?indic ?labelLg1 ?labelLg2 ?altLabelLg1 ?altLabelLg2 ?series ?simsId
+SELECT DISTINCT ?id ?indic ?labelLg1 ?labelLg2 ?altLabelLg1 ?altLabelLg2  ?simsId
 WHERE      { 
 	  
            	?indic a insee:StatisticalIndicator .  
