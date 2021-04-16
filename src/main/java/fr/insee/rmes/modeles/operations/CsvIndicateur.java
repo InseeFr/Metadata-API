@@ -1,5 +1,7 @@
 package fr.insee.rmes.modeles.operations;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class CsvIndicateur {
 
     private String id;
@@ -181,7 +183,9 @@ public class CsvIndicateur {
     }
 
     public String getId() {
-        return id;
+		if (!StringUtils.isEmpty(id)) {return id ;}
+		if (indic.contains("\\")) return StringUtils.substringAfterLast(indic, "\\");
+		return StringUtils.substringAfterLast(indic, "/");
     }
 
     public void setId(String id) {
