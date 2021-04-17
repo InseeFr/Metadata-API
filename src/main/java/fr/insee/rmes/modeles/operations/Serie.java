@@ -87,8 +87,9 @@ public class Serie {
         }
         if (!csv.getSeriesAltLabelLg2().equals("")) {
         	if (altLabel == null) {altLabel = new ArrayList<>(); }
-            label.add(new StringWithLang(csv.getSeriesAltLabelLg2(), Lang.EN));
+        	altLabel.add(new StringWithLang(csv.getSeriesAltLabelLg2(), Lang.EN));
         }
+        this.simsId = csv.getSimsId();
     }
 
     public Serie() {
