@@ -183,7 +183,7 @@ public class CsvIndicateur {
     }
 
     public String getId() {
-		if (!StringUtils.isEmpty(id)) {return id ;}
+		if (!StringUtils.isEmpty(id) || indic == null) {return id ;}
 		if (indic.contains("\\")) return StringUtils.substringAfterLast(indic, "\\");
 		return StringUtils.substringAfterLast(indic, "/");
     }
