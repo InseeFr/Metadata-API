@@ -196,7 +196,7 @@ public class OperationsApiService {
 		            richTextLg1.setDocuments(docs);
 		        }
 		        r.addRichTexts(richTextLg1);
-		        if (StringUtils.isNotEmpty(cr.getLabelLg2())) {
+		        if (StringUtils.isNotEmpty(cr.getLabelLg2()) || Boolean.TRUE.equals(cr.isHasDocLg2())) {
 		        	RubriqueRichText richTextLg2 = new RubriqueRichText(cr.getLabelLg2(), Lang.EN);                         	                	
 		            if (Boolean.TRUE.equals(cr.isHasDocLg2())) {
 		                String csvDocs = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocuments(id, r.getId(), Lang.EN));
