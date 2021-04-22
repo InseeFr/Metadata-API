@@ -13,14 +13,14 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
             		OPTIONAL {			
             			?mas sdmx-mm:metadataAttributeProperty ?uri . 
             			?mas sdmx-mm:parent ?uriParent . 
-            		    BIND(REPLACE( STR(?uriParent) , '(.*/)(\\w.+$)', '$2' ) AS ?idParent) . 	
+            		    BIND(REPLACE( STR(?uriParent) , '(.*/)(\\w.*$)', '$2' ) AS ?idParent) . 	
             		} 
             		?uri sdmx-mm:concept ?concept . 
             		?concept skos:prefLabel ?titreLg1 ; 
              		 		 skos:prefLabel ?titreLg2 ; 
             		FILTER(lang(?titreLg1) = 'fr') 
             		FILTER(lang(?titreLg2) = 'en') 
-            		BIND(REPLACE( STR(?uri) , '(.*/)(\\w.+$)', '$2' ) AS ?id) . 
+            		BIND(REPLACE( STR(?uri) , '(.*/)(\\w.*$)', '$2' ) AS ?id) . 
 		   { 
                { 
             		?reporturi ?uri ?valeurSimple . 
@@ -92,7 +92,7 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
 							FILTER (lang(?labelObjLg1) = 'fr' || (langmatches(lang(?labelObjLg1), '') ))
 						
 					}
-					BIND(REPLACE( STR(?geoUri) , '(.*/)(\\w.+$)', '$2' ) AS ?valeurSimple)
+					BIND(REPLACE( STR(?geoUri) , '(.*/)(\\w.*$)', '$2' ) AS ?valeurSimple)
 					BIND('GEOGRAPHY' AS ?type) .
 				} 
             }
