@@ -54,7 +54,7 @@ public class Configuration {
         sparqlEndPoint = props.getProperty("fr.insee.rmes.api.sparqlEndpoint");
         baseHost = props.getProperty("fr.insee.rmes.api.baseHost");
         fileStorage = props.getProperty("fr.insee.rmes.api.fileStorage");
-        fileStorageLocation = props.getProperty("fr.insee.rmes.storage.document");
+        fileStorageLocation = props.getProperty("fr.insee.rmes.api.storage.document");
 
         swaggerHost = props.getProperty("fr.insee.rmes.api.host");
         swaggerBasepath = props.getProperty("fr.insee.rmes.api.basepath");

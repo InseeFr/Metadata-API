@@ -123,7 +123,7 @@ public class OperationsApiService {
 
     public Map<String,List<String>> readExclusions() {
     	Map<String,List<String>> exclusions = new HashMap<>();
-        String path = String.format("%s/storage/%s", Configuration.getFileStorage(), "exclusionsInseeFr.txt");
+        String path = String.format("%s/storage/%s", Configuration.getFileStorageLocation(), "exclusionsInseeFr.txt");
         List<List<String>> fileContent = FileUtils.readFile(path, ";");
         if (fileContent == null || fileContent.isEmpty()) {
             logger.warn("Exclusion file empty");
