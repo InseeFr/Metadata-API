@@ -59,9 +59,8 @@ public class OperationsAPI extends AbstractMetadataApi {
     public Response getOperationsTree(
         @Parameter(
             description = "Le diffuseur des données (permet de filtrer les opérations retournées)",
-            required = true,
-            schema = @Schema(allowableValues = {
-                "insee.fr", "autre"
+            schema = @Schema(nullable = true, allowableValues = {
+                "insee.fr"
             }, type = "string")) @QueryParam("diffuseur") String diffuseur,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
