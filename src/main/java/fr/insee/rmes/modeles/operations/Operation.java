@@ -18,11 +18,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Objet représentant une opération statistique")
 public class Operation {
 
+	@Schema(example = "s1459")
     private String id = null;
 
     private List<StringWithLang> label = new ArrayList<>();
 
-    @Schema(example = "http://id.insee.fr/operations/operation/s1")
+    @Schema(example = "http://id.insee.fr/operations/operation/s1459")
     private String uri = null;
 
     @Schema(example = "1011")

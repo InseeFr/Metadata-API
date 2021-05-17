@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Objet représentant une série d'opérations statistiques")
 public class Serie {
 
+	@Schema(example = "s1234")
     private String id = null;
     private List<StringWithLang> label = new ArrayList<>();
 

@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public class Indicateur {
 
+	@Schema(example = "p1647")
     private String id = null;
     @Schema(example = "http://id.insee.fr/produits/indicateur/p1647")
     private String uri = null;

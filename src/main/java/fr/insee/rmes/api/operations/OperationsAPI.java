@@ -1,9 +1,9 @@
 package fr.insee.rmes.api.operations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -27,6 +27,7 @@ import fr.insee.rmes.modeles.operations.CsvSerie;
 import fr.insee.rmes.modeles.operations.Famille;
 import fr.insee.rmes.modeles.operations.Familles;
 import fr.insee.rmes.modeles.operations.Indicateur;
+import fr.insee.rmes.modeles.operations.Serie;
 import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 import fr.insee.rmes.queries.operations.OperationsQueries;
 import io.swagger.v3.oas.annotations.Operation;
@@ -106,7 +107,8 @@ public class OperationsAPI extends AbstractMetadataApi {
         @Parameter(
             description = "Identifiant de la documentation (format : [0-9]{4})",
             required = true,
-            schema = @Schema(pattern = "[0-9]{4}", type = "string")) @PathParam("id") String id,
+            schema = @Schema(pattern = "[0-9]{4}", type = "string"),
+            example = "1979") @PathParam("id") String id,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request documentation");
 
@@ -130,13 +132,14 @@ public class OperationsAPI extends AbstractMetadataApi {
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(operationId = "getSeries", summary = "Informations sur une série statistique de l'Insee", responses = {
-        @ApiResponse(content = @Content(schema = @Schema(implementation = Operation.class)), description="Séries")
+        @ApiResponse(content = @Content(schema = @Schema(implementation = Serie.class)), description="Séries")
     })
     public Response getSeries(
         @Parameter(
             description = "Identifiant de la série(format : s[0-9]{4})",
             required = true,
-            schema = @Schema(pattern = "s[0-9]{4}", type = "string")) @PathParam("idSeries") String idSeries,
+            schema = @Schema(pattern = "s[0-9]{4}", type = "string"), 
+            example = "s1223") @PathParam("idSeries") String idSeries,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request series");
 
@@ -167,7 +170,8 @@ public class OperationsAPI extends AbstractMetadataApi {
         @Parameter(
             description = "Identifiant de l'indicateur (format : p[0-9]{4})",
             required = true,
-            schema = @Schema(pattern = "p[0-9]{4}", type = "string")) @PathParam("idIndicateur") String idIndicateur,
+            schema = @Schema(pattern = "p[0-9]{4}", type = "string"),
+            example ="p1670") @PathParam("idIndicateur") String idIndicateur,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
         logger.debug("Received GET request indicator");
 
