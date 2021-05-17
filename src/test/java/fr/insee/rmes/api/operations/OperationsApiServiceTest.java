@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.operations.CsvFamily;
 import fr.insee.rmes.modeles.operations.Famille;
-import fr.insee.rmes.modeles.operations.FamilyToOperation;
 
 @ExtendWith(MockitoExtension.class)
 class OperationsApiServiceTest extends AbstractApiTest {
