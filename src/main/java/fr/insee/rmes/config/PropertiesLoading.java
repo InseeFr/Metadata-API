@@ -11,18 +11,18 @@ public class PropertiesLoading {
 		Properties props = new Properties();
 		props.load(this.getClass().getClassLoader().getResourceAsStream("api-stable.properties"));
 		props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
-		props = this.loadIfExists(props, "rmes-api.properties");
-		props = this.loadIfExists(props, "rmeswnci.properties");
-		props = this.loadIfExists(props, "rmeswncz.properties");
-		props = this.loadIfExists(props, "rmeswncd.properties");
-
+		this.loadIfExists(props, "rmes-api.properties");
+		this.loadIfExists(props, "rmeswnci.properties");
+		this.loadIfExists(props, "rmeswncz.properties");
+		this.loadIfExists(props, "rmeswncd.properties");
+		this.loadIfExists(props, "production.properties");
 		return props;
 	}
 
 	/*
 	 * load properties on catalina base
 	 */
-	public Properties loadIfExists(Properties props, String filename) throws IOException {
+	private Properties loadIfExists(Properties props, String filename) throws IOException {
 		File f;
 		f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
 		if (f.exists() && !f.isDirectory()) {
