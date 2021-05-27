@@ -43,6 +43,9 @@ public class Log4jInseeServletContainerInitializer extends Log4jServletContainer
 
 		return Stream.of(Paths.get(String.format(WEBAPPS, System.getProperty(CATALINA_BASE), "production.properties")),
 						Paths.get(String.format(WEBAPPS, System.getProperty(CATALINA_BASE), "rmes-api.properties")),
+						Paths.get(String.format(WEBAPPS, System.getProperty(CATALINA_BASE), "rmeswnci.properties")),
+						Paths.get(String.format(WEBAPPS, System.getProperty(CATALINA_BASE), "rmeswncz.properties")),
+						Paths.get(String.format(WEBAPPS, System.getProperty(CATALINA_BASE), "rmeswncd.properties")),
 						devPropsInClassPath)
 				.filter(Objects::nonNull)
 				.map(p -> PropertiesUtils.readPropertyFromPath("fr.insee.rmes.api.log.configuration", p))
