@@ -1,4 +1,4 @@
-3.0.1 : Changement des properties poru correspondre à ce qui a été défini en production
+3.0.1 : Changement des properties pour correspondre à ce qui a été défini en production
 3.0.0 : Ajout des services opérations statistiques pour Web4G
 2.0.4 : Ajout des services géographie zonages d'étude (zones d'emploi, unités urbaines, aires d'attraction). Services nomenclatures et opérations toujours cachés.
 2.0.3 : Services nomenclatures cachés pour le portail. Corrections des services concepts pour ouverture sur le portail des API.
