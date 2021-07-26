@@ -71,11 +71,7 @@ class OperationsApiServiceTest  {
     	 	.thenReturn(MOCK_CSV_GET_DOCUMENTS_EMPTY)//get documents fr 
     	 	.thenReturn(MOCK_CSV_GET_DOCUMENTS_EMPTY);//get documents en
     	 List<Rubrique> liste = operationsApiService.getListRubriques("1774");
-    //	 assertTrue(EXPECTED_RUBRICS.equals(liste));
-    	 Assertions.assertEquals(EXPECTED_RUBRICS,liste);
-    	// Assertions.assertArrayEquals(EXPECTED_RUBRICS.toArray(), liste.toArray());
-    	// assertSame(EXPECTED_RUBRICS, liste);
-       //  assertThat(liste, containsExactlyInAnyOrder(EXPECTED_RUBRICS));
+     	 Assertions.assertEquals(EXPECTED_RUBRICS,liste);
     }
     
     

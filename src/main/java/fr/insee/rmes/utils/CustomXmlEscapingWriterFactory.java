@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.codehaus.stax2.io.EscapingWriterFactory;
 
 public class CustomXmlEscapingWriterFactory implements EscapingWriterFactory {
@@ -16,7 +15,7 @@ public Writer createEscapingWriterFor(final Writer out, String enc) {
             for (int i = off; i < len; i++) {
                 val += cbuf[i];
             }
-            String escapedStr =  StringEscapeUtils.unescapeXml(escapeHtml(val)); //convert special characters excluding xml tags
+            String escapedStr = escapeHtml(val); //convert special characters excluding xml tags
             out.write(escapedStr);
         }
 
@@ -36,8 +35,8 @@ public Writer createEscapingWriterFor(final Writer out, String enc) {
 		 return s.replace("&", "&amp;")
 				 .replace(">", "&gt;")
 				 .replace("<", "&lt;")
-				 .replace("\"", "&quot;")
-				 .replace("'", "&apos;");
+				 .replace("\"", "&quot;");
+				// .replace("'", "&apos;");
 	}
 
     public Writer createEscapingWriterFor(OutputStream out, String enc) {
