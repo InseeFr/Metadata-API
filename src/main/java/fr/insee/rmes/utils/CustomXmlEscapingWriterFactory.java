@@ -7,15 +7,18 @@ import java.io.Writer;
 import org.codehaus.stax2.io.EscapingWriterFactory;
 
 public class CustomXmlEscapingWriterFactory implements EscapingWriterFactory {
+	
+	
 public Writer createEscapingWriterFor(final Writer out, String enc) {
     return new Writer(){
         @Override
         public void write(char[] cbuf, int off, int len) throws IOException {
+        	//WARN : the cbuf contains only part of the string = can't validate xml here
             String val = "";
             for (int i = off; i < len; i++) {
                 val += cbuf[i];
             }
-            String escapedStr = escapeHtml(val); //convert special characters excluding xml tags
+            String escapedStr = encodeXml(escapeHtml(val)); //encode manually some xml tags
             out.write(escapedStr);
         }
 
@@ -31,12 +34,19 @@ public Writer createEscapingWriterFor(final Writer out, String enc) {
       };
     }
 
+
 	private String escapeHtml(String s) {
 		 return s.replace("&", "&amp;")
 				 .replace(">", "&gt;")
 				 .replace("<", "&lt;")
 				 .replace("\"", "&quot;");
-				// .replace("'", "&apos;");
+	}
+	
+	private String encodeXml(String s) {
+		 return s.replaceAll("&lt;([a-zA-Z]+)&gt;", "<$1>") //xml open tag
+				 .replaceAll("&lt;/([a-zA-Z]+)&gt;", "</$1>") //xml close tag
+				 .replaceAll("&lt;([a-zA-Z]+)/&gt;", "<$1/>") //br
+				 .replaceAll("&lt;([a-zA-Z]+) /&gt;", "<$1 />"); //br with space
 	}
 
     public Writer createEscapingWriterFor(OutputStream out, String enc) {
