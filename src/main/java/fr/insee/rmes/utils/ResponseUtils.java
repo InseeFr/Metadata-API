@@ -78,6 +78,7 @@ public class ResponseUtils {
     }
     
     public String encodeXmlResponse(String response) {
+    	response = XmlUtils.encodeXml(response);
     	return new String(response.getBytes(), StandardCharsets.UTF_8);
     }
     

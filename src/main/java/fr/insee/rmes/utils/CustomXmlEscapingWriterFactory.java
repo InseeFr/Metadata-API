@@ -18,7 +18,7 @@ public Writer createEscapingWriterFor(final Writer out, String enc) {
             for (int i = off; i < len; i++) {
                 val += cbuf[i];
             }
-            String escapedStr = encodeXml(escapeHtml(val)); //encode manually some xml tags
+            String escapedStr = XmlUtils.encodeXml(escapeHtml(val)); //encode manually some xml tags
             out.write(escapedStr);
         }
 
@@ -42,12 +42,7 @@ public Writer createEscapingWriterFor(final Writer out, String enc) {
 				 .replace("\"", "&quot;");
 	}
 	
-	private String encodeXml(String s) {
-		 return s.replaceAll("&lt;([a-zA-Z]+)&gt;", "<$1>") //xml open tag
-				 .replaceAll("&lt;/([a-zA-Z]+)&gt;", "</$1>") //xml close tag
-				 .replaceAll("&lt;([a-zA-Z]+)/&gt;", "<$1/>") //br
-				 .replaceAll("&lt;([a-zA-Z]+) /&gt;", "<$1 />"); //br with space
-	}
+
 
     public Writer createEscapingWriterFor(OutputStream out, String enc) {
         throw new IllegalArgumentException("not supported");
