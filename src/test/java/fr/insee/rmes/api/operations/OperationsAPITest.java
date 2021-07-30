@@ -2,7 +2,6 @@ package fr.insee.rmes.api.operations;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.operations.CsvIndicateur;
 import fr.insee.rmes.modeles.operations.CsvSerie;
-import fr.insee.rmes.modeles.operations.Famille;
-import fr.insee.rmes.modeles.operations.FamilyToOperation;
 import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 
 @ExtendWith(MockitoExtension.class)

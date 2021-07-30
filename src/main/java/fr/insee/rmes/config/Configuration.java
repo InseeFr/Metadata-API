@@ -61,8 +61,25 @@ public class Configuration {
         requiresSsl = Boolean.valueOf(props.getProperty("fr.insee.rmes.api.force.ssl"));
         swaggerUrl =
             (Boolean.TRUE.equals(requiresSsl) ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
+        
+        printMajorConfig();
 
     }
+    
+	public static void printMajorConfig() {
+		logger.info("*********************** CONFIG USED ***********************************");
+		
+		logger.info("SERVEUR RDF : {}",sparqlEndPoint);
+		
+		logger.info("DOCUMENT STORAGE : {}", fileStorageLocation);
+		
+		logger.info("SWAGGER URL : {}", swaggerUrl);
+		
+		logger.info("*********************** END CONFIG USED ***********************************");
+		
+		
+	}
+
 
     public static String getSparqlEndPoint() {
         return sparqlEndPoint;

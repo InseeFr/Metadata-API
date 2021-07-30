@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	id="rmes-api" version="3.0">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_4_0.xsd"
+	id="rmes-api" version="4.0">
 
 	<display-name>RMéS metadata API</display-name>
 
 	<!-- LOGS -->
-	<context-param>
-		<param-name>isLog4jAutoInitializationDisabled</param-name>
-		<param-value>true</param-value>
-	</context-param>
+	<absolute-ordering>
+		<others/>
+		<name>log4j</name>
+	</absolute-ordering>
 
 	<listener>
 		<listener-class>fr.insee.rmes.config.Configuration</listener-class>

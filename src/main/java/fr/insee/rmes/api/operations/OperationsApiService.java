@@ -76,7 +76,11 @@ public class OperationsApiService {
             		csvOperation.getLabelLg2(),
             		csvOperation.getSimsId());
                 o.setAltLabel(csvOperation.getAltlabelLg1(), csvOperation.getAltlabelLg2());
-                serieMap.get(csvOperation.getSeriesId()).addOperation(o);
+                if (csvOperation.getSeriesId() == null || serieMap.get(csvOperation.getSeriesId()) == null) {
+                	logger.error("No series find for operation {}, or series {} not in the tree", csvOperation.getId(), csvOperation.getSeriesId());
+                }else {
+                	serieMap.get(csvOperation.getSeriesId()).addOperation(o);
+                }
 			}
 		}
         

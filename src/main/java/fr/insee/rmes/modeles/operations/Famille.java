@@ -15,10 +15,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Objet représentant une famille d'opérations statistiques")
 public class Famille {
 
+	@Schema(example = "s23")
     private String id = null;
     private List<StringWithLang> label = new ArrayList<>();
 
-    @Schema(example = "http://id.insee.fr/operations/famille/s1")
+    @Schema(example = "http://id.insee.fr/operations/famille/s23")
     private String uri = null;
 
     @JsonInclude(Include.NON_NULL)
