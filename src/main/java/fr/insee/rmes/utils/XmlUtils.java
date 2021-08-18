@@ -3,7 +3,8 @@ package fr.insee.rmes.utils;
 public class XmlUtils {
 	
 	public static String encodeXml(String s) {
-		 return s.replaceAll("&lt;([a-zA-Z]+)&gt;", "<$1>") //xml open tag
+		 return s.replaceAll("&lt;&lt;([a-zA-Z]+)&gt;&gt;", "&lt;&lt; $1 &gt;&gt;") //<<texte>> => << texte >>
+				 .replaceAll("&lt;([a-zA-Z]+)&gt;", "<$1>") //xml open tag
 				 .replaceAll("&lt;([a-zA-Z]+) style=(&quot;|')(.*?)(&quot;|')&gt;", "<$1 style=\"$3\">") //open tag with style
 				 .replaceAll("&lt;/([a-zA-Z]+)&gt;", "</$1>") //xml close tag
 				 .replaceAll("&lt;([a-zA-Z]+)/&gt;", "<$1/>") //br
