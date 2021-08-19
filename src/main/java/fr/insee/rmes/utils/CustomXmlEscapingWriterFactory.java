@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.codehaus.stax2.io.EscapingWriterFactory;
 
 public class CustomXmlEscapingWriterFactory implements EscapingWriterFactory {
@@ -19,8 +18,7 @@ public Writer createEscapingWriterFor(final Writer out, String enc) {
             for (int i = off; i < len; i++) {
                 val += cbuf[i];
             }
-            String escapedStr = XmlUtils.encodeXml(escapeHtml(val)); //encode manually some xml tags
-            out.write(escapedStr);
+            out.write(val); //no transformation because of the buffer
         }
 
         @Override
@@ -34,17 +32,6 @@ public Writer createEscapingWriterFor(final Writer out, String enc) {
         }
       };
     }
-
-
-	private String escapeHtml(String s) {
-		 s = StringEscapeUtils.unescapeHtml4(s);
-		 return s.replace("&", "&amp;")
-				 .replace(">", "&gt;")
-				 .replace("<", "&lt;")
-				 .replace("\"", "&quot;");
-	}
-	
-
 
     public Writer createEscapingWriterFor(OutputStream out, String enc) {
         throw new IllegalArgumentException("not supported");
