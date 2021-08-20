@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.stax2.XMLOutputFactory2;
@@ -77,7 +78,16 @@ public class ResponseUtils {
         return response;
     }
     
+	private String escapeHtml(String s) {
+  		 s = StringEscapeUtils.unescapeHtml4(s);
+  		 return s.replace("&", "&amp;")
+  				 .replace(">", "&gt;")
+  				 .replace("<", "&lt;")
+  				 .replace("\"", "&quot;");
+  	}
+    
     public String encodeXmlResponse(String response) {
+    	response = escapeHtml(response);
     	response = XmlUtils.encodeXml(response);
     	return new String(response.getBytes(), StandardCharsets.UTF_8);
     }
