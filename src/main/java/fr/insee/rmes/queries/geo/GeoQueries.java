@@ -18,6 +18,7 @@ public class GeoQueries extends Queries {
     private static final String TYPE_ORIGINE = "typeOrigine";
     private static final String PREVIOUS = "previous";
     private static final String QUERIES_FOLDER = "geographie/";
+    private static final String FILTRE = "filtreNomCommune";
 
     /* IDENTIFICATION */
     public static String getZoneEmploiByCodeAndDate(String code, String date) {
@@ -61,8 +62,8 @@ public class GeoQueries extends Queries {
     }
 
     /* LIST */
-    public static String getListCommunes(String date) {
-        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COMMUNE);
+    public static String getListCommunes(String date,String filtreNomCommune,boolean com) {
+        return getTerritoireFiltre(Constants.NONE, date,filtreNomCommune, com, EnumTypeGeographie.COMMUNE);
     }
 
     public static String getListDepartements(String date) {
@@ -302,6 +303,22 @@ public class GeoQueries extends Queries {
         Map<String, Object> params = new HashMap<>();
         params.put(CODE, code);
         params.put(DATE, date);
+        return params;
+    }
+    
+    
+    private static String getTerritoireFiltre(String code, String date, String filtreNomCommune, boolean com, EnumTypeGeographie typeGeo) {
+        Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNomCommune);
+        params.put("territoire", typeGeo.getTypeObjetGeo());
+        params.put("chefLieu", typeGeo.getChefLieuPredicate());
+        return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDateAndFiltreNomCommune.ftlh", params);
+    } 
+    
+    private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNomCommune) {
+        Map<String, Object> params = new HashMap<>();
+        params.put(CODE, code);
+        params.put(DATE, date);
+        params.put(FILTRE, filtreNomCommune);
         return params;
     }
 
