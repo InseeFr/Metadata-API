@@ -4,11 +4,8 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			?uri a igeo:${territoire} ;
 				 igeo:codeArticle ?typeArticle ;
 				 igeo:nom ?intitule ;
-				 <#if com != "False">
-				 (igeo:subdivisionDirecteDe)+ <http://id.insee.fr/geo/pays/france>;
-				 </#if>
 				 igeo:nomSansArticle ?intituleSansArticle .
-			?uri igeo:codeINSEE ?code .
+				 ?uri igeo:codeINSEE ?code .
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
 					               igeo:date ?dateCreation .

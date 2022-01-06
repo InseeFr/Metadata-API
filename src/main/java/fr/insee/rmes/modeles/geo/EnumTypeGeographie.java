@@ -7,6 +7,7 @@ import fr.insee.rmes.modeles.geo.territoire.AireAttraction;
 import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
 import fr.insee.rmes.modeles.geo.territoire.ArrondissementMunicipal;
 import fr.insee.rmes.modeles.geo.territoire.Canton;
+import fr.insee.rmes.modeles.geo.territoire.CollectiviteDOutreMer;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.CommuneAssociee;
 import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
@@ -19,6 +20,7 @@ import fr.insee.rmes.modeles.geo.territoires.AiresAttraction;
 import fr.insee.rmes.modeles.geo.territoires.Arrondissements;
 import fr.insee.rmes.modeles.geo.territoires.ArrondissementsMunicipaux;
 import fr.insee.rmes.modeles.geo.territoires.Cantons;
+import fr.insee.rmes.modeles.geo.territoires.CollectivitesDOutreMer;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
 import fr.insee.rmes.modeles.geo.territoires.CommunesAssociees;
 import fr.insee.rmes.modeles.geo.territoires.CommunesDeleguees;
@@ -36,13 +38,14 @@ public enum EnumTypeGeographie {
 	DEPARTEMENT("Departement", Departement.class,Departements.class, "prefecture"),
 	ARRONDISSEMENT("Arrondissement", Arrondissement.class,Arrondissements.class, "sousPrefecture"),
 	CANTON("Canton", Canton.class,Cantons.class,Constants.NONE),
+	COLLECTIVITE_D_OUTRE_MER("CollectiviteDOutreMer", CollectiviteDOutreMer.class,CollectivitesDOutreMer.class, Constants.NONE),
 	COMMUNE_DELEGUEE("CommuneDeleguee", CommuneDeleguee.class,CommunesDeleguees.class,Constants.NONE),
 	COMMUNE_ASSOCIEE("CommuneAssociee", CommuneAssociee.class,CommunesAssociees.class,Constants.NONE),
 	ARRONDISSEMENT_MUNICIPAL("ArrondissementMunicipal",ArrondissementMunicipal.class,ArrondissementsMunicipaux.class, Constants.NONE),
 	ZONE_EMPLOI("ZoneDEmploi2020", ZoneEmploi.class,ZonesEmploi.class,Constants.NONE),
 	AIRE_ATTRACTION("AireDAttractionDesVilles2020",AireAttraction.class,AiresAttraction.class,Constants.NONE),
 	UNITE_URBAINE("UniteUrbaine2020", UniteUrbaine.class,UnitesUrbaines.class,Constants.NONE);
-
+	
 
 	private String typeObjetGeo;
 	private Class<? extends Territoire> classNameOfGeoType;

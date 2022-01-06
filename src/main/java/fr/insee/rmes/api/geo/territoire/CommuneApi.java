@@ -226,8 +226,8 @@ public class CommuneApi extends AbstractGeoApi {
                     value = Constants.PARAMETER_FILTRE) String filtreNomCommune,
         @Parameter(description = LITTERAL_PARAMETER_COM_DESCRIPTION,
                 required = false,
-                schema = @Schema(type = Constants.TYPE_BOOLEAN,example="False")) @QueryParam(
-                    value = Constants.PARAMETER_BOOLEAN) boolean com
+                schema = @Schema(type = Constants.TYPE_BOOLEAN,example="false")) @QueryParam(
+                    value = Constants.PARAMETER_STRING) String com
     		)
          {
 
