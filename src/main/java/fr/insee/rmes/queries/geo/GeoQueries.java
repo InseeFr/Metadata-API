@@ -66,10 +66,13 @@ public class GeoQueries extends Queries {
     /* LIST */
     public static String getListCommunes(String date,String filtreNomCommune,String com) {
         return getTerritoireFiltre(Constants.NONE, date,filtreNomCommune, EnumTypeGeographie.COMMUNE,com);
-    }
+    } 
 
     public static String getListCollectivitesDOutreMer(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER);
+    }
+    public static String getListCollectivitesDOutreMer(String date,String code) {
+        return getTerritoire(code, date, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER);
     }
     
     public static String getListDepartements(String date) {

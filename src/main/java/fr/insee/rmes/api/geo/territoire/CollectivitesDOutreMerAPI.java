@@ -43,15 +43,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	    private static Logger logger = LogManager.getLogger(CollectiviteDOutreMer.class);
 
 	    private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
+	    private static final String CODE_PATTERNCOM = "/{code: " + ConstGeoApi.PATTERN_COM + "}";
 	    private static final String LITTERAL_ID_OPERATION = "getcogcom";
 	    private static final String LITTERAL_OPERATION_SUMMARY =
-	        "Informations sur une commune française identifiée par son code (cinq caractères)";
-	    private static final String LITTERAL_RESPONSE_DESCRIPTION = "Commune";
+	        "Informations sur une collectivité d'outre-mer identifiée par son code (cinq caractères)";
+	    private static final String LITTERAL_RESPONSE_DESCRIPTION = "collectivité d'outre-mer";
 	    private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
-	        "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
+	        "Filtre pour renvoyer la collectivite d'outre-mer active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
 	    private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
-	    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom de la commune" ;
-	    private static final String LITTERAL_CODE_EXAMPLE = "14475";
+	    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom de la collectivite d'outre-mer" ;
+	    private static final String LITTERAL_CODE_EXAMPLE = "986";
 	    private static final String LITTERAL_PARAMETER_COM_DESCRIPTION="Filtre pour inclure ou pas les collectivités d’outre-mer";
 
 
@@ -94,4 +95,48 @@ import io.swagger.v3.oas.annotations.tags.Tag;
                    CollectiviteDOutreMer.class );
        }
    }
+	    
+	    
+	    @Path(ConstGeoApi.PATH_COM + CODE_PATTERNCOM)
+	    @GET
+	    @Produces({
+	        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+	    })
+	    @Operation(
+	        operationId = LITTERAL_ID_OPERATION,
+	        summary = LITTERAL_OPERATION_SUMMARY,
+	        responses = {
+	            @ApiResponse(
+	                content = @Content(schema = @Schema(implementation = Commune.class)),
+	                description = LITTERAL_RESPONSE_DESCRIPTION)
+	        })
+	    public Response getByCode(
+	        @Parameter(
+	            description = ConstGeoApi.PATTERN_COM_DESCRIPTION,
+	            required = true,
+	            schema = @Schema(
+	                pattern = ConstGeoApi.PATTERN_COM,
+	                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
+	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+	        @Parameter(
+	            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+	            required = false,
+	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+	                value = Constants.PARAMETER_DATE) String date) {
+
+	        logger.debug("Received GET request for commune {}", code);
+
+	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+	            return this.generateBadRequestResponse();
+	        }
+	        else {
+	            return this
+	                .generateResponseATerritoireByCode(
+	                    sparqlUtils
+	                        .executeSparqlQuery(
+	                            GeoQueries.getListCollectivitesDOutreMer(code, this.formatValidParameterDateIfIsNull(date))),
+	                    header,
+	                    new Commune(code));
+	        }
+	    }
 	}

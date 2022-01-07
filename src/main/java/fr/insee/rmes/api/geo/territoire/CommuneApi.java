@@ -48,7 +48,7 @@ public class CommuneApi extends AbstractGeoApi {
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
     private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom de la commune" ;
     private static final String LITTERAL_CODE_EXAMPLE = "14475";
-    private static final String LITTERAL_PARAMETER_COM_DESCRIPTION="Filtre pour inclure ou pas les collectivités d’outre-mer";
+    private static final String LITTERAL_PARAMETER_COM_DESCRIPTION="Ecrire true pour inclure les collectivités d’outre-mer";
     
     @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN)
     @GET
@@ -226,7 +226,7 @@ public class CommuneApi extends AbstractGeoApi {
                     value = Constants.PARAMETER_FILTRE) String filtreNomCommune,
         @Parameter(description = LITTERAL_PARAMETER_COM_DESCRIPTION,
                 required = false,
-                schema = @Schema(type = Constants.TYPE_BOOLEAN,example="false")) @QueryParam(
+                schema = @Schema(type = Constants.TYPE_STRING,example="false")) @QueryParam(
                     value = Constants.PARAMETER_STRING) String com
     		)
          {
@@ -240,7 +240,7 @@ public class CommuneApi extends AbstractGeoApi {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNomCommune),com)),
+                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNomCommune),this.formatValidParameterComIfIsNull(com))),
                     header,
                     Communes.class,
                     Commune.class);

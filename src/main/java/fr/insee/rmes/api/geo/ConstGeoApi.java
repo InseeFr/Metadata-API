@@ -19,6 +19,7 @@ public class ConstGeoApi {
     public static final String PATH_COMMUNE_ASSOCIEE = PATH_SEPARATOR + "communeAssociee";
     public static final String PATH_COMMUNE_DELEGUEE = PATH_SEPARATOR + "communeDeleguee";
     public static final String PATH_ARRONDISSEMENT_MUNICIPAL = PATH_SEPARATOR + "arrondissementMunicipal";
+    public static final String PATH_COM= PATH_SEPARATOR + "collectiviteDOutreMer";
     public static final String PATH_LISTE_COM= PATH_SEPARATOR +"collectivitesDOutreMer";
 
     public static final String PATH_LISTE_COMMUNE = PATH_SEPARATOR + "communes";
@@ -42,6 +43,7 @@ public class ConstGeoApi {
 
 
     public static final String PATTERN_COMMUNE = "[0-9][0-9AB][0-9]{3}";
+    public static final String PATTERN_COM ="9[78][1-9]";
     public static final String PATTERN_PAYS = "99[0-9]{3}";
     public static final String PATTERN_REGION = "[0-9]{2}";
     public static final String PATTERN_ZONE_EMPLOI = "[0-9]{4}";
@@ -52,6 +54,7 @@ public class ConstGeoApi {
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
 
     public static final String PATTERN_COMMUNE_DESCRIPTION = "Code de la commune (cinq caractères)";
+    public static final String PATTERN_COM_DESCRIPTION= "Code de la collectivite d'outre-mer";
     public static final String PATTERN_COMMUNE_ASSOCIEE_DESCRIPTION = "Code de la commune associée (cinq caractères)";
     public static final String PATTERN_COMMUNE_DELEGUEE_DESCRIPTION = "Code de la commune déléguée (cinq caractères)";
     public static final String PATTERN_ZONE_EMPLOI_DESCRIPTION = "Code de la zone d'emploi (quatre chiffres)";

@@ -84,6 +84,10 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     protected String formatValidParameterFiltreIfIsNull(String filtreNomCommune) {
         return (filtreNomCommune != null) ? filtreNomCommune : "*";
     } 
+    
+    protected String formatValidParameterComIfIsNull(String com) {
+        return (com != null) ? com : "*";
+    } 
 
     protected Response generateStatusResponse(boolean objectIsFound, Object o, String header) {
         if (objectIsFound) {

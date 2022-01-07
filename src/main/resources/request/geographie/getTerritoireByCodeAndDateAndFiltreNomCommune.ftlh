@@ -5,7 +5,12 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 				 igeo:codeArticle ?typeArticle ;
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
-				 ?uri igeo:codeINSEE ?code .
+<#if code != "none">
+			?uri igeo:codeINSEE '${code}' .
+			BIND('${code}' as ?code)
+<#else>
+			?uri igeo:codeINSEE ?code .
+</#if>
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
 					               igeo:date ?dateCreation .
