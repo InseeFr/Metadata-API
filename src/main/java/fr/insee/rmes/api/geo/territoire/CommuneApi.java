@@ -223,10 +223,10 @@ public class CommuneApi extends AbstractGeoApi {
                 description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
                 required = false,
                 schema = @Schema(type = Constants.TYPE_STRING, example="Bonnay")) @QueryParam(
-                    value = Constants.PARAMETER_FILTRE) String filtreNomCommune,
+                    value = Constants.PARAMETER_FILTRE) String filtreNom,
         @Parameter(description = LITTERAL_PARAMETER_COM_DESCRIPTION,
                 required = false,
-                schema = @Schema(type = Constants.TYPE_STRING,example="false")) @QueryParam(
+                schema = @Schema(type = Constants.TYPE_STRING,example="none")) @QueryParam(
                     value = Constants.PARAMETER_STRING) String com
     		)
          {
@@ -240,7 +240,7 @@ public class CommuneApi extends AbstractGeoApi {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNomCommune),this.formatValidParameterComIfIsNull(com))),
+                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterComIfIsNull(com))),
                     header,
                     Communes.class,
                     Commune.class);

@@ -1,10 +1,18 @@
 SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
+<#if com != "none">
 			?uri a igeo:${territoire} ;
 				 igeo:codeArticle ?typeArticle ;
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
+<#else>
+			?uri a igeo:${territoire} ;
+				 igeo:codeArticle ?typeArticle ;
+				 (igeo:subdivisionDirecteDe)+ <http://id.insee.fr/geo/pays/france>;
+				 igeo:nom ?intitule ;
+				 igeo:nomSansArticle ?intituleSansArticle .
+</#if>
 <#if code != "none">
 			?uri igeo:codeINSEE '${code}' .
 			BIND('${code}' as ?code)
@@ -35,17 +43,27 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 					FILTER(!BOUND(?dateCreationChefLieu) || ?dateCreationChefLieu <= '${date}'^^xsd:date)
 					FILTER(!BOUND(?dateSuppressionChefLieu) || ?dateSuppressionChefLieu > '${date}'^^xsd:date)
 				</#if>
+				
 			}
-<#if filtreNomCommune != "*">
-				BIND( '${filtreNomCommune}' AS ?query). 
+			#blabla#
+<#if filtreNom != "*">
+				BIND( '${filtreNom}' AS ?query). 
 				BIND (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?intitule), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "[-_\']", " "), "[^a-z0-9() ]", ""), "[ ]{2,}", " ") AS ?formattedNom) . 
 				BIND (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?intituleSansArticle), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "[-_']", " "), "[^a-z0-9() ]", ""), "[ ]{2,}", " ") AS ?formattedNomSansArticle) .
 				BIND (CONCAT("^", REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?query), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "([^/]+)[/]", "$1-sur-"),"([^\\\\]+)[\\\\]", "$1-sous-"), "[-_']", " "),"[^a-z0-9() ]", ""), "[ ]{2,}", " "), "^st(e)? ", "saint$1 "), "") AS ?formattedQuery) .
 				FILTER (REGEX(?formattedNom, ?formattedQuery) || REGEX(?formattedNomSansArticle, ?formattedQuery))
-				</#if>
-<#if date != "*">
+		<#if date != "*">
 			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
 			FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
+		</#if>
+		
+<#else>
+
+	<#if date != "*">
+				FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
+				FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
+	</#if>
+	
 </#if>
 		}
 				ORDER BY ?code

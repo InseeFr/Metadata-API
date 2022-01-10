@@ -139,4 +139,64 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	                    new Commune(code));
 	        }
 	    }
+	    
+	    
+	    @Path(ConstGeoApi.PATH_COM + CODE_PATTERNCOM + ConstGeoApi.PATH_DESCENDANT)
+	    @GET
+	    @Produces({
+	        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+	    })
+	    @Operation(
+	        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
+	        summary = "Informations concernant les territoires inclus dans la collectivite d'outre-mer",
+	        responses = {
+	            @ApiResponse(
+	                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+	                description = LITTERAL_RESPONSE_DESCRIPTION)
+	        })
+	    public Response getDescendants(
+	        @Parameter(
+	            description = ConstGeoApi.PATTERN_COM_DESCRIPTION,
+	            required = true,
+	            schema = @Schema(
+	                pattern = ConstGeoApi.PATTERN_COM,
+	                type = Constants.TYPE_STRING, example="986")) @PathParam(Constants.CODE) String code,
+	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+	        @Parameter(
+	            description ="Filtre pour renvoyer les territoires inclus dans la collectivité d'outre-mer active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+	            required = false,
+	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+	                value = Constants.PARAMETER_DATE) String date,
+	        @Parameter(
+	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION+ "( Commune ou District )",
+	            required = false,
+	            schema = @Schema(type = Constants.TYPE_STRING, example="CollectiviteDOutreMer")) @QueryParam(
+	                value = Constants.PARAMETER_TYPE) String typeTerritoire,
+	        @Parameter(
+	                description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
+	                required = false,
+	                schema = @Schema(type = Constants.TYPE_STRING, example="Noumea")) @QueryParam(
+	                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
+
+	        logger.debug("Received GET request for descendants of collectivite d'outre-mer {}", code);
+
+	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+	            return this.generateBadRequestResponse();
+	        }
+	        else {
+	            return this
+	                .generateResponseListOfTerritoire(
+	                    sparqlUtils
+	                        .executeSparqlQuery(
+	                            GeoQueries
+	                                .getDescendantsCollectiviteDOutreMer(
+	                                    code,
+	                                    this.formatValidParameterDateIfIsNull(date),
+	                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),filtreNom)),
+	                        			header,
+	                    Territoires.class,
+	                    Territoire.class);
+	        }
+	    }
+	    
 	}

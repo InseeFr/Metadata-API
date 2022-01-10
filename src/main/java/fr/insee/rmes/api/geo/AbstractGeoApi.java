@@ -81,8 +81,8 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         return (date != null) ? date : DateUtils.getDateTodayStringFormat();
     }
     
-    protected String formatValidParameterFiltreIfIsNull(String filtreNomCommune) {
-        return (filtreNomCommune != null) ? filtreNomCommune : "*";
+    protected String formatValidParameterFiltreIfIsNull(String filtreNom) {
+        return (filtreNom != null) ? filtreNom : "*";
     } 
     
     protected String formatValidParameterComIfIsNull(String com) {
