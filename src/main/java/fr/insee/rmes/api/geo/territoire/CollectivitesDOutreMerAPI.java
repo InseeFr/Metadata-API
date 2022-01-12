@@ -53,7 +53,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	    private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 	    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom de la collectivite d'outre-mer" ;
 	    private static final String LITTERAL_CODE_EXAMPLE = "986";
-	    private static final String LITTERAL_PARAMETER_COM_DESCRIPTION="Filtre pour inclure ou pas les collectivités d’outre-mer";
+
 
 
 	    @Path(ConstGeoApi.PATH_LISTE_COM)
@@ -107,7 +107,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	        summary = LITTERAL_OPERATION_SUMMARY,
 	        responses = {
 	            @ApiResponse(
-	                content = @Content(schema = @Schema(implementation = Commune.class)),
+	                content = @Content(schema = @Schema(implementation = CollectiviteDOutreMer.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
 	    public Response getByCode(
@@ -134,9 +134,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	                .generateResponseATerritoireByCode(
 	                    sparqlUtils
 	                        .executeSparqlQuery(
-	                            GeoQueries.getListCollectivitesDOutreMer(code, this.formatValidParameterDateIfIsNull(date))),
+	                            GeoQueries.getCollectiviteDOutreMerByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
 	                    header,
-	                    new Commune(code));
+	                    new CollectiviteDOutreMer(code));
 	        }
 	    }
 	    
@@ -160,7 +160,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	            required = true,
 	            schema = @Schema(
 	                pattern = ConstGeoApi.PATTERN_COM,
-	                type = Constants.TYPE_STRING, example="986")) @PathParam(Constants.CODE) String code,
+	                type = Constants.TYPE_STRING, example="987")) @PathParam(Constants.CODE) String code,
 	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
 	        @Parameter(
 	            description ="Filtre pour renvoyer les territoires inclus dans la collectivité d'outre-mer active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
@@ -170,10 +170,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	        @Parameter(
 	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION+ "( Commune ou District )",
 	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, example="CollectiviteDOutreMer")) @QueryParam(
+	            schema = @Schema(type = Constants.TYPE_STRING, example="Commune")) @QueryParam(
 	                value = Constants.PARAMETER_TYPE) String typeTerritoire,
 	        @Parameter(
-	                description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
+	                description = "Filtre sur le nom du ou des territoires renvoyés",
 	                required = false,
 	                schema = @Schema(type = Constants.TYPE_STRING, example="Noumea")) @QueryParam(
 	                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
@@ -192,7 +192,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	                                .getDescendantsCollectiviteDOutreMer(
 	                                    code,
 	                                    this.formatValidParameterDateIfIsNull(date),
-	                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),filtreNom)),
+	                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom))),
 	                        			header,
 	                    Territoires.class,
 	                    Territoire.class);

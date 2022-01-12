@@ -40,8 +40,8 @@ public class GeoQueries extends Queries {
         return getTerritoire(code, date, EnumTypeGeographie.COMMUNE);
     }
     
-    public static String getListCollectivitesDOutreMer(String date,String code) {
-        return getTerritoire(code, date, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER);
+    public static String getCollectiviteDOutreMerByCodeAndDate(String code,String date) {
+        return getTerritoireFiltre(code, date,"*", EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,"*");
     }
 
     public static String getDepartementByCodeAndDate(String code, String date) {
@@ -143,8 +143,8 @@ public class GeoQueries extends Queries {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE,Constants.NONE,Constants.NONE, false);
     }
     
-    public static String getDescendantsCollectiviteDOutreMer(String code, String date, String type,String filtreCom) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER, filtreCom,"true",false);
+    public static String getDescendantsCollectiviteDOutreMer(String code, String date, String type,String filtreNom) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER, filtreNom,Constants.NONE,false);
     }
 
     public static String getDescendantsZoneEmploi(String code, String date, String type) {
@@ -159,8 +159,8 @@ public class GeoQueries extends Queries {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.UNITE_URBAINE,Constants.NONE,Constants.NONE, false);
     }
     
-    public static String getDescendantsDepartement(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT,Constants.NONE,Constants.NONE, false);
+    public static String getDescendantsDepartement(String code, String date, String type,String filtreNom) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT,filtreNom,Constants.NONE, false);
     }
 
     public static String getDescendantsRegion(String code, String date, String type) {
@@ -299,11 +299,11 @@ public class GeoQueries extends Queries {
         params.put(FILTRE, filtreNom);
         params.put(COM,com);
         params.put(ASCENDANT, String.valueOf(ascendant));
-        if (typeOrigine.getTypeObjetGeo() == "CollectiviteDOutreMer") {
+        /*if (typeOrigine.getTypeObjetGeo() == "CollectiviteDOutreMer") {
         	return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDateCOM.ftlh", params);
-        } else {
+        } else {*/
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
-        }
+        /*}*/
     }
 
     private static String getPreviousOrNextQuery(

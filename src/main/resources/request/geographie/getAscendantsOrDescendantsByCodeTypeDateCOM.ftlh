@@ -1,27 +1,28 @@
-SELECT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?cheflieu ?dateCreation ?dateSuppression
+SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
 WHERE {
 	{
-		SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle?cheflieu ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
+		SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?cheflieu ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
 		WHERE {
-			?parent a :${typeOrigine} ;
-				:codeINSEE '${code}' ;
-				(^:subdivisionDirecteDe)+ ?ressource .
+			?parent a igeo:CollectiviteDOutreMer ;
+				igeo:codeINSEE '${code}' ;
+				(^igeo:subdivisionDirecteDe)+ ?ressource .
 					?ressource a ?typeRDF;
-				a :${type};
-				:codeINSEE ?code ;
-				:codeArticle ?typeArticle ;
-				:nom ?intitule ;
-				:nomSansArticle ?intituleSansArticle .
-			BIND(STR(?typeRDF) AS ?type).
-			BIND(STR(?ressource) AS ?uri).
-			OPTIONAL {?ressource ((:sousPrefecture|:prefecture|:prefectureDeRegion)/:codeINSEE) ?cheflieu.}
-			OPTIONAL {?parent (^:creation/:date) ?dateCreationParent.}
-			OPTIONAL {?parent (^:suppression/:date) ?dateSuppressionParent.}
-			OPTIONAL {?ressource (^:creation/:date) ?dateCreation.}
-			OPTIONAL {?ressource (^:suppression/:date) ?dateSuppression.}
+				a igeo:${type};
+				igeo:codeINSEE ?code ;
+				a ?type ;
+				igeo:codeArticle ?typeArticle ;
+				igeo:nom ?intitule ;
+				igeo:nomSansArticle ?intituleSansArticle .
+				BIND(STR(?ressource) AS ?uri).
+			OPTIONAL {?ressource ((igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion)/igeo:codeINSEE) ?cheflieu.}
+			OPTIONAL {?parent (^igeo:creation/igeo:date) ?dateCreationParent.}
+			OPTIONAL {?parent (^igeo:suppression/igeo:date) ?dateSuppressionParent.}
+			OPTIONAL {?ressource (^igeo:creation/igeo:date) ?dateCreation.}
+			OPTIONAL {?ressource (^igeo:suppression/igeo:date) ?dateSuppression.}
+<#if filtreNom !='*'>
 			# ## Début du filtre sur le libellé ##
 			# La chaîne utilisateur dans une variable query
-			BIND('${filtreNom}' AS ?query). 
+			BIND('papeete' AS ?query). 
 			# Formattage du nom avec article pour comparaison non polluée par majuscules et accents
 			BIND (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?intitule), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "[-_\']", " "), "[^a-z0-9() ]", ""), "[ ]{2,}", " ") AS ?formattedNom) . 
 			# Formattage du nom sans article pour comparaison non polluée par majuscules et accents
@@ -31,6 +32,7 @@ WHERE {
 			# Filtrage par comparaison de la chaîne utilisateur formatée avec le nom formaté avec et sans article
 			FILTER (REGEX(?formattedNom, ?formattedQuery) || REGEX(?formattedNomSansArticle, ?formattedQuery))
 			## Fin du filtre sur le libellé ##
+</#if>
 		}
 	}
 	FILTER(!BOUND(?dateCreationParent) || ?dateCreationParent <= '${date}'^^xsd:date)
