@@ -54,7 +54,7 @@ public class ConstGeoApi {
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
 
     public static final String PATTERN_COMMUNE_DESCRIPTION = "Code de la commune (cinq caractères)";
-    public static final String PATTERN_COM_DESCRIPTION= "Code de la collectivite d'outre-mer";
+    public static final String PATTERN_COM_DESCRIPTION= "Code de la collectivite d'outre-mer (trois caractères)";
     public static final String PATTERN_COMMUNE_ASSOCIEE_DESCRIPTION = "Code de la commune associée (cinq caractères)";
     public static final String PATTERN_COMMUNE_DELEGUEE_DESCRIPTION = "Code de la commune déléguée (cinq caractères)";
     public static final String PATTERN_ZONE_EMPLOI_DESCRIPTION = "Code de la zone d'emploi (quatre chiffres)";

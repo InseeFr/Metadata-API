@@ -67,7 +67,7 @@ public class CollectiviteDOutreMer extends Territoire {
 
     @Override
     @JacksonXmlProperty(localName = "Type")
-    @Schema(example = "CollectiviteDOutreMer")
+    @Schema(example = "Commune")
     public String getType() {
         return type;
     }
@@ -75,7 +75,7 @@ public class CollectiviteDOutreMer extends Territoire {
     @Override
     @JacksonXmlProperty(localName = "DateCreation")
     @Schema(
-        description = "Date de création de la commune si elle n’existait pas au premier COG du 1er janvier 1943",
+        description = "Date de création de la commune/district si il/elle n’existait pas au premier COG du 1er janvier 1943",
         example = "1943-01-01")
     public String getDateCreation() {
         return dateCreation;
@@ -83,7 +83,7 @@ public class CollectiviteDOutreMer extends Territoire {
 
     @Override
     @JacksonXmlProperty(localName = "DateSuppression")
-    @Schema(description = "Date de suppression de la commune si elle a été supprimée. ", example = "2019-01-01")
+    @Schema(description = "Date de suppression de la commune/district si il/elle a été supprimé(e). ", example = "2019-01-01")
     public String getDateSuppression() {
         return dateSuppression;
     }

@@ -47,7 +47,7 @@ public enum EnumTypeGeographie {
 	ZONE_EMPLOI("ZoneDEmploi2020", ZoneEmploi.class,ZonesEmploi.class,Constants.NONE),
 	AIRE_ATTRACTION("AireDAttractionDesVilles2020",AireAttraction.class,AiresAttraction.class,Constants.NONE),
 	UNITE_URBAINE("UniteUrbaine2020", UniteUrbaine.class,UnitesUrbaines.class,Constants.NONE),
-	DISTRICT("Disctrict",District.class,Districts.class,Constants.NONE);
+	DISTRICT("District",District.class,Districts.class,Constants.NONE);
 
 	private String typeObjetGeo;
 	private Class<? extends Territoire> classNameOfGeoType;

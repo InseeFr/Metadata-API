@@ -1,19 +1,21 @@
-SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
+SELECT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?cheflieu
 WHERE {
 	{
-		SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?cheflieu ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
+		SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle?cheflieu ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
 		WHERE {
-			?parent a igeo:CollectiviteDOutreMer ;
+			?parent a igeo:${typeOrigine} ;
 				igeo:codeINSEE '${code}' ;
 				(^igeo:subdivisionDirecteDe)+ ?ressource .
-					?ressource a ?typeRDF;
+			?ressource a ?typeRDF;
+<#if type != 'none'>
 				a igeo:${type};
+</#if>				
 				igeo:codeINSEE ?code ;
-				a ?type ;
 				igeo:codeArticle ?typeArticle ;
 				igeo:nom ?intitule ;
 				igeo:nomSansArticle ?intituleSansArticle .
-				BIND(STR(?ressource) AS ?uri).
+			BIND(STR(?typeRDF) AS ?type).
+			BIND(STR(?ressource) AS ?uri).
 			OPTIONAL {?ressource ((igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion)/igeo:codeINSEE) ?cheflieu.}
 			OPTIONAL {?parent (^igeo:creation/igeo:date) ?dateCreationParent.}
 			OPTIONAL {?parent (^igeo:suppression/igeo:date) ?dateSuppressionParent.}
@@ -22,7 +24,7 @@ WHERE {
 <#if filtreNom !='*'>
 			# ## Début du filtre sur le libellé ##
 			# La chaîne utilisateur dans une variable query
-			BIND('papeete' AS ?query). 
+			BIND('${filtreNom}' AS ?query). 
 			# Formattage du nom avec article pour comparaison non polluée par majuscules et accents
 			BIND (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?intitule), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "[-_\']", " "), "[^a-z0-9() ]", ""), "[ ]{2,}", " ") AS ?formattedNom) . 
 			# Formattage du nom sans article pour comparaison non polluée par majuscules et accents

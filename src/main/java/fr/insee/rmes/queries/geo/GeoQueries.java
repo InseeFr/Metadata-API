@@ -299,11 +299,11 @@ public class GeoQueries extends Queries {
         params.put(FILTRE, filtreNom);
         params.put(COM,com);
         params.put(ASCENDANT, String.valueOf(ascendant));
-        /*if (typeOrigine.getTypeObjetGeo() == "CollectiviteDOutreMer") {
+        if (typeOrigine.getTypeObjetGeo() == "CollectiviteDOutreMer") {
         	return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDateCOM.ftlh", params);
-        } else {*/
+        } else {
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
-        /*}*/
+        }
     }
 
     private static String getPreviousOrNextQuery(

@@ -156,7 +156,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	        })
 	    public Response getDescendants(
 	        @Parameter(
-	            description = ConstGeoApi.PATTERN_COM_DESCRIPTION,
+	            description = "code de la commune ou du district (3 caractères)",
 	            required = true,
 	            schema = @Schema(
 	                pattern = ConstGeoApi.PATTERN_COM,
@@ -170,12 +170,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	        @Parameter(
 	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION+ "( Commune ou District )",
 	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, example="Commune")) @QueryParam(
+	            schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
 	                value = Constants.PARAMETER_TYPE) String typeTerritoire,
 	        @Parameter(
 	                description = "Filtre sur le nom du ou des territoires renvoyés",
 	                required = false,
-	                schema = @Schema(type = Constants.TYPE_STRING, example="Noumea")) @QueryParam(
+	                schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
 	                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
 
 	        logger.debug("Received GET request for descendants of collectivite d'outre-mer {}", code);
@@ -183,20 +183,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
 	            return this.generateBadRequestResponse();
 	        }
-	        else {
-	            return this
-	                .generateResponseListOfTerritoire(
-	                    sparqlUtils
-	                        .executeSparqlQuery(
-	                            GeoQueries
-	                                .getDescendantsCollectiviteDOutreMer(
-	                                    code,
-	                                    this.formatValidParameterDateIfIsNull(date),
-	                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom))),
-	                        			header,
-	                    Territoires.class,
-	                    Territoire.class);
-	        }
+			else {
+				return this.generateResponseListOfTerritoire(
+						sparqlUtils.executeSparqlQuery(GeoQueries.getDescendantsCollectiviteDOutreMer(code,
+								this.formatValidParameterDateIfIsNull(date),
+								this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),
+								this.formatValidParameterFiltreIfIsNull(filtreNom))),
+						header, Territoires.class, Territoire.class);
+			}
 	    }
 	    
 	}

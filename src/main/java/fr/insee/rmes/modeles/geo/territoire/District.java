@@ -12,7 +12,7 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@XmlRootElement(name = "Disctrict")
+@XmlRootElement(name = "District")
 @JacksonXmlRootElement(localName = "District")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant un district")
@@ -51,7 +51,7 @@ public class District extends Territoire {
 
     @Override
     @JacksonXmlProperty(isAttribute = true)
-    @Schema(example = "http://id.insee.fr/geo/commune/55323") /*to do changer adresse */
+    @Schema(example = "http://id.insee.fr/geo/district/78c18c16-2d63-486d-9ff0-e36e76a95718") /*to do changer adresse */
     public String getUri() {
         return uri;
     }
@@ -66,7 +66,7 @@ public class District extends Territoire {
 
     @Override
     @JacksonXmlProperty(localName = "Type")
-    @Schema(example = "Commune")
+    @Schema(example = "District")
     public String getType() {
         return type;
     }
