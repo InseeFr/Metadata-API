@@ -1,4 +1,4 @@
-SELECT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?cheflieu
+SELECT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
 WHERE {
 	{
 		SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle?cheflieu ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
@@ -14,7 +14,8 @@ WHERE {
 				igeo:codeArticle ?typeArticle ;
 				igeo:nom ?intitule ;
 				igeo:nomSansArticle ?intituleSansArticle .
-			BIND(STR(?typeRDF) AS ?type).
+            BIND(?typeRDF AS ?type).
+            FILTER(STR(?type) in("http://rdf.insee.fr/def/geo#Commune" , "http://rdf.insee.fr/def/geo#District") )
 			BIND(STR(?ressource) AS ?uri).
 			OPTIONAL {?ressource ((igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion)/igeo:codeINSEE) ?cheflieu.}
 			OPTIONAL {?parent (^igeo:creation/igeo:date) ?dateCreationParent.}
