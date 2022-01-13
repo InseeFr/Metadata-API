@@ -42,7 +42,7 @@ public class DepartementApi extends AbstractGeoApi {
         "Informations sur un departement identifié par son code (deux ou trois caractères)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Departement";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
-    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le Filtre sur le nom des territoires renvoyés" ;
+    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom des territoires renvoyés" ;
     private static final String LITTERAL_CODE_EXAMPLE = "22";
     private static final String LITTERAL_DATE_EXAMPLE = "1950-01-01";
 
