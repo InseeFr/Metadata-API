@@ -9,22 +9,17 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.CollectiviteDOutreMer;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.CollectivitesDOutreMer;
-import fr.insee.rmes.modeles.geo.territoires.Communes;
-import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,11 +33,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	
 	public class CollectivitesDOutreMerAPI extends AbstractGeoApi {
 
-	    private static final String LITTERAL_DATE_EXAMPLE = "1945-06-26";
+
 
 	    private static Logger logger = LogManager.getLogger(CollectiviteDOutreMer.class);
-
-	    private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
 	    private static final String CODE_PATTERNCOM = "/{code: " + ConstGeoApi.PATTERN_COM + "}";
 	    private static final String LITTERAL_ID_OPERATION = "getcogcom";
 	    private static final String LITTERAL_OPERATION_SUMMARY =
@@ -51,7 +44,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	    private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
 	        "Filtre pour renvoyer la collectivite d'outre-mer active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
 	    private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
-	    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom de la collectivite d'outre-mer" ;
 	    private static final String LITTERAL_CODE_EXAMPLE = "986";
 
 
