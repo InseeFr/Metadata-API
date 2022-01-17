@@ -115,32 +115,32 @@ public class GeoQueries extends Queries {
 
     /* ASCENDANT */
     public static String getAscendantsCommune(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE,Constants.NONE,Constants.NONE, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE,Constants.ABSENT,Constants.NONE, true);
     }
 
     public static String getAscendantsDepartement(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT,Constants.NONE,Constants.NONE, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT,Constants.ABSENT,Constants.NONE, true);
     }
 
     public static String getAscendantsCommuneDeleguee(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_DELEGUEE,Constants.NONE,Constants.NONE, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_DELEGUEE,Constants.ABSENT,Constants.NONE, true);
     }
 
     public static String getAscendantsCommuneAssociee(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_ASSOCIEE,Constants.NONE,Constants.NONE, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_ASSOCIEE,Constants.ABSENT,Constants.NONE, true);
     }
 
     public static String getAscendantsArrondissementMunicipal(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL,Constants.NONE,Constants.NONE, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL,Constants.ABSENT,Constants.NONE, true);
     }
 
     public static String getAscendantsArrondissement(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT,Constants.NONE,Constants.NONE, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT,Constants.ABSENT,Constants.NONE, true);
     }
 
     /* DESCENDANT */
     public static String getDescendantsCommune(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE,Constants.NONE,Constants.NONE, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE,Constants.ABSENT,Constants.NONE, false);
     }
     
     public static String getDescendantsCollectiviteDOutreMer(String code, String date, String type,String filtreNom) {
@@ -148,15 +148,15 @@ public class GeoQueries extends Queries {
     }
 
     public static String getDescendantsZoneEmploi(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ZONE_EMPLOI,Constants.NONE,Constants.NONE, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ZONE_EMPLOI,Constants.ABSENT,Constants.NONE, false);
     }
     
     public static String getDescendantsAireAttraction(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.AIRE_ATTRACTION,Constants.NONE,Constants.NONE, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.AIRE_ATTRACTION,Constants.ABSENT,Constants.NONE, false);
     }
     
     public static String getDescendantsUniteUrbaine(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.UNITE_URBAINE,Constants.NONE,Constants.NONE, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.UNITE_URBAINE,Constants.ABSENT,Constants.NONE, false);
     }
     
     public static String getDescendantsDepartement(String code, String date, String type,String filtreNom) {
@@ -164,11 +164,11 @@ public class GeoQueries extends Queries {
     }
 
     public static String getDescendantsRegion(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.REGION,Constants.NONE,Constants.NONE, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.REGION,Constants.ABSENT,Constants.NONE, false);
     }
 
     public static String getDescendantsArrondissement(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT, Constants.NONE,Constants.NONE,false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT, Constants.ABSENT,Constants.NONE,false);
     }
 
     // NEXT

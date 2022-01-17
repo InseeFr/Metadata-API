@@ -35,7 +35,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 
-	    private static Logger logger = LogManager.getLogger(CollectiviteDOutreMer.class);
+	    private static Logger logger = LogManager.getLogger(CollectivitesDOutreMerAPI.class);
 	    private static final String CODE_PATTERNCOM = "/{code: " + ConstGeoApi.PATTERN_COM + "}";
 	    private static final String LITTERAL_ID_OPERATION = "getcogcom";
 	    private static final String LITTERAL_OPERATION_SUMMARY =
@@ -116,7 +116,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 	                value = Constants.PARAMETER_DATE) String date) {
 
-	        logger.debug("Received GET request for commune {}", code);
+	        logger.debug("Received GET request for collectivite d'outre-mer {}", code);
 
 	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
 	            return this.generateBadRequestResponse();
@@ -152,7 +152,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	            required = true,
 	            schema = @Schema(
 	                pattern = ConstGeoApi.PATTERN_COM,
-	                type = Constants.TYPE_STRING, example="987")) @PathParam(Constants.CODE) String code,
+	                type = Constants.TYPE_STRING, example="LITTERAL_CODE_EXAMPLE")) @PathParam(Constants.CODE) String code,
 	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
 	        @Parameter(
 	            description ="Filtre pour renvoyer les territoires inclus dans la collectivité d'outre-mer active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
@@ -160,7 +160,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 	                value = Constants.PARAMETER_DATE) String date,
 	        @Parameter(
-	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION+ "( Commune ou District )",
+	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION+ "(Commune ou District)",
 	            required = false,
 	            schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
 	                value = Constants.PARAMETER_TYPE) String typeTerritoire,

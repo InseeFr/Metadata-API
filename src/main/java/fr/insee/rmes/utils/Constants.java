@@ -13,6 +13,7 @@ public class Constants {
     public static final String PARAMETER_FILTRE="filtreNom";
     public static final String PARAMETER_BOOLEAN="com";
     public static final String PARAMETER_STRING="com";
+    public static final String ABSENT="*";
 
     private Constants() {}
 }

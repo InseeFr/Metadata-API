@@ -38,8 +38,9 @@ public class District extends Territoire {
         String dateCreation,
         String dateSuppression,
         IntituleSansArticle intituleSansArticle,
-        String chefLieu) {
-        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
+        String typeArticle) {
+        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle);
+        this.setTypeArticle(typeArticle);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class District extends Territoire {
     @Override
     @JacksonXmlProperty(localName = "DateCreation")
     @Schema(
-        description = "Date de création du district si il n’existait pas au premier COG du 1er janvier 1943",
+        description = "Date de création du district s'il n’existait pas au premier COG du 1er janvier 1943",
         example = "1943-01-01")
     public String getDateCreation() {
         return dateCreation;
@@ -82,7 +83,7 @@ public class District extends Territoire {
 
     @Override
     @JacksonXmlProperty(localName = "DateSuppression")
-    @Schema(description = "Date de suppression du district si il a été supprimée. ", example = "2019-01-01")
+    @Schema(description = "Date de suppression du district s'il a été supprimée. ", example = "2019-01-01")
     public String getDateSuppression() {
         return dateSuppression;
     }

@@ -1,15 +1,15 @@
 SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
-<#if com != "none">
-			?uri a igeo:${territoire} ;
+<#if com != "true">
+				?uri a igeo:${territoire} ;
 				 igeo:codeArticle ?typeArticle ;
+				 (igeo:subdivisionDirecteDe)+ <http://id.insee.fr/geo/pays/france>;
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
 <#else>
-			?uri a igeo:${territoire} ;
+	 			?uri a igeo:${territoire} ;
 				 igeo:codeArticle ?typeArticle ;
-				 (igeo:subdivisionDirecteDe)+ <http://id.insee.fr/geo/pays/france>;
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
 </#if>
@@ -27,6 +27,7 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 				?evenementSuppression igeo:suppression ?uri ;
 					                  igeo:date ?dateSuppression.
 			}
+<#if chefLieu != "none"> 
 			OPTIONAL {
 				?uri igeo:${chefLieu} ?chefLieuRDF .
 				?chefLieuRDF igeo:codeINSEE ?chefLieu.
@@ -45,7 +46,7 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 				</#if>
 				
 			}
-			#blabla#
+</#if>
 <#if filtreNom != "*">
 				BIND( '${filtreNom}' AS ?query). 
 				BIND (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?intitule), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "[-_\']", " "), "[^a-z0-9() ]", ""), "[ ]{2,}", " ") AS ?formattedNom) . 

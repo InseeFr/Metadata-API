@@ -48,7 +48,7 @@ public class CommuneApi extends AbstractGeoApi {
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
     private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom de la commune" ;
     private static final String LITTERAL_CODE_EXAMPLE = "14475";
-    private static final String LITTERAL_PARAMETER_COM_DESCRIPTION="Ecrire true pour inclure les collectivités d’outre-mer";
+    private static final String LITTERAL_PARAMETER_COM_DESCRIPTION="Sélectionner \"true\" pour inclure les collectivités d’outre-mer";
     
     @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN)
     @GET
@@ -112,7 +112,7 @@ public class CommuneApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example="73035")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer les territoires contenant la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
@@ -226,7 +226,7 @@ public class CommuneApi extends AbstractGeoApi {
                     value = Constants.PARAMETER_FILTRE) String filtreNom,
         @Parameter(description = LITTERAL_PARAMETER_COM_DESCRIPTION,
                 required = false,
-                schema = @Schema(type = Constants.TYPE_STRING,example="none")) @QueryParam(
+                schema = @Schema(allowableValues = {"true","false"},example="false")) @QueryParam(
                     value = Constants.PARAMETER_STRING) String com
     		)
          {
@@ -240,7 +240,7 @@ public class CommuneApi extends AbstractGeoApi {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterComIfIsNull(com))),
+                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterFiltreIfIsNull(com))),
                     header,
                     Communes.class,
                     Commune.class);
