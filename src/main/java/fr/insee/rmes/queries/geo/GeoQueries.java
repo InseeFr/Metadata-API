@@ -41,13 +41,14 @@ public class GeoQueries extends Queries {
     }
     
     public static String getCollectiviteDOutreMerByCodeAndDate(String code,String date) {
-        return getTerritoireFiltre(code, date,"*", EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,"*");
+        return getTerritoireFiltre(code, date,"*", EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,"true");
     }
 
     public static String getDepartementByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.DEPARTEMENT);
     }
-
+    
+ 
     public static String getRegionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }

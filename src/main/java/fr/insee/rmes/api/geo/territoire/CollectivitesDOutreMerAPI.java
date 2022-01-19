@@ -152,7 +152,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	            required = true,
 	            schema = @Schema(
 	                pattern = ConstGeoApi.PATTERN_COM,
-	                type = Constants.TYPE_STRING, example="LITTERAL_CODE_EXAMPLE")) @PathParam(Constants.CODE) String code,
+	                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
 	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
 	        @Parameter(
 	            description ="Filtre pour renvoyer les territoires inclus dans la collectivité d'outre-mer active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
