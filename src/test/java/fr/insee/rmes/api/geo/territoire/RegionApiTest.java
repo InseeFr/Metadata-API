@@ -175,7 +175,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method
-        geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -187,7 +187,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -198,11 +198,11 @@ class RegionApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
+        response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null, null);
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -216,7 +216,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method header content = xml
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -224,7 +224,7 @@ class RegionApiTest extends AbstractApiTest {
     void givenGetRegionDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null, null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -236,7 +236,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method header content = xml
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -253,7 +253,7 @@ class RegionApiTest extends AbstractApiTest {
                 "something",
                 MediaType.APPLICATION_XML,
                 null,
-                EnumTypeGeographie.ARRONDISSEMENT.getTypeObjetGeo());
+                EnumTypeGeographie.ARRONDISSEMENT.getTypeObjetGeo(), null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -261,7 +261,7 @@ class RegionApiTest extends AbstractApiTest {
     void givenGetRegionDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque", null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 

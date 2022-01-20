@@ -18,6 +18,10 @@ public class GeoQueries extends Queries {
     private static final String TYPE_ORIGINE = "typeOrigine";
     private static final String PREVIOUS = "previous";
     private static final String QUERIES_FOLDER = "geographie/";
+    private static final String FILTRE = "filtreNom";
+    private static final String COM = "com";
+    
+    
 
     /* IDENTIFICATION */
     public static String getZoneEmploiByCodeAndDate(String code, String date) {
@@ -35,11 +39,19 @@ public class GeoQueries extends Queries {
     public static String getCommuneByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.COMMUNE);
     }
+    
+    public static String getCollectiviteDOutreMerByCodeAndDate(String code,String date) {
+        return getTerritoireFiltre(code, date,"*", EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,true);
+    }
 
     public static String getDepartementByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.DEPARTEMENT);
     }
-
+    
+    public static String getDistrictByCodeAndDate(String code,String date) {
+        return getTerritoireFiltre(code, date,"*",EnumTypeGeographie.DISTRICT,true);
+    }
+    
     public static String getRegionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }
@@ -61,10 +73,14 @@ public class GeoQueries extends Queries {
     }
 
     /* LIST */
-    public static String getListCommunes(String date) {
-        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COMMUNE);
-    }
+    public static String getListCommunes(String date,String filtreNom,boolean com) {
+        return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.COMMUNE,com);
+    } 
 
+    public static String getListCollectivitesDOutreMer(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER);
+    }
+    
     public static String getListDepartements(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.DEPARTEMENT);
     }
@@ -103,56 +119,64 @@ public class GeoQueries extends Queries {
 
     /* ASCENDANT */
     public static String getAscendantsCommune(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE,Constants.ABSENT,Constants.NONE, true);
     }
 
     public static String getAscendantsDepartement(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT,Constants.ABSENT,Constants.NONE, true);
+    }
+    
+    public static String getAscendantsDistrict(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DISTRICT,Constants.ABSENT,Constants.NONE,true);
     }
 
     public static String getAscendantsCommuneDeleguee(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_DELEGUEE, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_DELEGUEE,Constants.ABSENT,Constants.NONE, true);
     }
 
     public static String getAscendantsCommuneAssociee(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_ASSOCIEE, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_ASSOCIEE,Constants.ABSENT,Constants.NONE, true);
     }
 
     public static String getAscendantsArrondissementMunicipal(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL,Constants.ABSENT,Constants.NONE, true);
     }
 
     public static String getAscendantsArrondissement(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT, true);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT,Constants.ABSENT,Constants.NONE, true);
     }
 
     /* DESCENDANT */
     public static String getDescendantsCommune(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE,Constants.ABSENT,Constants.NONE, false);
+    }
+    
+    public static String getDescendantsCollectiviteDOutreMer(String code, String date, String type,String filtreNom) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER, filtreNom,Constants.NONE,false);
     }
 
     public static String getDescendantsZoneEmploi(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ZONE_EMPLOI, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ZONE_EMPLOI,Constants.ABSENT,Constants.NONE, false);
     }
     
     public static String getDescendantsAireAttraction(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.AIRE_ATTRACTION, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.AIRE_ATTRACTION,Constants.ABSENT,Constants.NONE, false);
     }
     
     public static String getDescendantsUniteUrbaine(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.UNITE_URBAINE, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.UNITE_URBAINE,Constants.ABSENT,Constants.NONE, false);
     }
     
-    public static String getDescendantsDepartement(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT, false);
+    public static String getDescendantsDepartement(String code, String date, String type,String filtreNom) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT,filtreNom,Constants.NONE, false);
     }
 
-    public static String getDescendantsRegion(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.REGION, false);
+    public static String getDescendantsRegion(String code, String date, String type,String filtreNom) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.REGION,filtreNom,Constants.NONE, false);
     }
 
     public static String getDescendantsArrondissement(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT, false);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT, Constants.ABSENT,Constants.NONE,false);
     }
 
     // NEXT
@@ -267,17 +291,29 @@ public class GeoQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getAllProjectionByTypeDate.ftlh", params);
     }
 
+    
+    
     private static String getAscendantOrDescendantsQuery(
         String code,
         String date,
         String type,
         EnumTypeGeographie typeOrigine,
+        String filtreNom,
+        String com,
         boolean ascendant) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
         params.put(TYPE, type);
         params.put(TYPE_ORIGINE, typeOrigine.getTypeObjetGeo());
+        params.put(FILTRE, filtreNom);
+        params.put(COM,com);
         params.put(ASCENDANT, String.valueOf(ascendant));
+//
+//        if (EnumTypeGeographie.DISTRICT.equals(typeOrigine)) {
+//        	return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDateDistrict.ftlh", params);
+//        }        
+//        else {
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
+  //      }
     }
 
     private static String getPreviousOrNextQuery(
@@ -292,16 +328,34 @@ public class GeoQueries extends Queries {
     }
 
     private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
-        Map<String, Object> params = buildCodeAndDateParams(code, date);
-        params.put("territoire", typeGeo.getTypeObjetGeo());
-        params.put("chefLieu", typeGeo.getChefLieuPredicate());
-        return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDate.ftlh", params);
+    	return getTerritoireFiltre(code,date,Constants.ABSENT,typeGeo,false);
     }
 
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
         Map<String, Object> params = new HashMap<>();
         params.put(CODE, code);
         params.put(DATE, date);
+        return params;
+    }
+    
+    
+    private static String getTerritoireFiltre(String code, String date, String filtreNom, EnumTypeGeographie typeGeo,boolean com) {
+        Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
+        params.put("territoire", typeGeo.getTypeObjetGeo());
+        params.put("chefLieu", typeGeo.getChefLieuPredicate());
+//        if (EnumTypeGeographie.DISTRICT.equals(typeGeo)) {
+//        	return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDateDistrict.ftlh", params);
+//        } else {
+        return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeDateNomcommune.ftlh", params);
+ //       }
+    } 
+    
+    private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNom, boolean com) {
+        Map<String, Object> params = new HashMap<>();
+        params.put(CODE, code);
+        params.put(DATE, date);
+        params.put(FILTRE, filtreNom);
+        params.put(COM, String.valueOf(com));
         return params;
     }
 

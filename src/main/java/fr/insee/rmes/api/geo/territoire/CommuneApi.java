@@ -46,9 +46,9 @@ public class CommuneApi extends AbstractGeoApi {
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
-
+    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom de la commune" ;
     private static final String LITTERAL_CODE_EXAMPLE = "14475";
-
+    private static final String LITTERAL_PARAMETER_COM_DESCRIPTION="Sélectionner \"true\" pour inclure les collectivités d’outre-mer";
     
     @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN)
     @GET
@@ -112,7 +112,7 @@ public class CommuneApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_COMMUNE,
-                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
+                type = Constants.TYPE_STRING, example="73035")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
         @Parameter(
             description = "Filtre pour renvoyer les territoires contenant la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
@@ -218,7 +218,19 @@ public class CommuneApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les communes actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
+                value = Constants.PARAMETER_DATE) String date,
+        @Parameter(
+                description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
+                required = false,
+                schema = @Schema(type = Constants.TYPE_STRING, example="Bonnay")) @QueryParam(
+                    value = Constants.PARAMETER_FILTRE) String filtreNom,
+        @Parameter(description = LITTERAL_PARAMETER_COM_DESCRIPTION,
+                required = false,
+                schema = @Schema(type = Constants.TYPE_BOOLEAN, allowableValues = {"true","false"},example="false", defaultValue = "false")) 
+        		@QueryParam(
+                    value = Constants.PARAMETER_STRING) Boolean com
+    		)
+         {
 
         logger.debug("Received GET request for all communes");
 
@@ -229,7 +241,7 @@ public class CommuneApi extends AbstractGeoApi {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date))),
+                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterBooleanIfIsNull(com))),
                     header,
                     Communes.class,
                     Commune.class);

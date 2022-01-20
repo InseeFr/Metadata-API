@@ -86,20 +86,20 @@ public class DepartementApiIntegrationTest {
         assertEquals(ConstantForIntegration.DEPARTEMENT_EXPECTED_RESPONSE_ASCENDANTS_XML, response.getEntity());
     }
 
-    @Test
+    @Test /*modifier suite a changement du nombre de variables */
     public void givengetDescendantsDepartements_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.DEPARTEMENT_MOCK_SERVER_RETURN_DESCENDANTS);
-        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_JSON, null, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.DEPARTEMENT_EXPECTED_RESPONSE_DESCENDANTS_JSON, response.getEntity());
     }
 
-    @Test
+    @Test /*modifier suite a changement du nombre de variables */
     public void givengetDescendantsDepartements_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.DEPARTEMENT_MOCK_SERVER_RETURN_DESCENDANTS);
-        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_XML, null, null);
+        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_XML, null, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.DEPARTEMENT_EXPECTED_RESPONSE_DESCENDANTS_XML, response.getEntity());
     }

@@ -256,7 +256,7 @@ class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method
-        geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null, null);/*modifier suite a changement du nombre de variables */
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -268,7 +268,7 @@ class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null, null);/*modifier suite a changement du nombre de variables */
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -279,11 +279,11 @@ class DepartementApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null, null);/*modifier suite a changement du nombre de variables */
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
+        response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null, null);/*modifier suite a changement du nombre de variables */
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -297,7 +297,7 @@ class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method header content = xml
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null, null);/*modifier suite a changement du nombre de variables */
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -305,7 +305,7 @@ class DepartementApiTest extends AbstractApiTest {
     void givenGetDepartementDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null, null);/*modifier suite a changement du nombre de variables */
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -317,7 +317,7 @@ class DepartementApiTest extends AbstractApiTest {
         list.add(new Departement());
 
         // Call method header content = xml
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null, null);/*modifier suite a changement du nombre de variables */
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -330,7 +330,7 @@ class DepartementApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         geoApi
-            .getDescendants("something", MediaType.APPLICATION_XML, null, EnumTypeGeographie.COMMUNE.getTypeObjetGeo());
+            .getDescendants("something", MediaType.APPLICATION_XML, null, EnumTypeGeographie.COMMUNE.getTypeObjetGeo(), null);/*modifier suite a changement du nombre de variables */
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -338,7 +338,7 @@ class DepartementApiTest extends AbstractApiTest {
     void givenGetDepartementDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque");
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, "unTypeQuelconque", null);/*modifier suite a changement du nombre de variables */
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
