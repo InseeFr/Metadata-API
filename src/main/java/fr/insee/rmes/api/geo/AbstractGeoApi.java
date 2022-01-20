@@ -85,6 +85,11 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         return (filtreNom != null) ? filtreNom : "*";
     } 
     
+    protected Boolean formatValidParameterBooleanIfIsNull(Boolean bool) {
+        return (bool != null) ? bool : false;
+    } 
+    
+    
 
     protected Response generateStatusResponse(boolean objectIsFound, Object o, String header) {
         if (objectIsFound) {

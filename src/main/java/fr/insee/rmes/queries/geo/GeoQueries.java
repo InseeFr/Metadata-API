@@ -41,7 +41,7 @@ public class GeoQueries extends Queries {
     }
     
     public static String getCollectiviteDOutreMerByCodeAndDate(String code,String date) {
-        return getTerritoireFiltre(code, date,"*", EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,"true");
+        return getTerritoireFiltre(code, date,"*", EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,true);
     }
 
     public static String getDepartementByCodeAndDate(String code, String date) {
@@ -49,7 +49,7 @@ public class GeoQueries extends Queries {
     }
     
     public static String getDistrictByCodeAndDate(String code,String date) {
-        return getTerritoireFiltre(code, date,"*",EnumTypeGeographie.DISTRICT,"true");
+        return getTerritoireFiltre(code, date,"*",EnumTypeGeographie.DISTRICT,true);
     }
     
     public static String getRegionByCodeAndDate(String code, String date) {
@@ -73,7 +73,7 @@ public class GeoQueries extends Queries {
     }
 
     /* LIST */
-    public static String getListCommunes(String date,String filtreNom,String com) {
+    public static String getListCommunes(String date,String filtreNom,boolean com) {
         return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.COMMUNE,com);
     } 
 
@@ -328,10 +328,7 @@ public class GeoQueries extends Queries {
     }
 
     private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
-        Map<String, Object> params = buildCodeAndDateParams(code, date);
-        params.put("territoire", typeGeo.getTypeObjetGeo());
-        params.put("chefLieu", typeGeo.getChefLieuPredicate());
-        return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDate.ftlh", params);
+    	return getTerritoireFiltre(code,date,Constants.ABSENT,typeGeo,false);
     }
 
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
@@ -342,7 +339,7 @@ public class GeoQueries extends Queries {
     }
     
     
-    private static String getTerritoireFiltre(String code, String date, String filtreNom, EnumTypeGeographie typeGeo,String com) {
+    private static String getTerritoireFiltre(String code, String date, String filtreNom, EnumTypeGeographie typeGeo,boolean com) {
         Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
         params.put("territoire", typeGeo.getTypeObjetGeo());
         params.put("chefLieu", typeGeo.getChefLieuPredicate());
@@ -353,12 +350,12 @@ public class GeoQueries extends Queries {
  //       }
     } 
     
-    private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNom, String com) {
+    private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNom, boolean com) {
         Map<String, Object> params = new HashMap<>();
         params.put(CODE, code);
         params.put(DATE, date);
         params.put(FILTRE, filtreNom);
-        params.put(COM,com);
+        params.put(COM, String.valueOf(com));
         return params;
     }
 
