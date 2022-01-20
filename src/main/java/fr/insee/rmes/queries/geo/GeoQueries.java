@@ -48,7 +48,10 @@ public class GeoQueries extends Queries {
         return getTerritoire(code, date, EnumTypeGeographie.DEPARTEMENT);
     }
     
- 
+    public static String getDistrictByCodeAndDate(String code,String date) {
+        return getTerritoireFiltre(code, date,"*",EnumTypeGeographie.DISTRICT,"true");
+    }
+    
     public static String getRegionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }
@@ -122,6 +125,10 @@ public class GeoQueries extends Queries {
     public static String getAscendantsDepartement(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT,Constants.ABSENT,Constants.NONE, true);
     }
+    
+    public static String getAscendantsDistrict(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DISTRICT,Constants.ABSENT,Constants.NONE,true);
+    }
 
     public static String getAscendantsCommuneDeleguee(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_DELEGUEE,Constants.ABSENT,Constants.NONE, true);
@@ -164,8 +171,8 @@ public class GeoQueries extends Queries {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT,filtreNom,Constants.NONE, false);
     }
 
-    public static String getDescendantsRegion(String code, String date, String type) {
-        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.REGION,Constants.ABSENT,Constants.NONE, false);
+    public static String getDescendantsRegion(String code, String date, String type,String filtreNom) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.REGION,filtreNom,Constants.NONE, false);
     }
 
     public static String getDescendantsArrondissement(String code, String date, String type) {
@@ -302,7 +309,11 @@ public class GeoQueries extends Queries {
         params.put(ASCENDANT, String.valueOf(ascendant));
         if (typeOrigine.getTypeObjetGeo() == "CollectiviteDOutreMer") {
         	return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDateCOM.ftlh", params);
-        } else {
+        } 
+        else if (typeOrigine.getTypeObjetGeo() == "District") {
+        	return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDateDistrict.ftlh", params);
+        }        
+        else {
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
         }
     }
@@ -337,7 +348,11 @@ public class GeoQueries extends Queries {
         Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
         params.put("territoire", typeGeo.getTypeObjetGeo());
         params.put("chefLieu", typeGeo.getChefLieuPredicate());
+        if (typeGeo.getTypeObjetGeo() == "District") {
+        	return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDateDistrict.ftlh", params);
+        } else {
         return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDateAndFiltreNomCommune.ftlh", params);
+        }
     } 
     
     private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNom, String com) {

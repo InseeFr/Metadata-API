@@ -148,7 +148,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	        })
 	    public Response getDescendants(
 	        @Parameter(
-	            description = "code de la commune ou du district (3 caractères)",
+	            description = "code de la collectivité d'outre-mer (3 caractères)",
 	            required = true,
 	            schema = @Schema(
 	                pattern = ConstGeoApi.PATTERN_COM,
