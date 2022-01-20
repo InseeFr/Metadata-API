@@ -307,15 +307,13 @@ public class GeoQueries extends Queries {
         params.put(FILTRE, filtreNom);
         params.put(COM,com);
         params.put(ASCENDANT, String.valueOf(ascendant));
-        if (typeOrigine.getTypeObjetGeo() == "CollectiviteDOutreMer") {
-        	return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDateCOM.ftlh", params);
-        } 
-        else if (typeOrigine.getTypeObjetGeo() == "District") {
-        	return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDateDistrict.ftlh", params);
-        }        
-        else {
+//
+//        if (EnumTypeGeographie.DISTRICT.equals(typeOrigine)) {
+//        	return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDateDistrict.ftlh", params);
+//        }        
+//        else {
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
-        }
+  //      }
     }
 
     private static String getPreviousOrNextQuery(
@@ -348,11 +346,11 @@ public class GeoQueries extends Queries {
         Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
         params.put("territoire", typeGeo.getTypeObjetGeo());
         params.put("chefLieu", typeGeo.getChefLieuPredicate());
-        if (typeGeo.getTypeObjetGeo() == "District") {
-        	return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDateDistrict.ftlh", params);
-        } else {
-        return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDateAndFiltreNomCommune.ftlh", params);
-        }
+//        if (EnumTypeGeographie.DISTRICT.equals(typeGeo)) {
+//        	return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDateDistrict.ftlh", params);
+//        } else {
+        return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeDateNomcommune.ftlh", params);
+ //       }
     } 
     
     private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNom, String com) {
