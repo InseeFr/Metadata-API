@@ -44,7 +44,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	    private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
 	        "Filtre pour renvoyer la collectivite d'outre-mer active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
 	    private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
-	    private static final String LITTERAL_CODE_EXAMPLE = "986";
+	    private static final String LITTERAL_CODE_EXAMPLE = "988";
 
 
 

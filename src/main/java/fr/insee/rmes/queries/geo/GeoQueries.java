@@ -78,7 +78,7 @@ public class GeoQueries extends Queries {
     } 
 
     public static String getListCollectivitesDOutreMer(String date) {
-        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER);
+        return getTerritoireFiltre(Constants.NONE, date,Constants.ABSENT, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,true);
     }
     
     public static String getListDepartements(String date) {
