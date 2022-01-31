@@ -25,7 +25,7 @@ WHERE {
 <#if filtreNom !='*'>
 			# ## Début du filtre sur le libellé ##
 			# La chaîne utilisateur dans une variable query
-			BIND('${filtreNom}' AS ?query). 
+			BIND("${filtreNom ?no_esc}" AS ?query). 
 			# Formattage du nom avec article pour comparaison non polluée par majuscules et accents
 			BIND (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?intitule), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "[-_\']", " "), "[^a-z0-9() ]", ""), "[ ]{2,}", " ") AS ?formattedNom) . 
 			# Formattage du nom sans article pour comparaison non polluée par majuscules et accents
