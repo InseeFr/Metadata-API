@@ -7,9 +7,7 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
 		
-<#if com != "true">
-				?uri (igeo:subdivisionDirecteDe)+ <http://id.insee.fr/geo/pays/france> .
-</#if>
+
 
 <#if code != "none">
 			?uri igeo:codeINSEE '${code}' .
@@ -18,6 +16,9 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			?uri igeo:codeINSEE ?code .
 </#if>
 
+<#if com != "true">
+filter(substr(?code,1,2) !='98')  filter(substr(?code,1,3) != "975"||"977"||"978") 
+</#if>
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
 					               igeo:date ?dateCreation .
