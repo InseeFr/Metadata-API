@@ -4,20 +4,17 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 		
 			 	 ?uri a igeo:${territoire} ;
 				 igeo:codeArticle ?typeArticle ;
+<#if com != "true">
+				(igeo:subdivisionDirecteDe/a) ?parent;  
+</#if>
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
-		
-<#if com != "true">
-				?uri (igeo:subdivisionDirecteDe)+ <http://id.insee.fr/geo/pays/france> .
-</#if>
-
 <#if code != "none">
 			?uri igeo:codeINSEE '${code}' .
 			BIND('${code}' as ?code)
 <#else>
 			?uri igeo:codeINSEE ?code .
 </#if>
-
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
 					               igeo:date ?dateCreation .
@@ -54,13 +51,14 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			BIND (CONCAT("^", REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?query), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "([^/]+)[/]", "$1-sur-"),"([^\\\\]+)[\\\\]", "$1-sous-"), "[-_']", " "),"[^a-z0-9() ]", ""), "[ ]{2,}", " "), "^st(e)? ", "saint$1 "), "") AS ?formattedQuery) .
 			FILTER (REGEX(?formattedNom, ?formattedQuery) || REGEX(?formattedNomSansArticle, ?formattedQuery))
 </#if>
-
+<#if com != "true">
+FILTER(REGEX(STR(?parent), "(Departement|Arrondissement)$"))
+</#if>
 <#if date != "*">
 			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
 			FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
 </#if>
 	
-
 		}
 		ORDER BY ?code
 		

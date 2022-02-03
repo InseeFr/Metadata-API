@@ -328,7 +328,7 @@ public class GeoQueries extends Queries {
     }
 
     private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
-    	return getTerritoireFiltre(code,date,Constants.ABSENT,typeGeo,false);
+    	return getTerritoireFiltre(code,date,Constants.ABSENT,typeGeo,true);
     }
 
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
