@@ -1,3 +1,6 @@
+3.1.0 : Ajout des services des collectivités d'Outre-mer (Geo)
+3.0.5 : Montée de version log4J
+3.0.4 : Montée de version log4J
 3.0.3 : Correction des régressions sur l'encodage des retours XML (documentation sims notamment)
 3.0.2 : Correction de l'encodage des retours XML (documentation sims notamment) et logs
 3.0.1 : Changement des properties pour correspondre à ce qui a été défini en production
