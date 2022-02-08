@@ -287,7 +287,7 @@ class CommuneApiTest extends AbstractApiTest {
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
-    @Test
+    @Test 
     void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock
@@ -295,11 +295,11 @@ class CommuneApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method
-        geoApi.getListe(MediaType.APPLICATION_JSON, null);
+        geoApi.getListe(MediaType.APPLICATION_JSON, null, null, null); /*modifier suite a changement du nombre de variables */
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
-    @Test
+    @Test 
     void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock
@@ -307,7 +307,7 @@ class CommuneApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method
-        geoApi.getListe(MediaType.APPLICATION_XML, null);
+        geoApi.getListe(MediaType.APPLICATION_XML, null, null, null); /*modifier suite a changement du nombre de variables */
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -318,11 +318,11 @@ class CommuneApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getListe(MediaType.APPLICATION_XML, null);
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, null, null, null);/*modifier suite a changement du nombre de variables */
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getListe(MediaType.APPLICATION_JSON, null);
+        response = geoApi.getListe(MediaType.APPLICATION_JSON, null, null, null);/*modifier suite a changement du nombre de variables */
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -338,7 +338,7 @@ class CommuneApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method header content = xml
-        geoApi.getListe(MediaType.APPLICATION_XML, date);
+        geoApi.getListe(MediaType.APPLICATION_XML, date, date, Boolean.TRUE);/*modifier suite a changement du nombre de variables */
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -346,7 +346,7 @@ class CommuneApiTest extends AbstractApiTest {
     void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi", null, null);/*modifier suite a changement du nombre de variables */
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 

@@ -1,52 +1,30 @@
-SELECT DISTINCT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
-FROM <http://rdf.insee.fr/graphes/geo/cog>
+SELECT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
+WHERE {
+	{
+		SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle?cheflieu ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
 		WHERE {
-			?origine a igeo:${typeOrigine} ;
-			       igeo:codeINSEE '${code}' .
-				   
-<#if ascendant = "true">
-			?origine igeo:subdivisionDirecteDe+ ?uri .
-<#else>
-			?uri igeo:subdivisionDirecteDe+ ?origine .
-</#if>				   
-				   
-			?uri igeo:codeINSEE ?code ;
-			     a ?type ;
-				 igeo:codeArticle ?typeArticle ;
-				 igeo:nom ?intitule ;
-				 igeo:nomSansArticle ?intituleSansArticle .
-				 
-<#if type != "none">
-			?uri a igeo:${type} .
-</#if>
-			
-			OPTIONAL {
-			 	?uri ((igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion)/igeo:codeINSEE) ?chefLieu.
-			}
-
-			OPTIONAL {
-				?evenementCreationOrigine igeo:creation ?origine ;
-					               igeo:date ?dateCreationOrigine.
-			}
-			OPTIONAL {
-				?evenementSuppressionOrigine igeo:suppression ?origine ;
-					                  igeo:date ?dateSuppressionOrigine.
-			}
-			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date)
-			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
-			
-			OPTIONAL {
-				?evenementCreation igeo:creation ?uri ;
-					               igeo:date ?dateCreation .
-			}
-			OPTIONAL {
-				?evenementSuppression igeo:suppression ?uri ;
-					                  igeo:date ?dateSuppression.
-			}
-			
-			
-			
+			?parent a igeo:${typeOrigine} ;
+				igeo:codeINSEE '${code}' ;
+				(^igeo:subdivisionDirecteDe)+ ?ressource .
+			?ressource a ?typeRDF;
+<#if type != 'none'>
+				a igeo:${type};
+</#if>				
+				igeo:codeINSEE ?code ;
+				igeo:codeArticle ?typeArticle ;
+				igeo:nom ?intitule ;
+				igeo:nomSansArticle ?intituleSansArticle .
+            BIND(?typeRDF AS ?type).
+            FILTER(STR(?type) in("http://rdf.insee.fr/def/geo#Commune" , "http://rdf.insee.fr/def/geo#District") )
+			BIND(STR(?ressource) AS ?uri).
+			OPTIONAL {?ressource ((igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion)/igeo:codeINSEE) ?cheflieu.}
+			OPTIONAL {?parent (^igeo:creation/igeo:date) ?dateCreationParent.}
+			OPTIONAL {?parent (^igeo:suppression/igeo:date) ?dateSuppressionParent.}
+			OPTIONAL {?ressource (^igeo:creation/igeo:date) ?dateCreation.}
+			OPTIONAL {?ressource (^igeo:suppression/igeo:date) ?dateSuppression.}
 <#if filtreNom !='*'>
+			# ## Début du filtre sur le libellé ##
+			# La chaîne utilisateur dans une variable query
 			BIND("${filtreNom ?no_esc}" AS ?query). 
 			# Formattage du nom avec article pour comparaison non polluée par majuscules et accents
 			BIND (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?intitule), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "[-_\']", " "), "[^a-z0-9() ]", ""), "[ ]{2,}", " ") AS ?formattedNom) . 
@@ -58,8 +36,11 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			FILTER (REGEX(?formattedNom, ?formattedQuery) || REGEX(?formattedNomSansArticle, ?formattedQuery))
 			## Fin du filtre sur le libellé ##
 </#if>
-			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
-			FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
-		
 		}
-		ORDER BY ?type ?code
+	}
+	FILTER(!BOUND(?dateCreationParent) || ?dateCreationParent <= '${date}'^^xsd:date)
+	FILTER(!BOUND(?dateSuppressionParent) || ?dateSuppressionParent > '${date}'^^xsd:date)
+	FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
+	FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
+}
+ORDER BY ?type ?code

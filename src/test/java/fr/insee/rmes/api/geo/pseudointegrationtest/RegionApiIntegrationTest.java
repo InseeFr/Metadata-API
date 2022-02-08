@@ -71,7 +71,7 @@ public class RegionApiIntegrationTest {
     public void givengetDescendantsRegions_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.REGION_MOCK_SERVER_RETURN_DESCENDANTS);
-        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_JSON, null, null);
+        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_JSON, null, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.REGION_EXPECTED_RESPONSE_DESCENDANTS_JSON, response.getEntity());
     }
@@ -80,7 +80,7 @@ public class RegionApiIntegrationTest {
     public void givengetDescendantsRegions_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.REGION_MOCK_SERVER_RETURN_DESCENDANTS);
-        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_XML, null, null);
+        Response response = geoApi.getDescendants(CODE, MediaType.APPLICATION_XML, null, null, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.REGION_EXPECTED_RESPONSE_DESCENDANTS_XML, response.getEntity());
     }

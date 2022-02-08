@@ -44,7 +44,7 @@ public class RegionApi extends AbstractGeoApi {
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
         "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
-
+    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom des territoires renvoyés" ;
     private static final String LITTERAL_CODE_EXAMPLE = "06";
     private static final String LITTERAL_CODE_HISTORY_EXAMPLE = "44";
 
@@ -120,7 +120,12 @@ public class RegionApi extends AbstractGeoApi {
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
-                value = Constants.PARAMETER_TYPE) String typeTerritoire) {
+                value = Constants.PARAMETER_TYPE) String typeTerritoire,	       
+        @Parameter(
+                description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
+                required = false,
+                schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
+                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
 
         logger.debug("Received GET request for descendants of region {}", code);
 
@@ -136,7 +141,7 @@ public class RegionApi extends AbstractGeoApi {
                                 .getDescendantsRegion(
                                     code,
                                     this.formatValidParameterDateIfIsNull(date),
-                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom))),
                     header,
                     Territoires.class,
                     Territoire.class);
