@@ -43,6 +43,10 @@ public class GeoQueries extends Queries {
     public static String getCollectiviteDOutreMerByCodeAndDate(String code,String date) {
         return getTerritoireFiltre(code, date,"*", EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,true);
     }
+    
+    public static String getCirconscriptionTerritorialeByCodeAndDate(String code,String date) {
+        return getTerritoireFiltre(code, date,"*", EnumTypeGeographie.CIRCONSCRIPTION_TERRITORIALE,true);
+    }
 
     public static String getDepartementByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.DEPARTEMENT);
@@ -128,6 +132,10 @@ public class GeoQueries extends Queries {
     
     public static String getAscendantsDistrict(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DISTRICT,Constants.ABSENT,Constants.NONE,true);
+    }
+    
+    public static String getAscendantsCirconscriptionTerritoriale(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.CIRCONSCRIPTION_TERRITORIALE,Constants.ABSENT,Constants.NONE,true);
     }
 
     public static String getAscendantsCommuneDeleguee(String code, String date, String type) {

@@ -8,6 +8,7 @@ public class ConstGeoApi {
     public static final String TAG_NAME = "geographie";
     public static final String TAG_DESCRIPTION = "Geographie API";
 
+    public static final String PATH_CIRCO_TER = PATH_SEPARATOR + "circonscriptionTerritoriale";
     public static final String PATH_COMMUNE = PATH_SEPARATOR + "commune";
     public static final String PATH_PAYS = PATH_SEPARATOR + "pays";
     public static final String PATH_REGION = PATH_SEPARATOR + "region";
@@ -44,6 +45,7 @@ public class ConstGeoApi {
 
 
     public static final String PATTERN_COMMUNE = "[0-9][0-9AB][0-9]{3}";
+    public static final String PATTERN_CIRCO_TER = "986[1-3]{2}";
     public static final String PATTERN_COM ="9[78][1-9]";
     public static final String PATTERN_DISTRICT ="9[78][1-9]{3}";
     public static final String PATTERN_PAYS = "99[0-9]{3}";
@@ -55,6 +57,7 @@ public class ConstGeoApi {
     public static final String PATTERN_ARRONDISSEMENT = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]";
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
 
+    public static final String PATTERN_CIRCO_TER_DESCRIPTION = "Code de la circonscription territoriale (cinq caractères)";
     public static final String PATTERN_COMMUNE_DESCRIPTION = "Code de la commune (cinq caractères)";
     public static final String PATTERN_COM_DESCRIPTION= "Code de la collectivité d'outre-mer (trois caractères)";
     public static final String PATTERN_COMMUNE_ASSOCIEE_DESCRIPTION = "Code de la commune associée (cinq caractères)";

@@ -33,7 +33,7 @@ public class CollectivitesDOutreMer  extends Territoires{
         return collectivitesDOutreMer;
     }
 
-    public void setCommunes(List<CollectiviteDOutreMer> collectivitesDOutreMer) {
+    public void setCollectivitesDOutreMer(List<CollectiviteDOutreMer> collectivitesDOutreMer) {
         this.collectivitesDOutreMer = collectivitesDOutreMer;
     }
 
