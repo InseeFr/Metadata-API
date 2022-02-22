@@ -12,7 +12,22 @@ WHERE {
 			 
 			 		
 			OPTIONAL {
-			 	?origine ((igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion)/igeo:codeINSEE) ?chefLieuOrigine .
+			 	?uri (igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion) ?chefLieuRDF .
+			 	?chefLieuRDF igeo:codeINSEE ?chefLieuOrigine .
+			 	
+			 	OPTIONAL {
+					?evenementCreationChefLieu igeo:creation ?chefLieuRDF ;
+					igeo:date ?dateCreationChefLieu .
+				}
+				OPTIONAL {
+					?evenementSuppressionChefLieu igeo:suppression ?chefLieuRDF ;
+					igeo:date ?dateSuppressionChefLieu.
+				}
+				
+				<#if date != "*">
+					FILTER(!BOUND(?dateCreationChefLieu) || ?dateCreationChefLieu <= '${date}'^^xsd:date)
+					FILTER(!BOUND(?dateSuppressionChefLieu) || ?dateSuppressionChefLieu > '${date}'^^xsd:date)
+				</#if>
 			}
 			       
 				   
@@ -56,7 +71,22 @@ WHERE {
 			}
 			
 			OPTIONAL {
-			 	?uri ((igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion)/igeo:codeINSEE) ?chefLieu.
+			 	?uri (igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion) ?chefLieuRDF .
+			 	?chefLieuRDF igeo:codeINSEE ?chefLieu .
+			 	
+			 	OPTIONAL {
+					?evenementCreationChefLieu igeo:creation ?chefLieuRDF ;
+					igeo:date ?dateCreationChefLieu .
+				}
+				OPTIONAL {
+					?evenementSuppressionChefLieu igeo:suppression ?chefLieuRDF ;
+					igeo:date ?dateSuppressionChefLieu.
+				}
+				
+				<#if date != "*">
+					FILTER(!BOUND(?dateCreationChefLieu) || ?dateCreationChefLieu <= '${date}'^^xsd:date)
+					FILTER(!BOUND(?dateSuppressionChefLieu) || ?dateSuppressionChefLieu > '${date}'^^xsd:date)
+				</#if>
 			}
 			
 			FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${dateProjection}'^^xsd:date)
