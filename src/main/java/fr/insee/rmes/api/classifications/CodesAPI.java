@@ -62,7 +62,8 @@ public class CodesAPI extends AbstractMetadataApi {
             required = true,
             description = "Identifiant de la catégorie juridique de niveau 2 (deux chiffres)", example="10") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for CJ 2nd level {}", code.replaceAll("[\n\r\t]", "_"));
+    	String formattedCode = formatParamToLog(code);
+        logger.debug("Received GET request for CJ 2nd level {}", formattedCode);
 
         CategorieJuridiqueNiveauII cjNiveau2 = new CategorieJuridiqueNiveauII(code);
         String csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauII(code));
@@ -87,7 +88,8 @@ public class CodesAPI extends AbstractMetadataApi {
             required = true,
             description = "Identifiant de la catégorie juridique de niveau 3 (quatre chiffres)", example="7112") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for CJ 3rd level {}", code.replaceAll("[\n\r\t]", "_"));
+    	String formattedCode = formatParamToLog(code);
+        logger.debug("Received GET request for CJ 3rd level {}", formattedCode);
 
 
         CategorieJuridiqueNiveauIII cjNiveau3 = new CategorieJuridiqueNiveauIII(code);
@@ -117,7 +119,9 @@ public class CodesAPI extends AbstractMetadataApi {
         @Parameter(
             description = "Date à laquelle la catégorie juridique est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)", example="2020-05-11") @QueryParam("date") String date,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for CJ 2nd level {} date: {}", code.replaceAll("[\n\r\t]", "_"), date);
+    	String formattedCode = formatParamToLog(code);
+    	String dateToString = (date == null ? "" : formatParamToLog(date));
+        logger.debug("Received GET request for CJ 2nd level {} date: {}", formattedCode, dateToString);
 
         String csvResult = "";
         if (date == null) {
@@ -164,7 +168,8 @@ public class CodesAPI extends AbstractMetadataApi {
             required = true,
             description = "Code de la sous-classe (deux chiffres, un point, deux chiffres et une lettre majuscule)", example="33.16Z") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for NAF sub-class {}", code.replaceAll("[\n\r\t]", "_"));
+    	String formattedCode = formatParamToLog(code);
+        logger.debug("Received GET request for NAF sub-class {}", formattedCode);
 
         //Check if element is not already in cache
         SousClasseNAF2008 sousClasse = cacheHelper.getSousClasseNaf2008CacheFromCacheManager().get(code);
@@ -200,7 +205,8 @@ public class CodesAPI extends AbstractMetadataApi {
             required = true,
             description = "Code de la classe (deux chiffres, un point, deux chiffres)", example = "46.66") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for NAF rev. 2 class {}", code.replaceAll("[\n\r\t]", "_"));
+    	String formattedCode = formatParamToLog(code);
+        logger.debug("Received GET request for NAF rev. 2 class {}", formattedCode);
 
         ClasseNAF2008 classe = new ClasseNAF2008(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Naf2008Queries.getClasseNAF2008(code));
@@ -229,7 +235,8 @@ public class CodesAPI extends AbstractMetadataApi {
             required = true,
             description = "Code de la classe (deux chiffres, un point, un chiffre, une lettre majuscule)", example = "28.1C") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for NAF rev. 1 class {}", code.replaceAll("[\n\r\t]", "_"));
+    	String formattedCode = formatParamToLog(code);
+        logger.debug("Received GET request for NAF rev. 1 class {}", formattedCode);
 
         ClasseNAF2003 classe = new ClasseNAF2003(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Naf2003Queries.getClasseNAF2003(code));
@@ -258,7 +265,8 @@ public class CodesAPI extends AbstractMetadataApi {
             required = true,
             description = "Code de la classe (deux chiffres, un point,  un chiffre, une lettre majuscule)", example = "28.1C") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for NAF class {}", code.replaceAll("[\n\r\t]", "_"));
+    	String formattedCode = formatParamToLog(code);
+    	logger.debug("Received GET request for NAF class {}", formattedCode);
 
         ClasseNAF1993 classe = new ClasseNAF1993(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Naf1993Queries.getClasseNAF1993(code));
@@ -287,7 +295,8 @@ public class CodesAPI extends AbstractMetadataApi {
             required = true,
             description = "Code du groupe (deux chiffres, un point, deux chiffres)", example="45.23") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for NA 1973 group {}", code.replaceAll("[\n\r\t]", "_"));
+    	String formattedCode = formatParamToLog(code);
+        logger.debug("Received GET request for NA 1973 group {}", formattedCode);
 
         GroupeNA1973 groupe = new GroupeNA1973(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Na1973Queries.getGroupeNA1973(code));
@@ -316,7 +325,10 @@ public class CodesAPI extends AbstractMetadataApi {
         @Parameter(
             description = "Date à laquelle l'activité est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)") @QueryParam("date") String date,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-        logger.debug("Received GET request for Activities {} date: {}", code.replaceAll("[\n\r\t]", "_"), date);
+    	
+    	String dateToString = (date == null ? "" : formatParamToLog(date));
+    	String formattedCode = formatParamToLog(code);
+        logger.debug("Received GET request for Activities {} date: {}", formattedCode , dateToString);
 
         String csvResult = "";
 
@@ -346,5 +358,9 @@ public class CodesAPI extends AbstractMetadataApi {
             return Response.ok(responseUtils.produceResponse(activityList, header)).build();
         }
     }
+
+	public String formatParamToLog(String code) {
+		return code.replaceAll("[\n\r\t]", "_");
+	}
 
 }
