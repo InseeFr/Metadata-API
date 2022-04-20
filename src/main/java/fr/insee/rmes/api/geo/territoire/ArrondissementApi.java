@@ -77,7 +77,7 @@ public class ArrondissementApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for arrondissement {}", code);
+        logger.debug("Received GET request for arrondissement {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -126,7 +126,7 @@ public class ArrondissementApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug("Received GET request for ascendants of arrondissement {}", code);
+        logger.debug("Received GET request for ascendants of arrondissement {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
@@ -179,7 +179,7 @@ public class ArrondissementApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING), example="CommuneDeleguee") @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug("Received GET request for descendants of arrondissement {}", code);
+        logger.debug("Received GET request for descendants of arrondissement {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
@@ -266,7 +266,7 @@ public class ArrondissementApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for suivant arrondissement {}", code);
+        logger.debug("Received GET request for suivant arrondissement {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -310,7 +310,7 @@ public class ArrondissementApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for precedent arrondissement {}", code);
+        logger.debug("Received GET request for precedent arrondissement {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();

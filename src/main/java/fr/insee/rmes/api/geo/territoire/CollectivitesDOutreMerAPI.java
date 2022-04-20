@@ -116,7 +116,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 	                value = Constants.PARAMETER_DATE) String date) {
 
-	        logger.debug("Received GET request for collectivite d'outre-mer {}", code);
+	        logger.debug("Received GET request for collectivite d'outre-mer {}", code.replaceAll("[\n\r\t]", "_"));
 
 	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
 	            return this.generateBadRequestResponse();
@@ -170,7 +170,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	                schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
 	                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
 
-	        logger.debug("Received GET request for descendants of collectivite d'outre-mer {}", code);
+	        logger.debug("Received GET request for descendants of collectivite d'outre-mer {}", code.replaceAll("[\n\r\t]", "_"));
 
 	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
 	            return this.generateBadRequestResponse();

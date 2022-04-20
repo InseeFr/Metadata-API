@@ -53,7 +53,7 @@ public class ClassificationApi extends AbstractMetadataApi {
 			@Parameter(required = true, description = "Identifiant de la nomenclature (hors cj)", example = "nafr2") @PathParam("code") String code,
 			@Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
 
-		logger.debug("Received GET request for classification {}", code);
+		logger.debug("Received GET request for classification {}", code.replaceAll("[\n\r\t]", "_"));
 
 		final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
 		final List<Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
@@ -80,7 +80,7 @@ public class ClassificationApi extends AbstractMetadataApi {
 	public Response getClassificationTreeByCode(
 			@Parameter(required = true, description = "Identifiant de la nomenclature (hors cj)", example = "nafr2") @PathParam("code") String code,
 			@Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
-		logger.debug("Received GET request for classification tree {}", code);
+		logger.debug("Received GET request for classification tree {}", code.replaceAll("[\n\r\t]", "_"));
 
 		final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
 		final List<? extends Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);

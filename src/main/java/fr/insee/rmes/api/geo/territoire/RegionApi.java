@@ -74,7 +74,7 @@ public class RegionApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for region {}", code);
+        logger.debug("Received GET request for region {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -127,7 +127,7 @@ public class RegionApi extends AbstractGeoApi {
                 schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                     value = Constants.PARAMETER_FILTRE) String filtreNom) {
 
-        logger.debug("Received GET request for descendants of region {}", code);
+        logger.debug("Received GET request for descendants of region {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
@@ -213,7 +213,7 @@ public class RegionApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for suivant region {}", code);
+        logger.debug("Received GET request for suivant region {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -257,7 +257,7 @@ public class RegionApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for precedent region {}", code);
+        logger.debug("Received GET request for precedent region {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();

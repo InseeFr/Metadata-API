@@ -73,7 +73,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for commune déléguée {}", code);
+        logger.debug("Received GET request for commune déléguée {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -122,7 +122,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug("Received GET request for ascendants of commune déléguée {}", code);
+        logger.debug("Received GET request for ascendants of commune déléguée {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();

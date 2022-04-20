@@ -74,7 +74,7 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
 					schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 							value = Constants.PARAMETER_DATE) String date) {
 
-		logger.debug("Received GET request for zone d'emploi {}", code);
+		logger.debug("Received GET request for zone d'emploi {}", code.replaceAll("[\n\r\t]", "_"));
 
 		if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
 			return this.generateBadRequestResponse();
@@ -122,7 +122,7 @@ public class ZoneEmploiApi  extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug("Received GET request for descendants of zone d'emploi {}", code);
+        logger.debug("Received GET request for descendants of zone d'emploi {}", code.replaceAll("[\n\r\t]", "_"));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
