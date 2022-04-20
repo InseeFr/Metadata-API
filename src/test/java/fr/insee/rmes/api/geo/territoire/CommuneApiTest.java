@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
+import fr.insee.rmes.config.CacheHelper;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 
@@ -289,6 +290,7 @@ class CommuneApiTest extends AbstractApiTest {
 
     @Test 
     void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    	CacheHelper.getInstance().cleanActualCommunesCache();
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -301,6 +303,7 @@ class CommuneApiTest extends AbstractApiTest {
 
     @Test 
     void givenGetListeCommune_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    	CacheHelper.getInstance().cleanActualCommunesCache();
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -313,6 +316,7 @@ class CommuneApiTest extends AbstractApiTest {
 
     @Test
     void givenGetListeCommune_WhenCorrectRequest_thenResponseIsNotFound() {
+    	CacheHelper.getInstance().cleanActualCommunesCache();
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
@@ -332,6 +336,7 @@ class CommuneApiTest extends AbstractApiTest {
     @ValueSource(strings = {"2000-01-01", "*"})
     @NullSource //default = current day
     void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsRight(String date) {
+    	CacheHelper.getInstance().cleanActualCommunesCache();
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
@@ -344,6 +349,7 @@ class CommuneApiTest extends AbstractApiTest {
 
     @Test
     void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsBad() {
+    	CacheHelper.getInstance().cleanActualCommunesCache();
 
         // Call method header content = xml
         Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi", null, null);/*modifier suite a changement du nombre de variables */

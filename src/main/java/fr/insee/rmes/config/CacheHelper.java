@@ -26,7 +26,7 @@ public final class CacheHelper {
     
 	private CacheManager cacheManager;
 
-    public static CacheHelper getInstance(){
+    public static synchronized CacheHelper getInstance(){
     	if(instance == null) {
             instance = new CacheHelper();
         }
@@ -48,6 +48,12 @@ public final class CacheHelper {
         return cacheManager.getCache("sousClasseNaf2008Cache", String.class, SousClasseNAF2008.class);
     }
 	
+	public void cleanSousClasseNaf2008Cache() {
+		logger.debug("clean SousClasseNaf2008Cache");
+		cacheManager.removeCache("sousClasseNaf2008Cache"); 
+		createSousClasseNaf2008Cache();
+	}
+	
 	
     /*******************************
      * Communes
@@ -65,11 +71,13 @@ public final class CacheHelper {
         return cacheManager.getCache("actualCommunesCache", String.class, String.class);
     }
 	
-/*	
-	private void removeCache(String cacheToRemove) {
-			cacheManager.removeCache(cacheToRemove); 
+	public void cleanActualCommunesCache() {
+		logger.debug("clean actualCommunesCache");
+		cacheManager.removeCache("actualCommunesCache"); 
+		createActualCommunesCache();
 	}
 	
+	/*
 	private void closeCacheManager() {
 			cacheManager.close(); 
 	}
