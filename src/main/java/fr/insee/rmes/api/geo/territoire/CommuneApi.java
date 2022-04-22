@@ -1,8 +1,5 @@
 package fr.insee.rmes.api.geo.territoire;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -240,28 +237,15 @@ public class CommuneApi extends AbstractGeoApi {
         if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
         }
-        boolean today = date == null || date.equals(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()));
-
-        String communesCsv = null;
-        
-        if (today) {        //Check if element is not already in cache
-        	communesCsv = cacheHelper.getActualCommunesCacheFromCacheManager().get("all");
-        }
-        
-        if (communesCsv == null) {
-        	communesCsv = sparqlUtils
-                    .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterBooleanIfIsNull(com)));
-        	if (today) {   //store list in cache
-        		cacheHelper.getActualCommunesCacheFromCacheManager().put("all", communesCsv);
-        	}
-        }	
+        else {
             return this
                 .generateResponseListOfTerritoire(
-                	communesCsv,
+                    sparqlUtils
+                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterBooleanIfIsNull(com))),
                     header,
                     Communes.class,
                     Commune.class);
-        
+        }
     }
 
     @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)
