@@ -54,7 +54,7 @@ public class PaysApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example="99217")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
-        logger.debug("Received GET request for country {}", code.replaceAll("[\n\r\t]", "_"));
+        logger.debug(() -> "Received GET request for country "+  paramToLog(code));
 
         Country country = new Country(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCountry(code));

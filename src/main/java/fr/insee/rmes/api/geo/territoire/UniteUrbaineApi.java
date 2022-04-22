@@ -74,7 +74,7 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
 					schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 							value = Constants.PARAMETER_DATE) String date) {
 
-		logger.debug("Received GET request for unité urbaine {}", code.replaceAll("[\n\r\t]", "_"));
+		logger.debug(() -> "Received GET request for unité urbaine "+  paramToLog(code));
 
 		if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
 			return this.generateBadRequestResponse();
@@ -122,7 +122,7 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug("Received GET request for descendants of unité urbaine {}", code.replaceAll("[\n\r\t]", "_"));
+        logger.debug(() -> "Received GET request for descendants of unité urbaine "+  paramToLog(code));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();

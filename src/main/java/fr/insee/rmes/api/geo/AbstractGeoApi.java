@@ -86,7 +86,7 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     } 
     
     protected Boolean formatValidParameterBooleanIfIsNull(Boolean bool) {
-        return (bool != null) ? bool : false;
+        return bool != null;
     } 
     
     

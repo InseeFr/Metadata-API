@@ -72,13 +72,11 @@ public class AireAttractionApi  extends AbstractGeoApi {
 					required = false,
 					schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 							value = Constants.PARAMETER_DATE) String date) {
-
-		logger.debug("Received GET request for aire d'attraction {}", code.replaceAll("[\n\r\t]", "_"));
-
 		if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
 			return this.generateBadRequestResponse();
 		}
 		else {
+			logger.debug(() -> "Received GET request for aire d'attraction"+  paramToLog(code));
 			return this
 					.generateResponseATerritoireByCode(
 							sparqlUtils
@@ -121,7 +119,7 @@ public class AireAttractionApi  extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug("Received GET request for descendants of aire d'attraction {}", code.replaceAll("[\n\r\t]", "_"));
+        logger.debug(() -> "Received GET request for descendants of aire d'attraction "+ paramToLog(code));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();

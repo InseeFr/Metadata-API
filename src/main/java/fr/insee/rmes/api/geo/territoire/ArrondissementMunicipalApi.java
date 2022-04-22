@@ -78,7 +78,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for arrondissement municipal {}", code.replaceAll("[\n\r\t]", "_"));
+        logger.debug(() -> "Received GET request for arrondissement municipal "+paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -129,7 +129,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug("Received GET request for ascendants of arrondissement municipal {}", code.replaceAll("[\n\r\t]", "_"));
+        logger.debug(() -> "Received GET request for ascendants of arrondissement municipal "+paramToLog(code));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
@@ -218,7 +218,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for suivant arrondissement municipal {}", code.replaceAll("[\n\r\t]", "_"));
+        logger.debug(() -> "Received GET request for suivant arrondissement municipal "+paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -264,7 +264,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug("Received GET request for precedent arrondissement municipal {}", code.replaceAll("[\n\r\t]", "_"));
+        logger.debug(() -> "Received GET request for precedent arrondissement municipal "+paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
