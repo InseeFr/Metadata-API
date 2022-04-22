@@ -12,7 +12,9 @@ import fr.insee.rmes.modeles.classification.naf2008.SousClasseNAF2008;
 
 public final class CacheHelper {
 	
-    private static CacheHelper instance; //CacheHelper is a singleton
+    private static final String ACTUAL_COMMUNES_CACHE = "actualCommunesCache";
+	private static final String SOUS_CLASSE_NAF2008_CACHE = "sousClasseNaf2008Cache";
+	private static CacheHelper instance; //CacheHelper is a singleton
     private static Logger logger = LogManager.getLogger(CacheHelper.class);
 
     private CacheHelper() {
@@ -22,6 +24,8 @@ public final class CacheHelper {
         createSousClasseNaf2008Cache();
         createActualCommunesCache();
         logger.debug("All caches are initialized");
+        // For later : this is the method to close the cacheManager : cacheManager.close() 
+
     }
     
 	private CacheManager cacheManager;
@@ -39,18 +43,18 @@ public final class CacheHelper {
 	private void createSousClasseNaf2008Cache() {
 		logger.debug("Init cache sousClasseNaf2008Cache");
 		cacheManager
-          .createCache("sousClasseNaf2008Cache", CacheConfigurationBuilder
+          .createCache(SOUS_CLASSE_NAF2008_CACHE, CacheConfigurationBuilder
           .newCacheConfigurationBuilder(String.class, SousClasseNAF2008.class,ResourcePoolsBuilder.heap(800)));
 	}
 	
 	public Cache<String, SousClasseNAF2008> getSousClasseNaf2008CacheFromCacheManager() {
 		logger.debug("getSousClasseNaf2008CacheFromCacheManager");
-        return cacheManager.getCache("sousClasseNaf2008Cache", String.class, SousClasseNAF2008.class);
+        return cacheManager.getCache(SOUS_CLASSE_NAF2008_CACHE, String.class, SousClasseNAF2008.class);
     }
 	
 	public void cleanSousClasseNaf2008Cache() {
 		logger.debug("clean SousClasseNaf2008Cache");
-		cacheManager.removeCache("sousClasseNaf2008Cache"); 
+		cacheManager.removeCache(SOUS_CLASSE_NAF2008_CACHE); 
 		createSousClasseNaf2008Cache();
 	}
 	
@@ -62,26 +66,21 @@ public final class CacheHelper {
 	private void createActualCommunesCache() {
 		logger.debug("Init cache actualCommunesCache");
 		cacheManager
-          .createCache("actualCommunesCache", CacheConfigurationBuilder
+          .createCache(ACTUAL_COMMUNES_CACHE, CacheConfigurationBuilder
           .newCacheConfigurationBuilder(String.class, String.class,ResourcePoolsBuilder.heap(1)));
 	}
 
 	public Cache<String, String> getActualCommunesCacheFromCacheManager() {
 		logger.debug("getActualCommunesCacheFromCacheManager");
-        return cacheManager.getCache("actualCommunesCache", String.class, String.class);
+        return cacheManager.getCache(ACTUAL_COMMUNES_CACHE, String.class, String.class);
     }
 	
 	public void cleanActualCommunesCache() {
 		logger.debug("clean actualCommunesCache");
-		cacheManager.removeCache("actualCommunesCache"); 
+		cacheManager.removeCache(ACTUAL_COMMUNES_CACHE); 
 		createActualCommunesCache();
 	}
 	
-	/*
-	private void closeCacheManager() {
-			cacheManager.close(); 
-	}
-*/
 	
 	
 }
