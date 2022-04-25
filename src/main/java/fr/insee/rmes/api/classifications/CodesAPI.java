@@ -171,20 +171,12 @@ public class CodesAPI extends AbstractMetadataApi {
     	String formattedCode = formatParamToLog(code);
         logger.debug("Received GET request for NAF sub-class {}", formattedCode);
 
-        //Check if element is not already in cache
-        SousClasseNAF2008 sousClasse = cacheHelper.getSousClasseNaf2008CacheFromCacheManager().get(code);
-        
-        if(sousClasse == null) {
-        	sousClasse = new SousClasseNAF2008(code);
-        	String csvResult = sparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
-        	sousClasse = (SousClasseNAF2008) csvUtils.populatePOJO(csvResult, sousClasse);
+        SousClasseNAF2008 sousClasse = new SousClasseNAF2008(code);
+        String csvResult = sparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
+        sousClasse = (SousClasseNAF2008) csvUtils.populatePOJO(csvResult, sousClasse);
 
-	        if (sousClasse.getUri() == null) {
-	            return Response.status(Status.NOT_FOUND).entity("").build();
-	        }
-	        
-	        //Add element in cache
-	        cacheHelper.getSousClasseNaf2008CacheFromCacheManager().put(code, sousClasse);
+        if (sousClasse.getUri() == null) {
+            return Response.status(Status.NOT_FOUND).entity("").build();
         }
         return Response.ok(responseUtils.produceResponse(sousClasse, header)).build();
     }

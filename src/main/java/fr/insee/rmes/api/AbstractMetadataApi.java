@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.MediaType;
 
-import fr.insee.rmes.config.CacheHelper;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
 import fr.insee.rmes.utils.SparqlUtils;
@@ -30,14 +29,12 @@ public abstract class AbstractMetadataApi {
     protected CSVUtils csvUtils;
 
     protected ResponseUtils responseUtils;
-    
-    protected CacheHelper cacheHelper;
 
-    protected AbstractMetadataApi() {
+    public AbstractMetadataApi() {
+
         this.sparqlUtils = new SparqlUtils();
         this.csvUtils = new CSVUtils();
         this.responseUtils = new ResponseUtils();
-        this.cacheHelper = CacheHelper.getInstance();
     }
 
     /**

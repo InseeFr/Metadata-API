@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<name>Implementation of the RMéS metadata API</name>
 	
-	<version>3.2.0</version>
+	<version>3.2.1</version>
 	
 	<properties>
 		<title>API RM\u00e9S</title>
@@ -77,7 +77,6 @@
 		    	</exclusion>
 		    </exclusions>
 		</dependency>
-
 
 		<!-- LOGS -->
 		<dependency>
@@ -220,6 +219,11 @@
 		    </resource>
   		  </resources>   
   		<plugins>
+  		    <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-war-plugin</artifactId>
+	            <version>3.3.2</version>
+	        </plugin>
 			<plugin>
 			    <groupId>org.sonarsource.scanner.maven</groupId>
 			    <artifactId>sonar-maven-plugin</artifactId>
