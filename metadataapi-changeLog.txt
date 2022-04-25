@@ -1,3 +1,4 @@
+3.2.1 : Passage à Java 11
 3.2.0 : Ajout des services pour les circonscriptions territoriales (Geo)
 3.1.0 : Ajout des services des collectivités d'Outre-mer (Geo)
 3.0.5 : Montée de version log4J
