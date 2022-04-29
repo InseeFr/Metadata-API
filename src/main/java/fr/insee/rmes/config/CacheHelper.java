@@ -15,6 +15,7 @@ public final class CacheHelper {
     private static final String ACTUAL_COMMUNES_CACHE = "actualCommunesCache";
 	private static final String SOUS_CLASSE_NAF2008_CACHE = "sousClasseNaf2008Cache";
 	private static CacheHelper instance; //CacheHelper is a singleton
+
     private static Logger logger = LogManager.getLogger(CacheHelper.class);
 
     private CacheHelper() {
@@ -24,11 +25,12 @@ public final class CacheHelper {
         createSousClasseNaf2008Cache();
         createActualCommunesCache();
         logger.debug("All caches are initialized");
-        // For later : this is the method to close the cacheManager : cacheManager.close() 
 
+        // For later : this is the method to close the cacheManager : cacheManager.close() 
     }
     
 	private CacheManager cacheManager;
+
 
     public static synchronized CacheHelper getInstance(){
     	if(instance == null) {
@@ -80,7 +82,5 @@ public final class CacheHelper {
 		cacheManager.removeCache(ACTUAL_COMMUNES_CACHE); 
 		createActualCommunesCache();
 	}
-	
-	
-	
+
 }

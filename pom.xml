@@ -78,6 +78,7 @@
 		    </exclusions>
 		</dependency>
 
+
 		<!-- LOGS -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
