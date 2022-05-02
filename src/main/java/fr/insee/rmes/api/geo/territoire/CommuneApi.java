@@ -242,7 +242,7 @@ public class CommuneApi extends AbstractGeoApi {
             return this.generateBadRequestResponse();
         }
         boolean today = date == null || date.equals(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()));
-        boolean isCachable = today && StringUtils.isEmpty(filtreNom) && !com;
+        boolean isCachable = today && StringUtils.isEmpty(filtreNom) && !this.formatValidParameterBooleanIfIsNull(com);
 
         String communesCsv = null;
         
