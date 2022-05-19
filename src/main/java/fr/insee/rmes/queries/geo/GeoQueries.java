@@ -315,13 +315,8 @@ public class GeoQueries extends Queries {
         params.put(FILTRE, filtreNom);
         params.put(COM,com);
         params.put(ASCENDANT, String.valueOf(ascendant));
-//
-//        if (EnumTypeGeographie.DISTRICT.equals(typeOrigine)) {
-//        	return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDateDistrict.ftlh", params);
-//        }        
-//        else {
         return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
-  //      }
+
     }
 
     private static String getPreviousOrNextQuery(
@@ -351,11 +346,7 @@ public class GeoQueries extends Queries {
         Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
         params.put("territoire", typeGeo.getTypeObjetGeo());
         params.put("chefLieu", typeGeo.getChefLieuPredicate());
-//        if (EnumTypeGeographie.DISTRICT.equals(typeGeo)) {
-//        	return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeAndDateDistrict.ftlh", params);
-//        } else {
         return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeDateNomcommune.ftlh", params);
- //       }
     } 
     
     private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNom, boolean com) {

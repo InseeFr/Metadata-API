@@ -7,15 +7,15 @@
 	<packaging>war</packaging>
 	<name>Implementation of the RMéS metadata API</name>
 	
-	<version>3.2.0</version>
+	<version>3.3.0</version>
 	
 	<properties>
 		<title>API RM\u00e9S</title>
 		<description>API sur les m\u00e9tadonn\u00e9es de l'Insee</description>
 	
 		<!--  Dependencies' version -->
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 		<jersey.version>2.29.1</jersey.version>
 		<jackson.version>2.10.1</jackson.version>
 		<jakarta.version>4.0.3</jakarta.version>
@@ -30,7 +30,9 @@
 		
 		<!-- Configuration Sonar -->
 		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
-			src/main/java/fr/insee/rmes/modeles/**/*</sonar.exclusions>
+						  src/main/java/fr/insee/rmes/modeles/**/*,
+						  src/main/java/fr/insee/rmes/utils/XmlUtils.java
+		</sonar.exclusions>
 		<sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
 		<sonar.projectName>Metadata-API</sonar.projectName>
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -39,7 +41,7 @@
         <sonar.language>java</sonar.language>
         <version.maven-jacoco>0.8.5</version.maven-jacoco>
 		<version.maven-sonar>3.7.0.1746</version.maven-sonar>
-		<argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea -Dfile.encoding=UTF-8</argLine>
+		<argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
 
 	</properties>
 	
@@ -80,7 +82,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
+			<artifactId>log4j-slf4j18-impl</artifactId>
 			<version>${log.version}</version>
 		</dependency>
 
@@ -208,6 +210,11 @@
 		    </resource>
   		  </resources>   
   		<plugins>
+  		    <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-war-plugin</artifactId>
+	            <version>3.3.2</version>
+	        </plugin>
 			<plugin>
 			    <groupId>org.sonarsource.scanner.maven</groupId>
 			    <artifactId>sonar-maven-plugin</artifactId>
