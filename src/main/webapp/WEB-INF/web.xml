@@ -66,7 +66,7 @@
 		</init-param>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>fr.insee.rmes.config.SwaggerConfig</param-value>
+			<param-value>fr.insee.rmes.config.MetadataApiConfig</param-value>
 		</init-param>
 		<init-param>
 			<param-name>jersey.config.server.tracing.type</param-name>

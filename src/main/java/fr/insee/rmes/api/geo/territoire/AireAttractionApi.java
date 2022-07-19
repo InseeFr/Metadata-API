@@ -10,9 +10,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.AireAttraction;
@@ -31,8 +28,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Path(ConstGeoApi.PATH_GEO)
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class AireAttractionApi  extends AbstractGeoApi {
-
-	private static Logger logger = LogManager.getLogger(AireAttractionApi.class);
 
 	private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_AIRE_ATTRACTION + "}";
 	private static final String LITTERAL_ID_OPERATION = "getcogaav";
@@ -72,8 +67,6 @@ public class AireAttractionApi  extends AbstractGeoApi {
 					required = false,
 					schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 							value = Constants.PARAMETER_DATE) String date) {
-
-		logger.debug("Received GET request for aire d'attraction {}", code);
 
 		if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
 			return this.generateBadRequestResponse();
@@ -121,8 +114,6 @@ public class AireAttractionApi  extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug("Received GET request for descendants of aire d'attraction {}", code);
-
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
         }
@@ -163,8 +154,6 @@ public class AireAttractionApi  extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug("Received GET request for all attraction areas");
 
         if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();

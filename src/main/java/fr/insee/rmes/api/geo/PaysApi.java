@@ -10,9 +10,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import fr.insee.rmes.modeles.geo.Country;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -27,7 +24,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class PaysApi extends AbstractGeoApi {
 
-    private static Logger logger = LogManager.getLogger(PaysApi.class);
 
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_PAYS + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogpays";
@@ -53,8 +49,6 @@ public class PaysApi extends AbstractGeoApi {
                 pattern = ConstGeoApi.PATTERN_PAYS,
                 type = Constants.TYPE_STRING, example="99217")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
-
-        logger.debug("Received GET request for country {}", code);
 
         Country country = new Country(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCountry(code));

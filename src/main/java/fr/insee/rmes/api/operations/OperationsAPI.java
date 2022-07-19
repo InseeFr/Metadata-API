@@ -17,8 +17,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.operations.CsvFamily;
@@ -42,7 +40,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "operations", description = "Operations API")
 public class OperationsAPI extends AbstractMetadataApi {
 
-    private static Logger logger = LogManager.getLogger(OperationsAPI.class);
     private OperationsApiService operationsApiService = new OperationsApiService();
     
     
@@ -64,8 +61,6 @@ public class OperationsAPI extends AbstractMetadataApi {
                 "insee.fr"
             }, type = "string")) @QueryParam("diffuseur") String diffuseur,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
-
-        logger.debug("Received GET request operations tree");
 
         String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getFamilies());
         List<CsvFamily> familyList = csvUtils.populateMultiPOJO(csvResult, CsvFamily.class);
@@ -110,8 +105,6 @@ public class OperationsAPI extends AbstractMetadataApi {
             schema = @Schema(pattern = "[0-9]{4}", type = "string"),
             example = "1979") @PathParam("id") String id,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
-        logger.debug("Received GET request documentation");
-
         String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getDocumentationTitle(id));
         DocumentationSims sims = new DocumentationSims();
         sims = (DocumentationSims) csvUtils.populatePOJO(csvResult, sims);
@@ -141,8 +134,6 @@ public class OperationsAPI extends AbstractMetadataApi {
             schema = @Schema(pattern = "s[0-9]{4}", type = "string"), 
             example = "s1223") @PathParam("idSeries") String idSeries,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
-        logger.debug("Received GET request series");
-
         String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getSeries(idSeries));
         CsvSerie csvSerie = new CsvSerie();
         csvSerie = (CsvSerie) csvUtils.populatePOJO(csvResult, csvSerie);
@@ -173,8 +164,6 @@ public class OperationsAPI extends AbstractMetadataApi {
             schema = @Schema(pattern = "p[0-9]{4}", type = "string"),
             example ="p1670") @PathParam("idIndicateur") String idIndicateur,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
-        logger.debug("Received GET request indicator");
-
         String csvResult = sparqlUtils.executeSparqlQuery(OperationsQueries.getIndicator(idIndicateur));
         CsvIndicateur csvIndic = new CsvIndicateur();
         csvIndic = (CsvIndicateur) csvUtils.populatePOJO(csvResult, csvIndic);

@@ -23,7 +23,7 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
 
 @ExtendWith(MockitoExtension.class)
-public class ZoneEmploiAPITest extends AbstractApiTest {
+class ZoneEmploiAPITest extends AbstractApiTest {
 
     @InjectMocks
     private ZoneEmploiApi geoApi;
