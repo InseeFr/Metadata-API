@@ -14,8 +14,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.concepts.Concept;
@@ -34,8 +32,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "concepts", description = "Concepts API")
 public class ConceptsAPI extends AbstractMetadataApi {
 
-	private static Logger logger = LogManager.getLogger(ConceptsAPI.class);
-
 	@Path("/definitions")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -46,8 +42,6 @@ public class ConceptsAPI extends AbstractMetadataApi {
 	public Response getConcepts(
 			@Parameter(description = "Recherche dans les libellés", schema = @Schema(type = "string"), example = "élect") @QueryParam("libelle") String libelle,
 			@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
-
-		logger.debug("Received GET request concepts");
 
 		String label = StringUtils.isEmpty(libelle) ? "" : libelle;
 
@@ -82,8 +76,6 @@ public class ConceptsAPI extends AbstractMetadataApi {
 	public Response getConceptById(
 			@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066") @PathParam("id") String id,
 			@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
-
-		logger.debug("Received GET request for Concept: {}", id);
 
 		Concept concept = new Concept(id);
 		String csvResult = sparqlUtils.executeSparqlQuery(ConceptsQueries.getConceptById(id));

@@ -10,9 +10,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
@@ -36,8 +33,6 @@ public class ArrondissementApi extends AbstractGeoApi {
 
     private static final String LITTERAL_DATE_PROJECTION_DESCRIPTION = "Date vers laquelle est projetée l'arrondissement. Paramètre obligatoire (erreur 400 si absent, Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION = "Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')";
-
-    private static Logger logger = LogManager.getLogger(ArrondissementApi.class);
 
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_ARRONDISSEMENT + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogarr";
@@ -76,8 +71,6 @@ public class ArrondissementApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug(() -> "Received GET request for arrondissement"+  paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -125,8 +118,6 @@ public class ArrondissementApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        logger.debug(() -> "Received GET request for ascendants of arrondissement"+  paramToLog(code));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
@@ -179,8 +170,6 @@ public class ArrondissementApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING), example="CommuneDeleguee") @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug(() -> "Received GET request for descendants of arrondissement"+  paramToLog(code));
-
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
         }
@@ -220,8 +209,6 @@ public class ArrondissementApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug("Received GET request for all arrondissements");
 
         if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
@@ -266,8 +253,6 @@ public class ArrondissementApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug(() -> "Received GET request for suivant arrondissement "+  paramToLog(code));
-
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
@@ -309,8 +294,6 @@ public class ArrondissementApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug(() -> "Received GET request for precedent arrondissement "+  paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -359,8 +342,6 @@ public class ArrondissementApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE), example="1994-07-30") @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
 
-        logger.debug("Received GET request for arrondissement {} projection", code);
-
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
@@ -406,8 +387,6 @@ public class ArrondissementApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        logger.debug("Received GET request for all arrondissements projections");
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();

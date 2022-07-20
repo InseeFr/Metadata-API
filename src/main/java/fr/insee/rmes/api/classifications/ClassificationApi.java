@@ -17,8 +17,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.classification.Poste;
@@ -39,7 +37,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class ClassificationApi extends AbstractMetadataApi {
 
-	private static Logger logger = LogManager.getLogger(ClassificationApi.class);
 
 	@Hidden
 	@GET
@@ -52,8 +49,6 @@ public class ClassificationApi extends AbstractMetadataApi {
 	public Response getClassificationByCode(
 			@Parameter(required = true, description = "Identifiant de la nomenclature (hors cj)", example = "nafr2") @PathParam("code") String code,
 			@Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
-
-		logger.debug(() -> "Received GET request for classification "+  paramToLog(code));
 
 		final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
 		final List<Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);
@@ -80,7 +75,6 @@ public class ClassificationApi extends AbstractMetadataApi {
 	public Response getClassificationTreeByCode(
 			@Parameter(required = true, description = "Identifiant de la nomenclature (hors cj)", example = "nafr2") @PathParam("code") String code,
 			@Parameter(hidden = true) @HeaderParam(value = HttpHeaders.ACCEPT) String header) {
-		logger.debug(() -> "Received GET request for classification tree "+  paramToLog(code));
 
 		final String csvResult = sparqlUtils.executeSparqlQuery(ClassificationsQueries.getClassification(code));
 		final List<? extends Poste> itemsList = csvUtils.populateMultiPOJO(csvResult, Poste.class);

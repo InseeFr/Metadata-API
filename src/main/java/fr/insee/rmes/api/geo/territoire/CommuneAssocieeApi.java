@@ -10,9 +10,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
@@ -33,7 +30,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class CommuneAssocieeApi extends AbstractGeoApi {
 
-    private static Logger logger = LogManager.getLogger(CommuneAssocieeApi.class);
 
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogcomass";
@@ -73,8 +69,6 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug(() -> "Received GET request for commune associée "+  paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -123,8 +117,6 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug(() -> "Received GET request for ascendants of commune associée "+  paramToLog(code));
-
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
         }
@@ -164,8 +156,6 @@ public class CommuneAssocieeApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug("Received GET request for all communes associées");
 
         if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();

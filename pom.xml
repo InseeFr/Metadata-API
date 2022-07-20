@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<name>Implementation of the RMéS metadata API</name>
 	
-	<version>3.2.2</version>
+	<version>3.3.0</version>
 	
 	<properties>
 		<title>API RM\u00e9S</title>
@@ -30,7 +30,9 @@
 		
 		<!-- Configuration Sonar -->
 		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
-			src/main/java/fr/insee/rmes/modeles/**/*</sonar.exclusions>
+						  src/main/java/fr/insee/rmes/modeles/**/*,
+						  src/main/java/fr/insee/rmes/utils/XmlUtils.java
+		</sonar.exclusions>
 		<sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
 		<sonar.projectName>Metadata-API</sonar.projectName>
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>

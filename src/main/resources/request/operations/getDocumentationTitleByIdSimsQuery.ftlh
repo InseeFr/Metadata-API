@@ -1,5 +1,5 @@
  SELECT ?id ?uri ?labelLg1 ?labelLg2 ?idCible ?cible ?labelCibleLg1 ?labelCibleLg2 
-             FROM <http://rdf.insee.fr/graphes/qualite/rapport/${ idSims}> 
+             FROM <http://rdf.insee.fr/graphes/qualite/rapport/${idSims}> 
              WHERE { 
              	?uri rdf:type sdmx-mm:MetadataReport .   
              		 

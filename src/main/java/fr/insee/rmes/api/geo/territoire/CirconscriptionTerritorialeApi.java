@@ -9,8 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.CirconscriptionTerritoriale;
@@ -31,8 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 public class CirconscriptionTerritorialeApi extends AbstractGeoApi {
 		
-		    private static Logger logger = LogManager.getLogger(CirconscriptionTerritorialeApi.class);
-		    private static final String CODE_PATTERNCIRCO_TER = "/{code: " + ConstGeoApi.PATTERN_CIRCO_TER + "}";
+			private static final String CODE_PATTERNCIRCO_TER = "/{code: " + ConstGeoApi.PATTERN_CIRCO_TER + "}";
 		    private static final String LITTERAL_ID_OPERATION = "getcogdistrict";
 		    private static final String LITTERAL_OPERATION_SUMMARY =
 		        "Informations sur une circonscription territoriale identifiée par son code (cinq caractères)";
@@ -69,8 +67,6 @@ public class CirconscriptionTerritorialeApi extends AbstractGeoApi {
 		            required = false,
 		            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 		                value = Constants.PARAMETER_DATE) String date) {
-
-		        logger.debug(() -> "Received GET request for collectivite d'outre-mer "+paramToLog(code));
 
 		        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
 		            return this.generateBadRequestResponse();
@@ -117,8 +113,6 @@ public class CirconscriptionTerritorialeApi extends AbstractGeoApi {
 		            required = false,
 		            schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
 		                value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-		        logger.debug(() -> "Received GET request for ascendants of circonscription territoriale "+paramToLog(code));
 
 		        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
 		            return this.generateBadRequestResponse();

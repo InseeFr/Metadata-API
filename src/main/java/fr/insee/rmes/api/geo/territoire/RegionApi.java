@@ -10,9 +10,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Region;
@@ -34,7 +31,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class RegionApi extends AbstractGeoApi {
 
-    private static Logger logger = LogManager.getLogger(RegionApi.class);
 
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_REGION + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogreg";
@@ -73,8 +69,6 @@ public class RegionApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug(() -> "Received GET request for region "+  paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -127,8 +121,6 @@ public class RegionApi extends AbstractGeoApi {
                 schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                     value = Constants.PARAMETER_FILTRE) String filtreNom) {
 
-        logger.debug(() -> "Received GET request for descendants of region "+  paramToLog(code));
-
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
         }
@@ -168,8 +160,6 @@ public class RegionApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug("Received GET request for all regions");
 
         if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
@@ -213,8 +203,6 @@ public class RegionApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug(() -> "Received GET request for suivant region "+  paramToLog(code));
-
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
@@ -256,8 +244,6 @@ public class RegionApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug(() -> "Received GET request for precedent region "+  paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -306,8 +292,6 @@ public class RegionApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
 
-        logger.debug("Received GET request for region {} projection", code);
-
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
@@ -353,8 +337,6 @@ public class RegionApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        logger.debug("Received GET request for all regions projections");
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();

@@ -14,8 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
@@ -39,8 +37,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class CommuneApi extends AbstractGeoApi {
 
     private static final String LITTERAL_DATE_EXAMPLE = "1945-06-26";
-
-    private static Logger logger = LogManager.getLogger(CommuneApi.class);
 
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_COMMUNE + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogcom";
@@ -80,8 +76,6 @@ public class CommuneApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug(() -> "Received GET request for commune "+  paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -128,8 +122,6 @@ public class CommuneApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        logger.debug(() -> "Received GET request for ascendants of commune "+  paramToLog(code));
 
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
@@ -182,8 +174,6 @@ public class CommuneApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        logger.debug(() -> "Received GET request for descendants of commune "+  paramToLog(code));
-
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
             return this.generateBadRequestResponse();
         }
@@ -235,8 +225,6 @@ public class CommuneApi extends AbstractGeoApi {
                     value = Constants.PARAMETER_STRING) Boolean com
     		)
          {
-
-        logger.debug("Received GET request for all communes");
 
         if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
@@ -293,8 +281,6 @@ public class CommuneApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
 
-        logger.debug(() -> "Received GET request for suivant commune "+  paramToLog(code));
-
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
@@ -336,8 +322,6 @@ public class CommuneApi extends AbstractGeoApi {
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE) String date) {
-
-        logger.debug(() -> "Received GET request for precedent commune "+  paramToLog(code));
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
@@ -386,8 +370,6 @@ public class CommuneApi extends AbstractGeoApi {
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
 
-        logger.debug("Received GET request for commune {} projection", code);
-
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
@@ -433,8 +415,6 @@ public class CommuneApi extends AbstractGeoApi {
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                 value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        logger.debug("Received GET request for all communes projections");
 
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
