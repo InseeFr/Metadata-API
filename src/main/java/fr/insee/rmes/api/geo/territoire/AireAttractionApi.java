@@ -71,7 +71,6 @@ public class AireAttractionApi  extends AbstractGeoApi {
 			return this.generateBadRequestResponse();
 		}
 		else {
-			logger.debug(() -> "Received GET request for aire d'attraction"+  paramToLog(code));
 			return this
 					.generateResponseATerritoireByCode(
 							sparqlUtils

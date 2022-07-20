@@ -57,12 +57,5 @@ public abstract class AbstractMetadataApi {
             return header;
         }
     }
-    
-
-    protected String paramToLog(String code) {
-		if (code == null) return "null";
-		return code.replaceAll("[\n\r\t]", "_");
-	}
-    
 
 }

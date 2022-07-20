@@ -12,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
@@ -44,7 +46,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Path("/codes")
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class CodesAPI extends AbstractMetadataApi {
-
+	
+    private static Logger logger = LogManager.getLogger(CodesAPI.class);
 
     @Path("/cj/n2/{code: [0-9]{2}}")
     @GET
@@ -171,7 +174,10 @@ public class CodesAPI extends AbstractMetadataApi {
 	        }
 	        
 	        //Add element in cache
+	        logger.debug("Add {} to cache sousclasseNaf2008", code);
 	        cacheHelper.getSousClasseNaf2008CacheFromCacheManager().put(code, sousClasse);
+        } else {
+	        logger.debug("Use cache sousclasseNaf2008 for code {}", code);
         }
         return Response.ok(responseUtils.produceResponse(sousClasse, header)).build();
     }
