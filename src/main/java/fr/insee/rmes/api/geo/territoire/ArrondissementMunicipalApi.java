@@ -85,7 +85,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                                     code,
                                     this.formatValidParameterDateIfIsNull(date))),
                     header,
-                    new Arrondissement(code));
+                    new ArrondissementMunicipal(code));
         }
     }
 
