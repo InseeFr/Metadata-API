@@ -129,6 +129,7 @@ public class OperationsQueries extends Queries {
 		params.put("typeObject", typeObject);
 		params.put("uriObject", uriObject);
 		return buildRequest(QUERIES_FOLDER, "getLinkDifferentTypeByObjectQuery.ftlh", params);
+		//TODO because graph are specified in query, perhaps idSims is always null
 	}
 	
 
@@ -174,11 +175,12 @@ public class OperationsQueries extends Queries {
 		return buildRequest(QUERIES_FOLDER, "getOrganismByObjectQuery.ftlh", params);
 	}
 	
-	private static String getCreatorByObject(String idObject, String typeObject, String uriObject) {
+	private static String getCreatorByObject(String idObject, String typeObject, String uriObject, String graph) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("idObject", idObject);
 		params.put("typeObject", typeObject);
 		params.put("uriObject", uriObject);
+		params.put("GRAPH", graph);
 		return buildRequest(QUERIES_FOLDER, "getCreatorsByObjectQuery.ftlh", params);
 	}
 
@@ -196,7 +198,7 @@ public class OperationsQueries extends Queries {
 	}
 
 	public static String getCreatorsBySeries(String idSeries) {
-		return getCreatorByObject(idSeries, SERIES_RDF_MODEL, SERIES_BASEURI);
+		return getCreatorByObject(idSeries, SERIES_RDF_MODEL, SERIES_BASEURI, "http://rdf.insee.fr/graphes/operations");
 	}
 
 	public static String getPublishersByIndic(String idIndicateur) {
@@ -204,7 +206,7 @@ public class OperationsQueries extends Queries {
 	}
 
 	public static String getCreatorsByIndic(String idIndicateur) {
-		return getCreatorByObject(idIndicateur, INDICATOR_RDF_MODEL, INDICATOR_BASEURI);
+		return getCreatorByObject(idIndicateur, INDICATOR_RDF_MODEL, INDICATOR_BASEURI, "http://rdf.insee.fr/graphes/produits");
 	}
 
 	public static String getDataCollectorsBySeries(String idSeries) {

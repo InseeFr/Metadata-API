@@ -400,9 +400,9 @@ public class ConstantForIntegration {
         "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/arrondissementMunicipal/05b3eb1f-7563-492e-bf33-0b3f481fff8c,75107,0,Paris 7e Arrondissement,Paris 7e Arrondissement,1943-01-01,,\r\n";
     public static final String ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_GET_JSON =
-        "{\"code\":\"75107\",\"uri\":\"http://id.insee.fr/geo/arrondissementMunicipal/05b3eb1f-7563-492e-bf33-0b3f481fff8c\",\"type\":\"Arrondissement\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Paris 7e Arrondissement\",\"typeArticle\":\"0\",\"intitule\":\"Paris 7e Arrondissement\"}";
+        "{\"code\":\"75107\",\"uri\":\"http://id.insee.fr/geo/arrondissementMunicipal/05b3eb1f-7563-492e-bf33-0b3f481fff8c\",\"type\":\"ArrondissementMunicipal\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Paris 7e Arrondissement\",\"typeArticle\":\"0\",\"intitule\":\"Paris 7e Arrondissement\"}";
     public static final String ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_GET_XML =
-        "<Arrondissement code=\"75107\" uri=\"http://id.insee.fr/geo/arrondissementMunicipal/05b3eb1f-7563-492e-bf33-0b3f481fff8c\"><Intitule>Paris 7e Arrondissement</Intitule><Type>Arrondissement</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Paris 7e Arrondissement</IntituleSansArticle></Arrondissement>";
+        "<ArrondissementMunicipal code=\"75107\" uri=\"http://id.insee.fr/geo/arrondissementMunicipal/05b3eb1f-7563-492e-bf33-0b3f481fff8c\"><Intitule>Paris 7e Arrondissement</Intitule><Type>ArrondissementMunicipal</Type><DateCreation>1943-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Paris 7e Arrondissement</IntituleSansArticle></ArrondissementMunicipal>";
     public static final String ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_LISTE =
         "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/arrondissementMunicipal/12e426af-7d95-4349-bef4-424e02292ffe,13201,0,Marseille 1er Arrondissement,Marseille 1er Arrondissement,1946-10-18,,\r\n"

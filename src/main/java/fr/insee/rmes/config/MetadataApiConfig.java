@@ -21,17 +21,27 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 
 @ApplicationPath("/")
-public class SwaggerConfig extends ResourceConfig {
+public class MetadataApiConfig extends ResourceConfig {
 
-    private static final Logger logger = LogManager.getLogger(SwaggerConfig.class);
+    private static final Logger logger = LogManager.getLogger(MetadataApiConfig.class);
     
-    public SwaggerConfig(@Context ServletConfig servletConfig) {
+    public MetadataApiConfig(@Context ServletConfig servletConfig) {
         super();
-        OpenAPI openApi = new OpenAPI();
+        
+        //Swagger
+        OpenApiResource openApiResource = initializeSwagger(servletConfig);
+        this.register(openApiResource);
+        this.register(MultiPartFeature.class);
+        
+        //Logs
+        this.register(LogRequestFilter.class);
+        
+    }
 
-        logger
-            .info(
-                "ServletConfig : {}",
+	private OpenApiResource initializeSwagger(ServletConfig servletConfig) {
+		OpenAPI openApi = new OpenAPI();
+
+        logger.info("ServletConfig : {}",
                 (servletConfig != null ? servletConfig.getServletContext() : "ServletConfig is null"));
 
         // describe API
@@ -54,10 +64,8 @@ public class SwaggerConfig extends ResourceConfig {
 
         OpenApiResource openApiResource = new OpenApiResource();
         openApiResource.setOpenApiConfiguration(oasConfig);
-        this.register(openApiResource);
-        this.register(MultiPartFeature.class);
-        
-    }
+		return openApiResource;
+	}
     
     private String convertInUtf8(String strToEncode) {
     	ByteBuffer buffer = StandardCharsets.UTF_8.encode(strToEncode); 

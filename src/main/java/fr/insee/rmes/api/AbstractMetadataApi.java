@@ -30,7 +30,7 @@ public abstract class AbstractMetadataApi {
 
     protected ResponseUtils responseUtils;
 
-    public AbstractMetadataApi() {
+    protected AbstractMetadataApi() {
 
         this.sparqlUtils = new SparqlUtils();
         this.csvUtils = new CSVUtils();
