@@ -12,7 +12,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "Zones d'emploi")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Zones d'emploi", description = "Tableau représentant les zones d'emploi")
 public class ZonesEmploi extends Territoires {
