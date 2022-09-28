@@ -12,6 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@JacksonXmlRootElement(localName = "UnitesUrbaines")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Unités urbaines", description = "Tableau représentant les unités urbaines")
 public class UnitesUrbaines extends Territoires {
