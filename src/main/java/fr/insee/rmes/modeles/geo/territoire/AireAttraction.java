@@ -12,8 +12,8 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@XmlRootElement(name = "Aire d'attraction")
-@JacksonXmlRootElement(localName = "Aire d'attraction")
+@XmlRootElement(name = "AireDAttractionDesVilles2020")
+@JacksonXmlRootElement(localName = "AireDAttractionDesVilles2020")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant une aire d'attraction")
 public class AireAttraction extends Territoire {

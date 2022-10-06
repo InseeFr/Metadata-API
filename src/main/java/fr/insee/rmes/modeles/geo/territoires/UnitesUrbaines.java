@@ -12,7 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "UnitesUrbaines")
+@JacksonXmlRootElement(localName = "unitesUrbaines2020")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Unités urbaines", description = "Tableau représentant les unités urbaines")
 public class UnitesUrbaines extends Territoires {
@@ -25,7 +25,7 @@ public class UnitesUrbaines extends Territoires {
         this.unitesUrbaines = unitesUrbaines;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "UniteUrbaine")
+    @JacksonXmlProperty(isAttribute = true, localName = "uniteUrbaine2020")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<UniteUrbaine> getUnitesUrbaines() {
         return unitesUrbaines;

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import fr.insee.rmes.modeles.geo.territoire.AireAttraction;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "AiresAttraction")
+@JacksonXmlRootElement(localName = "AiresDAttractionDesVilles2020")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Aires d'attraction", description = "Tableau représentant les aires d'attraction")
 public class AiresAttraction extends Territoires {
@@ -25,7 +25,7 @@ public class AiresAttraction extends Territoires {
         this.airesAttraction = airesAttraction;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "AireAttraction")
+    @JacksonXmlProperty(isAttribute = true, localName = "AireDAttractionDesVilles2020")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<AireAttraction> getAiresAttraction() {
         return airesAttraction;

@@ -12,8 +12,8 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@XmlRootElement(name = "Unité urbaine")
-@JacksonXmlRootElement(localName = "Unité urbaine")
+@XmlRootElement(name = "uniteUrbaine2020")
+@JacksonXmlRootElement(localName = "uniteUrbaine2020")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant une unité urbaine")
 public class UniteUrbaine extends Territoire {
