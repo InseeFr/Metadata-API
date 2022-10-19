@@ -78,16 +78,16 @@ public class ResponseUtils {
         return response;
     }
     
-	private String escapeHtml(String s) {
-  		 s = StringEscapeUtils.unescapeHtml4(s);
-  		 return s.replace("&", "&amp;")
-  				 .replace(">", "&gt;")
-  				 .replace("<", "&lt;")
-  				 .replace("\"", "&quot;");
-  	}
+//	private String escapeHtml(String s) {
+//  		 s = StringEscapeUtils.unescapeHtml4(s);
+ // 		 return s.replace("&", "&amp;")
+ // 				 .replace(">", "&gt;")
+  //				 .replace("<", "&lt;")
+  //				 .replace("\"", "&quot;");
+  //	}
     
     public String encodeXmlResponse(String response) {
-    	response = escapeHtml(response);
+ //   	response = escapeHtml(response);
     	response = XmlUtils.encodeXml(response);
     	return new String(response.getBytes(), StandardCharsets.UTF_8);
     }

@@ -20,14 +20,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
-import fr.insee.rmes.modeles.geo.territoire.AireAttraction;
+import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
 
 @ExtendWith(MockitoExtension.class)
 public class AireAttractionAPITest extends AbstractApiTest {
 
     @InjectMocks
     private AireAttractionApi geoApi;
-    private AireAttraction aireAttraction = new AireAttraction();
+    private AireDAttractionDesVilles2020 aireDAttractionDesVilles2020 = new AireDAttractionDesVilles2020();
     
     /*
      * Test Identification methods
@@ -37,8 +37,8 @@ public class AireAttractionAPITest extends AbstractApiTest {
     void givenGetAireAttraction_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Mock methods
-    	aireAttraction.setUri("something");
-        this.mockUtilsMethodsThenReturnOnePojo(aireAttraction, Boolean.TRUE);
+    	aireDAttractionDesVilles2020.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(aireDAttractionDesVilles2020, Boolean.TRUE);
 
         // Call method
         geoApi.getByCode("something", MediaType.APPLICATION_JSON, null);
@@ -49,8 +49,8 @@ public class AireAttractionAPITest extends AbstractApiTest {
     void givenGetAireAttraction_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Mock methods
-    	aireAttraction.setUri("something");
-        this.mockUtilsMethodsThenReturnOnePojo(aireAttraction, Boolean.TRUE);
+    	aireDAttractionDesVilles2020.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(aireDAttractionDesVilles2020, Boolean.TRUE);
 
         // Call method
         geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
@@ -61,7 +61,7 @@ public class AireAttractionAPITest extends AbstractApiTest {
     void givenGetAireAttraction_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
-        this.mockUtilsMethodsThenReturnOnePojo(aireAttraction, Boolean.FALSE);
+        this.mockUtilsMethodsThenReturnOnePojo(aireDAttractionDesVilles2020, Boolean.FALSE);
 
         // Call method header content = xml
         Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, null);
@@ -78,8 +78,8 @@ public class AireAttractionAPITest extends AbstractApiTest {
     void givenGetAireAttraction_WhenCorrectRequest_thenParameterDateIsRight() {
 
         // Mock methods
-    	aireAttraction.setUri("something");
-        this.mockUtilsMethodsThenReturnOnePojo(aireAttraction, Boolean.TRUE);
+    	aireDAttractionDesVilles2020.setUri("something");
+        this.mockUtilsMethodsThenReturnOnePojo(aireDAttractionDesVilles2020, Boolean.TRUE);
 
         // Call method header content = xml
         geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
@@ -103,7 +103,7 @@ public class AireAttractionAPITest extends AbstractApiTest {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new AireAttraction());
+        list.add(new AireDAttractionDesVilles2020());
 
         // Call method
         geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null, null);
@@ -115,7 +115,7 @@ public class AireAttractionAPITest extends AbstractApiTest {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new AireAttraction());
+        list.add(new AireDAttractionDesVilles2020());
 
         // Call method
         geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
@@ -144,7 +144,7 @@ public class AireAttractionAPITest extends AbstractApiTest {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new AireAttraction());
+        list.add(new AireDAttractionDesVilles2020());
 
         // Call method header content = xml
         geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
@@ -164,7 +164,7 @@ public class AireAttractionAPITest extends AbstractApiTest {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new AireAttraction());
+        list.add(new AireDAttractionDesVilles2020());
 
         // Call method header content = xml
         geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
@@ -176,7 +176,7 @@ public class AireAttractionAPITest extends AbstractApiTest {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new AireAttraction());
+        list.add(new AireDAttractionDesVilles2020());
 
         // Call method header content = xml
         geoApi
@@ -206,7 +206,7 @@ public class AireAttractionAPITest extends AbstractApiTest {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new AireAttraction());
+        list.add(new AireDAttractionDesVilles2020());
 
         // Call method
         geoApi.getListe(MediaType.APPLICATION_JSON, null);
@@ -218,7 +218,7 @@ public class AireAttractionAPITest extends AbstractApiTest {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new AireAttraction());
+        list.add(new AireDAttractionDesVilles2020());
 
         // Call method
         geoApi.getListe(MediaType.APPLICATION_XML, null);
@@ -249,7 +249,7 @@ public class AireAttractionAPITest extends AbstractApiTest {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new AireAttraction());
+        list.add(new AireDAttractionDesVilles2020());
 
         // Call method header content = xml
         geoApi.getListe(MediaType.APPLICATION_XML, date);

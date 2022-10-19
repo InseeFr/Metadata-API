@@ -12,25 +12,25 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@XmlRootElement(name = "Unité urbaine")
-@JacksonXmlRootElement(localName = "Unité urbaine")
+@XmlRootElement(name = "UniteUrbaine2020")
+@JacksonXmlRootElement(localName = "UniteUrbaine2020")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant une unité urbaine")
-public class UniteUrbaine extends Territoire {
+public class UniteUrbaine2020 extends Territoire {
 
 	  // No-args constructor needed for JAXB
-    public UniteUrbaine() {
+    public UniteUrbaine2020() {
         this.type = EnumTypeGeographie.UNITE_URBAINE.getTypeObjetGeo();
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public UniteUrbaine(String code) {
+    public UniteUrbaine2020(String code) {
         this.type = EnumTypeGeographie.UNITE_URBAINE.getTypeObjetGeo();
         this.code = code;
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public UniteUrbaine(
+    public UniteUrbaine2020(
         String code,
         String uri,
         String intitule,
