@@ -12,8 +12,8 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@XmlRootElement(name = "zoneDEmploi2020")
-@JacksonXmlRootElement(localName = "zoneDEmploi2020")
+@XmlRootElement(name = "ZoneDEmploi2020")
+@JacksonXmlRootElement(localName = "ZoneDEmploi2020")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant une zone d'emploi")
 public class ZoneDEmploi2020 extends Territoire {

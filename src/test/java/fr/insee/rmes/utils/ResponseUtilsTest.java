@@ -49,12 +49,12 @@ class ResponseUtilsTest {
     	RubriqueRichText r = new RubriqueRichText(str, Lang.FR);
     	testObj.setRubriqueRichText(r);
     	
-    	String strXml = str.replace("&", "&amp;")
-				 .replace(">", "&gt;")
-				 .replace("<", "&lt;")
-				 .replace("\"", "&quot;")
-				 .replace("'", "&apos;");
-    	
+    	//String strXml = str.replace("&", "&amp;")
+				// .replace(">", "&gt;")
+				// .replace("<", "&lt;")
+				// .replace("\"", "&quot;")
+				// .replace("'", "&apos;");
+    	String strXml = str;
     	String strJson = str;
     	
     	

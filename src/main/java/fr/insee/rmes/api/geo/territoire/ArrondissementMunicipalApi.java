@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
-import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
 import fr.insee.rmes.modeles.geo.territoire.ArrondissementMunicipal;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.ArrondissementsMunicipaux;

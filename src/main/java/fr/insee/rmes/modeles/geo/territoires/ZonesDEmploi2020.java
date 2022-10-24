@@ -12,7 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import fr.insee.rmes.modeles.geo.territoire.ZoneDEmploi2020;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@JacksonXmlRootElement(localName = "zonesDEmploi2020")
+@JacksonXmlRootElement(localName = "ZonesDEmploi2020")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Zones d'emploi", description = "Tableau représentant les zones d'emploi")
 public class ZonesDEmploi2020 extends Territoires {
@@ -25,7 +25,7 @@ public class ZonesDEmploi2020 extends Territoires {
         this.zonesDEmploi2020 = zonesDEmploi2020;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "zoneDEmploi2020")
+    @JacksonXmlProperty(isAttribute = true, localName = "ZoneDEmploi2020")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<ZoneDEmploi2020> getZonesEmploi() {
         return zonesDEmploi2020;
