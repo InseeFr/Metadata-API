@@ -24,7 +24,6 @@ class ResponseUtilsTest {
     TestObject testObj;
     String expectedJson;
     String expectedXml;
-    String expectedSims;
     
     @BeforeEach
     public void init() {
@@ -41,9 +40,6 @@ class ResponseUtilsTest {
     	String resultJson = responseUtils.produceResponse(testObj, MediaType.APPLICATION_JSON);
     	assertEquals(expectedJson,resultJson);
     	
-    	String resultXmlSims = responseUtils.encodeXmlResponseforSims(resultJson);
-    	assertEquals(expectedSims,resultXmlSims);
-    	
     }
 
     
@@ -54,11 +50,6 @@ class ResponseUtilsTest {
     	RubriqueRichText r = new RubriqueRichText(str, Lang.FR);
     	testObj.setRubriqueRichText(r);
     	
-    	String strXml = str.replace("&", "&amp;")
-				 .replace(">", "&gt;")
-				 .replace("<", "&lt;")
-				 .replace("\"", "&quot;")
-				 .replace("'", "&apos;");
     	
     	String strJson = str;
     	
@@ -73,11 +64,7 @@ class ResponseUtilsTest {
     				"{\"string\":\""+strJson+"\","
     				+ "\"rubriqueRichText\":{\"texte\":\""+strJson+"\",\"langue\":\"fr\"}}";
     	
-    	
-    	expectedSims = "<TestObject>"
-    			+ "<string>"+strXml+"</string>"
-    			+ "<rubriqueRichText xml:lang=\"fr\"><Texte>" +strXml+"</Texte></rubriqueRichText>"
-    			+ "</TestObject>";
+
 	}
     
 
