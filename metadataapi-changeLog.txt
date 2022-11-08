@@ -1,3 +1,4 @@
+3.4.0 : optimisation de certaines requêtes + correctif sur les "ArrondissementMunicipal"
 3.3.0 : Passage à Java 11 + Correctif sur les chef lieu
 3.2.1 : Passage à Java 11 pour les tests de charge (non mis en production
 3.2.0 : Ajout des services pour les circonscriptions territoriales (Geo)
