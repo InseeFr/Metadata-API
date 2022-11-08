@@ -24,6 +24,7 @@ class ResponseUtilsTest {
     TestObject testObj;
     String expectedJson;
     String expectedXml;
+    String expectedSims;
     
     @BeforeEach
     public void init() {
@@ -31,7 +32,7 @@ class ResponseUtilsTest {
     }
     
 	@ParameterizedTest
-    @ValueSource(strings = {"text to Try", "Text with accent éùàèô", "Text with special XML/Json char < > "})
+    @ValueSource(strings = {"text to Try", "Text with accent éùàèô", "Text with special XML/Json char < > ",""})
     void givenProduceResponse_whenQueryOk_thenResponseIsOk(String textToTry) {
     	initExpected(textToTry);
     	String resultXml = responseUtils.produceResponse(testObj, MediaType.APPLICATION_XML);
@@ -39,6 +40,9 @@ class ResponseUtilsTest {
     	
     	String resultJson = responseUtils.produceResponse(testObj, MediaType.APPLICATION_JSON);
     	assertEquals(expectedJson,resultJson);
+    	
+    	String resultXmlSims = responseUtils.encodeXmlResponseforSims(resultJson);
+    	assertEquals(expectedSims,resultXmlSims);
     	
     }
 
@@ -50,11 +54,11 @@ class ResponseUtilsTest {
     	RubriqueRichText r = new RubriqueRichText(str, Lang.FR);
     	testObj.setRubriqueRichText(r);
     	
-    	//String strXml = str.replace("&", "&amp;")
-			//	 .replace(">", "&gt;")
-			//	 .replace("<", "&lt;")
-			//	 .replace("\"", "&quot;")
-			//	 .replace("'", "&apos;");
+    	String strXml = str.replace("&", "&amp;")
+				 .replace(">", "&gt;")
+				 .replace("<", "&lt;")
+				 .replace("\"", "&quot;")
+				 .replace("'", "&apos;");
     	
     	String strJson = str;
     	
@@ -68,6 +72,12 @@ class ResponseUtilsTest {
     	expectedJson =
     				"{\"string\":\""+strJson+"\","
     				+ "\"rubriqueRichText\":{\"texte\":\""+strJson+"\",\"langue\":\"fr\"}}";
+    	
+    	
+    	expectedSims = "<TestObject>"
+    			+ "<string>"+strXml+"</string>"
+    			+ "<rubriqueRichText xml:lang=\"fr\"><Texte>" +strXml+"</Texte></rubriqueRichText>"
+    			+ "</TestObject>";
 	}
     
 
