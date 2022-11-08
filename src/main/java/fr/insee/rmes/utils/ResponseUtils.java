@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
 
+import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +31,7 @@ public class ResponseUtils {
     
     public String produceResponse(Object obj, String header) {
         String response = "";
+
 
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
         	XmlMapper mapper = new XmlMapper();
@@ -60,8 +62,13 @@ public class ResponseUtils {
             catch (Exception e) {
                 logger.error(e.getMessage());
             }
-            
-            response = encodeXmlResponse(response);
+
+            if (obj instanceof DocumentationSims){
+                response = encodeXmlResponseforSims(response);
+            }
+            else {
+                response = encodeXmlResponse(response);
+            }
 
         }
         else {
@@ -80,19 +87,23 @@ public class ResponseUtils {
     
 	private String escapeHtml(String s) {
   		 s = StringEscapeUtils.unescapeHtml4(s);
-//  		 return s.replace("&", "&amp;")
-  	//			 .replace(">", "&gt;")
-  	//			 .replace("<", "&lt;")
-  		//		 .replace("\"", "&quot;");
-  		 return s;
+  		 return s.replace("&", "&amp;")
+  				 .replace(">", "&gt;")
+  				 .replace("<", "&lt;")
+  				 .replace("\"", "&quot;");
   	}
     
     public String encodeXmlResponse(String response) {
-    	response = escapeHtml(response);
     	response = XmlUtils.encodeXml(response);
     	return new String(response.getBytes(), StandardCharsets.UTF_8);
     }
-    
+
+    public String encodeXmlResponseforSims(String response) {
+        response = escapeHtml(response);
+        response = XmlUtils.encodeXml(response);
+        return new String(response.getBytes(), StandardCharsets.UTF_8);
+    }
+
     public String encodeJsonResponse(String response) {
     	String ret = response.replaceAll("\\R", " ")//remove break lines that makes JSON invalid (breakline in texts are in <p>)
 					         .replace('"', '\"'); //remove quote
