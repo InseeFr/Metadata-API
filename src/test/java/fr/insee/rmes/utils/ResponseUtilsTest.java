@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.ws.rs.core.MediaType;
 
+import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,8 +23,10 @@ class ResponseUtilsTest {
     private ResponseUtils responseUtils;
     
     TestObject testObj;
+	DocumentationSims testSims;
     String expectedJson;
     String expectedXml;
+	String expectedXmlSims;
     
     @BeforeEach
     public void init() {
@@ -36,7 +39,10 @@ class ResponseUtilsTest {
     	initExpected(textToTry);
     	String resultXml = responseUtils.produceResponse(testObj, MediaType.APPLICATION_XML);
     	assertEquals(expectedXml,resultXml);
-    	
+
+		String resultXmlSims = responseUtils.produceResponse(testObj, MediaType.APPLICATION_XML);
+		assertEquals(expectedXmlSims,resultXmlSims);
+
     	String resultJson = responseUtils.produceResponse(testObj, MediaType.APPLICATION_JSON);
     	assertEquals(expectedJson,resultJson);
     }
@@ -45,15 +51,17 @@ class ResponseUtilsTest {
     private void initExpected(String str) {
     	testObj = new TestObject();
     	testObj.setString(str);
-    	
+
+
+
     	RubriqueRichText r = new RubriqueRichText(str, Lang.FR);
     	testObj.setRubriqueRichText(r);
     	
-    	//String strXml = str.replace("&", "&amp;")
-				// .replace(">", "&gt;")
-				// .replace("<", "&lt;")
-				// .replace("\"", "&quot;")
-				// .replace("'", "&apos;");
+    	String strXmlSims = str.replace("&", "&amp;")
+				 .replace(">", "&gt;")
+				 .replace("<", "&lt;")
+				 .replace("\"", "&quot;")
+				 .replace("'", "&apos;");
     	String strXml = str;
     	String strJson = str;
     	
@@ -67,6 +75,12 @@ class ResponseUtilsTest {
     	expectedJson =
     				"{\"string\":\""+strJson+"\","
     				+ "\"rubriqueRichText\":{\"texte\":\""+strJson+"\",\"langue\":\"fr\"}}";
+
+
+		expectedXmlSims = "<TestObject>"
+				+ "<string>"+strXmlSims+"</string>"
+				+ "<rubriqueRichText xml:lang=\"fr\"><Texte>" +strXmlSims+"</Texte></rubriqueRichText>"
+				+ "</TestObject>";
 	}
     
 
