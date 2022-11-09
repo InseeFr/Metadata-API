@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -12,25 +13,26 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@XmlRootElement(name = "Aire d'attraction")
-@JacksonXmlRootElement(localName = "Aire d'attraction")
+@XmlRootElement(name = "AireDAttractionDesVilles2020")
+@JacksonXmlRootElement(namespace = "AireDAttractionDesVilles2020")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant une aire d'attraction")
-public class AireAttraction extends Territoire {
+public class AireDAttractionDesVilles2020 extends Territoire {
 
 	  // No-args constructor needed for JAXB
-    public AireAttraction() {
+
+	public AireDAttractionDesVilles2020() {
         this.type = EnumTypeGeographie.AIRE_ATTRACTION.getTypeObjetGeo();
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public AireAttraction(String code) {
+    public AireDAttractionDesVilles2020(String code) {
         this.type = EnumTypeGeographie.AIRE_ATTRACTION.getTypeObjetGeo();
         this.code = code;
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public AireAttraction(
+    public AireDAttractionDesVilles2020(
         String code,
         String uri,
         String intitule,

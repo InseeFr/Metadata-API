@@ -12,9 +12,9 @@ import javax.ws.rs.core.Response;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
-import fr.insee.rmes.modeles.geo.territoire.AireAttraction;
+import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoires.AiresAttraction;
+import fr.insee.rmes.modeles.geo.territoires.AiresDAttractionDesVilles2020;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -51,7 +51,7 @@ public class AireAttractionApi  extends AbstractGeoApi {
 			summary = LITTERAL_OPERATION_SUMMARY,
 			responses = {
 					@ApiResponse(
-							content = @Content(schema = @Schema(implementation = AireAttraction.class)),
+							content = @Content(schema = @Schema(implementation = AireDAttractionDesVilles2020.class)),
 							description = LITTERAL_RESPONSE_DESCRIPTION)
 			})
 	public Response getByCode(
@@ -78,7 +78,7 @@ public class AireAttractionApi  extends AbstractGeoApi {
 							.executeSparqlQuery(
 									GeoQueries.getAireAttractionByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
 							header,
-							new AireAttraction(code));
+							new AireDAttractionDesVilles2020(code));
 		}
 	}
 
@@ -144,7 +144,7 @@ public class AireAttractionApi  extends AbstractGeoApi {
         summary = "Informations sur toutes les aires d'attractions actives à la date donnée. Par défaut, c’est la date courante.",
         responses = {
             @ApiResponse(
-                content = @Content(schema = @Schema(type = ARRAY, implementation = AireAttraction.class)),
+                content = @Content(schema = @Schema(type = ARRAY, implementation = AireDAttractionDesVilles2020.class)),
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getListe(
@@ -164,8 +164,8 @@ public class AireAttractionApi  extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(GeoQueries.getListAiresAttraction(this.formatValidParameterDateIfIsNull(date))),
                     header,
-                    AiresAttraction.class,
-                    AireAttraction.class);
+                    AiresDAttractionDesVilles2020.class,
+                    AireDAttractionDesVilles2020.class);
         }
     }
 

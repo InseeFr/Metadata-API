@@ -3,7 +3,7 @@ package fr.insee.rmes.modeles.geo;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import fr.insee.rmes.modeles.geo.territoire.AireAttraction;
+import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
 import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
 import fr.insee.rmes.modeles.geo.territoire.ArrondissementMunicipal;
 import fr.insee.rmes.modeles.geo.territoire.Canton;
@@ -16,9 +16,9 @@ import fr.insee.rmes.modeles.geo.territoire.Departement;
 import fr.insee.rmes.modeles.geo.territoire.District;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine;
-import fr.insee.rmes.modeles.geo.territoire.ZoneEmploi;
-import fr.insee.rmes.modeles.geo.territoires.AiresAttraction;
+import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine2020;
+import fr.insee.rmes.modeles.geo.territoire.ZoneDEmploi2020;
+import fr.insee.rmes.modeles.geo.territoires.AiresDAttractionDesVilles2020;
 import fr.insee.rmes.modeles.geo.territoires.Arrondissements;
 import fr.insee.rmes.modeles.geo.territoires.ArrondissementsMunicipaux;
 import fr.insee.rmes.modeles.geo.territoires.Cantons;
@@ -31,8 +31,8 @@ import fr.insee.rmes.modeles.geo.territoires.Departements;
 import fr.insee.rmes.modeles.geo.territoires.Districts;
 import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
-import fr.insee.rmes.modeles.geo.territoires.UnitesUrbaines;
-import fr.insee.rmes.modeles.geo.territoires.ZonesEmploi;
+import fr.insee.rmes.modeles.geo.territoires.UnitesUrbaines2020;
+import fr.insee.rmes.modeles.geo.territoires.ZonesDEmploi2020;
 import fr.insee.rmes.utils.Constants;
 
 public enum EnumTypeGeographie {
@@ -46,9 +46,9 @@ public enum EnumTypeGeographie {
 	COMMUNE_DELEGUEE("CommuneDeleguee", CommuneDeleguee.class,CommunesDeleguees.class,Constants.NONE),
 	COMMUNE_ASSOCIEE("CommuneAssociee", CommuneAssociee.class,CommunesAssociees.class,Constants.NONE),
 	ARRONDISSEMENT_MUNICIPAL("ArrondissementMunicipal",ArrondissementMunicipal.class,ArrondissementsMunicipaux.class, Constants.NONE),
-	ZONE_EMPLOI("ZoneDEmploi2020", ZoneEmploi.class,ZonesEmploi.class,Constants.NONE),
-	AIRE_ATTRACTION("AireDAttractionDesVilles2020",AireAttraction.class,AiresAttraction.class,Constants.NONE),
-	UNITE_URBAINE("UniteUrbaine2020", UniteUrbaine.class,UnitesUrbaines.class,Constants.NONE),
+	ZONE_EMPLOI("ZoneDEmploi2020", ZoneDEmploi2020.class,ZonesDEmploi2020.class,Constants.NONE),
+	AIRE_ATTRACTION("AireDAttractionDesVilles2020",AireDAttractionDesVilles2020.class,AiresDAttractionDesVilles2020.class,Constants.NONE),
+	UNITE_URBAINE("UniteUrbaine2020", UniteUrbaine2020.class,UnitesUrbaines2020.class,Constants.NONE),
 	DISTRICT("District",District.class,Districts.class,Constants.NONE),
 	CIRCONSCRIPTION_TERRITORIALE("CirconscriptionTerritoriale",CirconscriptionTerritoriale.class,CirconscriptionsTerritoriales.class,Constants.NONE);
 

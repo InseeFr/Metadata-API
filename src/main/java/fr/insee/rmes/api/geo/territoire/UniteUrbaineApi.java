@@ -13,9 +13,9 @@ import javax.ws.rs.core.Response;
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine;
+import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine2020;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
-import fr.insee.rmes.modeles.geo.territoires.UnitesUrbaines;
+import fr.insee.rmes.modeles.geo.territoires.UnitesUrbaines2020;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,7 +53,7 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
 			summary = LITTERAL_OPERATION_SUMMARY,
 			responses = {
 					@ApiResponse(
-							content = @Content(schema = @Schema(implementation = UniteUrbaine.class)),
+							content = @Content(schema = @Schema(implementation = UniteUrbaine2020.class)),
 							description = LITTERAL_RESPONSE_DESCRIPTION)
 			})
 	public Response getByCode(
@@ -80,7 +80,7 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
 							.executeSparqlQuery(
 									GeoQueries.getUniteUrbaineByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
 							header,
-							new UniteUrbaine(code));
+							new UniteUrbaine2020(code));
 		}
 	}
 
@@ -145,7 +145,7 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
 	        summary = "Informations sur toutes les unités urbaines actives à la date donnée. Par défaut, c’est la date courante.",
 	        responses = {
 	            @ApiResponse(
-	                content = @Content(schema = @Schema(type = ARRAY, implementation = UniteUrbaine.class)),
+	                content = @Content(schema = @Schema(type = ARRAY, implementation = UniteUrbaine2020.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
 	    public Response getListe(
@@ -165,8 +165,8 @@ public class UniteUrbaineApi  extends AbstractGeoApi {
 	                    sparqlUtils
 	                        .executeSparqlQuery(GeoQueries.getListUnitesUrbaines(this.formatValidParameterDateIfIsNull(date))),
 	                    header,
-	                    UnitesUrbaines.class,
-	                    UniteUrbaine.class);
+	                    UnitesUrbaines2020.class,
+	                    UniteUrbaine2020.class);
 	        }
 	    }
 	

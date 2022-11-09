@@ -12,25 +12,25 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@XmlRootElement(name = "Zone d'emploi")
-@JacksonXmlRootElement(localName = "Zone d'emploi")
+@XmlRootElement(name = "ZoneDEmploi2020")
+@JacksonXmlRootElement(localName = "ZoneDEmploi2020")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant une zone d'emploi")
-public class ZoneEmploi extends Territoire {
+public class ZoneDEmploi2020 extends Territoire {
 
 	  // No-args constructor needed for JAXB
-    public ZoneEmploi() {
+    public ZoneDEmploi2020() {
         this.type = EnumTypeGeographie.ZONE_EMPLOI.getTypeObjetGeo();
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public ZoneEmploi(String code) {
+    public ZoneDEmploi2020(String code) {
         this.type = EnumTypeGeographie.ZONE_EMPLOI.getTypeObjetGeo();
         this.code = code;
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public ZoneEmploi(
+    public ZoneDEmploi2020(
         String code,
         String uri,
         String intitule,

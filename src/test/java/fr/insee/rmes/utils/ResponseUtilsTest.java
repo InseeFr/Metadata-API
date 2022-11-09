@@ -31,7 +31,7 @@ class ResponseUtilsTest {
     }
     
 	@ParameterizedTest
-    @ValueSource(strings = {"text to Try", "Text with accent éùàèô", "Text with special XML/Json char < > "})
+    @ValueSource(strings = {"text to Try", "Text with accent éùàèô", "Text with special XML/Json char < > ",""})
     void givenProduceResponse_whenQueryOk_thenResponseIsOk(String textToTry) {
     	initExpected(textToTry);
     	String resultXml = responseUtils.produceResponse(testObj, MediaType.APPLICATION_XML);
@@ -39,6 +39,7 @@ class ResponseUtilsTest {
     	
     	String resultJson = responseUtils.produceResponse(testObj, MediaType.APPLICATION_JSON);
     	assertEquals(expectedJson,resultJson);
+    	
     }
 
     
@@ -49,24 +50,21 @@ class ResponseUtilsTest {
     	RubriqueRichText r = new RubriqueRichText(str, Lang.FR);
     	testObj.setRubriqueRichText(r);
     	
-    	String strXml = str.replace("&", "&amp;")
-				 .replace(">", "&gt;")
-				 .replace("<", "&lt;")
-				 .replace("\"", "&quot;")
-				 .replace("'", "&apos;");
     	
     	String strJson = str;
     	
     	
     	expectedXml =
     			"<TestObject>"
-    			+ "<string>"+strXml+"</string>"
-    			+ "<rubriqueRichText xml:lang=\"fr\"><Texte>" +strXml+"</Texte></rubriqueRichText>"
+    			+ "<string>"+str+"</string>"
+    			+ "<rubriqueRichText xml:lang=\"fr\"><Texte>" +str+"</Texte></rubriqueRichText>"
     			+ "</TestObject>";
     	
     	expectedJson =
     				"{\"string\":\""+strJson+"\","
     				+ "\"rubriqueRichText\":{\"texte\":\""+strJson+"\",\"langue\":\"fr\"}}";
+    	
+
 	}
     
 
