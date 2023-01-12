@@ -12,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
@@ -44,7 +46,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Path("/codes")
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class CodesAPI extends AbstractMetadataApi {
-
+	
+    private static Logger logger = LogManager.getLogger(CodesAPI.class);
 
     @Path("/cj/n2/{code: [0-9]{2}}")
     @GET
@@ -83,7 +86,6 @@ public class CodesAPI extends AbstractMetadataApi {
             required = true,
             description = "Identifiant de la catégorie juridique de niveau 3 (quatre chiffres)", example="7112") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
-
 
         CategorieJuridiqueNiveauIII cjNiveau3 = new CategorieJuridiqueNiveauIII(code);
         String csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCategorieJuridiqueNiveauIII(code));
@@ -159,12 +161,23 @@ public class CodesAPI extends AbstractMetadataApi {
             description = "Code de la sous-classe (deux chiffres, un point, deux chiffres et une lettre majuscule)", example="33.16Z") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
 
-        SousClasseNAF2008 sousClasse = new SousClasseNAF2008(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
-        sousClasse = (SousClasseNAF2008) csvUtils.populatePOJO(csvResult, sousClasse);
+        //Check if element is not already in cache
+        SousClasseNAF2008 sousClasse = cacheHelper.getSousClasseNaf2008CacheFromCacheManager().get(code);
+        
+        if(sousClasse == null) {
+        	sousClasse = new SousClasseNAF2008(code);
+        	String csvResult = sparqlUtils.executeSparqlQuery(Naf2008Queries.getSousClasseNAF2008(code));
+        	sousClasse = (SousClasseNAF2008) csvUtils.populatePOJO(csvResult, sousClasse);
 
-        if (sousClasse.getUri() == null) {
-            return Response.status(Status.NOT_FOUND).entity("").build();
+	        if (sousClasse.getUri() == null) {
+	            return Response.status(Status.NOT_FOUND).entity("").build();
+	        }
+	        
+	        //Add element in cache
+	        logger.debug("Add {} to cache sousclasseNaf2008", code);
+	        cacheHelper.getSousClasseNaf2008CacheFromCacheManager().put(code, sousClasse);
+        } else {
+	        logger.debug("Use cache sousclasseNaf2008 for code {}", code);
         }
         return Response.ok(responseUtils.produceResponse(sousClasse, header)).build();
     }
@@ -242,7 +255,7 @@ public class CodesAPI extends AbstractMetadataApi {
             description = "Code de la classe (deux chiffres, un point,  un chiffre, une lettre majuscule)", example = "28.1C") @PathParam("code") String code,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
 
-        ClasseNAF1993 classe = new ClasseNAF1993(code);
+    	ClasseNAF1993 classe = new ClasseNAF1993(code);
         String csvResult = sparqlUtils.executeSparqlQuery(Naf1993Queries.getClasseNAF1993(code));
         classe = (ClasseNAF1993) csvUtils.populatePOJO(csvResult, classe);
 
@@ -326,5 +339,9 @@ public class CodesAPI extends AbstractMetadataApi {
             return Response.ok(responseUtils.produceResponse(activityList, header)).build();
         }
     }
+
+	public String formatParamToLog(String code) {
+		return code.replaceAll("[\n\r\t]", "_");
+	}
 
 }
