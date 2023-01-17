@@ -14,6 +14,7 @@ import fr.insee.rmes.modeles.geo.territoire.CommuneAssociee;
 import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
 import fr.insee.rmes.modeles.geo.territoire.Departement;
 import fr.insee.rmes.modeles.geo.territoire.District;
+import fr.insee.rmes.modeles.geo.territoire.Intercommunalite;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine2020;
@@ -29,6 +30,7 @@ import fr.insee.rmes.modeles.geo.territoires.CommunesAssociees;
 import fr.insee.rmes.modeles.geo.territoires.CommunesDeleguees;
 import fr.insee.rmes.modeles.geo.territoires.Departements;
 import fr.insee.rmes.modeles.geo.territoires.Districts;
+import fr.insee.rmes.modeles.geo.territoires.Intercommunalites;
 import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.modeles.geo.territoires.UnitesUrbaines2020;
@@ -50,8 +52,9 @@ public enum EnumTypeGeographie {
 	AIRE_ATTRACTION("AireDAttractionDesVilles2020",AireDAttractionDesVilles2020.class,AiresDAttractionDesVilles2020.class,Constants.NONE),
 	UNITE_URBAINE("UniteUrbaine2020", UniteUrbaine2020.class,UnitesUrbaines2020.class,Constants.NONE),
 	DISTRICT("District",District.class,Districts.class,Constants.NONE),
-	CIRCONSCRIPTION_TERRITORIALE("CirconscriptionTerritoriale",CirconscriptionTerritoriale.class,CirconscriptionsTerritoriales.class,Constants.NONE);
-
+	CIRCONSCRIPTION_TERRITORIALE("CirconscriptionTerritoriale",CirconscriptionTerritoriale.class,CirconscriptionsTerritoriales.class,Constants.NONE),
+	INTERCOMMUNALITE("Intercommunalite",Intercommunalite.class,Intercommunalites.class,Constants.NONE);
+	
 	private String typeObjetGeo;
 	private Class<? extends Territoire> classNameOfGeoType;
 	private Class<? extends Territoires> classPluralGeoType;

@@ -56,6 +56,10 @@ public class GeoQueries extends Queries {
         return getTerritoireFiltre(code, date,"*",EnumTypeGeographie.DISTRICT,true);
     }
     
+    public static String getIntercommunaliteByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.INTERCOMMUNALITE);
+    }
+    
     public static String getRegionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }

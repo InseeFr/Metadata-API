@@ -42,6 +42,15 @@ public abstract class Territoire {
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="ChefLieu")
     protected String chefLieu = null;
+    
+    @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name="IntituleComplet")
+    protected String intituleComplet = null;
+    
+    @JsonInclude(Include.NON_EMPTY)
+    @XmlElement(name="CategorieJuridique")
+    protected String categorieJuridique = null;
+    
 
     @JacksonXmlProperty(isAttribute = true)
     public String getCode() {
@@ -98,6 +107,28 @@ public abstract class Territoire {
         this.dateSuppression = dateSuppression;
         this.intituleSansArticle = intituleSansArticle;
     }
+    
+    public Territoire(
+            String code,
+            String uri,
+            String intitule,
+            String type,
+            String dateCreation,
+            String dateSuppression,
+            IntituleSansArticle intituleSansArticle,
+            String intituleComplet,
+            String categorieJuridique) {
+            super();
+            this.code = code;
+            this.uri = uri;
+            this.intitule = intitule;
+            this.type = type;
+            this.dateCreation = dateCreation;
+            this.dateSuppression = dateSuppression;
+            this.intituleSansArticle = intituleSansArticle;
+            this.intituleComplet = intituleComplet;
+            this.categorieJuridique= categorieJuridique;
+        }
     
     public Territoire() {
         this.intituleSansArticle = new IntituleSansArticle();
@@ -170,4 +201,23 @@ public abstract class Territoire {
     public void setChefLieu(String chefLieu) {
         this.chefLieu = chefLieu;
     }
+    
+    @JacksonXmlProperty(localName = "IntituleComplet")
+    public String getIntituleComplet() {
+        return intituleComplet;
+    }
+
+    public void setIntituleComplet(String intituleComplet) {
+        this.intituleComplet = intituleComplet;
+    }
+    
+    @JacksonXmlProperty(localName = "CategorieJuridique")
+    public String getCategorieJuridique() {
+        return categorieJuridique;
+    }
+
+    public void setCategorieJuridique(String categorieJuridique) {
+        this.categorieJuridique = categorieJuridique;
+    }
+    
 }
