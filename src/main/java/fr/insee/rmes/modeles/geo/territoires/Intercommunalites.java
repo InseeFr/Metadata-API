@@ -26,7 +26,7 @@ public class Intercommunalites extends Territoires {
         this.intercommunalites = intercommunalites;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "Intercommunalites")
+    @JacksonXmlProperty(isAttribute = true, localName = "Intercommunalite")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Intercommunalite> getIntercommunalites() {
         return intercommunalites;

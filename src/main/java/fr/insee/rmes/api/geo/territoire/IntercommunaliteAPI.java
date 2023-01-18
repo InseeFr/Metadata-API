@@ -14,8 +14,10 @@ import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Intercommunalite;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
 import fr.insee.rmes.modeles.geo.territoires.Intercommunalites;
+import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,7 +43,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	    private static final String LITTERAL_CODE_EXAMPLE = "240100883";
 	    private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 	    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom de l'intercommunalité" ;
-	    private static final String LITTERAL_PARAMETER_COM_DESCRIPTION="Sélectionner \"true\" pour inclure les collectivités d’outre-mer";
+	    private static final String LITTERAL_DATE_EXAMPLE = "2014-01-01";
 	    
 	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO)
 	    @GET
@@ -126,4 +128,142 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	        }
 	    }
 
+	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO + ConstGeoApi.PATH_PRECEDENT)
+	    @GET
+	    @Produces({
+	        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+	    })
+	    @Operation(
+	        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PRECEDENT,
+	        summary = "Informations concernant les intercommunalités qui précèdent l’intercommunalité",
+	        responses = {
+	            @ApiResponse(
+	                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+	                description = LITTERAL_RESPONSE_DESCRIPTION)
+	        })
+	    public Response getAscendants(
+	        @Parameter(
+	            description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
+	            required = true,
+	            schema = @Schema(
+	                pattern = ConstGeoApi.PATTERN_INTERCO,
+	                type = Constants.TYPE_STRING, example="200046977")) @PathParam(Constants.CODE) String code,
+	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+	        @Parameter(
+	            description = "Filtre pour renvoyer les informations concernant les intercommunalités qui précèdent l’intercommunalité à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+	            required = false,
+	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+	                value = Constants.PARAMETER_DATE) String date) {
+
+	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+	            return this.generateBadRequestResponse();
+	        }
+	        else {
+	            return this
+	                .generateResponseListOfTerritoire(
+	                    sparqlUtils
+	                        .executeSparqlQuery(
+	                            GeoQueries
+	                                .getPreviousIntercommunalite(
+	                                    code,
+	                                    this.formatValidParameterDateIfIsNull(date)
+	                                    )),
+	                    header,
+	                    Intercommunalites.class,
+	                    Intercommunalite.class);
+	        }
+	    }	  
+	    
+	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO + ConstGeoApi.PATH_DESCENDANT)
+	    @GET
+	    @Produces({
+	        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+	    })
+	    @Operation(
+	        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
+	        summary = "Informations concernant les territoires inclus dans l'intercommunalite",
+	        responses = {
+	            @ApiResponse(
+	                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+	                description = LITTERAL_RESPONSE_DESCRIPTION)
+	        })
+	    public Response getDescendants(
+	        @Parameter(
+	            description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
+	            required = true,
+	            schema = @Schema(
+	                pattern = ConstGeoApi.PATTERN_INTERCO,
+	                type = Constants.TYPE_STRING, example="200000438")) @PathParam(Constants.CODE) String code,
+	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+	        @Parameter(
+	            description = "Filtre pour renvoyer les territoires inclus dans l'intercommunalité active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+	            required = false,
+	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+	                value = Constants.PARAMETER_DATE) String date,
+	        @Parameter(
+	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
+	            required = false,
+	            schema = @Schema(type = Constants.TYPE_STRING, example="Intercommunalité")) @QueryParam(
+	                value = Constants.PARAMETER_TYPE) String typeTerritoire) {
+
+	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+	            return this.generateBadRequestResponse();
+	        }
+	        else {
+	            return this
+	                .generateResponseListOfTerritoire(
+	                    sparqlUtils
+	                        .executeSparqlQuery(
+	                            GeoQueries
+	                                .getDescendantsIntercommunalite(
+	                                    code,
+	                                    this.formatValidParameterDateIfIsNull(date),
+	                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+	                    header,
+	                    Territoires.class,
+	                    Territoire.class);
+	        }
+	    }
+	    
+	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO + ConstGeoApi.PATH_SUIVANT)
+	    @GET
+	    @Produces({
+	        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+	    })
+	    @Operation(
+	        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_SUIVANT,
+	        summary = "Informations concernant les intercommunalités qui succèdent à l'intercommunalite",
+	        responses = {
+	            @ApiResponse(
+	                content = @Content(schema = @Schema(implementation = Intercommunalite.class)),
+	                description = LITTERAL_RESPONSE_DESCRIPTION)
+	        })
+	    public Response getSuivant(
+	        @Parameter(
+	            description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
+	            required = true,
+	            schema = @Schema(
+	                pattern = ConstGeoApi.PATTERN_INTERCO,
+	                type = Constants.TYPE_STRING, example="246900245")) @PathParam(Constants.CODE) String code,
+	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+	        @Parameter(
+	            description = "Filtre pour préciser l'intercommunalité de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
+	            required = false,
+	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
+	                value = Constants.PARAMETER_DATE) String date) {
+
+	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+	            return this.generateBadRequestResponse();
+	        }
+	        else {
+	            return this
+	                .generateResponseListOfTerritoire(
+	                    sparqlUtils
+	                        .executeSparqlQuery(
+	                            GeoQueries.getNextIntercommunalite(code, this.formatValidParameterDateIfIsNull(date))),
+	                    header,
+	                    Intercommunalites.class,
+	                    Intercommunalite.class);
+	        }
+	    }
 }
