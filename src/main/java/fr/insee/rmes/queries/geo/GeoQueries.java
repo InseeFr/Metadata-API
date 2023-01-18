@@ -56,6 +56,10 @@ public class GeoQueries extends Queries {
         return getTerritoireFiltre(code, date,"*",EnumTypeGeographie.DISTRICT,true);
     }
     
+    public static String getIntercommunaliteByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.INTERCOMMUNALITE);
+    }
+    
     public static String getRegionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }
@@ -79,6 +83,10 @@ public class GeoQueries extends Queries {
     /* LIST */
     public static String getListCommunes(String date,String filtreNom,boolean com) {
         return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.COMMUNE,com);
+    } 
+    
+    public static String getListIntercommunalites(String date,String filtreNom) {
+        return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.INTERCOMMUNALITE,true);
     } 
 
     public static String getListCollectivitesDOutreMer(String date) {
