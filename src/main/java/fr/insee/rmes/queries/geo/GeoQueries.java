@@ -84,6 +84,10 @@ public class GeoQueries extends Queries {
     public static String getListCommunes(String date,String filtreNom,boolean com) {
         return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.COMMUNE,com);
     } 
+    
+    public static String getListIntercommunalites(String date,String filtreNom) {
+        return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.INTERCOMMUNALITE,true);
+    } 
 
     public static String getListCollectivitesDOutreMer(String date) {
         return getTerritoireFiltre(Constants.NONE, date,Constants.ABSENT, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,true);
