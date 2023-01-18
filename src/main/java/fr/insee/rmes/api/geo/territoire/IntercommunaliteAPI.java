@@ -101,7 +101,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	    public Response getListe(
 	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
 	        @Parameter(
-	            description = "Filtre pour renvoyer les communes intercommunalités à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
+	            description = "Filtre pour renvoyer les intercommunalités à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
 	            required = false,
 	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 	                value = Constants.PARAMETER_DATE) String date,
