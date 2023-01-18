@@ -259,6 +259,10 @@ public class GeoQueries extends Queries {
     public static String getProjectionCommune(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.COMMUNE);
     }
+    
+    public static String getProjectionIntercommunalite(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.INTERCOMMUNALITE);
+    }
 
     public static String getProjectionDepartement(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.DEPARTEMENT);
@@ -279,6 +283,10 @@ public class GeoQueries extends Queries {
     // ALL PROJECTIONs
     public static String getAllProjectionCommune(String date, String dateProjection) {
         return getAllProjectionQuery(date, dateProjection, EnumTypeGeographie.COMMUNE);
+    }
+    
+    public static String getAllProjectionIntercommunalite(String date, String dateProjection) {
+        return getAllProjectionQuery(date, dateProjection, EnumTypeGeographie.INTERCOMMUNALITE);
     }
 
     public static String getAllProjectionDepartement(String date, String dateProjection) {

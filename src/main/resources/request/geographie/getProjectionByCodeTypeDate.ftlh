@@ -1,5 +1,6 @@
-SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
+SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?intituleComplet ?categorieJuridique
 FROM <http://rdf.insee.fr/graphes/geo/cog>
+FROM <http://rdf.insee.fr/graphes/codes/cj>
 
 WHERE {
 			?origine a igeo:${typeOrigine} ;
@@ -48,6 +49,12 @@ WHERE {
 					igeo:codeArticle ?typeArticle;
 					igeo:nom ?intitule;
 					igeo:nomSansArticle ?intituleSansArticle .
+					OPTIONAL {
+					?uri a igeo:${typeOrigine} ;
+					igeo:nomIntercommunalite ?intituleComplet ;
+					insee:categorieJuridique ?cj.
+					?cj skos:prefLabel ?categorieJuridique.
+					}
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
 					               igeo:date ?dateCreation .

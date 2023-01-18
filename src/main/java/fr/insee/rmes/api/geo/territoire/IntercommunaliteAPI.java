@@ -13,13 +13,17 @@ import javax.ws.rs.core.Response;
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
+import fr.insee.rmes.modeles.geo.territoire.Departement;
 import fr.insee.rmes.modeles.geo.territoire.Intercommunalite;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
+import fr.insee.rmes.modeles.geo.territoires.Departements;
 import fr.insee.rmes.modeles.geo.territoires.Intercommunalites;
+import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -265,5 +269,57 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                    Intercommunalites.class,
 	                    Intercommunalite.class);
 	        }
+	    }
+	    
+	   
+	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO + ConstGeoApi.PATH_PROJECTION)
+	    @GET
+	    @Produces({
+	        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+	    })
+	    @Operation(
+	        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
+	        summary = "Informations concernant les intercommunalites qui résultent de la projection de l'intercommunalité à la date passée en paramètre. ",
+	        responses = {
+	            @ApiResponse(
+	                content = @Content(schema = @Schema(implementation = Intercommunalite.class)),
+	                description = LITTERAL_RESPONSE_DESCRIPTION)
+	        })
+	    public Response getProjection(
+	        @Parameter(
+	            description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
+	            required = true,
+	            schema = @Schema(
+	                pattern = ConstGeoApi.PATTERN_INTERCO,
+	                type = Constants.TYPE_STRING, example="200046977")) @PathParam(Constants.CODE) String code,
+	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+	        @Parameter(
+	            description = "Filtre pour préciser l'intercommunalité de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
+	            required = false,
+	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+	                value = Constants.PARAMETER_DATE) String date,
+	        @Parameter(
+	            description = "Date vers laquelle est projetée l'intercommunalité. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
+	            required = true,
+	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example="2013-01-01")) @QueryParam(
+	                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
+
+	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+	            return this.generateBadRequestResponse();
+	        }
+	        else {
+	            return this
+	                    .generateResponseListOfTerritoire(
+	                        sparqlUtils
+	                            .executeSparqlQuery(
+	                                GeoQueries
+	                                    .getProjectionIntercommunalite(
+	                                        code,
+	                                        this.formatValidParameterDateIfIsNull(date),
+	                                        dateProjection)),
+	                        header,
+	                        Intercommunalites.class,
+	                        Intercommunalite.class);
+	            }
 	    }
 }
