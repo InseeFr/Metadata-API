@@ -50,7 +50,7 @@ public class ConstGeoApi {
     public static final String PATTERN_CIRCO_TER = "986[1-3]{2}";
     public static final String PATTERN_COM ="9[78][1-9]";
     public static final String PATTERN_DISTRICT ="9[78][1-9]{3}";
-    public static final String PATTERN_INTERCO ="[2][0-4][0-9]{7}";
+    public static final String PATTERN_INTERCO ="2[0-4][0-9]{7}";
     public static final String PATTERN_PAYS = "99[0-9]{3}";
     public static final String PATTERN_REGION = "[0-9]{2}";
     public static final String PATTERN_ZONE_EMPLOI = "[0-9]{4}";
