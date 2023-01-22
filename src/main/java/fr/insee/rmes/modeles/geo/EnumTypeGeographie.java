@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
 import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
 import fr.insee.rmes.modeles.geo.territoire.ArrondissementMunicipal;
+import fr.insee.rmes.modeles.geo.territoire.BassinDeVie2022;
 import fr.insee.rmes.modeles.geo.territoire.Canton;
 import fr.insee.rmes.modeles.geo.territoire.CirconscriptionTerritoriale;
 import fr.insee.rmes.modeles.geo.territoire.CollectiviteDOutreMer;
@@ -22,6 +23,7 @@ import fr.insee.rmes.modeles.geo.territoire.ZoneDEmploi2020;
 import fr.insee.rmes.modeles.geo.territoires.AiresDAttractionDesVilles2020;
 import fr.insee.rmes.modeles.geo.territoires.Arrondissements;
 import fr.insee.rmes.modeles.geo.territoires.ArrondissementsMunicipaux;
+import fr.insee.rmes.modeles.geo.territoires.BassinsDeVie2022;
 import fr.insee.rmes.modeles.geo.territoires.Cantons;
 import fr.insee.rmes.modeles.geo.territoires.CirconscriptionsTerritoriales;
 import fr.insee.rmes.modeles.geo.territoires.CollectivitesDOutreMer;
@@ -53,7 +55,9 @@ public enum EnumTypeGeographie {
 	UNITE_URBAINE("UniteUrbaine2020", UniteUrbaine2020.class,UnitesUrbaines2020.class,Constants.NONE),
 	DISTRICT("District",District.class,Districts.class,Constants.NONE),
 	CIRCONSCRIPTION_TERRITORIALE("CirconscriptionTerritoriale",CirconscriptionTerritoriale.class,CirconscriptionsTerritoriales.class,Constants.NONE),
-	INTERCOMMUNALITE("Intercommunalite",Intercommunalite.class,Intercommunalites.class,Constants.NONE);
+	INTERCOMMUNALITE("Intercommunalite",Intercommunalite.class,Intercommunalites.class,Constants.NONE),
+	BASSINDEVIE("BassinDeVie2022",BassinDeVie2022.class,BassinsDeVie2022.class,Constants.NONE);
+	
 	
 	private String typeObjetGeo;
 	private Class<? extends Territoire> classNameOfGeoType;
