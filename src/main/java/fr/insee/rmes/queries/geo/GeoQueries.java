@@ -60,6 +60,10 @@ public class GeoQueries extends Queries {
         return getTerritoire(code, date, EnumTypeGeographie.INTERCOMMUNALITE);
     }
     
+    public static String getBassinDeVie2022ByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.BASSINDEVIE);
+    }
+    
     public static String getRegionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }
@@ -88,7 +92,11 @@ public class GeoQueries extends Queries {
     public static String getListIntercommunalites(String date,String filtreNom) {
         return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.INTERCOMMUNALITE,true);
     } 
-
+    
+    public static String getListBassinsDeVie(String date,String filtreNom) {
+        return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.BASSINDEVIE,true);
+    } 
+    
     public static String getListCollectivitesDOutreMer(String date) {
         return getTerritoireFiltre(Constants.NONE, date,Constants.ABSENT, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,true);
     }
@@ -179,7 +187,9 @@ public class GeoQueries extends Queries {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.INTERCOMMUNALITE,Constants.ABSENT,Constants.NONE, false);
     }
     
-    
+    public static String getDescendantsBassinDeVie(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.BASSINDEVIE,Constants.ABSENT,Constants.NONE, false);
+    }
 
     public static String getDescendantsZoneEmploi(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ZONE_EMPLOI,Constants.ABSENT,Constants.NONE, false);

@@ -24,6 +24,7 @@ public class ConstGeoApi {
     public static final String PATH_DISTRICT= PATH_SEPARATOR + "district";
     public static final String PATH_LISTE_COM= PATH_SEPARATOR +"collectivitesDOutreMer";
     public static final String PATH_INTERCO= PATH_SEPARATOR + "intercommunalite";
+    public static final String PATH_BASSINDEVIE= PATH_SEPARATOR + "bassinDeVie2022";
 
     public static final String PATH_LISTE_COMMUNE = PATH_SEPARATOR + "communes";
     public static final String PATH_LISTE_PAYS = PATH_SEPARATOR + "pays";
@@ -38,6 +39,7 @@ public class ConstGeoApi {
     public static final String PATH_LISTE_UNITE_URBAINE = PATH_SEPARATOR + "unitesUrbaines2020";
     public static final String PATH_LISTE_DISTRICT = PATH_SEPARATOR + "districts";
     public static final String PATH_LISTE_INTERCO = PATH_SEPARATOR + "intercommunalités";
+    public static final String PATH_LISTE_BASSINDEVIE= PATH_SEPARATOR + "bassinDeVie2022";
     
     public static final String PATH_ASCENDANT = PATH_SEPARATOR + "ascendants";
     public static final String PATH_DESCENDANT = PATH_SEPARATOR + "descendants";
@@ -59,7 +61,9 @@ public class ConstGeoApi {
     public static final String PATTERN_DEPARTEMENT = "([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])";
     public static final String PATTERN_ARRONDISSEMENT = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]";
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
+    public static final String PATTERN_BASSINDEVIE = "[0-9]{5}";
 
+    public static final String PATTERN_BASSINDEVIE_DESCRIPTION = "Code du bassin de vie (cinq caractères)";
     public static final String PATTERN_CIRCO_TER_DESCRIPTION = "Code de la circonscription territoriale (cinq caractères)";
     public static final String PATTERN_COMMUNE_DESCRIPTION = "Code de la commune (cinq caractères)";
     public static final String PATTERN_COM_DESCRIPTION= "Code de la collectivité d'outre-mer (trois caractères)";

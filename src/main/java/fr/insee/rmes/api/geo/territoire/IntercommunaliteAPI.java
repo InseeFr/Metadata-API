@@ -12,18 +12,12 @@ import javax.ws.rs.core.Response;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
-import fr.insee.rmes.modeles.geo.territoire.Commune;
-import fr.insee.rmes.modeles.geo.territoire.Departement;
 import fr.insee.rmes.modeles.geo.territoire.Intercommunalite;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoires.Communes;
-import fr.insee.rmes.modeles.geo.territoires.Departements;
 import fr.insee.rmes.modeles.geo.territoires.Intercommunalites;
-import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -207,7 +201,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	        @Parameter(
 	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
 	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, example="Intercommunalité")) @QueryParam(
+	            schema = @Schema(type = Constants.TYPE_STRING, example="Commune")) @QueryParam(
 	                value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
 	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
