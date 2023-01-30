@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import fr.insee.rmes.api.geo.territoire.CommuneApi;
+import fr.insee.rmes.config.CacheHelper;
 import fr.insee.rmes.utils.SparqlUtils;
 
 public class CommuneApiIntegrationTest {
@@ -27,10 +28,12 @@ public class CommuneApiIntegrationTest {
 
     @Mock
     protected SparqlUtils mockSparqlUtils;
-
+    
     @Before
     public void init() {
+    	CacheHelper.getInstance().cleanActualCommunesCache();
         MockitoAnnotations.initMocks(this);
+        
     }
 
     @Test

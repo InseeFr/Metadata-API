@@ -67,7 +67,6 @@ public class AireAttractionApi  extends AbstractGeoApi {
 					required = false,
 					schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
 							value = Constants.PARAMETER_DATE) String date) {
-
 		if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
 			return this.generateBadRequestResponse();
 		}

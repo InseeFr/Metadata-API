@@ -41,7 +41,7 @@ WHERE {
 			BIND(IF((!BOUND(?uriProj)&&(?dateCreationOrigine <= '${dateProjection}'^^xsd:date)),
 				?origine, 
 				IF(!BOUND(?uriProj),"no response",?uriProj)) 
-				AS ?uri).
+				AS ?uri2).
 
 <#else>
 			?evenementSuppressionOrigine igeo:suppression+ ?origine ;
@@ -53,8 +53,9 @@ WHERE {
 			BIND(IF((!BOUND(?uriProj)&&(?dateSuppressionOrigine >= '${dateProjection}'^^xsd:date)),
 				?origine, 
 				IF(!BOUND(?uriProj),"no response",?uriProj)) 
-				AS ?uri).
-</#if>					
+				AS ?uri2).
+</#if>			
+			FILTER(?uri = ?uri2)		
 
 			?uri a igeo:${typeOrigine} ;
 					igeo:codeINSEE ?code ;

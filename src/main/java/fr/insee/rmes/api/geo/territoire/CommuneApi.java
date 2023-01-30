@@ -1,5 +1,8 @@
 package fr.insee.rmes.api.geo.territoire;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -9,6 +12,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.apache.commons.lang3.StringUtils;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
@@ -224,15 +229,29 @@ public class CommuneApi extends AbstractGeoApi {
         if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
         }
-        else {
+        boolean today = date == null || date.equals(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()));
+        boolean isCachable = today && StringUtils.isEmpty(filtreNom) && !this.formatValidParameterBooleanIfIsNull(com);
+
+        String communesCsv = null;
+        
+        if (isCachable) {        //Check if element is not already in cache
+        	communesCsv = cacheHelper.getActualCommunesCacheFromCacheManager().get("all");
+        }
+        
+        if (communesCsv == null) {
+        	communesCsv = sparqlUtils
+                    .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterBooleanIfIsNull(com)));
+        	if (isCachable) {   //store list in cache
+        		cacheHelper.getActualCommunesCacheFromCacheManager().put("all", communesCsv);
+        	}
+        }	
             return this
                 .generateResponseListOfTerritoire(
-                    sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterBooleanIfIsNull(com))),
+                	communesCsv,
                     header,
                     Communes.class,
                     Commune.class);
-        }
+        
     }
 
     @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)
