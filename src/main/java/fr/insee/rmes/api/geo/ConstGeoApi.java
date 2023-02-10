@@ -38,7 +38,7 @@ public class ConstGeoApi {
     public static final String PATH_LISTE_AIRE_ATTRACTION = PATH_SEPARATOR + "airesDAttractionDesVilles2020";
     public static final String PATH_LISTE_UNITE_URBAINE = PATH_SEPARATOR + "unitesUrbaines2020";
     public static final String PATH_LISTE_DISTRICT = PATH_SEPARATOR + "districts";
-    public static final String PATH_LISTE_INTERCO = PATH_SEPARATOR + "intercommunalités";
+    public static final String PATH_LISTE_INTERCO = PATH_SEPARATOR + "intercommunalites";
     public static final String PATH_LISTE_BASSINDEVIE= PATH_SEPARATOR + "bassinDeVie2022";
     
     public static final String PATH_ASCENDANT = PATH_SEPARATOR + "ascendants";
