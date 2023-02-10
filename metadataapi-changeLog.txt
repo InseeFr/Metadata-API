@@ -1,3 +1,4 @@
+3.4.1 : fix d'un problème de formatage des fichiers de sortie xml pour les services geo. Ajout d'un service de déréférencement pour impala.
 3.4.0 : optimisation de certaines requêtes + correctif sur les "ArrondissementMunicipal"
 3.3.0 : Passage à Java 11 + Correctif sur les chef lieu
 3.2.1 : Passage à Java 11 pour les tests de charge (non mis en production
