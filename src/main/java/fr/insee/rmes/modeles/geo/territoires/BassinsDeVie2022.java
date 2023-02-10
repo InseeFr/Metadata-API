@@ -26,7 +26,7 @@ public class BassinsDeVie2022 extends Territoires {
         this.bassinsDeVie2022 = bassinsDeVie2022;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "bassinDeVie2022")
+    @JacksonXmlProperty(isAttribute = true, localName = "BassinDeVie2022")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<BassinDeVie2022> getBassinsDeVie2022() {
         return bassinsDeVie2022;
