@@ -56,6 +56,14 @@ public class GeoQueries extends Queries {
         return getTerritoireFiltre(code, date,"*",EnumTypeGeographie.DISTRICT,true);
     }
     
+    public static String getIntercommunaliteByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.INTERCOMMUNALITE);
+    }
+    
+    public static String getBassinDeVie2022ByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.BASSINDEVIE);
+    }
+    
     public static String getRegionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }
@@ -80,7 +88,15 @@ public class GeoQueries extends Queries {
     public static String getListCommunes(String date,String filtreNom,boolean com) {
         return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.COMMUNE,com);
     } 
-
+    
+    public static String getListIntercommunalites(String date,String filtreNom) {
+        return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.INTERCOMMUNALITE,true);
+    } 
+    
+    public static String getListBassinsDeVie(String date,String filtreNom) {
+        return getTerritoireFiltre(Constants.NONE, date,filtreNom, EnumTypeGeographie.BASSINDEVIE,true);
+    } 
+    
     public static String getListCollectivitesDOutreMer(String date) {
         return getTerritoireFiltre(Constants.NONE, date,Constants.ABSENT, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,true);
     }
@@ -145,6 +161,10 @@ public class GeoQueries extends Queries {
     public static String getAscendantsCommuneAssociee(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE_ASSOCIEE,Constants.ABSENT,Constants.NONE, true);
     }
+    
+    public static String getAscendantsIntercommunalite(String code, String date, String type) {
+    	return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.INTERCOMMUNALITE,Constants.ABSENT,Constants.NONE, true) ;
+    }
 
     public static String getAscendantsArrondissementMunicipal(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL,Constants.ABSENT,Constants.NONE, true);
@@ -161,6 +181,14 @@ public class GeoQueries extends Queries {
     
     public static String getDescendantsCollectiviteDOutreMer(String code, String date, String type,String filtreNom) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER, filtreNom,Constants.NONE,false);
+    }
+   
+    public static String getDescendantsIntercommunalite(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.INTERCOMMUNALITE,Constants.ABSENT,Constants.NONE, false);
+    }
+    
+    public static String getDescendantsBassinDeVie(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.BASSINDEVIE,Constants.ABSENT,Constants.NONE, false);
     }
 
     public static String getDescendantsZoneEmploi(String code, String date, String type) {
@@ -190,6 +218,10 @@ public class GeoQueries extends Queries {
     // NEXT
     public static String getNextCommune(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.COMMUNE, false);
+    }
+    
+    public static String getNextIntercommunalite(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.INTERCOMMUNALITE, false);
     }
 
     public static String getNextDepartement(String code, String date) {
@@ -228,10 +260,18 @@ public class GeoQueries extends Queries {
     public static String getPreviousArrondissementMunicipal(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT_MUNICIPAL, true);
     }
+    
+    public static String getPreviousIntercommunalite(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.INTERCOMMUNALITE, true);
+    }
 
     // PROJECTION
     public static String getProjectionCommune(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.COMMUNE);
+    }
+    
+    public static String getProjectionIntercommunalite(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.INTERCOMMUNALITE);
     }
 
     public static String getProjectionDepartement(String code, String date, String dateProjection) {
@@ -253,6 +293,10 @@ public class GeoQueries extends Queries {
     // ALL PROJECTIONs
     public static String getAllProjectionCommune(String date, String dateProjection) {
         return getAllProjectionQuery(date, dateProjection, EnumTypeGeographie.COMMUNE);
+    }
+    
+    public static String getAllProjectionIntercommunalite(String date, String dateProjection) {
+        return getAllProjectionQuery(date, dateProjection, EnumTypeGeographie.INTERCOMMUNALITE);
     }
 
     public static String getAllProjectionDepartement(String date, String dateProjection) {
