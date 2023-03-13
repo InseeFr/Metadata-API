@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<name>Implementation of the RMéS metadata API</name>
 	
-	<version>3.5.0</version>
+	<version>3.6.0</version>
 	
 	<properties>
 		<title>API RM\u00e9S</title>
@@ -253,7 +253,7 @@
        				 <junitArtifactName>junit:junit</junitArtifactName>
         			<encoding>UTF-8</encoding>
        				 <inputEncoding>UTF-8</inputEncoding>
-        			<outputEncoding>UTF-8</outputEncoding>
+        			 <outputEncoding>UTF-8</outputEncoding>
 					<!-- permet la surcharge de maven-surefire-plugin tout en fonctionnant avec jacoco -->
 					<!-- <argLine>${argLine}</argLine>	MAVEN surcharge with properties	 -->
     			</configuration>
