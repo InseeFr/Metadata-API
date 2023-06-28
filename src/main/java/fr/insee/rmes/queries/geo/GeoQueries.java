@@ -109,6 +109,10 @@ public class GeoQueries extends Queries {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.REGION);
     }
 
+    public static String getListCantons(String date){
+        return getTerritoire(Constants.NONE,date,EnumTypeGeographie.CANTON);
+    }
+
     public static String getListAiresAttraction(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.AIRE_ATTRACTION);
     }
