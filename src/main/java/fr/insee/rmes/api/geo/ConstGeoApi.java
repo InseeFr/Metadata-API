@@ -79,6 +79,7 @@ public class ConstGeoApi {
     public static final String PATTERN_AIRE_ATTRACTION_DESCRIPTION = "Code de l'aire d'attraction (trois chiffres)";
     public static final String PATTERN_PAYS_DESCRIPTION = "Code du pays (cinq chiffres, débutant par 99)";
     public static final String PATTERN_REGION_DESCRIPTION = "Code de la région (deux chiffres)";
+    public static final String PATTERN_CANTON_DESCRIPTION = "Code du canton (quatre chiffres)" ;
     public static final String PATTERN_DEPARTEMENT_DESCRIPTION =
         "Code du département (deux ou trois caractères)";
     public static final String PATTERN_ARRONDISSEMENT_DESCRIPTION =
@@ -93,6 +94,7 @@ public class ConstGeoApi {
     public static final String ID_OPERATION_SUIVANT = "suiv";
     public static final String ID_OPERATION_PROJECTION = "proj";
     public static final String ID_OPERATION_PROJECTIONS = "allpro";
+
 
 
     private ConstGeoApi() {}

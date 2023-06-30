@@ -67,6 +67,9 @@ public class GeoQueries extends Queries {
     public static String getRegionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }
+    public static String getCantonByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.CANTON);
+    }
 
     public static String getArrondissementByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.ARRONDISSEMENT);
@@ -235,6 +238,9 @@ public class GeoQueries extends Queries {
     public static String getNextRegion(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, false);
     }
+    public static String getNextCanton(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON, false);
+    }
 
     public static String getNextArrondissement(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT, false);
@@ -255,6 +261,9 @@ public class GeoQueries extends Queries {
 
     public static String getPreviousRegion(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, true);
+    }
+    public static String getPreviousCanton(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON, true);
     }
 
     public static String getPreviousArrondissement(String code, String date) {
@@ -284,6 +293,11 @@ public class GeoQueries extends Queries {
 
     public static String getProjectionRegion(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.REGION);
+    }
+
+
+    public static String getProjectionCanton(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.CANTON);
     }
 
     public static String getProjectionArrondissement(String code, String date, String dateProjection) {
@@ -424,5 +438,7 @@ public class GeoQueries extends Queries {
             + "FILTER (lang(?intituleEntier) = 'fr') \n"
             + "}";
     }
+
+
 
 }
