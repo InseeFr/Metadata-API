@@ -5,8 +5,10 @@ import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Canton;
 import fr.insee.rmes.modeles.geo.territoire.Region;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Cantons;
 import fr.insee.rmes.modeles.geo.territoires.Regions;
+import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,6 +27,7 @@ import javax.ws.rs.core.Response;
 public class CantonAPI extends AbstractGeoApi {
 
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_CANTON + "}";
+    private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Canton";
     private static final String LITTERAL_ID_OPERATION = "getcogcanton";
@@ -39,7 +42,7 @@ public class CantonAPI extends AbstractGeoApi {
     private static final String LITTERAL_DATE_EXAMPLE = "2000-01-01";
 
 
-    
+
     @Path(ConstGeoApi.PATH_CANTON + CODE_PATTERN)
     @GET
     @Produces({
@@ -254,6 +257,58 @@ public class CantonAPI extends AbstractGeoApi {
         }
     }
 
+
+
+    @Path(ConstGeoApi.PATH_CANTON + CODE_PATTERN + ConstGeoApi.PATH_ASCENDANT)
+    @GET
+    @Produces({
+            MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+            operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
+            summary = "Informations concernant les territoires qui contiennent le canton",
+            responses = {
+                    @ApiResponse(
+                            content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                            description = LITTERAL_RESPONSE_DESCRIPTION)
+            })
+    public Response getAscendants(
+            @Parameter(
+                    description = ConstGeoApi.PATTERN_CANTON_DESCRIPTION,
+                    required = true,
+                    schema = @Schema(
+                            pattern = ConstGeoApi.PATTERN_CANTON,
+                            type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = "Filtre pour renvoyer les territoires contenant le canton actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) String date,
+            @Parameter(
+                    description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
+                    value = Constants.PARAMETER_TYPE) String typeTerritoire) {
+
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                    .generateResponseListOfTerritoire(
+                            sparqlUtils
+                                    .executeSparqlQuery(
+                                            GeoQueries
+                                                    .getAscendantsCanton(
+                                                            code,
+                                                            this.formatValidParameterDateIfIsNull(date),
+                                                            this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+                            header,
+                            Territoires.class,
+                            Territoire.class);
+        }
+    }
 
 
 

@@ -88,7 +88,7 @@ public class DepartementApi extends AbstractGeoApi {
     })
     @Operation(
         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
-        summary = "Informations concernant les territoires qui contiennent la departement",
+        summary = "Informations concernant les territoires qui contiennent le département",
         responses = {
             @ApiResponse(
                 content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
