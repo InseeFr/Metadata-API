@@ -4,9 +4,11 @@ import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Canton;
+import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Cantons;
+import fr.insee.rmes.modeles.geo.territoires.Communes;
 import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
@@ -28,18 +30,19 @@ public class CantonAPI extends AbstractGeoApi {
 
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_CANTON + "}";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
+    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom des communes renvoyées" ;
 
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Canton";
     private static final String LITTERAL_ID_OPERATION = "getcogcanton";
-    private static final String LITTERAL_CODE_EXAMPLE = "06";
+    private static final String LITTERAL_CODE_EXAMPLE = "0101";
 
-    private static final String LITTERAL_CODE_HISTORY_EXAMPLE = "44";
+    private static final String LITTERAL_CODE_HISTORY_EXAMPLE = "0103";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
             "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_OPERATION_SUMMARY =
-            "Informations sur un canton identifié par son code (cinq chiffres)";
+            "Informations sur un canton identifié par son code (quatre chiffres)";
 
-    private static final String LITTERAL_DATE_EXAMPLE = "2000-01-01";
+    private static final String LITTERAL_DATE_EXAMPLE = "2020-01-01";
 
 
 
@@ -111,13 +114,14 @@ public class CantonAPI extends AbstractGeoApi {
         }
         else {
 
-            return this
+            Response Response = this
                     .generateResponseListOfTerritoire(
                             sparqlUtils
                                     .executeSparqlQuery(GeoQueries.getListCantons(this.formatValidParameterDateIfIsNull(date))),
                             header,
                             Cantons.class,
                             Canton.class);
+            return Response;
         }
     }
 
@@ -140,7 +144,7 @@ public class CantonAPI extends AbstractGeoApi {
                     required = true,
                     schema = @Schema(
                             pattern = ConstGeoApi.PATTERN_CANTON,
-                            type = Constants.TYPE_STRING, example="41")) @PathParam(Constants.CODE) String code,
+                            type = Constants.TYPE_STRING, example="0103")) @PathParam(Constants.CODE) String code,
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
                     description = "Filtre pour préciser le canton de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
@@ -256,6 +260,7 @@ public class CantonAPI extends AbstractGeoApi {
                             Canton.class);
         }
     }
+
 
 
 
