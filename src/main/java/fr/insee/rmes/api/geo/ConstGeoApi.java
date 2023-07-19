@@ -93,6 +93,7 @@ public class ConstGeoApi {
     public static final String ID_OPERATION_PRECEDENT = "prec";
     public static final String ID_OPERATION_SUIVANT = "suiv";
     public static final String ID_OPERATION_PROJECTION = "proj";
+    public static final String ID_OPERATION_COMMUNES = "communes";
     public static final String ID_OPERATION_PROJECTIONS = "allpro";
 
 
