@@ -18,6 +18,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Objet représentant une commune")
 public class Commune extends Territoire {
 
+    private String inclusion;
+
     // No-args constructor needed for JAXB
     public Commune() {
         this.type = EnumTypeGeographie.COMMUNE.getTypeObjetGeo();
@@ -38,8 +40,9 @@ public class Commune extends Territoire {
         String dateCreation,
         String dateSuppression,
         IntituleSansArticle intituleSansArticle,
+        String inclusion,
         String chefLieu) {
-        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
+        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle,inclusion, chefLieu);
     }
 
     @Override
@@ -85,6 +88,13 @@ public class Commune extends Territoire {
     @Schema(description = "Date de suppression de la commune si elle a été supprimée. ", example = "2019-01-01")
     public String getDateSuppression() {
         return dateSuppression;
+    }
+
+
+    @JacksonXmlProperty(localName = "Inclusion")
+    @Schema(description = "inclusion totale ou partielle dans un canton", example = "totale")
+    public String getInclusion() {
+        return inclusion;
     }
 
 

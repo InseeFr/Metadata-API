@@ -1,15 +1,12 @@
 package fr.insee.rmes.api.geo.territoire;
 
-import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Canton;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
-import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Cantons;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
-import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -261,6 +258,60 @@ public class CantonAPI extends AbstractGeoApi {
         }
     }
 
+    @Path(ConstGeoApi.PATH_CANTON + CODE_PATTERN + "/communes")
+    @GET
+    @Produces({
+            MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+            operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_COMMUNES,
+            summary = "Récupérer les informations concernant les communes qui ont un territoire commun avec le canton {code}\n",
+            responses = {
+                    @ApiResponse(
+                            content = @Content(schema = @Schema(implementation = Canton.class)),
+                            description = LITTERAL_RESPONSE_DESCRIPTION)
+            })
+    public Response getCommunes( @Parameter(
+            description = ConstGeoApi.PATTERN_CANTON_DESCRIPTION,
+            required = true,
+            schema = @Schema(
+                    pattern = ConstGeoApi.PATTERN_CANTON,
+                    type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
+                                 @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+                                 @Parameter(
+                                         description = "La requête renvoie les communes actives à la date donnée. Par défaut, c’est la date courante.  (Format : 'AAAA-MM-JJ')",
+                                         required = false,
+                                         schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                                         value = Constants.PARAMETER_DATE) String date,
+                                 @Parameter(
+                                         description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
+                                         required = false,
+                                         schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
+                                         value = Constants.PARAMETER_TYPE) String typeCommune,
+                                 @Parameter(
+                                         description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
+                                         required = false,
+                                         schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
+                                         value = Constants.PARAMETER_FILTRE) String filtreNom){
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeCommune, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                    .generateResponseListOfTerritoire(
+                            sparqlUtils
+                                    .executeSparqlQuery(
+                                            GeoQueries
+                                                    .getCommunesCanton(
+                                                            code,
+                                                            this.formatValidParameterDateIfIsNull(date),
+                                                            this.formatValidParametertypeTerritoireIfIsNull(typeCommune),this.formatValidParameterFiltreIfIsNull(filtreNom))),
+                            header,
+                            Territoires.class,
+                            Territoire.class);
+        }
+
+    }
 
 
 
