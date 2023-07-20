@@ -10,6 +10,7 @@ public class ConstGeoApi {
 
     public static final String PATH_CIRCO_TER = PATH_SEPARATOR + "circonscriptionTerritoriale";
     public static final String PATH_COMMUNE = PATH_SEPARATOR + "commune";
+    public static final String PATH_CANTON_OU_VILLE = PATH_SEPARATOR + "cantonOuVille";
     public static final String PATH_PAYS = PATH_SEPARATOR + "pays";
     public static final String PATH_REGION = PATH_SEPARATOR + "region";
     public static final String PATH_DEPARTEMENT = PATH_SEPARATOR + "departement";
@@ -23,6 +24,7 @@ public class ConstGeoApi {
     public static final String PATH_COM= PATH_SEPARATOR + "collectiviteDOutreMer";
     public static final String PATH_DISTRICT= PATH_SEPARATOR + "district";
     public static final String PATH_LISTE_COM= PATH_SEPARATOR +"collectivitesDOutreMer";
+    public static final String PATH_LISTE_CANTON_OU_VILLE= PATH_SEPARATOR +"cantonOuVille";
     public static final String PATH_INTERCO= PATH_SEPARATOR + "intercommunalite";
     public static final String PATH_BASSINDEVIE= PATH_SEPARATOR + "bassinDeVie2022";
 
@@ -50,6 +52,7 @@ public class ConstGeoApi {
 
     public static final String PATTERN_COMMUNE = "[0-9][0-9AB][0-9]{3}";
     public static final String PATTERN_CIRCO_TER = "986[1-3]{2}";
+    public static final String PATTERN_CANTON_OU_VILLE = "[0-9]{4}";
     public static final String PATTERN_COM ="9[78][1-9]";
     public static final String PATTERN_DISTRICT ="9[78][1-9]{3}";
     public static final String PATTERN_INTERCO ="2[0-4][0-9]{7}";
@@ -62,8 +65,8 @@ public class ConstGeoApi {
     public static final String PATTERN_ARRONDISSEMENT = "(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))[0-9]";
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
     public static final String PATTERN_BASSINDEVIE = "[0-9][0-9AB][0-9]{3}";
-
     public static final String PATTERN_BASSINDEVIE_DESCRIPTION = "Code du bassin de vie (cinq caractères)";
+    public static final String PATTERN_CANTPN_OU_VILLE_DESCRIPTION= "Code d'un canton-ou-ville' (quatre caractères)";
     public static final String PATTERN_CIRCO_TER_DESCRIPTION = "Code de la circonscription territoriale (cinq caractères)";
     public static final String PATTERN_COMMUNE_DESCRIPTION = "Code de la commune (cinq caractères)";
     public static final String PATTERN_COM_DESCRIPTION= "Code de la collectivité d'outre-mer (trois caractères)";

@@ -68,6 +68,10 @@ public class GeoQueries extends Queries {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }
 
+    public static String getCantonOuVilleByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.CANTON_OU_VILLE);
+    }
+
     public static String getArrondissementByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.ARRONDISSEMENT);
     }
@@ -107,6 +111,9 @@ public class GeoQueries extends Queries {
 
     public static String getListRegions(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.REGION);
+    }
+    public static String getListCantonsOuVilles(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.CANTON_OU_VILLE);
     }
 
     public static String getListAiresAttraction(String date) {
@@ -420,5 +427,6 @@ public class GeoQueries extends Queries {
             + "FILTER (lang(?intituleEntier) = 'fr') \n"
             + "}";
     }
+
 
 }
