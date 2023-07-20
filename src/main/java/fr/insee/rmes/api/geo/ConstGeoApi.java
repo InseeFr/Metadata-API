@@ -66,7 +66,7 @@ public class ConstGeoApi {
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
     public static final String PATTERN_BASSINDEVIE = "[0-9][0-9AB][0-9]{3}";
     public static final String PATTERN_BASSINDEVIE_DESCRIPTION = "Code du bassin de vie (cinq caractères)";
-    public static final String PATTERN_CANTPN_OU_VILLE_DESCRIPTION= "Code d'un canton-ou-ville' (quatre caractères)";
+    public static final String PATTERN_CANTON_OU_VILLE_DESCRIPTION = "Code d'un canton-ou-ville' (quatre caractères)";
     public static final String PATTERN_CIRCO_TER_DESCRIPTION = "Code de la circonscription territoriale (cinq caractères)";
     public static final String PATTERN_COMMUNE_DESCRIPTION = "Code de la commune (cinq caractères)";
     public static final String PATTERN_COM_DESCRIPTION= "Code de la collectivité d'outre-mer (trois caractères)";
