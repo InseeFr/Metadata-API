@@ -307,5 +307,56 @@ public class CantonOuVilleApi extends AbstractGeoApi {
         }
     }
 
+    @Path(ConstGeoApi.PATH_CANTON_OU_VILLE + CODE_PATTERN + ConstGeoApi.PATH_PROJECTION)
+    @GET
+    @Produces({
+            MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+            operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_PROJECTION,
+            summary = "Informations concernant les cantons-ou-villes qui résultent de la projection de la région à la date passée en paramètre. ",
+            responses = {
+                    @ApiResponse(
+                            content = @Content(schema = @Schema(implementation = CantonOuVille.class)),
+                            description = LITTERAL_RESPONSE_DESCRIPTION)
+            })
+    public Response getProjection(
+            @Parameter(
+                    description = ConstGeoApi.PATTERN_CANTON_OU_VILLE_DESCRIPTION,
+                    required = true,
+                    schema = @Schema(
+                            pattern = ConstGeoApi.PATTERN_CANTON_OU_VILLE,
+                            type = Constants.TYPE_STRING, example=LITTERAL_CODE_HISTORY_EXAMPLE)) @PathParam(Constants.CODE) String code,
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = "Filtre pour préciser le canton-ou-ville de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) String date,
+            @Parameter(
+                    description = "Date vers laquelle est projetée le canton-ou-ville. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
+                    required = true,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
+
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                    .generateResponseListOfTerritoire(
+                            sparqlUtils
+                                    .executeSparqlQuery(
+                                            GeoQueries
+                                                    .getProjectionCantonOuVille(
+                                                            code,
+                                                            this.formatValidParameterDateIfIsNull(date),
+                                                            dateProjection)),
+                            header,
+                            CantonsOuVilles.class,
+                            CantonOuVille.class);
+        }
+    }
+
 
 }

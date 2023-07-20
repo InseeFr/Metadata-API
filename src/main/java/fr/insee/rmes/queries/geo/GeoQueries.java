@@ -301,6 +301,9 @@ public class GeoQueries extends Queries {
     public static String getProjectionRegion(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.REGION);
     }
+    public static String getProjectionCantonOuVille(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.CANTON_OU_VILLE);
+    }
 
     public static String getProjectionArrondissement(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.ARRONDISSEMENT);
