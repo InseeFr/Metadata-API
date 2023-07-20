@@ -244,6 +244,9 @@ public class GeoQueries extends Queries {
     public static String getNextRegion(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, false);
     }
+    public static String getNextCantonOuVille(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON_OU_VILLE, false);
+    }
 
     public static String getNextArrondissement(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.ARRONDISSEMENT, false);
@@ -264,6 +267,10 @@ public class GeoQueries extends Queries {
 
     public static String getPreviousRegion(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, true);
+    }
+
+    public static String getPreviousCantonOuVille(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON_OU_VILLE, true);
     }
 
     public static String getPreviousArrondissement(String code, String date) {
@@ -433,6 +440,7 @@ public class GeoQueries extends Queries {
             + "FILTER (lang(?intituleEntier) = 'fr') \n"
             + "}";
     }
+
 
 
 }
