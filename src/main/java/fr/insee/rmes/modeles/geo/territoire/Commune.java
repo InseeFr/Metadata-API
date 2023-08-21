@@ -1,9 +1,11 @@
 package fr.insee.rmes.modeles.geo.territoire;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -16,7 +18,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Commune")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant une commune")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Commune extends Territoire {
+
+    private String inclusion;
 
     // No-args constructor needed for JAXB
     public Commune() {
@@ -40,6 +45,20 @@ public class Commune extends Territoire {
         IntituleSansArticle intituleSansArticle,
         String chefLieu) {
         super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
+    }
+
+    public Commune(
+            String code,
+            String uri,
+            String intitule,
+            String type,
+            String dateCreation,
+            String dateSuppression,
+            IntituleSansArticle intituleSansArticle,
+            String inclusion ,
+            String chefLieu) {
+        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
+        getInclusion();
     }
 
     @Override
@@ -85,6 +104,14 @@ public class Commune extends Territoire {
     @Schema(description = "Date de suppression de la commune si elle a été supprimée. ", example = "2019-01-01")
     public String getDateSuppression() {
         return dateSuppression;
+    }
+
+
+    //@JacksonXmlProperty(localName = "Inclusion")
+    @NotNull
+    @Schema(description = "inclusion totale ou partielle dans un canton", example = "totale")
+    public String getInclusion() {
+        return inclusion;
     }
 
 
