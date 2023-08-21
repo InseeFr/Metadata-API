@@ -12,7 +12,7 @@ a ?typeRDF;
 :nom ?intitule ;
 :nomSansArticle ?intituleSansArticle .
 FILTER(?typeRelation = :territoireCommunAvec || ?typeRelation = :subdivisionDirecteDe)
-BIND(IF(?typeRelation = :territoireCommunAvec, 'partielle', 'totale') AS ?inclusion)
+OPTIONAL {BIND(IF(?typeRelation = :territoireCommunAvec, 'partielle', 'totale') AS ?inclusion)}
 BIND(STR(?typeRDF) AS ?type).
 BIND(STR(?ressource) AS ?uri).
 OPTIONAL {?canton (^:creation/:date) ?dateCreationCanton. }
