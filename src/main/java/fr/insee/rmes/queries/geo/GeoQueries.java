@@ -71,6 +71,10 @@ public class GeoQueries extends Queries {
         return getTerritoire(code, date, EnumTypeGeographie.CANTON);
     }
 
+    public static String getCantonOuVilleByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.CANTON_OU_VILLE);
+    }
+
     public static String getArrondissementByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.ARRONDISSEMENT);
     }
@@ -110,6 +114,9 @@ public class GeoQueries extends Queries {
 
     public static String getListRegions(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.REGION);
+    }
+    public static String getListCantonsOuVilles(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.CANTON_OU_VILLE);
     }
 
     public static String getListCantons(String date){
@@ -184,6 +191,9 @@ public class GeoQueries extends Queries {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT,Constants.ABSENT,Constants.NONE, true);
     }
 
+    public static String getAscendantsCantonOuVille(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.CANTON_OU_VILLE,Constants.ABSENT,Constants.NONE, true);
+    }
     /* DESCENDANT */
     public static String getDescendantsCommune(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.COMMUNE,Constants.ABSENT,Constants.NONE, false);
@@ -220,6 +230,9 @@ public class GeoQueries extends Queries {
     public static String getDescendantsRegion(String code, String date, String type,String filtreNom) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.REGION,filtreNom,Constants.NONE, false);
     }
+    public static String getDescendantsCantonOuVille(String code, String date, String type, String filtreNom) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.CANTON_OU_VILLE,filtreNom,Constants.NONE, false);
+    }
 
     public static String getDescendantsArrondissement(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.ARRONDISSEMENT, Constants.ABSENT,Constants.NONE,false);
@@ -241,6 +254,11 @@ public class GeoQueries extends Queries {
     public static String getNextRegion(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, false);
     }
+
+    public static String getNextCantonOuVille(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON_OU_VILLE, false);
+    }
+  
     public static String getNextCanton(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON, false);
     }
@@ -267,6 +285,10 @@ public class GeoQueries extends Queries {
     }
     public static String getPreviousCanton(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON, true);
+    }
+
+    public static String getPreviousCantonOuVille(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON_OU_VILLE, true);
     }
 
     public static String getPreviousArrondissement(String code, String date) {
@@ -296,6 +318,9 @@ public class GeoQueries extends Queries {
 
     public static String getProjectionRegion(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.REGION);
+    }
+    public static String getProjectionCantonOuVille(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.CANTON_OU_VILLE);
     }
 
 

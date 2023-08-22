@@ -3,40 +3,8 @@ package fr.insee.rmes.modeles.geo;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
-import fr.insee.rmes.modeles.geo.territoire.Arrondissement;
-import fr.insee.rmes.modeles.geo.territoire.ArrondissementMunicipal;
-import fr.insee.rmes.modeles.geo.territoire.BassinDeVie2022;
-import fr.insee.rmes.modeles.geo.territoire.Canton;
-import fr.insee.rmes.modeles.geo.territoire.CirconscriptionTerritoriale;
-import fr.insee.rmes.modeles.geo.territoire.CollectiviteDOutreMer;
-import fr.insee.rmes.modeles.geo.territoire.Commune;
-import fr.insee.rmes.modeles.geo.territoire.CommuneAssociee;
-import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
-import fr.insee.rmes.modeles.geo.territoire.Departement;
-import fr.insee.rmes.modeles.geo.territoire.District;
-import fr.insee.rmes.modeles.geo.territoire.Intercommunalite;
-import fr.insee.rmes.modeles.geo.territoire.Region;
-import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoire.UniteUrbaine2020;
-import fr.insee.rmes.modeles.geo.territoire.ZoneDEmploi2020;
-import fr.insee.rmes.modeles.geo.territoires.AiresDAttractionDesVilles2020;
-import fr.insee.rmes.modeles.geo.territoires.Arrondissements;
-import fr.insee.rmes.modeles.geo.territoires.ArrondissementsMunicipaux;
-import fr.insee.rmes.modeles.geo.territoires.BassinsDeVie2022;
-import fr.insee.rmes.modeles.geo.territoires.Cantons;
-import fr.insee.rmes.modeles.geo.territoires.CirconscriptionsTerritoriales;
-import fr.insee.rmes.modeles.geo.territoires.CollectivitesDOutreMer;
-import fr.insee.rmes.modeles.geo.territoires.Communes;
-import fr.insee.rmes.modeles.geo.territoires.CommunesAssociees;
-import fr.insee.rmes.modeles.geo.territoires.CommunesDeleguees;
-import fr.insee.rmes.modeles.geo.territoires.Departements;
-import fr.insee.rmes.modeles.geo.territoires.Districts;
-import fr.insee.rmes.modeles.geo.territoires.Intercommunalites;
-import fr.insee.rmes.modeles.geo.territoires.Regions;
-import fr.insee.rmes.modeles.geo.territoires.Territoires;
-import fr.insee.rmes.modeles.geo.territoires.UnitesUrbaines2020;
-import fr.insee.rmes.modeles.geo.territoires.ZonesDEmploi2020;
+import fr.insee.rmes.modeles.geo.territoire.*;
+import fr.insee.rmes.modeles.geo.territoires.*;
 import fr.insee.rmes.utils.Constants;
 
 public enum EnumTypeGeographie {
@@ -46,6 +14,7 @@ public enum EnumTypeGeographie {
 	DEPARTEMENT("Departement", Departement.class,Departements.class, "prefecture"),
 	ARRONDISSEMENT("Arrondissement", Arrondissement.class,Arrondissements.class, "sousPrefecture"),
 	CANTON("Canton", Canton.class,Cantons.class,Constants.NONE),
+	CANTON_OU_VILLE("CantonOuVille", CantonOuVille.class, CantonsOuVilles.class, Constants.NONE),
 	COLLECTIVITE_D_OUTRE_MER("CollectiviteDOutreMer", CollectiviteDOutreMer.class,CollectivitesDOutreMer.class, Constants.NONE),
 	COMMUNE_DELEGUEE("CommuneDeleguee", CommuneDeleguee.class,CommunesDeleguees.class,Constants.NONE),
 	COMMUNE_ASSOCIEE("CommuneAssociee", CommuneAssociee.class,CommunesAssociees.class,Constants.NONE),
@@ -74,6 +43,8 @@ public enum EnumTypeGeographie {
 		this.classPluralGeoType = classPluralGeoType;
 		this.chefLieuPredicate = chefLieuPredicate;
 	}
+
+
 
 	public String getTypeObjetGeo() {
 		return typeObjetGeo;
