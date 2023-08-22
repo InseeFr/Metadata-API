@@ -33,7 +33,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
     private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom des territoires renvoyés" ;
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
 
-    private static final String LITTERAL_RESPONSE_DESCRIPTION = "Canton-ou-Ville";
+    private static final String LITTERAL_RESPONSE_DESCRIPTION = "CantonOuVille";
     private static final String LITTERAL_CODE_EXAMPLE = "0101";
     private static final String LITTERAL_CODE_HISTORY_EXAMPLE = "0104";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
@@ -284,7 +284,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     required = true,
                     schema = @Schema(
                             pattern = ConstGeoApi.PATTERN_CANTON_OU_VILLE,
-                            type = Constants.TYPE_STRING, example="0101")) @PathParam(Constants.CODE) String code,
+                            type = Constants.TYPE_STRING, example="0103")) @PathParam(Constants.CODE) String code,
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
                     description = "Filtre pour préciser le canton-ou-ville de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",

@@ -14,7 +14,7 @@ public enum EnumTypeGeographie {
 	DEPARTEMENT("Departement", Departement.class,Departements.class, "prefecture"),
 	ARRONDISSEMENT("Arrondissement", Arrondissement.class,Arrondissements.class, "sousPrefecture"),
 	CANTON("Canton", Canton.class,Cantons.class,Constants.NONE),
-	CANTON_OU_VILLE("Canton-ou-Ville", CantonOuVille.class, CantonsOuVilles.class, Constants.NONE),
+	CANTON_OU_VILLE("CantonOuVille", CantonOuVille.class, CantonsOuVilles.class, Constants.NONE),
 	COLLECTIVITE_D_OUTRE_MER("CollectiviteDOutreMer", CollectiviteDOutreMer.class,CollectivitesDOutreMer.class, Constants.NONE),
 	COMMUNE_DELEGUEE("CommuneDeleguee", CommuneDeleguee.class,CommunesDeleguees.class,Constants.NONE),
 	COMMUNE_ASSOCIEE("CommuneAssociee", CommuneAssociee.class,CommunesAssociees.class,Constants.NONE),

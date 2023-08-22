@@ -24,7 +24,7 @@ public class ConstGeoApi {
     public static final String PATH_COM= PATH_SEPARATOR + "collectiviteDOutreMer";
     public static final String PATH_DISTRICT= PATH_SEPARATOR + "district";
     public static final String PATH_LISTE_COM= PATH_SEPARATOR +"collectivitesDOutreMer";
-    public static final String PATH_LISTE_CANTON_OU_VILLE= PATH_SEPARATOR +"cantonOuVille";
+    public static final String PATH_LISTE_CANTON_OU_VILLE= PATH_SEPARATOR +"cantonsEtVilles";
     public static final String PATH_INTERCO= PATH_SEPARATOR + "intercommunalite";
     public static final String PATH_BASSINDEVIE= PATH_SEPARATOR + "bassinDeVie2022";
 
