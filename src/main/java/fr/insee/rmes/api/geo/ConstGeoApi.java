@@ -9,6 +9,7 @@ public class ConstGeoApi {
     public static final String TAG_DESCRIPTION = "Geographie API";
 
     public static final String PATH_CIRCO_TER = PATH_SEPARATOR + "circonscriptionTerritoriale";
+    public static final String PATH_CANTON = PATH_SEPARATOR + "canton";
     public static final String PATH_COMMUNE = PATH_SEPARATOR + "commune";
     public static final String PATH_CANTON_OU_VILLE = PATH_SEPARATOR + "cantonOuVille";
     public static final String PATH_PAYS = PATH_SEPARATOR + "pays";
@@ -30,6 +31,7 @@ public class ConstGeoApi {
 
     public static final String PATH_LISTE_COMMUNE = PATH_SEPARATOR + "communes";
     public static final String PATH_LISTE_PAYS = PATH_SEPARATOR + "pays";
+    public static final String PATH_LISTE_CANTON = PATH_SEPARATOR + "cantons";
     public static final String PATH_LISTE_REGION = PATH_SEPARATOR + "regions";
     public static final String PATH_LISTE_DEPARTEMENT = PATH_SEPARATOR + "departements";
     public static final String PATH_LISTE_ARRONDISSEMENT = PATH_SEPARATOR + "arrondissements";
@@ -56,6 +58,7 @@ public class ConstGeoApi {
     public static final String PATTERN_COM ="9[78][1-9]";
     public static final String PATTERN_DISTRICT ="9[78][1-9]{3}";
     public static final String PATTERN_INTERCO ="2[0-4][0-9]{7}";
+    public static final String PATTERN_CANTON = "[0-9]{4}";
     public static final String PATTERN_PAYS = "99[0-9]{3}";
     public static final String PATTERN_REGION = "[0-9]{2}";
     public static final String PATTERN_ZONE_EMPLOI = "[0-9]{4}";
@@ -79,6 +82,7 @@ public class ConstGeoApi {
     public static final String PATTERN_AIRE_ATTRACTION_DESCRIPTION = "Code de l'aire d'attraction (trois chiffres)";
     public static final String PATTERN_PAYS_DESCRIPTION = "Code du pays (cinq chiffres, débutant par 99)";
     public static final String PATTERN_REGION_DESCRIPTION = "Code de la région (deux chiffres)";
+    public static final String PATTERN_CANTON_DESCRIPTION = "Code du canton (quatre chiffres)" ;
     public static final String PATTERN_DEPARTEMENT_DESCRIPTION =
         "Code du département (deux ou trois caractères)";
     public static final String PATTERN_ARRONDISSEMENT_DESCRIPTION =
@@ -92,7 +96,9 @@ public class ConstGeoApi {
     public static final String ID_OPERATION_PRECEDENT = "prec";
     public static final String ID_OPERATION_SUIVANT = "suiv";
     public static final String ID_OPERATION_PROJECTION = "proj";
+    public static final String ID_OPERATION_COMMUNES = "communes";
     public static final String ID_OPERATION_PROJECTIONS = "allpro";
+
 
 
     private ConstGeoApi() {}

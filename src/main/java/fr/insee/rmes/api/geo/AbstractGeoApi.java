@@ -8,6 +8,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.geo.territoire.Commune;
+import fr.insee.rmes.modeles.geo.territoires.Communes;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,6 +48,14 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         String header,
         Class<?> rootClass,
         Class<? extends Territoire> classObject) {
+        List<? extends Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, classObject);
+        return this.generateListStatusResponse(rootClass, listeTerritoires, this.getFirstValidHeader(header));
+    }
+
+    protected Response generateResponseListOfCommune(
+            String csvResult,
+            String header,
+            Class<Communes> rootClass, Class<Commune> classObject) {
         List<? extends Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, classObject);
         return this.generateListStatusResponse(rootClass, listeTerritoires, this.getFirstValidHeader(header));
     }
@@ -140,4 +150,6 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         List<Projection> listProj = csvGeoUtils.populateProjections(csvResult);
         return this.generateListStatusResponse(Projections.class, listProj, this.getFirstValidHeader(header));
     }
+
+
 }

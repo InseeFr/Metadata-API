@@ -67,6 +67,9 @@ public class GeoQueries extends Queries {
     public static String getRegionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.REGION);
     }
+    public static String getCantonByCodeAndDate(String code, String date) {
+        return getTerritoire(code, date, EnumTypeGeographie.CANTON);
+    }
 
     public static String getCantonOuVilleByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.CANTON_OU_VILLE);
@@ -116,6 +119,10 @@ public class GeoQueries extends Queries {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.CANTON_OU_VILLE);
     }
 
+    public static String getListCantons(String date){
+        return getTerritoire(Constants.NONE,date,EnumTypeGeographie.CANTON);
+    }
+
     public static String getListAiresAttraction(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.AIRE_ATTRACTION);
     }
@@ -151,6 +158,9 @@ public class GeoQueries extends Queries {
 
     public static String getAscendantsDepartement(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DEPARTEMENT,Constants.ABSENT,Constants.NONE, true);
+    }
+    public static String getAscendantsCanton(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.CANTON,Constants.ABSENT,Constants.NONE, true);
     }
     
     public static String getAscendantsDistrict(String code, String date, String type) {
@@ -244,8 +254,13 @@ public class GeoQueries extends Queries {
     public static String getNextRegion(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, false);
     }
+
     public static String getNextCantonOuVille(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON_OU_VILLE, false);
+    }
+  
+    public static String getNextCanton(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON, false);
     }
 
     public static String getNextArrondissement(String code, String date) {
@@ -267,6 +282,9 @@ public class GeoQueries extends Queries {
 
     public static String getPreviousRegion(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, true);
+    }
+    public static String getPreviousCanton(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON, true);
     }
 
     public static String getPreviousCantonOuVille(String code, String date) {
@@ -303,6 +321,11 @@ public class GeoQueries extends Queries {
     }
     public static String getProjectionCantonOuVille(String code, String date, String dateProjection) {
         return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.CANTON_OU_VILLE);
+    }
+
+
+    public static String getProjectionCanton(String code, String date, String dateProjection) {
+        return getProjectionQuery(code, date, dateProjection, EnumTypeGeographie.CANTON);
     }
 
     public static String getProjectionArrondissement(String code, String date, String dateProjection) {
@@ -366,8 +389,14 @@ public class GeoQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getAllProjectionByTypeDate.ftlh", params);
     }
 
-    
-    
+    public static String getCommunesCanton(String code, String date, String type, String filtreNom) {
+        Map<String, Object> params = buildCodeAndDateParams(code, date);
+        params.put(TYPE, type);
+        params.put(TYPE_ORIGINE,  EnumTypeGeographie.COMMUNE);
+        params.put(FILTRE, filtreNom);
+        return buildRequest(QUERIES_FOLDER, "getCommunesByCodeDate.ftlh", params);
+    }
+
     private static String getAscendantOrDescendantsQuery(
         String code,
         String date,
@@ -414,7 +443,12 @@ public class GeoQueries extends Queries {
         params.put("territoire", typeGeo.getTypeObjetGeo());
         params.put("chefLieu", typeGeo.getChefLieuPredicate());
         return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeDateNomcommune.ftlh", params);
-    } 
+    }
+
+    private static String getCommunFiltre(String code,String date){
+        Map<String,Object> params = buildCodeAndDateParams(code, date);
+        return buildRequest(QUERIES_FOLDER,"getCommunesByCodeDate.ftlh",params);
+    }
     
     private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNom, boolean com) {
         Map<String, Object> params = new HashMap<>();
@@ -443,7 +477,6 @@ public class GeoQueries extends Queries {
             + "FILTER (lang(?intituleEntier) = 'fr') \n"
             + "}";
     }
-
 
 
 }
