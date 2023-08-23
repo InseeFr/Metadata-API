@@ -38,7 +38,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
     private static final String LITTERAL_CODE_HISTORY_EXAMPLE = "0104";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
             "Filtre pour renvoyer le canton-ou-ville actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
-    private static final String LITTERAL_DATE_EXAMPLE = "2022-01-01";
+    private static final String LITTERAL_DATE_EXAMPLE = "2016-01-01";
 
 
 
