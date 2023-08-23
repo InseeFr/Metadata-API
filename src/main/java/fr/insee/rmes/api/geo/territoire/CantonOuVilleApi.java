@@ -3,10 +3,8 @@ package fr.insee.rmes.api.geo.territoire;
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.CantonOuVille;
-import fr.insee.rmes.modeles.geo.territoire.Region;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoires.CantonsOuVilles;
-import fr.insee.rmes.modeles.geo.territoires.Regions;
+import fr.insee.rmes.modeles.geo.territoires.CantonsEtVilles;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -87,7 +85,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
     })
     @Operation(
             operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-            summary = "Informations sur toutes les cantons-ou-villes actifs à la date donnée. Par défaut, c’est la date courante.",
+            summary = "Informations sur toutes les cantons-et-villes actifs à la date donnée. Par défaut, c’est la date courante.",
             responses = {
                     @ApiResponse(
                             content = @Content(schema = @Schema(type = ARRAY, implementation = CantonOuVille.class)),
@@ -111,7 +109,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                             sparqlUtils
                                     .executeSparqlQuery(GeoQueries.getListCantonsOuVilles(this.formatValidParameterDateIfIsNull(date))),
                             header,
-                            CantonsOuVilles.class,
+                            CantonsEtVilles.class,
                             CantonOuVille.class);
         }
     }
@@ -260,7 +258,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                                     .executeSparqlQuery(
                                             GeoQueries.getPreviousCantonOuVille(code, this.formatValidParameterDateIfIsNull(date))),
                             header,
-                            CantonsOuVilles.class,
+                            CantonsEtVilles.class,
                             CantonOuVille.class);
         }
     }
@@ -302,7 +300,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                                     .executeSparqlQuery(
                                             GeoQueries.getNextCantonOuVille(code, this.formatValidParameterDateIfIsNull(date))),
                             header,
-                            CantonsOuVilles.class,
+                            CantonsEtVilles.class,
                             CantonOuVille.class);
         }
     }
@@ -353,7 +351,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                                                             this.formatValidParameterDateIfIsNull(date),
                                                             dateProjection)),
                             header,
-                            CantonsOuVilles.class,
+                            CantonsEtVilles.class,
                             CantonOuVille.class);
         }
     }
