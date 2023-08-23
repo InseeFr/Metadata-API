@@ -23,7 +23,7 @@ public class Cantons  extends Territoires{
         this.cantons = cantons;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "Cantons")
+    @JacksonXmlProperty(isAttribute = true, localName = "Canton")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Canton> getCantons() {
         return cantons;

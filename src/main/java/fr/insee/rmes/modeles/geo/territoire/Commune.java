@@ -107,7 +107,7 @@ public class Commune extends Territoire {
     }
 
 
-    //@JacksonXmlProperty(localName = "Inclusion")
+    @JacksonXmlProperty(localName = "Inclusion")
     @NotNull
     @Schema(description = "inclusion totale ou partielle dans un canton", example = "totale")
     public String getInclusion() {
