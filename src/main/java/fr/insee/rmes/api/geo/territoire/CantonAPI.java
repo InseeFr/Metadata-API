@@ -282,18 +282,8 @@ public class CantonAPI extends AbstractGeoApi {
                                          description = "La requête renvoie les communes actives à la date donnée. Par défaut, c’est la date courante.  (Format : 'AAAA-MM-JJ')",
                                          required = false,
                                          schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                                         value = Constants.PARAMETER_DATE) String date,
-                                 @Parameter(
-                                         description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
-                                         required = false,
-                                         schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
-                                         value = Constants.PARAMETER_TYPE) String typeCommune,
-                                 @Parameter(
-                                         description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
-                                         required = false,
-                                         schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
-                                         value = Constants.PARAMETER_FILTRE) String filtreNom){
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeCommune, date)) {
+                                         value = Constants.PARAMETER_DATE) String date){
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -304,8 +294,7 @@ public class CantonAPI extends AbstractGeoApi {
                                             GeoQueries
                                                     .getCommunesCanton(
                                                             code,
-                                                            this.formatValidParameterDateIfIsNull(date),
-                                                            this.formatValidParametertypeTerritoireIfIsNull(typeCommune),this.formatValidParameterFiltreIfIsNull(filtreNom))),
+                                                            this.formatValidParameterDateIfIsNull(date))),
                             header,
                             Territoires.class,
                             Territoire.class);

@@ -389,11 +389,11 @@ public class GeoQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getAllProjectionByTypeDate.ftlh", params);
     }
 
-    public static String getCommunesCanton(String code, String date, String type, String filtreNom) {
+    public static String getCommunesCanton(String code, String date) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
-        params.put(TYPE, type);
+//        params.put(TYPE, type);
         params.put(TYPE_ORIGINE,  EnumTypeGeographie.COMMUNE);
-        params.put(FILTRE, filtreNom);
+//        params.put(FILTRE, filtreNom);
         return buildRequest(QUERIES_FOLDER, "getCommunesByCodeDate.ftlh", params);
     }
 
