@@ -379,7 +379,7 @@ class CantonAPITest extends AbstractApiTest {
         Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", null);
         Assertions.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
-    
+
 
     @Test
     void givenGetCantonAscendants_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
