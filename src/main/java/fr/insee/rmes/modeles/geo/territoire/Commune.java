@@ -1,5 +1,6 @@
 package fr.insee.rmes.modeles.geo.territoire;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,32 +21,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Commune extends Territoire {
 
-    private Inclusion inclusion;
+    private final Inclusion inclusion;
 
     // No-args constructor needed for JAXB
     public Commune() {
         this.type = EnumTypeGeographie.COMMUNE.getTypeObjetGeo();
         this.intituleSansArticle = new IntituleSansArticle();
+        this.inclusion=null;
     }
 
     public Commune(String code) {
-        this.type = EnumTypeGeographie.COMMUNE.getTypeObjetGeo();
+        this();
         this.code = code;
-        this.intituleSansArticle = new IntituleSansArticle();
-    }
-
-    public Commune(
-        String code,
-        String uri,
-        String intitule,
-        String type,
-        String dateCreation,
-        String dateSuppression,
-        IntituleSansArticle intituleSansArticle,
-        Inclusion inclusion,
-        String chefLieu) {
-        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
-        this.inclusion=inclusion;
     }
 
     @Override

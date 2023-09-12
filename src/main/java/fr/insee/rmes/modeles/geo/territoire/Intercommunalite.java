@@ -24,11 +24,6 @@ public class Intercommunalite extends Territoire {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @XmlElement(name="IntituleComplet")
     private String intituleComplet = null;
-	
-	public Intercommunalite() {
-        this.type = EnumTypeGeographie.INTERCOMMUNALITE.getTypeObjetGeo();
-        this.intituleSansArticle = new IntituleSansArticle();
-    }
 
     public Intercommunalite(String code) {
         this.type = EnumTypeGeographie.INTERCOMMUNALITE.getTypeObjetGeo();
@@ -36,21 +31,6 @@ public class Intercommunalite extends Territoire {
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public Intercommunalite(
-        String code,
-        String uri,
-        String intitule,
-        String type,
-        String dateCreation,
-        String dateSuppression,
-        IntituleSansArticle intituleSansArticle,
-        String intituleComplet,
-        String categorieJuridique,
-        String typeArticle) {
-        super(code, uri, intitule, type, dateCreation, dateSuppression, categorieJuridique, intituleSansArticle);
-        this.setTypeArticle(typeArticle);
-        this.intituleComplet=intituleComplet;
-    }
 
     @JacksonXmlProperty(localName = "IntituleComplet")
     public String getIntituleComplet() {

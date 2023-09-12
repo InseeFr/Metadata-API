@@ -52,14 +52,6 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
         return this.generateListStatusResponse(rootClass, listeTerritoires, this.getFirstValidHeader(header));
     }
 
-    protected Response generateResponseListOfCommune(
-            String csvResult,
-            String header,
-            Class<Communes> rootClass, Class<Commune> classObject) {
-        List<? extends Territoire> listeTerritoires = csvUtils.populateMultiPOJO(csvResult, classObject);
-        return this.generateListStatusResponse(rootClass, listeTerritoires, this.getFirstValidHeader(header));
-    }
-
     protected boolean verifyParametersTypeAndDateAreValid(String typeTerritoire, String date) {
         return (this.verifyParameterTypeTerritoireIsRight(typeTerritoire)) && (this.verifyParameterDateIsRightWithoutHistory(date));
     }

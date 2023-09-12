@@ -29,20 +29,6 @@ public class CantonOuVille extends Territoire {
     }
 
 
-    public CantonOuVille(
-            String code,
-            String uri,
-            String intitule,
-            String type,
-            String dateCreation,
-            String dateSuppression,
-            IntituleSansArticle intituleSansArticle,
-            String typeArticle,
-            String chefLieu) {
-        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle,chefLieu);
-        this.setTypeArticle(typeArticle);
-    }
-
     @Override
     @JacksonXmlProperty(isAttribute = true)
     @Schema(example = "0101")

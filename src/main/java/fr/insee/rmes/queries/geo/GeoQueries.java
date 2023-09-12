@@ -391,9 +391,7 @@ public class GeoQueries extends Queries {
 
     public static String getCommunesCanton(String code, String date) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
-//        params.put(TYPE, type);
         params.put(TYPE_ORIGINE,  EnumTypeGeographie.COMMUNE);
-//        params.put(FILTRE, filtreNom);
         return buildRequest(QUERIES_FOLDER, "getCommunesByCodeDate.ftlh", params);
     }
 
@@ -445,11 +443,6 @@ public class GeoQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeDateNomcommune.ftlh", params);
     }
 
-    private static String getCommunFiltre(String code,String date){
-        Map<String,Object> params = buildCodeAndDateParams(code, date);
-        return buildRequest(QUERIES_FOLDER,"getCommunesByCodeDate.ftlh",params);
-    }
-    
     private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNom, boolean com) {
         Map<String, Object> params = new HashMap<>();
         params.put(CODE, code);
