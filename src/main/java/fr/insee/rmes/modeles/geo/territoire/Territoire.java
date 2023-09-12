@@ -44,10 +44,6 @@ public abstract class Territoire {
     protected String chefLieu = null;
     
     @JsonInclude(Include.NON_EMPTY)
-    @XmlElement(name="IntituleComplet")
-    protected String intituleComplet = null;
-    
-    @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="CategorieJuridique")
     protected String categorieJuridique = null;
     
@@ -79,7 +75,7 @@ public abstract class Territoire {
         String dateSuppression,
         IntituleSansArticle intituleSansArticle,
         String chefLieu) {
-        super();
+
         this.code = code;
         this.uri = uri;
         this.intitule = intitule;
@@ -98,7 +94,7 @@ public abstract class Territoire {
         String dateCreation,
         String dateSuppression,
         IntituleSansArticle intituleSansArticle) {
-        super();
+
         this.code = code;
         this.uri = uri;
         this.intitule = intitule;
@@ -115,10 +111,10 @@ public abstract class Territoire {
             String type,
             String dateCreation,
             String dateSuppression,
-            IntituleSansArticle intituleSansArticle,
-            String intituleComplet,
-            String categorieJuridique) {
-            super();
+            String categorieJuridique,
+            IntituleSansArticle intituleSansArticle
+            ) {
+
             this.code = code;
             this.uri = uri;
             this.intitule = intitule;
@@ -126,7 +122,6 @@ public abstract class Territoire {
             this.dateCreation = dateCreation;
             this.dateSuppression = dateSuppression;
             this.intituleSansArticle = intituleSansArticle;
-            this.intituleComplet = intituleComplet;
             this.categorieJuridique= categorieJuridique;
         }
     
@@ -201,15 +196,7 @@ public abstract class Territoire {
     public void setChefLieu(String chefLieu) {
         this.chefLieu = chefLieu;
     }
-    
-    @JacksonXmlProperty(localName = "IntituleComplet")
-    public String getIntituleComplet() {
-        return intituleComplet;
-    }
 
-    public void setIntituleComplet(String intituleComplet) {
-        this.intituleComplet = intituleComplet;
-    }
     
     @JacksonXmlProperty(localName = "CategorieJuridique")
     public String getCategorieJuridique() {

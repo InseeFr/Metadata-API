@@ -21,44 +21,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Commune extends Territoire {
 
-    private String inclusion;
+    private final Inclusion inclusion;
 
     // No-args constructor needed for JAXB
     public Commune() {
         this.type = EnumTypeGeographie.COMMUNE.getTypeObjetGeo();
         this.intituleSansArticle = new IntituleSansArticle();
+        this.inclusion=null;
     }
 
     public Commune(String code) {
-        this.type = EnumTypeGeographie.COMMUNE.getTypeObjetGeo();
+        this();
         this.code = code;
-        this.intituleSansArticle = new IntituleSansArticle();
-    }
-
-    public Commune(
-        String code,
-        String uri,
-        String intitule,
-        String type,
-        String dateCreation,
-        String dateSuppression,
-        IntituleSansArticle intituleSansArticle,
-        String chefLieu) {
-        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
-    }
-
-    public Commune(
-            String code,
-            String uri,
-            String intitule,
-            String type,
-            String dateCreation,
-            String dateSuppression,
-            IntituleSansArticle intituleSansArticle,
-            String inclusion ,
-            String chefLieu) {
-        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
-        getInclusion();
     }
 
     @Override
@@ -110,7 +84,7 @@ public class Commune extends Territoire {
     @JacksonXmlProperty(localName = "Inclusion")
     @NotNull
     @Schema(description = "inclusion totale ou partielle dans un canton", example = "totale")
-    public String getInclusion() {
+    public Inclusion getInclusion() {
         return inclusion;
     }
 
