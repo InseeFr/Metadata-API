@@ -391,7 +391,9 @@ public class GeoQueries extends Queries {
 
     public static String getCommunesCanton(String code, String date) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
+//        params.put(TYPE, type);
         params.put(TYPE_ORIGINE,  EnumTypeGeographie.COMMUNE);
+//        params.put(FILTRE, filtreNom);
         return buildRequest(QUERIES_FOLDER, "getCommunesByCodeDate.ftlh", params);
     }
 
