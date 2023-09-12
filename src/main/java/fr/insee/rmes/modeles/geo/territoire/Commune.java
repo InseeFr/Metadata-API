@@ -1,6 +1,5 @@
 package fr.insee.rmes.modeles.geo.territoire;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,7 +20,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Commune extends Territoire {
 
-    private String inclusion;
+    private Inclusion inclusion;
 
     // No-args constructor needed for JAXB
     public Commune() {
@@ -43,22 +42,10 @@ public class Commune extends Territoire {
         String dateCreation,
         String dateSuppression,
         IntituleSansArticle intituleSansArticle,
+        Inclusion inclusion,
         String chefLieu) {
         super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
-    }
-
-    public Commune(
-            String code,
-            String uri,
-            String intitule,
-            String type,
-            String dateCreation,
-            String dateSuppression,
-            IntituleSansArticle intituleSansArticle,
-            String inclusion ,
-            String chefLieu) {
-        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
-        getInclusion();
+        this.inclusion=inclusion;
     }
 
     @Override
@@ -110,7 +97,7 @@ public class Commune extends Territoire {
     @JacksonXmlProperty(localName = "Inclusion")
     @NotNull
     @Schema(description = "inclusion totale ou partielle dans un canton", example = "totale")
-    public String getInclusion() {
+    public Inclusion getInclusion() {
         return inclusion;
     }
 
