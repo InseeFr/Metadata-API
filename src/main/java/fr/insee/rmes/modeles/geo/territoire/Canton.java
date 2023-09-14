@@ -28,20 +28,6 @@ public class Canton extends Territoire {
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-    public Canton(
-            String code,
-            String uri,
-            String intitule,
-            String type,
-            String dateCreation,
-            String dateSuppression,
-            IntituleSansArticle intituleSansArticle,
-            String chefLieu,
-            String typeArticle) {
-        super(code, uri, intitule, type, dateCreation, dateSuppression, intituleSansArticle, chefLieu);
-        this.setTypeArticle(typeArticle);
-    }
-
     @Override
     @JacksonXmlProperty(isAttribute = true)
     @Schema(example = "0101")

@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +36,7 @@ public class ResponseUtils {
 
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
         	XmlMapper mapper = new XmlMapper();
+            mapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS);
             mapper.getFactory().getXMLOutputFactory().setProperty(XMLOutputFactory2.P_TEXT_ESCAPER, 
             		new CustomXmlEscapingWriterFactory());
             mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
@@ -73,6 +75,7 @@ public class ResponseUtils {
         }
         else {
         	ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS);
             mapper.addMixIn(Territoire.class, TerritoireJsonMixIn.class);
             try {
 				response = mapper.writeValueAsString(obj);
