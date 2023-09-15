@@ -13,7 +13,7 @@ public enum EnumTypeGeographie {
 	REGION("Region", Region.class,Regions.class, "prefectureDeRegion"),
 	DEPARTEMENT("Departement", Departement.class,Departements.class, "prefecture"),
 	ARRONDISSEMENT("Arrondissement", Arrondissement.class,Arrondissements.class, "sousPrefecture"),
-	CANTON("Canton", Canton.class,Cantons.class,Constants.NONE),
+	CANTON("Canton", Canton.class,Cantons.class,"bureauCentralisateur"),
 	CANTON_OU_VILLE("CantonOuVille", CantonOuVille.class, CantonsEtVilles.class, Constants.NONE),
 	COLLECTIVITE_D_OUTRE_MER("CollectiviteDOutreMer", CollectiviteDOutreMer.class,CollectivitesDOutreMer.class, Constants.NONE),
 	COMMUNE_DELEGUEE("CommuneDeleguee", CommuneDeleguee.class,CommunesDeleguees.class,Constants.NONE),
