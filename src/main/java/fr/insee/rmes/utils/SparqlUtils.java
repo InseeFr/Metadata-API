@@ -24,6 +24,7 @@ public class SparqlUtils {
     }
     
     public String executeSparqlQuery(String query, String resultType) {
+        logger.debug("Sent query : {}", query);
         String uri = this.queryToURI(query);
         Client client = ClientBuilder.newBuilder().build();
         String response = client.target(uri).request(resultType).get(String.class);
