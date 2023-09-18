@@ -54,11 +54,11 @@ public class ConstGeoApi {
 
     public static final String PATTERN_COMMUNE = "[0-9][0-9AB][0-9]{3}";
     public static final String PATTERN_CIRCO_TER = "986[1-3]{2}";
-    public static final String PATTERN_CANTON_OU_VILLE = "[0-9]{4}";
+    public static final String PATTERN_CANTON_OU_VILLE = "(([0-9]{2})|(2[0-9AB])|(97[1-6]))([0-9]{2})";
     public static final String PATTERN_COM ="9[78][1-9]";
     public static final String PATTERN_DISTRICT ="9[78][1-9]{3}";
     public static final String PATTERN_INTERCO ="2[0-4][0-9]{7}";
-    public static final String PATTERN_CANTON = "[0-9]{4}";
+    public static final String PATTERN_CANTON = "(([0-9]{2})|(2[0-9AB])|(97[1-6]))([0-9]{2})";
     public static final String PATTERN_PAYS = "99[0-9]{3}";
     public static final String PATTERN_REGION = "[0-9]{2}";
     public static final String PATTERN_ZONE_EMPLOI = "[0-9]{4}";
@@ -69,7 +69,7 @@ public class ConstGeoApi {
     public static final String PATTERN_ARRONDISSEMENT_MUNICIPAL = "";
     public static final String PATTERN_BASSINDEVIE = "[0-9][0-9AB][0-9]{3}";
     public static final String PATTERN_BASSINDEVIE_DESCRIPTION = "Code du bassin de vie (cinq caractères)";
-    public static final String PATTERN_CANTON_OU_VILLE_DESCRIPTION = "Code d'un canton-ou-ville' (quatre caractères)";
+    public static final String PATTERN_CANTON_OU_VILLE_DESCRIPTION = "Code d'un canton-ou-ville' (quatre ou cinq caractères pour les DOM ex: 97602)";
     public static final String PATTERN_CIRCO_TER_DESCRIPTION = "Code de la circonscription territoriale (cinq caractères)";
     public static final String PATTERN_COMMUNE_DESCRIPTION = "Code de la commune (cinq caractères)";
     public static final String PATTERN_COM_DESCRIPTION= "Code de la collectivité d'outre-mer (trois caractères)";
@@ -82,7 +82,7 @@ public class ConstGeoApi {
     public static final String PATTERN_AIRE_ATTRACTION_DESCRIPTION = "Code de l'aire d'attraction (trois chiffres)";
     public static final String PATTERN_PAYS_DESCRIPTION = "Code du pays (cinq chiffres, débutant par 99)";
     public static final String PATTERN_REGION_DESCRIPTION = "Code de la région (deux chiffres)";
-    public static final String PATTERN_CANTON_DESCRIPTION = "Code du canton (quatre chiffres)" ;
+    public static final String PATTERN_CANTON_DESCRIPTION = "Code du canton (quatre chiffres pour la Métropole ou cinq chiffres pour les DOM ou 2A/2B plus 2 chiffres pour la Corse)" ;
     public static final String PATTERN_DEPARTEMENT_DESCRIPTION =
         "Code du département (deux ou trois caractères)";
     public static final String PATTERN_ARRONDISSEMENT_DESCRIPTION =
@@ -99,7 +99,7 @@ public class ConstGeoApi {
     public static final String ID_OPERATION_COMMUNES = "communes";
     public static final String ID_OPERATION_PROJECTIONS = "allpro";
 
-
+    public static final String ERREUR_PATTERN= "Le code saisi ne respecte pas le format attendu";
 
     private ConstGeoApi() {}
 

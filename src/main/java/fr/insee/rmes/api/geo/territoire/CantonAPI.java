@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class CantonAPI extends AbstractGeoApi {
 
-    private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_CANTON + "}";
+    private static final String CODE_PATTERN = "/{code:}";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
     private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom des communes renvoyées" ;
 
@@ -37,7 +37,7 @@ public class CantonAPI extends AbstractGeoApi {
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
             "Filtre pour renvoyer la region active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_OPERATION_SUMMARY =
-            "Informations sur un canton identifié par son code (quatre chiffres)";
+            "Informations sur un canton identifié par son code (quatre chiffres pour la métropole ou cinq pour les DOM ou 2A/2B plus deux chiffres pour la Corse)";
 
     private static final String LITTERAL_DATE_EXAMPLE = "2020-01-01";
 
@@ -67,6 +67,14 @@ public class CantonAPI extends AbstractGeoApi {
                 required = false,
                 schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
         value = Constants.PARAMETER_DATE) String date) {
+
+        if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
+            String errorMessage = ConstGeoApi.ERREUR_PATTERN;
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(errorMessage)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
 
             if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
                 return this.generateBadRequestResponse();
@@ -122,7 +130,7 @@ public class CantonAPI extends AbstractGeoApi {
         }
     }
 
-    @Path(ConstGeoApi.PATH_CANTON + CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)
+    @Path(ConstGeoApi.PATH_CANTON +CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)
     @GET
     @Produces({
             MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -148,7 +156,13 @@ public class CantonAPI extends AbstractGeoApi {
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                     value = Constants.PARAMETER_DATE) String date) {
-
+        if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
+            String errorMessage = ConstGeoApi.ERREUR_PATTERN;
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(errorMessage)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
@@ -192,6 +206,13 @@ public class CantonAPI extends AbstractGeoApi {
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                     value = Constants.PARAMETER_DATE) String date) {
 
+        if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
+            String errorMessage = ConstGeoApi.ERREUR_PATTERN;
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(errorMessage)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
@@ -239,6 +260,13 @@ public class CantonAPI extends AbstractGeoApi {
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
                     value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
 
+        if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
+            String errorMessage = ConstGeoApi.ERREUR_PATTERN;
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(errorMessage)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
             return this.generateBadRequestResponse();
         }
@@ -283,6 +311,14 @@ public class CantonAPI extends AbstractGeoApi {
                                          required = false,
                                          schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                                          value = Constants.PARAMETER_DATE) String date){
+
+        if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
+            String errorMessage = ConstGeoApi.ERREUR_PATTERN;
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(errorMessage)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
         if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         }
