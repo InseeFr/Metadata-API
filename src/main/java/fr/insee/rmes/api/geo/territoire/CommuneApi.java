@@ -12,8 +12,10 @@ import javax.ws.rs.core.Response;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
+import fr.insee.rmes.modeles.geo.territoire.Canton;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import fr.insee.rmes.modeles.geo.territoires.Cantons;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
@@ -409,5 +411,49 @@ public class CommuneApi extends AbstractGeoApi {
                                 .getAllProjectionCommune(this.formatValidParameterDateIfIsNull(date), dateProjection)),
                     header);
         }
+    }
+
+    @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN +"/cantons")
+    @GET
+    @Produces({
+            MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+            operationId = "getComCanton",
+            summary = "information sur le(s) canton(s) associé(s) à la commune identifiée par son code (cinq caractères)",
+            responses = {
+                    @ApiResponse(
+                            content = @Content(schema = @Schema(implementation = Canton.class)),
+                            description = "Cantons dont fait partie la commune")
+            })
+    public Response getCantonForCommune(
+            @Parameter(
+                    description = ConstGeoApi.PATTERN_COMMUNE_DESCRIPTION,
+                    required = true,
+                    schema = @Schema(
+                            pattern = ConstGeoApi.PATTERN_COMMUNE,
+                            type = Constants.TYPE_STRING, example="01053")) @PathParam(Constants.CODE) String code,
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) String date) {
+
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                    .generateResponseListOfTerritoire(
+                            sparqlUtils
+                                    .executeSparqlQuery(
+                                            GeoQueries.getCantonCommunes(
+
+                                                    code,
+                                                    this.formatValidParameterDateIfIsNull(date))),
+                            header,
+                            Cantons.class,
+                            Canton.class);        }
     }
 }
