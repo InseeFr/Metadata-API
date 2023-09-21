@@ -141,4 +141,21 @@ public class CommuneApiIntegrationTest {
         assertEquals(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_PRECEDENTS_XML, response.getEntity());
     }
 
+    @Test
+    public void givenGetListeCantonsCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+                .thenReturn(ConstantForIntegration.CantonsCOMMUNE_MOCK_SERVER_RETURN_LISTE);
+        Response response = geoApi.getCantonForCommune("01053",MediaType.APPLICATION_JSON, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.CantonsCOMMUNE_EXPECTED_RESPONSE_LISTE_TOP_JSON, response.getEntity());
+    }
+
+    @Test
+    public void givenGetListeCantonsCommunes_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+                .thenReturn(ConstantForIntegration.CantonsCOMMUNE_MOCK_SERVER_RETURN_LISTE);
+        Response response = geoApi.getCantonForCommune("01053",MediaType.APPLICATION_XML, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.CantonsCOMMUNE_EXPECTED_RESPONSE_LISTE_TOP_XML, response.getEntity());
+    }
 }

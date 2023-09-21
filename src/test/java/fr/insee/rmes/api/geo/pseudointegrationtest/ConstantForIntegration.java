@@ -91,6 +91,47 @@ public class ConstantForIntegration {
             + "<IntituleSansArticle typeArticle=\"1\">Ambérieu</IntituleSansArticle>"
             + "</Commune>"
             + "</Communes>";
+
+    public static final String CantonsCOMMUNE_MOCK_SERVER_RETURN_LISTE =
+            "code,uri,type,dateCreation,intitule,intituleSansArticle,typeArticle\r\n"
+            + "0105,http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7,Canton,2016-01-01,Bourg-en-Bresse-1,Bourg-en-Bresse-1,0\r\n"
+            + "0106,http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c,Canton,2016-01-01,Bourg-en-Bresse-2,Bourg-en-Bresse-2,0\r\n";
+    public static final String CantonsCOMMUNE_EXPECTED_RESPONSE_LISTE_TOP_JSON =
+            "["
+            +  "{"
+            +         "\"code\":\"0105\","
+            +         "\"uri\":\"http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7\","
+            +        "\"type\":\"Canton\","
+            +        "\"dateCreation\":\"2016-01-01\","
+            +        "\"intitule\":\"Bourg-en-Bresse-1\","
+            +       "\"intituleSansArticle\":\"Bourg-en-Bresse-1\","
+            +       "\"typeArticle\":\"0\""
+            +      "},"
+            +      "{"
+            +      "\"code\":\"0106\","
+            +      "\"uri\":\"http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c\","
+            +      "\"type\":\"Canton\","
+            +     "\"dateCreation\":\"2016-01-01\","
+            +     "\"intitule\":\"Bourg-en-Bresse-2\","
+            +     "\"intituleSansArticle\":\"Bourg-en-Bresse-2\","
+            +    "\"typeArticle\":\"0\""
+            +    "}"
+            +    "]";
+    public static final String CantonsCOMMUNE_EXPECTED_RESPONSE_LISTE_TOP_XML =
+            "<Cantons>" +
+            "<Canton code=\"0105\" uri=\"http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7\">" +
+            "<Intitule>Bourg-en-Bresse-1</Intitule>" +
+            "<Type>Canton</Type>" +
+            "<DateCreation>2016-01-01</DateCreation>" +
+            "<IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse-1</IntituleSansArticle>" +
+            "</Canton>" +
+            "<Canton code=\"0106\" uri=\"http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c\">" +
+            "<Intitule>Bourg-en-Bresse-2</Intitule>" +
+            "<Type>Canton</Type>" +
+            "<DateCreation>2016-01-01</DateCreation>" +
+            "<IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse-2</IntituleSansArticle>" +
+            "</Canton>" +
+            "</Cantons>";
     public static final String COMMUNE_MOCK_SERVER_RETURN_SUIVANTS =
         "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/commune/58e8aa37-d1ff-4d59-be14-324bf06fd0a6,Commune,17013,1,Antezant-la-Chapelle,Antezant-la-Chapelle,1974-01-01,2010-11-01,\r\n";
