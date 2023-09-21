@@ -39,7 +39,7 @@ public class GeoQueries extends Queries {
     public static String getCommuneByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.COMMUNE);
     }
-    
+
     public static String getCollectiviteDOutreMerByCodeAndDate(String code,String date) {
         return getTerritoireFiltre(code, date,"*", EnumTypeGeographie.COLLECTIVITE_D_OUTRE_MER,true);
     }
@@ -393,6 +393,12 @@ public class GeoQueries extends Queries {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
         params.put(TYPE_ORIGINE,  EnumTypeGeographie.COMMUNE);
         return buildRequest(QUERIES_FOLDER, "getCommunesByCodeDate.ftlh", params);
+    }
+
+    public static String getCantonCommunes(String code, String date) {
+        Map<String, Object> params = buildCodeAndDateParams(code, date);
+        params.put(TYPE_ORIGINE,  EnumTypeGeographie.CANTON);
+        return buildRequest(QUERIES_FOLDER, "getCommunesCantonsByCodeDate.ftlh", params);
     }
 
     private static String getAscendantOrDescendantsQuery(
