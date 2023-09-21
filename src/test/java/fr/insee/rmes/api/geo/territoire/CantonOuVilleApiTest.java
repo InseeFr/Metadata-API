@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 @ExtendWith(MockitoExtension.class)
-class CantonOuVilleApiTest extends AbstractApiTest {
+public class CantonOuVilleApiTest extends AbstractApiTest {
 
 
     @InjectMocks
