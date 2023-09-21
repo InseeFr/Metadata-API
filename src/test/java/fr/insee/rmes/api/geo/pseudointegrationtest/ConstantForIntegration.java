@@ -588,7 +588,12 @@ public class ConstantForIntegration {
     
     
     //TODO : mettre le résultat de la req sparql
-    public static final String COMMUNES_INCLUSES_MOCK_SERVER_RETURN_GET = String.copyValueOf(null, 1,1);;
+    public static final String COMMUNES_INCLUSES_MOCK_SERVER_RETURN_GET = "code,uri,type,dateCreation,intituleSansArticle,typeArticle,inclusion,intitule\n" +
+            "59350,http://id.insee.fr/geo/commune/c3c07f12-84f4-40f8-b7de-1cc5530ff67c,Commune,2000-02-27,Lille,0,partielle,Lille\n" +
+            "59368,http://id.insee.fr/geo/commune/494368e6-fab5-45dd-9e07-53c491a859ba,Commune,1943-01-01,Madeleine,3,totale,La Madeleine\n" +
+            "59386,http://id.insee.fr/geo/commune/344da3cb-6721-4c90-a5ab-03073ecdb42a,Commune,1962-01-28,Marquette-lez-Lille,0,totale,Marquette-lez-Lille\n" +
+            "59527,http://id.insee.fr/geo/commune/f2ff3651-332d-4c4a-9346-f3fbaf1cc555,Commune,1991-12-20,Saint-André-lez-Lille,0,totale,Saint-André-lez-Lille\n" +
+            "59636,http://id.insee.fr/geo/commune/c9de9f70-fd1f-4a03-9c46-aaa1a8a5209e,Commune,1943-01-01,Wambrechies,0,totale,Wambrechies";
     
     public static final String COMMUNES_INCLUSES_DATEES2000_MOCK_SERVER_RETURN_GET = "code,uri,type,dateCreation,intituleSansArticle,typeArticle,inclusion,intitule\n" +
             "59368,http://id.insee.fr/geo/commune/494368e6-fab5-45dd-9e07-53c491a859ba,Commune,1943-01-01,Madeleine,3,totale,La Madeleine\n" +
@@ -601,10 +606,30 @@ public class ConstantForIntegration {
             "59368,http://id.insee.fr/geo/commune/494368e6-fab5-45dd-9e07-53c491a859ba,Commune,1943-01-01,Madeleine,3,totale,La Madeleine\n" +
             "59386,http://id.insee.fr/geo/commune/344da3cb-6721-4c90-a5ab-03073ecdb42a,Commune,1962-01-28,Marquette-lez-Lille,0,totale,Marquette-lez-Lille\n" +
             "59527,http://id.insee.fr/geo/commune/f2ff3651-332d-4c4a-9346-f3fbaf1cc555,Commune,1991-12-20,Saint-André-lez-Lille,0,totale,Saint-André-lez-Lille\n" +
-            "59636,http://id.insee.fr/geo/commune/c9de9f70-fd1f-4a03-9c46-aaa1a8a5209e,Commune,1943-01-01,Wambrechies,0,totale,Wambrechies";;
+            "59636,http://id.insee.fr/geo/commune/c9de9f70-fd1f-4a03-9c46-aaa1a8a5209e,Commune,1943-01-01,Wambrechies,0,totale,Wambrechies";
 
     public static final String COMMUNES_INCLUSES_DATEES1991_RESPONSE_GET_JSON ="[{\"code\":\"59368\",\"uri\":\"http://id.insee.fr/geo/commune/494368e6-fab5-45dd-9e07-53c491a859ba\",\"type\":\"Commune\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Madeleine\",\"typeArticle\":\"3\",\"inclusion\":\"totale\",\"intitule\":\"La Madeleine\"},{\"code\":\"59386\",\"uri\":\"http://id.insee.fr/geo/commune/344da3cb-6721-4c90-a5ab-03073ecdb42a\",\"type\":\"Commune\",\"dateCreation\":\"1962-01-28\",\"intituleSansArticle\":\"Marquette-lez-Lille\",\"typeArticle\":\"0\",\"inclusion\":\"totale\",\"intitule\":\"Marquette-lez-Lille\"},{\"code\":\"59527\",\"uri\":\"http://id.insee.fr/geo/commune/f2ff3651-332d-4c4a-9346-f3fbaf1cc555\",\"type\":\"Commune\",\"dateCreation\":\"1991-12-20\",\"intituleSansArticle\":\"Saint-André-lez-Lille\",\"typeArticle\":\"0\",\"inclusion\":\"totale\",\"intitule\":\"Saint-André-lez-Lille\"},{\"code\":\"59636\",\"uri\":\"http://id.insee.fr/geo/commune/c9de9f70-fd1f-4a03-9c46-aaa1a8a5209e\",\"type\":\"Commune\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Wambrechies\",\"typeArticle\":\"0\",\"inclusion\":\"totale\",\"intitule\":\"Wambrechies\"}]";
 
     public static final String COMMUNES_INCLUSES_DATEES2000_RESPONSE_GET_JSON = "[{\"code\":\"59350\",\"uri\":\"http://id.insee.fr/geo/commune/c3c07f12-84f4-40f8-b7de-1cc5530ff67c\",\"type\":\"Commune\",\"dateCreation\":\"2000-02-27\",\"intituleSansArticle\":\"Lille\",\"typeArticle\":\"0\",\"inclusion\":\"partielle\",\"intitule\":\"Lille\"},{\"code\":\"59368\",\"uri\":\"http://id.insee.fr/geo/commune/494368e6-fab5-45dd-9e07-53c491a859ba\",\"type\":\"Commune\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Madeleine\",\"typeArticle\":\"3\",\"inclusion\":\"totale\",\"intitule\":\"La Madeleine\"},{\"code\":\"59386\",\"uri\":\"http://id.insee.fr/geo/commune/344da3cb-6721-4c90-a5ab-03073ecdb42a\",\"type\":\"Commune\",\"dateCreation\":\"1962-01-28\",\"intituleSansArticle\":\"Marquette-lez-Lille\",\"typeArticle\":\"0\",\"inclusion\":\"totale\",\"intitule\":\"Marquette-lez-Lille\"},{\"code\":\"59527\",\"uri\":\"http://id.insee.fr/geo/commune/f2ff3651-332d-4c4a-9346-f3fbaf1cc555\",\"type\":\"Commune\",\"dateCreation\":\"1991-12-20\",\"intituleSansArticle\":\"Saint-André-lez-Lille\",\"typeArticle\":\"0\",\"inclusion\":\"totale\",\"intitule\":\"Saint-André-lez-Lille\"},{\"code\":\"59636\",\"uri\":\"http://id.insee.fr/geo/commune/c9de9f70-fd1f-4a03-9c46-aaa1a8a5209e\",\"type\":\"Commune\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Wambrechies\",\"typeArticle\":\"0\",\"inclusion\":\"totale\",\"intitule\":\"Wambrechies\"}]";
+
+    public final static String CANTON_MOCK_SERVER_RETURN_GET =
+            "code,uri,type,dateCreation,intitule,intituleSansArticle,typeArticle,ChefLieu\r\n"
+                    + "0105,http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7,Canton,2016-01-01,Bourg-en-Bresse-1,Bourg-en-Bresse-1,0\r\n";
+
+
+    public final static String CANTON_EXPECTED_RESPONSE_GET_JSON =
+            "{\"code\":\"0105\",\"uri\":\"http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7\",\"type\":\"Canton\",\"dateCreation\":\"2016-01-01\",\"intitule\":\"Bourg-en-Bresse-1\",\"intituleSansArticle\":\"Bourg-en-Bresse-1\",\"typeArticle\":\"0\"}";
+
+    public final static String CANTON_EXPECTED_RESPONSE_GET_XML =
+            "<Canton code=\"0105\" uri=\"http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7\">"+
+                    "<Intitule>Bourg-en-Bresse-1</Intitule>" +
+                    "<Type>Canton</Type>" +
+                    "<DateCreation>2016-01-01</DateCreation>" +
+                    "<IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse-1</IntituleSansArticle>" +
+                    "</Canton>";
+    public static final String CANTON_MOCK_SERVER_RETURN_LISTE =
+            "code,uri,type,dateCreation,intitule,intituleSansArticle,typeArticle\r\n"
+                    + "0105,http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7,Canton,2016-01-01,Bourg-en-Bresse-1,Bourg-en-Bresse-1,0\r\n"
+                    + "0106,http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c,Canton,2016-01-01,Bourg-en-Bresse-2,Bourg-en-Bresse-2,0\r\n";
 
 }
