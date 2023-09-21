@@ -2,6 +2,7 @@ package fr.insee.rmes.api.geo.pseudointegrationtest;
 
 import fr.insee.rmes.api.geo.territoire.CantonAPI;
 import fr.insee.rmes.utils.SparqlUtils;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.util.stream.Stream;
@@ -18,8 +20,10 @@ import java.util.stream.Stream;
 import static fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration.*;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.when;
 
 class CantonApiIntegrationTest {
@@ -28,7 +32,7 @@ class CantonApiIntegrationTest {
     private static final String DATE2000 = "2000-02-27";
     @InjectMocks
     private CantonAPI geoApi;
-    private final static String CODE = "3319";
+    private final static String CODE = "5923";
 
     private static final String INCORRECT_DATE="*";
 
@@ -51,7 +55,27 @@ class CantonApiIntegrationTest {
         if (Status.OK==status){
             Assertions.assertEquals(expected, response.getEntity());
         }
+
     }
+
+    @Test
+    public void givengetCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk_DATE2000(){
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+                .thenReturn(COMMUNES_INCLUSES_DATEES2000_MOCK_SERVER_RETURN_GET );
+        Response response = geoApi.getCommunes(CODE,MediaType.APPLICATION_JSON,DATE2000);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(ConstantForIntegration.COMMUNES_INCLUSES_DATEES2000_RESPONSE_GET_JSON, response.getEntity());
+    }
+
+    @Test
+    public void givengetCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk_DATE1991(){
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+                .thenReturn(COMMUNES_INCLUSES_DATEES1991_MOCK_SERVER_RETURN_GET );
+        Response response = geoApi.getCommunes(CODE,MediaType.APPLICATION_JSON,DATE1991);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(COMMUNES_INCLUSES_DATEES1991_RESPONSE_GET_JSON, response.getEntity());
+    }
+
 
     static Stream<Arguments> argumentProvider() {
         return Stream.of(
@@ -63,6 +87,5 @@ class CantonApiIntegrationTest {
                 arguments("Communes de Merignac-2 ", COMMUNES_INCLUSES_MOCK_SERVER_RETURN_GET, APPLICATION_JSON, INCORRECT_DATE, Status.OK, COMMUNES_INCLUSES_EXPECTED_RESPONSE_GET_JSON)
         );
     }
-
 
 }
