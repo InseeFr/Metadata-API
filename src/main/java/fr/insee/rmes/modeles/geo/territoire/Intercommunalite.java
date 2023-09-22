@@ -21,24 +21,28 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public class Intercommunalite extends Territoire {
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+/*    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @XmlElement(name="IntituleComplet")
-    private String intituleComplet = null;
+    private String intituleComplet = null;*/
 
     public Intercommunalite(String code) {
+        this();
+        this.code = code;
+
+    }
+
+    public Intercommunalite() {
         this.type = EnumTypeGeographie.INTERCOMMUNALITE.getTypeObjetGeo();
-        this.code = code;    
         this.intituleSansArticle = new IntituleSansArticle();
     }
 
-
-    @JacksonXmlProperty(localName = "IntituleComplet")
+/*    @JacksonXmlProperty(localName = "IntituleComplet")
     public String getIntituleComplet() {
         return intituleComplet;
     }
 
     public void setIntituleComplet(String intituleComplet) {
         this.intituleComplet = intituleComplet;
-    }
+    }*/
 
 }

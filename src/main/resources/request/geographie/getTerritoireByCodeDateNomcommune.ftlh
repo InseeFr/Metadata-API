@@ -1,4 +1,4 @@
-SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?intituleComplet ?categorieJuridique
+SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?intitule ?categorieJuridique
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 FROM <http://rdf.insee.fr/graphes/codes/cj>
 WHERE {
@@ -14,7 +14,7 @@ WHERE {
 				 
 				 OPTIONAL {
 					?uri a igeo:${territoire} ;
-					igeo:nomIntercommunalite ?intituleComplet ;
+					igeo:nomIntercommunalite ?intitule ;
 					insee:categorieJuridique ?cj.
 					?cj skos:prefLabel ?categorieJuridique.
 					}

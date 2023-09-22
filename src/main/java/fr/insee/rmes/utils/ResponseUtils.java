@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import fr.insee.rmes.modeles.operations.documentations.DocumentationSims;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
@@ -35,8 +36,7 @@ public class ResponseUtils {
 
 
         if (header != null && header.equals(MediaType.APPLICATION_XML)) {
-        	XmlMapper mapper = new XmlMapper();
-            mapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS);
+        	XmlMapper mapper = XmlMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS).build();
             mapper.getFactory().getXMLOutputFactory().setProperty(XMLOutputFactory2.P_TEXT_ESCAPER, 
             		new CustomXmlEscapingWriterFactory());
             mapper.addMixIn(StringWithLang.class, StringXmlMixIn.class);
@@ -74,8 +74,7 @@ public class ResponseUtils {
 
         }
         else {
-        	ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS);
+        	ObjectMapper mapper = JsonMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS).build();
             mapper.addMixIn(Territoire.class, TerritoireJsonMixIn.class);
             try {
 				response = mapper.writeValueAsString(obj);
