@@ -11,6 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import static fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration.assertEqualsJson;
+import static fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration.assertEqualsXml;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -32,7 +34,7 @@ class CantonApiIntegrationTest {
                 .thenReturn(ConstantForIntegration.CANTON_MOCK_SERVER_RETURN_GET);
         Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_JSON, null);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-        assertEquals(ConstantForIntegration.CANTON_EXPECTED_RESPONSE_GET_JSON, response.getEntity());
+        assertEqualsJson(ConstantForIntegration.CANTON_EXPECTED_RESPONSE_GET_JSON, response.getEntity());
     }
 
     @Test
@@ -41,7 +43,7 @@ class CantonApiIntegrationTest {
                 .thenReturn(ConstantForIntegration.CANTON_MOCK_SERVER_RETURN_GET);
         Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_XML, null);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-        assertEquals(ConstantForIntegration.CANTON_EXPECTED_RESPONSE_GET_XML, response.getEntity());
+        assertEqualsXml(ConstantForIntegration.CANTON_EXPECTED_RESPONSE_GET_XML, response.getEntity());
     }
 
     
