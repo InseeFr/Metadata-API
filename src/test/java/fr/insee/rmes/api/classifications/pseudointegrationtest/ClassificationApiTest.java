@@ -1,13 +1,7 @@
 package fr.insee.rmes.api.classifications.pseudointegrationtest;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import org.junit.jupiter.api.Assertions;
+import fr.insee.rmes.api.classifications.ClassificationApi;
+import fr.insee.rmes.utils.SparqlUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,8 +11,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.insee.rmes.api.classifications.ClassificationApi;
-import fr.insee.rmes.utils.SparqlUtils;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ClassificationApiTest  {
@@ -40,10 +38,7 @@ class ClassificationApiTest  {
     		
     
     
-    @BeforeEach
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
+
     
     
     @Test
@@ -52,7 +47,7 @@ class ClassificationApiTest  {
     	 	.thenReturn(MOCK_CSV_GET_POSTE);
     	 Response r = classificationAPI.getClassificationByCode("nafr2", MediaType.APPLICATION_JSON);
          assertEquals(Status.OK.getStatusCode(), r.getStatus());
-    	 Assertions.assertEquals(EXPECTED_JSON,r.getEntity());
+    	 assertEquals(EXPECTED_JSON,r.getEntity());
     }
     
     @Test
@@ -61,7 +56,7 @@ class ClassificationApiTest  {
     	 	.thenReturn(MOCK_CSV_GET_POSTE);
     	 Response r = classificationAPI.getClassificationByCode("nafr2", MediaType.APPLICATION_XML);
          assertEquals(Status.OK.getStatusCode(), r.getStatus());
-    	 Assertions.assertEquals(EXPECTED_XML,r.getEntity());
+    	 assertEquals(EXPECTED_XML,r.getEntity());
     }
 
    

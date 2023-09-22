@@ -1,10 +1,12 @@
 package fr.insee.rmes.api.operations.pseudointegrationtest;
 
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import fr.insee.rmes.api.operations.OperationsApiService;
+import fr.insee.rmes.modeles.operations.SimpleObject;
+import fr.insee.rmes.modeles.operations.documentations.Document;
+import fr.insee.rmes.modeles.operations.documentations.Rubrique;
+import fr.insee.rmes.modeles.operations.documentations.RubriqueRichText;
+import fr.insee.rmes.utils.Lang;
+import fr.insee.rmes.utils.SparqlUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,16 +17,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.insee.rmes.api.operations.OperationsApiService;
-import fr.insee.rmes.modeles.operations.SimpleObject;
-import fr.insee.rmes.modeles.operations.documentations.Document;
-import fr.insee.rmes.modeles.operations.documentations.Rubrique;
-import fr.insee.rmes.modeles.operations.documentations.RubriqueRichText;
-import fr.insee.rmes.utils.Lang;
-import fr.insee.rmes.utils.SparqlUtils;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class OperationsApiServiceTest  {
@@ -48,10 +46,8 @@ class OperationsApiServiceTest  {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
         initExpected();
     }
-
 
 
 	@ParameterizedTest

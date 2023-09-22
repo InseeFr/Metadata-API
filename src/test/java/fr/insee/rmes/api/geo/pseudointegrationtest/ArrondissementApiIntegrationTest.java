@@ -1,6 +1,6 @@
 package fr.insee.rmes.api.geo.pseudointegrationtest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -8,16 +8,19 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import fr.insee.rmes.api.geo.territoire.ArrondissementApi;
 import fr.insee.rmes.utils.SparqlUtils;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-public class ArrondissementApiIntegrationTest {
+@ExtendWith(MockitoExtension.class)
+class ArrondissementApiIntegrationTest {
 
     @InjectMocks
     private ArrondissementApi geoApi;
@@ -28,10 +31,7 @@ public class ArrondissementApiIntegrationTest {
     @Mock
     protected SparqlUtils mockSparqlUtils;
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
+
 
     @Test
     public void givengetArrondissement_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {

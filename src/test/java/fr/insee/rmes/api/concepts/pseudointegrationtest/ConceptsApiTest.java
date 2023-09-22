@@ -1,13 +1,7 @@
 package fr.insee.rmes.api.concepts.pseudointegrationtest;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import org.junit.jupiter.api.Assertions;
+import fr.insee.rmes.api.concepts.ConceptsAPI;
+import fr.insee.rmes.utils.SparqlUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,8 +11,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.insee.rmes.api.concepts.ConceptsAPI;
-import fr.insee.rmes.utils.SparqlUtils;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ConceptsApiTest  {
@@ -54,10 +52,7 @@ class ConceptsApiTest  {
     private static final String EXPECTED_XML_C1500 = "<Definition id=\"c1500\" uri=\"http://id.insee.fr/concepts/definition/c1500\"><Intitule langue=\"fr\"><contenu>Micro-entrepreneur</contenu></Intitule><Intitule langue=\"en\"><contenu>Micro-entrepreneur</contenu></Intitule><Definition langue=\"fr\"><contenu><div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Un micro-entrepreneur ...</p></div></contenu></Definition><Definition langue=\"en\"><contenu><div xmlns=\"http://www.w3.org/1999/xhtml\"><p>A micro-entrepreneur ...</p></div></contenu></Definition><NoteEditoriale langue=\"fr\"><contenu><div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Depuis janvier 2011, </li></ul></div></contenu></NoteEditoriale><NoteEditoriale langue=\"en\"><contenu><div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Since January, 2011,</li></ul><p><br/></p></div></contenu></NoteEditoriale><DefinitionCourte langue=\"fr\"><contenu><div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Un micro-entrepreneur ...</p></div></contenu></DefinitionCourte><DefinitionCourte langue=\"en\"><contenu><div xmlns=\"http://www.w3.org/1999/xhtml\"><p>A micro-entrepreneur...</p></div></contenu></DefinitionCourte><ConceptsPrecedents><ConceptPrecedent><id>c2133</id><uri>http://id.insee.fr/concepts/definition/c2133</uri></ConceptPrecedent></ConceptsPrecedents><ConceptsSuivants><ConceptSuivant><id>c2131</id><uri>http://id.insee.fr/concepts/definition/c2131</uri></ConceptSuivant><ConceptSuivant><id>c2132</id><uri>http://id.insee.fr/concepts/definition/c2132</uri></ConceptSuivant></ConceptsSuivants><DateMiseAJour>2019-11-05</DateMiseAJour></Definition>";
     
     
-    @BeforeEach
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
+
     
     
     @Test
@@ -67,7 +62,7 @@ class ConceptsApiTest  {
 	    	 	.thenReturn(MOCK_CSV_LINKS);
     	 Response r = conceptsAPI.getConcepts("élec", MediaType.APPLICATION_JSON);
          assertEquals(Status.OK.getStatusCode(), r.getStatus());
-    	 Assertions.assertEquals(EXPECTED_JSON_ELEC,r.getEntity());
+    	 assertEquals(EXPECTED_JSON_ELEC,r.getEntity());
     }
     
     @Test
@@ -77,7 +72,7 @@ class ConceptsApiTest  {
     	 	.thenReturn(MOCK_CSV_LINKS);
     	 Response r = conceptsAPI.getConcepts("élec", MediaType.APPLICATION_XML);
          assertEquals(Status.OK.getStatusCode(), r.getStatus());
-    	 Assertions.assertEquals(EXPECTED_XML_ELEC,r.getEntity());
+    	 assertEquals(EXPECTED_XML_ELEC,r.getEntity());
     }
 
     @Test
@@ -87,7 +82,7 @@ class ConceptsApiTest  {
     	 	.thenReturn(MOCK_CSV_LINKS);
     	 Response r = conceptsAPI.getConceptById("c1500", MediaType.APPLICATION_XML);
          assertEquals(Status.OK.getStatusCode(), r.getStatus());
-    	 Assertions.assertEquals(EXPECTED_XML_C1500,r.getEntity());
+    	 assertEquals(EXPECTED_XML_C1500,r.getEntity());
     }
     
 
@@ -98,7 +93,7 @@ class ConceptsApiTest  {
     	 	.thenReturn(MOCK_CSV_LINKS);
     	 Response r = conceptsAPI.getConceptById("c1500", MediaType.APPLICATION_JSON);
          assertEquals(Status.OK.getStatusCode(), r.getStatus());
-    	 Assertions.assertEquals(EXPECTED_JSON_C1500,r.getEntity());
+    	 assertEquals(EXPECTED_JSON_C1500,r.getEntity());
     }
 
 
