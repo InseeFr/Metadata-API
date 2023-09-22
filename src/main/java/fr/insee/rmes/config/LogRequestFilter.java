@@ -22,6 +22,7 @@ public class LogRequestFilter implements ContainerRequestFilter, ContainerRespon
     	 StringBuilder sb = logRequest(requestContext);
     	 sb.append(", Params : ").append(requestContext.getUriInfo().getQueryParameters());
     	 String toLog = sb.toString();
+		 toLog = toLog.replaceAll("[\n\r]", "_");
     	 log.info("START {}", toLog);
     }
 
@@ -31,6 +32,7 @@ public class LogRequestFilter implements ContainerRequestFilter, ContainerRespon
  	   	StringBuilder sb = logRequest(requestContext);
 	    sb.append(" with code : ").append(responseContext.getStatus());
 	    String toLog = sb.toString();
+		toLog = toLog.replaceAll("[\n\r]", "_");
     	log.info("END {}", toLog);
     }        
     

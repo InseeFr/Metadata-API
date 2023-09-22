@@ -1,14 +1,31 @@
 package fr.insee.rmes.api.geo.pseudointegrationtest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
+import org.opentest4j.AssertionFailedError;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.function.BiConsumer;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class ConstantForIntegration {
+
+    public static final ObjectMapper MAPPER=new ObjectMapper();
+    private static DocumentBuilder documentBuilder;
 
     // **********************
     // COMMUNE
     // **********************
     public final static String COMMUNE_MOCK_SERVER_RETURN_GET =
         "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
-            + "http://id.insee.fr/geo/commune/2217cf41-787a-4d8a-8c61-abd5683c5b8a,01002,5,L'Abergement-de-Varey,Abergement-de-Varey,1943-01-01,,\r\n"
-            + "";
+            + "http://id.insee.fr/geo/commune/2217cf41-787a-4d8a-8c61-abd5683c5b8a,01002,5,L'Abergement-de-Varey,Abergement-de-Varey,1943-01-01,,\r\n";
     public final static String COMMUNE_EXPECTED_RESPONSE_GET_JSON =
         "{\"code\":\"01002\",\"uri\":\"http://id.insee.fr/geo/commune/2217cf41-787a-4d8a-8c61-abd5683c5b8a\",\"type\":\"Commune\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Abergement-de-Varey\",\"typeArticle\":\"5\",\"intitule\":\"L'Abergement-de-Varey\"}";
     public final static String COMMUNE_EXPECTED_RESPONSE_GET_XML =
@@ -23,8 +40,7 @@ public class ConstantForIntegration {
             + "http://id.insee.fr/geo/commune/0ba291b3-c220-45e2-b2f9-a666789623f8,01001,5,L'Abergement-Clémenciat,Abergement-Clémenciat,1943-01-01,,\r\n"
             + "http://id.insee.fr/geo/commune/2217cf41-787a-4d8a-8c61-abd5683c5b8a,01002,5,L'Abergement-de-Varey,Abergement-de-Varey,1943-01-01,,\r\n"
             + "http://id.insee.fr/geo/commune/00b46592-a710-486c-9a4c-bdf964c90c82,01004,1,Ambérieu-en-Bugey,Ambérieu-en-Bugey,1955-03-31,,\r\n"
-            + "http://id.insee.fr/geo/commune/3d68f1b7-513d-4a52-aa9b-ba3b93bd02c4,01005,1,Ambérieux-en-Dombes,Ambérieux-en-Dombes,1943-01-01,,\r\n"
-            + "";
+            + "http://id.insee.fr/geo/commune/3d68f1b7-513d-4a52-aa9b-ba3b93bd02c4,01005,1,Ambérieux-en-Dombes,Ambérieux-en-Dombes,1943-01-01,,\r\n";
     public static final String COMMUNE_EXPECTED_RESPONSE_LISTE_TOP_JSON =
         "["
             + "{\"code\":\"01001\",\"uri\":\"http://id.insee.fr/geo/commune/0ba291b3-c220-45e2-b2f9-a666789623f8\",\"type\":\"Commune\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Abergement-Clémenciat\",\"typeArticle\":\"5\",\"intitule\":\"L'Abergement-Clémenciat\"},"
@@ -91,16 +107,49 @@ public class ConstantForIntegration {
             + "<IntituleSansArticle typeArticle=\"1\">Ambérieu</IntituleSansArticle>"
             + "</Commune>"
             + "</Communes>";
-    public static final String COMMUNE_MOCK_SERVER_RETURN_SUIVANTS =
-        "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
-            + "http://id.insee.fr/geo/commune/58e8aa37-d1ff-4d59-be14-324bf06fd0a6,Commune,17013,1,Antezant-la-Chapelle,Antezant-la-Chapelle,1974-01-01,2010-11-01,\r\n";
-    public static final String COMMUNE_EXPECTED_RESPONSE_SUIVANTS_JSON =
-        "{\"commune\": {\"type\": \"Commune\",\"code\": \"01004\",\"uri\": \"http://id.insee.fr/geo/commune/339c2d61-c685-4643-ab69-df8c86bbf2b0\",\"intitule\": \"Ambérieu\",\"intituleSansArticle: \"Ambérieu\",\"typeArticle\": \"1\",\"dateSuppression\": \"1955-03-31\"}}";
-    public static final String COMMUNE_EXPECTED_RESPONSE_SUIVANTS_XML =
-        "<Communes>"
-            + "<Commune code=\"01004\"uri=\"http://id.insee.fr/geo/commune/339c2d61-c685-4643-ab69-df8c86bbf2b0\"><Intitule>Ambérieu</Intitule><IntituleSansArticletypeArticle=\"1\">Ambérieu</IntituleSansArticle><DateSuppression>1955-03-31</DateSuppression>"
-            + "</Commune>"
-            + "</Communes>";
+
+
+
+    public static final String CantonsCOMMUNE_MOCK_SERVER_RETURN_LISTE =
+            "code,uri,type,dateCreation,intitule,intituleSansArticle,typeArticle\r\n"
+            + "0105,http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7,Canton,2016-01-01,Bourg-en-Bresse-1,Bourg-en-Bresse-1,0\r\n"
+            + "0106,http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c,Canton,2016-01-01,Bourg-en-Bresse-2,Bourg-en-Bresse-2,0\r\n";
+    public static final String CantonsCOMMUNE_EXPECTED_RESPONSE_LISTE_TOP_JSON =
+            "["
+            +  "{"
+            +         "\"code\":\"0105\","
+            +         "\"uri\":\"http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7\","
+            +        "\"type\":\"Canton\","
+            +        "\"dateCreation\":\"2016-01-01\","
+            +        "\"intitule\":\"Bourg-en-Bresse-1\","
+            +       "\"intituleSansArticle\":\"Bourg-en-Bresse-1\","
+            +       "\"typeArticle\":\"0\""
+            +      "},"
+            +      "{"
+            +      "\"code\":\"0106\","
+            +      "\"uri\":\"http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c\","
+            +      "\"type\":\"Canton\","
+            +     "\"dateCreation\":\"2016-01-01\","
+            +     "\"intitule\":\"Bourg-en-Bresse-2\","
+            +     "\"intituleSansArticle\":\"Bourg-en-Bresse-2\","
+            +    "\"typeArticle\":\"0\""
+            +    "}"
+            +    "]";
+    public static final String CantonsCOMMUNE_EXPECTED_RESPONSE_LISTE_TOP_XML =
+            "<Cantons>" +
+            "<Canton code=\"0105\" uri=\"http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7\">" +
+            "<Intitule>Bourg-en-Bresse-1</Intitule>" +
+            "<Type>Canton</Type>" +
+            "<DateCreation>2016-01-01</DateCreation>" +
+            "<IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse-1</IntituleSansArticle>" +
+            "</Canton>" +
+            "<Canton code=\"0106\" uri=\"http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c\">" +
+            "<Intitule>Bourg-en-Bresse-2</Intitule>" +
+            "<Type>Canton</Type>" +
+            "<DateCreation>2016-01-01</DateCreation>" +
+            "<IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse-2</IntituleSansArticle>" +
+            "</Canton>" +
+            "</Cantons>";
 
     // **********************
     // DEPARTEMENT
@@ -168,8 +217,7 @@ public class ConstantForIntegration {
             + "</Territoires>";
     public static final String DEPARTEMENT_MOCK_SERVER_RETURN_PRECEDENTS =
         "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
-            + "http://id.insee.fr/geo/departement/21cde70f-d7be-4410-9a04-5f6f73dc5e70,Departement,78,3,Seine-et-Oise,Seine-et-Oise,1943-01-01,1968-01-01,78646\r\n"
-            + "";
+            + "http://id.insee.fr/geo/departement/21cde70f-d7be-4410-9a04-5f6f73dc5e70,Departement,78,3,Seine-et-Oise,Seine-et-Oise,1943-01-01,1968-01-01,78646\r\n";
     public static final String DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_JSON = "[{\"code\":\"78\",\"uri\":\"http://id.insee.fr/geo/departement/21cde70f-d7be-4410-9a04-5f6f73dc5e70\",\"type\":\"Departement\",\"dateCreation\":\"1943-01-01\",\"dateSuppression\":\"1968-01-01\",\"intituleSansArticle\":\"Seine-et-Oise\",\"typeArticle\":\"3\",\"chefLieu\":\"78646\",\"intitule\":\"Seine-et-Oise\"}]";
     public static final String DEPARTEMENT_EXPECTED_RESPONSE_PRECEDENTS_XML = "<Departements><Departement code=\"78\" uri=\"http://id.insee.fr/geo/departement/21cde70f-d7be-4410-9a04-5f6f73dc5e70\"><Intitule>Seine-et-Oise</Intitule><Type>Departement</Type><DateCreation>1943-01-01</DateCreation><DateSuppression>1968-01-01</DateSuppression><IntituleSansArticle typeArticle=\"3\">Seine-et-Oise</IntituleSansArticle><ChefLieu>78646</ChefLieu></Departement></Departements>";
     public static final String DEPARTEMENT_MOCK_SERVER_RETURN_SUIVANTS =
@@ -187,7 +235,7 @@ public class ConstantForIntegration {
         "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/arrondissement/e6e49119-fbb8-4279-a78c-e3ddfeaf36ad,213,0,Montbard,Montbard,1993-01-01,,21425";
     public static final String ARRONDISSEMENT_EXPECTED_RESPONSE_GET_JSON =
-        "{\"code\":\"213\",\"uri\":\"http://id.insee.fr/geo/arrondissement/e6e49119-fbb8-4279-a78c-e3ddfeaf36ad\",\"type\":\"Arrondissement\",\"dateCreation\":\"1993-01-01\",\"intituleSansArticle\":\"Montbard\",\"typeArticle\":\"0\",\"chefLieu\":\"21425\",\"intitule\":\"Montbard\"}";;
+        "{\"code\":\"213\",\"uri\":\"http://id.insee.fr/geo/arrondissement/e6e49119-fbb8-4279-a78c-e3ddfeaf36ad\",\"type\":\"Arrondissement\",\"dateCreation\":\"1993-01-01\",\"intituleSansArticle\":\"Montbard\",\"typeArticle\":\"0\",\"chefLieu\":\"21425\",\"intitule\":\"Montbard\"}";
     public static final String ARRONDISSEMENT_EXPECTED_RESPONSE_GET_XML =
         "<Arrondissement code=\"213\" uri=\"http://id.insee.fr/geo/arrondissement/e6e49119-fbb8-4279-a78c-e3ddfeaf36ad\"><Intitule>Montbard</Intitule><Type>Arrondissement</Type><DateCreation>1993-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Montbard</IntituleSansArticle><ChefLieu>21425</ChefLieu></Arrondissement>";
     public static final String ARRONDISSEMENT_MOCK_SERVER_RETURN_LISTE =
@@ -209,7 +257,7 @@ public class ConstantForIntegration {
             + "<Arrondissement code=\"012\" uri=\"http://id.insee.fr/geo/arrondissement/bafd343b-c49a-4c79-a79a-349415d23127\"><Intitule>Bourg-en-Bresse</Intitule><Type>Arrondissement</Type><DateCreation>2017-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse</IntituleSansArticle><ChefLieu>01053</ChefLieu></Arrondissement>"
             + "<Arrondissement code=\"013\" uri=\"http://id.insee.fr/geo/arrondissement/a2196f60-5d0b-4fa6-8dfd-d5c30936e461\"><Intitule>Gex</Intitule><Type>Arrondissement</Type><DateCreation>2017-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Gex</IntituleSansArticle><ChefLieu>01173</ChefLieu></Arrondissement>"
             + "<Arrondissement code=\"014\" uri=\"http://id.insee.fr/geo/arrondissement/be7259d5-f1af-4cd4-8334-125e2d991946\"><Intitule>Nantua</Intitule><Type>Arrondissement</Type><DateCreation>2017-01-01</DateCreation><IntituleSansArticle typeArticle=\"0\">Nantua</IntituleSansArticle><ChefLieu>01269</ChefLieu></Arrondissement>"
-            + "</Arrondissements>";;
+            + "</Arrondissements>";
     public static final String ARRONDISSEMENT_MOCK_SERVER_RETURN_ASCENDANTS =
         "uri,code,type,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
             + "http://id.insee.fr/geo/departement/31647c0a-d1c1-4b1c-a0c9-125164f48106,21,http://rdf.insee.fr/def/geo#Departement,3,Côte-d'Or,Côte-d'Or,1943-01-01,,21231\r\n"
@@ -229,7 +277,7 @@ public class ConstantForIntegration {
             + "http://id.insee.fr/geo/commune/8c4b5970-8a92-4ce4-9a42-3c7383236275,21004,http://rdf.insee.fr/def/geo#Commune,1,Aignay-le-Duc,Aignay-le-Duc,1943-01-01,,\r\n"
             + "http://id.insee.fr/geo/commune/1ed68fb0-2c0f-47e5-9fef-b34684c9d7a1,21006,http://rdf.insee.fr/def/geo#Commune,1,Aisey-sur-Seine,Aisey-sur-Seine,1943-01-01,,\r\n"
             + "http://id.insee.fr/geo/commune/56ffb732-7dbb-4f62-b92c-fcee071f4efa,21007,http://rdf.insee.fr/def/geo#Commune,1,Aisy-sous-Thil,Aisy-sous-Thil,1943-01-01,,\r\n"
-            + "http://id.insee.fr/geo/commune/533630bf-ea82-453a-ae6b-0962c51c6d3f,21008,http://rdf.insee.fr/def/geo#Commune,1,Alise-Sainte-Reine,Alise-Sainte-Reine,1943-01-01,,";;
+            + "http://id.insee.fr/geo/commune/533630bf-ea82-453a-ae6b-0962c51c6d3f,21008,http://rdf.insee.fr/def/geo#Commune,1,Alise-Sainte-Reine,Alise-Sainte-Reine,1943-01-01,,";
     public static final String ARRONDISSEMENT_EXPECTED_RESPONSE_DESCENDANTS_JSON =
         "["
             + "{\"code\":\"21004\",\"uri\":\"http://id.insee.fr/geo/commune/8c4b5970-8a92-4ce4-9a42-3c7383236275\",\"type\":\"Commune\",\"dateCreation\":\"1943-01-01\",\"intituleSansArticle\":\"Aignay-le-Duc\",\"typeArticle\":\"1\",\"intitule\":\"Aignay-le-Duc\"},"
@@ -261,12 +309,7 @@ public class ConstantForIntegration {
             + "<Arrondissement code=\"192\" uri=\"http://id.insee.fr/geo/arrondissement/0a3e9d35-4fd3-42a4-bac9-2428b095bdfb\"><Intitule>Tulle</Intitule><Type>Arrondissement</Type><DateCreation>1993-01-01</DateCreation><DateSuppression>2017-01-01</DateSuppression><IntituleSansArticle typeArticle=\"0\">Tulle</IntituleSansArticle><ChefLieu>19272</ChefLieu></Arrondissement>"
             + "<Arrondissement code=\"193\" uri=\"http://id.insee.fr/geo/arrondissement/cafc6057-1b9e-4372-ac5e-5e9d9980090b\"><Intitule>Ussel</Intitule><Type>Arrondissement</Type><DateCreation>1993-01-01</DateCreation><DateSuppression>2017-01-01</DateSuppression><IntituleSansArticle typeArticle=\"1\">Ussel</IntituleSansArticle><ChefLieu>19275</ChefLieu></Arrondissement>"
             + "</Arrondissements>";
-    public static final String ARRONDISSEMENT_MOCK_SERVER_RETURN_SUIVANTS =
-        "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
-            + "http://id.insee.fr/geo/arrondissement/d51179c8-941c-4e9d-9934-2823e4833ff4,Arrondissement,511,0,Châlons-en-Champagne,Châlons-en-Champagne,2017-04-01,,51108\r\n"
-            + "http://id.insee.fr/geo/arrondissement/9986d5f3-6962-49eb-b1ec-f3933ceec66a,Arrondissement,512,1,Épernay,Épernay,2017-04-01,,51230\r\n"
-            + "http://id.insee.fr/geo/arrondissement/c2696be3-dabb-489c-8246-3df99510d2bf,Arrondissement,513,0,Reims,Reims,2017-04-01,,51454\r\n"
-            + "http://id.insee.fr/geo/arrondissement/e3fc9816-71d5-40f2-a0a2-b129ccf5dff4,Arrondissement,514,0,Vitry-le-François,Vitry-le-François,2017-04-01,,51649\r\n";;
+
     public static final String ARRONDISSEMENT_EXPECTED_RESPONSE_SUIVANTS_JSON =
         "["
             + "{\"code\":\"191\",\"uri\":\"http://id.insee.fr/geo/arrondissement/2f7cf574-f484-4724-99e2-9cdce527d6fc\",\"type\":\"Arrondissement\",\"dateCreation\":\"1993-01-01\",\"dateSuppression\":\"2017-01-01\",\"intituleSansArticle\":\"Brive-la-Gaillarde\",\"typeArticle\":\"0\",\"chefLieu\":\"19031\",\"intitule\":\"Brive-la-Gaillarde\"},"
@@ -454,10 +497,6 @@ public class ConstantForIntegration {
         "<ArrondissementsMunicipaux>"
             + "<ArrondissementMunicipal code=\"69385\" uri=\"http://id.insee.fr/geo/arrondissementMunicipal/c8ad8e72-685d-4b21-b3e7-1a014f940400\"><Intitule>Lyon 5e Arrondissement</Intitule><Type>ArrondissementMunicipal</Type><DateCreation>1943-01-01</DateCreation><DateSuppression>1964-08-12</DateSuppression><IntituleSansArticle typeArticle=\"0\">Lyon 5e Arrondissement</IntituleSansArticle></ArrondissementMunicipal>"
             + "</ArrondissementsMunicipaux>";
-    public static final String ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_SUIVANTS =
-        "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu\r\n"
-            + "http://id.insee.fr/geo/arrondissementMunicipal/008b1c8d-6435-4fe9-ab33-20418c9a7f87,ArrondissementMunicipal,69385,0,Lyon 5e Arrondissement,Lyon 5e Arrondissement,1964-08-12,,\r\n"
-            + "http://id.insee.fr/geo/arrondissementMunicipal/d038bb92-b622-4a36-9f36-f4fef2c458e5,ArrondissementMunicipal,69389,0,Lyon 9e Arrondissement,Lyon 9e Arrondissement,1964-08-12,,\r\n";
     public static final String ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_SUIVANTS_JSON =
         "["
             + "{\"code\":\"69385\",\"uri\":\"http://id.insee.fr/geo/arrondissementMunicipal/c8ad8e72-685d-4b21-b3e7-1a014f940400\",\"type\":\"ArrondissementMunicipal\",\"dateCreation\":\"1943-01-01\",\"dateSuppression\":\"1964-08-12\",\"intituleSansArticle\":\"Lyon 5e Arrondissement\",\"typeArticle\":\"0\",\"intitule\":\"Lyon 5e Arrondissement\"}"
@@ -531,11 +570,63 @@ public class ConstantForIntegration {
     // PAYS
     // **********************
     public static final String PAYS_MOCK_SERVER_RETURN_GET =
-        "uri,intitule,intituleEntier\r\n" + "http://id.insee.fr/geo/pays/99350,MAROC,ROYAUME DU MAROC\r\n" + "";
+        "uri,intitule,intituleEntier\r\n" + "http://id.insee.fr/geo/pays/99350,MAROC,ROYAUME DU MAROC\r\n";
 
     public static final String PAYS_EXPECTED_RESPONSE_GET_JSON =
         "{\"code\":\"99350\",\"uri\":\"http://id.insee.fr/geo/pays/99350\",\"intitule\":\"MAROC\",\"intituleEntier\":\"ROYAUME DU MAROC\"}";
 
     public static final String PAYS_EXPECTED_RESPONSE_GET_XML =
         "<Pays code=\"99350\" uri=\"http://id.insee.fr/geo/pays/99350\"><Intitule>MAROC</Intitule><IntituleEntier>ROYAUME DU MAROC</IntituleEntier></Pays>";
+
+    public final static String CANTON_MOCK_SERVER_RETURN_GET =
+            "code,uri,type,dateCreation,intitule,intituleSansArticle,typeArticle,ChefLieu\r\n"
+                    + "0105,http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7,Canton,2016-01-01,Bourg-en-Bresse-1,Bourg-en-Bresse-1,0\r\n";
+
+
+    public final static String CANTON_EXPECTED_RESPONSE_GET_JSON =
+            "{\"code\":\"0105\",\"uri\":\"http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7\",\"type\":\"Canton\",\"dateCreation\":\"2016-01-01\",\"intitule\":\"Bourg-en-Bresse-1\",\"intituleSansArticle\":\"Bourg-en-Bresse-1\",\"typeArticle\":\"0\"}";
+
+    public final static String CANTON_EXPECTED_RESPONSE_GET_XML =
+            "<Canton code=\"0105\" uri=\"http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7\">"+
+                    "<Intitule>Bourg-en-Bresse-1</Intitule>" +
+                    "<Type>Canton</Type>" +
+                    "<DateCreation>2016-01-01</DateCreation>" +
+                    "<IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse-1</IntituleSansArticle>" +
+                    "</Canton>";
+
+    public static void assertEqualsJson(String expected, Object actual) {
+        assertEqualsJsonOrXml(expected, actual, MAPPER::readTree, Assertions::assertEquals);
+    }
+
+    private static <TNode> void  assertEqualsJsonOrXml(String expected, Object actual, ReaderThrowing<TNode> reader, BiConsumer<TNode, TNode> assertor) {
+        TNode nodeExpected;
+        TNode nodeActual;
+        try {
+            nodeExpected = reader.read(expected);
+        }catch (SAXException | IOException e) {
+            throw new AssertionFailedError("Error while parsing expected <[ " + expected +" ]> =====> ", e);
+        }
+        try {
+            nodeActual=reader.read(actual.toString());
+        } catch (SAXException | IOException e) {
+            throw new AssertionFailedError("Error while parsing actual <[ " + actual +" ]> =====> ", e);
+        }
+        assertor.accept(nodeExpected, nodeActual);
+    }
+
+    public static void assertEqualsXml(String expected, Object actual) {
+        if (documentBuilder==null){
+            try {
+                documentBuilder=DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            } catch (ParserConfigurationException e) {
+                throw new AssertionFailedError("Unable to instance documentBuilder for xml parsing ", e);
+            }
+        }
+        assertEqualsJsonOrXml(expected, actual, s -> documentBuilder.parse(new ByteArrayInputStream(s.getBytes())),
+                (n1,n2)-> {assertNotNull(n1); assertTrue(n1.isEqualNode(n2));});
+    }
+
+    private interface ReaderThrowing<TNode> {
+        TNode read(String input) throws SAXException, IOException;
+    }
 }

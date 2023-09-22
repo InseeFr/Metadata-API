@@ -4,10 +4,12 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.geo.territoire.Canton;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -586,4 +588,65 @@ class CommuneApiTest extends AbstractApiTest {
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
+    @Test
+    void givenGetListeCantonsCommunes_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+
+        // Mock
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Canton());
+
+        // Call method
+        geoApi.getListe(MediaType.APPLICATION_JSON, null, null, null); /*modifier suite a changement du nombre de variables */
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    void givenGetListeCantonsCommunes_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+
+        // Mock
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Commune());
+
+        // Call method
+        geoApi.getCantonForCommune("something", MediaType.APPLICATION_XML, null); /*modifier suite a changement du nombre de variables */
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    void givenGetListeCantonsCommunes_WhenCorrectRequest_thenResponseIsNotFound() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
+
+        // Call method header content = xml
+        Response response = geoApi.getCantonForCommune("something", HttpHeaders.ACCEPT,null);/*modifier suite a changement du nombre de variables */
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        // Call method header content = json
+        response = geoApi.getCantonForCommune("something", HttpHeaders.ACCEPT, null);/*modifier suite a changement du nombre de variables */
+        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+
+        verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+    }
+
+    @Test
+    void givenGetListeCantonsCommunes_WhenCorrectRequest_thenParameterDateIsRight() {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Canton());
+
+        // Call method header content = xml
+        geoApi.getCantonForCommune("something", MediaType.APPLICATION_XML, "2000-01-01");/*modifier suite a changement du nombre de variables */
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+
+    }
+
+    @Test
+    void givenGetListeCantonsCommunes_WhenCorrectRequest_thenParameterDateIsBad() {
+
+        // Call method header content = xml
+        Response response = geoApi.getCantonForCommune("something", MediaType.APPLICATION_XML, "nimportequoi");/*modifier suite a changement du nombre de variables */
+        Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
 }

@@ -1,18 +1,15 @@
 package fr.insee.rmes.api;
 
-import static org.mockito.Mockito.when;
+import fr.insee.rmes.utils.CSVUtils;
+import fr.insee.rmes.utils.ResponseUtils;
+import fr.insee.rmes.utils.SparqlUtils;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
-import fr.insee.rmes.utils.CSVUtils;
-import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
+import static org.mockito.Mockito.when;
 
 public abstract class AbstractApiTest {
 
@@ -27,10 +24,6 @@ public abstract class AbstractApiTest {
 
     protected List<Object> list = new ArrayList<>();
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     public void mockUtilsMethodsThenReturnListOfPojo(boolean isAttendResponseIsOk) {
         this.mockMethodsUtilsGeneric(isAttendResponseIsOk);

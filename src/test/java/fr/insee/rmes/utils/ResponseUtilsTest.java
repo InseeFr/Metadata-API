@@ -1,19 +1,16 @@
 package fr.insee.rmes.utils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import javax.ws.rs.core.MediaType;
-
-import org.junit.jupiter.api.BeforeEach;
+import fr.insee.rmes.modeles.TestObject;
+import fr.insee.rmes.modeles.operations.documentations.RubriqueRichText;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.insee.rmes.modeles.TestObject;
-import fr.insee.rmes.modeles.operations.documentations.RubriqueRichText;
+import javax.ws.rs.core.MediaType;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class ResponseUtilsTest {
@@ -24,11 +21,7 @@ class ResponseUtilsTest {
     TestObject testObj;
     String expectedJson;
     String expectedXml;
-    
-    @BeforeEach
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
+
     
 	@ParameterizedTest
     @ValueSource(strings = {"text to Try", "Text with accent éùàèô", "Text with special XML/Json char < > ",""})

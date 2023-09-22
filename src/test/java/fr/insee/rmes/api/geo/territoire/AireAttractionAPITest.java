@@ -1,13 +1,8 @@
 package fr.insee.rmes.api.geo.territoire;
 
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
+import fr.insee.rmes.api.AbstractApiTest;
+import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
+import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,12 +13,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.insee.rmes.api.AbstractApiTest;
-import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
-import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class AireAttractionAPITest extends AbstractApiTest {
+class AireAttractionAPITest extends AbstractApiTest {
 
     @InjectMocks
     private AireAttractionApi geoApi;
