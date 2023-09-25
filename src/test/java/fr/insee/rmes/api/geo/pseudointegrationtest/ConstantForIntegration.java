@@ -4,21 +4,74 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.opentest4j.AssertionFailedError;
 import org.xml.sax.SAXException;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.Diff;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.function.BiConsumer;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class ConstantForIntegration {
 
     public static final ObjectMapper MAPPER=new ObjectMapper();
-    private static DocumentBuilder documentBuilder;
+    public static final String COMMUNES_FROM_CANTON_EXPECTED_RESPONSE_GET_JSON = "[\n" +
+            "\t{\n" +
+            "\t\t\"code\": \"33273\",\n" +
+            "\t\t\"uri\": \"http://id.insee.fr/geo/commune/c1e73781-7e69-4212-9645-a525ad190b22\",\n" +
+            "\t\t\"type\": \"Commune\",\n" +
+            "\t\t\"intitule\": \"Martignas-sur-Jalle\",\n" +
+            "\t\t\"intituleSansArticle\": \"Martignas-sur-Jalle\",\n" +
+            "\t\t\"typeArticle\": \"0\",\n" +
+            "\t\t\"inclusion\": \"totale\",\n" +
+            "\t\t\"dateCreation\": \"1943-01-01\"\n" +
+            "\t},\n" +
+            "\t{\n" +
+            "\t\t\"code\": \"33281\",\n" +
+            "\t\t\"uri\": \"http://id.insee.fr/geo/commune/aa63f8a3-49a2-41e3-a039-36dc639be4a1\",\n" +
+            "\t\t\"type\": \"Commune\",\n" +
+            "\t\t\"intitule\": \"Mérignac\",\n" +
+            "\t\t\"intituleSansArticle\": \"Mérignac\",\n" +
+            "\t\t\"typeArticle\": \"0\",\n" +
+            "\t\t\"inclusion\": \"partielle\",\n" +
+            "\t\t\"dateCreation\": \"1943-01-01\"\n" +
+            "\t},\n" +
+            "\t{\n" +
+            "\t\t\"code\": \"33422\",\n" +
+            "\t\t\"uri\": \"http://id.insee.fr/geo/commune/dbab54d2-ea7e-4117-aaa9-4ea1a7110749\",\n" +
+            "\t\t\"type\": \"Commune\",\n" +
+            "\t\t\"intitule\": \"Saint-Jean-d'Illac\",\n" +
+            "\t\t\"intituleSansArticle\": \"Saint-Jean-d'Illac\",\n" +
+            "\t\t\"typeArticle\": \"0\",\n" +
+            "\t\t\"inclusion\": \"totale\",\n" +
+            "\t\t\"dateCreation\": \"1943-01-01\"\n" +
+            "\t}\n" +
+            "]";
+
+    public static final String COMMUNES_FROM_CANTON_EXPECTED_RESPONSE_GET_XML="<Communes>\n" +
+            "\t<Commune code=\"33273\" uri=\"http://id.insee.fr/geo/commune/c1e73781-7e69-4212-9645-a525ad190b22\">\n" +
+            "\t\t<Type>Commune</Type>\n" +
+            "\t\t<Intitule>Martignas-sur-Jalle</Intitule>\n" +
+            "\t\t<IntituleSansArticle typeArticle=\"0\">Martignas-sur-Jalle</IntituleSansArticle>\n" +
+            "\t\t<Inclusion>totale</Inclusion>\n" +
+            "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
+            "\t</Commune>\n" +
+            "\t<Commune code=\"33281\" uri=\"http://id.insee.fr/geo/commune/aa63f8a3-49a2-41e3-a039-36dc639be4a1\">\n" +
+            "\t\t<Type>Commune</Type>\n" +
+            "\t\t<Intitule>Mérignac</Intitule>\n" +
+            "\t\t<IntituleSansArticle typeArticle=\"0\">Mérignac</IntituleSansArticle>\n" +
+            "\t\t<Inclusion>partielle</Inclusion>\n" +
+            "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
+            "\t</Commune>\n" +
+            "\t<Commune code=\"33422\" uri=\"http://id.insee.fr/geo/commune/dbab54d2-ea7e-4117-aaa9-4ea1a7110749\">\n" +
+            "\t\t<Type>Commune</Type>\n" +
+            "\t\t<Intitule>Saint-Jean-d'Illac</Intitule>\n" +
+            "\t\t<IntituleSansArticle typeArticle=\"0\">Saint-Jean-d'Illac</IntituleSansArticle>\n" +
+            "\t\t<Inclusion>totale</Inclusion>\n" +
+            "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
+            "\t</Commune>\n" +
+            "</Communes>";
 
     // **********************
     // COMMUNE
@@ -594,6 +647,11 @@ public class ConstantForIntegration {
                     "<IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse-1</IntituleSansArticle>" +
                     "</Canton>";
 
+    public static final String COMMUNES_FROM_CANTON_MOCK_SERVER_RETURN_GET = "uri,type,code,typeArticle,intitule,intituleSansArticle,inclusion,dateCreation,dateSuppression\n" +
+            "http://id.insee.fr/geo/commune/c1e73781-7e69-4212-9645-a525ad190b22,http://rdf.insee.fr/def/geo#Commune,33273,0,Martignas-sur-Jalle,Martignas-sur-Jalle,totale,1943-01-01,\n" +
+            "http://id.insee.fr/geo/commune/aa63f8a3-49a2-41e3-a039-36dc639be4a1,http://rdf.insee.fr/def/geo#Commune,33281,0,Mérignac,Mérignac,partielle,1943-01-01,\n" +
+            "http://id.insee.fr/geo/commune/dbab54d2-ea7e-4117-aaa9-4ea1a7110749,http://rdf.insee.fr/def/geo#Commune,33422,0,Saint-Jean-d'Illac,Saint-Jean-d'Illac,totale,1943-01-01,";
+
     public static void assertEqualsJson(String expected, Object actual) {
         assertEqualsJsonOrXml(expected, actual, MAPPER::readTree, Assertions::assertEquals);
     }
@@ -615,18 +673,20 @@ public class ConstantForIntegration {
     }
 
     public static void assertEqualsXml(String expected, Object actual) {
-        if (documentBuilder==null){
-            try {
-                documentBuilder=DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            } catch (ParserConfigurationException e) {
-                throw new AssertionFailedError("Unable to instance documentBuilder for xml parsing ", e);
-            }
-        }
-        assertEqualsJsonOrXml(expected, actual, s -> documentBuilder.parse(new ByteArrayInputStream(s.getBytes())),
-                (n1,n2)-> {assertNotNull(n1); assertTrue(n1.isEqualNode(n2));});
+        assertEqualsJsonOrXml(expected, actual, Input::fromString,
+                (i1, i2) -> {
+                    Diff inputsDiffs = DiffBuilder.compare(i1)
+                            .withTest(i2)
+                            .ignoreWhitespace()
+                            .ignoreComments()
+                            .build();
+                    assertFalse(inputsDiffs.hasDifferences(), inputsDiffs.fullDescription());
+                });
     }
 
     private interface ReaderThrowing<TNode> {
         TNode read(String input) throws SAXException, IOException;
     }
+
+
 }

@@ -25,6 +25,8 @@ class CantonApiIntegrationTest {
     private CantonAPI geoApi;
     private final static String CODE = "0105";
 
+    private final static String CODE_COMMUNES_FROM_CANTON = "3319";
+
     @Mock
     protected SparqlUtils mockSparqlUtils;
 
@@ -46,6 +48,22 @@ class CantonApiIntegrationTest {
         assertEqualsXml(ConstantForIntegration.CANTON_EXPECTED_RESPONSE_GET_XML, response.getEntity());
     }
 
-    
+    @Test
+    void givenGetCommunesFromCanton_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+                .thenReturn(ConstantForIntegration.COMMUNES_FROM_CANTON_MOCK_SERVER_RETURN_GET);
+        Response response = geoApi.getCommunes(CODE_COMMUNES_FROM_CANTON, MediaType.APPLICATION_JSON, null);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEqualsJson(ConstantForIntegration.COMMUNES_FROM_CANTON_EXPECTED_RESPONSE_GET_JSON, response.getEntity());
+    }
+
+    @Test
+    void givenGetCommunesFromCanton_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+                .thenReturn(ConstantForIntegration.COMMUNES_FROM_CANTON_MOCK_SERVER_RETURN_GET);
+        Response response = geoApi.getCommunes(CODE_COMMUNES_FROM_CANTON, MediaType.APPLICATION_XML, null);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEqualsXml(ConstantForIntegration.COMMUNES_FROM_CANTON_EXPECTED_RESPONSE_GET_XML, response.getEntity());
+    }
 
 }
