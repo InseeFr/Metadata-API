@@ -1,27 +1,26 @@
 package fr.insee.rmes.utils;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
+import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-
-import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
-import fr.insee.rmes.modeles.geo.territoire.Territoire;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class CSVUtils {
 
     private static Logger logger = LogManager.getLogger(CSVUtils.class);
 
     private Object csvToPOJO(String csv, Object pojo) throws IOException {
-        CsvMapper mapper = new CsvMapper();
+        CsvMapper mapper = CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS).build();
         // emptyScheme is necessary
         CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
 
@@ -47,7 +46,7 @@ public class CSVUtils {
 
     private <T> List<T> csvToMultiPOJO(String csv, Class<T> childClass) throws IOException {
         List<T> list = new ArrayList<>();
-        CsvMapper mapper = new CsvMapper();
+        CsvMapper mapper = CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS).build();
         CsvSchema schema = CsvSchema.emptySchema().withHeader();
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map.class).with(schema).readValues(csv);
         while (it.hasNext()) {
@@ -106,7 +105,7 @@ public class CSVUtils {
             list = this.csvToMultiPOJO(csv, childClass);
         }
         catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e);
         }
         return list;
     }
