@@ -52,21 +52,21 @@ public class ConstantForIntegration {
     public static final String COMMUNES_FROM_CANTON_EXPECTED_RESPONSE_GET_XML="<Communes>\n" +
             "\t<Commune code=\"33273\" uri=\"http://id.insee.fr/geo/commune/c1e73781-7e69-4212-9645-a525ad190b22\">\n" +
             "\t\t<Intitule>Martignas-sur-Jalle</Intitule>\n" +
-            "\t\t\"type\": \"Commune\",\n" +
+            "\t\t<Type>Commune</Type>\n" +
             "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
             "\t\t<IntituleSansArticle typeArticle=\"0\">Martignas-sur-Jalle</IntituleSansArticle>\n" +
             "\t\t<Inclusion>totale</Inclusion>\n" +
             "\t</Commune>\n" +
             "\t<Commune code=\"33281\" uri=\"http://id.insee.fr/geo/commune/aa63f8a3-49a2-41e3-a039-36dc639be4a1\">\n" +
             "\t\t<Intitule>Mérignac</Intitule>\n" +
-            "\t\t\"type\": \"Commune\",\n" +
+            "\t\t<Type>Commune</Type>\n" +
             "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
             "\t\t<IntituleSansArticle typeArticle=\"0\">Mérignac</IntituleSansArticle>\n" +
             "\t\t<Inclusion>partielle</Inclusion>\n" +
             "\t</Commune>\n" +
             "\t<Commune code=\"33422\" uri=\"http://id.insee.fr/geo/commune/dbab54d2-ea7e-4117-aaa9-4ea1a7110749\">\n" +
             "\t\t<Intitule>Saint-Jean-d'Illac</Intitule>\n" +
-            "\t\t\"type\": \"Commune\",\n" +
+            "\t\t<Type>Commune</Type>\n" +
             "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
             "\t\t<IntituleSansArticle typeArticle=\"0\">Saint-Jean-d'Illac</IntituleSansArticle>\n" +
             "\t\t<Inclusion>totale</Inclusion>\n" +
