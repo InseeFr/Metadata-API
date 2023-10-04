@@ -20,7 +20,7 @@ public class ConstantForIntegration {
             "\t{\n" +
             "\t\t\"code\": \"33273\",\n" +
             "\t\t\"uri\": \"http://id.insee.fr/geo/commune/c1e73781-7e69-4212-9645-a525ad190b22\",\n" +
-            "\t\t\"type\": \"http://rdf.insee.fr/def/geo#Commune\",\n" +
+            "\t\t\"type\": \"Commune\",\n" +
             "\t\t\"intitule\": \"Martignas-sur-Jalle\",\n" +
             "\t\t\"intituleSansArticle\": \"Martignas-sur-Jalle\",\n" +
             "\t\t\"typeArticle\": \"0\",\n" +
@@ -30,7 +30,7 @@ public class ConstantForIntegration {
             "\t{\n" +
             "\t\t\"code\": \"33281\",\n" +
             "\t\t\"uri\": \"http://id.insee.fr/geo/commune/aa63f8a3-49a2-41e3-a039-36dc639be4a1\",\n" +
-            "\t\t\"type\": \"http://rdf.insee.fr/def/geo#Commune\",\n" +
+            "\t\t\"type\": \"Commune\",\n" +
             "\t\t\"intitule\": \"Mérignac\",\n" +
             "\t\t\"intituleSansArticle\": \"Mérignac\",\n" +
             "\t\t\"typeArticle\": \"0\",\n" +
@@ -40,7 +40,7 @@ public class ConstantForIntegration {
             "\t{\n" +
             "\t\t\"code\": \"33422\",\n" +
             "\t\t\"uri\": \"http://id.insee.fr/geo/commune/dbab54d2-ea7e-4117-aaa9-4ea1a7110749\",\n" +
-            "\t\t\"type\": \"http://rdf.insee.fr/def/geo#Commune\",\n" +
+            "\t\t\"type\": \"Commune\",\n" +
             "\t\t\"intitule\": \"Saint-Jean-d'Illac\",\n" +
             "\t\t\"intituleSansArticle\": \"Saint-Jean-d'Illac\",\n" +
             "\t\t\"typeArticle\": \"0\",\n" +
@@ -52,21 +52,21 @@ public class ConstantForIntegration {
     public static final String COMMUNES_FROM_CANTON_EXPECTED_RESPONSE_GET_XML="<Communes>\n" +
             "\t<Commune code=\"33273\" uri=\"http://id.insee.fr/geo/commune/c1e73781-7e69-4212-9645-a525ad190b22\">\n" +
             "\t\t<Intitule>Martignas-sur-Jalle</Intitule>\n" +
-            "\t\t<Type>http://rdf.insee.fr/def/geo#Commune</Type>\n" +
+            "\t\t\"type\": \"Commune\",\n" +
             "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
             "\t\t<IntituleSansArticle typeArticle=\"0\">Martignas-sur-Jalle</IntituleSansArticle>\n" +
             "\t\t<Inclusion>totale</Inclusion>\n" +
             "\t</Commune>\n" +
             "\t<Commune code=\"33281\" uri=\"http://id.insee.fr/geo/commune/aa63f8a3-49a2-41e3-a039-36dc639be4a1\">\n" +
             "\t\t<Intitule>Mérignac</Intitule>\n" +
-            "\t\t<Type>http://rdf.insee.fr/def/geo#Commune</Type>\n" +
+            "\t\t\"type\": \"Commune\",\n" +
             "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
             "\t\t<IntituleSansArticle typeArticle=\"0\">Mérignac</IntituleSansArticle>\n" +
             "\t\t<Inclusion>partielle</Inclusion>\n" +
             "\t</Commune>\n" +
             "\t<Commune code=\"33422\" uri=\"http://id.insee.fr/geo/commune/dbab54d2-ea7e-4117-aaa9-4ea1a7110749\">\n" +
             "\t\t<Intitule>Saint-Jean-d'Illac</Intitule>\n" +
-            "\t\t<Type>http://rdf.insee.fr/def/geo#Commune</Type>\n" +
+            "\t\t\"type\": \"Commune\",\n" +
             "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
             "\t\t<IntituleSansArticle typeArticle=\"0\">Saint-Jean-d'Illac</IntituleSansArticle>\n" +
             "\t\t<Inclusion>totale</Inclusion>\n" +
@@ -647,11 +647,10 @@ public class ConstantForIntegration {
                     "<IntituleSansArticle typeArticle=\"0\">Bourg-en-Bresse-1</IntituleSansArticle>" +
                     "</Canton>";
 
-    public static final String COMMUNES_FROM_CANTON_MOCK_SERVER_RETURN_GET = "uri,type,code,typeArticle,intitule,intituleSansArticle,inclusion,dateCreation,dateSuppression\n" +
-            "http://id.insee.fr/geo/commune/c1e73781-7e69-4212-9645-a525ad190b22,http://rdf.insee.fr/def/geo#Commune,33273,0,Martignas-sur-Jalle,Martignas-sur-Jalle,totale,1943-01-01,\n" +
-            "http://id.insee.fr/geo/commune/aa63f8a3-49a2-41e3-a039-36dc639be4a1,http://rdf.insee.fr/def/geo#Commune,33281,0,Mérignac,Mérignac,partielle,1943-01-01,\n" +
-            "http://id.insee.fr/geo/commune/dbab54d2-ea7e-4117-aaa9-4ea1a7110749,http://rdf.insee.fr/def/geo#Commune,33422,0,Saint-Jean-d'Illac,Saint-Jean-d'Illac,totale,1943-01-01,";
-
+public static final String COMMUNES_FROM_CANTON_MOCK_SERVER_RETURN_GET = "uri,type,code,typeArticle,intitule,intituleSansArticle,inclusion,dateCreation,dateSuppression\n" +
+        "http://id.insee.fr/geo/commune/c1e73781-7e69-4212-9645-a525ad190b22,Commune,33273,0,Martignas-sur-Jalle,Martignas-sur-Jalle,totale,1943-01-01,\n" +
+        "http://id.insee.fr/geo/commune/aa63f8a3-49a2-41e3-a039-36dc639be4a1,Commune,33281,0,Mérignac,Mérignac,partielle,1943-01-01,\n" +
+        "http://id.insee.fr/geo/commune/dbab54d2-ea7e-4117-aaa9-4ea1a7110749,Commune,33422,0,Saint-Jean-d'Illac,Saint-Jean-d'Illac,totale,1943-01-01,";
     public static void assertEqualsJson(String expected, Object actual) {
         assertEqualsJsonOrXml(expected, actual, MAPPER::readTree, Assertions::assertEquals);
     }
