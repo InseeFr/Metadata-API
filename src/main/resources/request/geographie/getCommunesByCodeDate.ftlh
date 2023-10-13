@@ -1,4 +1,5 @@
 PREFIX : <http://rdf.insee.fr/def/geo#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 SELECT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?inclusion ?dateCreation ?dateSuppression
 WHERE {
 ?canton a :Canton ;
