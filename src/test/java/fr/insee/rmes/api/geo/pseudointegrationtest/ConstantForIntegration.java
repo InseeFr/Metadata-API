@@ -793,6 +793,20 @@ public class ConstantForIntegration {
             "        <DateCreation>1943-01-01</DateCreation>\n" +
             "    </Commune>\n" +
             "</Communes>";
+    public static final String COMMUNE_MOCK_SERVER_RETURN_SUIVANTS = "uri,type,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu,intituleComplet,categorieJuridique\n" +
+            "http://id.insee.fr/geo/commune/c2e2d19d-1ace-4cdc-b80d-c37a1aa59d1e,Commune,14475,0,Noyers-Bocage,Noyers-Bocage,1958-10-13,2016-01-01,,,\n";
+    public static final String COMMUNE_EXPECTED_RESPONSE_SUIVANTS_JSON ="["
+            + "{"
+            + "\"code\":\"01004\","
+            + "\"uri\":\"http://id.insee.fr/geo/commune/339c2d61-c685-4643-ab69-df8c86bbf2b0\","
+            + "\"type\":\"Commune\","
+            + "\"dateCreation\":\"1943-01-01\","
+            + "\"dateSuppression\":\"1955-03-31\","
+            + "\"intituleSansArticle\":\"Ambérieu\","
+            + "\"typeArticle\":\"1\","
+            + "\"intitule\":\"Ambérieu\""
+            + "}"
+            + "]";;
 
     public static void assertEqualsJson(String expected, Object actual) {
         assertEqualsJsonOrXml(expected, actual, MAPPER::readTree, Assertions::assertEquals);

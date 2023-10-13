@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public class Intercommunalite extends Territoire {
 
-   @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @XmlElement(name="IntituleComplet")
     private String intituleComplet = null;
 
