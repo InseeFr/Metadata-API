@@ -30,6 +30,7 @@ public class CsvProjection {
     protected String dateSuppression = null;
     protected IntituleSansArticle intituleSansArticle;
     protected String chefLieu = null;
+    protected String intituleComplet = null;
 
     public CsvProjection() {
         this.intituleSansArticle = new IntituleSansArticle();
@@ -168,5 +169,12 @@ public class CsvProjection {
 
     public void setChefLieu(String chefLieu) {
         this.chefLieu = chefLieu;
+    }
+
+    public void setIntituleComplet(String intituleComplet) {
+        this.intituleComplet = intituleComplet;
+    }
+    public String getIntituleComplet() {
+        return intituleComplet;
     }
 }

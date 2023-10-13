@@ -1,5 +1,6 @@
 package fr.insee.rmes.utils;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -20,7 +21,9 @@ public class CSVUtils {
     private static Logger logger = LogManager.getLogger(CSVUtils.class);
 
     private Object csvToPOJO(String csv, Object pojo) throws IOException {
-        CsvMapper mapper = CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS).build();
+        CsvMapper mapper = CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .build();
         // emptyScheme is necessary
         CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
 
@@ -46,7 +49,9 @@ public class CSVUtils {
 
     private <T> List<T> csvToMultiPOJO(String csv, Class<T> childClass) throws IOException {
         List<T> list = new ArrayList<>();
-        CsvMapper mapper = CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS).build();
+        CsvMapper mapper = CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .build();
         CsvSchema schema = CsvSchema.emptySchema().withHeader();
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map.class).with(schema).readValues(csv);
         while (it.hasNext()) {
