@@ -8,6 +8,7 @@ import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
 
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.function.BiConsumer;
 
@@ -797,16 +798,16 @@ public class ConstantForIntegration {
             "http://id.insee.fr/geo/commune/c2e2d19d-1ace-4cdc-b80d-c37a1aa59d1e,Commune,14475,0,Noyers-Bocage,Noyers-Bocage,1958-10-13,2016-01-01,,,\n";
     public static final String COMMUNE_EXPECTED_RESPONSE_SUIVANTS_JSON ="["
             + "{"
-            + "\"code\":\"01004\","
-            + "\"uri\":\"http://id.insee.fr/geo/commune/339c2d61-c685-4643-ab69-df8c86bbf2b0\","
+            + "\"code\":\"14475\","
+            + "\"uri\":\"http://id.insee.fr/geo/commune/c2e2d19d-1ace-4cdc-b80d-c37a1aa59d1e\","
             + "\"type\":\"Commune\","
-            + "\"dateCreation\":\"1943-01-01\","
-            + "\"dateSuppression\":\"1955-03-31\","
-            + "\"intituleSansArticle\":\"Ambérieu\","
-            + "\"typeArticle\":\"1\","
-            + "\"intitule\":\"Ambérieu\""
+            + "\"dateCreation\":\"1958-10-13\","
+            + "\"dateSuppression\":\"2016-01-01\","
+            + "\"intituleSansArticle\":\"Noyers-Bocage\","
+            + "\"typeArticle\":\"0\","
+            + "\"intitule\":\"Noyers-Bocage\""
             + "}"
-            + "]";;
+            + "]";
 
     public static void assertEqualsJson(String expected, Object actual) {
         assertEqualsJsonOrXml(expected, actual, MAPPER::readTree, Assertions::assertEquals);
@@ -842,6 +843,10 @@ public class ConstantForIntegration {
 
     private interface ReaderThrowing<TNode> {
         TNode read(String input) throws SAXException, IOException;
+    }
+
+    public interface GetWithCodeAndDate {
+        Response get(String code, String mediaType, String date);
     }
 
 

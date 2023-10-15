@@ -7,7 +7,10 @@ import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.CantonsEtVilles;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
+import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.Constants;
+import fr.insee.rmes.utils.ResponseUtils;
+import fr.insee.rmes.utils.SparqlUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,6 +41,9 @@ public class CantonOuVilleApi extends AbstractGeoApi {
             "Filtre pour renvoyer le canton-ou-ville actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_DATE_EXAMPLE = "2016-01-01";
 
+    protected CantonOuVilleApi(SparqlUtils sparqlUtils, CSVUtils csvUtils, ResponseUtils responseUtils) {
+        super(sparqlUtils, csvUtils, responseUtils);
+    }
 
 
     @Path(ConstGeoApi.PATH_CANTON_OU_VILLE + CODE_PATTERN)
