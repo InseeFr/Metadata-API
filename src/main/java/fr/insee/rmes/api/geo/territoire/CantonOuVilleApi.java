@@ -45,6 +45,9 @@ public class CantonOuVilleApi extends AbstractGeoApi {
         super(sparqlUtils, csvUtils, responseUtils);
     }
 
+    public CantonOuVilleApi() {
+        // Constructeur par défaut
+    }
 
     @Path(ConstGeoApi.PATH_CANTON_OU_VILLE + CODE_PATTERN)
     @GET

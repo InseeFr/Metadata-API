@@ -42,12 +42,18 @@ WHERE {
 					igeo:codeArticle ?typeArticle;
 					igeo:nom ?intitule;
 					igeo:nomSansArticle ?intituleSansArticle .
-									 OPTIONAL {
+<#if typeOrigine == 	"Intercommunalite">
+					OPTIONAL {
 					?uri a igeo:${typeOrigine} ;
-					igeo:nomIntercommunalite ?intituleComplet ;
+					igeo:nomIntercommunalite ?intituleComplet .
+					}
+</#if>
+					Optional {
+					?uri a igeo:${typeOrigine} ;
 					insee:categorieJuridique ?cj.
 					?cj skos:prefLabel ?categorieJuridique.
 					}
+
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
 					               igeo:date ?dateCreation .
