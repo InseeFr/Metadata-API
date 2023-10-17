@@ -25,6 +25,7 @@ import static javax.ws.rs.core.MediaType.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CantonOuVilleApiTest extends AbstractApiTest {
 
@@ -35,7 +36,7 @@ class CantonOuVilleApiTest extends AbstractApiTest {
 
     private final CantonOuVilleApi geoApi;
 
-    public CantonOuVilleApiTest() {
+    private CantonOuVilleApiTest() {
         super.mockSparqlUtils = Mockito.mock(SparqlUtils.class);
         super.mockCSVUtils = Mockito.mock(CSVUtils.class);
         super.mockResponseUtils = Mockito.mock(ResponseUtils.class);
