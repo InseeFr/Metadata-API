@@ -1,27 +1,22 @@
 package fr.insee.rmes.api.geo;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import fr.insee.rmes.modeles.geo.territoire.Commune;
-import fr.insee.rmes.modeles.geo.territoires.Communes;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import fr.insee.rmes.api.AbstractMetadataApi;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.territoire.Projection;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.queries.geo.CsvGeoUtils;
-import fr.insee.rmes.utils.Constants;
-import fr.insee.rmes.utils.DateUtils;
+import fr.insee.rmes.utils.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public abstract class AbstractGeoApi extends AbstractMetadataApi {
 
@@ -29,7 +24,13 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
 	
     protected CsvGeoUtils csvGeoUtils = new CsvGeoUtils();
 
-    private static Logger logger = LogManager.getLogger(AbstractGeoApi.class);
+    private static final Logger logger = LogManager.getLogger(AbstractGeoApi.class);
+
+    protected AbstractGeoApi(){}
+
+    protected AbstractGeoApi(SparqlUtils sparqlUtils, CSVUtils csvUtils, ResponseUtils responseUtils) {
+        super(sparqlUtils, csvUtils, responseUtils);
+    }
 
     // Method to find a territoire object
     protected Response generateResponseATerritoireByCode(String csvResult, String header, Territoire territoire) {
@@ -88,7 +89,7 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     } 
     
     protected Boolean formatValidParameterBooleanIfIsNull(Boolean bool) {
-        return (bool != null) ? bool : false;
+        return (bool != null) && bool;
     } 
     
     

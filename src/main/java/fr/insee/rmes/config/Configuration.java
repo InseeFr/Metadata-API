@@ -93,10 +93,6 @@ public class Configuration {
         return baseHost;
     }
 
-    public static void setBaseHost(String baseHost) {
-        Configuration.baseHost = baseHost;
-    }
-
     public static String getFileStorage() {
         return fileStorage;
     }

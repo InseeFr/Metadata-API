@@ -13,7 +13,7 @@ a ?typeRDF;
 :nomSansArticle ?intituleSansArticle .
 FILTER(?typeRelation = :territoireCommunAvec || ?typeRelation = :subdivisionDirecteDe)
 OPTIONAL {BIND(IF(?typeRelation = :territoireCommunAvec, 'partielle', 'totale') AS ?inclusion)}
-BIND(STR(?typeRDF) AS ?type).
+BIND(STRAFTER(STR(?typeRDF),"http://rdf.insee.fr/def/geo#") AS ?type).
 BIND(STR(?ressource) AS ?uri).
 OPTIONAL {?canton (^:creation/:date) ?dateCreationCanton. }
 OPTIONAL {?canton (^:suppression/:date) ?dateSuppressionCanton. }

@@ -28,7 +28,6 @@ public abstract class AbstractApiTest {
     public void mockUtilsMethodsThenReturnListOfPojo(boolean isAttendResponseIsOk) {
         this.mockMethodsUtilsGeneric(isAttendResponseIsOk);
         when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
-
     }
 
     public void mockUtilsMethodsThenReturnOnePojo(Object o, boolean isAttendResponseIsOk) {

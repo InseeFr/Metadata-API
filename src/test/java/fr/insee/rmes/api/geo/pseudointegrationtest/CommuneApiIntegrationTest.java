@@ -125,10 +125,10 @@ class CommuneApiIntegrationTest {
     @Test
     void givengetSuivantsCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
-            .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_PRECEDENTS);
+            .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_SUIVANTS);
         Response response = geoApi.getSuivant(CODE_SUIVANT, MediaType.APPLICATION_JSON, "1973-01-01");
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
-        assertEqualsJson(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_PRECEDENTS_JSON, response.getEntity());
+        assertEqualsJson(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_SUIVANTS_JSON, response.getEntity());
     }
 
     @Test

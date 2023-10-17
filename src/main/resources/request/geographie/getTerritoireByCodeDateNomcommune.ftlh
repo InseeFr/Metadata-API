@@ -11,7 +11,7 @@ WHERE {
 </#if>
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
-<#if territoire == 	"Intercommunalite"	>
+<#if territoire == 	"Intercommunalite">
 
 
 				 OPTIONAL {

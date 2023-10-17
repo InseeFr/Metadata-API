@@ -32,9 +32,13 @@ public abstract class AbstractMetadataApi {
 
     protected AbstractMetadataApi() {
 
-        this.sparqlUtils = new SparqlUtils();
-        this.csvUtils = new CSVUtils();
-        this.responseUtils = new ResponseUtils();
+        this(new SparqlUtils(), new CSVUtils(), new ResponseUtils());
+    }
+
+    protected AbstractMetadataApi(SparqlUtils sparqlUtils, CSVUtils csvUtils, ResponseUtils responseUtils) {
+        this.sparqlUtils=sparqlUtils;
+        this.csvUtils=csvUtils;
+        this.responseUtils=responseUtils;
     }
 
     /**
