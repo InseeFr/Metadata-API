@@ -71,6 +71,9 @@ public class GeoQueries extends Queries {
         return getTerritoire(code, date, EnumTypeGeographie.CANTON);
     }
 
+    public static String getIrisByCodeAndDate(String code,String date) {
+        return getTerritoireIris(code, date, EnumTypeGeographie.IRIS);
+    }
     public static String getCantonOuVilleByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.CANTON_OU_VILLE);
     }
@@ -440,7 +443,13 @@ public class GeoQueries extends Queries {
         params.put(DATE, date);
         return params;
     }
-    
+
+    private static String getTerritoireIris(String code, String date, EnumTypeGeographie typeGeo) {
+        Map<String, Object> params = buildCodeAndDateParams(code, date);
+        params.put("territoire", typeGeo.getTypeObjetGeo());
+        return buildRequest(QUERIES_FOLDER, "getIrisByCodeDate.ftlh", params);
+
+    }
     
     private static String getTerritoireFiltre(String code, String date, String filtreNom, EnumTypeGeographie typeGeo,boolean com) {
         Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);

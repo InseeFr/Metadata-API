@@ -27,6 +27,9 @@ public abstract class Territoire {
 	@XmlElement(name="Type")
     protected String type;
 
+    @XmlElement(name="TypeDIris")
+    protected String typeDIris;
+
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="DateCreation")
     @Schema(example ="1992-09-09")
@@ -153,6 +156,10 @@ public abstract class Territoire {
         this.type = type;
     }
 
+    @JacksonXmlProperty(localName = "TypeDIris")
+    public String getTypeDIris() {
+        return typeDIris;
+    }
     @JacksonXmlProperty(localName = "DateCreation")
     public String getDateCreation() {
         return dateCreation;

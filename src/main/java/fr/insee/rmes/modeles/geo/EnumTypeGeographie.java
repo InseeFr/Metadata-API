@@ -25,8 +25,9 @@ public enum EnumTypeGeographie {
 	DISTRICT("District",District.class,Districts.class,Constants.NONE),
 	CIRCONSCRIPTION_TERRITORIALE("CirconscriptionTerritoriale",CirconscriptionTerritoriale.class,CirconscriptionsTerritoriales.class,Constants.NONE),
 	INTERCOMMUNALITE("Intercommunalite",Intercommunalite.class,Intercommunalites.class,Constants.NONE),
-	BASSINDEVIE("BassinDeVie2022",BassinDeVie2022.class,BassinsDeVie2022.class,Constants.NONE);
-	
+	BASSINDEVIE("BassinDeVie2022",BassinDeVie2022.class,BassinsDeVie2022.class,Constants.NONE),
+
+	IRIS("IRIS",Iris.class,Iriss.class,Constants.NONE);
 	
 	private String typeObjetGeo;
 	private Class<? extends Territoire> classNameOfGeoType;
