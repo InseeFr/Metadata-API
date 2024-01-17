@@ -72,7 +72,11 @@ public class GeoQueries extends Queries {
     }
 
     public static String getIrisByCodeAndDate(String code,String date) {
-        return getTerritoireIris(code, date, EnumTypeGeographie.IRIS);
+        if (code.endsWith("0000")) {
+        return getTerritoire(code.substring(0,5), date, EnumTypeGeographie.COMMUNE);}
+        else {
+            return getTerritoire(code, date, EnumTypeGeographie.IRIS);
+        }
     }
     public static String getCantonOuVilleByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.CANTON_OU_VILLE);
@@ -434,7 +438,11 @@ public class GeoQueries extends Queries {
     }
 
     private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
-    	return getTerritoireFiltre(code,date,Constants.ABSENT,typeGeo,true);
+        if (typeGeo == EnumTypeGeographie.IRIS) {
+            return getIris(code, date,typeGeo);
+        }  else{
+           return  getTerritoireFiltre(code, date, Constants.ABSENT, typeGeo, true);
+        }
     }
 
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
@@ -444,7 +452,7 @@ public class GeoQueries extends Queries {
         return params;
     }
 
-    private static String getTerritoireIris(String code, String date, EnumTypeGeographie typeGeo) {
+    private static String getIris(String code, String date, EnumTypeGeographie typeGeo) {
         Map<String, Object> params = buildCodeAndDateParams(code, date);
         params.put("territoire", typeGeo.getTypeObjetGeo());
         return buildRequest(QUERIES_FOLDER, "getIrisByCodeDate.ftlh", params);
@@ -453,6 +461,7 @@ public class GeoQueries extends Queries {
     
     private static String getTerritoireFiltre(String code, String date, String filtreNom, EnumTypeGeographie typeGeo,boolean com) {
         Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
+        System.out.println(typeGeo.getTypeObjetGeo());
         params.put("territoire", typeGeo.getTypeObjetGeo());
         params.put("chefLieu", typeGeo.getChefLieuPredicate());
         return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeDateNomcommune.ftlh", params);

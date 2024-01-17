@@ -22,10 +22,15 @@ public class Iris extends Territoire {
     public Iris() {
         this.type = EnumTypeGeographie.IRIS.getTypeObjetGeo();
         this.intituleSansArticle = new IntituleSansArticle();
+        this.typeDIris= typeDIris;
     }
 
     public Iris(String code) {
-        this.type = EnumTypeGeographie.IRIS.getTypeObjetGeo();
+        if (code.endsWith("0000")) {
+            this.type = EnumTypeGeographie.COMMUNE.getTypeObjetGeo();
+        } else {
+            this.type = EnumTypeGeographie.IRIS.getTypeObjetGeo();
+        }
         this.code = code;
         this.intituleSansArticle = new IntituleSansArticle();
         this.typeDIris= typeDIris;
