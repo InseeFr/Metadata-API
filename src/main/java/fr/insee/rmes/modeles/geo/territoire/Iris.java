@@ -2,11 +2,10 @@ package fr.insee.rmes.modeles.geo.territoire;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,25 +15,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JacksonXmlRootElement(localName = "Iris")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant un Iris")
-
 public class Iris extends Territoire {
 
     public Iris() {
         this.type = EnumTypeGeographie.IRIS.getTypeObjetGeo();
         this.intituleSansArticle = new IntituleSansArticle();
-        this.typeDIris= typeDIris;
     }
 
     public Iris(String code) {
-        if (code.endsWith("0000")) {
-            this.type = EnumTypeGeographie.COMMUNE.getTypeObjetGeo();
-        } else {
             this.type = EnumTypeGeographie.IRIS.getTypeObjetGeo();
-        }
-        this.code = code;
-        this.intituleSansArticle = new IntituleSansArticle();
-        this.typeDIris= typeDIris;
-    }
+            this.code = code;
+            this.intituleSansArticle = new IntituleSansArticle();
+     }
 
     @Override
     @JacksonXmlProperty(localName = "Type")

@@ -1,16 +1,15 @@
 package fr.insee.rmes.modeles.geo.territoire;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="Territoire")
 public abstract class Territoire {
@@ -128,7 +127,29 @@ public abstract class Territoire {
             this.intituleSansArticle = intituleSansArticle;
             this.categorieJuridique= categorieJuridique;
         }
-    
+    public Territoire(
+            String code,
+            String uri,
+            String intitule,
+            String type,
+            String typeDIris,
+            String dateCreation,
+            String dateSuppression,
+            String categorieJuridique,
+            IntituleSansArticle intituleSansArticle
+    ) {
+
+        this.code = code;
+        this.uri = uri;
+        this.intitule = intitule;
+        this.type = type;
+        this.typeDIris=typeDIris;
+        this.dateCreation = dateCreation;
+        this.dateSuppression = dateSuppression;
+        this.intituleSansArticle = intituleSansArticle;
+        this.categorieJuridique= categorieJuridique;
+    }
+
     public Territoire() {
         this.intituleSansArticle = new IntituleSansArticle();
     }
@@ -214,5 +235,6 @@ public abstract class Territoire {
     public void setCategorieJuridique(String categorieJuridique) {
         this.categorieJuridique = categorieJuridique;
     }
-    
+
+
 }

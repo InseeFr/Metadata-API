@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import fr.insee.rmes.modeles.geo.territoire.*;
+import fr.insee.rmes.modeles.geo.territoire.Iris;
 import fr.insee.rmes.modeles.geo.territoires.*;
 import fr.insee.rmes.utils.Constants;
 
@@ -27,7 +28,7 @@ public enum EnumTypeGeographie {
 	INTERCOMMUNALITE("Intercommunalite",Intercommunalite.class,Intercommunalites.class,Constants.NONE),
 	BASSINDEVIE("BassinDeVie2022",BassinDeVie2022.class,BassinsDeVie2022.class,Constants.NONE),
 
-	IRIS("Iris",Iris.class,Iriss.class,Constants.NONE);
+	IRIS("Iris", Iris.class,Iriss.class,Constants.NONE);
 	
 	private String typeObjetGeo;
 	private Class<? extends Territoire> classNameOfGeoType;

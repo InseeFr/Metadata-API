@@ -126,6 +126,9 @@ public class GeoQueries extends Queries {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.CANTON_OU_VILLE);
     }
 
+    public static String getListIris(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.IRIS);
+    }
     public static String getListCantons(String date){
         return getTerritoire(Constants.NONE,date,EnumTypeGeographie.CANTON);
     }
@@ -438,9 +441,11 @@ public class GeoQueries extends Queries {
     }
 
     private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
-        if (typeGeo == EnumTypeGeographie.IRIS) {
+        if (typeGeo == EnumTypeGeographie.IRIS && code !="none") {
             return getIris(code, date,typeGeo);
-        }  else{
+        } else if (typeGeo == EnumTypeGeographie.IRIS && code =="none") {
+            return getIrisList(code, date, Constants.ABSENT, typeGeo, true);
+        } else{
            return  getTerritoireFiltre(code, date, Constants.ABSENT, typeGeo, true);
         }
     }
@@ -458,10 +463,14 @@ public class GeoQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getIrisByCodeDate.ftlh", params);
 
     }
-    
+
+    private static String getIrisList(String code, String date,String filtreNom, EnumTypeGeographie typeGeo,boolean com){
+        Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
+        params.put("territoire", typeGeo.getTypeObjetGeo());
+        return buildRequest(QUERIES_FOLDER, "getIrisList.ftlh",params);
+    }
     private static String getTerritoireFiltre(String code, String date, String filtreNom, EnumTypeGeographie typeGeo,boolean com) {
         Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
-        System.out.println(typeGeo.getTypeObjetGeo());
         params.put("territoire", typeGeo.getTypeObjetGeo());
         params.put("chefLieu", typeGeo.getChefLieuPredicate());
         return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeDateNomcommune.ftlh", params);

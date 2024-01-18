@@ -17,6 +17,9 @@ import javax.ws.rs.core.Response.Status;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractGeoApi extends AbstractMetadataApi {
 

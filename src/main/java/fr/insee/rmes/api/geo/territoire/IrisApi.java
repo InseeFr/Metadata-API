@@ -2,12 +2,9 @@ package fr.insee.rmes.api.geo.territoire;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
-import fr.insee.rmes.modeles.geo.territoire.Canton;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Iris;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
-import fr.insee.rmes.modeles.geo.territoires.Cantons;
-import fr.insee.rmes.modeles.geo.territoires.Communes;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -40,10 +37,13 @@ public class IrisApi extends AbstractGeoApi {
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
             "Filtre pour renvoyer l'Iris active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_OPERATION_SUMMARY =
-            "Informations sur un Iris identifié par son code (quatre chiffres pour la métropole ou cinq pour les DOM ou 2A/2B plus deux chiffres pour la Corse)";
+            "Informations sur un Iris identifié par son code (neuf chiffres pour la métropole ou 2A/2B plus 7 chiffres pour la Corse)";
 
     private static final String LITTERAL_DATE_EXAMPLE = "2020-01-01";
 
+    public IrisApi() {
+        // Constructeur par défaut
+    }
     @Path(ConstGeoApi.PATH_IRIS + CODE_PATTERN)
     @GET
     @Produces({
@@ -81,15 +81,54 @@ public class IrisApi extends AbstractGeoApi {
             return this.generateBadRequestResponse();
         }
         else {
-            return this
-                    .generateResponseATerritoireByCode(
-                            sparqlUtils
-                                    .executeSparqlQuery(
-                                            GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
-                            header,
-                            new Iris(code));
+            Territoire territoire;
+            if (code.endsWith("0000")) {
+                territoire = new Commune(code);
+            } else {
+                territoire = new Iris(code);
+            }
+
+            return this.generateResponseATerritoireByCode(
+                    sparqlUtils.executeSparqlQuery(
+                            GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    territoire);
         }
     }
 
+    @Path(ConstGeoApi.PATH_LISTE_IRIS)
+    @GET
+    @Produces({
+            MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+            operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
+            summary = "Informations sur toutes les iris actifs à la date donnée. Par défaut, c’est la date courante.",
+            responses = {
+                    @ApiResponse(
+                            content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                            description = LITTERAL_RESPONSE_DESCRIPTION)
+            })
+   public Response getListe(
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = "Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) String date) {
+
+        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                    .generateResponseListOfTerritoire(
+                            sparqlUtils
+                                    .executeSparqlQuery(GeoQueries.getListIris(this.formatValidParameterDateIfIsNull(date))),
+                            header,
+                            Territoires.class,
+                            Territoire.class);
+        }
+    }
 
 }
