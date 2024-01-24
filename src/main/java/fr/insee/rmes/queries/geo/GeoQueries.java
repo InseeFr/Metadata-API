@@ -172,7 +172,9 @@ public class GeoQueries extends Queries {
     public static String getAscendantsCanton(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.CANTON,Constants.ABSENT,Constants.NONE, true);
     }
-    
+    public static String getAscendantsIris(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.IRIS,Constants.ABSENT,Constants.NONE, true);
+    }
     public static String getAscendantsDistrict(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DISTRICT,Constants.ABSENT,Constants.NONE,true);
     }

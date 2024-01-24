@@ -7,6 +7,7 @@ import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,17 +21,19 @@ public class Iris extends Territoire {
     public Iris() {
         this.type = EnumTypeGeographie.IRIS.getTypeObjetGeo();
         this.intituleSansArticle = new IntituleSansArticle();
+        this.typeDIris=null;
     }
 
     public Iris(String code) {
             this.type = EnumTypeGeographie.IRIS.getTypeObjetGeo();
             this.code = code;
             this.intituleSansArticle = new IntituleSansArticle();
-     }
-
+            this.typeDIris=null;
+    }
+    private final TypeDIris typeDIris;
     @Override
     @JacksonXmlProperty(localName = "Type")
-    @Schema(example = "Iris")
+    @Schema(example = "http://rdf.insee.fr/def/geo#Iris")
     public String getType() {
         return type;
     }
@@ -65,12 +68,14 @@ public class Iris extends Territoire {
         return intituleSansArticle;
     }
 
-    @Override
+
     @JacksonXmlProperty(localName = "TypeDIris")
-    @Schema(
-            description = "Code du type d’Iris (H, A ou D)",
-            example = "H")
-    public String getTypeDIris() {return typeDIris;}
+    @NotNull
+    @Schema(description = "Type d'Iris (H , A ou D)", example = "H")
+    public TypeDIris getTypeDIris() {
+        return typeDIris;
+    }
+
 
     @Override
     @JacksonXmlProperty(localName = "DateCreation")

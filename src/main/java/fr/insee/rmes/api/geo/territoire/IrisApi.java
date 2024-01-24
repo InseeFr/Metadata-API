@@ -7,7 +7,10 @@ import fr.insee.rmes.modeles.geo.territoire.Iris;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
+import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.Constants;
+import fr.insee.rmes.utils.ResponseUtils;
+import fr.insee.rmes.utils.SparqlUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -44,6 +47,10 @@ public class IrisApi extends AbstractGeoApi {
     public IrisApi() {
         // Constructeur par défaut
     }
+
+    protected IrisApi(SparqlUtils sparqlUtils, CSVUtils csvUtils, ResponseUtils responseUtils) {
+        super(sparqlUtils, csvUtils, responseUtils);
+         }
     @Path(ConstGeoApi.PATH_IRIS + CODE_PATTERN)
     @GET
     @Produces({
@@ -125,6 +132,58 @@ public class IrisApi extends AbstractGeoApi {
                     .generateResponseListOfTerritoire(
                             sparqlUtils
                                     .executeSparqlQuery(GeoQueries.getListIris(this.formatValidParameterDateIfIsNull(date))),
+                            header,
+                            Territoires.class,
+                            Territoire.class);
+        }
+    }
+
+
+    @Path(ConstGeoApi.PATH_IRIS + CODE_PATTERN + ConstGeoApi.PATH_ASCENDANT)
+    @GET
+    @Produces({
+            MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+    })
+    @Operation(
+            operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
+            summary = "Informations concernant les territoires qui contiennent le canton",
+            responses = {
+                    @ApiResponse(
+                            content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                            description = LITTERAL_RESPONSE_DESCRIPTION)
+            })
+    public Response getAscendants(
+            @Parameter(
+                    description = ConstGeoApi.PATTERN_IRIS_DESCRIPTION,
+                    required = true,
+                    schema = @Schema(
+                            pattern = ConstGeoApi.PATTERN_IRIS,
+                            type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = "Filtre pour renvoyer les territoires contenant l'iris actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) String date,
+            @Parameter(
+                    description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
+                    value = Constants.PARAMETER_TYPE) String typeTerritoire) {
+
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                    .generateResponseListOfTerritoire(
+                            sparqlUtils
+                                    .executeSparqlQuery(
+                                            GeoQueries
+                                                    .getAscendantsIris(
+                                                            code,
+                                                            this.formatValidParameterDateIfIsNull(date),
+                                                            this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                             header,
                             Territoires.class,
                             Territoire.class);
