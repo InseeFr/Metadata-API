@@ -1,12 +1,12 @@
 package fr.insee.rmes.queries.geo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import fr.insee.rmes.config.Configuration;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.queries.Queries;
 import fr.insee.rmes.utils.Constants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GeoQueries extends Queries {
 
@@ -126,8 +126,8 @@ public class GeoQueries extends Queries {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.CANTON_OU_VILLE);
     }
 
-    public static String getListIris(String date) {
-        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.IRIS);
+    public static String getListIris(String date,Boolean com) {
+        return getTerritoireListIris(Constants.NONE, date,EnumTypeGeographie.IRIS,com);
     }
     public static String getListCantons(String date){
         return getTerritoire(Constants.NONE,date,EnumTypeGeographie.CANTON);
@@ -427,7 +427,11 @@ public class GeoQueries extends Queries {
         params.put(FILTRE, filtreNom);
         params.put(COM,com);
         params.put(ASCENDANT, String.valueOf(ascendant));
-        return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
+        if(code.matches("^.{5}0000$") && typeOrigine.getTypeObjetGeo().equals("Iris")) {
+            return buildRequest(QUERIES_FOLDER, "getAscendantsIrisByCodeTypeDate.ftlh", params);
+        } else {
+            return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
+        }
 
     }
 
@@ -445,13 +449,18 @@ public class GeoQueries extends Queries {
     private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
         if (typeGeo == EnumTypeGeographie.IRIS && code !="none") {
             return getIris(code, date,typeGeo);
-        } else if (typeGeo == EnumTypeGeographie.IRIS && code =="none") {
-            return getIrisList(code, date, Constants.ABSENT, typeGeo, true);
         } else{
            return  getTerritoireFiltre(code, date, Constants.ABSENT, typeGeo, true);
         }
     }
 
+    private static String getTerritoireListIris(String code, String date, EnumTypeGeographie typeGeo,Boolean com) {
+        if (com.booleanValue()==true) {
+            return getIrisList(code, date,typeGeo,true);
+        } else {
+            return getIrisList(code, date, typeGeo, false);
+        }
+    }
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
         Map<String, Object> params = new HashMap<>();
         params.put(CODE, code);
@@ -466,8 +475,8 @@ public class GeoQueries extends Queries {
 
     }
 
-    private static String getIrisList(String code, String date,String filtreNom, EnumTypeGeographie typeGeo,boolean com){
-        Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
+    private static String getIrisList(String code, String date, EnumTypeGeographie typeGeo,boolean com){
+        Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date,Constants.NONE, com);
         params.put("territoire", typeGeo.getTypeObjetGeo());
         return buildRequest(QUERIES_FOLDER, "getIrisList.ftlh",params);
     }

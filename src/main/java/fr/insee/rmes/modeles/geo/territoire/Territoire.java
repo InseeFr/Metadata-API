@@ -16,13 +16,13 @@ public abstract class Territoire {
 
 	@XmlAttribute
     protected String code = null;
-	
+
 	@XmlAttribute
     protected String uri = null;
-	
+
 	@XmlElement(name="Intitule")
     protected String intitule = null;
-	
+
 	@XmlElement(name="Type")
     protected String type;
 
@@ -37,15 +37,15 @@ public abstract class Territoire {
     protected String dateSuppression = null;
 
     protected IntituleSansArticle intituleSansArticle;
+    protected TypeDIris typeDIris;
 
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="ChefLieu")
     protected String chefLieu = null;
-    
+
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="CategorieJuridique")
     protected String categorieJuridique = null;
-    
 
     @JacksonXmlProperty(isAttribute = true)
     public String getCode() {
@@ -90,9 +90,28 @@ public abstract class Territoire {
         String uri,
         String intitule,
         String type,
+        TypeDIris typeDIris,
         String dateCreation,
         String dateSuppression,
         IntituleSansArticle intituleSansArticle) {
+
+        this.code = code;
+        this.uri = uri;
+        this.intitule = intitule;
+        this.type = type;
+        this.typeDIris= typeDIris;
+        this.dateCreation = dateCreation;
+        this.dateSuppression = dateSuppression;
+        this.intituleSansArticle = intituleSansArticle;
+    }
+    public Territoire(
+            String code,
+            String uri,
+            String intitule,
+            String type,
+            String dateCreation,
+            String dateSuppression,
+            IntituleSansArticle intituleSansArticle) {
 
         this.code = code;
         this.uri = uri;
@@ -102,7 +121,7 @@ public abstract class Territoire {
         this.dateSuppression = dateSuppression;
         this.intituleSansArticle = intituleSansArticle;
     }
-    
+
     public Territoire(
             String code,
             String uri,
@@ -128,7 +147,7 @@ public abstract class Territoire {
             String uri,
             String intitule,
             String type,
-            String typeDIris,
+            TypeDIris typeDIris,
             String dateCreation,
             String dateSuppression,
             String categorieJuridique,
@@ -139,6 +158,7 @@ public abstract class Territoire {
         this.uri = uri;
         this.intitule = intitule;
         this.type = type;
+        this.typeDIris=typeDIris;
         this.dateCreation = dateCreation;
         this.dateSuppression = dateSuppression;
         this.intituleSansArticle = intituleSansArticle;
@@ -191,7 +211,6 @@ public abstract class Territoire {
     public void setDateSuppression(String dateSuppression) {
         this.dateSuppression = dateSuppression;
     }
-
     @JacksonXmlProperty(localName = "IntituleSansArticle")
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
@@ -218,7 +237,7 @@ public abstract class Territoire {
         this.chefLieu = chefLieu;
     }
 
-    
+
     @JacksonXmlProperty(localName = "CategorieJuridique")
     public String getCategorieJuridique() {
         return categorieJuridique;

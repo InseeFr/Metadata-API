@@ -1,12 +1,11 @@
 package fr.insee.rmes.modeles.geo;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import fr.insee.rmes.modeles.geo.territoire.*;
-import fr.insee.rmes.modeles.geo.territoire.Iris;
 import fr.insee.rmes.modeles.geo.territoires.*;
 import fr.insee.rmes.utils.Constants;
+
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public enum EnumTypeGeographie {
 

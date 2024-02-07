@@ -1,18 +1,17 @@
 package fr.insee.rmes.modeles.geo.territoire;
 
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Commune")
 @JacksonXmlRootElement(localName = "Commune")
@@ -30,10 +29,12 @@ public class Commune extends Territoire {
         this.inclusion=null;
     }
 
+
     public Commune(String code) {
         this();
         this.code = code;
     }
+
 
     @Override
     @JacksonXmlProperty(isAttribute = true)
@@ -87,6 +88,7 @@ public class Commune extends Territoire {
     public Inclusion getInclusion() {
         return inclusion;
     }
+
 
 
 }

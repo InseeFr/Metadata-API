@@ -3,6 +3,9 @@ package fr.insee.rmes.utils;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.cfg.CoercionAction;
+import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
+import com.fasterxml.jackson.databind.type.LogicalType;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
@@ -52,6 +55,9 @@ public class CSVUtils {
         CsvMapper mapper = CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build();
+        // Activer la coercition pour les chaînes vides vers null pour toutes les propriétés d'énumération
+        mapper.coercionConfigFor(LogicalType.Enum)
+                .setCoercion(CoercionInputShape.EmptyString, CoercionAction.AsNull);
         CsvSchema schema = CsvSchema.emptySchema().withHeader();
         MappingIterator<Map<String, String>> it = mapper.readerFor(Map.class).with(schema).readValues(csv);
         while (it.hasNext()) {

@@ -3,12 +3,18 @@ WHERE {
 	{
 		?s a igeo:Iris ;
 			igeo:typeDIRIS ?uriTypeDIris ;
+<#if com != "true">
+        (igeo:subdivisionDirecteDe)+ <http://id.insee.fr/geo/pays/france>;
+</#if>
 			igeo:codeINSEE ?code .
 		BIND(SUBSTR(STR(?uriTypeDIris ), STRLEN(STR(?uriTypeDIris )), 1) AS ?typeDIris)
 	}
 	UNION
 	{
 		?s a igeo:Commune ;
+<#if com != "true">
+        (igeo:subdivisionDirecteDe)+ <http://id.insee.fr/geo/pays/france>;
+</#if>
 			igeo:codeINSEE ?codeCommune .
 		OPTIONAL {
 			?iris igeo:subdivisionDirecteDe+ ?s ; a igeo:Iris .
@@ -32,4 +38,4 @@ WHERE {
 	FILTER (!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date )
 	FILTER (!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date )
 }
-ORDER BY ?code
+ORDER BY ?code limit 100

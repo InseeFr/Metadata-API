@@ -1,9 +1,12 @@
 package fr.insee.rmes.api.geo.territoire;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Iris;
+import fr.insee.rmes.modeles.geo.territoire.PseudoIris;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.queries.geo.GeoQueries;
@@ -22,7 +25,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
+import java.util.Collections;
+import java.util.List;
 
 
 @Path(ConstGeoApi.PATH_GEO)
@@ -50,7 +57,7 @@ public class IrisApi extends AbstractGeoApi {
 
     protected IrisApi(SparqlUtils sparqlUtils, CSVUtils csvUtils, ResponseUtils responseUtils) {
         super(sparqlUtils, csvUtils, responseUtils);
-         }
+    }
     @Path(ConstGeoApi.PATH_IRIS + CODE_PATTERN)
     @GET
     @Produces({
@@ -84,25 +91,87 @@ public class IrisApi extends AbstractGeoApi {
                     .build();
         }
 
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+        if (!this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
-        }
-        else {
-            Territoire territoire;
-            if (code.endsWith("0000")) {
-                territoire = new Commune(code);
-            } else {
-                territoire = new Iris(code);
+        } else {
+            String codeCommune = code.substring(0, 5);
+            boolean hasIrisDescendant = false;
+
+
+            String sparqlQuery = "SELECT DISTINCT ?type\n"
+                    + "FROM <http://rdf.insee.fr/graphes/geo/cog>\n"
+                    + "WHERE {\n"
+                    + "    ?origine a igeo:Commune ;\n"
+                    + "    igeo:codeINSEE '" + codeCommune + "' .\n"
+                    + "    ?uri igeo:subdivisionDirecteDe+ ?origine .\n"
+                    + "    ?uri a ?type .\n"
+                    + "}\n"
+                    + "ORDER BY ?type";
+
+            List<String> resultTypes = Collections.singletonList(sparqlUtils.executeSparqlQuery(sparqlQuery));
+
+            for (String type : resultTypes) {
+                if (type.endsWith("#Iris\r\n")) {
+                    hasIrisDescendant = true;
+                    break;
+                }
             }
 
-            return this.generateResponseATerritoireByCode(
-                    sparqlUtils.executeSparqlQuery(
-                            GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
-                    header,
-                    territoire);
+            Territoire territoire;
+            if (code.endsWith("0000") && hasIrisDescendant) {
+                return Response.status(Response.Status.NOT_FOUND).entity("").build();
+            }
+            else if (hasIrisDescendant) {
+                territoire = new Iris(code);
+                return this.generateResponseATerritoireByCode(
+                        sparqlUtils.executeSparqlQuery(
+                                GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                        header,
+                        territoire);
+            } else if (code.matches("^(?=.{9}$)(?!.*0000$).*$") && !hasIrisDescendant ) {
+                return Response.status(Response.Status.NOT_FOUND).entity("").build();
+            } else {
+                territoire = new Commune(code);
+                try {
+                    Response responseInitial = this.generateResponseATerritoireByCode(
+                            sparqlUtils.executeSparqlQuery(
+                                    GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                            header,
+                            territoire);
+
+                    PseudoIris territoireFinal;
+
+                    if (header.contains(MediaType.APPLICATION_JSON)) {
+                        territoireFinal = new PseudoIris(territoire.getCode(), territoire.getUri(), territoire.getIntitule(),
+                                territoire.getType(), territoire.getDateCreation(), territoire.getDateSuppression(),
+                                territoire.getIntituleSansArticle());
+                        territoireFinal.setCode(code);
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        JsonNode Node = objectMapper.valueToTree(territoireFinal);
+                        String jsonModifie = objectMapper.writeValueAsString(Node);
+                        return Response.ok(jsonModifie, MediaType.APPLICATION_JSON_TYPE).build();
+
+                    } else if (header.contains(MediaType.APPLICATION_XML)) {
+                        territoireFinal = new PseudoIris(territoire.getCode(), territoire.getUri(), territoire.getIntitule(),
+                                territoire.getType(), territoire.getDateCreation(), territoire.getDateSuppression(),
+                                territoire.getIntituleSansArticle());
+                        JAXBContext jaxbContext = JAXBContext.newInstance(PseudoIris.class);
+                        territoireFinal.setCode(code);
+                        Marshaller marshaller = jaxbContext.createMarshaller();
+                        marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+                        StringWriter writer = new StringWriter();
+                        marshaller.marshal(territoireFinal, writer);
+                        return Response.ok(writer.toString(), MediaType.APPLICATION_XML_TYPE).build();
+                    } else {
+                        return Response.status(Response.Status.UNSUPPORTED_MEDIA_TYPE).build();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                }
+            }
         }
     }
-
     @Path(ConstGeoApi.PATH_LISTE_IRIS)
     @GET
     @Produces({
@@ -116,13 +185,19 @@ public class IrisApi extends AbstractGeoApi {
                             content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
                             description = LITTERAL_RESPONSE_DESCRIPTION)
             })
-   public Response getListe(
+    public Response getListe(
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
                     description = "Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
+                    value = Constants.PARAMETER_DATE) String date,
+            @Parameter(description = "les Iris (et pseudo-iris) des collectivités d'outre-mer",
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_BOOLEAN, allowableValues = {"true","false"},example="false", defaultValue = "false"))
+            @QueryParam(
+                    value = Constants.PARAMETER_STRING) Boolean com
+    ) {
 
         if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
             return this.generateBadRequestResponse();
@@ -131,7 +206,7 @@ public class IrisApi extends AbstractGeoApi {
             return this
                     .generateResponseListOfTerritoire(
                             sparqlUtils
-                                    .executeSparqlQuery(GeoQueries.getListIris(this.formatValidParameterDateIfIsNull(date))),
+                                    .executeSparqlQuery(GeoQueries.getListIris(this.formatValidParameterDateIfIsNull(date),this.formatValidParameterBooleanIfIsNull(com))),
                             header,
                             Territoires.class,
                             Territoire.class);
@@ -146,7 +221,7 @@ public class IrisApi extends AbstractGeoApi {
     })
     @Operation(
             operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_ASCENDANTS,
-            summary = "Informations concernant les territoires qui contiennent le canton",
+            summary = "Informations concernant les territoires qui contiennent l'Iris",
             responses = {
                     @ApiResponse(
                             content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
