@@ -38,4 +38,4 @@ WHERE {
 	FILTER (!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date )
 	FILTER (!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date )
 }
-ORDER BY ?code limit 100
+ORDER BY ?code

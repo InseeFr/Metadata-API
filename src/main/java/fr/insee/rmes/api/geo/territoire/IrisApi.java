@@ -93,15 +93,23 @@ public class IrisApi extends AbstractGeoApi {
             boolean hasIrisDescendant = false;
 
 
-            String sparqlQuery = "SELECT DISTINCT ?type\n"
-                    + "FROM <http://rdf.insee.fr/graphes/geo/cog>\n"
-                    + "WHERE {\n"
-                    + "    ?origine a igeo:Commune ;\n"
-                    + "    igeo:codeINSEE '" + codeCommune + "' .\n"
-                    + "    ?uri igeo:subdivisionDirecteDe+ ?origine .\n"
-                    + "    ?uri a ?type .\n"
-                    + "}\n"
-                    + "ORDER BY ?type";
+            String sparqlQuery = String.format(
+                    "SELECT DISTINCT ?type\n"
+                            + "FROM <http://rdf.insee.fr/graphes/geo/cog>\n"
+                            + "WHERE {\n"
+                            + "    {\n"
+                            + "        ?origine a igeo:Commune ;\n"
+                            + "        igeo:codeINSEE \"%s\" .\n"
+                            + "    }\n"
+                            + "    UNION\n"
+                            + "    {\n"
+                            + "        ?origine a igeo:ArrondissementMunicipal ;\n"
+                            + "        igeo:codeINSEE \"%s\" .\n"
+                            + "    }\n"
+                            + "    ?uri igeo:subdivisionDirecteDe+ ?origine .\n"
+                            + "    ?uri a ?type .\n"
+                            + "}\n"
+                            + "ORDER BY ?type", codeCommune, codeCommune);
 
             List<String> resultTypes = Collections.singletonList(sparqlUtils.executeSparqlQuery(sparqlQuery));
 
