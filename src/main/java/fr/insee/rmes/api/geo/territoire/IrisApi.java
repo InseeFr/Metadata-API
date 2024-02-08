@@ -37,19 +37,15 @@ import java.util.List;
 public class IrisApi extends AbstractGeoApi {
     private static final String CODE_PATTERN = "/{code:}";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
-    private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom des communes renvoyées" ;
 
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Iris";
     private static final String LITTERAL_ID_OPERATION = "getcogiris";
     private static final String LITTERAL_CODE_EXAMPLE = "010040101";
-
-    private static final String LITTERAL_CODE_HISTORY_EXAMPLE = "010040101";
     private static final String LITTERAL_PARAMETER_DATE_DESCRIPTION =
             "Filtre pour renvoyer l'Iris active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')";
     private static final String LITTERAL_OPERATION_SUMMARY =
             "Informations sur un Iris identifié par son code (neuf chiffres pour la métropole ou 2A/2B plus 7 chiffres pour la Corse)";
 
-    private static final String LITTERAL_DATE_EXAMPLE = "2020-01-01";
 
     public IrisApi() {
         // Constructeur par défaut
@@ -79,7 +75,6 @@ public class IrisApi extends AbstractGeoApi {
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
                     description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
-                    required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                     value = Constants.PARAMETER_DATE) String date) {
 
@@ -128,12 +123,12 @@ public class IrisApi extends AbstractGeoApi {
                                 GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
                         header,
                         territoire);
-            } else if (code.matches("^(?=.{9}$)(?!.*0000$).*$") && !hasIrisDescendant ) {
+            } else if (code.matches("^(?=.{9}$)(?!.*0000$).*$") ) {
                 return Response.status(Response.Status.NOT_FOUND).entity("").build();
             } else {
                 territoire = new Commune(code);
                 try {
-                    Response responseInitial = this.generateResponseATerritoireByCode(
+                    this.generateResponseATerritoireByCode(
                             sparqlUtils.executeSparqlQuery(
                                     GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
                             header,
@@ -189,11 +184,10 @@ public class IrisApi extends AbstractGeoApi {
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
                     description = "Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
-                    required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                     value = Constants.PARAMETER_DATE) String date,
             @Parameter(description = "les Iris (et pseudo-iris) des collectivités d'outre-mer",
-                    required = false,
+                    required = true,
                     schema = @Schema(type = Constants.TYPE_BOOLEAN, allowableValues = {"true","false"},example="false", defaultValue = "false"))
             @QueryParam(
                     value = Constants.PARAMETER_STRING) Boolean com
@@ -237,12 +231,10 @@ public class IrisApi extends AbstractGeoApi {
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
                     description = "Filtre pour renvoyer les territoires contenant l'iris actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
-                    required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                     value = Constants.PARAMETER_DATE) String date,
             @Parameter(
                     description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
-                    required = false,
                     schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                     value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 

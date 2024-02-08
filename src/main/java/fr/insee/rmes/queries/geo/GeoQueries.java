@@ -1,6 +1,5 @@
 package fr.insee.rmes.queries.geo;
 
-import fr.insee.rmes.config.Configuration;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.queries.Queries;
 import fr.insee.rmes.utils.Constants;
@@ -497,22 +496,18 @@ public class GeoQueries extends Queries {
     }
 
     public static String getCountry(String code) {
-        return "SELECT ?uri ?intitule ?intituleEntier \n"
-            + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
-            + "WHERE { \n"
-            + "?uri rdf:type igeo:Etat . \n"
-            + "?uri igeo:codeINSEE '"
-            + code
-            + "' . \n"
-            + "?uri igeo:nom ?intitule . \n"
-            + "?uri igeo:nomEntier ?intituleEntier . \n"
-            // Ensure that is not the dbpedia URI
-            + "FILTER (REGEX(STR(?uri), '"
-            + Configuration.getBaseHost()
-            + "')) \n"
-            + "FILTER (lang(?intitule) = 'fr') \n"
-            + "FILTER (lang(?intituleEntier) = 'fr') \n"
-            + "}";
+        return String.format(
+                "SELECT ?uri ?intitule ?intituleEntier ?code \n"
+                        + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
+                        + "WHERE { \n"
+                        + "  ?urilong a igeo:Pays ; \n"
+                        + "  igeo:codeINSEE \"%s\" ; \n"
+                        + "  igeo:nom ?intitule; \n"
+                        + "  owl:sameAs ?uri; \n"
+                        + "  igeo:nomLong ?intituleEntier . \n"
+                        + "  BIND(\"%s\" AS ?code)\n"
+                        + "  FILTER (REGEX(STR(?uri), \"http://id.insee.fr\")) \n"
+                        + "}", code, code);
     }
 
 
