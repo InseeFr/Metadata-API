@@ -1,5 +1,6 @@
 package fr.insee.rmes.api.geo.territoire;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.api.geo.AbstractGeoApi;
@@ -26,6 +27,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.Collections;
@@ -89,92 +91,104 @@ public class IrisApi extends AbstractGeoApi {
         if (!this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
         } else {
-            String codeCommune = code.substring(0, 5);
-            boolean hasIrisDescendant = false;
+            return getResponseForIrisOrPseudoIris(code, header, date);
+        }
+    }
 
+    private Response getResponseForIrisOrPseudoIris(String code, String header, String date) {
+        String codeCommune = code.substring(0, 5);
+        boolean hasIrisDescendant = false;
+        String sparqlQuery = String.format(
+                "SELECT DISTINCT ?type\n"
+                        + "FROM <http://rdf.insee.fr/graphes/geo/cog>\n"
+                        + "WHERE {\n"
+                        + "    {\n"
+                        + "        ?origine a igeo:Commune ;\n"
+                        + "        igeo:codeINSEE \"%s\" .\n"
+                        + "    }\n"
+                        + "    UNION\n"
+                        + "    {\n"
+                        + "        ?origine a igeo:ArrondissementMunicipal ;\n"
+                        + "        igeo:codeINSEE \"%s\" .\n"
+                        + "    }\n"
+                        + "    ?uri igeo:subdivisionDirecteDe+ ?origine .\n"
+                        + "    ?uri a ?type .\n"
+                        + "}\n"
+                        + "ORDER BY ?type", codeCommune, codeCommune);
 
-            String sparqlQuery = String.format(
-                    "SELECT DISTINCT ?type\n"
-                            + "FROM <http://rdf.insee.fr/graphes/geo/cog>\n"
-                            + "WHERE {\n"
-                            + "    {\n"
-                            + "        ?origine a igeo:Commune ;\n"
-                            + "        igeo:codeINSEE \"%s\" .\n"
-                            + "    }\n"
-                            + "    UNION\n"
-                            + "    {\n"
-                            + "        ?origine a igeo:ArrondissementMunicipal ;\n"
-                            + "        igeo:codeINSEE \"%s\" .\n"
-                            + "    }\n"
-                            + "    ?uri igeo:subdivisionDirecteDe+ ?origine .\n"
-                            + "    ?uri a ?type .\n"
-                            + "}\n"
-                            + "ORDER BY ?type", codeCommune, codeCommune);
+        List<String> resultTypes = Collections.singletonList(sparqlUtils.executeSparqlQuery(sparqlQuery));
 
-            List<String> resultTypes = Collections.singletonList(sparqlUtils.executeSparqlQuery(sparqlQuery));
-
-            for (String type : resultTypes) {
-                if (type.endsWith("#Iris\r\n")) {
-                    hasIrisDescendant = true;
-                    break;
-                }
+        for (String type : resultTypes) {
+            if (type.endsWith("#Iris\r\n")) {
+                hasIrisDescendant = true;
+                break;
             }
+        }
 
-            Territoire territoire;
-            if (code.endsWith("0000") && hasIrisDescendant) {
-                return Response.status(Response.Status.NOT_FOUND).entity("").build();
-            }
-            else if (hasIrisDescendant) {
-                territoire = new Iris(code);
-                return this.generateResponseATerritoireByCode(
+        Territoire territoire;
+        if (code.endsWith("0000") && hasIrisDescendant) {
+            return Response.status(Response.Status.NOT_FOUND).entity("").build();
+        }
+        else if (hasIrisDescendant) {
+            territoire = new Iris(code);
+            return this.generateResponseATerritoireByCode(
+                    sparqlUtils.executeSparqlQuery(
+                            GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    territoire);
+        } else if (code.matches("^(?=.{9}$)(?!.*0000$).*$") ) {
+            return Response.status(Response.Status.NOT_FOUND).entity("").build();
+        } else {
+            territoire = new Commune(code);
+            try {
+                this.generateResponseATerritoireByCode(
                         sparqlUtils.executeSparqlQuery(
                                 GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
                         header,
                         territoire);
-            } else if (code.matches("^(?=.{9}$)(?!.*0000$).*$") ) {
-                return Response.status(Response.Status.NOT_FOUND).entity("").build();
-            } else {
-                territoire = new Commune(code);
-                try {
-                    this.generateResponseATerritoireByCode(
-                            sparqlUtils.executeSparqlQuery(
-                                    GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
-                            header,
-                            territoire);
 
-                    PseudoIris territoireFinal;
+                if (header.contains(MediaType.APPLICATION_JSON)) {
+                    return getResponseJson(code, territoire);
 
-                    if (header.contains(MediaType.APPLICATION_JSON)) {
-                        territoireFinal = new PseudoIris(territoire.getCode(), territoire.getUri(), territoire.getIntitule(),
-                                territoire.getType(), territoire.getDateCreation(), territoire.getDateSuppression(),
-                                territoire.getIntituleSansArticle());
-                        territoireFinal.setCode(code);
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        JsonNode Node = objectMapper.valueToTree(territoireFinal);
-                        String jsonModifie = objectMapper.writeValueAsString(Node);
-                        return Response.ok(jsonModifie, MediaType.APPLICATION_JSON_TYPE).build();
-
-                    } else if (header.contains(MediaType.APPLICATION_XML)) {
-                        territoireFinal = new PseudoIris(territoire.getCode(), territoire.getUri(), territoire.getIntitule(),
-                                territoire.getType(), territoire.getDateCreation(), territoire.getDateSuppression(),
-                                territoire.getIntituleSansArticle());
-                        JAXBContext jaxbContext = JAXBContext.newInstance(PseudoIris.class);
-                        territoireFinal.setCode(code);
-                        Marshaller marshaller = jaxbContext.createMarshaller();
-                        marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-                        StringWriter writer = new StringWriter();
-                        marshaller.marshal(territoireFinal, writer);
-                        return Response.ok(writer.toString(), MediaType.APPLICATION_XML_TYPE).build();
-                    } else {
-                        return Response.status(Response.Status.UNSUPPORTED_MEDIA_TYPE).build();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                } else if (header.contains(MediaType.APPLICATION_XML)) {
+                    return getResponseXml(code, territoire);
+                } else {
+                    return Response.status(Response.Status.UNSUPPORTED_MEDIA_TYPE).build();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             }
         }
     }
+
+    private static Response getResponseXml(String code, Territoire territoire) throws JAXBException {
+        PseudoIris territoireFinal;
+        territoireFinal = new PseudoIris(territoire.getCode(), territoire.getUri(), territoire.getIntitule(),
+                territoire.getType(), territoire.getDateCreation(), territoire.getDateSuppression(),
+                territoire.getIntituleSansArticle());
+        JAXBContext jaxbContext = JAXBContext.newInstance(PseudoIris.class);
+        territoireFinal.setCode(code);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(territoireFinal, writer);
+        return Response.ok(writer.toString(), MediaType.APPLICATION_XML_TYPE).build();
+    }
+
+    private static Response getResponseJson(String code, Territoire territoire) throws JsonProcessingException {
+        PseudoIris territoireFinal;
+        territoireFinal = new PseudoIris(territoire.getCode(), territoire.getUri(), territoire.getIntitule(),
+                territoire.getType(), territoire.getDateCreation(), territoire.getDateSuppression(),
+                territoire.getIntituleSansArticle());
+        territoireFinal.setCode(code);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode Node = objectMapper.valueToTree(territoireFinal);
+        String jsonModifie = objectMapper.writeValueAsString(Node);
+        return Response.ok(jsonModifie, MediaType.APPLICATION_JSON_TYPE).build();
+    }
+
+
     @Path(ConstGeoApi.PATH_LISTE_IRIS)
     @GET
     @Produces({
