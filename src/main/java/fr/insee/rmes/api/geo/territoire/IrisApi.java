@@ -162,7 +162,7 @@ public class IrisApi extends AbstractGeoApi {
         }
     }
 
-    private static Response getResponseXml(String code, Territoire territoire) throws JAXBException {
+    protected static Response getResponseXml(String code, Territoire territoire) throws JAXBException {
         PseudoIris territoireFinal;
         territoireFinal = new PseudoIris(territoire.getCode(), territoire.getUri(), territoire.getIntitule(),
                 territoire.getType(), territoire.getDateCreation(), territoire.getDateSuppression(),
@@ -176,7 +176,7 @@ public class IrisApi extends AbstractGeoApi {
         return Response.ok(writer.toString(), MediaType.APPLICATION_XML_TYPE).build();
     }
 
-    private static Response getResponseJson(String code, Territoire territoire) throws JsonProcessingException {
+    protected static Response getResponseJson(String code, Territoire territoire) throws JsonProcessingException {
         PseudoIris territoireFinal;
         territoireFinal = new PseudoIris(territoire.getCode(), territoire.getUri(), territoire.getIntitule(),
                 territoire.getType(), territoire.getDateCreation(), territoire.getDateSuppression(),

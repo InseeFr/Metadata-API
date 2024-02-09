@@ -1,10 +1,10 @@
 package fr.insee.rmes.api.geo.territoire;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration;
-import fr.insee.rmes.modeles.geo.territoire.Canton;
-import fr.insee.rmes.modeles.geo.territoire.CantonOuVille;
-import fr.insee.rmes.modeles.geo.territoire.Iris;
+import fr.insee.rmes.modeles.geo.territoire.*;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
 import fr.insee.rmes.utils.SparqlUtils;
@@ -21,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
@@ -30,6 +31,7 @@ import static fr.insee.rmes.utils.JavaLangUtils.merge;
 import static javax.ws.rs.core.MediaType.*;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,13 +47,6 @@ class IrisApiTest extends AbstractApiTest {
 
     private final String codeIrisCorrect="010040101";
 
-/*    private IrisApiTest() {
-        super.mockSparqlUtils = Mockito.mock(SparqlUtils.class);
-        super.mockCSVUtils = Mockito.mock(CSVUtils.class);
-        super.mockResponseUtils = Mockito.mock(ResponseUtils.class);
-        geoApi = new IrisApi(mockSparqlUtils, mockCSVUtils, mockResponseUtils);
-    }*/
-
     public Stream<Arguments> getWithCodeAndDatefactory() {
         Stream<ConstantForIntegration.GetWithCodeAndDate> gets = Stream.of(geoApiSansMock::getByCode);
         var intermediaire= merge(gets, List.of(APPLICATION_XML, APPLICATION_JSON), Pair::of );
@@ -65,19 +60,7 @@ class IrisApiTest extends AbstractApiTest {
         iris.setUri(null);
     }
 
-/*    @ParameterizedTest
-    @MethodSource("getWithCodeAndDatefactory")
-    void givenAllGetIrisWithCodeAndDate_whenCorrectRequest_thenResponseIsOk(ConstantForIntegration.GetWithCodeAndDate getWithCodeAndDate, String mediaType, String date) {
-
-        iris.setUri("something");
-        super.list.add(new Iris());
-        this.mockUtilsMethodsThenReturnOnePojo(iris, Boolean.TRUE);
-        Response response = getWithCodeAndDate.get(codeIrisCorrect, mediaType, date);
-        getWithCodeAndDate.get(codeIrisCorrect, mediaType, date);
-        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }*/
-
-    @ParameterizedTest
+     @ParameterizedTest
     @MethodSource("getWithCodeAndDatefactory")
     void givenAllGetsIrisWithCodeAndDate_whenIncorrectCode_thenResponseIsKo(ConstantForIntegration.GetWithCodeAndDate getWithCodeAndDate, String mediaType, String date) {
 
@@ -97,7 +80,46 @@ class IrisApiTest extends AbstractApiTest {
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
+    @Test
+    public void testGetResponseXml() throws JAXBException {
+        String codeTest = "25002";
+        Territoire territoireTest = new Commune(codeTest);
+        territoireTest.setCode("codeTerritoire");
+        territoireTest.setUri("uriTerritoire");
+        territoireTest.setIntitule("intituleTerritoire");
+        territoireTest.setType("typeTerritoire");
+        territoireTest.setDateCreation("dateCreationTerritoire");
+        territoireTest.setDateSuppression("dateSuppressionTerritoire");
+        territoireTest.setIntituleSansArticle("intituleSansArticleTerritoire");
+        Response response = IrisApi.getResponseXml(codeTest, territoireTest);
+        assertNotNull(response);
+        assertEquals(200, response.getStatus());
+        String contenuXml = response.getEntity().toString();
+        assertNotNull(contenuXml);
+    }
 
+    @Test
+    public void testGetResponseJson() throws Exception {
+        String codeTest = "25002";
+        Territoire territoireTest = new Commune(codeTest);
+        territoireTest.setCode("codeTerritoire");
+        territoireTest.setUri("uriTerritoire");
+        territoireTest.setIntitule("intituleTerritoire");
+        territoireTest.setType("typeTerritoire");
+        territoireTest.setDateCreation("dateCreationTerritoire");
+        territoireTest.setDateSuppression("dateSuppressionTerritoire");
+        territoireTest.setIntituleSansArticle("intituleSansArticleTerritoire");
+        Response response = IrisApi.getResponseJson(codeTest, territoireTest);
+        assertNotNull(response);
+        assertEquals(200, response.getStatus());
+        String contenuJson = response.getEntity().toString();
+        assertNotNull(contenuJson);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(contenuJson);
+        assertNotNull(rootNode);
+        assertEquals(codeTest, rootNode.get("code").asText());
+        assertEquals("uriTerritoire", rootNode.get("uri").asText());
+    }
 
     @ParameterizedTest
     @ValueSource(strings = {MediaType.APPLICATION_JSON, APPLICATION_XML})
