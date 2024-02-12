@@ -1,13 +1,12 @@
 package fr.insee.rmes.api.geo.territoire;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration;
-import fr.insee.rmes.modeles.geo.territoire.*;
+import fr.insee.rmes.modeles.geo.territoire.Canton;
+import fr.insee.rmes.modeles.geo.territoire.Iris;
 import fr.insee.rmes.utils.CSVUtils;
+import fr.insee.rmes.utils.IrisUtils;
 import fr.insee.rmes.utils.ResponseUtils;
-import fr.insee.rmes.utils.SparqlUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,30 +15,42 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import static fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration.assertEqualsJson;
+import static fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration.assertEqualsXml;
 import static fr.insee.rmes.utils.JavaLangUtils.merge;
 import static javax.ws.rs.core.MediaType.*;
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class IrisApiTest extends AbstractApiTest {
 
+    private static final String PSEUDOIRIS_EXPECTED_XML = "\t<Commune code=\"250020000\" uri=\"http://id.insee.fr/geo/commune/d22b67f9-76c1-44fb-99d4-bdbda1e1ec3f\">\n" +
+            "\t\t<Intitule>Abbans-Dessus</Intitule>\n" +
+            "\t\t<Type>Commune</Type>\n" +
+            "\t\t<DateCreation>1943-01-01</DateCreation>\n" +
+            "\t\t<IntituleSansArticle typeArticle=\"1\">Abbans-Dessus</IntituleSansArticle>\n" +
+            "\t</Commune>\n";
+    private static final String PSEUDOIRIS_CSV = "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu,categorieJuridique,intituleComplet\n" +
+            "http://id.insee.fr/geo/commune/d22b67f9-76c1-44fb-99d4-bdbda1e1ec3f,25002,1,Abbans-Dessus,Abbans-Dessus,1943-01-01,,,,";
+    private static final String PSEUDOIRIS_EXPECTED_JSON = "{}";
     @InjectMocks
     private IrisApi geoApi;
+
+    @Mock
+    private IrisUtils irisUtils;
 
     private final IrisApi geoApiSansMock=new IrisApi();
 
@@ -81,45 +92,35 @@ class IrisApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testGetResponseXml() throws JAXBException {
-        String codeTest = "25002";
-        Territoire territoireTest = new Commune(codeTest);
-        territoireTest.setCode("codeTerritoire");
-        territoireTest.setUri("uriTerritoire");
-        territoireTest.setIntitule("intituleTerritoire");
-        territoireTest.setType("typeTerritoire");
-        territoireTest.setDateCreation("dateCreationTerritoire");
-        territoireTest.setDateSuppression("dateSuppressionTerritoire");
-        territoireTest.setIntituleSansArticle("intituleSansArticleTerritoire");
-        Response response = IrisApi.getResponseXml(codeTest, territoireTest);
-        assertNotNull(response);
-        assertEquals(200, response.getStatus());
-        String contenuXml = response.getEntity().toString();
-        assertNotNull(contenuXml);
+    public void given_CorrectPseudoIrisCode_thenReturnCommune_XML() {
+        //given
+        String inputCode = "250020000";
+        String header= APPLICATION_XML;
+        when(irisUtils.hasIrisDescendant(inputCode.substring(0,5))).thenReturn(false);
+        when(mockSparqlUtils.executeSparqlQuery(anyString())).thenReturn(PSEUDOIRIS_CSV);
+        IrisApi irisApi=new IrisApi(mockSparqlUtils, new CSVUtils(), new ResponseUtils(), irisUtils);
+        //when
+        var response=irisApi.getByCode(inputCode, header, null);
+        //then
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEqualsXml(PSEUDOIRIS_EXPECTED_XML, response.getEntity());
     }
 
     @Test
-    public void testGetResponseJson() throws Exception {
-        String codeTest = "25002";
-        Territoire territoireTest = new Commune(codeTest);
-        territoireTest.setCode("codeTerritoire");
-        territoireTest.setUri("uriTerritoire");
-        territoireTest.setIntitule("intituleTerritoire");
-        territoireTest.setType("typeTerritoire");
-        territoireTest.setDateCreation("dateCreationTerritoire");
-        territoireTest.setDateSuppression("dateSuppressionTerritoire");
-        territoireTest.setIntituleSansArticle("intituleSansArticleTerritoire");
-        Response response = IrisApi.getResponseJson(codeTest, territoireTest);
-        assertNotNull(response);
-        assertEquals(200, response.getStatus());
-        String contenuJson = response.getEntity().toString();
-        assertNotNull(contenuJson);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = objectMapper.readTree(contenuJson);
-        assertNotNull(rootNode);
-        assertEquals(codeTest, rootNode.get("code").asText());
-        assertEquals("uriTerritoire", rootNode.get("uri").asText());
+    public void given_CorrectPseudoIrisCode_thenReturnCommune_Json() {
+        //given
+        String inputCode = "250020000";
+        String header= APPLICATION_JSON;
+        when(irisUtils.hasIrisDescendant(inputCode.substring(0,5))).thenReturn(false);
+        when(mockSparqlUtils.executeSparqlQuery(anyString())).thenReturn(PSEUDOIRIS_CSV);
+        IrisApi irisApi=new IrisApi(mockSparqlUtils, new CSVUtils(), new ResponseUtils(), irisUtils);
+        //when
+        var response=irisApi.getByCode(inputCode, header, null);
+        //then
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEqualsJson(PSEUDOIRIS_EXPECTED_JSON, response.getEntity());
     }
+
 
     @ParameterizedTest
     @ValueSource(strings = {MediaType.APPLICATION_JSON, APPLICATION_XML})

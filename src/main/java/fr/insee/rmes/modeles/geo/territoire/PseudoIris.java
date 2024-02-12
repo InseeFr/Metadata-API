@@ -3,6 +3,7 @@ package fr.insee.rmes.modeles.geo.territoire;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 
 import javax.xml.bind.annotation.*;
@@ -11,47 +12,26 @@ import javax.xml.bind.annotation.*;
 @JacksonXmlRootElement(localName = "Commune")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class PseudoIris {
+public class PseudoIris extends Territoire{
 
-    @XmlAttribute
-    public String code;
-
-    @XmlAttribute
-    public String uri;
-
-    @XmlElement(name="Intitule")
-    public String intitule;
-
-    @XmlElement(name="Type")
-    public String type;
-
-    @XmlElement(name="DateCreation")
-    public String dateCreation;
-
-    @XmlElement(name="DateSuppression")
-    public String dateSuppression;
-
-    @XmlElement(name="IntituleSansArticle")
-    public IntituleSansArticle intituleSansArticle;
-
-    public PseudoIris () {}
-    public PseudoIris (
+    public PseudoIris(
             String code,
             String uri,
             String intitule,
-            String type,
             String dateCreation,
             String dateSuppression,
-            IntituleSansArticle intituleSansArticle
-    ) {
-        this.code = code;
-        this.uri = uri;
-        this.intitule = intitule;
-        this.type = type;
-        this.dateCreation = dateCreation;
-        this.dateSuppression = dateSuppression;
-        this.intituleSansArticle = intituleSansArticle;
+            IntituleSansArticle intituleSansArticle) {
+        super(code, uri, intitule, EnumTypeGeographie.COMMUNE.getTypeObjetGeo(), dateCreation, dateSuppression, intituleSansArticle);
     }
+
+    public PseudoIris() {
+        this(null);
+    }
+
+    public PseudoIris(String code) {
+        this(code, null, null, null, null, new IntituleSansArticle());
+    }
+
 
 
     public String getCode() {
@@ -59,7 +39,9 @@ public class PseudoIris {
     }
 
     public void setCode(String code) {
-        this.code = code;
+        if (this.code==null) {
+            this.code=code;
+        }
     }
 
 
@@ -105,20 +87,6 @@ public class PseudoIris {
 
     public void setDateSuppression(String dateSuppression) {
         this.dateSuppression = dateSuppression;
-    }
-
-
-    public String getIntituleSansArticle() {
-        return intituleSansArticle.getIntituleSansArticle();
-    }
-
-
-    public String getTypeArticle() {
-        return intituleSansArticle.getTypeArticle();
-    }
-
-    public void setIntituleSansArticle(IntituleSansArticle intituleSansArticle) {
-        this.intituleSansArticle = intituleSansArticle;
     }
 
     @Override

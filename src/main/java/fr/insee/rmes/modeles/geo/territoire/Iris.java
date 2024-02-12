@@ -18,19 +18,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Schema(description = "Objet représentant un Iris")
 public class Iris extends Territoire {
 
+    private final TypeDIris typeDIris;
+
+    public Iris(
+            TypeDIris typeDIris,
+            String code,
+            String uri,
+            String intitule,
+            String dateCreation,
+            String dateSuppression,
+            IntituleSansArticle intituleSansArticle) {
+        super(code, uri, intitule, EnumTypeGeographie.IRIS.getTypeObjetGeo(), dateCreation, dateSuppression, intituleSansArticle);
+        this.typeDIris=typeDIris;
+    }
+
     public Iris() {
-        this.type = EnumTypeGeographie.IRIS.getTypeObjetGeo();
-        this.intituleSansArticle = new IntituleSansArticle();
-        this.typeDIris=null;
+        this(null);
     }
 
     public Iris(String code) {
-            this.type = EnumTypeGeographie.IRIS.getTypeObjetGeo();
-            this.code = code;
-            this.intituleSansArticle = new IntituleSansArticle();
-            this.typeDIris=null;
+        this(null, code, null, null, null, null, new IntituleSansArticle());
     }
-    private final TypeDIris typeDIris;
+
+
     @Override
     @JacksonXmlProperty(localName = "Type")
     @Schema(example = "http://rdf.insee.fr/def/geo#Iris")
@@ -47,7 +57,7 @@ public class Iris extends Territoire {
 
     @Override
     @JacksonXmlProperty(isAttribute = true)
-    @Schema(description = "URI de l'Iris ",example = "http://id.insee.fr/geo/iris/b8c772de-9551-4f13-81c5-eca5bb0f2f7d")
+    @Schema(description = "URI de l'Iris ", example = "http://id.insee.fr/geo/iris/b8c772de-9551-4f13-81c5-eca5bb0f2f7d")
     public String getUri() {
         return uri;
     }
@@ -55,7 +65,7 @@ public class Iris extends Territoire {
     @Override
     @JacksonXmlProperty(localName = "Intitule")
     @JsonProperty(value = "intitule")
-    @Schema(description = "Nom de l'Iris (avec article)",example = "Les Pérouses-Triangle d'Activités")
+    @Schema(description = "Nom de l'Iris (avec article)", example = "Les Pérouses-Triangle d'Activités")
     public String getIntitule() {
         return intitule;
     }
@@ -63,7 +73,7 @@ public class Iris extends Territoire {
     @Override
     @JacksonXmlProperty(localName = "IntituleSansArticle")
     @JsonProperty(value = "intituleSansArticle")
-    @Schema(description = "Nom de l'Iris sans article",example = "Pérouses-Triangle d'Activité")
+    @Schema(description = "Nom de l'Iris sans article", example = "Pérouses-Triangle d'Activité")
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
     }

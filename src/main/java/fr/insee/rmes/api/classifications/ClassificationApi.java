@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import io.swagger.v3.oas.annotations.extensions.Extension;
+import io.swagger.v3.oas.annotations.extensions.ExtensionProperty;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
@@ -37,8 +39,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "nomenclatures", description = "Nomenclatures API")
 public class ClassificationApi extends AbstractMetadataApi {
 
-
-	@Hidden
+	
 	@GET
 	@Path("/{code}/postes")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

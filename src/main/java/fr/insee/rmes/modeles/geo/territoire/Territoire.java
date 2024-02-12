@@ -37,7 +37,6 @@ public abstract class Territoire {
     protected String dateSuppression = null;
 
     protected IntituleSansArticle intituleSansArticle;
-    protected TypeDIris typeDIris;
 
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="ChefLieu")
@@ -75,13 +74,7 @@ public abstract class Territoire {
         IntituleSansArticle intituleSansArticle,
         String chefLieu) {
 
-        this.code = code;
-        this.uri = uri;
-        this.intitule = intitule;
-        this.type = type;
-        this.dateCreation = dateCreation;
-        this.dateSuppression = dateSuppression;
-        this.intituleSansArticle = intituleSansArticle;
+        this(code, uri, intitule, type, dateCreation, dateSuppression, null, intituleSansArticle);
         this.chefLieu = chefLieu;
     }
 
@@ -90,36 +83,11 @@ public abstract class Territoire {
         String uri,
         String intitule,
         String type,
-        TypeDIris typeDIris,
         String dateCreation,
         String dateSuppression,
         IntituleSansArticle intituleSansArticle) {
 
-        this.code = code;
-        this.uri = uri;
-        this.intitule = intitule;
-        this.type = type;
-        this.typeDIris= typeDIris;
-        this.dateCreation = dateCreation;
-        this.dateSuppression = dateSuppression;
-        this.intituleSansArticle = intituleSansArticle;
-    }
-    public Territoire(
-            String code,
-            String uri,
-            String intitule,
-            String type,
-            String dateCreation,
-            String dateSuppression,
-            IntituleSansArticle intituleSansArticle) {
-
-        this.code = code;
-        this.uri = uri;
-        this.intitule = intitule;
-        this.type = type;
-        this.dateCreation = dateCreation;
-        this.dateSuppression = dateSuppression;
-        this.intituleSansArticle = intituleSansArticle;
+       this(code, uri, intitule, type, dateCreation, dateSuppression, null, intituleSansArticle);
     }
 
     public Territoire(
@@ -142,31 +110,9 @@ public abstract class Territoire {
             this.intituleSansArticle = intituleSansArticle;
             this.categorieJuridique= categorieJuridique;
         }
-    public Territoire(
-            String code,
-            String uri,
-            String intitule,
-            String type,
-            TypeDIris typeDIris,
-            String dateCreation,
-            String dateSuppression,
-            String categorieJuridique,
-            IntituleSansArticle intituleSansArticle
-    ) {
-
-        this.code = code;
-        this.uri = uri;
-        this.intitule = intitule;
-        this.type = type;
-        this.typeDIris=typeDIris;
-        this.dateCreation = dateCreation;
-        this.dateSuppression = dateSuppression;
-        this.intituleSansArticle = intituleSansArticle;
-        this.categorieJuridique= categorieJuridique;
-    }
 
     public Territoire() {
-        this.intituleSansArticle = new IntituleSansArticle();
+        this(null);
     }
 
     public Territoire(String code) {
