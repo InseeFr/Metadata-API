@@ -45,7 +45,35 @@ class IrisApiTest extends AbstractApiTest {
             "\t</Commune>\n";
     private static final String PSEUDOIRIS_CSV = "uri,code,typeArticle,intitule,intituleSansArticle,dateCreation,dateSuppression,chefLieu,categorieJuridique,intituleComplet\n" +
             "http://id.insee.fr/geo/commune/d22b67f9-76c1-44fb-99d4-bdbda1e1ec3f,25002,1,Abbans-Dessus,Abbans-Dessus,1943-01-01,,,,";
-    private static final String PSEUDOIRIS_EXPECTED_JSON = "{}";
+    private static final String PSEUDOIRIS_EXPECTED_JSON = "{\n" +
+            "  \"code\": \"250020000\",\n" +
+            "  \"uri\": \"http://id.insee.fr/geo/commune/d22b67f9-76c1-44fb-99d4-bdbda1e1ec3f\",\n" +
+            "  \"type\": \"Commune\",\n" +
+            "  \"dateCreation\": \"1943-01-01\",\n" +
+            "  \"intituleSansArticle\": \"Abbans-Dessus\",\n" +
+            "  \"typeArticle\": \"1\",\n" +
+            "  \"intitule\": \"Abbans-Dessus\"\n" +
+            "}";
+
+    private static final String IRIS_CSV = "uri,type,code,intituleSansArticle,intitule,typeDIris,dateCreation,dateSuppression,typeArticle\n" +
+            "http://id.insee.fr/geo/iris/3adf17ae-ac6a-424f-9b08-dea51c72ee8c,Iris,693870103,Centre Berthelot,Centre Berthelot,H,2008-01-01,,X";
+    private static final String IRIS_EXPECTED_XML ="<Iris code=\"693870103\" uri=\"http://id.insee.fr/geo/iris/3adf17ae-ac6a-424f-9b08-dea51c72ee8c\">\n" +
+            "  <Intitule>Centre Berthelot</Intitule>\n" +
+            "  <Type>Iris</Type>\n" +
+            "  <DateCreation>2008-01-01</DateCreation>\n" +
+            "  <IntituleSansArticle typeArticle=\"X\">Centre Berthelot</IntituleSansArticle>\n" +
+            "  <TypeDIris>H</TypeDIris>\n" +
+            "</Iris>";
+    private static final String IRIS_EXPECTED_JSON="{\n" +
+            "  \"code\": \"693870103\",\n" +
+            "  \"uri\": \"http://id.insee.fr/geo/iris/3adf17ae-ac6a-424f-9b08-dea51c72ee8c\",\n" +
+            "  \"type\": \"Iris\",\n" +
+            "  \"dateCreation\": \"2008-01-01\",\n" +
+            "  \"typeDIris\": \"H\",\n" +
+            "  \"intitule\": \"Centre Berthelot\",\n" +
+            "  \"intituleSansArticle\": \"Centre Berthelot\",\n" +
+            "  \"typeArticle\": \"X\"\n" +
+            "}";
     @InjectMocks
     private IrisApi geoApi;
 
@@ -121,7 +149,35 @@ class IrisApiTest extends AbstractApiTest {
         assertEqualsJson(PSEUDOIRIS_EXPECTED_JSON, response.getEntity());
     }
 
+    @Test
+    public void given_CorrectIrisCode_thenReturnCommune_XML() {
+        //given
+        String inputCode = "693870103";
+        String header= APPLICATION_XML;
+        when(irisUtils.hasIrisDescendant(inputCode.substring(0,5))).thenReturn(true);
+        when(mockSparqlUtils.executeSparqlQuery(anyString())).thenReturn(IRIS_CSV);
+        IrisApi irisApi=new IrisApi(mockSparqlUtils, new CSVUtils(), new ResponseUtils(), irisUtils);
+        //when
+        var response=irisApi.getByCode(inputCode, header, null);
+        //then
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEqualsXml(IRIS_EXPECTED_XML, response.getEntity());
+    }
 
+    @Test
+    public void given_CorrectIrisCode_thenReturnCommune_Json() {
+        //given
+        String inputCode = "693870103";
+        String header= APPLICATION_JSON;
+        when(irisUtils.hasIrisDescendant(inputCode.substring(0,5))).thenReturn(true);
+        when(mockSparqlUtils.executeSparqlQuery(anyString())).thenReturn(IRIS_CSV);
+        IrisApi irisApi=new IrisApi(mockSparqlUtils, new CSVUtils(), new ResponseUtils(), irisUtils);
+        //when
+        var response=irisApi.getByCode(inputCode, header, null);
+        //then
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEqualsJson(IRIS_EXPECTED_JSON, response.getEntity());
+    }
     @ParameterizedTest
     @ValueSource(strings = {MediaType.APPLICATION_JSON, APPLICATION_XML})
     void givenGetListeIris_whenCorrectRequest_thenResponseIsOk(String mediaType) {
