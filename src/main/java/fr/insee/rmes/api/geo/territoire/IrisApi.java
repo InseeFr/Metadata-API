@@ -109,48 +109,8 @@ public class IrisApi extends AbstractGeoApi {
                             GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
                     header,
                     new PseudoIris(code));
-
-/*
-                if (header.contains(MediaType.APPLICATION_JSON)) {
-                    return getResponseJson(code, territoire);
-
-                } else if (header.contains(MediaType.APPLICATION_XML)) {
-                    return getResponseXml(code, territoire);
-                } else {
-                    return Response.status(Response.Status.UNSUPPORTED_MEDIA_TYPE).build();
-                }
-*/
-
         }
     }
-
-/*    protected static Response getResponseXml(String code, Territoire territoire) throws JAXBException {
-        PseudoIris territoireFinal = getTerritoireFinal(code, territoire);
-        JAXBContext jaxbContext = JAXBContext.newInstance(PseudoIris.class);
-
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-        StringWriter writer = new StringWriter();
-        marshaller.marshal(territoireFinal, writer);
-        return Response.ok(writer.toString(), MediaType.APPLICATION_XML_TYPE).build();
-    }
-
-    private static PseudoIris getTerritoireFinal(String code, Territoire territoire) {
-        PseudoIris territoireFinal;
-        territoireFinal = new PseudoIris(territoire.getCode(), territoire.getUri(), territoire.getIntitule(),
-                territoire.getType(), territoire.getDateCreation(), territoire.getDateSuppression(),
-                territoire.getIntituleSansArticle());
-        territoireFinal.setCode(code);
-        return territoireFinal;
-    }
-
-    protected static Response getResponseJson(String code, Territoire territoire) throws JsonProcessingException {
-        PseudoIris territoireFinal = getTerritoireFinal(code, territoire);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode Node = objectMapper.valueToTree(territoireFinal);
-        String jsonModifie = objectMapper.writeValueAsString(Node);
-        return Response.ok(jsonModifie, MediaType.APPLICATION_JSON_TYPE).build();
-    }*/
 
 
     @Path(ConstGeoApi.PATH_LISTE_IRIS)
@@ -169,7 +129,7 @@ public class IrisApi extends AbstractGeoApi {
     public Response getListe(
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
-                    description = "Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
+                    description = "Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" ,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                     value = Constants.PARAMETER_DATE) String date,
             @Parameter(description = "les Iris (et pseudo-iris) des collectivités d'outre-mer",
