@@ -1,26 +1,23 @@
 package fr.insee.rmes.modeles.geo;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import javax.xml.bind.annotation.*;
 
 @Schema(description="Intitulé sans son article et article associé")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @JsonPropertyOrder({"intituleSansArticle", "typeArticle"})
-@XmlRootElement(name="IntituleSansArticle")
+@XmlRootElement(name = "IntituleSansArticle")
+@JacksonXmlRootElement(localName = "IntituleSansArticle")
 public class IntituleSansArticle {
 
-    //@Schema(example = "Aigle")
-    @XmlValue
+    @Schema(example = "Aigle")
+    //@XmlValue
     private String label = null;
 
     @Schema(example = "5")
@@ -28,8 +25,8 @@ public class IntituleSansArticle {
 
     
     @JacksonXmlText
-   // @JsonProperty("intituleSansArticle")
-  //  @JacksonXmlProperty(localName="intituleSansArticle")
+    @JsonProperty("intituleSansArticle")
+    @JacksonXmlProperty(localName="IntituleSansArticle")
     @Schema(example = "Aigle")
     @XmlValue
     public String getIntituleSansArticle() {

@@ -1,12 +1,11 @@
 package fr.insee.rmes.queries.geo;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import fr.insee.rmes.config.Configuration;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.queries.Queries;
 import fr.insee.rmes.utils.Constants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GeoQueries extends Queries {
 
@@ -71,6 +70,13 @@ public class GeoQueries extends Queries {
         return getTerritoire(code, date, EnumTypeGeographie.CANTON);
     }
 
+    public static String getIrisByCodeAndDate(String code,String date) {
+        if (code.endsWith("0000")) {
+        return getTerritoire(code.substring(0,5), date, EnumTypeGeographie.COMMUNE);}
+        else {
+            return getTerritoire(code, date, EnumTypeGeographie.IRIS);
+        }
+    }
     public static String getCantonOuVilleByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.CANTON_OU_VILLE);
     }
@@ -119,6 +125,9 @@ public class GeoQueries extends Queries {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.CANTON_OU_VILLE);
     }
 
+    public static String getListIris(String date,Boolean com) {
+        return getTerritoireListIris(Constants.NONE, date,EnumTypeGeographie.IRIS,com);
+    }
     public static String getListCantons(String date){
         return getTerritoire(Constants.NONE,date,EnumTypeGeographie.CANTON);
     }
@@ -162,7 +171,9 @@ public class GeoQueries extends Queries {
     public static String getAscendantsCanton(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.CANTON,Constants.ABSENT,Constants.NONE, true);
     }
-    
+    public static String getAscendantsIris(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.IRIS,Constants.ABSENT,Constants.NONE, true);
+    }
     public static String getAscendantsDistrict(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.DISTRICT,Constants.ABSENT,Constants.NONE,true);
     }
@@ -415,7 +426,11 @@ public class GeoQueries extends Queries {
         params.put(FILTRE, filtreNom);
         params.put(COM,com);
         params.put(ASCENDANT, String.valueOf(ascendant));
-        return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
+        if(code.matches("^.{5}0000$") && typeOrigine.getTypeObjetGeo().equals("Iris")) {
+            return buildRequest(QUERIES_FOLDER, "getAscendantsIrisByCodeTypeDate.ftlh", params);
+        } else {
+            return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
+        }
 
     }
 
@@ -431,17 +446,39 @@ public class GeoQueries extends Queries {
     }
 
     private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
-    	return getTerritoireFiltre(code,date,Constants.ABSENT,typeGeo,true);
+        if (typeGeo == EnumTypeGeographie.IRIS && code !="none") {
+            return getIris(code, date,typeGeo);
+        } else{
+           return  getTerritoireFiltre(code, date, Constants.ABSENT, typeGeo, true);
+        }
     }
 
+    private static String getTerritoireListIris(String code, String date, EnumTypeGeographie typeGeo,Boolean com) {
+        if (com.booleanValue()==true) {
+            return getIrisList(code, date,typeGeo,true);
+        } else {
+            return getIrisList(code, date, typeGeo, false);
+        }
+    }
     private static Map<String, Object> buildCodeAndDateParams(String code, String date) {
         Map<String, Object> params = new HashMap<>();
         params.put(CODE, code);
         params.put(DATE, date);
         return params;
     }
-    
-    
+
+    private static String getIris(String code, String date, EnumTypeGeographie typeGeo) {
+        Map<String, Object> params = buildCodeAndDateParams(code, date);
+        params.put("territoire", typeGeo.getTypeObjetGeo());
+        return buildRequest(QUERIES_FOLDER, "getIrisByCodeDate.ftlh", params);
+
+    }
+
+    private static String getIrisList(String code, String date, EnumTypeGeographie typeGeo,boolean com){
+        Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date,Constants.NONE, com);
+        params.put("territoire", typeGeo.getTypeObjetGeo());
+        return buildRequest(QUERIES_FOLDER, "getIrisList.ftlh",params);
+    }
     private static String getTerritoireFiltre(String code, String date, String filtreNom, EnumTypeGeographie typeGeo,boolean com) {
         Map<String, Object> params = buildCodeAndDateAndFilterParams(code, date, filtreNom,com);
         params.put("territoire", typeGeo.getTypeObjetGeo());
@@ -459,22 +496,18 @@ public class GeoQueries extends Queries {
     }
 
     public static String getCountry(String code) {
-        return "SELECT ?uri ?intitule ?intituleEntier \n"
-            + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
-            + "WHERE { \n"
-            + "?uri rdf:type igeo:Etat . \n"
-            + "?uri igeo:codeINSEE '"
-            + code
-            + "' . \n"
-            + "?uri igeo:nom ?intitule . \n"
-            + "?uri igeo:nomEntier ?intituleEntier . \n"
-            // Ensure that is not the dbpedia URI
-            + "FILTER (REGEX(STR(?uri), '"
-            + Configuration.getBaseHost()
-            + "')) \n"
-            + "FILTER (lang(?intitule) = 'fr') \n"
-            + "FILTER (lang(?intituleEntier) = 'fr') \n"
-            + "}";
+        return String.format(
+                "SELECT ?uri ?intitule ?intituleEntier ?code \n"
+                        + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
+                        + "WHERE { \n"
+                        + "  ?urilong a igeo:Pays ; \n"
+                        + "  igeo:codeINSEE \"%s\" ; \n"
+                        + "  igeo:nom ?intitule; \n"
+                        + "  owl:sameAs ?uri; \n"
+                        + "  igeo:nomLong ?intituleEntier . \n"
+                        + "  BIND(\"%s\" AS ?code)\n"
+                        + "  FILTER (REGEX(STR(?uri), \"http://id.insee.fr\")) \n"
+                        + "}", code, code);
     }
 
 

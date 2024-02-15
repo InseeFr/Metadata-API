@@ -1,29 +1,28 @@
 package fr.insee.rmes.modeles.geo.territoire;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="Territoire")
 public abstract class Territoire {
 
 	@XmlAttribute
     protected String code = null;
-	
+
 	@XmlAttribute
     protected String uri = null;
-	
+
 	@XmlElement(name="Intitule")
     protected String intitule = null;
-	
+
 	@XmlElement(name="Type")
     protected String type;
 
@@ -42,11 +41,10 @@ public abstract class Territoire {
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="ChefLieu")
     protected String chefLieu = null;
-    
+
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="CategorieJuridique")
     protected String categorieJuridique = null;
-    
 
     @JacksonXmlProperty(isAttribute = true)
     public String getCode() {
@@ -76,13 +74,7 @@ public abstract class Territoire {
         IntituleSansArticle intituleSansArticle,
         String chefLieu) {
 
-        this.code = code;
-        this.uri = uri;
-        this.intitule = intitule;
-        this.type = type;
-        this.dateCreation = dateCreation;
-        this.dateSuppression = dateSuppression;
-        this.intituleSansArticle = intituleSansArticle;
+        this(code, uri, intitule, type, dateCreation, dateSuppression, null, intituleSansArticle);
         this.chefLieu = chefLieu;
     }
 
@@ -95,15 +87,9 @@ public abstract class Territoire {
         String dateSuppression,
         IntituleSansArticle intituleSansArticle) {
 
-        this.code = code;
-        this.uri = uri;
-        this.intitule = intitule;
-        this.type = type;
-        this.dateCreation = dateCreation;
-        this.dateSuppression = dateSuppression;
-        this.intituleSansArticle = intituleSansArticle;
+       this(code, uri, intitule, type, dateCreation, dateSuppression, null, intituleSansArticle);
     }
-    
+
     public Territoire(
             String code,
             String uri,
@@ -124,9 +110,9 @@ public abstract class Territoire {
             this.intituleSansArticle = intituleSansArticle;
             this.categorieJuridique= categorieJuridique;
         }
-    
+
     public Territoire() {
-        this.intituleSansArticle = new IntituleSansArticle();
+        this(null);
     }
 
     public Territoire(String code) {
@@ -153,6 +139,7 @@ public abstract class Territoire {
         this.type = type;
     }
 
+
     @JacksonXmlProperty(localName = "DateCreation")
     public String getDateCreation() {
         return dateCreation;
@@ -170,7 +157,6 @@ public abstract class Territoire {
     public void setDateSuppression(String dateSuppression) {
         this.dateSuppression = dateSuppression;
     }
-
     @JacksonXmlProperty(localName = "IntituleSansArticle")
     public IntituleSansArticle getIntituleSansArticle() {
         return intituleSansArticle;
@@ -197,7 +183,7 @@ public abstract class Territoire {
         this.chefLieu = chefLieu;
     }
 
-    
+
     @JacksonXmlProperty(localName = "CategorieJuridique")
     public String getCategorieJuridique() {
         return categorieJuridique;
@@ -206,5 +192,6 @@ public abstract class Territoire {
     public void setCategorieJuridique(String categorieJuridique) {
         this.categorieJuridique = categorieJuridique;
     }
-    
+
+
 }

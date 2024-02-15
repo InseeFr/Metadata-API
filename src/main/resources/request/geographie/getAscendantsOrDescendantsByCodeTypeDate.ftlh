@@ -1,29 +1,32 @@
-SELECT DISTINCT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
+SELECT DISTINCT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?typeDIris
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
 			?origine a igeo:${typeOrigine} ;
 			       igeo:codeINSEE '${code}' .
 				   
-<#if ascendant = "true">
+<#if ascendant == "true">
 			?origine igeo:subdivisionDirecteDe+ ?uri .
 <#else>
 			?uri igeo:subdivisionDirecteDe+ ?origine .
-</#if>				   
-				   
+</#if>
+
 			?uri igeo:codeINSEE ?code ;
 			     a ?type ;
 				 igeo:codeArticle ?typeArticle ;
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
-				 
+    Optional{
+       ?uri	igeo:typeDIRIS ?uriTypeDIris ;
+        BIND(SUBSTR(STR(?uriTypeDIris ), STRLEN(STR(?uriTypeDIris )), 1) AS ?typeDIris)
+    }
 <#if type != "none">
 			?uri a igeo:${type} .
 </#if>
-			
+
 			OPTIONAL {
 			 	?uri (igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion|igeo:bureauCentralisateur) ?chefLieuRDF .
 			 	?chefLieuRDF igeo:codeINSEE ?chefLieu .
-			 	
+
 			 	OPTIONAL {
 					?evenementCreationChefLieu igeo:creation ?chefLieuRDF ;
 					igeo:date ?dateCreationChefLieu .
@@ -32,7 +35,7 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 					?evenementSuppressionChefLieu igeo:suppression ?chefLieuRDF ;
 					igeo:date ?dateSuppressionChefLieu.
 				}
-				
+
 				<#if date != "*">
 					FILTER(!BOUND(?dateCreationChefLieu) || ?dateCreationChefLieu <= '${date}'^^xsd:date)
 					FILTER(!BOUND(?dateSuppressionChefLieu) || ?dateSuppressionChefLieu > '${date}'^^xsd:date)
@@ -43,13 +46,18 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 				?evenementCreationOrigine igeo:creation ?origine ;
 					               igeo:date ?dateCreationOrigine.
 			}
+
 			OPTIONAL {
 				?evenementSuppressionOrigine igeo:suppression ?origine ;
 					                  igeo:date ?dateSuppressionOrigine.
 			}
+
+            OPTIONAL {
 			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date)
+			}
+			OPTIONAL {
 			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
-			
+            }
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
 					               igeo:date ?dateCreation .

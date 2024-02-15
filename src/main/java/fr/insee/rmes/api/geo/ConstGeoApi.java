@@ -10,6 +10,7 @@ public class ConstGeoApi {
 
     public static final String PATH_CIRCO_TER = PATH_SEPARATOR + "circonscriptionTerritoriale";
     public static final String PATH_CANTON = PATH_SEPARATOR + "canton";
+    public static final String PATH_IRIS=PATH_SEPARATOR + "iris";
     public static final String PATH_COMMUNE = PATH_SEPARATOR + "commune";
     public static final String PATH_CANTON_OU_VILLE = PATH_SEPARATOR + "cantonOuVille";
     public static final String PATH_PAYS = PATH_SEPARATOR + "pays";
@@ -28,7 +29,7 @@ public class ConstGeoApi {
     public static final String PATH_LISTE_CANTON_OU_VILLE= PATH_SEPARATOR +"cantonsEtVilles";
     public static final String PATH_INTERCO= PATH_SEPARATOR + "intercommunalite";
     public static final String PATH_BASSINDEVIE= PATH_SEPARATOR + "bassinDeVie2022";
-
+    public static final String PATH_LISTE_IRIS = PATH_SEPARATOR + "iris";
     public static final String PATH_LISTE_COMMUNE = PATH_SEPARATOR + "communes";
     public static final String PATH_LISTE_PAYS = PATH_SEPARATOR + "pays";
     public static final String PATH_LISTE_CANTON = PATH_SEPARATOR + "cantons";
@@ -59,6 +60,9 @@ public class ConstGeoApi {
     public static final String PATTERN_DISTRICT ="9[78][1-9]{3}";
     public static final String PATTERN_INTERCO ="2[0-4][0-9]{7}";
     public static final String PATTERN_CANTON = "(([0-9]{2})|(2[0-9AB])|(97[1-6]))([0-9]{2})";
+
+    public static final String PATTERN_IRIS="[0-9][0-9AB][0-9]{7}";
+    public static final String PATTERN_IRIS_DESCRIPTION= "Code Insee de l’Iris (9 caractères)";
     public static final String PATTERN_PAYS = "99[0-9]{3}";
     public static final String PATTERN_REGION = "[0-9]{2}";
     public static final String PATTERN_ZONE_EMPLOI = "[0-9]{4}";

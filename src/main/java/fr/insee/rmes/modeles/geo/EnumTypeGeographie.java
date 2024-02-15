@@ -1,11 +1,11 @@
 package fr.insee.rmes.modeles.geo;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import fr.insee.rmes.modeles.geo.territoire.*;
 import fr.insee.rmes.modeles.geo.territoires.*;
 import fr.insee.rmes.utils.Constants;
+
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public enum EnumTypeGeographie {
 
@@ -25,8 +25,8 @@ public enum EnumTypeGeographie {
 	DISTRICT("District",District.class,Districts.class,Constants.NONE),
 	CIRCONSCRIPTION_TERRITORIALE("CirconscriptionTerritoriale",CirconscriptionTerritoriale.class,CirconscriptionsTerritoriales.class,Constants.NONE),
 	INTERCOMMUNALITE("Intercommunalite",Intercommunalite.class,Intercommunalites.class,Constants.NONE),
-	BASSINDEVIE("BassinDeVie2022",BassinDeVie2022.class,BassinsDeVie2022.class,Constants.NONE);
-	
+	BASSINDEVIE("BassinDeVie2022",BassinDeVie2022.class,BassinsDeVie2022.class,Constants.NONE),
+	IRIS("Iris", Iris.class,Iriss.class,Constants.NONE);
 	
 	private String typeObjetGeo;
 	private Class<? extends Territoire> classNameOfGeoType;

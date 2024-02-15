@@ -17,6 +17,9 @@ import javax.ws.rs.core.Response.Status;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractGeoApi extends AbstractMetadataApi {
 
@@ -135,7 +138,11 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     }
 
     protected Response generateBadRequestResponse() {
-        return Response.status(Status.BAD_REQUEST).entity("").build();
+        return generateBadRequestResponse("");
+    }
+
+    protected Response generateBadRequestResponse(String erreurMessage) {
+        return Response.status(Status.BAD_REQUEST).entity(erreurMessage).build();
     }
 
     // Method to find a list of projections
