@@ -2,6 +2,7 @@ package fr.insee.rmes.api.geo.territoire;
 
 import fr.insee.rmes.api.geo.AbstractGeoApi;
 import fr.insee.rmes.api.geo.ConstGeoApi;
+import fr.insee.rmes.modeles.geo.territoire.CodeIris;
 import fr.insee.rmes.modeles.geo.territoire.Iris;
 import fr.insee.rmes.modeles.geo.territoire.PseudoIris;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
@@ -72,43 +73,48 @@ public class IrisApi extends AbstractGeoApi {
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                     value = Constants.PARAMETER_DATE) String date) {
 
-        if (!code.matches(ConstGeoApi.PATTERN_IRIS)) {
-            String errorMessage = ConstGeoApi.ERREUR_PATTERN;
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(errorMessage)
-                    .type(MediaType.TEXT_PLAIN)
-                    .build();
+        var codeIris = CodeIris.of(code);
+        if (codeIris.isInvalid()) {
+            return generateBadRequestResponse(ConstGeoApi.ERREUR_PATTERN);
         }
-
         if (!this.verifyParameterDateIsRightWithoutHistory(date)) {
             return this.generateBadRequestResponse();
+        }
+
+        return getResponseForIrisOrPseudoIris(codeIris, header, date);
+    }
+
+    private Response getResponseForIrisOrPseudoIris(CodeIris codeIris, String header, String date) {
+        if (irisUtils.hasIrisDescendant(codeIris.codeCommune())) {
+            return getResponseForIris(codeIris, header, date);
         } else {
-            return getResponseForIrisOrPseudoIris(code, header, date);
+            return getResponseForPseudoIris(codeIris, header, date);
+        }
+
+    }
+
+    private Response getResponseForPseudoIris(CodeIris codeIris, String header, String date) {
+        if (codeIris.isPseudoIrisCode()) {
+            return this.generateResponseATerritoireByCode(
+                    sparqlUtils.executeSparqlQuery(
+                            GeoQueries.getIrisByCodeAndDate(codeIris.code(), this.formatValidParameterDateIfIsNull(date))),
+                    header,
+                    new PseudoIris(codeIris.code()));
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).entity("").build();
         }
     }
 
-    private Response getResponseForIrisOrPseudoIris(String code, String header, String date) {
-        boolean hasIrisDescendant = irisUtils.hasIrisDescendant(code.substring(0, 5));
-
-        Territoire territoire;
-        if (code.endsWith("0000") && hasIrisDescendant) {
-            return Response.status(Response.Status.NOT_FOUND).entity("").build();
-        } else if (hasIrisDescendant) {
-            territoire = new Iris(code);
-            return this.generateResponseATerritoireByCode(
-                    sparqlUtils.executeSparqlQuery(
-                            GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
-                    header,
-                    territoire);
-        } else if (code.matches("^(?=.{9}$)(?!.*0000$).*$")) {
+    private Response getResponseForIris(CodeIris codeIris, String header, String date) {
+        if (codeIris.isPseudoIrisCode()) {
             return Response.status(Response.Status.NOT_FOUND).entity("").build();
         } else {
-
+            Territoire territoire = new Iris(codeIris.code());
             return this.generateResponseATerritoireByCode(
                     sparqlUtils.executeSparqlQuery(
-                            GeoQueries.getIrisByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getIrisByCodeAndDate(codeIris.code(), this.formatValidParameterDateIfIsNull(date))),
                     header,
-                    new PseudoIris(code));
+                    territoire);
         }
     }
 
@@ -129,7 +135,7 @@ public class IrisApi extends AbstractGeoApi {
     public Response getListe(
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
-                    description = "Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" ,
+                    description = "Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
                     value = Constants.PARAMETER_DATE) String date,
             @Parameter(description = "les Iris (et pseudo-iris) des collectivités d'outre-mer",

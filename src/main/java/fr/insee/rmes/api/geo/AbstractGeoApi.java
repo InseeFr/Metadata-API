@@ -138,7 +138,11 @@ public abstract class AbstractGeoApi extends AbstractMetadataApi {
     }
 
     protected Response generateBadRequestResponse() {
-        return Response.status(Status.BAD_REQUEST).entity("").build();
+        return generateBadRequestResponse("");
+    }
+
+    protected Response generateBadRequestResponse(String erreurMessage) {
+        return Response.status(Status.BAD_REQUEST).entity(erreurMessage).build();
     }
 
     // Method to find a list of projections

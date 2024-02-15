@@ -3,6 +3,7 @@ package fr.insee.rmes.api.geo.territoire;
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration;
 import fr.insee.rmes.modeles.geo.territoire.Canton;
+import fr.insee.rmes.modeles.geo.territoire.CodeIris;
 import fr.insee.rmes.modeles.geo.territoire.Iris;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.IrisUtils;
@@ -30,7 +31,7 @@ import static fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration
 import static fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration.assertEqualsXml;
 import static fr.insee.rmes.utils.JavaLangUtils.merge;
 import static javax.ws.rs.core.MediaType.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -314,5 +315,27 @@ class IrisApiTest extends AbstractApiTest {
                 Arguments.of("getListe_XML_date", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, "2000-01-01",true)),
                 Arguments.of("getListe_dateStar", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_JSON, "*",true))
         );
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"123456789", "2A1110000", "2A1110001", "2B1110001"})
+    void test_CodeIris_validPattern(String code){
+        //given param code
+        //when
+        var codeIris= CodeIris.of(code);
+        //then
+        assertFalse(codeIris.isInvalid());
+        assertDoesNotThrow(codeIris::code);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"12345A789", "2a1110000", "xxxxxxxxx", "2B111000", "2B111000199"})
+    void test_CodeIris_invalidPattern(String code){
+        //given param code
+        //when
+        var codeIris= CodeIris.of(code);
+        //then
+        assertTrue(codeIris.isInvalid());
+        assertThrows(IllegalStateException.class,codeIris::code);
     }
 }
