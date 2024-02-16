@@ -6591,7 +6591,6 @@
       },
       "IntituleSansArticle": {
         "type": "string",
-        "example": "Aigle",
         "xml": {
           "name": "IntituleSansArticle"
         },
@@ -7638,18 +7637,6 @@
           "intituleSansArticle": {
             "$ref": "#/components/schemas/IntituleSansArticle"
           },
-          "chefLieu": {
-            "type": "string",
-            "xml": {
-              "name": "ChefLieu"
-            }
-          },
-          "categorieJuridique": {
-            "type": "string",
-            "xml": {
-              "name": "CategorieJuridique"
-            }
-          },
           "typeArticle": {
             "type": "string",
             "writeOnly": true
@@ -7709,18 +7696,6 @@
           },
           "intituleSansArticle": {
             "$ref": "#/components/schemas/IntituleSansArticle"
-          },
-          "chefLieu": {
-            "type": "string",
-            "xml": {
-              "name": "ChefLieu"
-            }
-          },
-          "categorieJuridique": {
-            "type": "string",
-            "xml": {
-              "name": "CategorieJuridique"
-            }
           },
           "typeArticle": {
             "type": "string",
