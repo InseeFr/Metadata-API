@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<name>Implementation of the RMéS metadata API</name>
 	
-	<version>3.7.2</version>
+	<version>3.8.0</version>
 	
 	<properties>
 		<title>API RM\u00e9S</title>
