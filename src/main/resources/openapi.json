@@ -6590,14 +6590,130 @@
         }
       },
       "IntituleSansArticle": {
-        "type": "string",
+        "type": "object",
+        "properties": {
+          "intituleSansArticle": {
+            "type": "string"
+          },
+          "typeArticle": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "xml": {
+          "name": "IntituleSansaArticle"
+        }
+      },
+      "IntituleSansArticleRegion": {
+        "type": "object",
         "xml": {
           "name": "IntituleSansArticle"
         },
         "properties": {
+          "intituleSansArticle": {
+            "type": "string",
+            "example": "Bourgogne-Franche-Comté"
+          },
+          "typeArticle": {
+            "type": "string",
+            "example": "0",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "IntituleSansArticleUniteUrbaine": {
+        "type": "object",
+        "xml": {
+          "name": "IntituleSansArticle"
+        },
+        "properties": {
+          "intituleSansArticle": {
+            "type": "string",
+            "example": "Jujurieux"
+          },
+          "typeArticle": {
+            "type": "string",
+            "example": "0",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "IntituleSansArticleZoneEmploi": {
+        "type": "object",
+        "xml": {
+          "name": "IntituleSansArticle"
+        },
+        "properties": {
+          "intituleSansArticle": {
+            "type": "string",
+            "example": "Vierzon"
+          },
+          "typeArticle": {
+            "type": "string",
+            "example": "0",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "IntituleSansArticleInterco": {
+        "type": "object",
+        "xml": {
+          "name": "IntituleSansArticle"
+        },
+        "properties": {
+          "intituleSansArticle": {
+            "type": "string",
+            "example": "Plaine de l'Ain"
+          },
+          "typeArticle": {
+            "type": "string",
+            "example": "3",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "IntituleSansArticleDistrict": {
+        "type": "object",
+        "xml": {
+          "name": "IntituleSansArticle"
+        },
+        "properties": {
+          "intituleSansArticle": {
+            "type": "string",
+            "example": "Archipel des Kerguelen"
+          },
           "typeArticle": {
             "type": "string",
             "example": "5",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "IntituleSansArticleDepartement": {
+        "type": "object",
+        "xml": {
+          "name": "IntituleSansArticle"
+        },
+        "properties": {
+          "intituleSansArticle": {
+            "type": "string",
+            "example": "Côtes-d'Armor"
+          },
+          "typeArticle": {
+            "type": "string",
+            "example": "4",
             "xml": {
               "attribute": true
             }
@@ -7355,7 +7471,7 @@
           "dateCreation": {
             "type": "string",
             "description": "Date de création du département si elle n’existait pas au premier COG du 1er janvier 1943",
-            "example": "1943-01-01",
+            "example": "1990-03-08",
             "xml": {
               "name": "DateCreation"
             }
@@ -7363,13 +7479,13 @@
           "dateSuppression": {
             "type": "string",
             "description": "Date de suppression du département si elle a été supprimée. ",
-            "example": "2019-01-01",
+            "example": "string",
             "xml": {
               "name": "DateSuppression"
             }
           },
           "intituleSansArticle": {
-            "$ref": "#/components/schemas/IntituleSansArticle"
+            "$ref": "#/components/schemas/IntituleSansArticleDepartement"
           },
           "chefLieu": {
             "type": "string",
@@ -7385,7 +7501,7 @@
           },
           "intitule": {
             "type": "string",
-            "example": "Côtes-du-Nord",
+            "example": "Côtes-d'Armor",
             "xml": {
               "name": "Intitule"
             }
@@ -7437,7 +7553,7 @@
             }
           },
           "intituleSansArticle": {
-            "$ref": "#/components/schemas/IntituleSansArticle"
+            "$ref": "#/components/schemas/IntituleSansArticleDistrict"
           },
           "typeArticle": {
             "type": "string",
@@ -7494,7 +7610,7 @@
             }
           },
           "intituleSansArticle": {
-            "$ref": "#/components/schemas/IntituleSansArticle"
+            "$ref": "#/components/schemas/IntituleSansArticleInterco"
           },
           "categorieJuridique": {
             "type": "string",
@@ -7539,14 +7655,12 @@
           },
           "uri": {
             "type": "string",
-            "example": "http://id.insee.fr/geo/region/c1c47bc9-6676-41e7-bdef-7136469f95f4",
             "xml": {
               "attribute": true
             }
           },
           "type": {
             "type": "string",
-            "example": "Region",
             "xml": {
               "name": "Type"
             }
@@ -7554,7 +7668,6 @@
           "dateCreation": {
             "type": "string",
             "description": "Date de création de la région si elle n’existait pas au premier COG du 1er janvier 1943",
-            "example": "2016-01-01",
             "xml": {
               "name": "DateCreation"
             }
@@ -7571,23 +7684,30 @@
           },
           "chefLieu": {
             "type": "string",
-            "example": 21231,
             "description": "Code Insee de la commune préfecture de la région",
             "xml": {
               "name": "ChefLieu"
             }
           },
           "typeArticle": {
-            "type": "string",
-            "example": 0
+            "type": "string"
           },
           "intitule": {
             "type": "string",
-            "example": "Bourgogne-Franche-Comté",
             "xml": {
               "name": "Intitule"
             }
           }
+        },
+        "example": {
+          "code": 27,
+          "uri": "http://id.insee.fr/geo/region/c1c47bc9-6676-41e7-bdef-7136469f95f4",
+          "intitule": "Bourgogne-Franche-Comté",
+          "type": "Region",
+          "dateCreation": "2016-01-01T00:00:00.000Z",
+          "IntituleSansArticle": "Bourgogne-Franche-Comté",
+          "typeArticle": 0,
+          "chefLieu": 21231
         },
         "description": "Objet représentant une région",
         "xml": {
@@ -7606,14 +7726,14 @@
           },
           "uri": {
             "type": "string",
-            "example": "http://id.insee.fr/geo/uniteUrbaine2020/01121",
+            "example": "http://id.insee.fr/geo/uniteUrbaine2020/57a37c9b-e426-430e-b8c1-ac0fd640e345",
             "xml": {
               "attribute": true
             }
           },
           "type": {
             "type": "string",
-            "example": "Unité urbaine",
+            "example": "UniteUrbaine2020",
             "xml": {
               "name": "Type"
             }
@@ -7621,7 +7741,7 @@
           "dateCreation": {
             "type": "string",
             "description": "Date de création de l'unité urbaine si elle n’existait pas au premier COG du 1er janvier 1943",
-            "example": "1943-01-01",
+            "example": "2020-01-01",
             "xml": {
               "name": "DateCreation"
             }
@@ -7629,13 +7749,13 @@
           "dateSuppression": {
             "type": "string",
             "description": "Date de suppression de l'unité urbaine si elle a été supprimée. ",
-            "example": "2019-01-01",
+            "example": "string",
             "xml": {
               "name": "DateSuppression"
             }
           },
           "intituleSansArticle": {
-            "$ref": "#/components/schemas/IntituleSansArticle"
+            "$ref": "#/components/schemas/IntituleSansArticleUniteUrbaine"
           },
           "typeArticle": {
             "type": "string",
@@ -7666,7 +7786,7 @@
           },
           "uri": {
             "type": "string",
-            "example": "http://id.insee.fr/geo/ZoneDEmploi2020/2415",
+            "example": "http://id.insee.fr/geo/zoneDEmploi2020/dbab03e7-3d8d-4797-8ab1-0ed36a4db9c1",
             "xml": {
               "attribute": true
             }
