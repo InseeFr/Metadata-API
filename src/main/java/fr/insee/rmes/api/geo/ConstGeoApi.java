@@ -58,7 +58,7 @@ public class ConstGeoApi {
     public static final String PATTERN_CANTON_OU_VILLE = "(([0-9]{2})|(2[0-9AB])|(97[1-6]))([0-9]{2})";
     public static final String PATTERN_COM ="9[78][1-9]";
     public static final String PATTERN_DISTRICT ="9[78][1-9]{3}";
-    public static final String PATTERN_INTERCO ="2[0-4][0-9]{7}";
+    public static final String PATTERN_INTERCO ="[0-9]{9}";
     public static final String PATTERN_CANTON = "(([0-9]{2})|(2[0-9AB])|(97[1-6]))([0-9]{2})";
 
     public static final String PATTERN_IRIS="[0-9][0-9AB][0-9]{7}";
