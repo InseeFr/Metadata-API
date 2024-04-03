@@ -1,7 +1,7 @@
 
 package fr.insee.rmes.utils;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;

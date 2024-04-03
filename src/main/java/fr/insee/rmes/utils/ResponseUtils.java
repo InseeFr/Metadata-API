@@ -3,7 +3,7 @@ package fr.insee.rmes.utils;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;

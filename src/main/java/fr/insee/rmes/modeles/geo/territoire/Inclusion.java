@@ -3,7 +3,7 @@ package fr.insee.rmes.modeles.geo.territoire;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import javax.xml.bind.annotation.XmlValue;
+import jakarta.xml.bind.annotation.XmlValue;
 
 @JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum Inclusion {
