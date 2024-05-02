@@ -13,12 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
-        uses: actions/setup-java@v2  # Updated to use the latest version of the setup-java action
+        uses: actions/setup-java@v2
         with:
-          distribution: 'temurin'  # Best practice to specify the Java distribution
+          distribution: 'temurin'
           java-version: '17'
-      - name: Set current version
-        run: mvn -B versions:set -DnewVersion=${{ github.ref_name }} -DprocessAllModules -DgenerateBackupPoms=false
       - name: Test with Maven
         run: mvn test
       - name: Upload test artifact
@@ -55,8 +53,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Set current version
-        run: mvn -B versions:set -DnewVersion=${{ github.ref_name }} -DprocessAllModules -DgenerateBackupPoms=false
+      - name: Extract Maven project version
+        id: mvn_version
+        run: echo "::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
       - name: Build with Maven
         run: mvn package -Dchangelist=-SNAPSHOT --no-transfer-progress
       - name: Upload API war
@@ -78,9 +77,14 @@ jobs:
           path: target/
       - name: Docker meta
         id: docker_meta
-        uses: docker/metadata-action@v3  # Ensure to use the correct version
+        uses: docker/metadata-action@v3
         with:
           images: inseefr/metadata-api
+          tags: type=semver,pattern={{version}}
+          flavor: |
+            latest=false
+        env:
+          version: ${{ steps.mvn_version.outputs.version }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
