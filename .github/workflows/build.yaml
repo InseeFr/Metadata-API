@@ -56,11 +56,11 @@ jobs:
       - name: Build API
         run: mvn package -Dchangelist=-SNAPSHOT --no-transfer-progress
 
-      - name: Upload API jar
+      - name: Upload API war
         uses: actions/upload-artifact@v4
         with:
-          name: app-jar
-          path: target/*.jar
+          name: app-war
+          path: target/*.war
 
   docker:
     needs:
@@ -70,10 +70,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download uploaded jar
+      - name: Download uploaded war
         uses: actions/download-artifact@v4
         with:
-          name: app-jar
+          name: app-war
           path: target/
 
       - name: Publish to Docker Hub
