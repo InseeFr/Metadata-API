@@ -58,12 +58,12 @@ jobs:
       - name: Set current version
         run: mvn -B versions:set -DnewVersion=${{ github.ref_name }} -DprocessAllModules -DgenerateBackupPoms=false
       - name: Build with Maven
-        run: mvn package -DskipTests
-      - name: Upload build artifact
+        run: mvn package -Dchangelist=-SNAPSHOT --no-transfer-progress
+      - name: Upload API war
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifact
-          path: target/
+          name: app-war
+          path: target/*.war
 
   docker:
     runs-on: ubuntu-latest
@@ -74,7 +74,7 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name: build-artifact
+          name: app-war
           path: target/
       - name: Docker meta
         id: docker_meta
