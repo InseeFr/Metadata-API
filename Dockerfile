@@ -6,5 +6,5 @@ RUN adduser -D -s / -u 10000 javauser -G javagroup
 RUN chown -R 10000:10000 /application
 
 USER 10000
-COPY target/*.jar metadata-api.jar
-ENTRYPOINT ["java", "-jar",  "/application/metadata-api.jar"]
+COPY target/*.jar metadata-api.war
+ENTRYPOINT ["java", "-war",  "/application/metadata-api.war"]
