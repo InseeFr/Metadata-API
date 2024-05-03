@@ -1,10 +1,22 @@
-FROM eclipse-temurin:17-jre-alpine
-WORKDIR /application
+# Utiliser une image de base qui inclut Tomcat 10 et Java 17.
+FROM tomcat:10-jdk17-temurin
 
-RUN addgroup -g 10000 javagroup
-RUN adduser -D -s / -u 10000 javauser -G javagroup
-RUN chown -R 10000:10000 /application
+# Définir le répertoire de travail pour Tomcat.
+WORKDIR /usr/local/tomcat
 
-USER 10000
-COPY target/*.war metadata-api.war
-ENTRYPOINT ["java", "-war",  "/application/metadata-api.war"]
+# Ajouter votre fichier .war dans le dossier webapps de Tomcat.
+COPY target/*.war /usr/local/tomcat/webapps/metadata-api.war
+
+# Exposer le port sur lequel Tomcat écoute par défaut.
+EXPOSE 8080
+
+# Configurer l'utilisateur pour des raisons de sécurité (si nécessaire).
+RUN addgroup --system javagroup && \
+    adduser --system --shell /bin/false --uid 10000 --ingroup javagroup --no-create-home javauser && \
+    chown -R javauser:javagroup /usr/local/tomcat && \
+    chmod -R 755 /usr/local/tomcat/webapps
+
+USER javauser
+
+# Lancer Tomcat.
+CMD ["catalina.sh", "run"]
