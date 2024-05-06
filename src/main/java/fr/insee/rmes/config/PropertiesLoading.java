@@ -11,23 +11,23 @@ public class PropertiesLoading {
 		Properties props = new Properties();
 		props.load(this.getClass().getClassLoader().getResourceAsStream("api-stable.properties"));
 		props.load(this.getClass().getClassLoader().getResourceAsStream("rmes-api.properties"));
-		this.loadIfExists(props, "rmes-api.properties");
-		this.loadIfExists(props, "rmeswnci.properties");
-		this.loadIfExists(props, "rmeswncz.properties");
-		this.loadIfExists(props, "rmeswncd.properties");
-		this.loadIfExists(props, "production.properties");
-		this.loadFromConfigMap(props, "/conf/rmes-api.properties");
+		this.loadFromCatalinaIfExists(props, "rmes-api.properties");
+		this.loadFromCatalinaIfExists(props, "rmeswnci.properties");
+		this.loadFromCatalinaIfExists(props, "rmeswncz.properties");
+		this.loadFromCatalinaIfExists(props, "rmeswncd.properties");
+		this.loadFromCatalinaIfExists(props, "production.properties");
+		this.loadFromFileIfExist(props, "/conf/rmes-api.properties");
 		return props;
 	}
 
 	/*
 	 * load properties on catalina base
 	 */
-	private Properties loadIfExists(Properties props, String filename) throws IOException {
+	private Properties loadFromCatalinaIfExists (Properties props, String filename) throws IOException {
 		File f;
 		f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
 		if (f.exists() && !f.isDirectory()) {
-			try (FileReader r = new FileReader(f);){ 
+			try (FileReader r = new FileReader(f);){
 				props.load(r);
 				return props;
 			}
@@ -38,8 +38,8 @@ public class PropertiesLoading {
 	/*
 	 * Load properties from ConfigMap mounted path and return the modified properties
 	 */
-	private Properties loadFromConfigMap(Properties props, String path) throws IOException {
-		File file = new File(path);
+	private Properties loadFromFileIfExist(Properties props, String absolutePathToFile) throws IOException {
+		File file = new File(absolutePathToFile);
 		if (file.exists() && !file.isDirectory()) {
 			try (FileReader reader = new FileReader(file)) {
 				props.load(reader);
