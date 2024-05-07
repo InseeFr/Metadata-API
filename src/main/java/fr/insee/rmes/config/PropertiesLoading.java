@@ -24,15 +24,7 @@ public class PropertiesLoading {
 	 * load properties on catalina base
 	 */
 	private Properties loadFromCatalinaIfExists (Properties props, String filename) throws IOException {
-		File f;
-		f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
-		if (f.exists() && !f.isDirectory()) {
-			try (FileReader r = new FileReader(f);){
-				props.load(r);
-				return props;
-			}
-		}
-		return props;
+		return loadFromFileIfExist(props, String.format("%s/webapps/%s", System.getProperty("catalina.base"), filename));
 	}
 
 	/*
