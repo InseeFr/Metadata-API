@@ -3,7 +3,7 @@ package fr.insee.rmes.modeles.concepts;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlAttribute;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;

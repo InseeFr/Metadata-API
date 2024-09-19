@@ -8,12 +8,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import org.apache.logging.log4j.web.Log4jServletContainerInitializer;
 import org.apache.logging.log4j.web.Log4jWebSupport;
 import fr.insee.rmes.utils.PropertiesUtils;
+
 
 public class Log4jInseeServletContainerInitializer extends Log4jServletContainerInitializer {
 

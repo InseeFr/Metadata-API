@@ -7,8 +7,8 @@ import fr.insee.rmes.modeles.geo.territoire.Canton;
 import fr.insee.rmes.modeles.geo.territoire.Commune;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import java.util.List;
 
 @JacksonXmlRootElement(localName = "Cantons")
