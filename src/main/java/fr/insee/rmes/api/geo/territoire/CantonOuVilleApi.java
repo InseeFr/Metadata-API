@@ -6,6 +6,7 @@ import fr.insee.rmes.modeles.geo.territoire.CantonOuVille;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.CantonsEtVilles;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.Constants;
@@ -71,8 +72,11 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
-
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
         if (!code.matches(ConstGeoApi.PATTERN_CANTON_OU_VILLE)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -80,7 +84,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -88,7 +92,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     .generateResponseATerritoireByCode(
                             sparqlUtils
                                     .executeSparqlQuery(
-                                            GeoQueries.getCantonOuVilleByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                                            GeoQueries.getCantonOuVilleByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
                             header,
                             new CantonOuVille(code));
         }
@@ -113,9 +117,12 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     description = "Filtre pour renvoyer les cantons-ou-villes actifs à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -123,7 +130,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
             return this
                     .generateResponseListOfTerritoire(
                             sparqlUtils
-                                    .executeSparqlQuery(GeoQueries.getListCantonsOuVilles(this.formatValidParameterDateIfIsNull(date))),
+                                    .executeSparqlQuery(GeoQueries.getListCantonsOuVilles(this.formatValidParameterDateIfIsNull(dateString))),
                             header,
                             CantonsEtVilles.class,
                             CantonOuVille.class);
@@ -155,7 +162,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     description = "Filtre pour renvoyer les territoires inclus dans le canton-ou-ville actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date,
+                    value = Constants.PARAMETER_DATE) Date date,
             @Parameter(
                     description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
                     required = false,
@@ -166,7 +173,10 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                     value = Constants.PARAMETER_FILTRE) String filtreNom) {
-
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
         if (!code.matches(ConstGeoApi.PATTERN_CANTON_OU_VILLE)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -174,7 +184,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         } else {
             return this
@@ -184,7 +194,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                                             GeoQueries
                                                     .getDescendantsCantonOuVille(
                                                             code,
-                                                            this.formatValidParameterDateIfIsNull(date),
+                                                            this.formatValidParameterDateIfIsNull(dateString),
                                                             this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire), this.formatValidParameterFiltreIfIsNull(filtreNom))),
                             header,
                             Territoires.class,
@@ -218,13 +228,16 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     description = "Filtre pour renvoyer les territoires contenant le canton-ou-ville actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date,
+                    value = Constants.PARAMETER_DATE) Date date,
             @Parameter(
                     description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                     value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
         if (!code.matches(ConstGeoApi.PATTERN_CANTON_OU_VILLE)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -232,7 +245,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -243,7 +256,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                                             GeoQueries
                                                     .getAscendantsCantonOuVille(
                                                             code,
-                                                            this.formatValidParameterDateIfIsNull(date),
+                                                            this.formatValidParameterDateIfIsNull(dateString),
                                                             this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                             header,
                             Territoires.class,
@@ -276,8 +289,11 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     description = "Filtre pour préciser le canton-ou-ville de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
-
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
         if (!code.matches(ConstGeoApi.PATTERN_CANTON_OU_VILLE)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -285,7 +301,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -293,7 +309,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     .generateResponseListOfTerritoire(
                             sparqlUtils
                                     .executeSparqlQuery(
-                                            GeoQueries.getPreviousCantonOuVille(code, this.formatValidParameterDateIfIsNull(date))),
+                                            GeoQueries.getPreviousCantonOuVille(code, this.formatValidParameterDateIfIsNull(dateString))),
                             header,
                             CantonsEtVilles.class,
                             CantonOuVille.class);
@@ -325,8 +341,11 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     description = "Filtre pour préciser le canton-ou-ville de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
-
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
         if (!code.matches(ConstGeoApi.PATTERN_CANTON_OU_VILLE)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -334,7 +353,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -342,7 +361,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     .generateResponseListOfTerritoire(
                             sparqlUtils
                                     .executeSparqlQuery(
-                                            GeoQueries.getNextCantonOuVille(code, this.formatValidParameterDateIfIsNull(date))),
+                                            GeoQueries.getNextCantonOuVille(code, this.formatValidParameterDateIfIsNull(dateString))),
                             header,
                             CantonsEtVilles.class,
                             CantonOuVille.class);
@@ -374,13 +393,20 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     description = "Filtre pour préciser le canton-ou-ville de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date,
+                    value = Constants.PARAMETER_DATE) Date date,
             @Parameter(
                     description = "Date vers laquelle est projetée le canton-ou-ville. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
                     required = true,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
+                    value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        String dateProjectionString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if (dateProjection != null){
+            dateProjectionString = dateProjection.getString();
+        }
         if (!code.matches(ConstGeoApi.PATTERN_CANTON_OU_VILLE)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -388,7 +414,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjectionString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -399,8 +425,8 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                                             GeoQueries
                                                     .getProjectionCantonOuVille(
                                                             code,
-                                                            this.formatValidParameterDateIfIsNull(date),
-                                                            dateProjection)),
+                                                            this.formatValidParameterDateIfIsNull(dateString),
+                                                            dateProjectionString)),
                             header,
                             CantonsEtVilles.class,
                             CantonOuVille.class);

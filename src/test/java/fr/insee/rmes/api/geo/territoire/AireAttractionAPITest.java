@@ -3,6 +3,7 @@ package fr.insee.rmes.api.geo.territoire;
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
 import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
+import fr.insee.rmes.modeles.utils.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,7 +80,7 @@ class AireAttractionAPITest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(aireDAttractionDesVilles2020, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("1973-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -87,7 +88,7 @@ class AireAttractionAPITest extends AbstractApiTest {
     void givenGetAireAttraction_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
     
@@ -144,7 +145,7 @@ class AireAttractionAPITest extends AbstractApiTest {
         list.add(new AireDAttractionDesVilles2020());
 
         // Call method header content = xml
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, new Date("1973-01-01"), null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -152,7 +153,7 @@ class AireAttractionAPITest extends AbstractApiTest {
     void givenGetAireAttractionDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, new Date("nimportequoi"), null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -241,7 +242,7 @@ class AireAttractionAPITest extends AbstractApiTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"2000-01-01", "*"})
-    @NullSource //default = current day
+    @NullSource
     void givenGetListeAireAttraction_WhenCorrectRequest_thenParameterDateIsRight(String date) {
 
         // Mock methods
@@ -249,7 +250,7 @@ class AireAttractionAPITest extends AbstractApiTest {
         list.add(new AireDAttractionDesVilles2020());
 
         // Call method header content = xml
-        geoApi.getListe(MediaType.APPLICATION_XML, date);
+        geoApi.getListe(MediaType.APPLICATION_XML, new Date(date));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -257,7 +258,7 @@ class AireAttractionAPITest extends AbstractApiTest {
     void givenGetListeAireAttraction_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 

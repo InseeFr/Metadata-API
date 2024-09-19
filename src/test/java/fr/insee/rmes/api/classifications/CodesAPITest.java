@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.utils.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -107,10 +108,10 @@ class CodesAPITest extends AbstractApiTest {
         codesAPI.getCategoriesJuridiques("", null, MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
 
-        codesAPI.getCategoriesJuridiques("", "*", MediaType.APPLICATION_JSON);
+        codesAPI.getCategoriesJuridiques("", new Date("*"), MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(2)).produceResponse(Mockito.any(), Mockito.any());
 
-        codesAPI.getCategoriesJuridiques("", "2010-10-10", MediaType.APPLICATION_JSON);
+        codesAPI.getCategoriesJuridiques("", new Date("2010-10-10"), MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(3)).produceResponse(Mockito.any(), Mockito.any());
 
         codesAPI.getCategoriesJuridiques("", null, MediaType.APPLICATION_XML);
@@ -138,7 +139,7 @@ class CodesAPITest extends AbstractApiTest {
     @Test
     void givenGetCategoriesJuridiques_whenBadRequest_thenResponseIsBadRequest() {
         // Call method
-        Response response = codesAPI.getCategoriesJuridiques("", "1234", MediaType.APPLICATION_JSON);
+        Response response = codesAPI.getCategoriesJuridiques("", new Date("1234"), MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
@@ -294,10 +295,10 @@ class CodesAPITest extends AbstractApiTest {
         codesAPI.getActivities("", null, MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
 
-        codesAPI.getActivities("", "*", MediaType.APPLICATION_JSON);
+        codesAPI.getActivities("", new Date("*"), MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(2)).produceResponse(Mockito.any(), Mockito.any());
 
-        codesAPI.getActivities("", "2010-10-10", MediaType.APPLICATION_JSON);
+        codesAPI.getActivities("", new Date("2010-10-10"), MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(3)).produceResponse(Mockito.any(), Mockito.any());
 
         codesAPI.getActivities("", null, MediaType.APPLICATION_XML);
@@ -321,7 +322,7 @@ class CodesAPITest extends AbstractApiTest {
     @Test
     void givenGetActivities_whenBadRequest_thenResponseIsBadRequest() {
         // Call method
-        Response response = codesAPI.getActivities("", "1234", MediaType.APPLICATION_JSON);
+        Response response = codesAPI.getActivities("", new Date("1234"), MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }

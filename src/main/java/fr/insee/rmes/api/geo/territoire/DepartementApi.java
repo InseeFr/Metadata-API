@@ -17,6 +17,7 @@ import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Departements;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -65,9 +66,12 @@ public class DepartementApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer la département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -75,7 +79,7 @@ public class DepartementApi extends AbstractGeoApi {
                 .generateResponseATerritoireByCode(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getDepartementByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getDepartementByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     new Departement(code));
         }
@@ -106,14 +110,17 @@ public class DepartementApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les territoires contenant le département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -124,7 +131,7 @@ public class DepartementApi extends AbstractGeoApi {
                             GeoQueries
                                 .getAscendantsDepartement(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParameterDateIfIsNull(dateString),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                     header,
                     Territoires.class,
@@ -157,7 +164,7 @@ public class DepartementApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les territoires inclus dans le département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
@@ -168,8 +175,11 @@ public class DepartementApi extends AbstractGeoApi {
     	                required = false,
     	                schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
     	                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
-
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -180,7 +190,7 @@ public class DepartementApi extends AbstractGeoApi {
                             GeoQueries
                                 .getDescendantsDepartement(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParameterDateIfIsNull(dateString),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom))),
                     header,
                     Territoires.class,
@@ -207,16 +217,19 @@ public class DepartementApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer le département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
 
             return this
                 .generateResponseListOfTerritoire(
-                    sparqlUtils.executeSparqlQuery(GeoQueries.getListDepartements(this.formatValidParameterDateIfIsNull(date))),
+                    sparqlUtils.executeSparqlQuery(GeoQueries.getListDepartements(this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     Departements.class,
                     Departement.class);
@@ -248,9 +261,12 @@ public class DepartementApi extends AbstractGeoApi {
             description = "Filtre pour préciser le departement de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -258,7 +274,7 @@ public class DepartementApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getNextDepartement(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getNextDepartement(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     Departements.class,
                     Departement.class);
@@ -290,9 +306,12 @@ public class DepartementApi extends AbstractGeoApi {
             description = "Filtre pour préciser le departement de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -300,7 +319,7 @@ public class DepartementApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getPreviousDepartement(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getPreviousDepartement(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     Departements.class,
                     Departement.class);
@@ -332,14 +351,17 @@ public class DepartementApi extends AbstractGeoApi {
             description = "Filtre pour préciser le departement de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = "Date vers laquelle est projetée le departement. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+                value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection.getString())) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -350,8 +372,8 @@ public class DepartementApi extends AbstractGeoApi {
                             GeoQueries
                                 .getProjectionDepartement(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
-                                    dateProjection)),
+                                    this.formatValidParameterDateIfIsNull(dateString),
+                                    dateProjection.getString())),
                     header,
                     Departements.class,
                     Departement.class);
@@ -378,14 +400,21 @@ public class DepartementApi extends AbstractGeoApi {
             description = "Filtre pour préciser les departements de départ. Par défaut, c’est la date courante qui est utilisée.",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = "Date vers laquelle sont projetées les departements. Paramètre obligatoire (erreur 400 si absent)",
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+                value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        String dateProjectionString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if (dateProjection != null){
+            dateProjectionString = dateProjection.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjectionString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -395,8 +424,8 @@ public class DepartementApi extends AbstractGeoApi {
                         .executeSparqlQuery(
                             GeoQueries
                                 .getAllProjectionDepartement(
-                                    this.formatValidParameterDateIfIsNull(date),
-                                    dateProjection)),
+                                    this.formatValidParameterDateIfIsNull(dateString),
+                                    dateProjectionString)),
                     header);
         }
     } 

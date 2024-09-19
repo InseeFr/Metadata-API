@@ -3,6 +3,7 @@ package fr.insee.rmes.api.geo.territoire;
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration.GetWithCodeAndDate;
 import fr.insee.rmes.modeles.geo.territoire.Canton;
+import fr.insee.rmes.modeles.utils.Date;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -38,12 +39,11 @@ class CantonAPITest extends AbstractApiTest {
 
     private final String codeCantonCorrect="1234";
 
-    public Stream<Arguments> getWithCodeAndDatefactory() {
+    public Stream<Arguments> getWithCodeAndDateFactory() {
         Stream<GetWithCodeAndDate> gets = Stream.of(geoApiSansMock::getByCode, geoApiSansMock::getSuivant, geoApiSansMock::getCommunes, geoApiSansMock::getPrecedent );
         var intermediare= merge(gets, List.of(APPLICATION_XML, APPLICATION_JSON), Pair::of );
-        return merge(intermediare, Arrays.asList(null, "mauvaiseDate", "1982-07-19"), (pair, d)->Arguments.of(pair.getLeft(), pair.getRight(), d));
+        return merge(intermediare, Arrays.asList(null, new Date("mauvaiseDate"), new Date("1982-07-19")), (pair, d)->Arguments.of(pair.getLeft(), pair.getRight(), d));
     }
-
     @ParameterizedTest
     @ValueSource(strings = {APPLICATION_XML, MediaType.APPLICATION_JSON})
     void givenGetCanton_whenCorrectRequestt_thenResponseIsOk(String mediaType) {
@@ -58,12 +58,12 @@ class CantonAPITest extends AbstractApiTest {
     }
 
     @ParameterizedTest
-    @MethodSource("getWithCodeAndDatefactory")
-    void givenAllGetsWithCodeAndDate_whenIncorrectCode_thenResponseIsKo(GetWithCodeAndDate getWithCodeAndDate, String mediaType, String date) {
+    @MethodSource("getWithCodeAndDateFactory")
+    void givenAllGetsWithCodeAndDate_whenIncorrectCode_thenResponseIsKo(GetWithCodeAndDate getWithCodeAndDate, String mediaType, Date date) {
 
         // Call method
         String codeCantonIncorrect = "something";
-        var response=getWithCodeAndDate.get(codeCantonIncorrect, mediaType, date);
+        var response=getWithCodeAndDate.get(codeCantonIncorrect, mediaType,date);
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }
@@ -76,7 +76,7 @@ class CantonAPITest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(canton, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getByCode(codeCantonCorrect, APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode(codeCantonCorrect, APPLICATION_XML, new Date("2010-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -84,7 +84,7 @@ class CantonAPITest extends AbstractApiTest {
     void givenGetCanton_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getByCode(codeCantonCorrect, APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode(codeCantonCorrect, APPLICATION_XML, new Date("nimportequoi"));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -124,7 +124,6 @@ class CantonAPITest extends AbstractApiTest {
     @ParameterizedTest
     @ValueSource(strings = {"2000-01-01", "*"})
     @NullSource
-        //default = current day
     void givenGetListeCanton_WhenCorrectRequest_thenParameterDateIsRight(String date) {
 
         // Mock methods
@@ -132,7 +131,7 @@ class CantonAPITest extends AbstractApiTest {
         list.add(new Canton());
 
         // Call method header content = xml
-        geoApi.getListe(APPLICATION_XML, date);
+        geoApi.getListe(APPLICATION_XML, new Date(date));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -140,7 +139,7 @@ class CantonAPITest extends AbstractApiTest {
     void givenGetListeCanton_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListe(APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getListe(APPLICATION_XML, new Date("nimportequoi"));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -196,7 +195,7 @@ class CantonAPITest extends AbstractApiTest {
         list.add(new Canton());
 
         // Call method header content = xml
-        geoApi.getSuivant(codeCantonCorrect, APPLICATION_XML, "2000-01-01");
+        geoApi.getSuivant(codeCantonCorrect, APPLICATION_XML, new Date("2010-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -204,7 +203,7 @@ class CantonAPITest extends AbstractApiTest {
     void givenGetCantonSuivant_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getSuivant(codeCantonCorrect, APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getSuivant(codeCantonCorrect, APPLICATION_XML, new Date("nimportequoi"));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -249,7 +248,7 @@ class CantonAPITest extends AbstractApiTest {
         list.add(new Canton());
 
         // Call method header content = xml
-        geoApi.getPrecedent(codeCantonCorrect, APPLICATION_XML, "2000-01-01");
+        geoApi.getPrecedent(codeCantonCorrect, APPLICATION_XML, new Date("2010-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -257,7 +256,7 @@ class CantonAPITest extends AbstractApiTest {
     void givenGetCantonPrecedent_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getPrecedent(codeCantonCorrect, APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getPrecedent(codeCantonCorrect, APPLICATION_XML, new Date("nimportequoi"));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -270,7 +269,7 @@ class CantonAPITest extends AbstractApiTest {
         list.add(new Canton());
 
         // Call method
-        geoApi.getProjection(codeCantonCorrect, mediaType, null, "2019-01-01");
+        geoApi.getProjection(codeCantonCorrect, mediaType, null, new Date("2010-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -283,11 +282,11 @@ class CantonAPITest extends AbstractApiTest {
         list.clear();
 
         // Call method header content = xml
-        Response response = geoApi.getProjection(codeCantonCorrect, MediaType.APPLICATION_JSON, null, "2019-01-01");
+        Response response = geoApi.getProjection(codeCantonCorrect, MediaType.APPLICATION_JSON, null, new Date("2010-01-01"));
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getProjection(codeCantonCorrect, APPLICATION_XML, null, "2019-01-01");
+        response = geoApi.getProjection(codeCantonCorrect, APPLICATION_XML, null, new Date("2010-01-01"));
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -300,7 +299,7 @@ class CantonAPITest extends AbstractApiTest {
         list.add(new Canton());
 
         // Call method header content = xml
-        geoApi.getProjection(codeCantonCorrect, APPLICATION_XML, "2000-01-01", "2019-01-01");
+        geoApi.getProjection(codeCantonCorrect, APPLICATION_XML, new Date("2010-01-01"), new Date("2018-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -314,7 +313,7 @@ class CantonAPITest extends AbstractApiTest {
     void givenGetCantonProjetes_WhenCorrectRequest_thenParameterDateIsBad(String date, String dateProjection) {
 
         // Call method header content = xml
-        Response response = geoApi.getProjection(codeCantonCorrect, APPLICATION_XML, date, dateProjection);
+        Response response = geoApi.getProjection(codeCantonCorrect, APPLICATION_XML, new Date(date), new Date(dateProjection));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -326,7 +325,7 @@ class CantonAPITest extends AbstractApiTest {
         list.add(new Canton());
 
         // Call method header content = xml
-        geoApi.getProjection(codeCantonCorrect, APPLICATION_XML, "2000-01-01", "2019-01-01");
+        geoApi.getProjection(codeCantonCorrect, APPLICATION_XML, new Date("2010-01-01"), new Date("2020-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -345,7 +344,7 @@ class CantonAPITest extends AbstractApiTest {
         list.add(new Canton());
 
         // Call method
-        geoApi.getAscendants(codeCantonCorrect, mediaType, date, typeTerritoire);
+        geoApi.getAscendants(codeCantonCorrect, mediaType, new Date(date), typeTerritoire);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -376,7 +375,7 @@ class CantonAPITest extends AbstractApiTest {
     void givenGetCantonAscendants_WhenCorrectRequest_WithBadParameter(String mediaType, String date, String typeTerritoire) {
 
         // Call method header content = xml
-        Response response = geoApi.getAscendants(codeCantonCorrect,mediaType, date, typeTerritoire);
+        Response response = geoApi.getAscendants(codeCantonCorrect,mediaType, new Date(date), typeTerritoire);
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -394,14 +393,14 @@ class CantonAPITest extends AbstractApiTest {
         list.add(new Canton());
 
         // Call method header content = xml
-        geoApi.getCommunes(codeCantonCorrect, mediaType, date);
+        geoApi.getCommunes(codeCantonCorrect, mediaType, new Date(date));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
     @Test
     void givenGetCommunes_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getCommunes(codeCantonCorrect, APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getCommunes(codeCantonCorrect, APPLICATION_XML, new Date("nimportequoi"));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 

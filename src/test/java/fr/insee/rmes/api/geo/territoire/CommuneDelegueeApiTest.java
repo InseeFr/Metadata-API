@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.utils.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,7 +80,7 @@ class CommuneDelegueeApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(commune, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("2000-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -87,7 +88,7 @@ class CommuneDelegueeApiTest extends AbstractApiTest {
     void givenGetCommune_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -140,7 +141,7 @@ class CommuneDelegueeApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method header content = xml
-        geoApi.getAscendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, new Date("2000-01-01"), null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -149,7 +150,7 @@ class CommuneDelegueeApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         Response response =
-            geoApi.getAscendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+            geoApi.getAscendants("something", MediaType.APPLICATION_XML, new Date("nimportequoi"), null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -234,7 +235,7 @@ class CommuneDelegueeApiTest extends AbstractApiTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"2000-01-01", "*"})
-    @NullSource //default = current day
+    @NullSource
     void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsRight(String date) {
 
         // Mock methods
@@ -242,7 +243,7 @@ class CommuneDelegueeApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method header content = xml
-        geoApi.getListe(MediaType.APPLICATION_XML, date);
+        geoApi.getListe(MediaType.APPLICATION_XML, new Date(date));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -250,7 +251,7 @@ class CommuneDelegueeApiTest extends AbstractApiTest {
     void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
