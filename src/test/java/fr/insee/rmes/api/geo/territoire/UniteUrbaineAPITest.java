@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.utils.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -82,7 +83,7 @@ public class UniteUrbaineAPITest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(uniteUrbaine2020, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("2000-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -90,7 +91,7 @@ public class UniteUrbaineAPITest extends AbstractApiTest {
     void givenGetUniteUrbaine_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
     
@@ -147,7 +148,7 @@ public class UniteUrbaineAPITest extends AbstractApiTest {
         list.add(new UniteUrbaine2020());
 
         // Call method header content = xml
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, new Date("2000-01-01"), null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -155,7 +156,7 @@ public class UniteUrbaineAPITest extends AbstractApiTest {
     void givenGetUniteUrbaineDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, new Date("nimportequoi"), null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -244,7 +245,7 @@ public class UniteUrbaineAPITest extends AbstractApiTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"2000-01-01", "*"})
-    @NullSource //default = current day
+    @NullSource
     void givenGetListeUniteUrbaine_WhenCorrectRequest_thenParameterDateIsRight(String date) {
 
         // Mock methods
@@ -252,7 +253,7 @@ public class UniteUrbaineAPITest extends AbstractApiTest {
         list.add(new UniteUrbaine2020());
 
         // Call method header content = xml
-        geoApi.getListe(MediaType.APPLICATION_XML, date);
+        geoApi.getListe(MediaType.APPLICATION_XML, new Date(date));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -260,7 +261,7 @@ public class UniteUrbaineAPITest extends AbstractApiTest {
     void givenGetListeUniteUrbaine_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 

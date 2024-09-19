@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.utils.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -81,7 +82,7 @@ public class DistrictApiTest  extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(district, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("2000-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
     
@@ -89,7 +90,7 @@ public class DistrictApiTest  extends AbstractApiTest {
     void givenGetDistrict_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -142,7 +143,7 @@ public class DistrictApiTest  extends AbstractApiTest {
         list.add(new District());
 
         // Call method header content = xml
-        geoApi.getAscendants("something", MediaType.APPLICATION_XML, "2000-01-01", null);
+        geoApi.getAscendants("something", MediaType.APPLICATION_XML, new Date("2000-01-01"), null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
     
@@ -150,7 +151,7 @@ public class DistrictApiTest  extends AbstractApiTest {
     void givenGetDistrictAscendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getAscendants("something", MediaType.APPLICATION_XML, new Date("nimportequoi"), null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 

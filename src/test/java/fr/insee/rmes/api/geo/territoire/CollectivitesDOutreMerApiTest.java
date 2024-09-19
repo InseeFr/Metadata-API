@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.utils.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -82,7 +83,7 @@ public class CollectivitesDOutreMerApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(collectiviteDOutreMer, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("2000-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
     
@@ -90,7 +91,7 @@ public class CollectivitesDOutreMerApiTest extends AbstractApiTest {
     void givenGetCollectiviteDOutreMer_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -144,7 +145,7 @@ public class CollectivitesDOutreMerApiTest extends AbstractApiTest {
         list.add(new CollectiviteDOutreMer());
 
         // Call method header content = xml
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null, null);/*modifier suite a changement du nombre de variables */
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, new Date("2000-01-01"), null, null);/*modifier suite a changement du nombre de variables */
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -152,7 +153,7 @@ public class CollectivitesDOutreMerApiTest extends AbstractApiTest {
     void givenGetCollectiviteDOutreMerDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null, null);/*modifier suite a changement du nombre de variables */
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, new Date("nimportequoi"), null, null);/*modifier suite a changement du nombre de variables */
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
