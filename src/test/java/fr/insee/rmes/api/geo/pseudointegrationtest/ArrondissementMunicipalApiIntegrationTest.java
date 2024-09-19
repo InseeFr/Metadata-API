@@ -1,6 +1,7 @@
 package fr.insee.rmes.api.geo.pseudointegrationtest;
 
 import fr.insee.rmes.api.geo.territoire.ArrondissementMunicipalApi;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.utils.SparqlUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -108,7 +109,7 @@ class ArrondissementMunicipalApiIntegrationTest {
     public void givengetPrecedentsArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_PRECEDENTS);
-        Response response = geoApi.getPrecedent(CODE_SUIV_OU_PREC, MediaType.APPLICATION_XML, "1943-01-01");
+        Response response = geoApi.getPrecedent(CODE_SUIV_OU_PREC, MediaType.APPLICATION_XML, new Date("1943-01-01"));
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(
             ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_PRECEDENTS_XML,
@@ -120,7 +121,7 @@ class ArrondissementMunicipalApiIntegrationTest {
     public void givengetSuivantsArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_PRECEDENTS);
-        Response response = geoApi.getSuivant(CODE_SUIV_OU_PREC, MediaType.APPLICATION_JSON, "1943-01-01");
+        Response response = geoApi.getSuivant(CODE_SUIV_OU_PREC, MediaType.APPLICATION_JSON,new Date("1943-01-01"));
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(
             ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_EXPECTED_RESPONSE_SUIVANTS_JSON,

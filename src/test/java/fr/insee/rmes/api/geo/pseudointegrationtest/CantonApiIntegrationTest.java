@@ -1,6 +1,7 @@
 package fr.insee.rmes.api.geo.pseudointegrationtest;
 
 import fr.insee.rmes.api.geo.territoire.CantonAPI;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.utils.SparqlUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ class CantonApiIntegrationTest {
 
     @ParameterizedTest(name = "{0} - {2} : {4}")
     @MethodSource("argumentProvider")
-    void test_getCommunes(String titre, String sparqlResult, String media, String date, Status status, String expected) {
+    void test_getCommunes(String titre, String sparqlResult, String media, Date date, Status status, String expected) {
         lenient().when(mockSparqlUtils.executeSparqlQuery(anyString())).thenReturn(sparqlResult);
         Response response = geoApi.getCommunes(CODE, media, date);
         Assertions.assertEquals(status.getStatusCode(), response.getStatus());
