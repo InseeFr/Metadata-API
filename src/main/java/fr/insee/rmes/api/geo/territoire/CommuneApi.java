@@ -19,6 +19,7 @@ import fr.insee.rmes.modeles.geo.territoires.Cantons;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -72,9 +73,12 @@ public class CommuneApi extends AbstractGeoApi {
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -82,7 +86,7 @@ public class CommuneApi extends AbstractGeoApi {
                 .generateResponseATerritoireByCode(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getCommuneByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getCommuneByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     new Commune(code));
         }
@@ -113,14 +117,17 @@ public class CommuneApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les territoires contenant la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -131,7 +138,7 @@ public class CommuneApi extends AbstractGeoApi {
                             GeoQueries
                                 .getAscendantsCommune(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParameterDateIfIsNull(dateString),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                     header,
                     Territoires.class,
@@ -164,14 +171,17 @@ public class CommuneApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les territoires inclus dans la commune active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -182,7 +192,7 @@ public class CommuneApi extends AbstractGeoApi {
                             GeoQueries
                                 .getDescendantsCommune(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParameterDateIfIsNull(dateString),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                     header,
                     Territoires.class,
@@ -209,7 +219,7 @@ public class CommuneApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les communes actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
                 description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
                 required = false,
@@ -222,15 +232,18 @@ public class CommuneApi extends AbstractGeoApi {
                     value = Constants.PARAMETER_STRING) Boolean com
     		)
          {
-
-        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+             String dateString = null;
+             if (date !=null) {
+                 dateString = date.getString();
+             }
+        if ( ! this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterBooleanIfIsNull(com))),
+                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(dateString), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterBooleanIfIsNull(com))),
                     header,
                     Communes.class,
                     Commune.class);
@@ -262,9 +275,12 @@ public class CommuneApi extends AbstractGeoApi {
             description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -272,7 +288,7 @@ public class CommuneApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getNextCommune(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getNextCommune(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     Communes.class,
                     Commune.class);
@@ -304,9 +320,12 @@ public class CommuneApi extends AbstractGeoApi {
             description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -314,7 +333,7 @@ public class CommuneApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getPreviousCommune(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getPreviousCommune(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     Communes.class,
                     Commune.class);
@@ -346,14 +365,21 @@ public class CommuneApi extends AbstractGeoApi {
             description = "Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = "Date vers laquelle est projetée la commune. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+                value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        String dateProjectionString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if (dateProjection !=null) {
+            dateProjectionString = dateProjection.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjectionString) || dateProjectionString== null) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -364,8 +390,8 @@ public class CommuneApi extends AbstractGeoApi {
                             GeoQueries
                                 .getProjectionCommune(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
-                                    dateProjection)),
+                                    this.formatValidParameterDateIfIsNull(dateString),
+                                    dateProjectionString)),
                     header,
                     Communes.class,
                     Commune.class);
@@ -392,14 +418,21 @@ public class CommuneApi extends AbstractGeoApi {
             description = "Filtre pour préciser les communes de départ. Par défaut, c’est la date courante qui est utilisée.",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = "Date vers laquelle sont projetées les communes. Paramètre obligatoire (erreur 400 si absent)",
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+                value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        String dateProjectionString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if (dateProjection !=null) {
+            dateProjectionString = dateProjection.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjectionString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -408,7 +441,7 @@ public class CommuneApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getAllProjectionCommune(this.formatValidParameterDateIfIsNull(date), dateProjection)),
+                                .getAllProjectionCommune(this.formatValidParameterDateIfIsNull(dateString), dateProjectionString)),
                     header);
         }
     }
@@ -438,9 +471,12 @@ public class CommuneApi extends AbstractGeoApi {
                     description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -451,7 +487,7 @@ public class CommuneApi extends AbstractGeoApi {
                                             GeoQueries.getCantonCommunes(
 
                                                     code,
-                                                    this.formatValidParameterDateIfIsNull(date))),
+                                                    this.formatValidParameterDateIfIsNull(dateString))),
                             header,
                             Cantons.class,
                             Canton.class);        }

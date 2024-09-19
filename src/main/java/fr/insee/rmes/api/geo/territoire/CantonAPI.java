@@ -8,6 +8,7 @@ import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Cantons;
 import fr.insee.rmes.modeles.geo.territoires.Communes;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +26,7 @@ import javax.ws.rs.core.Response;
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class CantonAPI extends AbstractGeoApi {
 
-    private static final String CODE_PATTERN = "/{code:}";
+    private static final String CODE_PATTERN = "/{code:[0-9]{4}}";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
     private static final String LITTERAL_PARAMETER_NAME_DESCRIPTION = "Filtre sur le nom des communes renvoyées" ;
 
@@ -66,17 +67,19 @@ public class CantonAPI extends AbstractGeoApi {
                 description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
                 required = false,
                 schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-        value = Constants.PARAMETER_DATE) String date) {
-
-        if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
-            String errorMessage = ConstGeoApi.ERREUR_PATTERN;
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(errorMessage)
-                    .type(MediaType.TEXT_PLAIN)
-                    .build();
-        }
-
-            if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+        value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+            if (date !=null) {
+                dateString = date.getString();
+            }
+            if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
+                String errorMessage = ConstGeoApi.ERREUR_PATTERN;
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity(errorMessage)
+                        .type(MediaType.TEXT_PLAIN)
+                        .build();
+            }
+            if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
                 return this.generateBadRequestResponse();
             }
             else {
@@ -84,7 +87,7 @@ public class CantonAPI extends AbstractGeoApi {
                         .generateResponseATerritoireByCode(
                                 sparqlUtils
                                         .executeSparqlQuery(
-                                                GeoQueries.getCantonByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                                                GeoQueries.getCantonByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
                                 header,
                                 new Canton(code));
             }
@@ -113,20 +116,23 @@ public class CantonAPI extends AbstractGeoApi {
                     description = "Filtre pour renvoyer les cantons actifs à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
-        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
 
-            Response Response = this
+            return this
                     .generateResponseListOfTerritoire(
                             sparqlUtils
-                                    .executeSparqlQuery(GeoQueries.getListCantons(this.formatValidParameterDateIfIsNull(date))),
+                                    .executeSparqlQuery(GeoQueries.getListCantons(this.formatValidParameterDateIfIsNull(dateString))),
                             header,
                             Cantons.class,
                             Canton.class);
-            return Response;
         }
     }
 
@@ -155,7 +161,11 @@ public class CantonAPI extends AbstractGeoApi {
                     description = "Filtre pour préciser le canton de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
         if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -163,7 +173,7 @@ public class CantonAPI extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -171,7 +181,7 @@ public class CantonAPI extends AbstractGeoApi {
                     .generateResponseListOfTerritoire(
                             sparqlUtils
                                     .executeSparqlQuery(
-                                            GeoQueries.getNextCanton(code, this.formatValidParameterDateIfIsNull(date))),
+                                            GeoQueries.getNextCanton(code, this.formatValidParameterDateIfIsNull(dateString))),
                             header,
                             Cantons.class,
                             Canton.class);
@@ -204,8 +214,11 @@ public class CantonAPI extends AbstractGeoApi {
                     description = "Filtre pour préciser le canton de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
-
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
         if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -213,7 +226,7 @@ public class CantonAPI extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) ) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -221,7 +234,7 @@ public class CantonAPI extends AbstractGeoApi {
                     .generateResponseListOfTerritoire(
                             sparqlUtils
                                     .executeSparqlQuery(
-                                            GeoQueries.getPreviousCanton(code, this.formatValidParameterDateIfIsNull(date))),
+                                            GeoQueries.getPreviousCanton(code, this.formatValidParameterDateIfIsNull(dateString))),
                             header,
                             Cantons.class,
                             Canton.class);
@@ -253,13 +266,20 @@ public class CantonAPI extends AbstractGeoApi {
                     description = "Filtre pour préciser le canton de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date,
+                    value = Constants.PARAMETER_DATE) Date date,
             @Parameter(
                     description = "Date vers laquelle est projetée le canton. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
                     required = true,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
+                    value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        String dateProjectionString = null;
+        if (dateProjection != null){
+            dateProjectionString = dateProjection.getString();
+        }
         if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -267,7 +287,7 @@ public class CantonAPI extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjectionString) ) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -278,8 +298,8 @@ public class CantonAPI extends AbstractGeoApi {
                                             GeoQueries
                                                     .getProjectionCanton(
                                                             code,
-                                                            this.formatValidParameterDateIfIsNull(date),
-                                                            dateProjection)),
+                                                            this.formatValidParameterDateIfIsNull(dateString),
+                                                            dateProjectionString)),
                             header,
                             Cantons.class,
                             Canton.class);
@@ -310,7 +330,11 @@ public class CantonAPI extends AbstractGeoApi {
                                          description = "La requête renvoie les communes actives à la date donnée. Par défaut, c’est la date courante.  (Format : 'AAAA-MM-JJ')",
                                          required = false,
                                          schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                                         value = Constants.PARAMETER_DATE) String date){
+                                         value = Constants.PARAMETER_DATE) Date date){
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
 
         if (!code.matches(ConstGeoApi.PATTERN_CANTON)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
@@ -319,7 +343,7 @@ public class CantonAPI extends AbstractGeoApi {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -330,7 +354,7 @@ public class CantonAPI extends AbstractGeoApi {
                                             GeoQueries
                                                     .getCommunesCanton(
                                                             code,
-                                                            this.formatValidParameterDateIfIsNull(date))),
+                                                            this.formatValidParameterDateIfIsNull(dateString))),
                             header,
                             Communes.class,
                             Commune.class);
@@ -365,14 +389,17 @@ public class CantonAPI extends AbstractGeoApi {
                     description = "Filtre pour renvoyer les territoires contenant le canton actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date,
+                    value = Constants.PARAMETER_DATE) Date date,
             @Parameter(
                     description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                     value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -383,14 +410,13 @@ public class CantonAPI extends AbstractGeoApi {
                                             GeoQueries
                                                     .getAscendantsCanton(
                                                             code,
-                                                            this.formatValidParameterDateIfIsNull(date),
+                                                            this.formatValidParameterDateIfIsNull(dateString),
                                                             this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                             header,
                             Territoires.class,
                             Territoire.class);
         }
     }
-
 
 
 }

@@ -17,6 +17,7 @@ import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.ArrondissementsMunicipaux;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -69,9 +70,12 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString =null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -82,7 +86,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                             GeoQueries
                                 .getArrondissementmunicipalByCodeAndDate(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date))),
+                                    this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     new ArrondissementMunicipal(code));
         }
@@ -113,14 +117,17 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les territoires contenant l'arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        String dateString =null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -131,7 +138,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                             GeoQueries
                                 .getAscendantsArrondissementMunicipal(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParameterDateIfIsNull(dateString),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                     header,
                     Territoires.class,
@@ -158,18 +165,20 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString =null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
-
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getListArrondissementsMunicipaux(this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getListArrondissementsMunicipaux(this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     ArrondissementsMunicipaux.class,
                     ArrondissementMunicipal.class);
@@ -203,9 +212,12 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             required = false,
             example=LITTERAL_DATE_EXAMPLE,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString =null;
+        if (date != null){
+            dateString = date.getString();
+        }
+         if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -214,7 +226,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getNextArrondissementMunicipal(code, this.formatValidParameterDateIfIsNull(date))),
+                                .getNextArrondissementMunicipal(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     ArrondissementsMunicipaux.class,
                     ArrondissementMunicipal.class);
@@ -247,9 +259,12 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             description = LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString =null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -258,7 +273,7 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getPreviousArrondissementMunicipal(code, this.formatValidParameterDateIfIsNull(date))),
+                                .getPreviousArrondissementMunicipal(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     ArrondissementsMunicipaux.class,
                     ArrondissementMunicipal.class);
@@ -290,14 +305,21 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             description = LITTERAL_DATE_ORIGINE_PROJ_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_DATE_PROJECTION_DESCRIPTION,
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_PROJETE_EXAMPLE)) @QueryParam(
-                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+                value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        String dateprojectionString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if (dateProjection != null){
+            dateprojectionString = dateProjection.getString();
+        }
+         if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateprojectionString) || dateprojectionString == null) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -308,8 +330,8 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                             GeoQueries
                                 .getProjectionArrondissementMunicipal(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
-                                    dateProjection)),
+                                    this.formatValidParameterDateIfIsNull(dateString),
+                                    dateprojectionString)),
                     header,
                     ArrondissementsMunicipaux.class,
                     ArrondissementMunicipal.class);
@@ -336,14 +358,21 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
             description = "Filtre pour préciser les arrondissements municipaux de départ. Par défaut, c’est la date courante qui est utilisée.",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = "Date vers laquelle sont projetées les arrondissements municipaux. Paramètre obligatoire (erreur 400 si absent)",
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+                value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        String dateprojectionString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if (dateProjection != null){
+            dateprojectionString = dateProjection.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateprojectionString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -353,8 +382,8 @@ public class ArrondissementMunicipalApi extends AbstractGeoApi {
                         .executeSparqlQuery(
                             GeoQueries
                                 .getAllProjectionArrondissementMunicipal(
-                                    this.formatValidParameterDateIfIsNull(date),
-                                    dateProjection)),
+                                    this.formatValidParameterDateIfIsNull(dateString),
+                                    dateprojectionString)),
                     header);
         }
     }
