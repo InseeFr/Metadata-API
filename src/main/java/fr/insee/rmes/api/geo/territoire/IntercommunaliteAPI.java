@@ -17,6 +17,7 @@ import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Intercommunalites;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.modeles.utils.Date;
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -110,7 +111,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
 	                required = false,
 	                schema = @Schema(type = Constants.TYPE_STRING, example="Plaine de l\'Ain")) @QueryParam(
-	                    value = Constants.PARAMETER_FILTRE) String filtreNom)
+	                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom)
 	         {
 
 	        if ( ! this.verifyParameterDateIsRightWithHistory(date.getString())) {
@@ -120,7 +121,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	            return this
 	                .generateResponseListOfTerritoire(
 	                    sparqlUtils
-	                        .executeSparqlQuery(GeoQueries.getListIntercommunalites(this.formatValidParameterDateIfIsNull(date.getString()), this.formatValidParameterFiltreIfIsNull(filtreNom))),
+	                        .executeSparqlQuery(GeoQueries.getListIntercommunalites(this.formatValidParameterDateIfIsNull(date.getString()), this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
 	                    header,
 	                    Intercommunalites.class,
 	                    Intercommunalite.class);

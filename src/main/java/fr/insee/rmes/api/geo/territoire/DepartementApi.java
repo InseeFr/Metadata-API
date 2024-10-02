@@ -18,6 +18,7 @@ import fr.insee.rmes.modeles.geo.territoires.Departements;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.modeles.utils.Date;
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -174,7 +175,7 @@ public class DepartementApi extends AbstractGeoApi {
     	                description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
     	                required = false,
     	                schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
-    	                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
+    	                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom) {
         String dateString = null;
         if (date != null){
             dateString = date.getString();
@@ -191,7 +192,7 @@ public class DepartementApi extends AbstractGeoApi {
                                 .getDescendantsDepartement(
                                     code,
                                     this.formatValidParameterDateIfIsNull(dateString),
-                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom))),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
                     header,
                     Territoires.class,
                     Territoire.class);

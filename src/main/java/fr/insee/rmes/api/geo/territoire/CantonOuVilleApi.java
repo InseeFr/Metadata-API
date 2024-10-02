@@ -7,6 +7,7 @@ import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.CantonsEtVilles;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.modeles.utils.Date;
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.Constants;
@@ -172,7 +173,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                     description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
                     required = false,
                     schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
-                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
+                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom) {
         String dateString = null;
         if (date !=null) {
             dateString = date.getString();
@@ -195,7 +196,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                                                     .getDescendantsCantonOuVille(
                                                             code,
                                                             this.formatValidParameterDateIfIsNull(dateString),
-                                                            this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire), this.formatValidParameterFiltreIfIsNull(filtreNom))),
+                                                            this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire), this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
                             header,
                             Territoires.class,
                             Territoire.class);

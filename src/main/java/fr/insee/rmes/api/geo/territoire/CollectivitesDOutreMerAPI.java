@@ -18,6 +18,7 @@ import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.CollectivitesDOutreMer;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.modeles.utils.Date;
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -166,7 +167,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	                description = "Filtre sur le nom du ou des territoires renvoyés",
 	                required = false,
 	                schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
-	                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
+	                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom) {
 			String dateString = null;
 			if (date != null){
 				dateString = date.getString();
@@ -179,7 +180,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 						sparqlUtils.executeSparqlQuery(GeoQueries.getDescendantsCollectiviteDOutreMer(code,
 								this.formatValidParameterDateIfIsNull(dateString),
 								this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),
-								this.formatValidParameterFiltreIfIsNull(filtreNom))),
+								this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
 						header, Territoires.class, Territoire.class);
 			}
 	    }

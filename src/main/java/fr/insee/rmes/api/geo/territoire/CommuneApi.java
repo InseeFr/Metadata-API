@@ -20,6 +20,7 @@ import fr.insee.rmes.modeles.geo.territoires.Communes;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.modeles.utils.Date;
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -224,7 +225,7 @@ public class CommuneApi extends AbstractGeoApi {
                 description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
                 required = false,
                 schema = @Schema(type = Constants.TYPE_STRING, example="Bonnay")) @QueryParam(
-                    value = Constants.PARAMETER_FILTRE) String filtreNom,
+                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom,
         @Parameter(description = LITTERAL_PARAMETER_COM_DESCRIPTION,
                 required = false,
                 schema = @Schema(type = Constants.TYPE_BOOLEAN, allowableValues = {"true","false"},example="false", defaultValue = "false")) 
@@ -243,7 +244,7 @@ public class CommuneApi extends AbstractGeoApi {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(dateString), this.formatValidParameterFiltreIfIsNull(filtreNom),this.formatValidParameterBooleanIfIsNull(com))),
+                        .executeSparqlQuery(GeoQueries.getListCommunes(this.formatValidParameterDateIfIsNull(dateString), this.formatValidParameterFiltreIfIsNull(filtreNom.getString()),this.formatValidParameterBooleanIfIsNull(com))),
                     header,
                     Communes.class,
                     Commune.class);

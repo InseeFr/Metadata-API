@@ -12,6 +12,8 @@ import jakarta.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 
+import fr.insee.rmes.modeles.utils.Header;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,7 +27,7 @@ public class DescribeApi extends AbstractMetadataApi {
     @Operation(operationId = "describeUri", summary = "Service pour déréférencer une uri")
     public Response describeUri(
     		@Parameter(required = true, description = "Iri à déréférencer", schema = @Schema(type = "string")) @QueryParam("uri") String uri,
-    		@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
+    		@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) Header header) {
     	if (StringUtils.isEmpty(uri)){
     		 return Response.serverError().build();
     	 }
@@ -33,7 +35,7 @@ public class DescribeApi extends AbstractMetadataApi {
     	 if (Boolean.FALSE.equals(result)) {
     		 return Response.status(Status.NOT_FOUND).entity("").build();
     	 }
-    	 else return Response.ok(sparqlUtils.executeSparqlQuery("DESCRIBE <"+uri+"> ", header)).build();
+    	 else return Response.ok(sparqlUtils.executeSparqlQuery("DESCRIBE <"+uri+"> ", header.getString())).build();
     }
     
     
