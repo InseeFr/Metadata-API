@@ -178,7 +178,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
         if (date !=null) {
             dateString = date.getString();
         }
-        String filtreNomString = (filtreNom != null) ? filtreNom.getString() : null;
+        String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
         if (!code.matches(ConstGeoApi.PATTERN_CANTON_OU_VILLE)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -204,6 +204,12 @@ public class CantonOuVilleApi extends AbstractGeoApi {
         }
     }
 
+    private String sanitizeFiltreNom(String filtreNom) {
+        if (filtreNom == null || filtreNom.isEmpty()) {
+            return null;
+        }
+        return filtreNom.replaceAll("[<>\"']", "");
+    }
 
     @Path(ConstGeoApi.PATH_CANTON_OU_VILLE + CODE_PATTERN + ConstGeoApi.PATH_ASCENDANT)
     @GET

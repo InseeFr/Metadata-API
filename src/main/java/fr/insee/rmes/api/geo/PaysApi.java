@@ -33,7 +33,7 @@ public class PaysApi extends AbstractGeoApi {
 
     @Path(ConstGeoApi.PATH_PAYS + CODE_PATTERN)
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Operation(operationId = LITTERAL_ID_OPERATION, summary = LITTERAL_OPERATION_SUMMARY, responses = {
             @ApiResponse(
                     content = @Content(schema = @Schema(implementation = Country.class)),
@@ -45,44 +45,44 @@ public class PaysApi extends AbstractGeoApi {
                     required = true,
                     schema = @Schema(
                             pattern = ConstGeoApi.PATTERN_PAYS,
-                            type = Constants.TYPE_STRING, example="99217")) @PathParam(Constants.CODE) String code,
+                            type = Constants.TYPE_STRING, example = "99217")) @PathParam(Constants.CODE) String code,
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) Header header) {
-
-        // Validation du code avant son utilisation
         if (!isValidCode(code)) {
             return Response.status(Status.BAD_REQUEST).entity("Invalid code").build();
         }
 
         Country country = new Country(code);
-
-        // Échapper le code pour la requête SPARQL
         String sanitizedCode = escapeSparql(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCountry(sanitizedCode));
-
-        // Populate the POJO with sanitized data
         country = (Country) csvUtils.populatePOJO(csvResult, country);
 
         if (country.getUri() == null) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         } else {
-            // Encodage des résultats pour éviter les injections XSS
-            return Response.ok(responseUtils.produceResponse(country, sanitizeHeader(header.getString()))).build();
+            String acceptHeader = sanitizeAndValidateHeader(header.getString());
+
+            if (acceptHeader == null) {
+                return Response.status(Status.BAD_REQUEST).entity("Invalid Accept header").build();
+            }
+            return Response.ok(responseUtils.produceResponse(country, acceptHeader)).build();
         }
     }
-
-    // Méthode pour valider le code (doit respecter un pattern spécifique)
     private boolean isValidCode(String code) {
         return code != null && code.matches(ConstGeoApi.PATTERN_PAYS);
     }
 
-    // Échapper les caractères dangereux pour les requêtes SPARQL
-    private String escapeSparql(String input) {
+     private String escapeSparql(String input) {
         return input.replace("\"", "\\\"").replace("<", "\\u003C").replace(">", "\\u003E");
     }
+    private String sanitizeAndValidateHeader(String header) {
+        if (header == null || header.isEmpty()) {
+            return null;
+        }
+        if (header.equals(MediaType.APPLICATION_JSON) || header.equals(MediaType.APPLICATION_XML)) {
+            return header;
+        }
 
-    // Sanitize du header
-    private String sanitizeHeader(String header) {
-        return header != null ? header.replaceAll("[\n\r]", "") : "";
+        return null;
     }
 }
 

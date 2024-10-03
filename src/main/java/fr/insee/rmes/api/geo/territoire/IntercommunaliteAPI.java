@@ -113,6 +113,13 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                schema = @Schema(type = Constants.TYPE_STRING, example="Plaine de l\'Ain")) @QueryParam(
 	                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom)
 	         {
+			// Validation de la date
+			 if (date == null || !this.verifyParameterDateIsRightWithHistory(date.getString())) {
+					return this.generateBadRequestResponse();
+				 }
+
+			// Validation et encodage du filtreNom
+			String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
 
 	        if ( ! this.verifyParameterDateIsRightWithHistory(date.getString())) {
 	            return this.generateBadRequestResponse();
@@ -121,12 +128,21 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	            return this
 	                .generateResponseListOfTerritoire(
 	                    sparqlUtils
-	                        .executeSparqlQuery(GeoQueries.getListIntercommunalites(this.formatValidParameterDateIfIsNull(date.getString()), this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
+	                        .executeSparqlQuery(GeoQueries.getListIntercommunalites(this.formatValidParameterDateIfIsNull(date.getString()), this.formatValidParameterFiltreIfIsNull(filtreNomString))),
 	                    header,
 	                    Intercommunalites.class,
 	                    Intercommunalite.class);
 	        }
 	    }
+
+		// Méthode pour encoder et valider le filtreNom
+		private String sanitizeFiltreNom(String filtreNom) {
+			if (filtreNom == null || filtreNom.isEmpty()) {
+				return null;
+			}
+			//on peut ajouter d'autres contrôles
+			return filtreNom.replaceAll("[<>\"]", "");
+		}
 
 	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO + ConstGeoApi.PATH_PRECEDENT)
 	    @GET

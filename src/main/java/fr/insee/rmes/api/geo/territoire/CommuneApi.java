@@ -287,7 +287,8 @@ public class CommuneApi extends AbstractGeoApi {
          dateString = date.getString();
      }
 
-     String filtreNomString = (filtreNom != null) ? filtreNom.getString() : null;
+     String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
+
 
      if (!this.verifyParameterDateIsRightWithHistory(dateString)) {
          return this.generateBadRequestResponse();
@@ -303,6 +304,12 @@ public class CommuneApi extends AbstractGeoApi {
          );
      }
  }
+    private String sanitizeFiltreNom(String filtreNom) {
+        if (filtreNom == null || filtreNom.isEmpty()) {
+            return null;
+        }
+        return filtreNom.replaceAll("[<>\"']", "");
+    }
 
     @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)
     @GET
