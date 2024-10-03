@@ -180,6 +180,7 @@ public class DepartementApi extends AbstractGeoApi {
         if (date != null){
             dateString = date.getString();
         }
+        String filtreNomString = (filtreNom != null) ? filtreNom.getString() : null;
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
@@ -192,7 +193,7 @@ public class DepartementApi extends AbstractGeoApi {
                                 .getDescendantsDepartement(
                                     code,
                                     this.formatValidParameterDateIfIsNull(dateString),
-                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNomString))),
                     header,
                     Territoires.class,
                     Territoire.class);

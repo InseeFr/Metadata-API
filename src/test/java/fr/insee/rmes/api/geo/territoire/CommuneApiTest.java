@@ -4,6 +4,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -331,7 +332,7 @@ class CommuneApiTest extends AbstractApiTest {
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }
 
-    @ParameterizedTest
+/*    @ParameterizedTest
     @ValueSource(strings = {"2000-01-01", "*"})
     @NullSource
     void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsRight(String date) {
@@ -341,10 +342,31 @@ class CommuneApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method header content = xml
-        geoApi.getListe(MediaType.APPLICATION_XML, new Date(date), date, Boolean.TRUE);/*modifier suite a changement du nombre de variables */
+        geoApi.getListe(MediaType.APPLICATION_XML, new Date(date), date, Boolean.TRUE);*//*modifier suite a changement du nombre de variables *//*
+        verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+    }*/
+
+    @ParameterizedTest
+    @ValueSource(strings = {"2000-01-01", "*"})
+    @NullSource
+    void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsRight(String date) {
+
+        // Mock methods
+        this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+        list.add(new Commune());
+
+        // Créer un objet Date avec la valeur fournie
+        Date dateObj = new Date(date);
+
+        // Créer un objet FiltreNom avec la valeur appropriée
+        FiltreNom filtreNom = new FiltreNom(date);
+
+        // Appel de la méthode avec les paramètres corrigés
+        geoApi.getListe(MediaType.APPLICATION_XML, dateObj, filtreNom, Boolean.TRUE);
+
+        // Vérification de l'appel à produceResponse
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
-
     @Test
     void givenGetListeCommune_WhenCorrectRequest_thenParameterDateIsBad() {
 

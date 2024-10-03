@@ -129,6 +129,7 @@ public class RegionApi extends AbstractGeoApi {
         if (date != null){
             dateString = date.getString();
         }
+        String filtreNomString = (filtreNom != null) ? filtreNom.getString() : null;
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
@@ -141,7 +142,7 @@ public class RegionApi extends AbstractGeoApi {
                                 .getDescendantsRegion(
                                     code,
                                     this.formatValidParameterDateIfIsNull(dateString),
-                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNomString))),
                     header,
                     Territoires.class,
                     Territoire.class);

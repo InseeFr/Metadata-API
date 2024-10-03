@@ -1,3 +1,5 @@
+package fr.insee.rmes.modeles.utils;
+
 public class Header {
     private String header;
 

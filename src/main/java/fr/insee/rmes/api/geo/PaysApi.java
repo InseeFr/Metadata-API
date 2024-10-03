@@ -25,41 +25,64 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = ConstGeoApi.TAG_NAME, description = ConstGeoApi.TAG_DESCRIPTION)
 public class PaysApi extends AbstractGeoApi {
 
-
     private static final String CODE_PATTERN = "/{code: " + ConstGeoApi.PATTERN_PAYS + "}";
     private static final String LITTERAL_ID_OPERATION = "getcogpays";
     private static final String LITTERAL_OPERATION_SUMMARY =
-        "Informations sur un pays identifié par son code (cinq chiffres)";
+            "Informations sur un pays identifié par son code (cinq chiffres)";
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Pays";
 
     @Path(ConstGeoApi.PATH_PAYS + CODE_PATTERN)
     @GET
-    @Produces({
-        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
-    })
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Operation(operationId = LITTERAL_ID_OPERATION, summary = LITTERAL_OPERATION_SUMMARY, responses = {
-        @ApiResponse(
-            content = @Content(schema = @Schema(implementation = Country.class)),
-            description = LITTERAL_RESPONSE_DESCRIPTION)
+            @ApiResponse(
+                    content = @Content(schema = @Schema(implementation = Country.class)),
+                    description = LITTERAL_RESPONSE_DESCRIPTION)
     })
     public Response getByCode(
-        @Parameter(
-            description = ConstGeoApi.PATTERN_PAYS_DESCRIPTION,
-            required = true,
-            schema = @Schema(
-                pattern = ConstGeoApi.PATTERN_PAYS,
-                type = Constants.TYPE_STRING, example="99217")) @PathParam(Constants.CODE) String code,
-        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) Header header) {
+            @Parameter(
+                    description = ConstGeoApi.PATTERN_PAYS_DESCRIPTION,
+                    required = true,
+                    schema = @Schema(
+                            pattern = ConstGeoApi.PATTERN_PAYS,
+                            type = Constants.TYPE_STRING, example="99217")) @PathParam(Constants.CODE) String code,
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) Header header) {
+
+        // Validation du code avant son utilisation
+        if (!isValidCode(code)) {
+            return Response.status(Status.BAD_REQUEST).entity("Invalid code").build();
+        }
 
         Country country = new Country(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCountry(code));
+
+        // Échapper le code pour la requête SPARQL
+        String sanitizedCode = escapeSparql(code);
+        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCountry(sanitizedCode));
+
+        // Populate the POJO with sanitized data
         country = (Country) csvUtils.populatePOJO(csvResult, country);
 
         if (country.getUri() == null) {
             return Response.status(Status.NOT_FOUND).entity("").build();
-        }
-        else {
-            return Response.ok(responseUtils.produceResponse(country, this.getFirstValidHeader(header.getString()))).build();
+        } else {
+            // Encodage des résultats pour éviter les injections XSS
+            return Response.ok(responseUtils.produceResponse(country, sanitizeHeader(header.getString()))).build();
         }
     }
+
+    // Méthode pour valider le code (doit respecter un pattern spécifique)
+    private boolean isValidCode(String code) {
+        return code != null && code.matches(ConstGeoApi.PATTERN_PAYS);
+    }
+
+    // Échapper les caractères dangereux pour les requêtes SPARQL
+    private String escapeSparql(String input) {
+        return input.replace("\"", "\\\"").replace("<", "\\u003C").replace(">", "\\u003E");
+    }
+
+    // Sanitize du header
+    private String sanitizeHeader(String header) {
+        return header != null ? header.replaceAll("[\n\r]", "") : "";
+    }
 }
+

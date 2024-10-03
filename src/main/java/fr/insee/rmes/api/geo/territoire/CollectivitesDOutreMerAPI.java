@@ -145,7 +145,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
-	    public Response getDescendants(
+/*	    public Response getDescendants(
 	        @Parameter(
 	            description = "code de la collectivité d'outre-mer (3 caractères)",
 	            required = true,
@@ -183,6 +183,32 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 								this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
 						header, Territoires.class, Territoire.class);
 			}
-	    }
+	    }*/
+		public Response getDescendants(
+				@PathParam(Constants.CODE) String code,
+				@HeaderParam(HttpHeaders.ACCEPT) String header,
+				@QueryParam(value = Constants.PARAMETER_DATE) Date date,
+				@QueryParam(value = Constants.PARAMETER_TYPE) String typeTerritoire,
+				@QueryParam(value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom) {
+
+			String dateString = null;
+			if (date != null) {
+				dateString = date.getString();
+			}
+
+			// Vérification que le paramètre filtreNom n'est pas null avant d'appeler getString()
+			String filtreNomString = (filtreNom != null) ? filtreNom.getString() : null;
+
+			if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
+				return this.generateBadRequestResponse();
+			} else {
+				return this.generateResponseListOfTerritoire(
+						sparqlUtils.executeSparqlQuery(GeoQueries.getDescendantsCollectiviteDOutreMer(code,
+								this.formatValidParameterDateIfIsNull(dateString),
+								this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),
+								this.formatValidParameterFiltreIfIsNull(filtreNomString))),
+						header, Territoires.class, Territoire.class);
+			}
+		}
 	    
 	}

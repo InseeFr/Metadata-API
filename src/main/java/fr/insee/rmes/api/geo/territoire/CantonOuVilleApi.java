@@ -178,6 +178,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
         if (date !=null) {
             dateString = date.getString();
         }
+        String filtreNomString = (filtreNom != null) ? filtreNom.getString() : null;
         if (!code.matches(ConstGeoApi.PATTERN_CANTON_OU_VILLE)) {
             String errorMessage = ConstGeoApi.ERREUR_PATTERN;
             return Response.status(Response.Status.BAD_REQUEST)
@@ -196,7 +197,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                                                     .getDescendantsCantonOuVille(
                                                             code,
                                                             this.formatValidParameterDateIfIsNull(dateString),
-                                                            this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire), this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
+                                                            this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire), this.formatValidParameterFiltreIfIsNull(filtreNomString))),
                             header,
                             Territoires.class,
                             Territoire.class);
