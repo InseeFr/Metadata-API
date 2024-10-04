@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.utils.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -80,7 +81,7 @@ class RegionApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(region, Boolean.TRUE);
 
         // Call method header content = xml
-        geoApi.getByCode("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("2000-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -88,7 +89,7 @@ class RegionApiTest extends AbstractApiTest {
     void givenGetRegion_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -135,7 +136,7 @@ class RegionApiTest extends AbstractApiTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"2000-01-01", "*"})
-    @NullSource //default = current day
+    @NullSource
     void givenGetListeRegion_WhenCorrectRequest_thenParameterDateIsRight(String date) {
 
         // Mock methods
@@ -143,7 +144,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method header content = xml
-        geoApi.getListe(MediaType.APPLICATION_XML, date);
+        geoApi.getListe(MediaType.APPLICATION_XML, new Date(date));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -151,7 +152,7 @@ class RegionApiTest extends AbstractApiTest {
     void givenGetListeRegion_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListe(MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -216,7 +217,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method header content = xml
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, "2000-01-01", null, null);
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, new Date("2000-01-01"), null, null);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -224,7 +225,7 @@ class RegionApiTest extends AbstractApiTest {
     void givenGetRegionDescendants_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, "nimportequoi", null, null);
+        Response response = geoApi.getDescendants("something", MediaType.APPLICATION_XML, new Date("nimportequoi"), null, null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -314,7 +315,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method header content = xml
-        geoApi.getSuivant("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getSuivant("something", MediaType.APPLICATION_XML, new Date("2000-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -322,7 +323,7 @@ class RegionApiTest extends AbstractApiTest {
     void givenGetRegionSuivant_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getSuivant("something", MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -375,7 +376,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method header content = xml
-        geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "2000-01-01");
+        geoApi.getPrecedent("something", MediaType.APPLICATION_XML, new Date("2000-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -383,7 +384,7 @@ class RegionApiTest extends AbstractApiTest {
     void givenGetRegionPrecedent_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getPrecedent("something", MediaType.APPLICATION_XML, new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -395,7 +396,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method
-        geoApi.getProjection("something", MediaType.APPLICATION_JSON, null, "2019-01-01");
+        geoApi.getProjection("something", MediaType.APPLICATION_JSON, null, new Date("2019-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -407,7 +408,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method
-        geoApi.getProjection("something", MediaType.APPLICATION_XML, null, "2019-01-01");
+        geoApi.getProjection("something", MediaType.APPLICATION_XML, null, new Date("2019-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -418,11 +419,11 @@ class RegionApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getProjection("something", MediaType.APPLICATION_JSON, null, "2019-01-01");
+        Response response = geoApi.getProjection("something", MediaType.APPLICATION_JSON, null, new Date("2019-01-01"));
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getProjection("something", MediaType.APPLICATION_XML, null, "2019-01-01");
+        response = geoApi.getProjection("something", MediaType.APPLICATION_XML, null, new Date("2019-01-01"));
         Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
@@ -436,7 +437,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method header content = xml
-        geoApi.getProjection("something", MediaType.APPLICATION_XML, "2000-01-01", "2019-01-01");
+        geoApi.getProjection("something", MediaType.APPLICATION_XML, new Date("2000-01-01"), new Date("2019-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -444,7 +445,7 @@ class RegionApiTest extends AbstractApiTest {
     void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", "2019-01-01");
+        Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, new Date("nimportequoi"), new Date("2019-01-01"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -456,7 +457,7 @@ class RegionApiTest extends AbstractApiTest {
         list.add(new Region());
 
         // Call method header content = xml
-        geoApi.getProjection("something", MediaType.APPLICATION_XML, "2000-01-01", "2019-01-01");
+        geoApi.getProjection("something", MediaType.APPLICATION_XML, new Date("2000-01-01"), new Date("2019-01-01"));
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -465,7 +466,7 @@ class RegionApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         Response response =
-            geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", "nimportequoi");
+            geoApi.getProjection("something", MediaType.APPLICATION_XML, new Date("nimportequoi"), new Date("nimportequoi"));
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -473,7 +474,7 @@ class RegionApiTest extends AbstractApiTest {
     void givenGetRegionProjetes_WhenCorrectRequest_thenParameterDateProjeteIsNull() {
 
         // Call method header content = xml
-        Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, "nimportequoi", null);
+        Response response = geoApi.getProjection("something", MediaType.APPLICATION_XML, new Date("nimportequoi"), null);
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 }

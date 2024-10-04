@@ -12,6 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.utils.Date;
 import org.joda.time.DateTime;
 
 import fr.insee.rmes.api.AbstractMetadataApi;
@@ -110,7 +111,7 @@ public class CodesAPI extends AbstractMetadataApi {
     public Response getCategoriesJuridiques(
         @Parameter(required = true, description = "Code de la catégorie juridique", example="5307") @QueryParam("code") String code,
         @Parameter(
-            description = "Date à laquelle la catégorie juridique est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)", example="2020-05-11") @QueryParam("date") String date,
+            description = "Date à laquelle la catégorie juridique est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)", example="2020-05-11") @QueryParam("date") Date date,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
 
         String csvResult = "";
@@ -121,10 +122,10 @@ public class CodesAPI extends AbstractMetadataApi {
             csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJ(code));
         }
         else {
-            if ( ! DateUtils.isValidDate(date)) {
+            if ( ! DateUtils.isValidDate(date.getString())) {
                 return Response.status(Status.BAD_REQUEST).entity("").build();
             }
-            DateTime dt = DateUtils.getDateTimeFromDateString(date);
+            DateTime dt = DateUtils.getDateTimeFromDateString(date.getString());
             csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJByCodeAndDate(code, dt));
         }
 
@@ -295,7 +296,7 @@ public class CodesAPI extends AbstractMetadataApi {
     public Response getActivities(
         @Parameter(required = true, description = "Code de l'activité", example="25.2") @QueryParam("code") String code,
         @Parameter(
-            description = "Date à laquelle l'activité est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)") @QueryParam("date") String date,
+            description = "Date à laquelle l'activité est valide (Format : 'AAAA-MM-JJ' ; '*' pour obtenir tout l'historique ; paramètre absent pour la date du jour)") @QueryParam("date") Date date,
         @Parameter(hidden = true) @HeaderParam("Accept") String header) {
 
         String csvResult = "";
@@ -307,10 +308,10 @@ public class CodesAPI extends AbstractMetadataApi {
             csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActivites(code));
         }
         else {
-            if ( ! DateUtils.isValidDate(date)) {
+            if ( ! DateUtils.isValidDate(date.getString())) {
                 return Response.status(Status.BAD_REQUEST).entity("").build();
             }
-            DateTime dt = DateUtils.getDateTimeFromDateString(date);
+            DateTime dt = DateUtils.getDateTimeFromDateString(date.getString());
             csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCodeAndDate(code, dt));
         }
 

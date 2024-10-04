@@ -17,6 +17,8 @@ import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Projections;
 import fr.insee.rmes.modeles.geo.territoires.Regions;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -68,9 +70,12 @@ public class RegionApi extends AbstractGeoApi {
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -78,7 +83,7 @@ public class RegionApi extends AbstractGeoApi {
                 .generateResponseATerritoireByCode(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getRegionByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getRegionByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     new Region(code));
         }
@@ -109,7 +114,7 @@ public class RegionApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les territoires inclus dans la région active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
@@ -119,9 +124,12 @@ public class RegionApi extends AbstractGeoApi {
                 description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
                 required = false,
                 schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
-                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
-
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -132,8 +140,8 @@ public class RegionApi extends AbstractGeoApi {
                             GeoQueries
                                 .getDescendantsRegion(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
-                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom))),
+                                    this.formatValidParameterDateIfIsNull(dateString),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
                     header,
                     Territoires.class,
                     Territoire.class);
@@ -159,9 +167,12 @@ public class RegionApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les régions actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -169,7 +180,7 @@ public class RegionApi extends AbstractGeoApi {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListRegions(this.formatValidParameterDateIfIsNull(date))),
+                        .executeSparqlQuery(GeoQueries.getListRegions(this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     Regions.class,
                     Region.class);
@@ -201,9 +212,12 @@ public class RegionApi extends AbstractGeoApi {
             description = "Filtre pour préciser la region de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -211,7 +225,7 @@ public class RegionApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getNextRegion(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getNextRegion(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     Regions.class,
                     Region.class);
@@ -243,9 +257,12 @@ public class RegionApi extends AbstractGeoApi {
             description = "Filtre pour préciser la region de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -253,7 +270,7 @@ public class RegionApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getPreviousRegion(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getPreviousRegion(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     Regions.class,
                     Region.class);
@@ -285,14 +302,21 @@ public class RegionApi extends AbstractGeoApi {
             description = "Filtre pour préciser la region de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = "Date vers laquelle est projetée la region. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+                value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        String dateProjectionString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if (dateProjection != null){
+            dateProjectionString = dateProjection.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjectionString) ) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -303,8 +327,8 @@ public class RegionApi extends AbstractGeoApi {
                             GeoQueries
                                 .getProjectionRegion(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
-                                    dateProjection)),
+                                    this.formatValidParameterDateIfIsNull(dateString),
+                                    dateProjectionString)),
                     header,
                     Regions.class,
                     Region.class);
@@ -331,14 +355,21 @@ public class RegionApi extends AbstractGeoApi {
             description = "Filtre pour préciser les régions de départ. Par défaut, c’est la date courante qui est utilisée.",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = "Date vers laquelle sont projetées les régions. Paramètre obligatoire (erreur 400 si absent)",
             required = true,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE_PROJECTION) String dateProjection) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection)) {
+                value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+        String dateString = null;
+        String dateProjectionString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if (dateProjection != null){
+            dateProjectionString = dateProjection.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjectionString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -347,7 +378,7 @@ public class RegionApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getAllProjectionRegion(this.formatValidParameterDateIfIsNull(date), dateProjection)),
+                                .getAllProjectionRegion(this.formatValidParameterDateIfIsNull(dateString), dateProjectionString)),
                     header);
         }
     }

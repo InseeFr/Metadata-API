@@ -11,6 +11,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 import fr.insee.rmes.modeles.geo.Country;
+import fr.insee.rmes.modeles.utils.Header;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,6 +51,7 @@ public class PaysApi extends AbstractGeoApi {
                 type = Constants.TYPE_STRING, example="99217")) @PathParam(Constants.CODE) String code,
         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
+        Header header2 = new Header(header);
         Country country = new Country(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCountry(code));
         country = (Country) csvUtils.populatePOJO(csvResult, country);
@@ -58,7 +60,7 @@ public class PaysApi extends AbstractGeoApi {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else {
-            return Response.ok(responseUtils.produceResponse(country, this.getFirstValidHeader(header))).build();
+            return Response.ok(responseUtils.produceResponse(country, this.getFirstValidHeader(header2.getString()))).build();
         }
     }
 }

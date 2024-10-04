@@ -15,6 +15,7 @@ import fr.insee.rmes.api.geo.ConstGeoApi;
 import fr.insee.rmes.modeles.geo.territoire.District;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,9 +68,12 @@ public class DistrictApi extends AbstractGeoApi {
 	            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
 	            required = false,
 	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) String date) {
-
-	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+	                value = Constants.PARAMETER_DATE) Date date) {
+			String dateString = null;
+			if (date != null){
+				dateString = date.getString();
+			}
+	        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
 	            return this.generateBadRequestResponse();
 	        }
 	        else {
@@ -77,7 +81,7 @@ public class DistrictApi extends AbstractGeoApi {
 	                .generateResponseATerritoireByCode(
 	                    sparqlUtils
 	                        .executeSparqlQuery(
-	                            GeoQueries.getDistrictByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+	                            GeoQueries.getDistrictByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
 	                    header,
 	                    new District(code));
 	        }
@@ -108,14 +112,17 @@ public class DistrictApi extends AbstractGeoApi {
 	            description = "Filtre pour renvoyer les territoires contenant le district actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
 	            required = false,
 	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) String date,
+	                value = Constants.PARAMETER_DATE) Date date,
 	        @Parameter(
 	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
 	            required = false,
 	            schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
 	                value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+			String dateString = null;
+			if (date != null){
+				dateString = date.getString();
+			}
+	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
 	            return this.generateBadRequestResponse();
 	        }
 	        else {
@@ -126,7 +133,7 @@ public class DistrictApi extends AbstractGeoApi {
 	                            GeoQueries
 	                                .getAscendantsDistrict(
 	                                    code,
-	                                    this.formatValidParameterDateIfIsNull(date),
+	                                    this.formatValidParameterDateIfIsNull(dateString),
 	                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
 	                    header,
 	                    Territoires.class,

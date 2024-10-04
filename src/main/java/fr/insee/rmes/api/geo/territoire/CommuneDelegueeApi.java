@@ -17,6 +17,7 @@ import fr.insee.rmes.modeles.geo.territoire.CommuneDeleguee;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.CommunesDeleguees;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,9 +67,12 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -77,7 +81,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
                     sparqlUtils
                         .executeSparqlQuery(
                             GeoQueries
-                                .getCommuneDelegueeByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                                .getCommuneDelegueeByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     new CommuneDeleguee(code));
         }
@@ -108,14 +112,17 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les territoires contenant la commune déléguée active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -126,7 +133,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
                             GeoQueries
                                 .getAscendantsCommuneDeleguee(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParameterDateIfIsNull(dateString),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                     header,
                     Territoires.class,
@@ -153,9 +160,12 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
             description = "Filtre pour renvoyer les communes déléguées actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if ( ! this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -164,7 +174,7 @@ public class CommuneDelegueeApi extends AbstractGeoApi {
                 .generateResponseListOfTerritoire(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getListCommunesDeleguees(this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getListCommunesDeleguees(this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     CommunesDeleguees.class,
                     CommuneDeleguee.class);

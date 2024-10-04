@@ -1,6 +1,7 @@
 package fr.insee.rmes.api.geo.pseudointegrationtest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.modeles.utils.Date;
 import org.junit.jupiter.api.Assertions;
 import org.opentest4j.AssertionFailedError;
 import org.xml.sax.SAXException;
@@ -846,7 +847,7 @@ public class ConstantForIntegration {
     }
 
     public interface GetWithCodeAndDate {
-        Response get(String code, String mediaType, String date);
+        Response get(String code, String mediaType, Date date);
     }
 
 

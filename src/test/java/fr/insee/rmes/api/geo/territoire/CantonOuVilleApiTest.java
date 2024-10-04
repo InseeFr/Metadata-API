@@ -3,6 +3,7 @@ package fr.insee.rmes.api.geo.territoire;
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration.GetWithCodeAndDate;
 import fr.insee.rmes.modeles.geo.territoire.CantonOuVille;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.ResponseUtils;
 import fr.insee.rmes.utils.SparqlUtils;
@@ -43,12 +44,18 @@ class CantonOuVilleApiTest extends AbstractApiTest {
         geoApi = new CantonOuVilleApi(mockSparqlUtils, mockCSVUtils, mockResponseUtils);
     }
 
-
     public Stream<Arguments> getWithCodeAndDatefactory() {
         Stream<GetWithCodeAndDate> gets = Stream.of(geoApi::getByCode, geoApi::getSuivant, geoApi::getPrecedent);
         var intermediare = merge(gets, List.of(APPLICATION_XML, APPLICATION_JSON), Pair::of);
-        return merge(intermediare, Arrays.asList(null, "1982-07-19"), (pair, d) -> Arguments.of(pair.getLeft(), pair.getRight(), d));
+        return merge(intermediare, Arrays.asList(null, new Date("1982-07-19"), new Date("nimportequoi")), (pair, d) -> Arguments.of(pair.getLeft(), pair.getRight(), d));
     }
+
+    public Stream<Arguments> getWithCodeAndDatefactoryWithOnlyGoodDate() {
+        Stream<GetWithCodeAndDate> gets = Stream.of(geoApi::getByCode, geoApi::getSuivant, geoApi::getPrecedent);
+        var intermediare = merge(gets, List.of(APPLICATION_XML, APPLICATION_JSON), Pair::of);
+        return merge(intermediare, Arrays.asList(null, new Date("1982-07-19")), (pair, d) -> Arguments.of(pair.getLeft(), pair.getRight(), d));
+    }
+
     @BeforeEach
     void resetSomeMocks(){
         Mockito.reset(super.mockResponseUtils);
@@ -58,7 +65,7 @@ class CantonOuVilleApiTest extends AbstractApiTest {
 
     @ParameterizedTest
     @MethodSource("getWithCodeAndDatefactory")
-    void givenAllGetsWithCodeAndDate_whenIncorrectCode_thenResponseIsKo(GetWithCodeAndDate getWithCodeAndDate, String mediaType, String date) {
+    void givenAllGetsWithCodeAndDate_whenIncorrectCode_thenResponseIsKo(GetWithCodeAndDate getWithCodeAndDate, String mediaType, Date date) {
         // Call method
         String codeCantonIncorrect = "something";
         // pour précédent ? list.add(new CantonOuVille());
@@ -68,8 +75,8 @@ class CantonOuVilleApiTest extends AbstractApiTest {
     }
 
     @ParameterizedTest
-    @MethodSource("getWithCodeAndDatefactory")
-    void givenAllGetsWithCodeAndDate_whenCorrectRequest_thenResponseIsOk(GetWithCodeAndDate getWithCodeAndDate, String mediaType, String date) {
+    @MethodSource("getWithCodeAndDatefactoryWithOnlyGoodDate")
+    void givenAllGetsWithCodeAndDate_whenCorrectRequest_thenResponseIsOk(GetWithCodeAndDate getWithCodeAndDate, String mediaType, Date date) {
 
         // Mock methods
         cantonOuVille.setUri("something");
@@ -77,15 +84,15 @@ class CantonOuVilleApiTest extends AbstractApiTest {
         // pour précédent ? list.add(new CantonOuVille());
         this.mockUtilsMethodsThenReturnOnePojo(cantonOuVille, Boolean.TRUE);
 
-        getWithCodeAndDate.get(codeCantonOuVilleCorrect, mediaType, date);
-
+        var response = getWithCodeAndDate.get(codeCantonOuVilleCorrect, mediaType, date);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
 
     @ParameterizedTest
-    @MethodSource("getWithCodeAndDatefactory")
-    void givenAllGetsWithCodeAndDate_WhenCorrectRequest_thenResponseIsNotFound(GetWithCodeAndDate getWithCodeAndDate, String mediaType, String date) {
+    @MethodSource("getWithCodeAndDatefactoryWithOnlyGoodDate")
+    void givenAllGetsWithCodeAndDate_WhenCorrectRequest_thenResponseIsNotFound(GetWithCodeAndDate getWithCodeAndDate, String mediaType, Date date) {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnOnePojo(cantonOuVille, Boolean.FALSE);
@@ -95,15 +102,19 @@ class CantonOuVilleApiTest extends AbstractApiTest {
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
 
+
+
     public Stream<Arguments> getWithCodeAndDatefactoryBadDate() {
         Stream<GetWithCodeAndDate> gets = Stream.of(geoApi::getByCode, geoApi::getSuivant, geoApi::getPrecedent);
         var intermediare = merge(gets, List.of(APPLICATION_XML, APPLICATION_JSON), Pair::of);
         return merge(intermediare, List.of("mauvaiseDate"), (pair, d) -> Arguments.of(pair.getLeft(), pair.getRight(), d));
     }
 
+
+
     @ParameterizedTest
     @MethodSource("getWithCodeAndDatefactoryBadDate")
-    void givenAllGetsWithCodeAndDate_WhenCorrectRequest_thenParameterDateIsBad(GetWithCodeAndDate getWithCodeAndDate, String mediaType, String date) {
+    void givenAllGetsWithCodeAndDate_WhenCorrectRequest_thenParameterDateIsBad(GetWithCodeAndDate getWithCodeAndDate, String mediaType, Date date) {
 
         // Call method header content = xml
         Response response = getWithCodeAndDate.get(codeCantonOuVilleCorrect, mediaType, date);
@@ -164,14 +175,14 @@ class CantonOuVilleApiTest extends AbstractApiTest {
 
     public Stream<Arguments> callsWithBadParameters() {
         return Stream.of(
-                Arguments.of("getListeWithBadDate", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, "nimportequoi")),
-                Arguments.of("getDescendantsWithBadDate", (Supplier<Response>) () -> geoApi.getDescendants(codeCantonOuVilleCorrect, APPLICATION_XML, "nimportequoi", null, null)),
+                Arguments.of("getListeWithBadDate", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, new Date("nimportequoi"))),
+                Arguments.of("getDescendantsWithBadDate", (Supplier<Response>) () -> geoApi.getDescendants(codeCantonOuVilleCorrect, APPLICATION_XML, new Date("nimportequoi"), null, null)),
                 Arguments.of("getDescendantsWithBadTerritory", (Supplier<Response>) () -> geoApi.getDescendants(codeCantonOuVilleCorrect, APPLICATION_XML, null, "unTypeQuelconque", null)),
-                Arguments.of("getAscendantsWithBadDate", (Supplier<Response>) () -> geoApi.getAscendants(codeCantonOuVilleCorrect, APPLICATION_XML, "nimportequoi", null)),
+                Arguments.of("getAscendantsWithBadDate", (Supplier<Response>) () -> geoApi.getAscendants(codeCantonOuVilleCorrect, APPLICATION_XML, new Date("nimportequoi"), null)),
                 Arguments.of("getAscendantsWithBadTerritory", (Supplier<Response>) () -> geoApi.getAscendants(codeCantonOuVilleCorrect, APPLICATION_XML, null, "unTypeQuelconque")),
-                Arguments.of("getProjectionWithBadDate", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, "nimportequoi", "2019-01-01")),
-                Arguments.of("getProjectionWithTwoBadDates", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, "nimportequoi", "nimportequoi")),
-                Arguments.of("getDescendantsWithBadDateAndNull", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, "nimportequoi", null))
+                Arguments.of("getProjectionWithBadDate", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, new Date("2010-01-01"), new Date("nimportequoi"))),
+                Arguments.of("getProjectionWithTwoBadDates", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, new Date("nimportequoi"), new Date("nimportequoi"))),
+                Arguments.of("getDescendantsWithBadDateAndNull", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, new Date("nimportequoi"), null))
         );
     }
 
@@ -180,26 +191,26 @@ class CantonOuVilleApiTest extends AbstractApiTest {
                 Arguments.of("getListeWithBadHeader", (Supplier<Response>) () -> geoApi.getListe(TEXT_PLAIN, null)),
                 Arguments.of("getDescendantsWithBadHeader", (Supplier<Response>) () -> geoApi.getDescendants(codeCantonOuVilleCorrect, TEXT_PLAIN,  null, null, null)),
                 Arguments.of("getAscendantsWithBadHeader", (Supplier<Response>) () -> geoApi.getAscendants(codeCantonOuVilleCorrect, TEXT_PLAIN, null, null)),
-                Arguments.of("getProjectionWithBadHeader", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, TEXT_PLAIN, null, "2019-01-01"))
+                Arguments.of("getProjectionWithBadHeader", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, TEXT_PLAIN, null, new Date("2010-01-01")))
         );
     }
 
     public Stream<Arguments> callsWithCorrectRequest() {
         return Stream.of(
-                Arguments.of("getProjection_JSON_null_date_projection", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_JSON, null, "2019-01-01")),
-                Arguments.of("getProjection_XML_null_date_projection", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, null, "2019-01-01")),
-                Arguments.of("getProjection_XML_noDateNull", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, "2000-01-01", "2019-01-01")),
+                Arguments.of("getProjection_JSON_null_date_projection", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_JSON, null, new Date("2010-01-01"))),
+                Arguments.of("getProjection_XML_null_date_projection", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, null, new Date("2010-01-01"))),
+                Arguments.of("getProjection_XML_noDateNull", (Supplier<Response>) () -> geoApi.getProjection(codeCantonOuVilleCorrect, APPLICATION_XML, new Date("2010-01-01"), new Date("2010-01-01"))),
                 Arguments.of("getListe_JSON_noDate", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_JSON, null)),
                 Arguments.of("getListe_XML_noDate", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, null)),
-                Arguments.of("getListe_XML_date", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, "2000-01-01")),
-                Arguments.of("getListe_dateStar", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_JSON, "*")),
+                Arguments.of("getListe_XML_date", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, new Date("2010-01-01"))),
+                Arguments.of("getListe_dateStar", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_JSON, new Date("*"))),
                 Arguments.of("getDescendants_JSON", (Supplier<Response>) () -> geoApi.getDescendants(codeCantonOuVilleCorrect, APPLICATION_JSON, null, null, null)),
                 Arguments.of("getDescendants_XML", (Supplier<Response>) () -> geoApi.getDescendants(codeCantonOuVilleCorrect, APPLICATION_XML, null, null, null)),
-                Arguments.of("getDescendants_XML_date", (Supplier<Response>) () -> geoApi.getDescendants(codeCantonOuVilleCorrect, APPLICATION_XML, "2000-01-01", null, null)),
+                Arguments.of("getDescendants_XML_date", (Supplier<Response>) () -> geoApi.getDescendants(codeCantonOuVilleCorrect, APPLICATION_XML, new Date("2010-01-01"), null, null)),
                 Arguments.of("getDescendants_XML_Territory", (Supplier<Response>) () -> geoApi.getDescendants(codeCantonOuVilleCorrect, APPLICATION_XML, null, "CantonOuVille", null)),
                 Arguments.of("getAscendants_JSON", (Supplier<Response>) () -> geoApi.getAscendants(codeCantonOuVilleCorrect, APPLICATION_JSON, null, null)),
                 Arguments.of("getAscendants_XML", (Supplier<Response>) () -> geoApi.getAscendants(codeCantonOuVilleCorrect, APPLICATION_XML, null, null)),
-                Arguments.of("getAscendants_XML_date", (Supplier<Response>) () -> geoApi.getAscendants(codeCantonOuVilleCorrect, APPLICATION_XML, "2000-01-01", null)),
+                Arguments.of("getAscendants_XML_date", (Supplier<Response>) () -> geoApi.getAscendants(codeCantonOuVilleCorrect, APPLICATION_XML, new Date("2010-01-01"), null)),
                 Arguments.of("getAscendants_XML_territory", (Supplier<Response>) () -> geoApi.getAscendants(codeCantonOuVilleCorrect, APPLICATION_XML, null, "CantonOuVille"))
         );
     }

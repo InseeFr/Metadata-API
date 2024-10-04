@@ -5,6 +5,7 @@ import fr.insee.rmes.api.geo.pseudointegrationtest.ConstantForIntegration;
 import fr.insee.rmes.modeles.geo.territoire.Canton;
 import fr.insee.rmes.modeles.geo.territoire.CodeIris;
 import fr.insee.rmes.modeles.geo.territoire.Iris;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.utils.CSVUtils;
 import fr.insee.rmes.utils.IrisUtils;
 import fr.insee.rmes.utils.ResponseUtils;
@@ -87,10 +88,11 @@ class IrisApiTest extends AbstractApiTest {
 
     private final String codeIrisCorrect="010040101";
 
+
     public Stream<Arguments> getWithCodeAndDatefactory() {
         Stream<ConstantForIntegration.GetWithCodeAndDate> gets = Stream.of(geoApiSansMock::getByCode);
         var intermediaire= merge(gets, List.of(APPLICATION_XML, APPLICATION_JSON), Pair::of );
-        return merge(intermediaire, Arrays.asList(null, "mauvaiseDate", "1982-07-19"), (pair, d)->Arguments.of(pair.getLeft(), pair.getRight(), d));
+        return merge(intermediaire, Arrays.asList(null, new Date("mauvaiseDate"), new Date("1982-07-19")), (pair, d)->Arguments.of(pair.getLeft(), pair.getRight(), d));
     }
 
     @BeforeEach
@@ -102,7 +104,7 @@ class IrisApiTest extends AbstractApiTest {
 
      @ParameterizedTest
     @MethodSource("getWithCodeAndDatefactory")
-    void givenAllGetsIrisWithCodeAndDate_whenIncorrectCode_thenResponseIsKo(ConstantForIntegration.GetWithCodeAndDate getWithCodeAndDate, String mediaType, String date) {
+    void givenAllGetsIrisWithCodeAndDate_whenIncorrectCode_thenResponseIsKo(ConstantForIntegration.GetWithCodeAndDate getWithCodeAndDate, String mediaType, Date date) {
 
         // Call method
         String codeIrisIncorrect = "something";
@@ -116,7 +118,7 @@ class IrisApiTest extends AbstractApiTest {
     void givenGetIris_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getByCode(codeIrisCorrect, APPLICATION_XML, "nimportequoi");
+        Response response = geoApi.getByCode(codeIrisCorrect, APPLICATION_XML, new Date("nimportequoi"));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -213,7 +215,6 @@ class IrisApiTest extends AbstractApiTest {
     @ParameterizedTest
     @ValueSource(strings = {"2000-01-01", "*"})
     @NullSource
-        //default = current day
     void givenGetListeIris_WhenCorrectRequest_thenParameterDateIsRight(String date) {
 
         // Mock methods
@@ -221,7 +222,7 @@ class IrisApiTest extends AbstractApiTest {
         list.add(new Iris());
 
         // Call method header content = xml
-        geoApi.getListe(APPLICATION_XML, date,true);
+        geoApi.getListe(APPLICATION_XML, new Date(date),true);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -229,7 +230,7 @@ class IrisApiTest extends AbstractApiTest {
     void givenGetListeIris_WhenCorrectRequest_thenParameterDateIsBad() {
 
         // Call method header content = xml
-        Response response = geoApi.getListe(APPLICATION_XML, "nimportequoi",true);
+        Response response = geoApi.getListe(APPLICATION_XML, new Date("nimportequoi"),true);
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
@@ -259,7 +260,7 @@ class IrisApiTest extends AbstractApiTest {
         list.add(new Canton());
 
         // Call method
-        geoApi.getAscendants(codeIrisCorrect, mediaType, date, typeTerritoire);
+        geoApi.getAscendants(codeIrisCorrect, mediaType, new Date(date), typeTerritoire);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }
 
@@ -290,13 +291,13 @@ class IrisApiTest extends AbstractApiTest {
     void givenGetIrisAscendants_WhenCorrectRequest_WithBadParameter(String mediaType, String date, String typeTerritoire) {
 
         // Call method header content = xml
-        Response response = geoApi.getAscendants(codeIrisCorrect,mediaType, date, typeTerritoire);
+        Response response = geoApi.getAscendants(codeIrisCorrect,mediaType, new Date(date), typeTerritoire);
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
     public Stream<Arguments> callsWithBadParameters() {
         return Stream.of(
-                Arguments.of("getListeWithBadDate", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, "nimportequoi",null)),
-                Arguments.of("getAscendantsWithBadDate", (Supplier<Response>) () -> geoApi.getAscendants(codeIrisCorrect, APPLICATION_XML, "nimportequoi", null)),
+                Arguments.of("getListeWithBadDate", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, new Date("nimportequoi"),null)),
+                Arguments.of("getAscendantsWithBadDate", (Supplier<Response>) () -> geoApi.getAscendants(codeIrisCorrect, APPLICATION_XML, new Date("nimportequoi"), null)),
                 Arguments.of("getAscendantsWithBadTerritory", (Supplier<Response>) () -> geoApi.getAscendants(codeIrisCorrect, APPLICATION_XML, null, "unTypeQuelconque"))
         );
     }
@@ -312,8 +313,8 @@ class IrisApiTest extends AbstractApiTest {
         return Stream.of(
                 Arguments.of("getListe_JSON_noDate", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_JSON, null,true)),
                 Arguments.of("getListe_XML_noDate", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, null,true)),
-                Arguments.of("getListe_XML_date", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, "2000-01-01",true)),
-                Arguments.of("getListe_dateStar", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_JSON, "*",true))
+                Arguments.of("getListe_XML_date", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_XML, new Date("2000-01-01"),true)),
+                Arguments.of("getListe_dateStar", (Supplier<Response>) () -> geoApi.getListe(APPLICATION_JSON, new Date("*"),true))
         );
     }
 

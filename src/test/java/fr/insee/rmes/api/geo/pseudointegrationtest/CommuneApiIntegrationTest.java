@@ -1,6 +1,7 @@
 package fr.insee.rmes.api.geo.pseudointegrationtest;
 
 import fr.insee.rmes.api.geo.territoire.CommuneApi;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.utils.SparqlUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -126,7 +127,7 @@ class CommuneApiIntegrationTest {
     void givengetSuivantsCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_SUIVANTS);
-        Response response = geoApi.getSuivant(CODE_SUIVANT, MediaType.APPLICATION_JSON, "1973-01-01");
+        Response response = geoApi.getSuivant(CODE_SUIVANT, MediaType.APPLICATION_JSON, new Date("1973-01-01"));
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEqualsJson(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_SUIVANTS_JSON, response.getEntity());
     }
@@ -135,7 +136,7 @@ class CommuneApiIntegrationTest {
     void givengetSuivantsCommunes_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_PRECEDENTS);
-        Response response = geoApi.getSuivant(CODE_SUIVANT, MediaType.APPLICATION_XML, "1973-01-01");
+        Response response = geoApi.getSuivant(CODE_SUIVANT, MediaType.APPLICATION_XML, new Date("1973-01-01"));
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEqualsXml(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_PRECEDENTS_XML, response.getEntity());
     }
