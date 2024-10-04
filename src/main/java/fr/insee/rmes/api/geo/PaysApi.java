@@ -49,8 +49,9 @@ public class PaysApi extends AbstractGeoApi {
             schema = @Schema(
                 pattern = ConstGeoApi.PATTERN_PAYS,
                 type = Constants.TYPE_STRING, example="99217")) @PathParam(Constants.CODE) String code,
-        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) Header header) {
+        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header) {
 
+        Header header2 = new Header(header);
         Country country = new Country(code);
         String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCountry(code));
         country = (Country) csvUtils.populatePOJO(csvResult, country);
@@ -59,7 +60,7 @@ public class PaysApi extends AbstractGeoApi {
             return Response.status(Status.NOT_FOUND).entity("").build();
         }
         else {
-            return Response.ok(responseUtils.produceResponse(country, this.getFirstValidHeader(header.getString()))).build();
+            return Response.ok(responseUtils.produceResponse(country, this.getFirstValidHeader(header2.getString()))).build();
         }
     }
 }
