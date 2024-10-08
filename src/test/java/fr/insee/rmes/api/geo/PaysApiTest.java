@@ -1,5 +1,6 @@
 package fr.insee.rmes.api.geo;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
 import fr.insee.rmes.modeles.geo.Country;
+import fr.insee.rmes.modeles.utils.Header;
 
 @ExtendWith(MockitoExtension.class)
 class PaysApiTest extends AbstractApiTest {
@@ -26,7 +28,11 @@ class PaysApiTest extends AbstractApiTest {
 
     private Country country = new Country();
 
-    @Test
+    private Header headerJSON = new Header(MediaType.APPLICATION_JSON);
+    private Header headerXML = new Header( MediaType.APPLICATION_XML);
+
+
+/*    @Test
     void givenGetCountry_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
 
         // Call method
@@ -34,11 +40,19 @@ class PaysApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
 
         // Call method
-        geoApi.getByCode("something", MediaType.APPLICATION_JSON);
+        geoApi.getByCode("something",headerJSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }
+    }*/
+@Test
+void givenGetCountry_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+    country.setUri("http://id.insee.fr/geo/pays/99217");
+    this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
+    Response response = geoApi.getByCode("99217", headerJSON);
+    assertEquals(Status.OK.getStatusCode(), response.getStatus());
+    verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+}
 
-    @Test
+/*    @Test
     void givenGetCountry_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
 
         // Call method
@@ -46,25 +60,41 @@ class PaysApiTest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
 
         // Mock methods
-        geoApi.getByCode("something", MediaType.APPLICATION_XML);
+        geoApi.getByCode("something",headerXML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }
-
-    @Test
+    }*/
+@Test
+void givenGetCountry_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+    country.setUri("http://id.insee.fr/geo/pays/99217");
+    this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
+    Response response = geoApi.getByCode("99217", headerXML);
+    assertEquals(Status.OK.getStatusCode(), response.getStatus());
+    verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+}
+/*    @Test
     void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.FALSE);
 
         // Call method header content = xml
-        Response response = geoApi.getByCode("something", MediaType.APPLICATION_XML);
-        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+        Response response = geoApi.getByCode("something", headerXML);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         // Call method header content = json
-        response = geoApi.getByCode("something", MediaType.APPLICATION_JSON);
-        Assertions.assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+        response = geoApi.getByCode("something", headerJSON);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
-    }
+    }*/
+@Test
+void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
+    this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.FALSE);
+    Response response = geoApi.getByCode("99217", headerXML);
+    assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+    response = geoApi.getByCode("99217", headerJSON);
+    assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+    verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+}
 
 }

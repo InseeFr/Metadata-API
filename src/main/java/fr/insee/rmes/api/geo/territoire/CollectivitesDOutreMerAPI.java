@@ -17,6 +17,8 @@ import fr.insee.rmes.modeles.geo.territoire.Commune;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.CollectivitesDOutreMer;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,17 +67,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	            description = "Filtre pour renvoyer les collectivités d'outre-mer actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
 	            required = false,
 	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) String date)
-	   
+	                value = Constants.PARAMETER_DATE) Date date)
         {
-
-       if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+		String dateString = null;
+		if (date != null){
+			dateString = date.getString();
+		}
+       if ( ! this.verifyParameterDateIsRightWithHistory(dateString)) {
            return this.generateBadRequestResponse();
        }
        else {
            return this
                .generateResponseListOfTerritoire(
-                   sparqlUtils.executeSparqlQuery(GeoQueries.getListCollectivitesDOutreMer(this.formatValidParameterDateIfIsNull(date))),
+                   sparqlUtils.executeSparqlQuery(GeoQueries.getListCollectivitesDOutreMer(this.formatValidParameterDateIfIsNull(dateString))),
                    header,
                    CollectivitesDOutreMer.class,
                    CollectiviteDOutreMer.class );
@@ -108,9 +112,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
 	            required = false,
 	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) String date) {
-
-	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+	                value = Constants.PARAMETER_DATE) Date date) {
+			String dateString = null;
+			if (date != null){
+				dateString = date.getString();
+			}
+	        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
 	            return this.generateBadRequestResponse();
 	        }
 	        else {
@@ -118,7 +125,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	                .generateResponseATerritoireByCode(
 	                    sparqlUtils
 	                        .executeSparqlQuery(
-	                            GeoQueries.getCollectiviteDOutreMerByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+	                            GeoQueries.getCollectiviteDOutreMerByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
 	                    header,
 	                    new CollectiviteDOutreMer(code));
 	        }
@@ -138,7 +145,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
-	    public Response getDescendants(
+/*	    public Response getDescendants(
 	        @Parameter(
 	            description = "code de la collectivité d'outre-mer (3 caractères)",
 	            required = true,
@@ -150,7 +157,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	            description ="Filtre pour renvoyer les territoires inclus dans la collectivité d'outre-mer active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
 	            required = false,
 	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) String date,
+	                value = Constants.PARAMETER_DATE) Date date,
 	        @Parameter(
 	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION+ "(Commune ou District)",
 	            required = false,
@@ -160,19 +167,55 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	                description = "Filtre sur le nom du ou des territoires renvoyés",
 	                required = false,
 	                schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
-	                    value = Constants.PARAMETER_FILTRE) String filtreNom) {
-
-	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+	                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom) {
+			String dateString = null;
+			if (date != null){
+				dateString = date.getString();
+			}
+	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
 	            return this.generateBadRequestResponse();
 	        }
 			else {
 				return this.generateResponseListOfTerritoire(
 						sparqlUtils.executeSparqlQuery(GeoQueries.getDescendantsCollectiviteDOutreMer(code,
-								this.formatValidParameterDateIfIsNull(date),
+								this.formatValidParameterDateIfIsNull(dateString),
 								this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),
-								this.formatValidParameterFiltreIfIsNull(filtreNom))),
+								this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
 						header, Territoires.class, Territoire.class);
 			}
-	    }
+	    }*/
+		public Response getDescendants(
+				@PathParam(Constants.CODE) String code,
+				@HeaderParam(HttpHeaders.ACCEPT) String header,
+				@QueryParam(value = Constants.PARAMETER_DATE) Date date,
+				@QueryParam(value = Constants.PARAMETER_TYPE) String typeTerritoire,
+				@QueryParam(value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom) {
+
+			String dateString = null;
+			if (date != null) {
+				dateString = date.getString();
+			}
+
+			// Vérification que le paramètre filtreNom n'est pas null avant d'appeler getString()
+			String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
+
+			if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
+				return this.generateBadRequestResponse();
+			} else {
+				return this.generateResponseListOfTerritoire(
+						sparqlUtils.executeSparqlQuery(GeoQueries.getDescendantsCollectiviteDOutreMer(code,
+								this.formatValidParameterDateIfIsNull(dateString),
+								this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),
+								this.formatValidParameterFiltreIfIsNull(filtreNomString))),
+						header, Territoires.class, Territoire.class);
+			}
+		}
+
+		private String sanitizeFiltreNom(String filtreNom) {
+			if (filtreNom == null || filtreNom.isEmpty()) {
+				return null;
+			}
+			return filtreNom.replaceAll("[<>\"']", "");
+		}
 	    
 	}

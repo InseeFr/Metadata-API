@@ -7,6 +7,7 @@ import fr.insee.rmes.modeles.geo.territoire.Iris;
 import fr.insee.rmes.modeles.geo.territoire.PseudoIris;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,20 +72,23 @@ public class IrisApi extends AbstractGeoApi {
             @Parameter(
                     description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date) {
-
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
         var codeIris = CodeIris.of(code);
         if (codeIris.isInvalid()) {
             return generateBadRequestResponse(ConstGeoApi.ERREUR_PATTERN);
         }
-        if (!this.verifyParameterDateIsRightWithoutHistory(date)) {
+        if (!this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
 
         return getResponseForIrisOrPseudoIris(codeIris, header, date);
     }
 
-    private Response getResponseForIrisOrPseudoIris(CodeIris codeIris, String header, String date) {
+    private Response getResponseForIrisOrPseudoIris(CodeIris codeIris, String header, Date date) {
         if (irisUtils.hasIrisDescendant(codeIris.codeCommune())) {
             return getResponseForIris(codeIris, header, date);
         } else {
@@ -93,11 +97,15 @@ public class IrisApi extends AbstractGeoApi {
 
     }
 
-    private Response getResponseForPseudoIris(CodeIris codeIris, String header, String date) {
+    private Response getResponseForPseudoIris(CodeIris codeIris, String header, Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
         if (codeIris.isPseudoIrisCode()) {
             return this.generateResponseATerritoireByCode(
                     sparqlUtils.executeSparqlQuery(
-                            GeoQueries.getIrisByCodeAndDate(codeIris.code(), this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getIrisByCodeAndDate(codeIris.code(), this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     new PseudoIris(codeIris.code()));
         } else {
@@ -105,14 +113,18 @@ public class IrisApi extends AbstractGeoApi {
         }
     }
 
-    private Response getResponseForIris(CodeIris codeIris, String header, String date) {
+    private Response getResponseForIris(CodeIris codeIris, String header, Date date) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
         if (codeIris.isPseudoIrisCode()) {
             return Response.status(Response.Status.NOT_FOUND).entity("").build();
         } else {
             Territoire territoire = new Iris(codeIris.code());
             return this.generateResponseATerritoireByCode(
                     sparqlUtils.executeSparqlQuery(
-                            GeoQueries.getIrisByCodeAndDate(codeIris.code(), this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getIrisByCodeAndDate(codeIris.code(), this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     territoire);
         }
@@ -137,21 +149,24 @@ public class IrisApi extends AbstractGeoApi {
             @Parameter(
                     description = "Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date,
+                    value = Constants.PARAMETER_DATE) Date date,
             @Parameter(description = "les Iris (et pseudo-iris) des collectivités d'outre-mer",
                     required = true,
                     schema = @Schema(type = Constants.TYPE_BOOLEAN, allowableValues = {"true", "false"}, example = "false", defaultValue = "false"))
             @QueryParam(
                     value = Constants.PARAMETER_STRING) Boolean com
     ) {
-
-        if (!this.verifyParameterDateIsRightWithHistory(date)) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if (!this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         } else {
             return this
                     .generateResponseListOfTerritoire(
                             sparqlUtils
-                                    .executeSparqlQuery(GeoQueries.getListIris(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterBooleanIfIsNull(com))),
+                                    .executeSparqlQuery(GeoQueries.getListIris(this.formatValidParameterDateIfIsNull(dateString), this.formatValidParameterBooleanIfIsNull(com))),
                             header,
                             Territoires.class,
                             Territoire.class);
@@ -183,13 +198,16 @@ public class IrisApi extends AbstractGeoApi {
             @Parameter(
                     description = "Filtre pour renvoyer les territoires contenant l'iris actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
                     schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                    value = Constants.PARAMETER_DATE) String date,
+                    value = Constants.PARAMETER_DATE) Date date,
             @Parameter(
                     description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
                     schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                     value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        String dateString = null;
+        if (date != null){
+            dateString = date.getString();
+        }
+        if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         } else {
             return this
@@ -199,7 +217,7 @@ public class IrisApi extends AbstractGeoApi {
                                             GeoQueries
                                                     .getAscendantsIris(
                                                             code,
-                                                            this.formatValidParameterDateIfIsNull(date),
+                                                            this.formatValidParameterDateIfIsNull(dateString),
                                                             this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                             header,
                             Territoires.class,

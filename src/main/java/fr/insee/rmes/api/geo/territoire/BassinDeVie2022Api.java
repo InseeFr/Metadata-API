@@ -16,6 +16,8 @@ import fr.insee.rmes.modeles.geo.territoire.BassinDeVie2022;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.BassinsDeVie2022;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,9 +69,9 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
             description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
+                value = Constants.PARAMETER_DATE) Date date) {
 
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(date.getString())) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -77,51 +79,63 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
                 .generateResponseATerritoireByCode(
                     sparqlUtils
                         .executeSparqlQuery(
-                            GeoQueries.getBassinDeVie2022ByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+                            GeoQueries.getBassinDeVie2022ByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date.getString()))),
                     header,
                     new BassinDeVie2022(code));
         }
     }
-    
+
     @Path(ConstGeoApi.PATH_LISTE_BASSINDEVIE)
     @GET
     @Produces({
-        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+            MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
-        summary = "Informations sur tous les bassins de vie actifs à la date donnée. Par défaut, c’est la date courante.",
-        responses = {
-            @ApiResponse(
-                content = @Content(schema = @Schema(type = ARRAY, implementation = BassinDeVie2022.class)),
-                description = LITTERAL_RESPONSE_DESCRIPTION)
-        })
+            operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
+            summary = "Informations sur tous les bassins de vie actifs à la date donnée. Par défaut, c’est la date courante.",
+            responses = {
+                    @ApiResponse(
+                            content = @Content(schema = @Schema(type = ARRAY, implementation = BassinDeVie2022.class)),
+                            description = LITTERAL_RESPONSE_DESCRIPTION)
+            })
     public Response getListe(
-        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-        @Parameter(
-            description = "Filtre pour renvoyer les bassins de vie à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
-            required = false,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
-        @Parameter(
-                description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
-                required = false,
-                schema = @Schema(type = Constants.TYPE_STRING, example="Ambérieu-en-Bugey")) @QueryParam(
-                    value = Constants.PARAMETER_FILTRE) String filtreNom)
-         {
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = "Filtre pour renvoyer les bassins de vie à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) Date date,
+            @Parameter(
+                    description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, example="Ambérieu-en-Bugey")) @QueryParam(
+                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom)
+    {
 
-        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+        // Validation de la date
+        if (date == null || !this.verifyParameterDateIsRightWithHistory(date.getString())) {
             return this.generateBadRequestResponse();
         }
-        else {
-            return this
+
+        // Validation et encodage du filtreNom
+        String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
+
+        return this
                 .generateResponseListOfTerritoire(
-                    sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListBassinsDeVie(this.formatValidParameterDateIfIsNull(date), this.formatValidParameterFiltreIfIsNull(filtreNom))),
-                    header,
-                    BassinsDeVie2022.class,
-                    BassinDeVie2022.class);
+                        sparqlUtils
+                                .executeSparqlQuery(GeoQueries.getListBassinsDeVie(this.formatValidParameterDateIfIsNull(date.getString()), this.formatValidParameterFiltreIfIsNull(filtreNomString))),
+                        header,
+                        BassinsDeVie2022.class,
+                        BassinDeVie2022.class);
+    }
+
+    // Méthode pour encoder et valider le filtreNom
+    private String sanitizeFiltreNom(String filtreNom) {
+        if (filtreNom == null || filtreNom.isEmpty()) {
+            return null;
         }
+        //on peut ajouter d'autres contrôles
+        return filtreNom.replaceAll("[<>\"]", "");
     }
     
     @Path(ConstGeoApi.PATH_BASSINDEVIE + CODE_PATTERN_BASSINDEVIE + ConstGeoApi.PATH_DESCENDANT)
@@ -149,14 +163,14 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
             description = "Filtre pour renvoyer les territoires inclus dans le bassin de vie actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, example="Commune")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date.getString())) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -167,7 +181,7 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
                             GeoQueries
                                 .getDescendantsBassinDeVie(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParameterDateIfIsNull(date.getString()),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                     header,
                     Territoires.class,

@@ -16,6 +16,7 @@ import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.AiresDAttractionDesVilles2020;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
+import fr.insee.rmes.modeles.utils.Date;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,9 +67,12 @@ public class AireAttractionApi  extends AbstractGeoApi {
 					description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
 					required = false,
 					schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-							value = Constants.PARAMETER_DATE) String date) {
-
-		if ( ! this.verifyParameterDateIsRightWithoutHistory(date)) {
+							value = Constants.PARAMETER_DATE) Date date) {
+		String dateString = null;
+		if (date !=null) {
+			dateString = date.getString();
+		}
+		if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
 			return this.generateBadRequestResponse();
 		}
 		else {
@@ -76,7 +80,7 @@ public class AireAttractionApi  extends AbstractGeoApi {
 					.generateResponseATerritoireByCode(
 							sparqlUtils
 							.executeSparqlQuery(
-									GeoQueries.getAireAttractionByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date))),
+									GeoQueries.getAireAttractionByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
 							header,
 							new AireDAttractionDesVilles2020(code));
 		}
@@ -107,14 +111,17 @@ public class AireAttractionApi  extends AbstractGeoApi {
             description = "Filtre pour renvoyer les territoires inclus dans l'aire d'attraction active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date,
+                value = Constants.PARAMETER_DATE) Date date,
         @Parameter(
             description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
                 value = Constants.PARAMETER_TYPE) String typeTerritoire) {
-
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date)) {
+		String dateString = null;
+		if (date !=null) {
+			dateString = date.getString();
+		}
+        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
@@ -125,7 +132,7 @@ public class AireAttractionApi  extends AbstractGeoApi {
                             GeoQueries
                                 .getDescendantsAireAttraction(
                                     code,
-                                    this.formatValidParameterDateIfIsNull(date),
+                                    this.formatValidParameterDateIfIsNull(dateString),
                                     this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
                     header,
                     Territoires.class,
@@ -153,16 +160,19 @@ public class AireAttractionApi  extends AbstractGeoApi {
             description = "Filtre pour renvoyer les aire d'attractions actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
             required = false,
             schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) String date) {
-
-        if ( ! this.verifyParameterDateIsRightWithHistory(date)) {
+                value = Constants.PARAMETER_DATE) Date date) {
+		String dateString = null;
+		if (date !=null) {
+			dateString = date.getString();
+		}
+        if ( ! this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
         else {
             return this
                 .generateResponseListOfTerritoire(
                     sparqlUtils
-                        .executeSparqlQuery(GeoQueries.getListAiresAttraction(this.formatValidParameterDateIfIsNull(date))),
+                        .executeSparqlQuery(GeoQueries.getListAiresAttraction(this.formatValidParameterDateIfIsNull(dateString))),
                     header,
                     AiresDAttractionDesVilles2020.class,
                     AireDAttractionDesVilles2020.class);

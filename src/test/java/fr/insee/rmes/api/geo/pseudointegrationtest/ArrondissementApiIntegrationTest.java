@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
+import fr.insee.rmes.modeles.utils.Date;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -127,7 +128,7 @@ class ArrondissementApiIntegrationTest {
     public void givengetSuivantsArrondissements_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_PRECEDENTS);
-        Response response = geoApi.getSuivant(CODE_SUIVANT, MediaType.APPLICATION_JSON, "1943-01-01");
+        Response response = geoApi.getSuivant(CODE_SUIVANT, MediaType.APPLICATION_JSON, new Date("1943-01-01"));
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_SUIVANTS_JSON, response.getEntity());
     }
@@ -136,7 +137,7 @@ class ArrondissementApiIntegrationTest {
     public void givengetSuivantsArrondissements_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MOCK_SERVER_RETURN_PRECEDENTS);
-        Response response = geoApi.getSuivant(CODE_SUIVANT, MediaType.APPLICATION_XML, "1943-01-01");
+        Response response = geoApi.getSuivant(CODE_SUIVANT, MediaType.APPLICATION_XML, new Date("1943-01-01"));
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.ARRONDISSEMENT_EXPECTED_RESPONSE_SUIVANTS_XML, response.getEntity());
     }

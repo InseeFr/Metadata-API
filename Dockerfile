@@ -1,3 +1,4 @@
+
 # Utiliser une image de base qui inclut Tomcat 10 et Java 17.
 FROM tomcat:10-jdk17-temurin
 
