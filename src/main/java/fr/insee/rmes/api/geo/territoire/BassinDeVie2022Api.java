@@ -58,31 +58,37 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getByCode(
-        @Parameter(
-            description = ConstGeoApi.PATTERN_BASSINDEVIE_DESCRIPTION,
-            required = true,
-            schema = @Schema(
-                pattern = ConstGeoApi.PATTERN_BASSINDEVIE,
-                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
-        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-        @Parameter(
-            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
-            required = false,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) Date date) {
+            @Parameter(
+                    description = ConstGeoApi.PATTERN_BASSINDEVIE_DESCRIPTION,
+                    required = true,
+                    schema = @Schema(
+                            pattern = ConstGeoApi.PATTERN_BASSINDEVIE,
+                            type = Constants.TYPE_STRING, example="01004")) @PathParam(Constants.CODE) String code,
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) Date date) {
 
-        if ( ! this.verifyParameterDateIsRightWithoutHistory(date.getString())) {
+        // Gérer la nullité de la date
+        String dateString = (date != null) ? date.getString() : null;
+
+        // Si la date est invalide ou nulle, retourner une réponse BAD_REQUEST
+        if (dateString != null && !this.verifyParameterDateIsRightWithoutHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
-        else {
-            return this
-                .generateResponseATerritoireByCode(
-                    sparqlUtils
-                        .executeSparqlQuery(
-                            GeoQueries.getBassinDeVie2022ByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date.getString()))),
-                    header,
-                    new BassinDeVie2022(code));
-        }
+
+        // Requête SPARQL avec la date correcte ou null
+        return this.generateResponseATerritoireByCode(
+                sparqlUtils.executeSparqlQuery(
+                        GeoQueries.getBassinDeVie2022ByCodeAndDate(
+                                code, this.formatValidParameterDateIfIsNull(dateString)
+                        )
+                ),
+                header,
+                new BassinDeVie2022(code)
+        );
     }
 
     @Path(ConstGeoApi.PATH_LISTE_BASSINDEVIE)
@@ -111,23 +117,31 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
                     schema = @Schema(type = Constants.TYPE_STRING, example="Ambérieu-en-Bugey")) @QueryParam(
                     value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom)
     {
+        // Gérer la nullité de la date
+        String dateString = (date != null) ? date.getString() : null;
 
-        // Validation de la date
-        if (date == null || !this.verifyParameterDateIsRightWithHistory(date.getString())) {
+        // Validation de la date si elle est fournie
+        if (dateString != null && !this.verifyParameterDateIsRightWithHistory(dateString)) {
             return this.generateBadRequestResponse();
         }
 
         // Validation et encodage du filtreNom
         String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
 
-        return this
-                .generateResponseListOfTerritoire(
-                        sparqlUtils
-                                .executeSparqlQuery(GeoQueries.getListBassinsDeVie(this.formatValidParameterDateIfIsNull(date.getString()), this.formatValidParameterFiltreIfIsNull(filtreNomString))),
-                        header,
-                        BassinsDeVie2022.class,
-                        BassinDeVie2022.class);
+        // Exécution de la requête SPARQL avec les paramètres validés
+        return this.generateResponseListOfTerritoire(
+                sparqlUtils.executeSparqlQuery(
+                        GeoQueries.getListBassinsDeVie(
+                                this.formatValidParameterDateIfIsNull(dateString),
+                                this.formatValidParameterFiltreIfIsNull(filtreNomString)
+                        )
+                ),
+                header,
+                BassinsDeVie2022.class,
+                BassinDeVie2022.class
+        );
     }
+
 
     // Méthode pour encoder et valider le filtreNom
     private String sanitizeFiltreNom(String filtreNom) {
@@ -152,41 +166,46 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getDescendants(
-        @Parameter(
-            description = ConstGeoApi.PATTERN_BASSINDEVIE_DESCRIPTION,
-            required = true,
-            schema = @Schema(
-                pattern = ConstGeoApi.PATTERN_BASSINDEVIE,
-                type = Constants.TYPE_STRING, example="35176")) @PathParam(Constants.CODE) String code,
-        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-        @Parameter(
-            description = "Filtre pour renvoyer les territoires inclus dans le bassin de vie actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
-            required = false,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) Date date,
-        @Parameter(
-            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
-            required = false,
-            schema = @Schema(type = Constants.TYPE_STRING, example="Commune")) @QueryParam(
-                value = Constants.PARAMETER_TYPE) String typeTerritoire) {
+            @Parameter(
+                    description = ConstGeoApi.PATTERN_BASSINDEVIE_DESCRIPTION,
+                    required = true,
+                    schema = @Schema(
+                            pattern = ConstGeoApi.PATTERN_BASSINDEVIE,
+                            type = Constants.TYPE_STRING, example="35176")) @PathParam(Constants.CODE) String code,
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = "Filtre pour renvoyer les territoires inclus dans le bassin de vie actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) Date date,
+            @Parameter(
+                    description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, example="Commune")) @QueryParam(
+                    value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date.getString())) {
+        // Gérer la nullité de la date
+        String dateString = (date != null) ? date.getString() : null;
+
+        // Validation de la date et du type de territoire
+        if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
-        else {
-            return this
+
+        // Exécution de la requête SPARQL
+        return this
                 .generateResponseListOfTerritoire(
-                    sparqlUtils
-                        .executeSparqlQuery(
-                            GeoQueries
-                                .getDescendantsBassinDeVie(
-                                    code,
-                                    this.formatValidParameterDateIfIsNull(date.getString()),
-                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-                    header,
-                    Territoires.class,
-                    Territoire.class);
-        }
+                        sparqlUtils.executeSparqlQuery(
+                                GeoQueries.getDescendantsBassinDeVie(
+                                        code,
+                                        this.formatValidParameterDateIfIsNull(dateString),
+                                        this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire)
+                                )
+                        ),
+                        header,
+                        Territoires.class,
+                        Territoire.class
+                );
     }
     
 }
