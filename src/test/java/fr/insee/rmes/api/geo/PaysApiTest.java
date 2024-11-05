@@ -9,7 +9,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
-import fr.insee.rmes.modeles.geo.Country;
+import fr.insee.rmes.modeles.geo.territoire.Country;
 import fr.insee.rmes.modeles.utils.Header;
 
 @ExtendWith(MockitoExtension.class)
