@@ -92,60 +92,70 @@ public class RegionApi extends AbstractGeoApi {
     @Path(ConstGeoApi.PATH_REGION + CODE_PATTERN + ConstGeoApi.PATH_DESCENDANT)
     @GET
     @Produces({
-        MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+            MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
     @Operation(
-        operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
-        summary = "Informations concernant les territoires inclus dans la région",
-        responses = {
-            @ApiResponse(
-                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
-                description = LITTERAL_RESPONSE_DESCRIPTION)
-        })
+            operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_DESCENDANTS,
+            summary = "Informations concernant les territoires inclus dans la région",
+            responses = {
+                    @ApiResponse(
+                            content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
+                            description = LITTERAL_RESPONSE_DESCRIPTION)
+            })
     public Response getDescendants(
-        @Parameter(
-            description = ConstGeoApi.PATTERN_REGION_DESCRIPTION,
-            required = true,
-            schema = @Schema(
-                pattern = ConstGeoApi.PATTERN_REGION,
-                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
-        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-        @Parameter(
-            description = "Filtre pour renvoyer les territoires inclus dans la région active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
-            required = false,
-            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-                value = Constants.PARAMETER_DATE) Date date,
-        @Parameter(
-            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
-            required = false,
-            schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
-                value = Constants.PARAMETER_TYPE) String typeTerritoire,	       
-        @Parameter(
-                description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
-                required = false,
-                schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
+
+            @Parameter(
+                    description = ConstGeoApi.PATTERN_REGION_DESCRIPTION,
+                    required = true,
+                    schema = @Schema(
+                            pattern = ConstGeoApi.PATTERN_REGION,
+                            type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = "Filtre pour renvoyer les territoires inclus dans la région active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) Date date,
+            @Parameter(
+                    description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
+                    value = Constants.PARAMETER_TYPE) String typeTerritoire,
+            @Parameter(
+                    description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING)) @QueryParam(
                     value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom) {
-        String dateString = null;
-        if (date != null){
-            dateString = date.getString();
-        }
-        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
+
+        String dateString = (date != null) ? date.getString() : null;
+
+        // Valider et nettoyer le filtreNom
+        String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
+
+        if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
-        else {
-            return this
-                .generateResponseListOfTerritoire(
-                    sparqlUtils
-                        .executeSparqlQuery(
-                            GeoQueries
-                                .getDescendantsRegion(
-                                    code,
-                                    this.formatValidParameterDateIfIsNull(dateString),
-                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
-                    header,
-                    Territoires.class,
-                    Territoire.class);
+
+        return this.generateResponseListOfTerritoire(
+                sparqlUtils.executeSparqlQuery(
+                        GeoQueries.getDescendantsRegion(
+                                code,
+                                this.formatValidParameterDateIfIsNull(dateString),
+                                this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),
+                                this.formatValidParameterFiltreIfIsNull(filtreNomString)
+                        )),
+                header,
+                Territoires.class,
+                Territoire.class
+        );
+    }
+
+    // Méthode pour nettoyer et valider filtreNom
+    private String sanitizeFiltreNom(String filtreNom) {
+        if (filtreNom == null || filtreNom.isEmpty()) {
+            return null;
         }
+        return filtreNom.replaceAll("[<>\"']", "");
     }
 
     @Path(ConstGeoApi.PATH_LISTE_REGION)

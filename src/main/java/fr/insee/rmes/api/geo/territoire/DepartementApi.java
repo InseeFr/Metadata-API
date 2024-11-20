@@ -180,6 +180,8 @@ public class DepartementApi extends AbstractGeoApi {
         if (date != null){
             dateString = date.getString();
         }
+
+        String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();
         }
@@ -192,11 +194,17 @@ public class DepartementApi extends AbstractGeoApi {
                                 .getDescendantsDepartement(
                                     code,
                                     this.formatValidParameterDateIfIsNull(dateString),
-                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
+                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire),this.formatValidParameterFiltreIfIsNull(filtreNomString))),
                     header,
                     Territoires.class,
                     Territoire.class);
         }
+    }
+    private String sanitizeFiltreNom(String filtreNom) {
+        if (filtreNom == null || filtreNom.isEmpty()) {
+            return null;
+        }
+        return filtreNom.replaceAll("[<>\"']", "");
     }
 
     @Path(ConstGeoApi.PATH_LISTE_DEPARTEMENT)

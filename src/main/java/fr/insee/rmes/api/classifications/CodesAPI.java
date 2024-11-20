@@ -118,7 +118,7 @@ public class CodesAPI extends AbstractMetadataApi {
         if (date == null) {
             csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJByCode(code));
         }
-        else if (date.equals("*")) {
+        else if ("*".equals(date.getString())) {
             csvResult = sparqlUtils.executeSparqlQuery(CJQueries.getCJ(code));
         }
         else {
@@ -304,7 +304,7 @@ public class CodesAPI extends AbstractMetadataApi {
         if (date == null) {
             csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActiviteByCode(code));
         }
-        else if (date.equals("*")) {
+        else if ("*".equals(date.getString())) {
             csvResult = sparqlUtils.executeSparqlQuery(ActivitesQueries.getActivites(code));
         }
         else {

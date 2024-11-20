@@ -201,7 +201,7 @@ public class CommuneApi extends AbstractGeoApi {
         }
     }
 
-    @Path(ConstGeoApi.PATH_LISTE_COMMUNE)
+ /*   @Path(ConstGeoApi.PATH_LISTE_COMMUNE)
     @GET
     @Produces({
         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
@@ -249,6 +249,66 @@ public class CommuneApi extends AbstractGeoApi {
                     Communes.class,
                     Commune.class);
         }
+    }*/
+ @Path(ConstGeoApi.PATH_LISTE_COMMUNE)
+ @GET
+ @Produces({
+         MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+ })
+ @Operation(
+         operationId = LITTERAL_ID_OPERATION + ConstGeoApi.ID_OPERATION_LISTE,
+         summary = "Informations sur toutes les communes actives à la date donnée. Par défaut, c’est la date courante.",
+         responses = {
+                 @ApiResponse(
+                         content = @Content(schema = @Schema(type = ARRAY, implementation = Commune.class)),
+                         description = LITTERAL_RESPONSE_DESCRIPTION)
+         })
+ public Response getListe(
+         @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+         @Parameter(
+                 description = "Filtre pour renvoyer les communes actives à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
+                 required = false,
+                 schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                 value = Constants.PARAMETER_DATE) Date date,
+         @Parameter(
+                 description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
+                 required = false,
+                 schema = @Schema(type = Constants.TYPE_STRING, example="Bonnay")) @QueryParam(
+                 value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom,
+         @Parameter(description = LITTERAL_PARAMETER_COM_DESCRIPTION,
+                 required = false,
+                 schema = @Schema(type = Constants.TYPE_BOOLEAN, allowableValues = {"true","false"}, example="false", defaultValue = "false"))
+         @QueryParam(
+                 value = Constants.PARAMETER_STRING) Boolean com
+ )
+ {
+     String dateString = null;
+     if (date != null) {
+         dateString = date.getString();
+     }
+
+     String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
+
+
+     if (!this.verifyParameterDateIsRightWithHistory(dateString)) {
+         return this.generateBadRequestResponse();
+     } else {
+         return this.generateResponseListOfTerritoire(
+                 sparqlUtils.executeSparqlQuery(GeoQueries.getListCommunes(
+                         this.formatValidParameterDateIfIsNull(dateString),
+                         this.formatValidParameterFiltreIfIsNull(filtreNomString),
+                         this.formatValidParameterBooleanIfIsNull(com))),
+                 header,
+                 Communes.class,
+                 Commune.class
+         );
+     }
+ }
+    private String sanitizeFiltreNom(String filtreNom) {
+        if (filtreNom == null || filtreNom.isEmpty()) {
+            return null;
+        }
+        return filtreNom.replaceAll("[<>\"']", "");
     }
 
     @Path(ConstGeoApi.PATH_COMMUNE + CODE_PATTERN + ConstGeoApi.PATH_SUIVANT)

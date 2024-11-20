@@ -292,16 +292,17 @@ class CodesAPITest extends AbstractApiTest {
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
 
         // Call method
-        codesAPI.getActivities("", null, MediaType.APPLICATION_JSON);
+        codesAPI.getActivities("25.2", null, MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
 
-        codesAPI.getActivities("", new Date("*"), MediaType.APPLICATION_JSON);
+
+        codesAPI.getActivities("25.2", new Date("*"), MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(2)).produceResponse(Mockito.any(), Mockito.any());
 
-        codesAPI.getActivities("", new Date("2010-10-10"), MediaType.APPLICATION_JSON);
+        codesAPI.getActivities("25.2", new Date("2010-10-10"), MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(3)).produceResponse(Mockito.any(), Mockito.any());
 
-        codesAPI.getActivities("", null, MediaType.APPLICATION_XML);
+        codesAPI.getActivities("25.2", null, MediaType.APPLICATION_XML);
         verify(mockResponseUtils, times(4)).produceResponse(Mockito.any(), Mockito.any());
 
     }

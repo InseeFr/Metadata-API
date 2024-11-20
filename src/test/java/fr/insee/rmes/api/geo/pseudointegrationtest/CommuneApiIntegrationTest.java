@@ -2,6 +2,7 @@ package fr.insee.rmes.api.geo.pseudointegrationtest;
 
 import fr.insee.rmes.api.geo.territoire.CommuneApi;
 import fr.insee.rmes.modeles.utils.Date;
+import fr.insee.rmes.modeles.utils.FiltreNom;
 import fr.insee.rmes.utils.SparqlUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,23 +52,53 @@ class CommuneApiIntegrationTest {
         assertEqualsXml(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_GET_XML, response.getEntity());
     }
 
-    @Test
+/*    @Test
     void givengetListeCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_LISTE);
         Response response = geoApi.getListe(MediaType.APPLICATION_JSON, null,"*", null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEqualsJson(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_LISTE_TOP_JSON, response.getEntity());
-    }
+    }*/
 
     @Test
+    void givengetListeCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+        // Mock de la réponse SPARQL
+        when(mockSparqlUtils.executeSparqlQuery(anyString()))
+                .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_LISTE);
+        String validAcceptHeader = sanitizeHeader(MediaType.APPLICATION_JSON);
+        FiltreNom filtreNom = new FiltreNom("*");
+        Response response = geoApi.getListe(validAcceptHeader, null, filtreNom, null);
+        assertEquals(Status.OK.getStatusCode(), response.getStatus());
+        assertEqualsJson(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_LISTE_TOP_JSON, response.getEntity());
+    }
+
+    // Méthode helper pour simuler le sanitization des headers, si nécessaire
+    private String sanitizeHeader(String header) {
+        return header != null ? header.replaceAll("[\n\r]", "") : "";
+    }
+
+
+/*    @Test
     void givengetListeCommunes_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_LISTE);
-        Response response = geoApi.getListe(MediaType.APPLICATION_XML, null,null, null);
+        FiltreNom filtreNom = new FiltreNom();
+        Response response = geoApi.getListe(MediaType.APPLICATION_XML, null,filtreNom, null);
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEqualsXml(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_LISTE_TOP_XML, response.getEntity());
-    }
+    }*/
+@Test
+void givengetListeCommunes_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    when(mockSparqlUtils.executeSparqlQuery(anyString()))
+            .thenReturn(ConstantForIntegration.COMMUNE_MOCK_SERVER_RETURN_LISTE);
+
+    // Passer null pour FiltreNom
+    Response response = geoApi.getListe(MediaType.APPLICATION_XML, null, null, null);
+
+    assertEquals(Status.OK.getStatusCode(), response.getStatus());
+    assertEqualsXml(ConstantForIntegration.COMMUNE_EXPECTED_RESPONSE_LISTE_TOP_XML, response.getEntity());
+}
 
     @Test
     void givengetAscendantsCommunes_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {

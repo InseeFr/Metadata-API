@@ -58,34 +58,31 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(implementation = Intercommunalite.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
-	    public Response getByCode(
-	        @Parameter(
-	            description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
-	            required = true,
-	            schema = @Schema(
-	                pattern = ConstGeoApi.PATTERN_INTERCO,
-	                type = Constants.TYPE_STRING, example=LITTERAL_CODE_EXAMPLE)) @PathParam(Constants.CODE) String code,
-	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-	        @Parameter(
-	            description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
-	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) Date date) {
 
-	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date.getString())) {
-	            return this.generateBadRequestResponse();
-	        }
-	        else {
-	            return this
-	                .generateResponseATerritoireByCode(
-	                    sparqlUtils
-	                        .executeSparqlQuery(
-	                            GeoQueries.getIntercommunaliteByCodeAndDate(code, this.formatValidParameterDateIfIsNull(date.getString()))),
-	                    header,
-	                    new Intercommunalite(code));
-	        }
-	    }
-	    
+		public Response getByCode(
+				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
+						required = true,
+						schema = @Schema(pattern = ConstGeoApi.PATTERN_INTERCO,
+								type = Constants.TYPE_STRING, example = LITTERAL_CODE_EXAMPLE))
+				@PathParam(Constants.CODE) String code,
+				@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+				@Parameter(description = LITTERAL_PARAMETER_DATE_DESCRIPTION,
+						required = false,
+						schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE))
+				@QueryParam(value = Constants.PARAMETER_DATE) Date date) {
+
+			String dateString = (date != null) ? date.getString() : null;
+
+			if (!this.verifyParameterDateIsRightWithoutHistory(dateString)) {
+				return this.generateBadRequestResponse();
+			} else {
+				return this.generateResponseATerritoireByCode(
+						sparqlUtils.executeSparqlQuery(
+								GeoQueries.getIntercommunaliteByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
+						header,
+						new Intercommunalite(code));
+			}
+		}
 	    
 	    @Path(ConstGeoApi.PATH_LISTE_INTERCO)
 	    @GET
@@ -100,33 +97,43 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(type = ARRAY, implementation = Intercommunalite.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
-	    public Response getListe(
-	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-	        @Parameter(
-	            description = "Filtre pour renvoyer les intercommunalités à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
-	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) Date date,
-	        @Parameter(
-	                description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
-	                required = false,
-	                schema = @Schema(type = Constants.TYPE_STRING, example="Plaine de l\'Ain")) @QueryParam(
-	                    value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom)
-	         {
 
-	        if ( ! this.verifyParameterDateIsRightWithHistory(date.getString())) {
-	            return this.generateBadRequestResponse();
-	        }
-	        else {
-	            return this
-	                .generateResponseListOfTerritoire(
-	                    sparqlUtils
-	                        .executeSparqlQuery(GeoQueries.getListIntercommunalites(this.formatValidParameterDateIfIsNull(date.getString()), this.formatValidParameterFiltreIfIsNull(filtreNom.getString()))),
-	                    header,
-	                    Intercommunalites.class,
-	                    Intercommunalite.class);
-	        }
-	    }
+		public Response getListe(
+				@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+				@Parameter(description = "Filtre pour renvoyer les intercommunalités à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+						required = false,
+						schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE))
+				@QueryParam(value = Constants.PARAMETER_DATE) Date date,
+				@Parameter(description = LITTERAL_PARAMETER_NAME_DESCRIPTION,
+						required = false,
+						schema = @Schema(type = Constants.TYPE_STRING, example = "Plaine de l'Ain"))
+				@QueryParam(value = Constants.PARAMETER_FILTRE) FiltreNom filtreNom) {
+
+			String dateString = (date != null) ? date.getString() : null;
+			String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
+
+			if (!this.verifyParameterDateIsRightWithHistory(dateString)) {
+				return this.generateBadRequestResponse();
+			} else {
+				return this.generateResponseListOfTerritoire(
+						sparqlUtils.executeSparqlQuery(
+								GeoQueries.getListIntercommunalites(this.formatValidParameterDateIfIsNull(dateString),
+										this.formatValidParameterFiltreIfIsNull(filtreNomString))),
+						header,
+						Intercommunalites.class,
+						Intercommunalite.class);
+			}
+		}
+
+
+		// Méthode pour encoder et valider le filtreNom
+		private String sanitizeFiltreNom(String filtreNom) {
+			if (filtreNom == null || filtreNom.isEmpty()) {
+				return null;
+			}
+			//on peut ajouter d'autres contrôles
+			return filtreNom.replaceAll("[<>\"]", "");
+		}
 
 	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO + ConstGeoApi.PATH_PRECEDENT)
 	    @GET
@@ -141,38 +148,33 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
-	    public Response getAscendants(
-	        @Parameter(
-	            description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
-	            required = true,
-	            schema = @Schema(
-	                pattern = ConstGeoApi.PATTERN_INTERCO,
-	                type = Constants.TYPE_STRING, example="200046977")) @PathParam(Constants.CODE) String code,
-	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-	        @Parameter(
-	            description = "Filtre pour renvoyer les informations concernant les intercommunalités qui précèdent l’intercommunalité à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
-	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) Date date) {
 
-	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date.getString())) {
-	            return this.generateBadRequestResponse();
-	        }
-	        else {
-	            return this
-	                .generateResponseListOfTerritoire(
-	                    sparqlUtils
-	                        .executeSparqlQuery(
-	                            GeoQueries
-	                                .getPreviousIntercommunalite(
-	                                    code,
-	                                    this.formatValidParameterDateIfIsNull(date.getString())
-	                                    )),
-	                    header,
-	                    Intercommunalites.class,
-	                    Intercommunalite.class);
-	        }
-	    }	  
+		public Response getAscendants(
+				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
+						required = true,
+						schema = @Schema(pattern = ConstGeoApi.PATTERN_INTERCO,
+								type = Constants.TYPE_STRING, example = "200046977"))
+				@PathParam(Constants.CODE) String code,
+				@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+				@Parameter(description = "Filtre pour renvoyer les informations concernant les intercommunalités qui précèdent l’intercommunalité à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+						required = false,
+						schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE))
+				@QueryParam(value = Constants.PARAMETER_DATE) Date date) {
+
+			String dateString = (date != null) ? date.getString() : null;
+
+			if (!this.verifyParameterDateIsRightWithoutHistory(dateString)) {
+				return this.generateBadRequestResponse();
+			} else {
+				return this.generateResponseListOfTerritoire(
+						sparqlUtils.executeSparqlQuery(
+								GeoQueries.getPreviousIntercommunalite(code, this.formatValidParameterDateIfIsNull(dateString))),
+						header,
+						Intercommunalites.class,
+						Intercommunalite.class);
+			}
+		}
+
 	    
 	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO + ConstGeoApi.PATH_DESCENDANT)
 	    @GET
@@ -187,43 +189,40 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
-	    public Response getDescendants(
-	        @Parameter(
-	            description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
-	            required = true,
-	            schema = @Schema(
-	                pattern = ConstGeoApi.PATTERN_INTERCO,
-	                type = Constants.TYPE_STRING, example="200000438")) @PathParam(Constants.CODE) String code,
-	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-	        @Parameter(
-	            description = "Filtre pour renvoyer les territoires inclus dans l'intercommunalité active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
-	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) Date date,
-	        @Parameter(
-	            description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
-	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, example="Commune")) @QueryParam(
-	                value = Constants.PARAMETER_TYPE) String typeTerritoire) {
 
-	        if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, date.getString())) {
-	            return this.generateBadRequestResponse();
-	        }
-	        else {
-	            return this
-	                .generateResponseListOfTerritoire(
-	                    sparqlUtils
-	                        .executeSparqlQuery(
-	                            GeoQueries
-	                                .getDescendantsIntercommunalite(
-	                                    code,
-	                                    this.formatValidParameterDateIfIsNull(date.getString()),
-	                                    this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
-	                    header,
-	                    Territoires.class,
-	                    Territoire.class);
-	        }
-	    }
+		public Response getDescendants(
+				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
+						required = true,
+						schema = @Schema(pattern = ConstGeoApi.PATTERN_INTERCO,
+								type = Constants.TYPE_STRING, example = "200000438"))
+				@PathParam(Constants.CODE) String code,
+				@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+				@Parameter(description = "Filtre pour renvoyer les territoires inclus dans l'intercommunalité active à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+						required = false,
+						schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE))
+				@QueryParam(value = Constants.PARAMETER_DATE) Date date,
+				@Parameter(description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
+						required = false,
+						schema = @Schema(type = Constants.TYPE_STRING, example = "Commune"))
+				@QueryParam(value = Constants.PARAMETER_TYPE) String typeTerritoire) {
+
+			String dateString = (date != null) ? date.getString() : null;
+
+			if (!this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
+				return this.generateBadRequestResponse();
+			} else {
+				return this.generateResponseListOfTerritoire(
+						sparqlUtils.executeSparqlQuery(
+								GeoQueries.getDescendantsIntercommunalite(
+										code,
+										this.formatValidParameterDateIfIsNull(dateString),
+										this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire))),
+						header,
+						Territoires.class,
+						Territoire.class);
+			}
+		}
+
 	    
 	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO + ConstGeoApi.PATH_SUIVANT)
 	    @GET
@@ -238,34 +237,33 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(implementation = Intercommunalite.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
-	    public Response getSuivant(
-	        @Parameter(
-	            description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
-	            required = true,
-	            schema = @Schema(
-	                pattern = ConstGeoApi.PATTERN_INTERCO,
-	                type = Constants.TYPE_STRING, example="246900245")) @PathParam(Constants.CODE) String code,
-	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-	        @Parameter(
-	            description = "Filtre pour préciser l'intercommunalité de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
-	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) Date date) {
 
-	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date.getString())) {
-	            return this.generateBadRequestResponse();
-	        }
-	        else {
-	            return this
-	                .generateResponseListOfTerritoire(
-	                    sparqlUtils
-	                        .executeSparqlQuery(
-	                            GeoQueries.getNextIntercommunalite(code, this.formatValidParameterDateIfIsNull(date.getString()))),
-	                    header,
-	                    Intercommunalites.class,
-	                    Intercommunalite.class);
-	        }
-	    }
+		public Response getSuivant(
+				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
+						required = true,
+						schema = @Schema(pattern = ConstGeoApi.PATTERN_INTERCO,
+								type = Constants.TYPE_STRING, example = "246900245"))
+				@PathParam(Constants.CODE) String code,
+				@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+				@Parameter(description = "Filtre pour préciser l'intercommunalité de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
+						required = false,
+						schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example = LITTERAL_DATE_EXAMPLE))
+				@QueryParam(value = Constants.PARAMETER_DATE) Date date) {
+
+			String dateString = (date != null) ? date.getString() : null;
+
+			if (!this.verifyParameterDateIsRightWithoutHistory(dateString)) {
+				return this.generateBadRequestResponse();
+			} else {
+				return this.generateResponseListOfTerritoire(
+						sparqlUtils.executeSparqlQuery(
+								GeoQueries.getNextIntercommunalite(code, this.formatValidParameterDateIfIsNull(dateString))),
+						header,
+						Intercommunalites.class,
+						Intercommunalite.class);
+			}
+		}
+
 	    
 	   
 	    @Path(ConstGeoApi.PATH_INTERCO + CODE_PATTERN_INTERCO + ConstGeoApi.PATH_PROJECTION)
@@ -281,41 +279,35 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(implementation = Intercommunalite.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
-	    public Response getProjection(
-	        @Parameter(
-	            description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
-	            required = true,
-	            schema = @Schema(
-	                pattern = ConstGeoApi.PATTERN_INTERCO,
-	                type = Constants.TYPE_STRING, example="200046977")) @PathParam(Constants.CODE) String code,
-	        @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
-	        @Parameter(
-	            description = "Filtre pour préciser l'intercommunalité de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
-	            required = false,
-	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
-	                value = Constants.PARAMETER_DATE) Date date,
-	        @Parameter(
-	            description = "Date vers laquelle est projetée l'intercommunalité. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
-	            required = true,
-	            schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example="2013-01-01")) @QueryParam(
-	                value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
 
-	        if ( ! this.verifyParameterDateIsRightWithoutHistory(date.getString()) || ! this.verifyParameterDateIsRightWithoutHistory(dateProjection.getString())) {
-	            return this.generateBadRequestResponse();
-	        }
-	        else {
-	            return this
-	                    .generateResponseListOfTerritoire(
-	                        sparqlUtils
-	                            .executeSparqlQuery(
-	                                GeoQueries
-	                                    .getProjectionIntercommunalite(
-	                                        code,
-	                                        this.formatValidParameterDateIfIsNull(date.getString()),
-	                                        dateProjection.getString())),
-	                        header,
-	                        Intercommunalites.class,
-	                        Intercommunalite.class);
-	            }
-	    }
+		public Response getProjection(
+				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
+						required = true,
+						schema = @Schema(pattern = ConstGeoApi.PATTERN_INTERCO,
+								type = Constants.TYPE_STRING, example = "200046977"))
+				@PathParam(Constants.CODE) String code,
+				@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+				@Parameter(description = "Filtre pour préciser l'intercommunalité de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
+						required = false,
+						schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE))
+				@QueryParam(value = Constants.PARAMETER_DATE) Date date,
+				@Parameter(description = "Date vers laquelle est projetée l'intercommunalité. Paramètre obligatoire (Format : 'AAAA-MM-JJ', erreur 400 si absent)",
+						required = true,
+						schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example = "2013-01-01"))
+				@QueryParam(value = Constants.PARAMETER_DATE_PROJECTION) Date dateProjection) {
+
+			String dateString = (date != null) ? date.getString() : null;
+			String dateProjectionString = (dateProjection != null) ? dateProjection.getString() : null;
+
+			if (!this.verifyParameterDateIsRightWithoutHistory(dateString) || !this.verifyParameterDateIsRightWithoutHistory(dateProjectionString)) {
+				return this.generateBadRequestResponse();
+			} else {
+				return this.generateResponseListOfTerritoire(
+						sparqlUtils.executeSparqlQuery(
+								GeoQueries.getProjectionIntercommunalite(code, this.formatValidParameterDateIfIsNull(dateString), dateProjectionString)),
+						header,
+						Intercommunalites.class,
+						Intercommunalite.class);
+			}
+		}
 }

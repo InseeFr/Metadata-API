@@ -157,7 +157,7 @@ public class CollectivitesDOutreMerApiTest extends AbstractApiTest {
         Assertions.assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
-    @Test
+/*    @Test
     void givenGetCollectiviteDOutreMerDescendants_WhenCorrectRequest_thenParameterTypeIsNull() {
 
         // Mock methods
@@ -165,12 +165,18 @@ public class CollectivitesDOutreMerApiTest extends AbstractApiTest {
         list.add(new CollectiviteDOutreMer());
 
         // Call method header content = xml
-        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null, null);/*modifier suite a changement du nombre de variables */
+        geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null, null);*//*modifier suite a changement du nombre de variables *//*
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }
-
+    }*/
+@Test
+void givenGetCollectiviteDOutreMerDescendants_WhenCorrectRequest_thenParameterTypeIsNull() {
+    this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+    list.add(new CollectiviteDOutreMer());
+    geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null, null);
+    verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+}
     
-    @Test
+/*    @Test
     void givenGetCollectiviteDOutreMerDescendants_WhenCorrectRequest_thenParameterTypeIsRight() {
 
         // Mock methods
@@ -179,9 +185,16 @@ public class CollectivitesDOutreMerApiTest extends AbstractApiTest {
 
         // Call method header content = xml
         geoApi
-            .getDescendants("something", MediaType.APPLICATION_XML, null, EnumTypeGeographie.COMMUNE.getTypeObjetGeo(), null);/*modifier suite a changement du nombre de variables */
+            .getDescendants("something", MediaType.APPLICATION_XML, null, EnumTypeGeographie.COMMUNE.getTypeObjetGeo(), null);*//*modifier suite a changement du nombre de variables *//*
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-    }
+    }*/
+@Test
+void givenGetCollectiviteDOutreMerDescendants_WhenCorrectRequest_thenFiltreNomIsNull() {
+    this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
+    list.add(new CollectiviteDOutreMer());
+    geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, EnumTypeGeographie.COMMUNE.getTypeObjetGeo(), null);
+    verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+}
 
     @Test
     void givenGetCollectiviteDOutreMerDescendants_WhenCorrectRequest_thenParameterTypeIsBad() {
