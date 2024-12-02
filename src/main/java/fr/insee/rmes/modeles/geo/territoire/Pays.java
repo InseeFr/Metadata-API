@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Pays")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant un pays")
-public class Country extends Territoire {
+public class Pays extends Territoire {
 
     @Schema(example = "99254")
     private String code = null;
@@ -27,9 +27,9 @@ public class Country extends Territoire {
     @Schema(example = "RÉPUBLIQUE DE CHYPRE")
     private String intituleEntier = null;
 
-    public Country() {} // No-args constructor needed for JAXB
+    public Pays() {} // No-args constructor needed for JAXB
 
-    public Country(String code) {
+    public Pays(String code) {
         this.code = code;
     }
 

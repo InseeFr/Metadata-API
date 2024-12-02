@@ -1,6 +1,6 @@
 package fr.insee.rmes.api.geo;
 
-import fr.insee.rmes.modeles.geo.territoires.Countries;
+import fr.insee.rmes.modeles.geo.territoires.PaysS;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
 import fr.insee.rmes.modeles.utils.Date;
@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-import fr.insee.rmes.modeles.geo.territoire.Country;
+import fr.insee.rmes.modeles.geo.territoire.Pays;
 import fr.insee.rmes.modeles.utils.Header;
 import fr.insee.rmes.queries.geo.GeoQueries;
 import fr.insee.rmes.utils.Constants;
@@ -41,7 +41,7 @@ public class PaysApi extends AbstractGeoApi {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Operation(operationId = LITTERAL_ID_OPERATION, summary = LITTERAL_OPERATION_SUMMARY, responses = {
             @ApiResponse(
-                    content = @Content(schema = @Schema(implementation = Country.class)),
+                    content = @Content(schema = @Schema(implementation = Pays.class)),
                     description = LITTERAL_RESPONSE_DESCRIPTION)
     })
     public Response getByCode(
@@ -56,12 +56,12 @@ public class PaysApi extends AbstractGeoApi {
             return Response.status(Status.BAD_REQUEST).entity("Invalid code").build();
         }
 
-        Country country = new Country(code);
+        Pays pays = new Pays(code);
         String sanitizedCode = escapeSparql(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getCountry(sanitizedCode));
-        country = (Country) csvUtils.populatePOJO(csvResult, country);
+        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getPays(sanitizedCode));
+        pays = (Pays) csvUtils.populatePOJO(csvResult, pays);
 
-        if (country.getUri() == null) {
+        if (pays.getUri() == null) {
             return Response.status(Status.NOT_FOUND).entity("").build();
         } else {
             String acceptHeader = sanitizeAndValidateHeader(header.getString());
@@ -69,7 +69,7 @@ public class PaysApi extends AbstractGeoApi {
             if (acceptHeader == null) {
                 return Response.status(Status.BAD_REQUEST).entity("Invalid Accept header").build();
             }
-            return Response.ok(responseUtils.produceResponse(country, acceptHeader)).build();
+            return Response.ok(responseUtils.produceResponse(pays, acceptHeader)).build();
         }
     }
 
@@ -78,7 +78,7 @@ public class PaysApi extends AbstractGeoApi {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Operation(operationId = LITTERAL_ID_OPERATION, summary = LITTERAL_OPERATION_SUMMARY, responses = {
             @ApiResponse(
-                    content = @Content(schema = @Schema(implementation = Countries.class)),
+                    content = @Content(schema = @Schema(implementation = PaysS.class)),
                     description = LITTERAL_RESPONSE_DESCRIPTION)
     })
     public Response getListe(
@@ -101,8 +101,8 @@ public class PaysApi extends AbstractGeoApi {
                             sparqlUtils
                                     .executeSparqlQuery(GeoQueries.getListPays(this.formatValidParameterDateIfIsNull(dateString))),
                             header,
-                            Countries.class,
-                            Country.class);
+                            PaysS.class,
+                            Pays.class);
         }
     }
 
@@ -170,7 +170,7 @@ public class PaysApi extends AbstractGeoApi {
             summary = "Informations concernant les pays qui succèdent au pays",
             responses = {
                     @ApiResponse(
-                            content = @Content(schema = @Schema(implementation = Country.class)),
+                            content = @Content(schema = @Schema(implementation = Pays.class)),
                             description = LITTERAL_RESPONSE_DESCRIPTION)
             })
     public Response getSuivant(
@@ -200,8 +200,8 @@ public class PaysApi extends AbstractGeoApi {
                                     .executeSparqlQuery(
                                             GeoQueries.getNextPays(code, this.formatValidParameterDateIfIsNull(dateString))),
                             header,
-                            Countries.class,
-                            Country.class);
+                            PaysS.class,
+                            Pays.class);
         }
     }
 
@@ -216,7 +216,7 @@ public class PaysApi extends AbstractGeoApi {
             summary = "Informations concernant les pays qui précèdent le pays",
             responses = {
                     @ApiResponse(
-                            content = @Content(schema = @Schema(implementation = Country.class)),
+                            content = @Content(schema = @Schema(implementation = Pays.class)),
                             description = LITTERAL_RESPONSE_DESCRIPTION)
             })
     public Response getPrecedent(
@@ -246,8 +246,8 @@ public class PaysApi extends AbstractGeoApi {
                                     .executeSparqlQuery(
                                             GeoQueries.getPreviousPays(code, this.formatValidParameterDateIfIsNull(dateString))),
                             header,
-                            Countries.class,
-                            Country.class);
+                            PaysS.class,
+                            Pays.class);
         }
     }
 

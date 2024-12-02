@@ -3,14 +3,12 @@ package fr.insee.rmes.api.geo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
-
 import fr.insee.rmes.modeles.geo.EnumTypeGeographie;
-import fr.insee.rmes.modeles.geo.territoire.Country;
+import fr.insee.rmes.modeles.geo.territoire.Pays;
 import fr.insee.rmes.modeles.utils.Date;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +20,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fr.insee.rmes.api.AbstractApiTest;
-import fr.insee.rmes.modeles.geo.territoire.Country;
 import fr.insee.rmes.modeles.utils.Header;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +28,7 @@ class PaysApiTest extends AbstractApiTest {
     @InjectMocks
     private PaysApi geoApi;
 
-    private Country country = new Country();
+    private Pays country = new Pays();
 
     private Header headerJSON = new Header(MediaType.APPLICATION_JSON);
     private Header headerXML = new Header( MediaType.APPLICATION_XML);
@@ -107,7 +104,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method
         geoApi.getSuivant("something", MediaType.APPLICATION_JSON, null);
@@ -119,7 +116,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method
         geoApi.getSuivant("something", MediaType.APPLICATION_XML, null);
@@ -148,7 +145,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method header content = xml
         geoApi.getSuivant("something", MediaType.APPLICATION_XML, new Date("2000-01-01"));
@@ -168,7 +165,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method
         geoApi.getPrecedent("something", MediaType.APPLICATION_JSON, null);
@@ -180,7 +177,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method
         geoApi.getPrecedent("something", MediaType.APPLICATION_XML, null);
@@ -209,7 +206,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method header content = xml
         geoApi.getPrecedent("something", MediaType.APPLICATION_XML, new Date("2000-01-01"));
@@ -229,7 +226,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method
         geoApi.getListe(MediaType.APPLICATION_JSON, null);
@@ -241,7 +238,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method
         geoApi.getListe(MediaType.APPLICATION_XML, null);
@@ -272,7 +269,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method header content = xml
         geoApi.getListe(MediaType.APPLICATION_XML, new Date(date));
@@ -292,7 +289,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
         // Mock methods
         when(mockSparqlUtils.executeSparqlQuery(Mockito.any())).thenReturn("");
         when(mockCSVUtils.populateMultiPOJO(Mockito.anyString(), Mockito.any())).thenReturn(list);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method header content = text plain
         Response response = geoApi.getListe(MediaType.TEXT_PLAIN, null);
@@ -304,7 +301,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method
         geoApi.getDescendants("something", MediaType.APPLICATION_JSON, null,  null);
@@ -316,7 +313,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method
         geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
@@ -345,7 +342,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method header content = xml
         geoApi.getDescendants("something", MediaType.APPLICATION_XML, new Date("2000-01-01"), null);
@@ -365,7 +362,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method header content = xml
         geoApi.getDescendants("something", MediaType.APPLICATION_XML, null, null);
@@ -377,7 +374,7 @@ void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
         // Mock methods
         this.mockUtilsMethodsThenReturnListOfPojo(Boolean.TRUE);
-        list.add(new Country());
+        list.add(new Pays());
 
         // Call method header content = xml
         geoApi

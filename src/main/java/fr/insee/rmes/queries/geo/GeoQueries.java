@@ -511,7 +511,7 @@ public class GeoQueries extends Queries {
         return params;
     }
 
-    public static String getCountry(String code) {
+    public static String getPays(String code) {
         return String.format(
                 "SELECT ?uri ?intitule ?intituleEntier ?code \n"
                         + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"

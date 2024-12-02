@@ -27,7 +27,7 @@ public enum EnumTypeGeographie {
 	INTERCOMMUNALITE("Intercommunalite",Intercommunalite.class,Intercommunalites.class,Constants.NONE),
 	BASSINDEVIE("BassinDeVie2022",BassinDeVie2022.class,BassinsDeVie2022.class,Constants.NONE),
 	IRIS("Iris", Iris.class,Iriss.class,Constants.NONE),
-	PAYS("Pays", Country.class, Countries.class,Constants.NONE);
+	PAYS("Pays", Pays.class, PaysS.class,Constants.NONE);
 
 	private String typeObjetGeo;
 	private Class<? extends Territoire> classNameOfGeoType;
