@@ -135,6 +135,10 @@ public class GeoQueries extends Queries {
     public static String getListAiresAttraction(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.AIRE_ATTRACTION);
     }
+
+    public static String getListPays(String date) {
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.PAYS);
+    }
     
     public static String getListUnitesUrbaines(String date) {
         return getTerritoire(Constants.NONE, date, EnumTypeGeographie.UNITE_URBAINE);
@@ -229,6 +233,10 @@ public class GeoQueries extends Queries {
     public static String getDescendantsAireAttraction(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.AIRE_ATTRACTION,Constants.ABSENT,Constants.NONE, false);
     }
+
+    public static String getDescendantsPays(String code, String date, String type) {
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.PAYS,Constants.ABSENT,Constants.NONE, false);
+    }
     
     public static String getDescendantsUniteUrbaine(String code, String date, String type) {
         return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.UNITE_URBAINE,Constants.ABSENT,Constants.NONE, false);
@@ -266,6 +274,10 @@ public class GeoQueries extends Queries {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, false);
     }
 
+    public static String getNextPays(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.PAYS, false);
+    }
+
     public static String getNextCantonOuVille(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON_OU_VILLE, false);
     }
@@ -294,6 +306,10 @@ public class GeoQueries extends Queries {
     public static String getPreviousRegion(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, true);
     }
+    public static String getPreviousPays(String code, String date) {
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.PAYS, true);
+    }
+
     public static String getPreviousCanton(String code, String date) {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.CANTON, true);
     }
@@ -495,7 +511,7 @@ public class GeoQueries extends Queries {
         return params;
     }
 
-    public static String getCountry(String code) {
+    public static String getPays(String code) {
         return String.format(
                 "SELECT ?uri ?intitule ?intituleEntier ?code \n"
                         + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
