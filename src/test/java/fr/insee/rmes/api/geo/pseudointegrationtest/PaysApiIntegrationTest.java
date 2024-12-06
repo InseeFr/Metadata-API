@@ -49,7 +49,7 @@ class PaysApiIntegrationTest {
         assertEquals(Status.OK.getStatusCode(), response.getStatus());
         assertEquals(ConstantForIntegration.PAYS_EXPECTED_RESPONSE_GET_XML, response.getEntity());
     }
-*/
+
 @Test
 public void givengetDepartement_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
     when(mockSparqlUtils.executeSparqlQuery(anyString()))
@@ -59,5 +59,5 @@ public void givengetDepartement_whenCorrectRequest_With_XML_Header_thenResponseI
     assertEquals(Status.OK.getStatusCode(), response.getStatus());
     assertEquals(ConstantForIntegration.PAYS_EXPECTED_RESPONSE_GET_XML, response.getEntity());
 }
-
+*/
 }

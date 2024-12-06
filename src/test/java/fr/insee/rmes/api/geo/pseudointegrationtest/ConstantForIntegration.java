@@ -630,7 +630,7 @@ public class ConstantForIntegration {
             "{\"code\":\"99350\",\"uri\":\"http://id.insee.fr/geo/pays/99350\",\"intitule\":\"MAROC\",\"intituleEntier\":\"ROYAUME DU MAROC\"}";
 
     public static final String PAYS_EXPECTED_RESPONSE_GET_XML =
-            "<Pays code="99350" uri="http://id.insee.fr/geo/pays/99350"><Intitule>MAROC</Intitule><Type/><IntituleSansArticle/><IntituleEntier>ROYAUME DU MAROC</IntituleEntier></Pays>";
+            "<Pays code=\"99350\" uri=\"http://id.insee.fr/geo/pays/99350\"><Intitule>MAROC</Intitule><IntituleEntier>ROYAUME DU MAROC</IntituleEntier></Pays>";
 
     public final static String CANTON_MOCK_SERVER_RETURN_GET =
             "code,uri,type,dateCreation,intitule,intituleSansArticle,typeArticle,ChefLieu\r\n"
