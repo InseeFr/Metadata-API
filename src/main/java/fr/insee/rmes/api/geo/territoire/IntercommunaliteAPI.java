@@ -58,6 +58,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(implementation = Intercommunalite.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
+
 		public Response getByCode(
 				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
 						required = true,
@@ -96,6 +97,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(type = ARRAY, implementation = Intercommunalite.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
+
 		public Response getListe(
 				@Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
 				@Parameter(description = "Filtre pour renvoyer les intercommunalités à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
@@ -146,6 +148,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
+
 		public Response getAscendants(
 				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
 						required = true,
@@ -186,6 +189,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(type = ARRAY, implementation = Territoire.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
+
 		public Response getDescendants(
 				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
 						required = true,
@@ -233,6 +237,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(implementation = Intercommunalite.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
+
 		public Response getSuivant(
 				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
 						required = true,
@@ -274,6 +279,7 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 	                content = @Content(schema = @Schema(implementation = Intercommunalite.class)),
 	                description = LITTERAL_RESPONSE_DESCRIPTION)
 	        })
+
 		public Response getProjection(
 				@Parameter(description = ConstGeoApi.PATTERN_INTERCO_DESCRIPTION,
 						required = true,
@@ -304,5 +310,4 @@ public class IntercommunaliteAPI extends AbstractGeoApi {
 						Intercommunalite.class);
 			}
 		}
-
 }

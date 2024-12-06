@@ -71,6 +71,7 @@ public class PaysApi extends AbstractGeoApi {
             }
             return Response.ok(responseUtils.produceResponse(pays, acceptHeader)).build();
         }
+
     }
 
     @Path(ConstGeoApi.PATH_PAYS)

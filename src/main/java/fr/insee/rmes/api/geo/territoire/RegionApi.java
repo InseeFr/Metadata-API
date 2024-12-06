@@ -103,6 +103,7 @@ public class RegionApi extends AbstractGeoApi {
                             description = LITTERAL_RESPONSE_DESCRIPTION)
             })
     public Response getDescendants(
+
             @Parameter(
                     description = ConstGeoApi.PATTERN_REGION_DESCRIPTION,
                     required = true,

@@ -180,6 +180,7 @@ public class DepartementApi extends AbstractGeoApi {
         if (date != null){
             dateString = date.getString();
         }
+
         String filtreNomString = (filtreNom != null) ? sanitizeFiltreNom(filtreNom.getString()) : null;
         if ( ! this.verifyParametersTypeAndDateAreValid(typeTerritoire, dateString)) {
             return this.generateBadRequestResponse();

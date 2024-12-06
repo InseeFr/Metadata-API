@@ -342,6 +342,7 @@ class CommuneApiTest extends AbstractApiTest {
         list.add(new Commune());
 
         // Call method header content = xml
+        geoApi.getListe(MediaType.APPLICATION_XML, new Date(date), date, Boolean.TRUE);/*modifier suite a changement du nombre de variables */
         geoApi.getListe(MediaType.APPLICATION_XML, new Date(date), date, Boolean.TRUE);*//*modifier suite a changement du nombre de variables *//*
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }*/

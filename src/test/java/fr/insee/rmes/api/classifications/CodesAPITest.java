@@ -295,6 +295,7 @@ class CodesAPITest extends AbstractApiTest {
         codesAPI.getActivities("25.2", null, MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
 
+
         codesAPI.getActivities("25.2", new Date("*"), MediaType.APPLICATION_JSON);
         verify(mockResponseUtils, times(2)).produceResponse(Mockito.any(), Mockito.any());
 

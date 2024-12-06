@@ -197,6 +197,7 @@ public class CantonOuVilleApi extends AbstractGeoApi {
                                                     .getDescendantsCantonOuVille(
                                                             code,
                                                             this.formatValidParameterDateIfIsNull(dateString),
+
                                                             this.formatValidParametertypeTerritoireIfIsNull(typeTerritoire), this.formatValidParameterFiltreIfIsNull(filtreNomString))),
                             header,
                             Territoires.class,

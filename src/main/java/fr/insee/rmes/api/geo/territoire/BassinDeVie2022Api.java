@@ -58,6 +58,7 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getByCode(
+
             @Parameter(
                     description = ConstGeoApi.PATTERN_BASSINDEVIE_DESCRIPTION,
                     required = true,
@@ -105,6 +106,7 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
                             description = LITTERAL_RESPONSE_DESCRIPTION)
             })
     public Response getListe(
+
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
                     description = "Filtre pour renvoyer les bassins de vie à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')" + LITTERAL_PARAMETER_DATE_WITH_HISTORY,
@@ -166,6 +168,7 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
                 description = LITTERAL_RESPONSE_DESCRIPTION)
         })
     public Response getDescendants(
+
             @Parameter(
                     description = ConstGeoApi.PATTERN_BASSINDEVIE_DESCRIPTION,
                     required = true,
@@ -195,6 +198,7 @@ public class BassinDeVie2022Api extends AbstractGeoApi {
         // Exécution de la requête SPARQL
         return this
                 .generateResponseListOfTerritoire(
+
                         sparqlUtils.executeSparqlQuery(
                                 GeoQueries.getDescendantsBassinDeVie(
                                         code,

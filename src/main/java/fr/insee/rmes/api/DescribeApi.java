@@ -12,6 +12,8 @@ import jakarta.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 
+import fr.insee.rmes.modeles.utils.Header;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,6 +24,7 @@ import java.net.URISyntaxException;
 
 @Path("/technicalService")
 public class DescribeApi extends AbstractMetadataApi {
+
 
 	@GET
 	@Path("/describe")
