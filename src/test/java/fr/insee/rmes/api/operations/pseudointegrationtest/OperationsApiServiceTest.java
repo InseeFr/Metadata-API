@@ -1,10 +1,12 @@
 package fr.insee.rmes.api.operations.pseudointegrationtest;
 
 import fr.insee.rmes.api.operations.OperationsApiService;
+import fr.insee.rmes.config.Configuration;
 import fr.insee.rmes.modeles.operations.SimpleObject;
 import fr.insee.rmes.modeles.operations.documentations.Document;
 import fr.insee.rmes.modeles.operations.documentations.Rubrique;
 import fr.insee.rmes.modeles.operations.documentations.RubriqueRichText;
+import fr.insee.rmes.utils.FileUtils;
 import fr.insee.rmes.utils.Lang;
 import fr.insee.rmes.utils.SparqlUtils;
 import org.junit.jupiter.api.Assertions;
@@ -16,12 +18,15 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,13 +47,46 @@ class OperationsApiServiceTest  {
 
     private static final String MOCK_CSV_GET_DOCUMENTS_EMPTY = "url,labelLg1,labelLg2,dateMiseAJour,langue";
     
-    private static List<Rubrique> EXPECTED_RUBRICS ; 
+    private static List<Rubrique> EXPECTED_RUBRICS ;
 
     @BeforeEach
     public void init() {
         initExpected();
     }
 
+	@Test
+	void shouldReturnEmptyMapWhenFileIsEmpty() {
+		try (MockedStatic<Configuration> mockedConfigurationFactory = Mockito.mockStatic(Configuration.class);
+			 MockedStatic<FileUtils> mockedFileUtilsFactory = Mockito.mockStatic(FileUtils.class)) {
+
+			mockedConfigurationFactory.when(() -> Configuration.getFileStorageLocation()).thenReturn("/mock/location");
+			mockedFileUtilsFactory.when(() -> FileUtils.readFile(eq("/mock/location/storage/exclusionsInseeFr.txt"), eq(";"))).thenReturn(Collections.emptyList());
+
+			Map<String, List<String>> result = operationsApiService.readExclusions();
+
+			assertEquals(0, result.size());
+		}
+	}
+
+	@Test
+	void shouldReturnCorrectMapWhenFileHasValidContent() {
+		try (MockedStatic<Configuration> mockedConfigurationFactory = Mockito.mockStatic(Configuration.class);
+			 MockedStatic<FileUtils> mockedFileUtilsFactory = Mockito.mockStatic(FileUtils.class)) {
+
+			mockedConfigurationFactory.when(() -> Configuration.getFileStorageLocation()).thenReturn("/mock/location");
+			mockedFileUtilsFactory.when(() -> FileUtils.readFile(eq("/mock/location/storage/exclusionsInseeFr.txt"), eq(";"))).thenReturn(Arrays.asList(
+					Arrays.asList("TYPE1", "ID1"),
+					Arrays.asList("TYPE1", "ID2"),
+					Arrays.asList("TYPE2", "ID3")
+			));
+
+			Map<String, List<String>> result = operationsApiService.readExclusions();
+
+			assertEquals(2, result.size());
+			assertEquals(Arrays.asList("ID1", "ID2"), result.get("TYPE1"));
+			assertEquals(Collections.singletonList("ID3"), result.get("TYPE2"));
+		}
+	}
 
 	@ParameterizedTest
     @ValueSource(strings = {""})
@@ -56,7 +94,7 @@ class OperationsApiServiceTest  {
     void givenGetListRubriques_whenQueryReturnNothing_thenResponseIsEmpty(String id) {
     	 when(mockSparqlUtils.executeSparqlQuery(Mockito.anyString())).thenReturn("");
     	 List<Rubrique> liste = operationsApiService.getListRubriques(id);
-    	 Assertions.assertEquals(new ArrayList<Rubrique>(),liste);
+    	 assertEquals(new ArrayList<Rubrique>(),liste);
     }
     
     
@@ -67,7 +105,7 @@ class OperationsApiServiceTest  {
     	 	.thenReturn(MOCK_CSV_GET_DOCUMENTS_EMPTY)//get documents fr 
     	 	.thenReturn(MOCK_CSV_GET_DOCUMENTS_EMPTY);//get documents en
     	 List<Rubrique> liste = operationsApiService.getListRubriques("1774");
-     	 Assertions.assertEquals(EXPECTED_RUBRICS,liste);
+     	 assertEquals(EXPECTED_RUBRICS,liste);
     }
     
     
