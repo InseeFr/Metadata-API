@@ -1,297 +1,297 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>fr.insee.rmes</groupId>
-	<artifactId>metadata-api</artifactId>
-	<packaging>war</packaging>
-	<name>Implementation of the RMéS metadata API</name>
-	<version>3.8.4</version>
-	<properties>
-		<java.version>17</java.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<jersey.version>4.0.0-M1</jersey.version>
-		<jackson.version>2.17.2</jackson.version>
-		<jakarta.version>6.1.0</jakarta.version>
-		<log.version>2.18.0</log.version>
-		<swagger.version>2.2.22</swagger.version>
-		<junit.version>5.10.3</junit.version>
-		<mockito.version>5.12.0</mockito.version>
-		<freemarker.version>2.3.32</freemarker.version>
-		<xmlunit.version>2.10.0</xmlunit.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fr.insee.rmes</groupId>
+    <artifactId>metadata-api</artifactId>
+    <packaging>war</packaging>
+    <name>Implementation of the RMéS metadata API</name>
+    <version>3.8.4</version>
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <!--Versions de jersey et jakarta.servlet pour jakarta EE 10 (tomcat 10)-->
+        <jakarta.servlet.version>6.1.0</jakarta.servlet.version>
+        <jersey.version>3.1.9</jersey.version>
+        <jackson.version>2.17.2</jackson.version>
+        <log.version>2.18.0</log.version>
+        <swagger.version>2.2.22</swagger.version>
+        <junit.version>5.10.3</junit.version>
+        <mockito.version>5.12.0</mockito.version>
+        <freemarker.version>2.3.32</freemarker.version>
+        <xmlunit.version>2.10.0</xmlunit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 
-
-		<!-- Configuration Sonar -->
-		<sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
-						  src/main/java/fr/insee/rmes/modeles/**/*,
-						  src/main/java/fr/insee/rmes/utils/XmlUtils.java
-		</sonar.exclusions>
-		<sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
-		<sonar.projectName>Metadata-API</sonar.projectName>
-		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <!-- Configuration Sonar -->
+        <sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
+            src/main/java/fr/insee/rmes/modeles/**/*,
+            src/main/java/fr/insee/rmes/utils/XmlUtils.java
+        </sonar.exclusions>
+        <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
+        <sonar.projectName>Metadata-API</sonar.projectName>
+        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
-		<version.maven-sonar>3.9.0.2155</version.maven-sonar>
-		<version.maven-jacoco>0.8.7</version.maven-jacoco>
-		<argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
+        <version.maven-sonar>3.9.0.2155</version.maven-sonar>
+        <version.maven-jacoco>0.8.7</version.maven-jacoco>
+        <argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
 
-	</properties>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-server</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-			<artifactId>jersey-container-servlet</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-moxy</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.inject</groupId>
-			<artifactId>jersey-hk2</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-multipart</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
+    </properties>
 
-		<!-- LOGS -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.23.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-jakarta-web</artifactId>
-			<version>2.23.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j18-impl</artifactId>
-			<version>${log.version}</version>
-		</dependency>
-		<!-- test -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-moxy</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
 
-		<dependency>
-    		<groupId>org.junit.jupiter</groupId>
-    		<artifactId>junit-jupiter-params</artifactId>
-			<version>${junit.version}</version>
-    		<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.xmlunit</groupId>
-			<artifactId>xmlunit-core</artifactId>
-			<version>${xmlunit.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <!-- LOGS -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.23.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jakarta-web</artifactId>
+            <version>2.23.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j18-impl</artifactId>
+            <version>${log.version}</version>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-
-		<!-- Bind csv into POJOs -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-csv</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<!-- XML mapping -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.jakarta.rs</groupId>
-			<artifactId>jackson-jakarta-rs-json-provider</artifactId>
-			<version>2.17.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.jakarta.rs</groupId>
-			<artifactId>jackson-jakarta-rs-xml-provider</artifactId>
-			<version>2.17.2</version>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.servlet</groupId>
-			<artifactId>jakarta.servlet-api</artifactId>
-			<version>${jakarta.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.xml.bind</groupId>
-			<artifactId>jakarta.xml.bind-api</artifactId>
-			<version>4.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.moxy</artifactId>
-			<version>4.0.4</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-		<!-- Dépendance pour activation, nécessaire pour JAXB -->
-		<dependency>
-			<groupId>jakarta.activation</groupId>
-			<artifactId>jakarta.activation-api</artifactId>
-			<version>2.1.3</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-			<version>4.0.5</version>
-		</dependency>
-		<!-- Swagger -->
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-core-jakarta</artifactId>
-			<version>${swagger.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>jersey-container-servlet-core</artifactId>
-					<groupId>org.glassfish.jersey.containers</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-jaxrs2-jakarta</artifactId>
-			<version>${swagger.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>2.12.7</version>
-		</dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-core</artifactId>
+            <version>${xmlunit.version}</version>
+            <scope>test</scope>
+        </dependency>
 
 
-		<!-- Freemarker -->
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>${freemarker.version}</version><!-- change in FreemarkerConfig too -->
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-text</artifactId>
-		    <version>1.11.0</version>
-		</dependency>
+        <!-- Bind csv into POJOs -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <!-- XML mapping -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+            <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+            <version>2.17.2</version>
+        </dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+            <artifactId>jackson-jakarta-rs-xml-provider</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <version>4.0.4</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <!-- Dépendance pour activation, nécessaire pour JAXB -->
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>2.1.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>4.0.5</version>
+        </dependency>
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-core-jakarta</artifactId>
+            <version>${swagger.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jersey-container-servlet-core</artifactId>
+                    <groupId>org.glassfish.jersey.containers</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2-jakarta</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.12.7</version>
+        </dependency>
 
 
-	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		  <resources>
-		    <resource>
-		      <directory>src/main/resources</directory>
-		      <filtering>true</filtering>
-		    </resource>
-  		  </resources>   
-  		<plugins>
-  		    <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-war-plugin</artifactId>
-	            <version>3.3.2</version>
-	        </plugin>
-			<plugin>
-			    <groupId>org.sonarsource.scanner.maven</groupId>
-			    <artifactId>sonar-maven-plugin</artifactId>
-				<version>${version.maven-sonar}</version>
-			</plugin>
-			<plugin>
-			    <groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${version.maven-jacoco}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-site</id>
-						<phase>test</phase>
-						<goals>
-				    		<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>	
-  		</plugins>  
-  		  
-  		  
-		<pluginManagement>
-			<plugins>
+        <!-- Freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${freemarker.version}</version><!-- change in FreemarkerConfig too -->
+        </dependency>
 
-				<!-- Generate openapi.json , see : https://github.com/openapi-tools/swagger-maven-plugin-->
-			    <plugin>
-			      <groupId>io.openapitools.swagger</groupId>
-			      <artifactId>swagger-maven-plugin</artifactId>
-			      <version>2.1.5</version>
-			      <configuration>
-			        <resourcePackages>
-	          		  <resourcePackage>fr.insee.rmes.api</resourcePackage>
-			        </resourcePackages>
-			        <useResourcePackagesChildren>true</useResourcePackagesChildren>
-			        <outputDirectory>target/</outputDirectory>
-			        <outputFilename>openapi</outputFilename>
-			        <outputFormats>JSON,YAML</outputFormats>
-			        <prettyPrint>true</prettyPrint>
-			        <applicationClass>fr.insee.rmes.config</applicationClass>
-			        <encoding>UTF-8</encoding>	        
-			      </configuration>
-			      <executions>
-			        <execution>
-			          <goals>
-			            <goal>generate</goal>
-			          </goals>
-			        </execution>
-			      </executions>
-			    </plugin>    
-			</plugins>
-		 </pluginManagement>
-	</build>
-	<repositories>
-		<repository>
-			<id>maven_central</id>
-			<name>Maven Central</name>
-			<url>https://repo.maven.apache.org/maven2/</url>
-		</repository>
-	</repositories>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.11.0</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${version.maven-sonar}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${version.maven-jacoco}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+
+        <pluginManagement>
+            <plugins>
+
+                <!-- Generate openapi.json , see : https://github.com/openapi-tools/swagger-maven-plugin-->
+                <plugin>
+                    <groupId>io.openapitools.swagger</groupId>
+                    <artifactId>swagger-maven-plugin</artifactId>
+                    <version>2.1.5</version>
+                    <configuration>
+                        <resourcePackages>
+                            <resourcePackage>fr.insee.rmes.api</resourcePackage>
+                        </resourcePackages>
+                        <useResourcePackagesChildren>true</useResourcePackagesChildren>
+                        <outputDirectory>target/</outputDirectory>
+                        <outputFilename>openapi</outputFilename>
+                        <outputFormats>JSON,YAML</outputFormats>
+                        <prettyPrint>true</prettyPrint>
+                        <applicationClass>fr.insee.rmes.config</applicationClass>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <repositories>
+        <repository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 </project>
