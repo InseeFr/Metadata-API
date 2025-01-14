@@ -22,34 +22,12 @@ tags:
   - name: geo
     description: 'API géographie : Générique'
 paths:
-  /geo/{typeTerritoire}/{code}:
-    get:
-      tags:
-        - geo
-      summary: 'Informations sur un territoire quelqconque identifié par son type et son code'
-      operationId: 'getTerritoireByTypeAndCode'
-      parameters:
-        - $ref: '#/components/parameters/dateActive'
-        - $ref: '#/components/parameters/codeTerritoireInPath'
-        - $ref: '#/components/parameters/typeTerritoireInPath'
-      responses:
-        '200':
-          $ref: '#/components/responses/Territoire200'
-        '400':
-          $ref: '#/components/responses/IncorrectRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '500':
-          $ref: '#/components/responses/ServerError'
   /geo/departement/{code}:
     get:
       tags:
         - geoDepartement
       summary: 'Informations sur un departement identifié par son code (deux ou trois caractères)'
       operationId: 'getcogdep'
-      x-operation-extra-annotation: '@fr.insee.oascache.metadata.annotations.HttpCache(duration=30)'
       parameters:
         - $ref: '#/components/parameters/dateActive'
         - $ref: '#/components/parameters/codeDepInPath'
@@ -94,7 +72,6 @@ paths:
       description: |-
         Informations sur toutes les communes actives à la date donnée. Par défaut, c'est la date courante.
       operationId: 'getcogcomliste'
-      x-operation-extra-annotation: '@fr.insee.oascache.metadata.annotations.HttpCache(duration=30)'
       parameters:
         - $ref: '#/components/parameters/dateActive'
         - $ref: '#/components/parameters/filtreNom'
@@ -140,13 +117,6 @@ components:
       required: true
       schema:
         type: string
-    typeTerritoireInPath:
-      name: 'typeTerritoire'
-      in: path
-      description: 'Type d''un territoire'
-      required: true
-      schema:
-        $ref: '#/components/schemas/TypeEnum'
     codeDepInPath:
       name: 'code'
       in: path
@@ -268,18 +238,6 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListe'
-    Territoire200:
-      description: Opération réussie pour la récupération d''un territoire d''après son type et son code
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Territoire'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Territoire'
-          examples:
-            défaut:
-              $ref: '#/components/examples/CommuneXML'
     Commune200:
       description: Opération réussie
       content:
