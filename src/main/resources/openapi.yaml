@@ -1,0 +1,474 @@
+openapi: 3.1.0
+info:
+  title: API RMéS
+  description: API sur les métadonnées de l'Insee
+  version: 3.7.2
+externalDocs:
+  description: 'This API is is open source : the sources can be found there'
+  url: https://github.com/InseeFr/Metadata-API
+servers:
+  - url: http://localhost:8080/metadata-api
+tags:
+  #  - name: nomenclatures
+  #    description: Nomenclatures API
+  #  - name: concepts
+  #    description: Concepts API
+  #  - name: operations
+  #    description: Operations API
+  - name: geoDepartement
+    description: 'API géographie : Département'
+  - name: geoCommune
+    description: 'API géographie : Commune'
+  - name: geo
+    description: 'API géographie : Générique'
+paths:
+  /geo/{typeTerritoire}/{code}:
+    get:
+      tags:
+        - geo
+      summary: 'Informations sur un territoire quelqconque identifié par son type et son code'
+      operationId: 'getTerritoireByTypeAndCode'
+      parameters:
+        - $ref: '#/components/parameters/dateActive'
+        - $ref: '#/components/parameters/codeTerritoireInPath'
+        - $ref: '#/components/parameters/typeTerritoireInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Territoire200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/departement/{code}:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations sur un departement identifié par son code (deux ou trois caractères)'
+      operationId: 'getcogdep'
+      x-operation-extra-annotation: '@fr.insee.oascache.metadata.annotations.HttpCache(duration=30)'
+      parameters:
+        - $ref: '#/components/parameters/dateActive'
+        - $ref: '#/components/parameters/codeDepInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Departement200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  #  /geo/cantons:
+  /geo/departement/{code}/descendants:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les territoires inclus dans le departement'
+      operationId: 'getcogdepdesc'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateActive'
+        - $ref: '#/components/parameters/filtreNom'
+        - $ref: '#/components/parameters/typeTerritoire'
+      responses:
+        '200':
+          $ref: '#/components/responses/Descendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/communes:
+    get:
+      tags:
+        - geoCommune
+      description: |-
+        Informations sur toutes les communes actives à la date donnée. Par défaut, c'est la date courante.
+      operationId: 'getcogcomliste'
+      x-operation-extra-annotation: '@fr.insee.oascache.metadata.annotations.HttpCache(duration=30)'
+      parameters:
+        - $ref: '#/components/parameters/dateActive'
+        - $ref: '#/components/parameters/filtreNom'
+        - $ref: '#/components/parameters/com'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  # utiliser responses.200.links.getcogcom.operationID : getcogcom
+  /geo/commune/{code}:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Informations sur une commune française identifiée par son code (cinq caractères)'
+      operationId: getcogcom
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateActive'
+      responses:
+        '200':
+          $ref: '#/components/responses/Commune200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  parameters:
+    codeTerritoireInPath:
+      name: 'code'
+      in: path
+      description: 'Code identifiant un territoire'
+      required: true
+      schema:
+        type: string
+    typeTerritoireInPath:
+      name: 'typeTerritoire'
+      in: path
+      description: 'Type d''un territoire'
+      required: true
+      schema:
+        $ref: '#/components/schemas/TypeEnum'
+    codeDepInPath:
+      name: 'code'
+      in: path
+      description: 'Code du département (deux ou trois caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeDep'
+    codeCommuneInPath:
+      required: true
+      name: code
+      in: path
+      description: 'Code de la commune (cinq caractères)'
+      schema:
+        $ref: '#/components/schemas/CodeCom'
+    dateActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer la commune active à la date donnée. Par défaut, c'est la date courante. (Format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoire:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé.'
+      schema:
+        $ref: '#/components/schemas/TypeEnum'
+    filtreNom:
+      name: 'filtreNom'
+      in: query
+      description: 'Filtre sur le nom de la commune'
+      schema:
+        type: string
+        example: 'Bonnay'
+    com:
+      name: 'com'
+      in: 'query'
+      description: |-
+        Sélectionner `true` pour inclure les collectivités d'outre-mer
+      schema:
+        type: boolean
+        default: false
+      example: false
+  examples:
+    CommuneXML:
+      externalValue: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Commune code="01002" uri="http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e">
+          <DateCreation>1943-01-01</DateCreation>
+          <type>Commune</type>
+          <TypeArticle>5</TypeArticle>
+          <IntituleSansArticle>Abergement-de-Varey</IntituleSansArticle>
+          <Intitule>L'Abergement-de-Varey</Intitule>
+        </Commune>
+    CommuneListe:
+      value:
+        - code: '01002'
+          uri: 'http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e'
+          dateCreation: '1943-01-01'
+          type: 'Commune'
+          typeArticle: '5'
+          intituleSansArticle: 'Abergement-de-Varey'
+          intitule: 'L''Abergement-de-Varey'
+    Commune:
+      value:
+        code: '01002'
+        uri: 'http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e'
+        dateCreation: '1943-01-01'
+        type: 'Commune'
+        typeArticle: '5'
+        intituleSansArticle: 'Abergement-de-Varey'
+        intitule: 'L''Abergement-de-Varey'
+  responses:
+    IncorrectRequest:
+      description: 'La syntaxe de la requête est incorrecte'
+    NotFound:
+      description: 'Ressource non trouvée'
+    NotAcceptable:
+      description: 'L''en-tête HTTP ''Accept'' contient une valeur non acceptée'
+    ServerError:
+      description: 'Erreur interne du serveur'
+    Descendants200:
+      description: 'Opération réussie pour les descendants d''un territoire'
+      #      links:
+      #        territoire:
+      #          operationId: getTerritoireByTypeAndCode
+      #          parameters:
+      #            typeTerritoire: $response.body#/type
+      #            code: $response.body#/code
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeTerritoires'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeTerritoires'
+    Departement200:
+      description: 'Opération réussie pour le département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Departement'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Departement'
+    CommuneListe200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommuneListe'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListe'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommuneListe'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListe'
+    Territoire200:
+      description: Opération réussie pour la récupération d''un territoire d''après son type et son code
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Territoire'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Territoire'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneXML'
+    Commune200:
+      description: Opération réussie
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Commune'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Commune'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Commune'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Commune'
+  schemas:
+    Territoire:
+      oneOf:
+        - $ref: '#/components/schemas/Commune'
+        - $ref: '#/components/schemas/Departement'
+      discriminator:
+        propertyName: territoireType
+      required:
+        - territoireType
+      properties:
+        territoireType:
+          $ref: '#/components/schemas/TypeEnum'
+    CodeCom:
+      pattern: '[0-9][0-9AB][0-9]{3}'
+      type: 'string'
+      xml:
+        attribute: true
+      example: '14475'
+    CodeDep:
+      description: 'Code d''un département'
+      pattern: '([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])'
+      type: string
+      xml:
+        attribute: true
+      example: '22'
+    CommuneListe:
+      description: 'Liste de communes'
+      type: array
+      xml:
+        wrapped: true
+        name: Communes
+      items:
+        $ref: '#/components/schemas/Commune'
+    TypeEnum:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - Canton
+        - Arrondissement
+        - Departement
+        - Region
+      example: 'Canton'
+    TerritoireBase:
+      type: object
+      required:
+        - code
+        - uri
+        - dateCreation
+        - intituleSansArticle
+        - typeArticle
+        - intitule
+      properties:
+        ###### Properties copied from TerritoireRef ! ########
+        code:
+          type: string
+          description: 'Code identifiant un teritoire quelqconque'
+        territoireType:
+          $ref: '#/components/schemas/TypeEnum'
+        #######################################################
+        uri:
+          type: string
+          pattern: uri
+          xml:
+            attribute: true
+          example: 'http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e'
+        dateCreation:
+          type: string
+          description: 'Date de création du territoire s''il n''existait pas au premier COG du 1er janvier 1943'
+          format: date
+          example: '2016-01-20'
+          xml:
+            name: DateCreation
+        dateSuppression:
+          type: string
+          description: 'Date de supression du territoire s''il a été supprimé'
+          format: date
+          example: '2016-01-20'
+          xml:
+            name: DateSuppression
+        intituleSansArticle:
+          xml:
+            name: IntituleSansArticle
+          type: string
+          example: 'Teste de Buch'
+        typeArticle:
+          xml:
+            name: TypeArticle
+          type: string
+          enum:
+            - 0:
+                article:
+                charniere: 'De'
+            - 1:
+                article:
+                charniere: 'D'''
+            - 2:
+                article: 'Le'
+                charniere: 'Du'
+            - 3:
+                article: 'La'
+                charniere: 'De La'
+            - 4:
+                article: 'Les'
+                charniere: 'Des'
+            - 5:
+                article: 'L'''
+                charniere: 'De L'''
+            - 6:
+                article: 'Aux'
+                charniere: 'Des'
+            - 7:
+                article: 'Las'
+                charniere: 'De Las'
+            - 8:
+                article: 'Los'
+                charniere: 'De Los'
+            - X:
+                article:
+                charniere:
+          example: '3'
+        intitule:
+          type: string
+          example: 'La Teste de Buch'
+          xml:
+            name: Intitule
+    ListeTerritoires:
+      description: 'Liste de références sur des territoires'
+      type: array
+      xml:
+        wrapped: true
+        name: Territoires
+      items:
+        $ref: '#/components/schemas/TerritoireRef'
+    Departement:
+      xml:
+        name: Departement
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase'
+      properties:
+        code:
+          $ref: '#/components/schemas/CodeDep'
+        chefLieu:
+          type: object
+          properties:
+            ###### Properties copied from TerritoireRef ! ########
+            code:
+              type: string
+              description: 'Code identifiant un teritoire quelconque'
+            territoireType:
+              $ref: '#/components/schemas/TypeEnum'
+          #######################################################
+          xml:
+            name: ChefLieu
+    TerritoireRef:
+      xml:
+        name: TerritoireRef
+      type: object
+      required:
+        - code
+        - territoireType
+      description: 'Références vers un territoire de n''importe quel type'
+      properties:
+        code:
+          type: string
+          description: 'Code identifiant un teritoire quelqconque'
+        territoireType:
+          $ref: '#/components/schemas/TypeEnum'
+    Commune:
+      xml:
+        name: Commune
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase'
+      properties:
+        code:
+          $ref: '#/components/schemas/CodeCom'
