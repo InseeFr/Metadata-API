@@ -296,17 +296,6 @@ components:
             défaut:
               $ref: '#/components/examples/Commune'
   schemas:
-    Territoire:
-      oneOf:
-        - $ref: '#/components/schemas/Commune'
-        - $ref: '#/components/schemas/Departement'
-      discriminator:
-        propertyName: territoireType
-      required:
-        - territoireType
-      properties:
-        territoireType:
-          $ref: '#/components/schemas/TypeEnum'
     CodeCom:
       pattern: '[0-9][0-9AB][0-9]{3}'
       type: 'string'
