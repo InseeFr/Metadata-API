@@ -1,0 +1,736 @@
+openapi: 3.1.0
+info:
+  title: API RMéS
+  description: API sur les métadonnées de l'Insee
+  version: 3.7.2
+externalDocs:
+  description: 'This API is is open source : the sources can be found there'
+  url: https://github.com/InseeFr/Metadata-API
+servers:
+  - url: http://localhost:8080/metadata-api
+tags:
+  #  - name: nomenclatures
+  #    description: Nomenclatures API
+  #  - name: concepts
+  #    description: Concepts API
+  #  - name: operations
+  #    description: Operations API
+  - name: geoDepartement
+    description: 'API géographie : Département'
+  - name: geoCommune
+    description: 'API géographie : Commune'
+  - name: geo
+    description: 'API géographie : Générique'
+paths:
+  /geo/departement/{code}:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations sur un departement identifié par son code (deux ou trois caractères)'
+      operationId: 'getcogdep'
+      parameters:
+        - $ref: '#/components/parameters/dateDepartementActif'
+        - $ref: '#/components/parameters/codeDepInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Departement200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  #  /geo/cantons:
+  /geo/departement/{code}/descendants:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les territoires inclus dans le departement'
+      operationId: 'getcogdepdesc'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDansDepartement'
+        - $ref: '#/components/parameters/filtreNom'
+        - $ref: '#/components/parameters/typeTerritoireInclusDansDepartement'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListeDescendantsDepartement200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/departement/{code}/precedents:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les departements qui précèdent le departement'
+      operationId: 'getcogdepprec'
+      parameters:
+        - $ref: '#/components/parameters/dateDepartementDepart'
+        - $ref: '#/components/parameters/codeDepInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListeDepartementsWithDateSuppression200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/departement/{code}/projetes:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les départements qui résultent de la projection du département à la date passée en paramètre.'
+      operationId: 'getcogdepproj'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateDepartementDepart'
+        - $ref: '#/components/parameters/dateProjection'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListeDepartementsWithDateSuppression200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/communes:
+    get:
+      tags:
+        - geoCommune
+      description: |-
+        Informations sur toutes les communes actives à la date donnée. Par défaut, c'est la date courante.
+      operationId: 'getcogcomliste'
+      parameters:
+        - $ref: '#/components/parameters/dateCommunesActives'
+        - $ref: '#/components/parameters/filtreNom'
+        - $ref: '#/components/parameters/com'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommunesListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  # utiliser responses.200.links.getcogcom.operationID : getcogcom
+  /geo/commune/{code}:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Informations sur une commune française identifiée par son code (cinq caractères)'
+      operationId: getcogcom
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateActive'
+      responses:
+        '200':
+          $ref: '#/components/responses/Commune200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  parameters:
+    codeTerritoireInPath:
+      name: 'code'
+      in: path
+      description: 'Code identifiant un territoire'
+      required: true
+      schema:
+        type: string
+    codeDepInPath:
+      name: 'code'
+      in: path
+      description: 'Code du département (deux ou trois caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeDep'
+    codeCommuneInPath:
+      required: true
+      name: code
+      in: path
+      description: 'Code de la commune (cinq caractères)'
+      schema:
+        $ref: '#/components/schemas/CodeCom'
+    dateDepartementActif:
+      in: query
+      description: |-
+        Filtre pour renvoyer la département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateTerritoiresActifsDansDepartement:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans le département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')
+      name: dateTerritoiresActifsDansDepartement
+      schema:
+        type: 'string'
+        format: date
+    dateDepartementDepart:
+      in: query
+      description: |-
+        Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')
+      name: dateDepartementDepart
+      schema:
+        type: 'string'
+        format: date
+    dateProjection:
+      required: true
+      in: query
+      description: |-
+        Date vers laquelle est projeté le departement. Paramètre obligatoire (Format : 'AAAA-MM-JJ')
+      name: dateProjection
+      schema:
+        type: 'string'
+        format: date
+    dateActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer la commune active à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateCommunesActives:
+      in: query
+      description: |-
+        Filtre pour renvoyer les communes actives à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoire:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnum'
+    typeTerritoireInclusDansDepartement:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumInclusDansDepartement'
+    filtreNom:
+      name: 'filtreNom'
+      in: query
+      description: 'Filtre sur le nom de la commune'
+      schema:
+        type: string
+        example: 'Bonnay'
+    com:
+      name: 'com'
+      in: 'query'
+      description: |-
+        Sélectionner "true" pour inclure les collectivités d'outre-mer
+      schema:
+        type: boolean
+        example: false
+
+  examples:
+    Departement:
+      value:
+        code: '22'
+        uri: 'http://id.insee.fr/geo/departement/f07f6a49-9dce-4f2d-a99e-5d61eedf2827'
+        type: 'Departement'
+        dateCreation: '1990-03-08'
+        intituleSansArticle: 'Côtes-d''Armor'
+        typeArticle: '4'
+        chefLieu": '22278'
+        intitule: 'Côtes-d''Armor'
+    ListeDescendantsDepartement:
+      value:
+        - code: '221'
+          uri: 'http://id.insee.fr/geo/arrondissement/1e07b989-b3ff-43be-bfe6-05e9c9ba19d7'
+          type: 'Arrondissement'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Dinan'
+          typeArticle: '0'
+          chefLieu: '22050'
+          intitule: 'Dinan'
+        - code: '222'
+          uri: 'http://id.insee.fr/geo/arrondissement/87fdca9c-f9ed-41e5-93d9-f44534ffd725'
+          type: 'Arrondissement'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Guingamp'
+          typeArticle: '0'
+          chefLieu: '22070'
+          intitule: 'Guingamp'
+        - code: 'code'
+          uri: 'uri'
+          type: 'Arrondissement'
+          dateCreation: 'dateCreation'
+          intituleSansArticle: 'intituleSansArticle'
+          typeArticle: 'typeArticle'
+          chefLieu: 'chefLieu'
+          intitule: 'intitule'
+    ListeDepartementsWithDateSuppression:
+      value:
+        - code: '22'
+          uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
+          type: 'Departement'
+          dateCreation: '1943-01-01'
+          dateSuppression: '1990-03-08'
+          intituleSansArticle: 'Côtes-du-Nord'
+          typeArticle: '4'
+          chefLieu": '22278'
+          intitule: 'Côtes-du-Nord'
+    CommuneXML:
+      externalValue: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Commune code="01002" uri="http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e">
+          <DateCreation>1943-01-01</DateCreation>
+          <type>Commune</type>
+          <TypeArticle>5</TypeArticle>
+          <IntituleSansArticle>Abergement-de-Varey</IntituleSansArticle>
+          <Intitule>L'Abergement-de-Varey</Intitule>
+        </Commune>
+    CommunesListe:
+      value:
+        - code: '25073'
+          uri: 'http://id.insee.fr/geo/commune/2ac33139-2a97-4b09-87b3-263cbf14c0b6'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Bonnay'
+          typeArticle: '0'
+          intitule: 'Bonnay'
+        - code: '71042'
+          uri: 'http://id.insee.fr/geo/commune/2ee9b3c8-9861-40a0-af5e-f84ce2f2b3bc'
+          type: 'Commune'
+          dateCreation: '2023-01-01'
+          intituleSansArticle: 'Bonnay-Saint-Ythaire'
+          typeArticle: '0'
+          intitule: 'Bonnay-Saint-Ythaire'
+        - code: '80112'
+          uri: 'http://id.insee.fr/geo/commune/98c861ac-6da4-4f18-ba45-665bae059c5f'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Bonnay'
+          typeArticle: '0'
+          intitule: 'Bonnay'
+    Commune:
+      value:
+        code: '14475'
+        uri: 'http://id.insee.fr/geo/commune/4b88116a-9ede-42f5-aef5-a70304de593b'
+        type: 'Commune'
+        dateCreation: '2017-01-01'
+        intituleSansArticle: 'Val d''Arry'
+        typeArticle: '0'
+        intitule: 'Val d''Arry'
+  responses:
+    IncorrectRequest:
+      description: 'La syntaxe de la requête est incorrecte'
+    NotFound:
+      description: 'Ressource non trouvée'
+    NotAcceptable:
+      description: 'L''en-tête HTTP ''Accept'' contient une valeur non acceptée'
+    ServerError:
+      description: 'Erreur interne du serveur'
+    ListeDescendantsDepartement200:
+      description: 'Opération réussie pour les descendants d''un département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeDescendantsDepartement'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDescendantsDepartement'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeDescendantsDepartement'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDescendantsDepartement'
+    Departement200:
+      description: 'Opération réussie pour le département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Departement'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Departement'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Departement'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Departement'
+    ListeDepartementsWithDateSuppression200:
+      description: 'Opération réussie pour le département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeDepartementsWithDateSuppression'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDepartementsWithDateSuppression'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeDepartementsWithDateSuppression'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDepartementsWithDateSuppression'
+    CommunesListe200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommunesListe'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommunesListe'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommunesListe'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommunesListe'
+    Commune200:
+      description: Opération réussie
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Commune'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Commune'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Commune'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Commune'
+  schemas:
+    ListeDescendantsDepartement:
+      description: 'Liste des descendants d''un département. Les services geo/departement/{code}/precedents et geo/departement/{code}/projetes en héritent'
+      type: array
+      xml:
+        wrapped: true
+        name: Arrondissements
+      items:
+        $ref: '#/components/schemas/Arrondissement'
+    Arrondissement:
+      required:
+        - code
+        - uri
+        - type
+        - dateCreation
+        - intituleSansArticle
+        - typeArticle
+        - intitule
+      xml:
+        name: Arrondissement
+      properties:
+        code:
+          type: string
+          example: '674'
+        uri:
+          type: string
+          pattern: uri
+          xml:
+            attribute: true
+          example: 'http://id.insee.fr/geo/arrondissement/7f59df93-132b-400f-9aa6-b3c6be1018eb'
+        type:
+          type: string
+          example: 'Arrondissement'
+        dateCreation:
+          type: string
+          description: 'Date de création de l''arrondissement s''il n''existait pas au premier COG du 1er janvier 1943'
+          format: date
+          example: '2018-12-31'
+          xml:
+            name: DateCreation
+        intituleSansArticle:
+          xml:
+            name: IntituleSansArticle
+          type: string
+          example: 'Saverne'
+        typeArticle:
+          xml:
+            name: TypeArticle
+          type: string
+          enum:
+            - 0:
+                article:
+                charniere: 'De'
+            - 1:
+                article:
+                charniere: 'D'''
+            - 2:
+                article: 'Le'
+                charniere: 'Du'
+            - 3:
+                article: 'La'
+                charniere: 'De La'
+            - 4:
+                article: 'Les'
+                charniere: 'Des'
+            - 5:
+                article: 'L'''
+                charniere: 'De L'''
+            - 6:
+                article: 'Aux'
+                charniere: 'Des'
+            - 7:
+                article: 'Las'
+                charniere: 'De Las'
+            - 8:
+                article: 'Los'
+                charniere: 'De Los'
+            - X:
+                article:
+                charniere:
+          example: '0'
+        chefLieu:
+          type: string
+          example: '67437'
+          xml:
+            name: ChefLieu
+        intitule:
+          type: string
+          example: 'Saverne'
+          xml:
+            name: Intitule
+    CodeCom:
+      pattern: '[0-9][0-9AB][0-9]{3}'
+      type: 'string'
+      xml:
+        attribute: true
+      example: '14475'
+    CodeDep:
+      description: 'Code d''un département'
+      pattern: '([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])'
+      type: string
+      xml:
+        attribute: true
+      example: '22'
+    CommunesListe:
+      description: 'Liste de communes'
+      type: array
+      xml:
+        wrapped: true
+        name: Communes
+      items:
+        $ref: '#/components/schemas/Commune'
+    TypeEnum:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - Canton
+        - Arrondissement
+        - Departement
+        - Region
+      example: 'Canton'
+    TypeEnumInclusDansDepartement:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - CommuneAssociee
+        - CommuneDeleguee
+        - Iris
+        - Arrondissement
+        - ArrondissementMunicipal
+      example: 'Arrondissement'
+    Departement:
+      required:
+        - code
+        - uri
+        - type
+        - dateCreation
+        - intituleSansArticle
+        - typeArticle
+        - chefLieu
+        - intitule
+      xml:
+        name: Departement
+      properties:
+        code:
+          $ref: '#/components/schemas/CodeDep'
+        chefLieu:
+          type: string
+        uri:
+          type: string
+          pattern: uri
+          xml:
+            attribute: true
+        type:
+          xml:
+            name: type
+          type: string
+        dateCreation:
+          type: string
+          description: 'Date de création du territoire s''il n''existait pas au premier COG du 1er janvier 1943'
+          format: date
+          xml:
+            name: DateCreation
+        intituleSansArticle:
+          xml:
+            name: IntituleSansArticle
+          type: string
+        typeArticle:
+          xml:
+            name: TypeArticle
+          type: string
+          enum:
+            - 0:
+                article:
+                charniere: 'De'
+            - 1:
+                article:
+                charniere: 'D'''
+            - 2:
+                article: 'Le'
+                charniere: 'Du'
+            - 3:
+                article: 'La'
+                charniere: 'De La'
+            - 4:
+                article: 'Les'
+                charniere: 'Des'
+            - 5:
+                article: 'L'''
+                charniere: 'De L'''
+            - 6:
+                article: 'Aux'
+                charniere: 'Des'
+            - 7:
+                article: 'Las'
+                charniere: 'De Las'
+            - 8:
+                article: 'Los'
+                charniere: 'De Los'
+            - X:
+                article:
+                charniere:
+        intitule:
+          type: string
+          xml:
+            name: Intitule
+    ListeDepartementsWithDateSuppression:
+      allOf:
+        - $ref: '#/components/schemas/ListeDescendantsDepartement'
+          xml:
+            wrapped: true
+            name: Departement
+        - required:
+            - dateSuppression
+          properties:
+            dateSuppression:
+              type: string
+              description: 'Date de suppression du territoire'
+              format: date
+              xml:
+                name: DateSuppression
+    TerritoireRef:
+      xml:
+        name: TerritoireRef
+      type: object
+      required:
+        - code
+        - territoireType
+      description: 'Références vers un territoire de n''importe quel type'
+      properties:
+        code:
+          type: string
+          description: 'Code identifiant un teritoire quelqconque'
+        territoireType:
+          $ref: '#/components/schemas/TypeEnum'
+    Commune:
+      required:
+        - code
+        - uri
+        - type
+        - dateCreation
+        - intituleSansArticle
+        - typeArticle
+        - intitule
+      xml:
+        name: Commune
+      properties:
+        code:
+          $ref: '#/components/schemas/CodeCom'
+        uri:
+          type: string
+          pattern: uri
+          xml:
+            attribute: true
+        type:
+          xml:
+            name: type
+          type: string
+        dateCreation:
+          type: string
+          description: 'Date de création de la commune si ell n''existait pas au premier COG du 1er janvier 1943'
+          format: date
+          xml:
+            name: DateCreation
+        intituleSansArticle:
+          xml:
+            name: IntituleSansArticle
+          type: string
+        typeArticle:
+          xml:
+            name: TypeArticle
+          type: string
+          enum:
+            - 0:
+                article:
+                charniere: 'De'
+            - 1:
+                article:
+                charniere: 'D'''
+            - 2:
+                article: 'Le'
+                charniere: 'Du'
+            - 3:
+                article: 'La'
+                charniere: 'De La'
+            - 4:
+                article: 'Les'
+                charniere: 'Des'
+            - 5:
+                article: 'L'''
+                charniere: 'De L'''
+            - 6:
+                article: 'Aux'
+                charniere: 'Des'
+            - 7:
+                article: 'Las'
+                charniere: 'De Las'
+            - 8:
+                article: 'Los'
+                charniere: 'De Los'
+            - X:
+                article:
+                charniere:
+        intitule:
+          type: string
+          xml:
+            name: Intitule
