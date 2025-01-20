@@ -72,8 +72,8 @@ paths:
       summary: 'Informations concernant les departements qui précèdent le departement'
       operationId: 'getcogdepprec'
       parameters:
-        - $ref: '#/components/parameters/dateDepartementDepart'
         - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateDepartementDepart'
       responses:
         '200':
           $ref: '#/components/responses/ListeDepartementsWithDateSuppression200'
@@ -110,8 +110,7 @@ paths:
     get:
       tags:
         - geoCommune
-      description: |-
-        Informations sur toutes les communes actives à la date donnée. Par défaut, c'est la date courante.
+      summary: Informations sur toutes les communes actives à la date donnée. Par défaut, c'est la date courante.
       operationId: 'getcogcomliste'
       parameters:
         - $ref: '#/components/parameters/dateCommunesActives'
@@ -184,15 +183,15 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer les territoires inclus dans le département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')
-      name: dateTerritoiresActifsDansDepartement
+      name: date
       schema:
         type: 'string'
         format: date
     dateDepartementDepart:
       in: query
       description: |-
-        Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')
-      name: dateDepartementDepart
+        Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
       schema:
         type: 'string'
         format: date
@@ -200,7 +199,7 @@ components:
       required: true
       in: query
       description: |-
-        Date vers laquelle est projeté le departement. Paramètre obligatoire (Format : 'AAAA-MM-JJ')
+        Date vers laquelle est projeté le departement. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
         type: 'string'
@@ -429,10 +428,10 @@ components:
       type: array
       xml:
         wrapped: true
-        name: Arrondissements
+        name: Descendant
       items:
-        $ref: '#/components/schemas/Arrondissement'
-    Arrondissement:
+        $ref: '#/components/schemas/TerritoireSocle'
+    TerritoireSocle:
       required:
         - code
         - uri
@@ -442,32 +441,27 @@ components:
         - typeArticle
         - intitule
       xml:
-        name: Arrondissement
+        name: TerritoireSocle
       properties:
         code:
           type: string
-          example: '674'
         uri:
           type: string
           pattern: uri
           xml:
             attribute: true
-          example: 'http://id.insee.fr/geo/arrondissement/7f59df93-132b-400f-9aa6-b3c6be1018eb'
         type:
           type: string
-          example: 'Arrondissement'
         dateCreation:
           type: string
-          description: 'Date de création de l''arrondissement s''il n''existait pas au premier COG du 1er janvier 1943'
+          description: 'Date de création du territoire s''il n''existait pas au premier COG du 1er janvier 1943'
           format: date
-          example: '2018-12-31'
           xml:
             name: DateCreation
         intituleSansArticle:
           xml:
             name: IntituleSansArticle
           type: string
-          example: 'Saverne'
         typeArticle:
           xml:
             name: TypeArticle
@@ -503,15 +497,12 @@ components:
             - X:
                 article:
                 charniere:
-          example: '0'
         chefLieu:
           type: string
-          example: '67437'
           xml:
             name: ChefLieu
         intitule:
           type: string
-          example: 'Saverne'
           xml:
             name: Intitule
     CodeCom:
