@@ -52,8 +52,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/codeDepInPath'
         - $ref: '#/components/parameters/dateTerritoiresActifsDansDepartement'
-        - $ref: '#/components/parameters/filtreNom'
         - $ref: '#/components/parameters/typeTerritoireInclusDansDepartement'
+        - $ref: '#/components/parameters/filtreNomDescendant'
       responses:
         '200':
           $ref: '#/components/responses/ListeDescendantsDepartement200'
@@ -174,7 +174,7 @@ components:
     dateDepartementActif:
       in: query
       description: |-
-        Filtre pour renvoyer la département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer la département actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -182,7 +182,7 @@ components:
     dateTerritoiresActifsDansDepartement:
       in: query
       description: |-
-        Filtre pour renvoyer les territoires inclus dans le département actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer les territoires inclus dans le département actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -239,6 +239,13 @@ components:
       schema:
         type: string
         example: 'Bonnay'
+    filtreNomDescendant:
+      name: 'filtreNomDescendant'
+      in: query
+      description: 'Filtre sur le nom des territoires renvoyés'
+      schema:
+        type: string
+        example: 'Dinan'
     com:
       name: 'com'
       in: 'query'
@@ -257,7 +264,7 @@ components:
         dateCreation: '1990-03-08'
         intituleSansArticle: 'Côtes-d''Armor'
         typeArticle: '4'
-        chefLieu": '22278'
+        chefLieu: '22278'
         intitule: 'Côtes-d''Armor'
     ListeDescendantsDepartement:
       value:
@@ -277,14 +284,6 @@ components:
           typeArticle: '0'
           chefLieu: '22070'
           intitule: 'Guingamp'
-        - code: 'code'
-          uri: 'uri'
-          type: 'Arrondissement'
-          dateCreation: 'dateCreation'
-          intituleSansArticle: 'intituleSansArticle'
-          typeArticle: 'typeArticle'
-          chefLieu: 'chefLieu'
-          intitule: 'intitule'
     ListeDepartementsWithDateSuppression:
       value:
         - code: '22'
@@ -294,7 +293,7 @@ components:
           dateSuppression: '1990-03-08'
           intituleSansArticle: 'Côtes-du-Nord'
           typeArticle: '4'
-          chefLieu": '22278'
+          chefLieu: '22278'
           intitule: 'Côtes-du-Nord'
     CommuneXML:
       externalValue: |-
@@ -424,14 +423,14 @@ components:
               $ref: '#/components/examples/Commune'
   schemas:
     ListeDescendantsDepartement:
-      description: 'Liste des descendants d''un département. Les services geo/departement/{code}/precedents et geo/departement/{code}/projetes en héritent'
+      description: 'Liste des descendants d''un département'
       type: array
       xml:
         wrapped: true
         name: Descendant
       items:
-        $ref: '#/components/schemas/TerritoireSocle'
-    TerritoireSocle:
+        - $ref: '#/components/schemas/Departement'
+    TerritoireBase:
       required:
         - code
         - uri
@@ -441,7 +440,7 @@ components:
         - typeArticle
         - intitule
       xml:
-        name: TerritoireSocle
+        name: TerritoireBase
       properties:
         code:
           type: string
@@ -550,80 +549,20 @@ components:
         - ArrondissementMunicipal
       example: 'Arrondissement'
     Departement:
-      required:
-        - code
-        - uri
-        - type
-        - dateCreation
-        - intituleSansArticle
-        - typeArticle
-        - chefLieu
-        - intitule
-      xml:
-        name: Departement
-      properties:
-        code:
-          $ref: '#/components/schemas/CodeDep'
-        chefLieu:
-          type: string
-        uri:
-          type: string
-          pattern: uri
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase'
           xml:
-            attribute: true
-        type:
-          xml:
-            name: type
-          type: string
-        dateCreation:
-          type: string
-          description: 'Date de création du territoire s''il n''existait pas au premier COG du 1er janvier 1943'
-          format: date
-          xml:
-            name: DateCreation
-        intituleSansArticle:
-          xml:
-            name: IntituleSansArticle
-          type: string
-        typeArticle:
-          xml:
-            name: TypeArticle
-          type: string
-          enum:
-            - 0:
-                article:
-                charniere: 'De'
-            - 1:
-                article:
-                charniere: 'D'''
-            - 2:
-                article: 'Le'
-                charniere: 'Du'
-            - 3:
-                article: 'La'
-                charniere: 'De La'
-            - 4:
-                article: 'Les'
-                charniere: 'Des'
-            - 5:
-                article: 'L'''
-                charniere: 'De L'''
-            - 6:
-                article: 'Aux'
-                charniere: 'Des'
-            - 7:
-                article: 'Las'
-                charniere: 'De Las'
-            - 8:
-                article: 'Los'
-                charniere: 'De Los'
-            - X:
-                article:
-                charniere:
-        intitule:
-          type: string
-          xml:
-            name: Intitule
+            wrapped: true
+            name: Departement
+        - required:
+            - chefLieu
+          properties:
+            chefLieu:
+              type: string
+              description: 'Chef-lieu du département'
+              format: date
+              xml:
+                name: ChefLieu
     ListeDepartementsWithDateSuppression:
       allOf:
         - $ref: '#/components/schemas/ListeDescendantsDepartement'
