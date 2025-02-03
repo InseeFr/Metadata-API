@@ -36,10 +36,23 @@
             <artifactId>jackson-databind-nullable</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.swagger.parser.v3</groupId>
+            <artifactId>swagger-parser-v3</artifactId>
+        </dependency>
+
     </dependencies>
 
 
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.swagger.parser.v3</groupId>
+                <artifactId>swagger-parser-v3</artifactId>
+                <version>2.1.25</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
     <build>
@@ -70,7 +83,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.build.directory}/openapi.yaml</inputSpec>
+                            <inputSpec>${project.baseUri}/target/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <modelPackage>fr.insee.rmes.metadata.model</modelPackage>
                             <apiPackage>fr.insee.rmes.metadata.api</apiPackage>
