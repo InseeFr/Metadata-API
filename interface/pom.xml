@@ -71,7 +71,7 @@
                             <apiPackage>fr.insee.rmes.metadata.api</apiPackage>
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
-                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateSupportingFiles>true</generateSupportingFiles>
                             <configOptions>
                                 <documentationProvider>none</documentationProvider>
                                 <annotationLibrary>none</annotationLibrary>
