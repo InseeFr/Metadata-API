@@ -534,12 +534,13 @@ components:
           xml:
             name: DateSuppression
     TerritoireBase_ChefLieu:
+      xml:
+        wrapped: true
+        name: TerritoireBase_AvecChefLieu
       allOf:
         - $ref: '#/components/schemas/TerritoireBase'
-          xml:
-            wrapped: true
-            name: TerritoireBase_AvecChefLieu
-        - required:
+        - type: object
+          required:
             - chefLieu
           properties:
             chefLieu:
@@ -549,12 +550,13 @@ components:
               xml:
                 name: ChefLieu
     Territoire_TousAttributs:
+      xml:
+        wrapped: true
+        name: TerritoireBase_AvecTousLesAttributsPossibles
       allOf:
         - $ref: '#/components/schemas/TerritoireBase'
-          xml:
-            wrapped: true
-            name: TerritoireBase_AvecTousLesAttributsPossibles
-        - required:
+        - type: object
+          required:
             - chefLieu
             - typeDIris
             - categorieJuridique
@@ -606,15 +608,15 @@ components:
         wrapped: true
         name: DescendantsDepartement
       items:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     ListeDepartementsProjetesAvecChefLieu:
       description: 'Liste des départements projetés'
       type: array
       xml:
         wrapped: true
-        name: Descendant
+        name: ListeDepartementsProjetes
       items:
-        - $ref: '#/components/schemas/ListeTerritoiresAvecChefLieu'
+        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
     ListeTerritoiresAvecChefLieu:
       description: 'Liste de territoires décrits avec chef-lieu'
       type: array
@@ -622,7 +624,7 @@ components:
         wrapped: true
         name: ListeTerritoiresChefLieu
       items:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
     TerritoireRef:
       xml:
         name: TerritoireRef
