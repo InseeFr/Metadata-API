@@ -84,8 +84,15 @@
                             <apiPackage>fr.insee.rmes.metadata.api</apiPackage>
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
+                            <supportingFilesToGenerate></supportingFilesToGenerate>
+
                             <generateSupportingFiles>true</generateSupportingFiles>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
                             <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                                <library>spring-boot</library>
                                 <documentationProvider>none</documentationProvider>
                                 <annotationLibrary>none</annotationLibrary>
                                 <requestMappingMode>none</requestMappingMode>
