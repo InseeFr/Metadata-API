@@ -17,7 +17,6 @@ public class GeoQueries extends Queries {
     private static final String TYPE_ORIGINE = "typeOrigine";
     private static final String PREVIOUS = "previous";
     private static final String QUERIES_FOLDER = "geographie/";
-    private static final String QUERIES_PAYS_FOLDER = "geographie/pays/";
     private static final String FILTRE = "filtreNom";
     private static final String COM = "com";
     
@@ -34,10 +33,6 @@ public class GeoQueries extends Queries {
     
     public static String getAireAttractionByCodeAndDate(String code, String date) {
         return getTerritoire(code, date, EnumTypeGeographie.AIRE_ATTRACTION);
-    }
-
-    public static String getPaysByCodeAndDate(String code, String date) {
-        return getPays(code, date);
     }
     
     public static String getCommuneByCodeAndDate(String code, String date) {
@@ -142,7 +137,7 @@ public class GeoQueries extends Queries {
     }
 
     public static String getListPays(String date) {
-        return getPays(Constants.NONE,date);
+        return getTerritoire(Constants.NONE, date, EnumTypeGeographie.PAYS);
     }
     
     public static String getListUnitesUrbaines(String date) {
@@ -240,11 +235,7 @@ public class GeoQueries extends Queries {
     }
 
     public static String getDescendantsPays(String code, String date, String type) {
-        Map<String, Object> params = buildCodeAndDateParams(code, date);
-        params.put(TYPE, type);
-        params.put(TYPE_ORIGINE, EnumTypeGeographie.PAYS);
-        params.put(COM,Constants.NONE);
-        return buildRequest(QUERIES_PAYS_FOLDER, "getPaysDescendants.ftlh", params);
+        return getAscendantOrDescendantsQuery(code, date, type, EnumTypeGeographie.PAYS,Constants.ABSENT,Constants.NONE, false);
     }
     
     public static String getDescendantsUniteUrbaine(String code, String date, String type) {
@@ -284,7 +275,7 @@ public class GeoQueries extends Queries {
     }
 
     public static String getNextPays(String code, String date) {
-        return getNextPaysQuery(code,date);
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.PAYS, false);
     }
 
     public static String getNextCantonOuVille(String code, String date) {
@@ -316,7 +307,7 @@ public class GeoQueries extends Queries {
         return getPreviousOrNextQuery(code, date, EnumTypeGeographie.REGION, true);
     }
     public static String getPreviousPays(String code, String date) {
-        return getPreviousPaysQuery(code, date);
+        return getPreviousOrNextQuery(code, date, EnumTypeGeographie.PAYS, true);
     }
 
     public static String getPreviousCanton(String code, String date) {
@@ -453,11 +444,7 @@ public class GeoQueries extends Queries {
         params.put(ASCENDANT, String.valueOf(ascendant));
         if(code.matches("^.{5}0000$") && typeOrigine.getTypeObjetGeo().equals("Iris")) {
             return buildRequest(QUERIES_FOLDER, "getAscendantsIrisByCodeTypeDate.ftlh", params);
-        }
-        if(code.matches("·{99}000$")&& typeOrigine.getTypeObjetGeo().equals("PAYS")) {
-            return buildRequest(QUERIES_PAYS_FOLDER, "getPaysDescendants.ftlh", params);
-        }
-        else {
+        } else {
             return buildRequest(QUERIES_FOLDER, "getAscendantsOrDescendantsByCodeTypeDate.ftlh", params);
         }
 
@@ -474,23 +461,10 @@ public class GeoQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getPreviousOrNextByCodeTypeDate.ftlh", params);
     }
 
-
-    private static String getPreviousPaysQuery(String code,String date) {
-        Map<String, Object> params = buildCodeAndDateParams(code, date);
-        return buildRequest(QUERIES_PAYS_FOLDER, "getPaysPrecedents.ftlh", params);
-    }
-
-    private static String getNextPaysQuery(String code,String date) {
-        Map<String, Object> params = buildCodeAndDateParams(code, date);
-        return buildRequest(QUERIES_PAYS_FOLDER, "getPaysSuivants.ftlh", params);
-    }
-
-
     private static String getTerritoire(String code, String date, EnumTypeGeographie typeGeo) {
         if (typeGeo == EnumTypeGeographie.IRIS && code !="none") {
             return getIris(code, date,typeGeo);
-        }
-        else{
+        } else{
            return  getTerritoireFiltre(code, date, Constants.ABSENT, typeGeo, true);
         }
     }
@@ -528,13 +502,6 @@ public class GeoQueries extends Queries {
         return buildRequest(QUERIES_FOLDER, "getTerritoireByCodeDateNomcommune.ftlh", params);
     }
 
-    private static String getPays(String code, String date) {
-        Map<String, Object> params = new HashMap<>();
-        params.put(CODE, code);
-        params.put(DATE, date);
-        return buildRequest(QUERIES_PAYS_FOLDER, "getPays.ftlh", params);
-    }
-
     private static Map<String, Object> buildCodeAndDateAndFilterParams(String code, String date, String filtreNom, boolean com) {
         Map<String, Object> params = new HashMap<>();
         params.put(CODE, code);
@@ -544,11 +511,7 @@ public class GeoQueries extends Queries {
         return params;
     }
 
-
-
-
-
-    public static String getPaysOLD(String code) {
+    public static String getPays(String code) {
         return String.format(
                 "SELECT ?uri ?intitule ?intituleEntier ?code \n"
                         + "FROM <http://rdf.insee.fr/graphes/geo/cog> \n"
@@ -562,7 +525,6 @@ public class GeoQueries extends Queries {
                         + "  FILTER (REGEX(STR(?uri), \"http://id.insee.fr\")) \n"
                         + "}", code, code);
     }
-
 
 
 }

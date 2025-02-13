@@ -31,7 +31,7 @@ public class ConstGeoApi {
     public static final String PATH_BASSINDEVIE= PATH_SEPARATOR + "bassinDeVie2022";
     public static final String PATH_LISTE_IRIS = PATH_SEPARATOR + "iris";
     public static final String PATH_LISTE_COMMUNE = PATH_SEPARATOR + "communes";
-    public static final String PATH_LISTE_PAYS = PATH_SEPARATOR + "payss";
+    public static final String PATH_LISTE_PAYS = PATH_SEPARATOR + "pays";
     public static final String PATH_LISTE_CANTON = PATH_SEPARATOR + "cantons";
     public static final String PATH_LISTE_REGION = PATH_SEPARATOR + "regions";
     public static final String PATH_LISTE_DEPARTEMENT = PATH_SEPARATOR + "departements";
