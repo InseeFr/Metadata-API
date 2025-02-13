@@ -18,14 +18,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Objet représentant un pays")
 public class Pays extends Territoire {
 
-    @Schema(example = "99254")
+    @Schema(example = "99100")
     private String code = null;
-    @Schema(example = "http://id.insee.fr/geo/pays/99254")
+    @Schema(example ="http://id.insee.fr/geo/pays/b7e3f0c9-b653-4a3e-904a-de63b80e108b")
     private String uri = null;
-    @Schema(example = "CHYPRE")
-    private String intitule = null;
-    @Schema(example = "RÉPUBLIQUE DE CHYPRE")
-    private String intituleEntier = null;
+    @Schema(example = "France")
+    private String nom = null;
+    @Schema(example = "République française")
+    private String nomLong = null;
+    @Schema(example = "FR")
+    private String iso3166alpha2 = null;
+    @Schema(example = "FRA")
+    private String iso3166alpha3 = null;
+    @Schema(example = "250")
+    private String iso3166num = null;
+    @Schema(example = "1943-01-01")
+    private String dateCreation = null;
+    @Schema(example = "2025-12-12")
+    private String dateSuppresion = null;
 
     public Pays() {} // No-args constructor needed for JAXB
 
@@ -53,25 +63,27 @@ public class Pays extends Territoire {
         this.uri = uri;
     }
 
-    @XmlElement(name = "Intitule")
-    @JacksonXmlProperty(localName = "Intitule")
-    @JsonProperty(value = "intitule")
-    public String getIntitule() {
-        return intitule;
+
+    @XmlElement(name = "Nom")
+    @JacksonXmlProperty(localName = "Nom")
+    @JsonProperty(value = "nom")
+
+    public String getNom() {
+        return nom;
+    }
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public void setIntitule(String intitule) {
-        this.intitule = intitule;
+    @XmlElement(name = "NomLong")
+    @JacksonXmlProperty(localName = "NomLong")
+    @JsonProperty(value = "nomLong")
+
+    public String getNomLong() {
+        return nomLong;
     }
 
-    @XmlElement(name = "IntituleEntier")
-    @JacksonXmlProperty(localName = "IntituleEntier")
-    @JsonProperty(value = "intituleEntier")
-    public String getIntituleEntier() {
-        return intituleEntier;
-    }
-
-    public void setIntituleEntier(String intituleEntier) {
-        this.intituleEntier = intituleEntier;
+    public void setNomLong(String nomLong) {
+        this.nomLong = nomLong;
     }
 }
