@@ -27,7 +27,7 @@ public record QueryBuilder (Configuration freemarkerConfiguration) {
         }
         catch (IOException | TemplateException e) {
             //TODO lever une Exception non contrôlée et utiliser un ExceptionHandler au niveau des contrôleurs pour traiter l'erreur
-            log.error("Can't read query {} : {}", queryfile, e);
+            log.error("Can't read query {} : ", queryfile, e);
         }
         return new Query(out);
     }

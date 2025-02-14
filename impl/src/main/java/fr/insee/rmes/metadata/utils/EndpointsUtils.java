@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public class EnpointsUtils {
+public class EndpointsUtils {
 
-    private EnpointsUtils() {}
+    private EndpointsUtils() {}
 
     public static <E> ResponseEntity<List<E>> toResponseEntity(List<E> result) {
         return result == null || result.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(result);
