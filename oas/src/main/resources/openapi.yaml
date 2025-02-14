@@ -546,7 +546,6 @@ components:
             chefLieu:
               type: string
               description: 'Chef-lieu du territoire'
-              format: date
               xml:
                 name: ChefLieu
     Territoire_TousAttributs:
@@ -566,31 +565,26 @@ components:
             chefLieu:
               type: string
               description: 'Chef-lieu du territoire'
-              format: date
               xml:
                 name: ChefLieu
             typeDIris:
               type: string
               description: 'Type d''iris'
-              format: date
               xml:
                 name: typeDIris
             categorieJuridique:
               type: string
               description: 'Catégorie juridique du territoire'
-              format: date
               xml:
                 name: categorieJuridique
             intituleComplet:
               type: string
               description: 'Intitulé complet du territoire'
-              format: date
               xml:
                 name: intituleComplet
             inclusion:
               type: string
               description: 'Inclusion'
-              format: date
               xml:
                 name: inclusion
     ListeCommunes:
