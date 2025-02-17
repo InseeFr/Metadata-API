@@ -12,10 +12,10 @@ public record RequestProcessor(QueryBuilder queryBuilder, Map<String, Object> pa
 
     public <E> List<E> listResult(Class<E> clazz) {
         String typeOrigine;
-        if (clazz.getSimpleName().startsWith("ListeDescendants")) {
-             typeOrigine = clazz.getSimpleName()
-                    .replace("ListeDescendants", "")
-                    .replace("Inner","");
+        if (clazz.getSimpleName().startsWith("Departement")) {
+             typeOrigine = "Departement" ;
+        } else if (clazz.getSimpleName().startsWith("Commune")) {
+            typeOrigine = "Commune" ;
         } else {
             typeOrigine = clazz.getSimpleName();
         }

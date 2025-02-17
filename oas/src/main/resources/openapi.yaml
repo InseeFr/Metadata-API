@@ -56,7 +56,7 @@ paths:
         - $ref: '#/components/parameters/filtreNomDescendant'
       responses:
         '200':
-          $ref: '#/components/responses/ListeDescendantsDepartement200'
+          $ref: '#/components/responses/DepartementListeDescendants200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -76,7 +76,7 @@ paths:
         - $ref: '#/components/parameters/dateDepartementDepart'
       responses:
         '200':
-          $ref: '#/components/responses/ListeDepartementsPrecedents200'
+          $ref: '#/components/responses/DepartementListePrecedents200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -97,7 +97,7 @@ paths:
         - $ref: '#/components/parameters/dateProjection'
       responses:
         '200':
-          $ref: '#/components/responses/ListeDepartementsProjetes200'
+          $ref: '#/components/responses/DepartementListeProjetes200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -118,7 +118,7 @@ paths:
         - $ref: '#/components/parameters/com'
       responses:
         '200':
-          $ref: '#/components/responses/ListeCommunes200'
+          $ref: '#/components/responses/CommunesListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -267,7 +267,7 @@ components:
         chefLieu: '22278'
         intitule: 'Côtes-d''Armor'
 
-    ListeDepartementsPrecedents:
+    DepartementListePrecedents:
       value:
         - code: '22'
           uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
@@ -278,7 +278,7 @@ components:
           typeArticle: '4'
           chefLieu: '22278'
           intitule: 'Côtes-du-Nord'
-    ListeProjetesDepartement:
+    DepartementListeProjetes:
       value:
         - code: '22'
           uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
@@ -289,7 +289,7 @@ components:
           typeArticle: '4'
           chefLieu: '22278'
           intitule: 'Côtes-du-Nord'
-    ListeDescendantsDepartement:
+    DepartementListeDescendants:
       value:
         - code: '221'
           uri: 'http://id.insee.fr/geo/arrondissement/1e07b989-b3ff-43be-bfe6-05e9c9ba19d7'
@@ -307,7 +307,7 @@ components:
           typeArticle: '0'
           chefLieu: '22070'
           intitule: 'Guingamp'
-    ListeCommunes:
+    CommunesListe:
       value:
         - code: '25073'
           uri: 'http://id.insee.fr/geo/commune/2ac33139-2a97-4b09-87b3-263cbf14c0b6'
@@ -348,51 +348,51 @@ components:
       description: 'L''en-tête HTTP ''Accept'' contient une valeur non acceptée'
     ServerError:
       description: 'Erreur interne du serveur'
-    ListeDepartementsProjetes200:
+    DepartementListeProjetes200:
       description: 'Opération réussie pour les projetés d''un département'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeDepartementsProjetesAvecChefLieu'
+            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
           examples:
             défaut:
-              $ref: '#/components/examples/ListeProjetesDepartement'
+              $ref: '#/components/examples/DepartementListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeDepartementsProjetesAvecChefLieu'
+            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
           examples:
             défaut:
-              $ref: '#/components/examples/ListeProjetesDepartement'
-    ListeDepartementsPrecedents200:
+              $ref: '#/components/examples/DepartementListeProjetes'
+    DepartementListePrecedents200:
       description: 'Opération réussie pour les départements précédents'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeDepartementsProjetesAvecChefLieu'
+            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
           examples:
             défaut:
-              $ref: '#/components/examples/ListeDepartementsPrecedents'
+              $ref: '#/components/examples/DepartementListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeDepartementsProjetesAvecChefLieu'
+            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
           examples:
             défaut:
-              $ref: '#/components/examples/ListeDepartementsPrecedents'
-    ListeDescendantsDepartement200:
+              $ref: '#/components/examples/DepartementListeProjetes'
+    DepartementListeDescendants200:
       description: 'Opération réussie pour les descendants d''un département'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeDescendantsDepartement'
+            $ref: '#/components/schemas/DepartementListeDescendants'
           examples:
             défaut:
-              $ref: '#/components/examples/ListeDescendantsDepartement'
+              $ref: '#/components/examples/DepartementListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeDescendantsDepartement'
+            $ref: '#/components/schemas/DepartementListeDescendants'
           examples:
             défaut:
-              $ref: '#/components/examples/ListeDescendantsDepartement'
+              $ref: '#/components/examples/DepartementListeDescendants'
     Departement200:
       description: 'Opération réussie pour le département'
       content:
@@ -408,21 +408,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Departement'
-    ListeCommunes200:
+    CommunesListe200:
       description: 'Opération réussie'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeCommunes'
+            $ref: '#/components/schemas/CommunesListe'
           examples:
             défaut:
-              $ref: '#/components/examples/ListeCommunes'
+              $ref: '#/components/examples/CommunesListe'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeCommunes'
+            $ref: '#/components/schemas/CommunesListe'
           examples:
             défaut:
-              $ref: '#/components/examples/ListeCommunes'
+              $ref: '#/components/examples/CommunesListe'
     Commune200:
       description: 'Opération réussie'
       content:
@@ -587,7 +587,7 @@ components:
               description: 'Inclusion'
               xml:
                 name: inclusion
-    ListeCommunes:
+    CommunesListe:
       description: 'Liste de communes'
       type: array
       xml:
@@ -595,7 +595,7 @@ components:
         name: Communes
       items:
         $ref: '#/components/schemas/TerritoireBase'
-    ListeDescendantsDepartement:
+    DepartementListeDescendants:
       description: 'Liste des descendants d''un département'
       type: array
       xml:
@@ -603,7 +603,7 @@ components:
         name: DescendantsDepartement
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
-    ListeDepartementsProjetesAvecChefLieu:
+    DepartementListeProjetesAvecChefLieu:
       description: 'Liste des départements projetés'
       type: array
       xml:

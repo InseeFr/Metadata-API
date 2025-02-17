@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import fr.insee.rmes.metadata.model.ListeDescendantsDepartementInner;
+import fr.insee.rmes.metadata.model.DepartementListeDescendantsInner;
 import fr.insee.rmes.metadata.queryexecutor.Csv;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -36,13 +36,13 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
 
     private static Module articleEnumModule() {
         var module = new SimpleModule();
-        module.addDeserializer(ListeDescendantsDepartementInner.TypeArticleEnum.class, new JsonDeserializer<>() {
+        module.addDeserializer(DepartementListeDescendantsInner.TypeArticleEnum.class, new JsonDeserializer<>() {
             @Override
-            public ListeDescendantsDepartementInner.TypeArticleEnum deserialize(JsonParser parser, DeserializationContext ctxt) {
+            public DepartementListeDescendantsInner.TypeArticleEnum deserialize(JsonParser parser, DeserializationContext ctxt) {
                 try {
-                    return ListeDescendantsDepartementInner.TypeArticleEnum.values()[Integer.parseInt(parser.getValueAsString())];
+                    return DepartementListeDescendantsInner.TypeArticleEnum.values()[Integer.parseInt(parser.getValueAsString())];
                 } catch (NumberFormatException | IOException e) {
-                    return ListeDescendantsDepartementInner.TypeArticleEnum._0_CHARNIERE_DE_;
+                    return DepartementListeDescendantsInner.TypeArticleEnum._0_CHARNIERE_DE_;
                 }
             }
         });
