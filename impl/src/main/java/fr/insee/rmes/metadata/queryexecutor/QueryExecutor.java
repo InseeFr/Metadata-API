@@ -22,7 +22,7 @@ public record QueryExecutor(RestClient restClient, String urlTemplate) {
     public QueryExecutor(@Value("${fr.insee.rmes.metadata.api.sparqlEndpoint}") String sparqlEndpoint) {
         this(RestClient.builder()
                 .defaultHeader(HttpHeaders.ACCEPT, "text/csv")
-                .build(),sparqlEndpoint + "/?query={query}"
+                .build(),sparqlEndpoint + "?query={query}"
         );
     }
 
