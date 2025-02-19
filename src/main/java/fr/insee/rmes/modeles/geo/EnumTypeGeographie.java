@@ -28,7 +28,7 @@ public enum EnumTypeGeographie {
 	BASSINDEVIE("BassinDeVie2022",BassinDeVie2022.class,BassinsDeVie2022.class,Constants.NONE),
 	IRIS("Iris", Iris.class,Iriss.class,Constants.NONE),
 	PAYS("Pays", Pays.class, PaysS.class,Constants.NONE),
-	TERRITOIRE("Territoire",Territoire.class,Territoires.class,Constants.NONE);
+	TERRITOIRE("Territoire",TerritoireNonAbstract.class,TerritoiresNonAbstract.class,Constants.NONE);
 
 
 	private String typeObjetGeo;
@@ -76,16 +76,16 @@ public enum EnumTypeGeographie {
 		return optionalClass.isPresent() ? optionalClass.get().getClassPluralGeoType() : null;
 	}
 
-	private static Optional<EnumTypeGeographie> getOptionalEnumType(String type) {           
+	private static Optional<EnumTypeGeographie> getOptionalEnumType(String type) {
 		return streamValuesTypeGeo().filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(type)).findAny();
 	}
 
 	public static String getTypeObjetGeoIgnoreCase(String typeObjetGeo) {
 		Optional<EnumTypeGeographie> enumTypeGeographie =
 				EnumTypeGeographie
-				.streamValuesTypeGeo()
-				.filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(typeObjetGeo))
-				.findFirst();
+						.streamValuesTypeGeo()
+						.filter(s -> s.getTypeObjetGeo().equalsIgnoreCase(typeObjetGeo))
+						.findFirst();
 		return enumTypeGeographie.isPresent() ? enumTypeGeographie.get().getTypeObjetGeo() : null;
 	}
 
