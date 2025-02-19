@@ -1,13 +1,13 @@
-SELECT ?uri ?type ?code ?nom ?nomLong ?dateCreation ?dateSuppression
+SELECT ?uri ?type ?code ?intitule ?intituleEntier ?dateCreation ?dateSuppression
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
 {
-SELECT DISTINCT ?uri ?type ?code ?nom ?nomLong ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
+SELECT DISTINCT ?uri ?type ?code ?intitule ?intituleEntier ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
 WHERE {
-        ?parent a igeo:Pays ;
-        igeo:codeINSEE '${code}' ;
+?parent a igeo:Pays ;
+igeo:codeINSEE '${code}' ;
 
-        (^igeo:subdivisionDirecteDe)+ ?ressource .
+(^igeo:subdivisionDirecteDe)+ ?ressource .
 
 <#if type != "none">
         ?ressource a ?typeRDF .
@@ -15,18 +15,18 @@ WHERE {
 <#else>
         ?ressource a ?typeRDF ;
 </#if>
-        igeo:codeINSEE ?code ;
-        igeo:nom ?nom ;
-        OPTIONAL {?ressource igeo:nomLong ?nomLong .}
-        BIND(STR(?typeRDF) AS ?type).
-        BIND(STR(?ressource) AS ?uri).
-        OPTIONAL {?parent (^igeo:creation/igeo:date) ?dateCreationParent.}
-        OPTIONAL {?parent (^igeo:suppression/igeo:date) ?dateSuppressionParent.}
-        OPTIONAL {?ressource (^igeo:creation/igeo:date) ?dateCreation.}
-        OPTIONAL {?ressource (^igeo:suppression/igeo:date) ?dateSuppression.}
-        }
-        }
-        FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
-        FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
+igeo:codeINSEE ?code ;
+igeo:nom ?intitule ;
+OPTIONAL {?ressource igeo:nomLong ?intituleEntier .}
+BIND(STR(?typeRDF) AS ?type).
+BIND(STR(?ressource) AS ?uri).
+OPTIONAL {?parent (^igeo:creation/igeo:date) ?dateCreationParent.}
+OPTIONAL {?parent (^igeo:suppression/igeo:date) ?dateSuppressionParent.}
+OPTIONAL {?ressource (^igeo:creation/igeo:date) ?dateCreation.}
+OPTIONAL {?ressource (^igeo:suppression/igeo:date) ?dateSuppression.}
+}
+}
+FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
+FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
 }
 ORDER BY ?type ?code
