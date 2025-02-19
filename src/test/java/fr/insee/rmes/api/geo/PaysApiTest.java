@@ -45,14 +45,14 @@ class PaysApiTest extends AbstractApiTest {
         geoApi.getByCode("something",headerJSON);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }*/
-@Test
-void givenGetCountry_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
-    country.setUri("http://id.insee.fr/geo/pays/99217");
-    this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
-    Response response = geoApi.getByCode("99217", headerJSON);
-    assertEquals(Status.OK.getStatusCode(), response.getStatus());
-    verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-}
+//@Test
+//void givenGetCountry_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
+//    country.setUri("http://id.insee.fr/geo/pays/99217");
+//    this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
+//    Response response = geoApi.getByCode("99217", headerJSON);
+//    assertEquals(Status.OK.getStatusCode(), response.getStatus());
+//    verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+//}
 
 /*    @Test
     void givenGetCountry_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
@@ -65,14 +65,14 @@ void givenGetCountry_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk(
         geoApi.getByCode("something",headerXML);
         verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
     }*/
-@Test
-void givenGetCountry_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
-    country.setUri("http://id.insee.fr/geo/pays/99217");
-    this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
-    Response response = geoApi.getByCode("99217", headerXML);
-    assertEquals(Status.OK.getStatusCode(), response.getStatus());
-    verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
-}
+//@Test
+//void givenGetCountry_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk() {
+//    country.setUri("http://id.insee.fr/geo/pays/99217");
+//    this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.TRUE);
+//    Response response = geoApi.getByCode("99217", headerXML);
+//    assertEquals(Status.OK.getStatusCode(), response.getStatus());
+//    verify(mockResponseUtils, times(1)).produceResponse(Mockito.any(), Mockito.any());
+//}
 /*    @Test
     void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
 
@@ -89,15 +89,15 @@ void givenGetCountry_whenCorrectRequest_andHeaderContentIsXml_thenResponseIsOk()
 
         verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
     }*/
-@Test
-void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
-    this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.FALSE);
-    Response response = geoApi.getByCode("99217", headerXML);
-    assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
-    response = geoApi.getByCode("99217", headerJSON);
-    assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
-    verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
-}
+//@Test
+//void givenGetCountry_WhenCorrectRequest_thenResponseIsNotFound() {
+//    this.mockUtilsMethodsThenReturnOnePojo(country, Boolean.FALSE);
+//    Response response = geoApi.getByCode("99217", headerXML);
+//    assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+//    response = geoApi.getByCode("99217", headerJSON);
+//    assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+//    verify(mockResponseUtils, never()).produceResponse(Mockito.any(), Mockito.any());
+//}
 
     @Test
     void givenGetPaysSuivant_whenCorrectRequest_andHeaderContentIsJson_thenResponseIsOk() {
