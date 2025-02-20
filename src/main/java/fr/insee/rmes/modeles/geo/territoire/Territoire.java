@@ -24,7 +24,6 @@ public abstract class Territoire {
     protected String intitule = null ;
 
     @XmlElement(name="Type")
-    @JsonProperty("type")
     protected String type;
 
     @JsonInclude(Include.NON_EMPTY)
