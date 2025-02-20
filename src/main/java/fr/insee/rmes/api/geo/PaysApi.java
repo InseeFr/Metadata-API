@@ -1,5 +1,6 @@
 package fr.insee.rmes.api.geo;
 
+import fr.insee.rmes.modeles.geo.territoire.AireDAttractionDesVilles2020;
 import fr.insee.rmes.modeles.geo.territoires.PaysS;
 import fr.insee.rmes.modeles.geo.territoire.Territoire;
 import fr.insee.rmes.modeles.geo.territoires.Territoires;
@@ -32,51 +33,58 @@ public class PaysApi extends AbstractGeoApi {
     private static final String LITTERAL_RESPONSE_DESCRIPTION = "Pays";
     private static final String LITTERAL_PARAMETER_TYPE_DESCRIPTION = "Filtre sur le type de territoire renvoyé.";
     private static final String LITTERAL_DATE_EXAMPLE = "2000-01-01";
-    private static final String LITTERAL_CODE_HISTORY_EXAMPLE = "44";
+    private static final String LITTERAL_CODE_HISTORY_EXAMPLE = "99309";
 
 
 
     @Path(ConstGeoApi.PATH_PAYS + CODE_PATTERN)
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Operation(operationId = LITTERAL_ID_OPERATION, summary = LITTERAL_OPERATION_SUMMARY, responses = {
-            @ApiResponse(
-                    content = @Content(schema = @Schema(implementation = Pays.class)),
-                    description = LITTERAL_RESPONSE_DESCRIPTION)
+    @Produces({
+            MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
     })
+    @Operation(
+            operationId = LITTERAL_ID_OPERATION,
+            summary = LITTERAL_OPERATION_SUMMARY,
+            responses = {
+                    @ApiResponse(
+                            content = @Content(schema = @Schema(implementation = Pays.class)),
+                            description = LITTERAL_RESPONSE_DESCRIPTION)
+            })
     public Response getByCode(
             @Parameter(
                     description = ConstGeoApi.PATTERN_PAYS_DESCRIPTION,
                     required = true,
                     schema = @Schema(
                             pattern = ConstGeoApi.PATTERN_PAYS,
-                            type = Constants.TYPE_STRING, example = "99217")) @PathParam(Constants.CODE) String code,
-            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) Header header) {
-        if (!isValidCode(code)) {
-            return Response.status(Status.BAD_REQUEST).entity("Invalid code").build();
+                            type = Constants.TYPE_STRING, example="99132")) @PathParam(Constants.CODE) String code,
+            @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
+            @Parameter(
+                    description = "Filtre pour renvoyer le pays actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
+                    required = false,
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    value = Constants.PARAMETER_DATE) Date date) {
+        String dateString = null;
+        if (date !=null) {
+            dateString = date.getString();
         }
-
-        Pays pays = new Pays(code);
-        String sanitizedCode = escapeSparql(code);
-        String csvResult = sparqlUtils.executeSparqlQuery(GeoQueries.getPays(sanitizedCode));
-        pays = (Pays) csvUtils.populatePOJO(csvResult, pays);
-
-        if (pays.getUri() == null) {
-            return Response.status(Status.NOT_FOUND).entity("").build();
-        } else {
-            String acceptHeader = sanitizeAndValidateHeader(header.getString());
-
-            if (acceptHeader == null) {
-                return Response.status(Status.BAD_REQUEST).entity("Invalid Accept header").build();
-            }
-            return Response.ok(responseUtils.produceResponse(pays, acceptHeader)).build();
+        if ( ! this.verifyParameterDateIsRightWithoutHistory(dateString)) {
+            return this.generateBadRequestResponse();
+        }
+        else {
+            return this
+                    .generateResponseATerritoireByCode(
+                            sparqlUtils
+                                    .executeSparqlQuery(
+                                            GeoQueries.getPaysByCodeAndDate(code, this.formatValidParameterDateIfIsNull(dateString))),
+                            header,
+                            new Pays(code));
         }
     }
 
     @Path(ConstGeoApi.PATH_PAYS)
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Operation(operationId = LITTERAL_ID_OPERATION, summary = LITTERAL_OPERATION_SUMMARY, responses = {
+    @Operation(operationId = LITTERAL_ID_OPERATION, summary = "Informations sur tous les pays actifs à la date données. Par défaut c'est la date courante", responses = {
             @ApiResponse(
                     content = @Content(schema = @Schema(implementation = PaysS.class)),
                     description = LITTERAL_RESPONSE_DESCRIPTION)
@@ -125,7 +133,7 @@ public class PaysApi extends AbstractGeoApi {
                     required = true,
                     schema = @Schema(
                             pattern = ConstGeoApi.PATTERN_PAYS,
-                            type = Constants.TYPE_STRING, example="002")) @PathParam(Constants.CODE) String code,
+                            type = Constants.TYPE_STRING, example="99132")) @PathParam(Constants.CODE) String code,
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
                     description = "Filtre pour renvoyer les territoires inclus dans le pays actif à la date donnée. Par défaut, c’est la date courante. (Format : 'AAAA-MM-JJ')",
@@ -135,7 +143,7 @@ public class PaysApi extends AbstractGeoApi {
             @Parameter(
                     description = LITTERAL_PARAMETER_TYPE_DESCRIPTION,
                     required = false,
-                    schema = @Schema(type = Constants.TYPE_STRING, example="ArrondissementMunicipal")) @QueryParam(
+                    schema = @Schema(type = Constants.TYPE_STRING, example="Territoire")) @QueryParam(
                     value = Constants.PARAMETER_TYPE) String typeTerritoire) {
         String dateString = null;
         if (date !=null) {
@@ -179,12 +187,12 @@ public class PaysApi extends AbstractGeoApi {
                     required = true,
                     schema = @Schema(
                             pattern = ConstGeoApi.PATTERN_PAYS,
-                            type = Constants.TYPE_STRING, example="41")) @PathParam(Constants.CODE) String code,
+                            type = Constants.TYPE_STRING, example="99121")) @PathParam(Constants.CODE) String code,
             @Parameter(hidden = true) @HeaderParam(HttpHeaders.ACCEPT) String header,
             @Parameter(
                     description = "Filtre pour préciser le pays de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
                     required = false,
-                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example=LITTERAL_DATE_EXAMPLE)) @QueryParam(
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE, example="1950-01-01")) @QueryParam(
                     value = Constants.PARAMETER_DATE) Date date) {
         String dateString = null;
         if (date != null){
@@ -230,7 +238,7 @@ public class PaysApi extends AbstractGeoApi {
             @Parameter(
                     description = "Filtre pour préciser le pays de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
                     required = false,
-                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE)) @QueryParam(
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE,example = "1963-01-01")) @QueryParam(
                     value = Constants.PARAMETER_DATE) Date date) {
         String dateString = null;
         if (date != null){
