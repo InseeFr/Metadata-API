@@ -21,7 +21,6 @@ public abstract class Territoire {
     protected String uri = null;
 
     @XmlElement(name="Intitule")
-    @JsonProperty("intitule")
     protected String intitule = null ;
 
     @XmlElement(name="Type")
@@ -38,9 +37,7 @@ public abstract class Territoire {
     @Schema(example ="2015-10-10")
     protected String dateSuppression = null;
 
-    @JsonInclude(Include.NON_EMPTY)
-    @JsonProperty("intituleSansArticle")
-    protected IntituleSansArticle intituleSansArticle = null;
+    protected IntituleSansArticle intituleSansArticle ;
 
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="IntituleEntier")
@@ -152,6 +149,7 @@ public abstract class Territoire {
     }
 
     @JacksonXmlProperty(localName = "Intitule")
+    @JsonProperty(value = "intitule")
     public String getIntitule() {
         return intitule;
     }
