@@ -7,7 +7,7 @@ An API specification for accessing statistical metadata
 
 ## Contribute to Metadata-API
 
-If you contribute to Metadata-API, you may fall in troubles with IntelliJ because the module [`metadata-api-interface`](./interface/pom.xml)
+If you contribute to Metadata-API, you may fall in troubles with IntelliJ because the module [`metadata-api-interface`](./interface)
 contains generated source code which can be ignored by IntelliJ and cause failures in `metadata-api-impl` builds. To prevent this, 
 the directory `interface/target/generated-sources/openapi/src/main/java` must be marked as a _Generated Sources Root_. This can be done either :
 - by executing the action "Reload All Maven Projects" : the directory is marked automatically
