@@ -11,9 +11,10 @@ import java.util.Map;
 public record DescendantsRequestParametizer(String code, LocalDate date,
                                             TypeEnumInclusDansDepartement type,
                                             String filtreNom,
+                                            Class<?> typeOrigine,
                                             boolean ascendant) implements ParametersForQuery {
-    public DescendantsRequestParametizer(String code, LocalDate date, TypeEnumInclusDansDepartement type, String filtreNomDescendant) {
-        this(code, date, type, filtreNomDescendant, false);
+    public DescendantsRequestParametizer(String code, LocalDate date, TypeEnumInclusDansDepartement type, String filtreNomDescendant, Class<?> typeOrigine) {
+        this(code, date, type, filtreNomDescendant, typeOrigine, false);
     }
 
     @Override
@@ -32,6 +33,7 @@ public record DescendantsRequestParametizer(String code, LocalDate date,
             case "date" -> parameters.put("date", date==null? DateUtils.getDateTodayStringFormat() :date.toString());
             case "code" -> parameters.put("code", code);
             case "ascendant" -> parameters.put("ascendant", ascendant?"true":"false");
+            case "typeOrigine" -> parameters.put("typeOrigine", typeOrigine.getSimpleName());
         }
     }
 }

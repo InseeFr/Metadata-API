@@ -1,4 +1,5 @@
 package fr.insee.rmes.metadata.api;
+import fr.insee.rmes.metadata.model.Departement;
 import fr.insee.rmes.metadata.model.DepartementListeDescendantsInner;
 import fr.insee.rmes.metadata.requestprocessor.DescendantsRequestParametizer;
 import fr.insee.rmes.metadata.model.TypeEnumInclusDansDepartement;
@@ -23,7 +24,7 @@ public class GeoEndpoints implements GeoDepartementApi {
     @Override
     public ResponseEntity<List<DepartementListeDescendantsInner>> getcogdepdesc(String code, LocalDate date, TypeEnumInclusDansDepartement type, String filtreNomDescendant) {
         return toResponseEntity(requestProcessorBuilder.findDescendants(
-                        new DescendantsRequestParametizer(code, date, type, filtreNomDescendant))
+                        new DescendantsRequestParametizer(code, date, type, filtreNomDescendant, Departement.class))
                 .listResult(DepartementListeDescendantsInner.class));
     }
 }
