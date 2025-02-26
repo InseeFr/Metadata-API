@@ -652,6 +652,8 @@ components:
         name: 'Type'
       enum:
         - Commune
+        - CommuneAssociee
+        - CommuneDeleguee
         - Canton
         - CantonOuVille
         - Arrondissement
