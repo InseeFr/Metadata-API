@@ -1,4 +1,4 @@
-SELECT DISTINCT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?typeDIris
+SELECT DISTINCT ?uri ?code (STRAFTER(STR(?typeAvecIri), "#") AS ?type) ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?typeDIris
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 		WHERE {
 			?origine a igeo:${typeOrigine} ;
@@ -11,7 +11,7 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 </#if>
 
 			?uri igeo:codeINSEE ?code ;
-			     a ?type ;
+			     a ?typeAvecIri ;
 				 igeo:codeArticle ?typeArticle ;
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
