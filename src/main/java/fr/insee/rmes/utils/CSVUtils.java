@@ -94,7 +94,7 @@ public class CSVUtils {
 
             if (classeTerritoire != null) {
                 territoireForMapping = mapper.convertValue(rowAsMap, classeTerritoire);
-                territoireForMapping.setType(classeTerritoire.getSimpleName());
+                territoireForMapping.setType(nomType);
             }
         }
         catch (ClassCastException e) {
