@@ -1,8 +1,8 @@
-SELECT ?uri ?type ?code ?intitule ?intituleEntier ?dateCreation ?dateSuppression
+SELECT ?uri ?type ?code ?intitule ?intituleComplet ?dateCreation ?dateSuppression
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
 {
-SELECT DISTINCT ?uri ?type ?code ?intitule ?intituleEntier ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
+SELECT DISTINCT ?uri ?type ?code ?intitule ?intituleComplet ?dateCreation ?dateSuppression ?dateCreationParent ?dateSuppressionParent
 WHERE {
 ?parent a igeo:Pays ;
 igeo:codeINSEE '${code}' ;
@@ -17,7 +17,7 @@ igeo:codeINSEE '${code}' ;
 </#if>
 igeo:codeINSEE ?code ;
 igeo:nom ?intitule ;
-OPTIONAL {?ressource igeo:nomLong ?intituleEntier .}
+OPTIONAL {?ressource igeo:nomLong ?intituleComplet .}
 BIND(STR(?typeRDF) AS ?type).
 BIND(STR(?ressource) AS ?uri).
 OPTIONAL {?parent (^igeo:creation/igeo:date) ?dateCreationParent.}

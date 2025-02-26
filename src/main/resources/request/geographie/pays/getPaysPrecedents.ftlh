@@ -1,4 +1,4 @@
-SELECT ?uri ?type ?code ?nom ?nomLong ?iso3166alpha2 ?iso3166alpha3 ?iso3166num ?dateCreation ?dateSuppression
+SELECT ?uri ?type ?code ?intitule ?intituleComplet ?iso3166alpha2 ?iso3166alpha3 ?iso3166num ?dateCreation ?dateSuppression
 WHERE {
 {
 SELECT DISTINCT ?origine ?evenement (?dateCreationOrigine AS ?dateSuppression)
@@ -17,12 +17,12 @@ FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
 a igeo:Pays ;
 igeo:codeINSEE ?code ;
 igeo:codeArticle ?typeArticle;
-igeo:nom ?nom.
-OPTIONAL {?ressource igeo:nomLong ?nomLong .}
+igeo:nom ?intitule.
+OPTIONAL {?ressource igeo:nomLong ?intituleComplet .}
 OPTIONAL {?ressource igeo:codeIso3166alpha2 ?iso3166alpha2 .}
 OPTIONAL {?ressource igeo:codeIso3166alpha3 ?iso3166alpha3 .}
 OPTIONAL {?ressource igeo:codeIso3166num ?iso3166num .}
-BIND(STR(?typeRDF) AS ?type).
+BIND(STRAFTER(STR(?typeRDF),"http://rdf.insee.fr/def/geo#") AS ?type).
 BIND(STR(?ressource) AS ?uri).
 OPTIONAL { ?ressource (^igeo:creation/igeo:date) ?dateCreation.}
 }
