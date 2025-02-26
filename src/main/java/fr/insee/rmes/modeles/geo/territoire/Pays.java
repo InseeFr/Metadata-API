@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @JacksonXmlRootElement(localName = "Pays")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(description = "Objet représentant un pays")
-@JsonIgnoreProperties({ "intituleSansArticle","typeArticle","intitule","inituleEntier"})
+@JsonIgnoreProperties({ "intituleSansArticle","typeArticle"})
 public class Pays extends Territoire {
 
     @Schema(example = "99100")
@@ -26,10 +26,10 @@ public class Pays extends Territoire {
     @Schema(example ="http://id.insee.fr/geo/pays/b7e3f0c9-b653-4a3e-904a-de63b80e108b")
     private String uri = null;
     @Schema(example = "France")
-    private String nom = null;
+    private String intitule = null;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Schema(example = "République française")
-    private String nomLong = null;
+    private String intituleComplet = null;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Schema(example = "FR")
     private String iso3166alpha2 = null;
@@ -72,25 +72,25 @@ public class Pays extends Territoire {
     }
 
 
-    @XmlElement(name = "Nom")
-    @JacksonXmlProperty(localName = "Nom")
-    @JsonProperty(value = "nom")
-    public String getNom() {
-        return nom;
+    @XmlElement(name = "Intitule")
+    @JacksonXmlProperty(localName = "Intitule")
+    @JsonProperty(value = "intitule")
+    public String getIntitule() {
+        return intitule;
     }
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    @XmlElement(name = "NomLong")
-    @JacksonXmlProperty(localName = "NomLong")
-    @JsonProperty(value = "nomLong")
-    public String getNomLong() {
-        return nomLong;
+    public void setIntitule(String intitule) {
+        this.intitule = intitule;
     }
 
-    public void setNomLong(String nomLong) {
-        this.nomLong = nomLong;
+    @XmlElement(name = "IntituleComplet")
+    @JacksonXmlProperty(localName = "IntituleComplet")
+    @JsonProperty(value = "intituleComplet")
+    public String getIntituleComplet() {
+        return intituleComplet;
+    }
+
+    public void setIntituleComplet(String intituleComplet) {
+        this.intituleComplet = intituleComplet;
     }
 
 

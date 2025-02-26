@@ -38,6 +38,8 @@ public abstract class Territoire {
 
     protected IntituleSansArticle intituleSansArticle ;
 
+    protected String intituleComplet;
+
     @JsonInclude(Include.NON_EMPTY)
     @XmlElement(name="IntituleEntier")
     @JsonProperty("intituleEntier")
