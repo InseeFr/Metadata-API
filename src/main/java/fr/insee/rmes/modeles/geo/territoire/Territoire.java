@@ -71,11 +71,11 @@ public abstract class Territoire {
         this.uri = uri;
     }
 
-    public Territoire(String uri, String type, String code, String intituleEntier, String intitule, String dateCreation, String dateSuppression) {
+    public Territoire(String uri, String type, String code, String intituleComplet, String intitule, String dateCreation, String dateSuppression) {
         this.uri = uri;
         this.type = type;
         this.code = code;
-        this.intituleEntier = intituleEntier;
+        this.intituleComplet = intituleComplet;
         this.intitule = intitule;
         this.dateCreation = dateCreation;
         this.dateSuppression = dateSuppression;
@@ -223,4 +223,12 @@ public abstract class Territoire {
     }
 
 
+    @JacksonXmlProperty(localName = "IntituleComplet")
+    public String getIntituleComplet() {
+        return intituleComplet;
+    }
+
+    public void setIntituleComplet(String intituleComplet) {
+        this.intituleComplet = intituleComplet;
+    }
 }

@@ -4,6 +4,7 @@ package fr.insee.rmes.modeles.geo.territoire;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import fr.insee.rmes.modeles.geo.IntituleSansArticle;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,13 +28,12 @@ public class TerritoireNonAbstract extends Territoire {
     private String uri = null;
     @Schema(example = "France")
     private String intitule = null;
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Schema(example = "République française")
-    private String intituleEntier = null;
+    @JsonProperty("intituleComplet")
+    private String intituleComplet = null;
     @Schema(example = "1943-01-01")
     private String dateCreation = null;
     @Schema(example = "2025-12-12")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String dateSuppresion = null;
 
 
@@ -43,8 +43,8 @@ public class TerritoireNonAbstract extends Territoire {
     }
 
 
-    public TerritoireNonAbstract(String uri, String type, String code, String intituleEntier, String intitule, String dateCreation, String dateSuppression) {
-        super(uri, type, code, intituleEntier, intitule, dateCreation, dateSuppression);
+    public TerritoireNonAbstract(String uri, String type, String code, String intituleComplet, String intitule, String dateCreation, String dateSuppression) {
+        super(uri, type, code, intituleComplet, intitule, dateCreation, dateSuppression);
     }
 
 
