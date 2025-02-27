@@ -38,6 +38,8 @@ public abstract class Territoire {
 
     protected IntituleSansArticle intituleSansArticle ;
 
+    @XmlElement(name="IntituleComplet")
+    @JsonProperty("intituleComplet")
     @JsonInclude(Include.NON_EMPTY)
     protected String intituleComplet;
 
@@ -228,7 +230,7 @@ public abstract class Territoire {
     public String getIntituleComplet() {
         return intituleComplet;
     }
-
+    @JacksonXmlProperty(localName = "IntituleComplet")
     public void setIntituleComplet(String intituleComplet) {
         this.intituleComplet = intituleComplet;
     }
