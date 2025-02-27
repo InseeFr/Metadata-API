@@ -226,11 +226,9 @@ public abstract class Territoire {
     }
 
 
-    @JacksonXmlProperty(localName = "IntituleComplet")
     public String getIntituleComplet() {
         return intituleComplet;
     }
-    @JacksonXmlProperty(localName = "IntituleComplet")
     public void setIntituleComplet(String intituleComplet) {
         this.intituleComplet = intituleComplet;
     }
