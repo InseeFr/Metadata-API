@@ -38,6 +38,7 @@ public abstract class Territoire {
 
     protected IntituleSansArticle intituleSansArticle ;
 
+    @JsonInclude(Include.NON_EMPTY)
     protected String intituleComplet;
 
     @JsonInclude(Include.NON_EMPTY)
