@@ -8,8 +8,8 @@ igeo:codeINSEE '${code}' .
 ?evenement igeo:creation ?origine;
 igeo:date ?dateCreationOrigine.
 OPTIONAL {?origine (^igeo:suppression/igeo:date) ?dateSuppressionOrigine.}
-FILTER(!BOUND(?dateCreation) || ?dateCreation <= '${date}'^^xsd:date)
-FILTER(!BOUND(?dateSuppression) || ?dateSuppression > '${date}'^^xsd:date)
+FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date)
+FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
 }
 }
 ?evenement igeo:suppression ?ressource .
