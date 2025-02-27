@@ -23,7 +23,7 @@ OPTIONAL {?ressource igeo:nomLong ?intituleComplet .}
 OPTIONAL {?ressource igeo:codeIso3166alpha2 ?iso3166alpha2 .}
 OPTIONAL {?ressource igeo:codeIso3166alpha3 ?iso3166alpha3 .}
 OPTIONAL {?ressource igeo:codeIso3166num ?iso3166num .}
-BIND(STRAFTER(STR(?typeRDF),"http://rdf.insee.fr/def/geo#") AS ?type).
+BIND(STRAFTER(STR(?typeRDF),"#") AS ?type).
 BIND(STR(?ressource) AS ?uri).
 OPTIONAL { ?ressource (^igeo:suppression/igeo:date) ?dateSuppression.}
 }

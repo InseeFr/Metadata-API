@@ -15,7 +15,7 @@ WHERE {
         OPTIONAL {?s igeo:codeIso3166alpha2 ?iso3166alpha2 .}
         OPTIONAL {?s igeo:codeIso3166alpha3 ?iso3166alpha3 .}
         OPTIONAL {?s igeo:codeIso3166num ?iso3166num .}
-        BIND(STRAFTER(STR(?typeRDF),"http://rdf.insee.fr/def/geo#") AS ?type).
+        BIND(STRAFTER(STR(?typeRDF),"#") AS ?type).
         BIND(STR(?s) AS ?uri).
         OPTIONAL {?s ^igeo:creation/igeo:date ?dateCreation }
         OPTIONAL {?s ^igeo:suppression/igeo:date ?dateSuppression }
