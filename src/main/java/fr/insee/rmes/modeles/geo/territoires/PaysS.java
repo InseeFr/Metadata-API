@@ -11,8 +11,8 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.List;
 
-@XmlRootElement(name = "Countries")
-@JacksonXmlRootElement(localName = "Countries")
+@XmlRootElement(name = "Pays")
+@JacksonXmlRootElement(localName = "Pays")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Schema(name = "Liste des pays", description = "Tableau représentant la liste des pays")
 public class PaysS extends Territoires {
@@ -25,7 +25,7 @@ public class PaysS extends Territoires {
         this.listePays = listePays;
     }
 
-    @JacksonXmlProperty(isAttribute = true, localName = "Liste des pays")
+    @JacksonXmlProperty(isAttribute = true, localName = "Pays")
     @JacksonXmlElementWrapper(useWrapping = false)
     public List<Pays> getListePays() {
         return listePays;

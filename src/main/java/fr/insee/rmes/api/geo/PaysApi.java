@@ -238,7 +238,7 @@ public class PaysApi extends AbstractGeoApi {
             @Parameter(
                     description = "Filtre pour préciser le pays de départ. Par défaut, c’est la date courante qui est utilisée. (Format : 'AAAA-MM-JJ')",
                     required = false,
-                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE,example = "1963-01-01")) @QueryParam(
+                    schema = @Schema(type = Constants.TYPE_STRING, format = Constants.FORMAT_DATE,example = "1965-01-01")) @QueryParam(
                     value = Constants.PARAMETER_DATE) Date date) {
         String dateString = null;
         if (date != null){
@@ -263,7 +263,7 @@ public class PaysApi extends AbstractGeoApi {
         return code != null && code.matches(ConstGeoApi.PATTERN_PAYS);
     }
 
-     private String escapeSparql(String input) {
+    private String escapeSparql(String input) {
         return input.replace("\"", "\\\"").replace("<", "\\u003C").replace(">", "\\u003E");
     }
     private String sanitizeAndValidateHeader(String header) {
