@@ -2,7 +2,6 @@ package fr.insee.rmes.metadata.requestprocessor;
 
 import fr.insee.rmes.metadata.model.TypeEnumInclusDansDepartement;
 import fr.insee.rmes.metadata.queryexecutor.ParametersForQuery;
-import fr.insee.rmes.metadata.utils.DateUtils;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
@@ -30,7 +29,6 @@ public record DescendantsRequestParametizer(String code, LocalDate date,
         switch (field.getName()){
             case "type" -> parameters.put("type", type ==null?"none": type.getValue());
             case "filtreNom" -> parameters.put("filtreNom", filtreNom ==null?"*": filtreNom);
-            case "date" -> parameters.put("date", date==null? DateUtils.getDateTodayStringFormat() :date.toString());
             case "code" -> parameters.put("code", code);
             case "ascendant" -> parameters.put("ascendant", ascendant?"true":"false");
             case "typeOrigine" -> parameters.put("typeOrigine", typeOrigine.getSimpleName());
