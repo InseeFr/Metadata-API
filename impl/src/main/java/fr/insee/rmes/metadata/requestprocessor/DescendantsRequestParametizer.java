@@ -17,14 +17,6 @@ public record DescendantsRequestParametizer(String code, LocalDate date,
     }
 
     @Override
-    public Object decodeValueForField(Object rawValue, String fieldName) {
-        if ("type".equals(fieldName)){
-            return rawValue==null?"none":((TypeEnumInclusDansDepartement)rawValue).getValue();
-        }
-        return ParametersForQuery.super.decodeValueForField(rawValue, fieldName);
-    }
-
-    @Override
     public void addFieldsToParameters(Map<String, Object> parameters, Field field) {
         switch (field.getName()){
             case "type" -> parameters.put("type", type ==null?"none": type.getValue());
