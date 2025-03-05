@@ -85,7 +85,6 @@
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
                             <supportingFilesToGenerate></supportingFilesToGenerate>
-
                             <generateSupportingFiles>true</generateSupportingFiles>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
@@ -101,6 +100,9 @@
                                 <useSwaggerUI>false</useSwaggerUI>
                                 <openApiNullable>true</openApiNullable>
                                 <useTags>true</useTags>
+                                <additionalModelTypeAnnotations>
+                                    @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                                </additionalModelTypeAnnotations>
                             </configOptions>
                         </configuration>
                     </execution>
