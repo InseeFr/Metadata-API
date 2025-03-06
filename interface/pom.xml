@@ -85,7 +85,7 @@
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
                             <supportingFilesToGenerate></supportingFilesToGenerate>
-
+                            <inlineSchemaNameMappings>DepartementListeDescendants_inner=Territoire_TousAttributs,CommunesListe_inner=TerritoireBase,DepartementListeProjetesAvecChefLieu_inner=TerritoireBase_ChefLieu</inlineSchemaNameMappings>
                             <generateSupportingFiles>true</generateSupportingFiles>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
