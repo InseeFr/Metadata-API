@@ -1,6 +1,5 @@
 package fr.insee.rmes.metadata.queries;
 
-import fr.insee.rmes.metadata.queryexecutor.Query;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

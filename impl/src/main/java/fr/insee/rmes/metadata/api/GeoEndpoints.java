@@ -1,30 +1,31 @@
 package fr.insee.rmes.metadata.api;
+
+import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.Departement;
-import fr.insee.rmes.metadata.model.DepartementListeDescendantsInner;
-import fr.insee.rmes.metadata.requestprocessor.DescendantsRequestParametizer;
+import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumInclusDansDepartement;
-import fr.insee.rmes.metadata.requestprocessor.RequestProcessorBuilder;
+import fr.insee.rmes.metadata.queries.parameters.DescendantsRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static fr.insee.rmes.metadata.utils.EndpointsUtils.toResponseEntity;
-
 @Controller
 public class GeoEndpoints implements GeoDepartementApi {
 
-    private final RequestProcessorBuilder requestProcessorBuilder;
+    private final RequestProcessor requestProcessor;
 
-    public GeoEndpoints(RequestProcessorBuilder requestProcessorBuilder) {
-        this.requestProcessorBuilder = requestProcessorBuilder;
+    public GeoEndpoints(RequestProcessor requestProcessor) {
+        this.requestProcessor = requestProcessor;
     }
 
     @Override
-    public ResponseEntity<List<DepartementListeDescendantsInner>> getcogdepdesc(String code, LocalDate date, TypeEnumInclusDansDepartement type, String filtreNomDescendant) {
-        return toResponseEntity(requestProcessorBuilder.findDescendants(
-                        new DescendantsRequestParametizer(code, date, type, filtreNomDescendant, Departement.class))
-                .listResult(DepartementListeDescendantsInner.class));
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepdesc(String code, LocalDate date, TypeEnumInclusDansDepartement type, String filtreNomDescendant) {
+        return requestProcessor.queryforFindDescendants()
+                .with(new DescendantsRequestParametizer(code, date, type, filtreNomDescendant, Departement.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
     }
 }

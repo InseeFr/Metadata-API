@@ -1,4 +1,4 @@
-package fr.insee.rmes.metadata.queryexecutor;
+package fr.insee.rmes.metadata.queries;
 
 import java.io.Writer;
 
