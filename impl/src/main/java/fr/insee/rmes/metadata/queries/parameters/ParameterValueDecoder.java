@@ -10,7 +10,7 @@ import java.util.function.Function;
 interface ParameterValueDecoder<T>{
 
     String STRING_CLASS = "java.lang.String";
-    String BOOLEAN_CLASS = "java.lang.Boolean";
+    String BOOLEAN_CLASS = "boolean";
     String CLASS_CLASS = "java.lang.Class";
     String LOCALE_DATE_CLASS = "java.time.LocalDate";
     String ENUM_INCLUS_DANS_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumInclusDansDepartement";
