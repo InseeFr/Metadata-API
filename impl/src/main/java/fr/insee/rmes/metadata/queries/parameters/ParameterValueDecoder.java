@@ -31,10 +31,10 @@ interface ParameterValueDecoder<T>{
     String decode(T value);
 
     /**
-     * Class for custom decoder in {@link ParametersForQuery} records such as {@link DescendantsRequestParametizer} which
+     * Class for custom decoder in {@link ParametersForQuery} records such as {@link AscendantsDescendantsRequestParametizer} which
      * need to customize decoder for a type which has yet a standard decoder in the children of ParameterValueDecoder
      * <p>
-     * For example {@link DescendantsRequestParametizer} needs a custom treatment for Strings for attribute <code>filtreNom</code>.
+     * For example {@link AscendantsDescendantsRequestParametizer} needs a custom treatment for Strings for attribute <code>filtreNom</code>.
      * So it overrides the method {@link  ParametersForQuery#findParameterValueDecoder(RecordComponent)} and for the attribute
      * <code>filtreNom</code>, it returns its custom decoder with this kind of code :
      * <code>
@@ -45,7 +45,7 @@ interface ParameterValueDecoder<T>{
      * <p>
      * The DelegaterDecoder is never be returned by
      * { @link fr.insee.rmes.metadata.queries.parameters.ParameterValueDecoder#of(java.lang.Class)} and can only be
-     * used when explicitly instanced in a method such as {@link DescendantsRequestParametizer#findParameterValueDecoder(RecordComponent)}
+     * used when explicitly instanced in a method such as {@link AscendantsDescendantsRequestParametizer#findParameterValueDecoder(RecordComponent)}
      *
      * @param delegatedDecoder : a function applied to decode the value
      * @param <U> : the type for which the instance will decode

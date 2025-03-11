@@ -1,6 +1,6 @@
 package fr.insee.rmes.metadata.api.requestprocessor;
 
-import fr.insee.rmes.metadata.queries.parameters.DescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.Query;
 import fr.insee.rmes.metadata.queryexecutor.Csv;
 import fr.insee.rmes.metadata.queryexecutor.QueryExecutor;
@@ -22,7 +22,7 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
     }
 
     public record QueryBuilder(Path queryPath, RequestProcessor requestProcessor) {
-        public ExecutableQuery with(DescendantsRequestParametizer descendantsRequestParametizer) {
+        public ExecutableQuery with(AscendantsDescendantsRequestParametizer descendantsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(descendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
     }
