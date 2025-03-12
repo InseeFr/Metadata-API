@@ -11,7 +11,6 @@ import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.queryexecutor.Csv;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -28,8 +27,6 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
         this(CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .addModule(articleEnumModule())
                 .addModule(new JavaTimeModule())
-                // TODO : voir s'il est utile de le garder ?
-                .addModule(new JsonNullableModule())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build());
     }
@@ -62,7 +59,9 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
     private <R, G> R unmarshallAll(String csv, Class<G> targetClass, R resultEmpty, Function<List<G>, R> extractResults){
         log.atDebug().log(() -> "Deserialize for "+findReturned(targetClass, resultEmpty)
                         +". CSV header is "+ csv.lines().limit(1).findFirst().orElse(null));
-        CsvSchema schema = CsvSchema.emptySchema().withHeader();
+        CsvSchema schema = CsvSchema.emptySchema()
+                .withHeader()
+                .withNullValue("");
         ObjectReader reader = csvMapper.readerFor(targetClass).with(schema);
         List<G> results;
         try (MappingIterator<G> mappingIterator = reader.readValues(csv)) {

@@ -17,7 +17,7 @@ interface ParameterValueDecoder<T>{
 
     static <U> ParameterValueDecoder<U> of(Class<U> type) {
         return switch (type.getName()){
-            case BOOLEAN_CLASS /*boolean ?*/-> bool -> (boolean) bool ?"true":"false";
+            case BOOLEAN_CLASS -> bool -> (boolean) bool ?"true":"false";
             case CLASS_CLASS -> clazz -> ((Class<?>)clazz).getSimpleName();
             case STRING_CLASS -> String::valueOf;
             case LOCALE_DATE_CLASS -> localDate -> String.valueOf(localDate==null?LocalDate.now():localDate);
