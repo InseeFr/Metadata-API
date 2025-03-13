@@ -135,7 +135,7 @@ paths:
       operationId: 'getcogcomliste'
       parameters:
         - $ref: '#/components/parameters/dateCommunesActives'
-        - $ref: '#/components/parameters/filtreNom'
+        - $ref: '#/components/parameters/filtreNomCommune'
         - $ref: '#/components/parameters/com'
       responses:
         '200':
@@ -267,7 +267,7 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumContenantDepartement'
-    filtreNom:
+    filtreNomCommune:
       name: 'filtreNom'
       in: query
       description: 'Filtre sur le nom de la commune'
