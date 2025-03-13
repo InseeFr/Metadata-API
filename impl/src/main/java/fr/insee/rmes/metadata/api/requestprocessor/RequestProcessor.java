@@ -22,8 +22,8 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
     }
 
     public record QueryBuilder(Path queryPath, RequestProcessor requestProcessor) {
-        public ExecutableQuery with(AscendantsDescendantsRequestParametizer descendantsRequestParametizer) {
-            return new ExecutableQuery(requestProcessor.queryBuilder().build(descendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
+        public ExecutableQuery with(AscendantsDescendantsRequestParametizer ascendantsDescendantsRequestParametizer) {
+            return new ExecutableQuery(requestProcessor.queryBuilder().build(ascendantsDescendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
     }
 
