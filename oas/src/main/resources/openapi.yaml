@@ -65,6 +65,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/departement/{code}/ascendants:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les territoires qui contiennent le departement'
+      operationId: 'getcogdepasc'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsContenantDepartement'
+        - $ref: '#/components/parameters/typeTerritoireContenantDepartement'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementListeAscendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/departement/{code}/precedents:
     get:
       tags:
@@ -187,6 +208,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsContenantDepartement:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires contenant le département actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
     dateDepartementDepart:
       in: query
       description: |-
@@ -232,6 +261,12 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumInclusDansDepartement'
+    typeTerritoireContenantDepartement:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumContenantDepartement'
     filtreNom:
       name: 'filtreNom'
       in: query
@@ -240,7 +275,7 @@ components:
         type: string
         example: 'Bonnay'
     filtreNomDescendant:
-      name: 'filtreNomDescendant'
+      name: 'filtreNom'
       in: query
       description: 'Filtre sur le nom des territoires renvoyés'
       schema:
@@ -307,6 +342,16 @@ components:
           typeArticle: '0'
           chefLieu: '22070'
           intitule: 'Guingamp'
+    DepartementListeAscendants:
+      value:
+        - code: '53'
+          uri: 'http://id.insee.fr/geo/region/6c83500c-454c-4d69-aec5-b988fb6f6f1c'
+          type: 'Region'
+          dateCreation: '2019-01-01'
+          intituleSansArticle: 'Bretagne'
+          typeArticle: '0'
+          chefLieu: '35238'
+          intitule: 'Bretagne'
     CommunesListe:
       value:
         - code: '25073'
@@ -393,6 +438,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeDescendants'
+    DepartementListeAscendants200:
+      description: 'Opération réussie pour les ascendants d''un département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DepartementListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeAscendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/DepartementListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeAscendants'
     Departement200:
       description: 'Opération réussie pour le département'
       content:
@@ -603,6 +663,14 @@ components:
         name: DescendantsDepartement
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+    DepartementListeAscendants:
+      description: 'Liste des ascendants d''un département'
+      type: array
+      xml:
+        wrapped: true
+        name: AscendantsDepartement
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     DepartementListeProjetesAvecChefLieu:
       description: 'Liste des départements projetés'
       type: array
@@ -680,3 +748,10 @@ components:
         - Arrondissement
         - ArrondissementMunicipal
       example: 'Arrondissement'
+    TypeEnumContenantDepartement:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Region
+      example: 'Region'

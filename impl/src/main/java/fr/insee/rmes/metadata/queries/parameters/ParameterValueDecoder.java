@@ -1,5 +1,6 @@
 package fr.insee.rmes.metadata.queries.parameters;
 
+import fr.insee.rmes.metadata.model.TypeEnumContenantDepartement;
 import fr.insee.rmes.metadata.model.TypeEnumInclusDansDepartement;
 
 import java.lang.reflect.RecordComponent;
@@ -14,6 +15,7 @@ interface ParameterValueDecoder<T>{
     String CLASS_CLASS = "java.lang.Class";
     String LOCALE_DATE_CLASS = "java.time.LocalDate";
     String ENUM_INCLUS_DANS_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumInclusDansDepartement";
+    String ENUM_CONTENANT_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumContenantDepartement";
 
     static <U> ParameterValueDecoder<U> of(Class<U> type) {
         return switch (type.getName()){
@@ -22,6 +24,7 @@ interface ParameterValueDecoder<T>{
             case STRING_CLASS -> String::valueOf;
             case LOCALE_DATE_CLASS -> localDate -> String.valueOf(localDate==null?LocalDate.now():localDate);
             case ENUM_INCLUS_DANS_DEPARTEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumInclusDansDepartement)enumDepValue).getValue();
+            case ENUM_CONTENANT_DEPARTEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumContenantDepartement)enumDepValue).getValue();
             case String ignored when Enum.class.isAssignableFrom(type) -> simpleEnum -> ((Enum<?>)simpleEnum).name();
             default -> throw new IllegalArgumentException("Unsupported type: " + type.getName());
         };
