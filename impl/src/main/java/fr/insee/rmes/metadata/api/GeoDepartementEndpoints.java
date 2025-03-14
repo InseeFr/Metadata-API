@@ -13,18 +13,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-public class GeoEndpoints implements GeoDepartementApi {
+public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     private final RequestProcessor requestProcessor;
 
-    public GeoEndpoints(RequestProcessor requestProcessor) {
+    public GeoDepartementEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepdesc(String code, LocalDate date, TypeEnumInclusDansDepartement type, String filtreNom) {
         return requestProcessor.queryforFindDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, null, filtreNom, Departement.class, false))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, Departement.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -33,7 +33,7 @@ public class GeoEndpoints implements GeoDepartementApi {
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepasc(String code, LocalDate date, TypeEnumContenantDepartement type) {
         return requestProcessor.queryforFindDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, null, type,  null, Departement.class,true))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Departement.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
