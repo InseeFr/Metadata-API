@@ -3,7 +3,7 @@ package fr.insee.rmes.metadata.api.requestprocessor;
 import fr.insee.rmes.metadata.queries.Query;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.CommuneRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.PrecedentsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
 import fr.insee.rmes.metadata.queryexecutor.Csv;
 import fr.insee.rmes.metadata.queryexecutor.QueryExecutor;
 import fr.insee.rmes.metadata.unmarshaller.Unmarshaller;
@@ -20,11 +20,11 @@ import static fr.insee.rmes.metadata.queries.QueryBuilder.*;
 @Component
 public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder queryBuilder, QueryExecutor queryExecutor, Unmarshaller unmarshaller) {
 
-    public RequestProcessor.QueryBuilder queryforFindDescendants() {
+    public RequestProcessor.QueryBuilder queryforFindAscendantsDescendants() {
         return new RequestProcessor.QueryBuilder(ASCENDANTS_OR_DESCENDANTS, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindPrecedents() {
+    public RequestProcessor.QueryBuilder queryforFindPrecedentsSuivants() {
         return new RequestProcessor.QueryBuilder(PRECEDENTS, this);
     }
 
@@ -40,7 +40,7 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
             return new ExecutableQuery(requestProcessor.queryBuilder().build(communeRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
-        public ExecutableQuery with(PrecedentsRequestParametizer precedentsRequestParametizer) {
+        public ExecutableQuery with(PrecedentsSuivantsRequestParametizer precedentsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(precedentsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
     }

@@ -127,6 +127,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/departement/{code}/suivants:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les départements qui succèdent au département'
+      operationId: 'getcogdepsuiv'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateDepartementSuivantInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/communes:
     get:
       tags:
@@ -224,6 +244,13 @@ components:
       schema:
         type: 'string'
         format: date
+    dateDepartementSuivantInPath:
+      name: 'date'
+      in: query
+      description: |-
+        Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      schema:
+        $ref: '#/components/schemas/DateDepartementSuivant'
     dateProjection:
       required: true
       in: query
@@ -289,7 +316,6 @@ components:
       schema:
         type: boolean
         example: false
-
   examples:
     Departement:
       value:
@@ -301,7 +327,6 @@ components:
         typeArticle: '4'
         chefLieu: '22278'
         intitule: 'Côtes-d''Armor'
-
     DepartementListePrecedents:
       value:
         - code: '22'
@@ -313,6 +338,16 @@ components:
           typeArticle: '4'
           chefLieu: '22278'
           intitule: 'Côtes-du-Nord'
+    DepartementListeSuivants:
+      value:
+        - code: '22'
+          uri: 'http://id.insee.fr/geo/departement/f07f6a49-9dce-4f2d-a99e-5d61eedf2827'
+          type: 'Departement'
+          dateCreation: '1990-03-08'
+          intituleSansArticle: 'Côtes-d''Armor'
+          typeArticle': '4'
+          chefLieu: '22278'
+          intitule: 'Côtes-d''Armor'
     DepartementListeProjetes:
       value:
         - code: '22'
@@ -393,6 +428,21 @@ components:
       description: 'L''en-tête HTTP ''Accept'' contient une valeur non acceptée'
     ServerError:
       description: 'Erreur interne du serveur'
+    DepartementListeSuivants200:
+      description: 'Opération réussie pour les successeurs d''un département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DepartementListeSuivantsAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeSuivants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/DepartementListeSuivantsAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeSuivants'
     DepartementListeProjetes200:
       description: 'Opération réussie pour les projetés d''un département'
       content:
@@ -679,6 +729,14 @@ components:
         name: ListeDepartementsProjetes
       items:
         $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+    DepartementListeSuivantsAvecChefLieu:
+      description: 'Liste des départements qui succèdent au département'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeDepartementsSuivants
+      items:
+        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
     ListeTerritoiresAvecChefLieu:
       description: 'Liste de territoires décrits avec chef-lieu'
       type: array
@@ -714,6 +772,12 @@ components:
       xml:
         attribute: true
       example: '22'
+    DateDepartementSuivant:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '1950-01-01'
     TypeEnum:
       type: string
       xml:
