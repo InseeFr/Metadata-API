@@ -1,9 +1,10 @@
+<#ftl output_format="plainText">
 SELECT DISTINCT ?uri ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?intitule ?categorieJuridique ?intituleComplet
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 FROM <http://rdf.insee.fr/graphes/codes/cj>
 WHERE {
 		
-			 	 ?uri a igeo:${territoire} ;
+			 	 ?uri a igeo:${typeOrigine} ;
 				 igeo:codeArticle ?typeArticle ;
 
 <#if com != "true">
@@ -11,16 +12,16 @@ WHERE {
 </#if>
 				 igeo:nom ?intitule ;
 				 igeo:nomSansArticle ?intituleSansArticle .
-<#if territoire == 	"Intercommunalite">
+<#if typeOrigine == 	"Intercommunalite">
 
 
 				 OPTIONAL {
-					?uri a igeo:${territoire} ;
+					?uri a igeo:${typeOrigine} ;
 					igeo:nomIntercommunalite ?intituleComplet .
 					}
 </#if>
 				 OPTIONAL {
-					?uri a igeo:${territoire} ;
+					?uri a igeo:${typeOrigine} ;
 					insee:categorieJuridique ?cj.
 					?cj skos:prefLabel ?categorieJuridique.
 					}
@@ -61,7 +62,7 @@ WHERE {
 			}
 </#if>
 <#if filtreNom != "*">
-			BIND("${filtreNom ?no_esc}" AS ?query). 
+			BIND("${filtreNom}" AS ?query).
 			BIND (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?intitule), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "[-_\']", " "), "[^a-z0-9() ]", ""), "[ ]{2,}", " ") AS ?formattedNom) . 
 			BIND (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?intituleSansArticle), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "[-_']", " "), "[^a-z0-9() ]", ""), "[ ]{2,}", " ") AS ?formattedNomSansArticle) .
 			BIND (CONCAT("^", REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LCASE(?query), "[àáâãäåaaa]", "a"), "ç", "c"), "[èééêë]", "e"), "[ìíîïì]", "i"), "[óôõö]", "o"), "[ùúûü]", "u"), "ÿ", "y"), "[œ]", "oe"), "([^/]+)[/]", "$1-sur-"),"([^\\\\]+)[\\\\]", "$1-sous-"), "[-_']", " "),"[^a-z0-9() ]", ""), "[ ]{2,}", " "), "^st(e)? ", "saint$1 "), "") AS ?formattedQuery) .

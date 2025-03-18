@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import fr.insee.rmes.metadata.model.Commune;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.queryexecutor.Csv;
 import lombok.NonNull;
@@ -26,6 +27,7 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
     public JacksonUnmarshaller() {
         this(CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .addModule(articleEnumModule())
+                .addModule(articleEnumCommuneModule())
                 .addModule(new JavaTimeModule())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build());
@@ -40,6 +42,21 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
                     return TerritoireTousAttributs.TypeArticleEnum.values()[Integer.parseInt(parser.getValueAsString())];
                 } catch (NumberFormatException | IOException e) {
                     return TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_;
+                }
+            }
+        });
+        return module;
+    }
+
+    private static Module articleEnumCommuneModule() {
+        var module = new SimpleModule();
+        module.addDeserializer(Commune.TypeArticleEnum.class, new JsonDeserializer<>() {
+            @Override
+            public Commune.TypeArticleEnum deserialize(JsonParser parser, DeserializationContext ctxt) {
+                try {
+                    return Commune.TypeArticleEnum.values()[Integer.parseInt(parser.getValueAsString())];
+                } catch (NumberFormatException | IOException e) {
+                    return Commune.TypeArticleEnum._0_CHARNIERE_DE_;
                 }
             }
         });
