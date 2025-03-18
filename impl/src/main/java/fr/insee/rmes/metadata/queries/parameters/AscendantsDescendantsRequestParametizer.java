@@ -14,6 +14,7 @@ public record AscendantsDescendantsRequestParametizer(String code,
                                                       Class<?> typeOrigine,
                                                       boolean ascendant) implements ParametersForQuery<AscendantsDescendantsRequestParametizer> {
 
+    //for geo/departement/{code}/descendants
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
                                                    TypeEnumInclusDansDepartement type,
@@ -22,13 +23,13 @@ public record AscendantsDescendantsRequestParametizer(String code,
         this(code, date, type, null, filtreNom, typeOrigine, false);
     }
 
+    //for geo/departement/{code}/ascendants
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
                                                    TypeEnumContenantDepartement type,
                                                    Class<?> typeOrigine) {
         this(code, date, null, type, null, typeOrigine, true);
     }
-
 
 
     @Override

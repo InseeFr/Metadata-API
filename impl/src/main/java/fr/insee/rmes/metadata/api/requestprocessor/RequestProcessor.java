@@ -24,6 +24,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         return new RequestProcessor.QueryBuilder(ASCENDANTS_OR_DESCENDANTS, this);
     }
 
+    public RequestProcessor.QueryBuilder queryforFindPrecedents() {
+        return new RequestProcessor.QueryBuilder(PRECEDENTS, this);
+    }
+
     public RequestProcessor.QueryBuilder queryforFindCommune() {
         return new RequestProcessor.QueryBuilder(COMMUNE, this);
     }
@@ -36,6 +40,9 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
             return new ExecutableQuery(requestProcessor.queryBuilder().build(communeRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
+        public ExecutableQuery with(PrecedentsRequestParametizer precedentsRequestParametizer) {
+            return new ExecutableQuery(requestProcessor.queryBuilder().build(precedentsRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
     }
 
 
