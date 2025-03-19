@@ -4,6 +4,7 @@ import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.*;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.CommuneRequestParametizer;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -34,9 +35,10 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
         Commune commune = communes.get(0); // On suppose qu'il n'y a qu'une seule commune
         commune.setType(Commune.TypeEnum.COMMUNE);
-        return ResponseEntity.ok(commune);
-
-
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(commune);
     }
 
 
