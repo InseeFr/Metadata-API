@@ -4,6 +4,7 @@ import fr.insee.rmes.metadata.queries.Query;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.CommuneRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
 import fr.insee.rmes.metadata.queryexecutor.Csv;
 import fr.insee.rmes.metadata.queryexecutor.QueryExecutor;
 import fr.insee.rmes.metadata.unmarshaller.Unmarshaller;
@@ -28,6 +29,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         return new RequestProcessor.QueryBuilder(PRECEDENTS, this);
     }
 
+    public RequestProcessor.QueryBuilder queryforFindProjetes() {
+        return new RequestProcessor.QueryBuilder(PROJETES, this);
+    }
+
     public RequestProcessor.QueryBuilder queryforFindCommune() {
         return new RequestProcessor.QueryBuilder(COMMUNE, this);
     }
@@ -42,6 +47,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
 
         public ExecutableQuery with(PrecedentsSuivantsRequestParametizer precedentsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(precedentsRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
+
+        public ExecutableQuery with(ProjetesRequestParametizer projetesRequestParametizer) {
+            return new ExecutableQuery(requestProcessor.queryBuilder().build(projetesRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
     }
 

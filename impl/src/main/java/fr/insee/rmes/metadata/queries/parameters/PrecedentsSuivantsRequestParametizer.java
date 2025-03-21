@@ -11,9 +11,6 @@ public record PrecedentsSuivantsRequestParametizer(String code,
 
     @Override
     public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
-//        if ("filtreNom".equals(recordComponent.getName())){
-//            return new ParameterValueDecoder.DelegaterDecoder<>(stringValue -> stringValue ==null?"*": stringValue.toString());
-//        }
         return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
     }
 }
