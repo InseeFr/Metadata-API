@@ -115,7 +115,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/codeDepInPath'
         - $ref: '#/components/parameters/dateDepartementDepart'
-        - $ref: '#/components/parameters/dateProjection'
+        - $ref: '#/components/parameters/dateProjectionInPath'
       responses:
         '200':
           $ref: '#/components/responses/DepartementListeProjetes200'
@@ -250,16 +250,15 @@ components:
       description: |-
         Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
-        $ref: '#/components/schemas/DateDepartementSuivant'
-    dateProjection:
+        $ref: '#/components/schemas/Date1950ParDefaut'
+    dateProjectionInPath:
       required: true
       in: query
       description: |-
         Date vers laquelle est projeté le departement. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
-        type: 'string'
-        format: date
+        $ref: '#/components/schemas/Date1950ParDefaut'
     dateActive:
       in: query
       description: |-
@@ -772,7 +771,7 @@ components:
       xml:
         attribute: true
       example: '22'
-    DateDepartementSuivant:
+    Date1950ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
