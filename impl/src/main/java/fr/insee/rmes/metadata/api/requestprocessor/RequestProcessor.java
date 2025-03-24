@@ -2,7 +2,7 @@ package fr.insee.rmes.metadata.api.requestprocessor;
 
 import fr.insee.rmes.metadata.queries.Query;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.CommuneRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
 import fr.insee.rmes.metadata.queryexecutor.Csv;
@@ -33,16 +33,17 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         return new RequestProcessor.QueryBuilder(PROJETES, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindCommune() {
-        return new RequestProcessor.QueryBuilder(COMMUNE, this);
+    public RequestProcessor.QueryBuilder queryforFindTerritoire() {
+        return new RequestProcessor.QueryBuilder(TERRITOIRE, this);
     }
+
 
     public record QueryBuilder(Path queryPath, RequestProcessor requestProcessor) {
         public ExecutableQuery with(AscendantsDescendantsRequestParametizer ascendantsDescendantsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(ascendantsDescendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
-        public ExecutableQuery with(CommuneRequestParametizer communeRequestParametizer) {
-            return new ExecutableQuery(requestProcessor.queryBuilder().build(communeRequestParametizer.toParameters(), queryPath), requestProcessor);
+        public ExecutableQuery with(TerritoireRequestParametizer territoireRequestParametizer) {
+            return new ExecutableQuery(requestProcessor.queryBuilder().build(territoireRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
         public ExecutableQuery with(PrecedentsSuivantsRequestParametizer precedentsRequestParametizer) {

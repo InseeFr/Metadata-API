@@ -5,11 +5,14 @@ import fr.insee.rmes.metadata.model.*;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static fr.insee.rmes.metadata.utils.EndpointsUtils.toResponseEntity;
 
 @Controller
 public class GeoDepartementEndpoints implements GeoDepartementApi {
@@ -70,6 +73,22 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
                 .executeQuery()
                 .listResult(TerritoireBaseChefLieu.class)
                 .toResponseEntity();
+    }
+
+
+    @Override
+    public ResponseEntity<Departement> getcogdep(String code, LocalDate date) {
+        List<Departement> departements = requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(code, date, Departement.class))
+                .executeQuery()
+                .listResult(Departement.class).result();
+        if (departements.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Departement departement = departements.get(0); // On suppose qu'il n'y a qu'une seule commune
+        departement.setType(Departement.TypeEnum.DEPARTEMENT);
+        return toResponseEntity(departement);
     }
 
 }

@@ -7,10 +7,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import fr.insee.rmes.metadata.model.Commune;
-import fr.insee.rmes.metadata.model.TerritoireBase;
-import fr.insee.rmes.metadata.model.TerritoireBaseChefLieu;
-import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import fr.insee.rmes.metadata.model.*;
 import fr.insee.rmes.metadata.queryexecutor.Csv;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static fr.insee.rmes.metadata.model.Departement.TypeArticleEnum._0_CHARNIERE_DE_;
+
 @Component
 @Slf4j
 // TODO proposer une autre implémentation d'unmarshaller ?
@@ -28,54 +27,25 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
 
     public JacksonUnmarshaller() {
         this(CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-                .addModule(articleEnumModule())
-                .addModule(articleEnumCommuneModule())
-                .addModule(articleEnumTerritoireBaseChefLieuModule())
+                .addModule(enumModule(TerritoireTousAttributs.TypeArticleEnum.class, TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_))
+                .addModule(enumModule(TerritoireBaseChefLieu.TypeArticleEnum.class, TerritoireBaseChefLieu.TypeArticleEnum._0_CHARNIERE_DE_))
+                .addModule(enumModule(Commune.TypeArticleEnum.class, Commune.TypeArticleEnum._0_CHARNIERE_DE_))
+                .addModule(enumModule(Departement.TypeArticleEnum.class, Departement.TypeArticleEnum._0_CHARNIERE_DE_))
                 .addModule(new JavaTimeModule())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build());
     }
 
 
-    private static Module articleEnumModule() {
+    private static <E extends Enum<E>>  Module enumModule(Class<E> enumClass, E defaultValue) {
         var module = new SimpleModule();
-        module.addDeserializer(TerritoireTousAttributs.TypeArticleEnum.class, new JsonDeserializer<>() {
+        module.addDeserializer(enumClass, new JsonDeserializer<>()  {
             @Override
-            public TerritoireTousAttributs.TypeArticleEnum deserialize(JsonParser parser, DeserializationContext ctxt) {
+            public E deserialize(JsonParser parser, DeserializationContext ctxt) {
                 try {
-                    return TerritoireTousAttributs.TypeArticleEnum.values()[Integer.parseInt(parser.getValueAsString())];
+                    return enumClass.getEnumConstants()[Integer.parseInt(parser.getValueAsString())];
                 } catch (NumberFormatException | IOException e) {
-                    return TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_;
-                }
-            }
-        });
-        return module;
-    }
-
-    private static Module articleEnumTerritoireBaseChefLieuModule() {
-        var module = new SimpleModule();
-        module.addDeserializer(TerritoireBaseChefLieu.TypeArticleEnum.class, new JsonDeserializer<>() {
-            @Override
-            public TerritoireBaseChefLieu.TypeArticleEnum deserialize(JsonParser parser, DeserializationContext ctxt) {
-                try {
-                    return TerritoireBaseChefLieu.TypeArticleEnum.values()[Integer.parseInt(parser.getValueAsString())];
-                } catch (NumberFormatException | IOException e) {
-                    return TerritoireBaseChefLieu.TypeArticleEnum._0_CHARNIERE_DE_;
-                }
-            }
-        });
-        return module;
-    }
-
-    private static Module articleEnumCommuneModule() {
-        var module = new SimpleModule();
-        module.addDeserializer(Commune.TypeArticleEnum.class, new JsonDeserializer<>() {
-            @Override
-            public Commune.TypeArticleEnum deserialize(JsonParser parser, DeserializationContext ctxt) {
-                try {
-                    return Commune.TypeArticleEnum.values()[Integer.parseInt(parser.getValueAsString())];
-                } catch (NumberFormatException | IOException e) {
-                    return Commune.TypeArticleEnum._0_CHARNIERE_DE_;
+                    return defaultValue;
                 }
             }
         });
