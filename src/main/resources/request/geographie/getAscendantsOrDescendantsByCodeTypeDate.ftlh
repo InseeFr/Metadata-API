@@ -52,12 +52,9 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 					                  igeo:date ?dateSuppressionOrigine.
 			}
 
-            OPTIONAL {
+
 			FILTER(!BOUND(?dateCreationOrigine) || ?dateCreationOrigine <= '${date}'^^xsd:date)
-			}
-			OPTIONAL {
 			FILTER(!BOUND(?dateSuppressionOrigine) || ?dateSuppressionOrigine > '${date}'^^xsd:date)
-            }
 			OPTIONAL {
 				?evenementCreation igeo:creation ?uri ;
 					               igeo:date ?dateCreation .
