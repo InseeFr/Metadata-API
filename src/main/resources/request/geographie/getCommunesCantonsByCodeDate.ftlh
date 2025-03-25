@@ -1,29 +1,28 @@
-PREFIX : <http://rdf.insee.fr/def/geo#>
 SELECT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
 WHERE {
-?commune a :Commune ;
-:codeINSEE '${code}' .
-?ressource a :Canton;
+?commune a igeo:Commune ;
+igeo:codeINSEE '${code}' .
+?ressource a igeo:Canton;
 a ?typeRDF;
-^:subdivisionDirecteDe|^:territoireCommunAvec ?commune ;
-:codeINSEE ?code;
-:codeArticle ?typeArticle ;
-:nom ?intitule ;
-:nomSansArticle ?intituleSansArticle .
+^igeo:subdivisionDirecteDe|^igeo:territoireCommunAvec ?commune ;
+igeo:codeINSEE ?code;
+igeo:codeArticle ?typeArticle ;
+igeo:nom ?intitule ;
+igeo:nomSansArticle ?intituleSansArticle .
 BIND(STRAFTER(STR(?typeRDF),"http://rdf.insee.fr/def/geo#") AS ?type).
 BIND(STR(?ressource) AS ?uri).
-OPTIONAL {?commune (^:creation/:date) ?dateCreationCommune. }
-OPTIONAL {?commune (^:suppression/:date) ?dateSuppressionCommune. }
-OPTIONAL {?ressource (^:creation/:date) ?dateCreation. }
-OPTIONAL {?ressource (^:suppression/:date) ?dateSuppression. }
-OPTIONAL {?ressource :bureauCentralisateur ?chefLieuRDF. ?chefLieuRDF :codeINSEE ?chefLieu.}
-OPTIONAL {?chefLieuRDF ^:creation/:date ?dateCreationChefLieu.}
-OPTIONAL {?chefLieuRDF ^:suppression/:date ?dateSuppressionChefLieu.}
-FILTER(!BOUND(?dateCreationCommune) || xsd:dateTime(?dateCreationCommune) <= '${date}'^^xsd:date)
+OPTIONAL {?commune (^igeo:creation/igeo:date) ?dateCreationCommune. }
+OPTIONAL {?commune (^igeo:suppression/igeo:date) ?dateSuppressionCommune. }
+OPTIONAL {?ressource (^igeo:creation/igeo:date) ?dateCreation. }
+OPTIONAL {?ressource (^igeo:suppression/igeo:date) ?dateSuppression. }
+OPTIONAL {?ressource igeo:bureauCentralisateur ?chefLieuRDF. ?chefLieuRDF igeo:codeINSEE ?chefLieu.}
+OPTIONAL {?chefLieuRDF ^igeo:creation/igeo:date ?dateCreationChefLieu.}
+OPTIONAL {?chefLieuRDF ^igeo:suppression/igeo:date ?dateSuppressionChefLieu.}
+FILTER(!BOUND(?dateCreationCommune) || (?dateCreationCommune) <= '${date}'^^xsd:date)
 FILTER(!BOUND(?dateSuppressionCommune) || xsd:dateTime(?dateSuppressionCommune) > '${date}'^^xsd:date)
 FILTER(!BOUND(?dateCreation) || xsd:dateTime(?dateCreation) <= '${date}'^^xsd:date)
 FILTER(!BOUND(?dateSuppression) || xsd:dateTime(?dateSuppression) > '${date}'^^xsd:date)
 FILTER(!BOUND(?dateCreationChefLieu) || xsd:dateTime(?dateCreationChefLieu) <= '${date}'^^xsd:date)
-FILTER(!BOUND(?dateSuppressionChefLieu) || xsd:dateTime(?dateSuppressionChefLieu) > '${date}'^^xsd:date)
+FILTER(!BOUND(?dateSuppressionChefLieu) || (?dateSuppressionChefLieu) > '${date}'^^xsd:date)
 }
 ORDER BY ?code
