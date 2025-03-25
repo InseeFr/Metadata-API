@@ -87,7 +87,6 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
         }
 
         Departement departement = departements.get(0); // On suppose qu'il n'y a qu'un seul departement
-        departement.setType(Departement.TypeEnum.DEPARTEMENT);
         return toResponseEntity(departement);
     }
 
