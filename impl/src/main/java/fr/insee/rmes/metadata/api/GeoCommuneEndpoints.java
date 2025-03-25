@@ -32,6 +32,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
         }
 
         Commune commune = communes.get(0); // On suppose qu'il n'y a qu'une seule commune
+        commune.setType(Commune.TypeEnum.COMMUNE);
         return toResponseEntity(commune);
     }
 
