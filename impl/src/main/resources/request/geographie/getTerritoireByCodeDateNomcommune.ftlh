@@ -1,15 +1,15 @@
 <#ftl output_format="plainText">
-SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?intitule ?categorieJuridique ?intituleComplet
+SELECT DISTINCT ?uri (STRAFTER(STR(?typeAvecIri), "#") AS ?type) ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?intitule ?categorieJuridique ?intituleComplet
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 FROM <http://rdf.insee.fr/graphes/codes/cj>
 WHERE {
 
 	?uri a igeo:${typeOrigine} ;
+	a ?typeAvecIri ;
 	igeo:codeArticle ?typeArticle ;
 	igeo:nom ?intitule ;
 	igeo:nomSansArticle ?intituleSansArticle .
 
-	BIND("${typeOrigine}" AS ?type)
 
 <#if com != "true">
 	(igeo:subdivisionDirecteDe/a) ?parent;
