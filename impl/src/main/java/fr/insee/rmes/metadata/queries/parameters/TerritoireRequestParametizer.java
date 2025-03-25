@@ -16,6 +16,13 @@ public TerritoireRequestParametizer(String code,
                                     Class<?> typeOrigine) {
     this(code, date, typeOrigine, "*", "prefecture", true);
 }
+
+    //for geo/departements
+    public TerritoireRequestParametizer(LocalDate date,
+                                        Class<?> typeOrigine) {
+        this("none", date, typeOrigine, "*", "prefecture", true);
+    }
+
     @Override
     public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
         return ParametersForQuery.super.findParameterValueDecoder(recordComponent);

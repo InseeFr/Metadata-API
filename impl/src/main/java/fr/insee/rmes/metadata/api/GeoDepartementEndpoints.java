@@ -86,9 +86,20 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
             return ResponseEntity.notFound().build();
         }
 
-        Departement departement = departements.get(0); // On suppose qu'il n'y a qu'une seule commune
+        Departement departement = departements.get(0); // On suppose qu'il n'y a qu'un seul departement
         departement.setType(Departement.TypeEnum.DEPARTEMENT);
         return toResponseEntity(departement);
+    }
+
+
+    @Override
+    public ResponseEntity<List<TerritoireBaseChefLieu>> getcogdepts(LocalDate date) {
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, Departement.class))
+                .executeQuery()
+                .listResult(TerritoireBaseChefLieu.class)
+                .toResponseEntity();
+
     }
 
 }

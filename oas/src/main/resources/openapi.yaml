@@ -147,6 +147,25 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/departements:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations sur tous les départements actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogdepts'
+      parameters:
+        - $ref: '#/components/parameters/dateDepartementsInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementsListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/communes:
     get:
       tags:
@@ -259,6 +278,14 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
+    dateDepartementsInPath:
+      in: query
+      description: |-
+        Filtre pour renvoyer les départements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
     dateActive:
       in: query
       description: |-
@@ -386,6 +413,24 @@ components:
           typeArticle: '0'
           chefLieu: '35238'
           intitule: 'Bretagne'
+    DepartementsListe:
+      value:
+        - code: '01'
+          uri: 'http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7'
+          type: 'Departement'
+          dateCreation: '1967-12-31'
+          intituleSansArticle: 'Ain'
+          typeArticle: '5'
+          chefLieu: '01053'
+          intitule: 'Ain'
+        - code: '02'
+          uri: 'http://id.insee.fr/geo/departement/8b195d1f-8676-4c06-873c-ee5b6d66a23f'
+          type: 'Departement'
+          dateCreation: '2016-12-31'
+          intituleSansArticle: 'Aisne'
+          typeArticle: '5'
+          chefLieu: '02408'
+          intitule: 'Aisne'
     CommunesListe:
       value:
         - code: '25073'
@@ -462,16 +507,16 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
+            $ref: '#/components/schemas/DepartementListePrecedentsAvecChefLieu'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeProjetes'
+              $ref: '#/components/examples/DepartementListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
+            $ref: '#/components/schemas/DepartementListePrecedentsAvecChefLieu'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeProjetes'
+              $ref: '#/components/examples/DepartementListePrecedents'
     DepartementListeDescendants200:
       description: 'Opération réussie pour les descendants d''un département'
       content:
@@ -502,6 +547,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeAscendants'
+    DepartementsListe200:
+      description: 'Opération réussie pour la liste des départements'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeTerritoiresAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementsListe'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeTerritoiresAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementsListe'
     Departement200:
       description: 'Opération réussie pour le département'
       content:
@@ -726,6 +786,14 @@ components:
       xml:
         wrapped: true
         name: ListeDepartementsProjetes
+      items:
+        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+    DepartementListePrecedentsAvecChefLieu:
+      description: 'Liste des départements projetés'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeDepartementsPrecedents
       items:
         $ref: '#/components/schemas/TerritoireBase_ChefLieu'
     DepartementListeSuivantsAvecChefLieu:
