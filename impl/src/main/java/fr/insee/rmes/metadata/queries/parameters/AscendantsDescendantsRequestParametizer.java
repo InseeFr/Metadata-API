@@ -17,18 +17,18 @@ public record AscendantsDescendantsRequestParametizer(String code,
     //for geo/departement/{code}/descendants
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
-                                                   TypeEnumInclusDansDepartement type,
+                                                   TypeEnumInclusDansDepartement typeEnum,
                                                    String filtreNom,
                                                    Class<?> typeOrigine) {
-        this(code, date, type, null, filtreNom, typeOrigine, false);
+        this(code, date, typeEnum, null, filtreNom, typeOrigine, false);
     }
 
     //for geo/departement/{code}/ascendants
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
-                                                   TypeEnumContenantDepartement type,
+                                                   TypeEnumContenantDepartement typeEnum,
                                                    Class<?> typeOrigine) {
-        this(code, date, null, type, null, typeOrigine, true);
+        this(code, date, null, typeEnum, null, typeOrigine, true);
     }
 
 
