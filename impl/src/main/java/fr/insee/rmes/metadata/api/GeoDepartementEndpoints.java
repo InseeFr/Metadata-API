@@ -78,18 +78,11 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     @Override
     public ResponseEntity<Departement> getcogdep(String code, LocalDate date) {
-        List<Departement> departements = requestProcessor.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, Departement.class))
                 .executeQuery()
-                .listResult(Departement.class).result();
-        if (departements.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Departement departement = departements.get(0); // On suppose qu'il n'y a qu'un seul departement
-        return toResponseEntity(departement);
+                .singleResult(Departement.class).toResponseEntity();
     }
-
 
     @Override
     public ResponseEntity<List<TerritoireBaseChefLieu>> getcogdepts(LocalDate date) {

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static fr.insee.rmes.metadata.utils.EndpointsUtils.toResponseEntity;
 
@@ -23,16 +24,20 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     @Override
     public ResponseEntity<Commune> getcogcom(String code, LocalDate date) {
-        List<Commune> communes = requestProcessor.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, Commune.class))
                 .executeQuery()
-                .listResult(Commune.class).result();
-        if (communes.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+                .singleResult(Commune.class).toResponseEntity();
+    }
 
-        Commune commune = communes.get(0); // On suppose qu'il n'y a qu'une seule commune
-        return toResponseEntity(commune);
+    @Override
+    public ResponseEntity<List<TerritoireBase>> getcogcomliste(LocalDate date, String filtreNom, Boolean com) {
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, filtreNom, Commune.class, com))
+                .executeQuery()
+                .listResult(TerritoireBase.class)
+                .toResponseEntity();
+
     }
 
 

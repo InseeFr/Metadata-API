@@ -9,11 +9,13 @@ import fr.insee.rmes.metadata.queryexecutor.Csv;
 import fr.insee.rmes.metadata.queryexecutor.QueryExecutor;
 import fr.insee.rmes.metadata.unmarshaller.Unmarshaller;
 import fr.insee.rmes.metadata.utils.EndpointsUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 import static fr.insee.rmes.metadata.queries.QueryBuilder.*;
 
@@ -68,6 +70,9 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         public <E> ListResult<E> listResult(Class<E> clazz) {
             return new ListResult<>(requestProcessor.unmarshaller().unmarshalList(csv, clazz));
         }
+        public <E> SingleResult<E> singleResult(Class<E> clazz) {
+            return new SingleResult<>(requestProcessor.unmarshaller().unmarshalOrNull(csv, clazz));
+        }
 
     }
 
@@ -78,4 +83,8 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         }
     }
 
+    public record SingleResult<E>(E result){
+//        public ResponseEntity<E> toResponseEntity() {return new ResponseEntity<>(result, HttpStatus.OK);}
+    public ResponseEntity<E> toResponseEntity() {return EndpointsUtils.toResponseEntity(result);}
+    }
 }

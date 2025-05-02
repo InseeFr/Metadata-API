@@ -31,6 +31,7 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
                 .addModule(enumModule(TerritoireBaseChefLieu.TypeArticleEnum.class, TerritoireBaseChefLieu.TypeArticleEnum._0_CHARNIERE_DE_))
                 .addModule(enumModule(Commune.TypeArticleEnum.class, Commune.TypeArticleEnum._0_CHARNIERE_DE_))
                 .addModule(enumModule(Departement.TypeArticleEnum.class, Departement.TypeArticleEnum._0_CHARNIERE_DE_))
+                .addModule(enumModule(TerritoireBase.TypeArticleEnum.class, TerritoireBase.TypeArticleEnum._0_CHARNIERE_DE_))
                 .addModule(new JavaTimeModule())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build());
@@ -55,6 +56,12 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
     @Override
     public <G> Optional<G> unmarshal(@NonNull Csv csv, @NonNull Class<G> targetClass) {
         return unmarshallAll(csv.content(), targetClass, Optional.empty(), l-> l.isEmpty()?Optional.empty():Optional.of(l.getFirst()));
+    }
+
+    @Override
+    public <G> G unmarshalOrNull(@NonNull Csv csv, @NonNull Class<G> targetClass) {
+        return unmarshallAll(csv.content(), targetClass, null,
+                l -> l.isEmpty() ? null : l.getFirst());
     }
 
     @Override
