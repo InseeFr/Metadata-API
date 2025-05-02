@@ -8,7 +8,7 @@ WHERE {
 	a ?typeAvecIri ;
 	igeo:codeArticle ?typeArticle ;
 	igeo:nom ?intitule ;
-	igeo:nomSansArticle ?intituleSansArticle .
+	igeo:nomSansArticle ?intituleSansArticle ;
 
 
 <#if com != "true">
