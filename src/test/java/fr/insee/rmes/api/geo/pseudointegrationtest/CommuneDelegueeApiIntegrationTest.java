@@ -32,7 +32,7 @@ class CommuneDelegueeApiIntegrationTest {
 
 
     @Test
-    public void givengetCommuneDeleguee_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+    void givengetCommuneDeleguee_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_DELEGUEE_MOCK_SERVER_RETURN_GET);
         Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_JSON, null);
@@ -41,7 +41,7 @@ class CommuneDelegueeApiIntegrationTest {
     }
 
     @Test
-    public void givengetCommuneDeleguee_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    void givengetCommuneDeleguee_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_DELEGUEE_MOCK_SERVER_RETURN_GET);
         Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_XML, null);
@@ -50,7 +50,7 @@ class CommuneDelegueeApiIntegrationTest {
     }
 
     @Test
-    public void givengetListeCommuneDeleguees_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+    void givengetListeCommuneDeleguees_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_DELEGUEE_MOCK_SERVER_RETURN_LISTE);
         Response response = geoApi.getListe(MediaType.APPLICATION_JSON, null);
@@ -59,7 +59,7 @@ class CommuneDelegueeApiIntegrationTest {
     }
 
     @Test
-    public void givengetListeCommuneDeleguees_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    void givengetListeCommuneDeleguees_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_DELEGUEE_MOCK_SERVER_RETURN_LISTE);
         Response response = geoApi.getListe(MediaType.APPLICATION_XML, null);
@@ -68,7 +68,7 @@ class CommuneDelegueeApiIntegrationTest {
     }
 
     @Test
-    public void givengetAscendantsCommuneDeleguees_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+    void givengetAscendantsCommuneDeleguees_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_DELEGUEE_MOCK_SERVER_RETURN_ASCENDANTS);
         Response response = geoApi.getAscendants(CODE, MediaType.APPLICATION_JSON, null, null);
@@ -77,7 +77,7 @@ class CommuneDelegueeApiIntegrationTest {
     }
 
     @Test
-    public void givengetAscendantsCommuneDeleguees_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    void givengetAscendantsCommuneDeleguees_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.COMMUNE_DELEGUEE_MOCK_SERVER_RETURN_ASCENDANTS);
         Response response = geoApi.getAscendants(CODE, MediaType.APPLICATION_XML, null, null);

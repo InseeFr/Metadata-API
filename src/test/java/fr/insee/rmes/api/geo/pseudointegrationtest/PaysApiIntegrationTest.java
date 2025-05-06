@@ -31,7 +31,7 @@ class PaysApiIntegrationTest {
 
 /*
     @Test
-    public void givengetDepartement_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+    void givengetDepartement_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
                 .thenReturn(ConstantForIntegration.PAYS_MOCK_SERVER_RETURN_GET);
         Header header = new Header(MediaType.APPLICATION_JSON);
@@ -41,7 +41,7 @@ class PaysApiIntegrationTest {
     }
 
     @Test
-    public void givengetDepartement_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    void givengetDepartement_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.PAYS_MOCK_SERVER_RETURN_GET);
         Header header = new Header(MediaType.APPLICATION_JSON);
@@ -51,7 +51,7 @@ class PaysApiIntegrationTest {
     }
 
 @Test
-public void givengetDepartement_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+void givengetDepartement_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
     when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.PAYS_MOCK_SERVER_RETURN_GET);
     Header header = new Header(MediaType.APPLICATION_XML);

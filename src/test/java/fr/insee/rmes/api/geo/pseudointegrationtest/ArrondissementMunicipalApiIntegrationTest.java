@@ -31,7 +31,7 @@ class ArrondissementMunicipalApiIntegrationTest {
 
 
     @Test
-    public void givengetArrondissementMunicipal_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+    void givengetArrondissementMunicipal_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_GET);
         Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_JSON, null);
@@ -40,7 +40,7 @@ class ArrondissementMunicipalApiIntegrationTest {
     }
 
     @Test
-    public void givengetArrondissementMunicipal_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    void givengetArrondissementMunicipal_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_GET);
         Response response = geoApi.getByCode(CODE, MediaType.APPLICATION_XML, null);
@@ -49,7 +49,7 @@ class ArrondissementMunicipalApiIntegrationTest {
     }
 
     @Test
-    public void givengetListeArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+    void givengetListeArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_LISTE);
         Response response = geoApi.getListe(MediaType.APPLICATION_JSON, null);
@@ -60,7 +60,7 @@ class ArrondissementMunicipalApiIntegrationTest {
     }
 
     @Test
-    public void givengetListeArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    void givengetListeArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_LISTE);
         Response response = geoApi.getListe(MediaType.APPLICATION_XML, null);
@@ -71,7 +71,7 @@ class ArrondissementMunicipalApiIntegrationTest {
     }
 
     @Test
-    public void givengetAscendantsArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+    void givengetAscendantsArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_ASCENDANTS);
         Response response = geoApi.getAscendants(CODE, MediaType.APPLICATION_JSON, null, null);
@@ -82,7 +82,7 @@ class ArrondissementMunicipalApiIntegrationTest {
     }
 
     @Test
-    public void givengetAscendantsArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    void givengetAscendantsArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_ASCENDANTS);
         Response response = geoApi.getAscendants(CODE, MediaType.APPLICATION_XML, null, null);
@@ -94,7 +94,7 @@ class ArrondissementMunicipalApiIntegrationTest {
 
 
     @Test
-    public void givengetPrecedentsArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+    void givengetPrecedentsArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_PRECEDENTS);
         Response response = geoApi.getPrecedent(CODE_SUIV_OU_PREC, MediaType.APPLICATION_JSON, null);
@@ -106,7 +106,7 @@ class ArrondissementMunicipalApiIntegrationTest {
 
 
     @Test
-    public void givengetPrecedentsArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    void givengetPrecedentsArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_PRECEDENTS);
         Response response = geoApi.getPrecedent(CODE_SUIV_OU_PREC, MediaType.APPLICATION_XML, new Date("1943-01-01"));
@@ -118,7 +118,7 @@ class ArrondissementMunicipalApiIntegrationTest {
 
  
     @Test
-    public void givengetSuivantsArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
+    void givengetSuivantsArrondissementMunicipals_whenCorrectRequest_With_JSON_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_PRECEDENTS);
         Response response = geoApi.getSuivant(CODE_SUIV_OU_PREC, MediaType.APPLICATION_JSON,new Date("1943-01-01"));
@@ -130,7 +130,7 @@ class ArrondissementMunicipalApiIntegrationTest {
 
 
     @Test
-    public void givengetSuivantsArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
+    void givengetSuivantsArrondissementMunicipals_whenCorrectRequest_With_XML_Header_thenResponseIsOk() {
         when(mockSparqlUtils.executeSparqlQuery(anyString()))
             .thenReturn(ConstantForIntegration.ARRONDISSEMENT_MUNICIPAL_MOCK_SERVER_RETURN_PRECEDENTS);
         Response response = geoApi.getSuivant(CODE_SUIV_OU_PREC, MediaType.APPLICATION_XML, null);
