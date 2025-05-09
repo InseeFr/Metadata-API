@@ -1,7 +1,7 @@
 package fr.insee.rmes.metadata.queries.parameters;
 
+import fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement;
 import fr.insee.rmes.metadata.model.TypeEnumContenantCommune;
-import fr.insee.rmes.metadata.model.TypeEnumContenantDepartement;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsDepartement;
 
 import java.lang.reflect.RecordComponent;
@@ -16,7 +16,7 @@ interface ParameterValueDecoder<T>{
     String CLASS_CLASS = "java.lang.Class";
     String LOCALE_DATE_CLASS = "java.time.LocalDate";
     String ENUM_DESCENDANTS_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumDescendantsDepartement";
-    String ENUM_CONTENANT_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumContenantDepartement";
+    String ENUM_CONTENANT_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement";
     String ENUM_CONTENANT_COMMUNE_CLASS = "fr.insee.rmes.metadata.model.TypeEnumContenantCommune";
 
     static <U> ParameterValueDecoder<U> of(Class<U> type) {
@@ -26,7 +26,7 @@ interface ParameterValueDecoder<T>{
             case STRING_CLASS -> String::valueOf;
             case LOCALE_DATE_CLASS -> localDate -> String.valueOf(localDate==null?LocalDate.now():localDate);
             case ENUM_DESCENDANTS_DEPARTEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumDescendantsDepartement)enumDepValue).getValue();
-            case ENUM_CONTENANT_DEPARTEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumContenantDepartement)enumDepValue).getValue();
+            case ENUM_CONTENANT_DEPARTEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumAscendantsDepartement)enumDepValue).getValue();
             case ENUM_CONTENANT_COMMUNE_CLASS -> enumComValue -> enumComValue ==null?"none": ((TypeEnumContenantCommune)enumComValue).getValue();
             case String ignored when Enum.class.isAssignableFrom(type) -> simpleEnum -> ((Enum<?>)simpleEnum).name();
             default -> throw new IllegalArgumentException("Unsupported type: " + type.getName());

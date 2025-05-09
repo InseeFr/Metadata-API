@@ -33,7 +33,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
     }
 
     @Override
-    public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepasc(String code, LocalDate date, TypeEnumContenantDepartement type) {
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepasc(String code, LocalDate date, TypeEnumAscendantsDepartement type) {
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, type, Departement.class))
                 .executeQuery()

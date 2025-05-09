@@ -74,7 +74,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/codeDepInPath'
         - $ref: '#/components/parameters/dateTerritoiresActifsContenantDepartement'
-        - $ref: '#/components/parameters/typeTerritoireContenantDepartement'
+        - $ref: '#/components/parameters/typeTerritoireAscendantDepartement'
       responses:
         '200':
           $ref: '#/components/responses/DepartementListeAscendants200'
@@ -343,12 +343,12 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsDepartement'
-    typeTerritoireContenantDepartement:
+    typeTerritoireAscendantDepartement:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumContenantDepartement'
+        $ref: '#/components/schemas/TypeEnumAscendantsDepartement'
     typeTerritoireContenantCommune:
       name: 'type'
       in: query
@@ -998,7 +998,7 @@ components:
         - Arrondissement
         - ArrondissementMunicipal
       example: 'Arrondissement'
-    TypeEnumContenantDepartement:
+    TypeEnumAscendantsDepartement:
       type: string
       xml:
         name: 'Type'
