@@ -52,7 +52,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/codeDepInPath'
         - $ref: '#/components/parameters/dateTerritoiresActifsDansDepartement'
-        - $ref: '#/components/parameters/typeTerritoireInclusDansDepartement'
+        - $ref: '#/components/parameters/typeTerritoireDescendantDepartement'
         - $ref: '#/components/parameters/filtreNomDescendant'
       responses:
         '200':
@@ -166,27 +166,6 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  /geo/communes:
-    get:
-      tags:
-        - geoCommune
-      summary: Informations sur toutes les communes actives à la date donnée. Par défaut, c'est la date courante.
-      operationId: 'getcogcomliste'
-      parameters:
-        - $ref: '#/components/parameters/dateCommunesActives'
-        - $ref: '#/components/parameters/filtreNomCommune'
-        - $ref: '#/components/parameters/com'
-      responses:
-        '200':
-          $ref: '#/components/responses/CommunesListe200'
-        '400':
-          $ref: '#/components/responses/IncorrectRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '500':
-          $ref: '#/components/responses/ServerError'
   # utiliser responses.200.links.getcogcom.operationID : getcogcom
   /geo/commune/{code}:
     get:
@@ -200,6 +179,48 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Commune200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/commune/{code}/ascendants:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Informations concernant les territoires qui contiennent la commune'
+      operationId: 'getcogcomasc'
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsContenantCommune'
+        - $ref: '#/components/parameters/typeTerritoireContenantCommune'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneListeAscendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/communes:
+    get:
+      tags:
+        - geoCommune
+      summary: Informations sur toutes les communes actives à la date donnée. Par défaut, c'est la date courante.
+      operationId: 'getcogcomliste'
+      parameters:
+        - $ref: '#/components/parameters/dateCommunesActives'
+        - $ref: '#/components/parameters/filtreNomCommune'
+        - $ref: '#/components/parameters/com'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommunesListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -251,6 +272,14 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer les territoires contenant le département actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateTerritoiresActifsContenantCommune:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires contenant la commune active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -308,18 +337,24 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnum'
-    typeTerritoireInclusDansDepartement:
+    typeTerritoireDescendantDepartement:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumInclusDansDepartement'
+        $ref: '#/components/schemas/TypeEnumDescendantsDepartement'
     typeTerritoireContenantDepartement:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumContenantDepartement'
+    typeTerritoireContenantCommune:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumContenantCommune'
     filtreNomCommune:
       name: 'filtreNom'
       in: query
@@ -463,6 +498,67 @@ components:
         intituleSansArticle: 'Val d''Arry'
         typeArticle: '0'
         intitule: 'Val d''Arry'
+    CommuneListeAscendants:
+      value:
+        - code: '024'
+          uri: 'http://id.insee.fr/geo/aireDAttractionDesVilles2020/9d05148e-a733-4bc4-9223-e8a27618c7c0'
+          type: 'AireDAttractionDesVilles2020'
+          dateCreation: '2020-01-01'
+          intituleSansArticle: 'Caen'
+          typeArticle: '0'
+          intitule: 'Caen'
+        - code: '14752'
+          uri: 'http://id.insee.fr/geo/bassinDeVie2022/a2f90771-4ff4-498e-9464-9cd75cdf2db7'
+          type: 'BassinDeVie2022'
+          dateCreation: '2022-01-01'
+          intituleSansArticle: 'Villers-Bocage'
+          typeArticle: '0'
+          intitule: 'Villers-Bocage'
+        - code: '1401'
+          uri: 'http://id.insee.fr/geo/cantonOuVille/decd5410-bd2c-4561-b2c1-c1ef258fa3c0'
+          type: 'CantonOuVille'
+          dateCreation: '2021-02-26'
+          intituleSansArticle: 'Monts d’Aunay'
+          typeArticle: '4'
+          intitule: 'Les Monts d’Aunay'
+        - code: '1401'
+          uri: 'http://id.insee.fr/geo/canton/25982682-5635-40ad-8040-09110edb43e1'
+          type: 'Canton'
+          dateCreation: '2021-02-26'
+          chefLieu: '14027'
+          intitule: 'Les Monts d’Aunay'
+          intituleSansArticle: 'Monts d’Aunay'
+          typeArticle: '4'
+        - code: '14'
+          uri: 'http://id.insee.fr/geo/departement/b01dce92-b91f-4648-80e7-536bd1823c2c'
+          type: 'Departement'
+          dateCreation: '2018-01-01'
+          intituleSansArticle: 'Calvados'
+          typeArticle: '2'
+          chefLieu: '14118'
+          intitule: 'Calvados'
+        - code: '200069524'
+          uri: 'http://id.insee.fr/geo/intercommunalite/208f94f5-28b8-421b-b153-e651cee0781f'
+          type: 'Intercommunalite'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Pré-Bocage Intercom'
+          typeArticle: 'X'
+          intitule: 'Pré-Bocage Intercom'
+        - code: '28'
+          uri: 'http://id.insee.fr/geo/region/a7ac0f8e-d4d4-4ff2-9135-f0e0b6371aed'
+          type: 'Region'
+          dateCreation: '2016-01-01'
+          intituleSansArticle: 'Normandie'
+          typeArticle: '0'
+          chefLieu: '76540'
+          intitule: 'Normandie'
+        - code: '2804'
+          uri: 'http://id.insee.fr/geo/zoneDEmploi2020/4de3edd0-840a-437b-aa63-bba467c1a3ab'
+          type: 'ZoneDEmploi2020'
+          dateCreation: '2020-01-01'
+          intituleSansArticle: 'Caen'
+          typeArticle: '0'
+          intitule: 'Caen'
   responses:
     IncorrectRequest:
       description: 'La syntaxe de la requête est incorrecte'
@@ -607,6 +703,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Commune'
+    CommuneListeAscendants200:
+      description: 'Opération réussie pour les ascendants d''une commune'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommuneListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeAscendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommuneListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeAscendants'
   schemas:
     Commune:
       xml:
@@ -764,6 +875,14 @@ components:
         name: Communes
       items:
         $ref: '#/components/schemas/TerritoireBase'
+    CommuneListeAscendants:
+      description: 'Liste des ascendants d''une commune'
+      type: array
+      xml:
+        wrapped: true
+        name: AscendantsCommune
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     DepartementListeDescendants:
       description: 'Liste des descendants d''un département'
       type: array
@@ -867,7 +986,7 @@ components:
         - Iris
         - ZoneDEmploi2020
       example: 'Canton'
-    TypeEnumInclusDansDepartement:
+    TypeEnumDescendantsDepartement:
       type: string
       xml:
         name: 'Type'
@@ -886,3 +1005,13 @@ components:
       enum:
         - Region
       example: 'Region'
+    TypeEnumContenantCommune:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Departement
+        - Region
+        - Arrondissement
+        - CollectiviteDOutreMer
+      example: 'Departement'
