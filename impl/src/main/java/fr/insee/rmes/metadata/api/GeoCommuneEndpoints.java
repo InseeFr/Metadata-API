@@ -42,7 +42,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
     }
 
     @Override
-    public ResponseEntity<List<TerritoireTousAttributs>> getcogcomasc( String code, LocalDate date, TypeEnumContenantCommune type) {
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcomasc( String code, LocalDate date, TypeEnumAscendantsCommune type) {
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, type, Commune.class))
                 .executeQuery()

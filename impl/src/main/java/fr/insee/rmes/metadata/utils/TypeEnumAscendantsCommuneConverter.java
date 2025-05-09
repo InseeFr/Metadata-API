@@ -2,15 +2,15 @@ package fr.insee.rmes.metadata.utils;
 
 
 
-import fr.insee.rmes.metadata.model.TypeEnumContenantCommune;
+import fr.insee.rmes.metadata.model.TypeEnumAscendantsCommune;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TypeEnumContenantCommuneConverter implements Converter<String, TypeEnumContenantCommune> {
+public class TypeEnumAscendantsCommuneConverter implements Converter<String, TypeEnumAscendantsCommune> {
     @Override
-    public TypeEnumContenantCommune convert(String source) {
-        for (TypeEnumContenantCommune type : TypeEnumContenantCommune.values()) {
+    public TypeEnumAscendantsCommune convert(String source) {
+        for (TypeEnumAscendantsCommune type : TypeEnumAscendantsCommune.values()) {
             if (type.getValue().equalsIgnoreCase(source)) {
                 return type;
             }

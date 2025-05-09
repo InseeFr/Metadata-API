@@ -196,7 +196,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/codeCommuneInPath'
         - $ref: '#/components/parameters/dateTerritoiresActifsContenantCommune'
-        - $ref: '#/components/parameters/typeTerritoireContenantCommune'
+        - $ref: '#/components/parameters/typeTerritoireAscendantCommune'
       responses:
         '200':
           $ref: '#/components/responses/CommuneListeAscendants200'
@@ -349,12 +349,12 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsDepartement'
-    typeTerritoireContenantCommune:
+    typeTerritoireAscendantCommune:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumContenantCommune'
+        $ref: '#/components/schemas/TypeEnumAscendantsCommune'
     filtreNomCommune:
       name: 'filtreNom'
       in: query
@@ -1005,7 +1005,7 @@ components:
       enum:
         - Region
       example: 'Region'
-    TypeEnumContenantCommune:
+    TypeEnumAscendantsCommune:
       type: string
       xml:
         name: 'Type'

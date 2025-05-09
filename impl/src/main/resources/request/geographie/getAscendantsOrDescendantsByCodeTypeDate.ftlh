@@ -27,8 +27,8 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 	?uri a igeo:${typeEnumAscendantsDepartement} .
 </#if>
 
-<#if typeContenantCommune != "none">
-	?uri a igeo:${typeContenantCommune} .
+<#if typeEnumAscendantsCommune != "none">
+	?uri a igeo:${typeEnumAscendantsCommune} .
 </#if>
 
 			OPTIONAL {

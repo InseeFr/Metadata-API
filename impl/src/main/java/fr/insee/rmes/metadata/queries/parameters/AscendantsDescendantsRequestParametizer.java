@@ -1,6 +1,6 @@
 package fr.insee.rmes.metadata.queries.parameters;
 
-import fr.insee.rmes.metadata.model.TypeEnumContenantCommune;
+import fr.insee.rmes.metadata.model.TypeEnumAscendantsCommune;
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsDepartement;
 
@@ -11,7 +11,7 @@ public record AscendantsDescendantsRequestParametizer(String code,
                                                       LocalDate date,
                                                       TypeEnumDescendantsDepartement typeEnumDescendantsDepartement,
                                                       TypeEnumAscendantsDepartement typeEnumAscendantsDepartement,
-                                                      TypeEnumContenantCommune typeContenantCommune,
+                                                      TypeEnumAscendantsCommune typeEnumAscendantsCommune,
                                                       String filtreNom,
                                                       Class<?> typeOrigine,
                                                       boolean ascendant) implements ParametersForQuery<AscendantsDescendantsRequestParametizer> {
@@ -36,7 +36,7 @@ public record AscendantsDescendantsRequestParametizer(String code,
     //for geo/commune/{code}/ascendants
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
-                                                   TypeEnumContenantCommune typeEnum,
+                                                   TypeEnumAscendantsCommune typeEnum,
                                                    Class<?> typeOrigine) {
         this(code, date, null, null, typeEnum, null, typeOrigine, true);
     }
