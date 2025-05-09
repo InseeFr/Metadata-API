@@ -187,6 +187,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/commune/{code}/descendants:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Informations concernant les territoires inclus dans la commune'
+      operationId: 'getcogcomdesc'
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDansCommune'
+        - $ref: '#/components/parameters/typeTerritoireDescendantCommune'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/commune/{code}/ascendants:
     get:
       tags:
@@ -276,6 +297,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDansCommune:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans la commune active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
     dateTerritoiresActifsContenantCommune:
       in: query
       description: |-
@@ -349,6 +378,12 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsDepartement'
+    typeTerritoireDescendantCommune:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsCommune'
     typeTerritoireAscendantCommune:
       name: 'type'
       in: query
@@ -559,6 +594,36 @@ components:
           intituleSansArticle: 'Caen'
           typeArticle: '0'
           intitule: 'Caen'
+    CommuneListeDescendants:
+      value:
+        - code: '14373'
+          uri: 'http://id.insee.fr/geo/communeDeleguee/33afe07c-f132-4cdd-a188-4500c6928e62'
+          type: 'CommuneDeleguee'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Locheur'
+          typeArticle: '2'
+          intitule: 'Le Locheur'
+        - code: '14432'
+          uri: 'http://id.insee.fr/geo/communeDeleguee/92b6f5a8-2766-4561-88f2-d7958529c488'
+          type: 'CommuneDeleguee'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Missy'
+          typeArticle: '0'
+          intitule: 'Missy'
+        - code: '14475'
+          uri: 'http://id.insee.fr/geo/communeDeleguee/75df6d90-905e-428f-a410-d3e56f2683f2'
+          type: 'CommuneDeleguee'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Noyers-Bocage'
+          typeArticle: '0'
+          intitule: 'Noyers-Bocage'
+        - code: '14702'
+          uri: 'http://id.insee.fr/geo/communeDeleguee/2a818192-2ffb-4955-b45d-a34f38753e87'
+          type: 'CommuneDeleguee'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Tournay-sur-Odon'
+          typeArticle: '0'
+          intitule: 'Tournay-sur-Odon'
   responses:
     IncorrectRequest:
       description: 'La syntaxe de la requête est incorrecte'
@@ -703,6 +768,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Commune'
+    CommuneListeDescendants200:
+      description: 'Opération réussie pour les descendants d''une commune'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommuneListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommuneListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeDescendants'
+
     CommuneListeAscendants200:
       description: 'Opération réussie pour les ascendants d''une commune'
       content:
@@ -867,22 +948,7 @@ components:
               description: 'Inclusion'
               xml:
                 name: inclusion
-    CommunesListe:
-      description: 'Liste de communes'
-      type: array
-      xml:
-        wrapped: true
-        name: Communes
-      items:
-        $ref: '#/components/schemas/TerritoireBase'
-    CommuneListeAscendants:
-      description: 'Liste des ascendants d''une commune'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsCommune
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+
     DepartementListeDescendants:
       description: 'Liste des descendants d''un département'
       type: array
@@ -958,6 +1024,30 @@ components:
       xml:
         attribute: true
       example: '22'
+    CommunesListe:
+      description: 'Liste de communes'
+      type: array
+      xml:
+        wrapped: true
+        name: Communes
+      items:
+        $ref: '#/components/schemas/TerritoireBase'
+    CommuneListeDescendants:
+      description: 'Liste des descendants d''une commune'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsCommune
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    CommuneListeAscendants:
+      description: 'Liste des ascendants d''une commune'
+      type: array
+      xml:
+        wrapped: true
+        name: AscendantsCommune
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     Date1950ParDefaut:
       description: 'date proposée par défaut'
       type: date
@@ -1005,6 +1095,16 @@ components:
       enum:
         - Region
       example: 'Region'
+    TypeEnumDescendantsCommune:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - CommuneAssociee
+        - CommuneDeleguee
+        - Iris
+        - ArrondissementMunicipal
+      example: 'Arrondissement'
     TypeEnumAscendantsCommune:
       type: string
       xml:

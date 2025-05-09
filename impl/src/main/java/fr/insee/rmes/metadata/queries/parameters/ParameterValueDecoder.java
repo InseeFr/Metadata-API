@@ -2,6 +2,7 @@ package fr.insee.rmes.metadata.queries.parameters;
 
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement;
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsCommune;
+import fr.insee.rmes.metadata.model.TypeEnumDescendantsCommune;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsDepartement;
 
 import java.lang.reflect.RecordComponent;
@@ -17,6 +18,7 @@ interface ParameterValueDecoder<T>{
     String LOCALE_DATE_CLASS = "java.time.LocalDate";
     String ENUM_DESCENDANTS_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumDescendantsDepartement";
     String ENUM_ASCENDANTS_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement";
+    String ENUM_DESCENDANTS_COMMUNE_CLASS= "fr.insee.rmes.metadata.model.TypeEnumDescendantsCommune";
     String ENUM_ASCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.metadata.model.TypeEnumAscendantsCommune";
 
     static <U> ParameterValueDecoder<U> of(Class<U> type) {
@@ -27,6 +29,7 @@ interface ParameterValueDecoder<T>{
             case LOCALE_DATE_CLASS -> localDate -> String.valueOf(localDate==null?LocalDate.now():localDate);
             case ENUM_DESCENDANTS_DEPARTEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumDescendantsDepartement)enumDepValue).getValue();
             case ENUM_ASCENDANTS_DEPARTEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumAscendantsDepartement)enumDepValue).getValue();
+            case ENUM_DESCENDANTS_COMMUNE_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumDescendantsCommune)enumDepValue).getValue();
             case ENUM_ASCENDANTS_COMMUNE_CLASS -> enumComValue -> enumComValue ==null?"none": ((TypeEnumAscendantsCommune)enumComValue).getValue();
             case String ignored when Enum.class.isAssignableFrom(type) -> simpleEnum -> ((Enum<?>)simpleEnum).name();
             default -> throw new IllegalArgumentException("Unsupported type: " + type.getName());
