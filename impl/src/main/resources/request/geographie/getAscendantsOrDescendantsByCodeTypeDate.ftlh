@@ -19,8 +19,16 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
        ?uri	igeo:typeDIRIS ?uriTypeDIris ;
         BIND(SUBSTR(STR(?uriTypeDIris ), STRLEN(STR(?uriTypeDIris )), 1) AS ?typeDIris)
     }
-<#if type != "none">
-			?uri a igeo:${type} .
+<#if typeEnumDescendantsDepartement != "none">
+			?uri a igeo:${typeEnumDescendantsDepartement} .
+</#if>
+
+<#if typeContenantDepartement != "none">
+	?uri a igeo:${typeContenantDepartement} .
+</#if>
+
+<#if typeContenantCommune != "none">
+	?uri a igeo:${typeContenantCommune} .
 </#if>
 
 			OPTIONAL {

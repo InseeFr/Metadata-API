@@ -24,7 +24,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
     }
 
     @Override
-    public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepdesc(String code, LocalDate date, TypeEnumInclusDansDepartement type, String filtreNom) {
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepdesc(String code, LocalDate date, TypeEnumDescendantsDepartement type, String filtreNom) {
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, Departement.class))
                 .executeQuery()
