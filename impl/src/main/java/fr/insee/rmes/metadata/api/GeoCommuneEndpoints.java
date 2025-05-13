@@ -3,6 +3,7 @@ package fr.insee.rmes.metadata.api;
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.*;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -56,6 +57,15 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
                 .with(new AscendantsDescendantsRequestParametizer(code, date, type, Commune.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireBase>> getcogcomprec( String code, LocalDate date) {
+        return requestProcessor.queryforFindPrecedentsSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, Commune.class, true))
+                .executeQuery()
+                .listResult(TerritoireBase.class)
                 .toResponseEntity();
     }
 

@@ -229,6 +229,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/commune/{code}/precedents:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Informations concernant les departements qui précèdent la commune'
+      operationId: 'getcogcomprec'
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateCommuneDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneListePrecedents200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /geo/communes:
     get:
       tags:
@@ -309,6 +330,14 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer les territoires contenant la commune active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateCommuneDepart:
+      in: query
+      description: |-
+        Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -624,6 +653,32 @@ components:
           intituleSansArticle: 'Tournay-sur-Odon'
           typeArticle: '0'
           intitule: 'Tournay-sur-Odon'
+    CommuneListePrecedents:
+      value:
+        - code: '14373'
+          uri: 'http://id.insee.fr/geo/commune/9b9298ba-d31f-4570-82f1-ad821704a413'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          dateSuppression: '2017-01-01'
+          intituleSansArticle: 'Locheur'
+          typeArticle: '2'
+          intitule: 'Le Locheur'
+        - code: '14475'
+          uri: 'http://id.insee.fr/geo/commune/871d067a-a559-419c-a881-3602bb9fc7a1'
+          type: 'Commune'
+          dateCreation: '2016-01-01'
+          dateSuppression: '2017-01-01'
+          intituleSansArticle: 'Noyers-Missy'
+          typeArticle: '0'
+          intitule: 'Noyers-Missy'
+        - code: '14702'
+          uri: 'http://id.insee.fr/geo/commune/69441f11-d773-46d7-838b-ac22102415d1'
+          type: 'Commune'
+          dateCreation: '1957-04-13'
+          dateSuppression: '2017-01-01'
+          intituleSansArticle: 'Tournay-sur-Odon'
+          typeArticle: '0'
+          intitule: 'Tournay-sur-Odon'
   responses:
     IncorrectRequest:
       description: 'La syntaxe de la requête est incorrecte'
@@ -768,6 +823,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Commune'
+    CommuneListePrecedents200:
+      description: 'Opération réussie pour les communes précédentes'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommuneListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListePrecedents'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommuneListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListePrecedents'
+
     CommuneListeDescendants200:
       description: 'Opération réussie pour les descendants d''une commune'
       content:
@@ -974,7 +1045,7 @@ components:
       items:
         $ref: '#/components/schemas/TerritoireBase_ChefLieu'
     DepartementListePrecedentsAvecChefLieu:
-      description: 'Liste des départements projetés'
+      description: 'Liste des départements précédents'
       type: array
       xml:
         wrapped: true
@@ -1048,6 +1119,14 @@ components:
         name: AscendantsCommune
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+    CommuneListePrecedents:
+      description: 'Liste des communes précédentes'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCommunesPrecedentes
+      items:
+        $ref: '#/components/schemas/TerritoireBase'
     Date1950ParDefaut:
       description: 'date proposée par défaut'
       type: date
