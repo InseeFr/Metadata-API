@@ -15,10 +15,14 @@ tags:
   #    description: Concepts API
   #  - name: operations
   #    description: Operations API
-  - name: geoDepartement
-    description: 'API géographie : Département'
   - name: geoCommune
     description: 'API géographie : Commune'
+  - name: geoDepartement
+    description: 'API géographie : Département'
+  - name: geoIntercommunalite
+    description: 'API géographie : Intercommunalite'
+  - name: geoIris
+    description: 'API géographie : Iris'
   - name: geo
     description: 'API géographie : Générique'
 paths:
@@ -63,7 +67,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  #  /geo/cantons:
+
   /geo/departement/{code}/descendants:
     get:
       tags:
@@ -312,6 +316,47 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/intercommunalite/{code}:
+    get:
+      tags:
+        - geoIntercommunalite
+      summary: 'Informations sur une intercommunalité identifiée par son code (neuf caractères)'
+      operationId: 'getcoginterco'
+      parameters:
+        - $ref: '#/components/parameters/dateIntercommunaliteActive'
+        - $ref: '#/components/parameters/codeIntercommunaliteInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Intercommunalite200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/iris/{code}:
+    get:
+      tags:
+        - geoIris
+      summary: 'Informations sur un Iris identifié par son code (neuf chiffres pour la métropole ou 2A/2B plus 7 chiffres pour la Corse)'
+      operationId: 'getcogiris'
+      parameters:
+        - $ref: '#/components/parameters/dateIrisActive'
+        - $ref: '#/components/parameters/codeIrisInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Iris200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
 components:
   parameters:
@@ -498,6 +543,38 @@ components:
       schema:
         type: boolean
         example: false
+    dateIntercommunaliteActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer l'intercommunalité active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    codeIntercommunaliteInPath:
+      name: 'code'
+      in: path
+      description: 'Code de l''intercommunalité (neuf caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeInterco'
+    dateIrisActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer l'Iris active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    codeIrisInPath:
+      name: 'code'
+      in: path
+      description: 'Code Insee de l''Iris (neuf caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeIris'
+
+
   examples:
     DepartementListeAscendants:
       value:
@@ -780,6 +857,29 @@ components:
           intituleSansArticle: 'Noyers-Bocage'
           typeArticle: '0'
           intitule: 'Noyers-Bocage'
+    Intercommunalite:
+      value:
+        - code: '240100883'
+          uri: 'http://id.insee.fr/geo/intercommunalite/5a238840-5cbd-469f-80c8-43713bf8e4a8'
+          type: 'Intercommunalite'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Plaine de l''Ain'
+          typeArticle: '3'
+          intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
+          categorieJuridique: Communauté de communes'
+          intitule: 'La Plaine de l''Ain'
+
+    Iris:
+      value:
+        - code: '010040101'
+          uri: 'http://id.insee.fr/geo/iris/b8c772de-9551-4f13-81c5-eca5bb0f2f7d'
+          type': 'Iris'
+          dateCreation: '2008-01-01'
+          typeDIris: 'H'
+          intitule: 'Les Pérouses-Triangle d''Activités'
+          intituleSansArticle: 'Pérouses-Triangle d''Activités'
+          typeArticle: '4'
+
   responses:
     IncorrectRequest:
       description: 'La syntaxe de la requête est incorrecte'
@@ -1000,6 +1100,39 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeAscendants'
+
+    Intercommunalite200:
+      description: 'Opération réussie pour l''intercommunalité'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Intercommunalite'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Intercommunalite'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Intercommunalite'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Intercommunalite'
+
+    Iris200:
+      description: 'Opération réussie pour l''Iris'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Iris'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Iris'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Iris'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Iris'
+
   schemas:
     Commune:
       xml:
@@ -1346,3 +1479,33 @@ components:
         - Arrondissement
         - CollectiviteDOutreMer
       example: 'Departement'
+    Intercommunalite:
+      allOf:
+        - $ref: '#/components/schemas/Territoire_TousAttributs'
+          xml:
+            name: Intercommunalite
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeInterco'
+    CodeInterco:
+      description: 'Code d''une intercommunalité'
+      pattern: '([0-9]{9})'
+      type: string
+      xml:
+        attribute: true
+      example: '240100883'
+    CodeIris:
+      description: 'Code d''une Iris'
+      pattern: '([0-9]{9})'
+      type: string
+      xml:
+        attribute: true
+      example: '010040101'
+    Iris:
+      allOf:
+        - $ref: '#/components/schemas/Territoire_TousAttributs'
+          xml:
+            name: Iris
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeIris'

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import static fr.insee.rmes.metadata.utils.EndpointsUtils.toResponseEntity;
 
 @Controller
 public class GeoDepartementEndpoints implements GeoDepartementApi {
