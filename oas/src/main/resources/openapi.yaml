@@ -1044,6 +1044,12 @@ components:
           format: date
           xml:
             name: DateCreation
+        dateSuppression:
+          type: string
+          description: 'Date de suppression du territoire'
+          format: date
+          xml:
+            name: DateSuppression
         intituleSansArticle:
           xml:
             name: IntituleSansArticle
@@ -1087,12 +1093,6 @@ components:
           type: string
           xml:
             name: Intitule
-        dateSuppression:
-          type: string
-          description: 'Date de suppression du territoire'
-          format: date
-          xml:
-            name: DateSuppression
     TerritoireBase_ChefLieu:
       xml:
         wrapped: true
