@@ -249,7 +249,47 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
+  /geo/commune/{code}/projetes:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Informations concernant les communes qui résultent de la projection de la commune à la date passée en paramètre.'
+      operationId: 'getcogcomproj'
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateCommuneDepart'
+        - $ref: '#/components/parameters/dateProjectionCommuneInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneListeProjetes200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/commune/{code}/suivants:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Informations concernant les communes qui succèdent à la commune'
+      operationId: 'getcogcomsuiv'
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateCommuneSuivantInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/communes:
     get:
       tags:
@@ -342,6 +382,13 @@ components:
       schema:
         type: 'string'
         format: date
+    dateCommuneSuivantInPath:
+      name: 'date'
+      in: query
+      description: |-
+        Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      schema:
+        $ref: '#/components/schemas/Date1945ParDefaut'
     dateDepartementDepart:
       in: query
       description: |-
@@ -365,6 +412,14 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
+    dateProjectionCommuneInPath:
+      required: true
+      in: query
+      description: |-
+        Date vers laquelle est projeté le departement. Paramètre obligatoire (format : 'AAAA-MM-JJ')
+      name: dateProjection
+      schema:
+        $ref: '#/components/schemas/Date1945ParDefaut'
     dateDepartementsInPath:
       in: query
       description: |-
@@ -679,6 +734,50 @@ components:
           intituleSansArticle: 'Tournay-sur-Odon'
           typeArticle: '0'
           intitule: 'Tournay-sur-Odon'
+    CommuneListeProjetes:
+      value:
+        - code: '14373'
+          uri: 'http://id.insee.fr/geo/commune/9b9298ba-d31f-4570-82f1-ad821704a413'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          dateSuppression: '2017-01-01'
+          intituleSansArticle: 'Locheur'
+          typeArticle: '2'
+          intitule: 'Le Locheur'
+        - code: '14432'
+          uri: 'http://id.insee.fr/geo/commune/3a20a2ae-553b-4700-8009-e18fe26e0038'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          dateSuppression: '2016-01-01'
+          intituleSansArticle: 'Missy'
+          typeArticle: '0'
+          intitule: 'Missy'
+        - code: '14475'
+          uri: 'http://id.insee.fr/geo/commune/95745cb6-90c1-4207-a45c-6c4cef0a7db4'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          dateSuppression: '1958-10-13'
+          intituleSansArticle: 'Noyers'
+          typeArticle: '0'
+          intitule: 'Noyers'
+        - code: '14702'
+          uri: 'http://id.insee.fr/geo/commune/5ff04633-e954-446d-b5aa-f49027b4b6b6'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          dateSuppression: '1957-04-13-01-01'
+          intituleSansArticle: 'Tournay'
+          typeArticle: '0'
+          intitule: 'Tournay'
+    CommuneListeSuivants:
+      value:
+        - code: '14475'
+          uri: 'http://id.insee.fr/geo/commune/c2e2d19d-1ace-4cdc-b80d-c37a1aa59d1e'
+          type: 'Commune'
+          dateCreation: '1958-10-13'
+          dateSuppression: '2016-01-01'
+          intituleSansArticle: 'Noyers-Bocage'
+          typeArticle: '0'
+          intitule: 'Noyers-Bocage'
   responses:
     IncorrectRequest:
       description: 'La syntaxe de la requête est incorrecte'
@@ -838,7 +937,36 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListePrecedents'
-
+    CommuneListeProjetes200:
+      description: 'Opération réussie pour les projetés d''une commune'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommuneListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeProjetes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommuneListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeProjetes'
+    CommuneListeSuivants200:
+      description: 'Opération réussie pour les successeurs d''une commune'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommuneListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeSuivants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommuneListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeSuivants'
     CommuneListeDescendants200:
       description: 'Opération réussie pour les descendants d''une commune'
       content:
@@ -893,10 +1021,10 @@ components:
         - uri
         - type
         - dateCreation
+        - dateSuppression
         - intituleSansArticle
         - typeArticle
         - intitule
-        - dateSuppression
       xml:
         name: TerritoireBase
       properties:
@@ -1127,12 +1255,34 @@ components:
         name: ListeCommunesPrecedentes
       items:
         $ref: '#/components/schemas/TerritoireBase'
+    CommuneListeProjetes:
+      description: 'Liste des communes projetées'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCommunesProjetees
+      items:
+        $ref: '#/components/schemas/TerritoireBase'
+    CommuneListeSuivants:
+      description: 'Liste des communes qui succèdent à la commune'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCommunesSuivants
+      items:
+        $ref: '#/components/schemas/TerritoireBase'
     Date1950ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '1950-01-01'
+    Date1945ParDefaut:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '1945-06-26'
     TypeEnum:
       type: string
       xml:

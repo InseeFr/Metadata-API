@@ -50,14 +50,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
                 .toResponseEntity();
     }
 
-    @Override
-    public ResponseEntity<List<TerritoireBaseChefLieu>>  getcogdepsuiv(String code, LocalDate date) {
-        return requestProcessor.queryforFindPrecedentsSuivants()
-                .with(new PrecedentsSuivantsRequestParametizer(code, date, Departement.class, false))
-                .executeQuery()
-                .listResult(TerritoireBaseChefLieu.class)
-                .toResponseEntity();
-    }
+
 
     @Override
     public ResponseEntity<List<TerritoireBaseChefLieu>>  getcogdepproj(String code, LocalDate dateProjection, LocalDate date) {
@@ -75,6 +68,14 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
                 .toResponseEntity();
     }
 
+    @Override
+    public ResponseEntity<List<TerritoireBaseChefLieu>>  getcogdepsuiv(String code, LocalDate date) {
+        return requestProcessor.queryforFindPrecedentsSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, Departement.class, false))
+                .executeQuery()
+                .listResult(TerritoireBaseChefLieu.class)
+                .toResponseEntity();
+    }
 
     @Override
     public ResponseEntity<Departement> getcogdep(String code, LocalDate date) {
