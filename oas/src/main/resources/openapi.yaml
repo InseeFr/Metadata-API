@@ -22,6 +22,27 @@ tags:
   - name: geo
     description: 'API géographie : Générique'
 paths:
+  /geo/departement/{code}/ascendants:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les territoires qui contiennent le departement'
+      operationId: 'getcogdepasc'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsAscendantsDepartement'
+        - $ref: '#/components/parameters/typeTerritoireAscendantDepartement'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementListeAscendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/departement/{code}:
     get:
       tags:
@@ -51,7 +72,7 @@ paths:
       operationId: 'getcogdepdesc'
       parameters:
         - $ref: '#/components/parameters/codeDepInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsDansDepartement'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsDepartement'
         - $ref: '#/components/parameters/typeTerritoireDescendantDepartement'
         - $ref: '#/components/parameters/filtreNomDescendant'
       responses:
@@ -65,19 +86,17 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  /geo/departement/{code}/ascendants:
+  /geo/departements:
     get:
       tags:
         - geoDepartement
-      summary: 'Informations concernant les territoires qui contiennent le departement'
-      operationId: 'getcogdepasc'
+      summary: 'Informations sur tous les départements actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogdepts'
       parameters:
-        - $ref: '#/components/parameters/codeDepInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsContenantDepartement'
-        - $ref: '#/components/parameters/typeTerritoireAscendantDepartement'
+        - $ref: '#/components/parameters/dateDepartementsInPath'
       responses:
         '200':
-          $ref: '#/components/responses/DepartementListeAscendants200'
+          $ref: '#/components/responses/DepartementsListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -147,17 +166,20 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  /geo/departements:
+
+  /geo/commune/{code}/ascendants:
     get:
       tags:
-        - geoDepartement
-      summary: 'Informations sur tous les départements actifs à la date donnée. Par défaut, c’est la date courante.'
-      operationId: 'getcogdepts'
+        - geoCommune
+      summary: 'Informations concernant les territoires qui contiennent la commune'
+      operationId: 'getcogcomasc'
       parameters:
-        - $ref: '#/components/parameters/dateDepartementsInPath'
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsAscendantsCommune'
+        - $ref: '#/components/parameters/typeTerritoireAscendantCommune'
       responses:
         '200':
-          $ref: '#/components/responses/DepartementsListe200'
+          $ref: '#/components/responses/CommuneListeAscendants200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -195,7 +217,7 @@ paths:
       operationId: 'getcogcomdesc'
       parameters:
         - $ref: '#/components/parameters/codeCommuneInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsDansCommune'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsCommune'
         - $ref: '#/components/parameters/typeTerritoireDescendantCommune'
       responses:
         '200':
@@ -208,19 +230,19 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  /geo/commune/{code}/ascendants:
+  /geo/communes:
     get:
       tags:
         - geoCommune
-      summary: 'Informations concernant les territoires qui contiennent la commune'
-      operationId: 'getcogcomasc'
+      summary: Informations sur toutes les communes actives à la date donnée. Par défaut, c'est la date courante.
+      operationId: 'getcogcomliste'
       parameters:
-        - $ref: '#/components/parameters/codeCommuneInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsContenantCommune'
-        - $ref: '#/components/parameters/typeTerritoireAscendantCommune'
+        - $ref: '#/components/parameters/dateCommunesActives'
+        - $ref: '#/components/parameters/filtreNomCommune'
+        - $ref: '#/components/parameters/com'
       responses:
         '200':
-          $ref: '#/components/responses/CommuneListeAscendants200'
+          $ref: '#/components/responses/CommunesListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -290,27 +312,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  /geo/communes:
-    get:
-      tags:
-        - geoCommune
-      summary: Informations sur toutes les communes actives à la date donnée. Par défaut, c'est la date courante.
-      operationId: 'getcogcomliste'
-      parameters:
-        - $ref: '#/components/parameters/dateCommunesActives'
-        - $ref: '#/components/parameters/filtreNomCommune'
-        - $ref: '#/components/parameters/com'
-      responses:
-        '200':
-          $ref: '#/components/responses/CommunesListe200'
-        '400':
-          $ref: '#/components/responses/IncorrectRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '500':
-          $ref: '#/components/responses/ServerError'
+
 components:
   parameters:
     codeTerritoireInPath:
@@ -320,6 +322,35 @@ components:
       required: true
       schema:
         type: string
+    dateActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer la commune active à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateProjectionInPath:
+      required: true
+      in: query
+      description: |-
+        Date vers laquelle est projeté le departement. Paramètre obligatoire (format : 'AAAA-MM-JJ')
+      name: dateProjection
+      schema:
+        $ref: '#/components/schemas/Date1950ParDefaut'
+    typeTerritoire:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnum'
+    filtreNomDescendant:
+      name: 'filtreNom'
+      in: query
+      description: 'Filtre sur le nom des territoires renvoyés'
+      schema:
+        type: string
+        example: 'Dinan'
     codeDepInPath:
       name: 'code'
       in: path
@@ -327,13 +358,6 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeDep'
-    codeCommuneInPath:
-      required: true
-      name: code
-      in: path
-      description: 'Code de la commune (cinq caractères)'
-      schema:
-        $ref: '#/components/schemas/CodeCom'
     dateDepartementActif:
       in: query
       description: |-
@@ -342,7 +366,15 @@ components:
       schema:
         type: 'string'
         format: date
-    dateTerritoiresActifsDansDepartement:
+    dateDepartementsInPath:
+      in: query
+      description: |-
+        Filtre pour renvoyer les départements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateTerritoiresActifsDescendantsDepartement:
       in: query
       description: |-
         Filtre pour renvoyer les territoires inclus dans le département actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
@@ -350,7 +382,7 @@ components:
       schema:
         type: 'string'
         format: date
-    dateTerritoiresActifsContenantDepartement:
+    dateTerritoiresActifsAscendantsDepartement:
       in: query
       description: |-
         Filtre pour renvoyer les territoires contenant le département actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
@@ -358,37 +390,18 @@ components:
       schema:
         type: 'string'
         format: date
-    dateTerritoiresActifsDansCommune:
+    typeTerritoireDescendantDepartement:
+      name: 'type'
       in: query
-      description: |-
-        Filtre pour renvoyer les territoires inclus dans la commune active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
-      name: date
+      description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        type: 'string'
-        format: date
-    dateTerritoiresActifsContenantCommune:
+        $ref: '#/components/schemas/TypeEnumDescendantsDepartement'
+    typeTerritoireAscendantDepartement:
+      name: 'type'
       in: query
-      description: |-
-        Filtre pour renvoyer les territoires contenant la commune active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
-      name: date
+      description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        type: 'string'
-        format: date
-    dateCommuneDepart:
-      in: query
-      description: |-
-        Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
-      name: date
-      schema:
-        type: 'string'
-        format: date
-    dateCommuneSuivantInPath:
-      name: 'date'
-      in: query
-      description: |-
-        Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
-      schema:
-        $ref: '#/components/schemas/Date1945ParDefaut'
+        $ref: '#/components/schemas/TypeEnumAscendantsDepartement'
     dateDepartementDepart:
       in: query
       description: |-
@@ -404,14 +417,28 @@ components:
         Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
-    dateProjectionInPath:
+    codeCommuneInPath:
       required: true
+      name: code
+      in: path
+      description: 'Code de la commune (cinq caractères)'
+      schema:
+        $ref: '#/components/schemas/CodeCom'
+    dateCommuneDepart:
       in: query
       description: |-
-        Date vers laquelle est projeté le departement. Paramètre obligatoire (format : 'AAAA-MM-JJ')
-      name: dateProjection
+        Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
       schema:
-        $ref: '#/components/schemas/Date1950ParDefaut'
+        type: 'string'
+        format: date
+    dateCommuneSuivantInPath:
+      name: 'date'
+      in: query
+      description: |-
+        Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      schema:
+        $ref: '#/components/schemas/Date1945ParDefaut'
     dateProjectionCommuneInPath:
       required: true
       in: query
@@ -420,18 +447,18 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date1945ParDefaut'
-    dateDepartementsInPath:
+    dateTerritoiresActifsDescendantsCommune:
       in: query
       description: |-
-        Filtre pour renvoyer les départements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+        Filtre pour renvoyer les territoires inclus dans la commune active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
         format: date
-    dateActive:
+    dateTerritoiresActifsAscendantsCommune:
       in: query
       description: |-
-        Filtre pour renvoyer la commune active à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ').
+        Filtre pour renvoyer les territoires contenant la commune active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -444,24 +471,6 @@ components:
       schema:
         type: 'string'
         format: date
-    typeTerritoire:
-      name: 'type'
-      in: query
-      description: 'Filtre sur le type de territoire renvoyé'
-      schema:
-        $ref: '#/components/schemas/TypeEnum'
-    typeTerritoireDescendantDepartement:
-      name: 'type'
-      in: query
-      description: 'Filtre sur le type de territoire renvoyé'
-      schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsDepartement'
-    typeTerritoireAscendantDepartement:
-      name: 'type'
-      in: query
-      description: 'Filtre sur le type de territoire renvoyé'
-      schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsDepartement'
     typeTerritoireDescendantCommune:
       name: 'type'
       in: query
@@ -481,13 +490,6 @@ components:
       schema:
         type: string
         example: 'Bonnay'
-    filtreNomDescendant:
-      name: 'filtreNom'
-      in: query
-      description: 'Filtre sur le nom des territoires renvoyés'
-      schema:
-        type: string
-        example: 'Dinan'
     com:
       name: 'com'
       in: 'query'
@@ -497,6 +499,16 @@ components:
         type: boolean
         example: false
   examples:
+    DepartementListeAscendants:
+      value:
+        - code: '53'
+          uri: 'http://id.insee.fr/geo/region/6c83500c-454c-4d69-aec5-b988fb6f6f1c'
+          type: 'Region'
+          dateCreation: '2019-01-01'
+          intituleSansArticle: 'Bretagne'
+          typeArticle: '0'
+          chefLieu: '35238'
+          intitule: 'Bretagne'
     Departement:
       value:
         code: '22'
@@ -507,7 +519,54 @@ components:
         typeArticle: '4'
         chefLieu: '22278'
         intitule: 'Côtes-d''Armor'
+    DepartementListeDescendants:
+      value:
+        - code: '221'
+          uri: 'http://id.insee.fr/geo/arrondissement/1e07b989-b3ff-43be-bfe6-05e9c9ba19d7'
+          type: 'Arrondissement'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Dinan'
+          typeArticle: '0'
+          chefLieu: '22050'
+          intitule: 'Dinan'
+        - code: '222'
+          uri: 'http://id.insee.fr/geo/arrondissement/87fdca9c-f9ed-41e5-93d9-f44534ffd725'
+          type: 'Arrondissement'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Guingamp'
+          typeArticle: '0'
+          chefLieu: '22070'
+          intitule: 'Guingamp'
+    DepartementsListe:
+      value:
+        - code: '01'
+          uri: 'http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7'
+          type: 'Departement'
+          dateCreation: '1967-12-31'
+          intituleSansArticle: 'Ain'
+          typeArticle: '5'
+          chefLieu: '01053'
+          intitule: 'Ain'
+        - code: '02'
+          uri: 'http://id.insee.fr/geo/departement/8b195d1f-8676-4c06-873c-ee5b6d66a23f'
+          type: 'Departement'
+          dateCreation: '2016-12-31'
+          intituleSansArticle: 'Aisne'
+          typeArticle: '5'
+          chefLieu: '02408'
+          intitule: 'Aisne'
     DepartementListePrecedents:
+      value:
+        - code: '22'
+          uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
+          type: 'Departement'
+          dateCreation: '1943-01-01'
+          dateSuppression: '1990-03-08'
+          intituleSansArticle: 'Côtes-du-Nord'
+          typeArticle: '4'
+          chefLieu: '22278'
+          intitule: 'Côtes-du-Nord'
+    DepartementListeProjetes:
       value:
         - code: '22'
           uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
@@ -528,95 +587,6 @@ components:
           typeArticle': '4'
           chefLieu: '22278'
           intitule: 'Côtes-d''Armor'
-    DepartementListeProjetes:
-      value:
-        - code: '22'
-          uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
-          type: 'Departement'
-          dateCreation: '1943-01-01'
-          dateSuppression: '1990-03-08'
-          intituleSansArticle: 'Côtes-du-Nord'
-          typeArticle: '4'
-          chefLieu: '22278'
-          intitule: 'Côtes-du-Nord'
-    DepartementListeDescendants:
-      value:
-        - code: '221'
-          uri: 'http://id.insee.fr/geo/arrondissement/1e07b989-b3ff-43be-bfe6-05e9c9ba19d7'
-          type: 'Arrondissement'
-          dateCreation: '2017-01-01'
-          intituleSansArticle: 'Dinan'
-          typeArticle: '0'
-          chefLieu: '22050'
-          intitule: 'Dinan'
-        - code: '222'
-          uri: 'http://id.insee.fr/geo/arrondissement/87fdca9c-f9ed-41e5-93d9-f44534ffd725'
-          type: 'Arrondissement'
-          dateCreation: '2017-01-01'
-          intituleSansArticle: 'Guingamp'
-          typeArticle: '0'
-          chefLieu: '22070'
-          intitule: 'Guingamp'
-    DepartementListeAscendants:
-      value:
-        - code: '53'
-          uri: 'http://id.insee.fr/geo/region/6c83500c-454c-4d69-aec5-b988fb6f6f1c'
-          type: 'Region'
-          dateCreation: '2019-01-01'
-          intituleSansArticle: 'Bretagne'
-          typeArticle: '0'
-          chefLieu: '35238'
-          intitule: 'Bretagne'
-    DepartementsListe:
-      value:
-        - code: '01'
-          uri: 'http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7'
-          type: 'Departement'
-          dateCreation: '1967-12-31'
-          intituleSansArticle: 'Ain'
-          typeArticle: '5'
-          chefLieu: '01053'
-          intitule: 'Ain'
-        - code: '02'
-          uri: 'http://id.insee.fr/geo/departement/8b195d1f-8676-4c06-873c-ee5b6d66a23f'
-          type: 'Departement'
-          dateCreation: '2016-12-31'
-          intituleSansArticle: 'Aisne'
-          typeArticle: '5'
-          chefLieu: '02408'
-          intitule: 'Aisne'
-    CommunesListe:
-      value:
-        - code: '25073'
-          uri: 'http://id.insee.fr/geo/commune/2ac33139-2a97-4b09-87b3-263cbf14c0b6'
-          type: 'Commune'
-          dateCreation: '1943-01-01'
-          intituleSansArticle: 'Bonnay'
-          typeArticle: '0'
-          intitule: 'Bonnay'
-        - code: '71042'
-          uri: 'http://id.insee.fr/geo/commune/2ee9b3c8-9861-40a0-af5e-f84ce2f2b3bc'
-          type: 'Commune'
-          dateCreation: '2023-01-01'
-          intituleSansArticle: 'Bonnay-Saint-Ythaire'
-          typeArticle: '0'
-          intitule: 'Bonnay-Saint-Ythaire'
-        - code: '80112'
-          uri: 'http://id.insee.fr/geo/commune/98c861ac-6da4-4f18-ba45-665bae059c5f'
-          type: 'Commune'
-          dateCreation: '1943-01-01'
-          intituleSansArticle: 'Bonnay'
-          typeArticle: '0'
-          intitule: 'Bonnay'
-    Commune:
-      value:
-        code: '14475'
-        uri: 'http://id.insee.fr/geo/commune/4b88116a-9ede-42f5-aef5-a70304de593b'
-        type: 'Commune'
-        dateCreation: '2017-01-01'
-        intituleSansArticle: 'Val d''Arry'
-        typeArticle: '0'
-        intitule: 'Val d''Arry'
     CommuneListeAscendants:
       value:
         - code: '024'
@@ -678,6 +648,15 @@ components:
           intituleSansArticle: 'Caen'
           typeArticle: '0'
           intitule: 'Caen'
+    Commune:
+      value:
+        code: '14475'
+        uri: 'http://id.insee.fr/geo/commune/4b88116a-9ede-42f5-aef5-a70304de593b'
+        type: 'Commune'
+        dateCreation: '2017-01-01'
+        intituleSansArticle: 'Val d''Arry'
+        typeArticle: '0'
+        intitule: 'Val d''Arry'
     CommuneListeDescendants:
       value:
         - code: '14373'
@@ -708,6 +687,29 @@ components:
           intituleSansArticle: 'Tournay-sur-Odon'
           typeArticle: '0'
           intitule: 'Tournay-sur-Odon'
+    CommunesListe:
+      value:
+        - code: '25073'
+          uri: 'http://id.insee.fr/geo/commune/2ac33139-2a97-4b09-87b3-263cbf14c0b6'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Bonnay'
+          typeArticle: '0'
+          intitule: 'Bonnay'
+        - code: '71042'
+          uri: 'http://id.insee.fr/geo/commune/2ee9b3c8-9861-40a0-af5e-f84ce2f2b3bc'
+          type: 'Commune'
+          dateCreation: '2023-01-01'
+          intituleSansArticle: 'Bonnay-Saint-Ythaire'
+          typeArticle: '0'
+          intitule: 'Bonnay-Saint-Ythaire'
+        - code: '80112'
+          uri: 'http://id.insee.fr/geo/commune/98c861ac-6da4-4f18-ba45-665bae059c5f'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Bonnay'
+          typeArticle: '0'
+          intitule: 'Bonnay'
     CommuneListePrecedents:
       value:
         - code: '14373'
