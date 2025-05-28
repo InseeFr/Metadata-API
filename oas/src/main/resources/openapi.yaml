@@ -20,9 +20,11 @@ tags:
   - name: geoDepartement
     description: 'API géographie : Département'
   - name: geoIntercommunalite
-    description: 'API géographie : Intercommunalite'
+    description: 'API géographie : Intercommunalité'
   - name: geoIris
     description: 'API géographie : Iris'
+  - name: geoRegion
+    description: 'API géographie : Région'
   - name: geo
     description: 'API géographie : Générique'
 paths:
@@ -54,8 +56,8 @@ paths:
       summary: 'Informations sur un departement identifié par son code (deux ou trois caractères)'
       operationId: 'getcogdep'
       parameters:
-        - $ref: '#/components/parameters/dateDepartementActif'
         - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateDepartementActif'
       responses:
         '200':
           $ref: '#/components/responses/Departement200'
@@ -323,8 +325,8 @@ paths:
       summary: 'Informations sur une intercommunalité identifiée par son code (neuf caractères)'
       operationId: 'getcoginterco'
       parameters:
-        - $ref: '#/components/parameters/dateIntercommunaliteActive'
         - $ref: '#/components/parameters/codeIntercommunaliteInPath'
+        - $ref: '#/components/parameters/dateIntercommunaliteActive'
       responses:
         '200':
           $ref: '#/components/responses/Intercommunalite200'
@@ -344,11 +346,32 @@ paths:
       summary: 'Informations sur un Iris identifié par son code (neuf chiffres pour la métropole ou 2A/2B plus 7 chiffres pour la Corse)'
       operationId: 'getcogiris'
       parameters:
-        - $ref: '#/components/parameters/dateIrisActive'
         - $ref: '#/components/parameters/codeIrisInPath'
+        - $ref: '#/components/parameters/dateIrisActive'
       responses:
         '200':
           $ref: '#/components/responses/Iris200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/region/{code}:
+    get:
+      tags:
+        - geoRegion
+      summary: 'Informations sur une région identifiée par son code (deux chiffres)'
+      operationId: 'getcogreg'
+      parameters:
+        - $ref: '#/components/parameters/codeRegInPath'
+        - $ref: '#/components/parameters/dateRegionActive'
+      responses:
+        '200':
+          $ref: '#/components/responses/Region200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -574,6 +597,21 @@ components:
       schema:
         $ref: '#/components/schemas/CodeIris'
 
+    codeRegInPath:
+      name: 'code'
+      in: path
+      description: 'Code de la région (deux chiffres)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeReg'
+    dateRegionActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer la région active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
 
   examples:
     DepartementListeAscendants:
@@ -880,6 +918,17 @@ components:
           intituleSansArticle: 'Pérouses-Triangle d''Activités'
           typeArticle: '4'
 
+    Region:
+      value:
+        code: '06'
+        uri: 'http://id.insee.fr/geo/region/0e9f9adc-742d-4ab7-90bd-30e5aaf7b2ab'
+        type: 'Region'
+        dateCreation: '2011-03-31'
+        intituleSansArticle: 'Mayotte'
+        typeArticle: '0'
+        chefLieu: '97611'
+        intitule: 'Mayotte'
+
   responses:
     IncorrectRequest:
       description: 'La syntaxe de la requête est incorrecte'
@@ -1132,6 +1181,23 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Iris'
+
+    Region200:
+      description: 'Opération réussie pour la région'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Region'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Region'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Region'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Region'
+
 
   schemas:
     Commune:
@@ -1494,6 +1560,7 @@ components:
       xml:
         attribute: true
       example: '240100883'
+
     CodeIris:
       description: 'Code d''une Iris'
       pattern: '([0-9]{9})'
@@ -1501,6 +1568,7 @@ components:
       xml:
         attribute: true
       example: '010040101'
+
     Iris:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
@@ -1509,3 +1577,20 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeIris'
+
+
+    Region:
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+          xml:
+            name: Region
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeReg'
+    CodeReg:
+      description: 'Code d''une région'
+      pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
+      type: string
+      xml:
+        attribute: true
+      example: '06'
