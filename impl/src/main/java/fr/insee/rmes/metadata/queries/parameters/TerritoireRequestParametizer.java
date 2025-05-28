@@ -11,11 +11,11 @@ public record TerritoireRequestParametizer(String code,
                                            boolean com) implements ParametersForQuery<TerritoireRequestParametizer> {
 
     //for geo/departement/{code}
-public TerritoireRequestParametizer(String code,
-                                    LocalDate date,
-                                    Class<?> typeOrigine) {
-    this(code, date, typeOrigine, "*", "prefecture", true);
-}
+    public TerritoireRequestParametizer(String code,
+                                        LocalDate date,
+                                        Class<?> typeOrigine) {
+        this(code, date, typeOrigine, "*", "prefecture", true);
+    }
 
     //for geo/departements
     public TerritoireRequestParametizer(LocalDate date,
@@ -29,6 +29,12 @@ public TerritoireRequestParametizer(String code,
                                         Class<?> typeOrigine,
                                         boolean com) {
         this("none", date, typeOrigine, filtreNom, "none", com);
+    }
+
+    //for geo/iris/{code} (hasIrisDescendant)
+    public TerritoireRequestParametizer(String code,
+                                        Class<?> typeOrigine) {
+        this(code, LocalDate.now(), typeOrigine, "*", "prefecture", true);
     }
 
     @Override

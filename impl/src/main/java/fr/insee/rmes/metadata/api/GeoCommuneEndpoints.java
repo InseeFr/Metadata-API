@@ -11,9 +11,6 @@ import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-
-import static fr.insee.rmes.metadata.utils.EndpointsUtils.toResponseEntity;
 
 @Controller
 public class GeoCommuneEndpoints implements GeoCommuneApi {
