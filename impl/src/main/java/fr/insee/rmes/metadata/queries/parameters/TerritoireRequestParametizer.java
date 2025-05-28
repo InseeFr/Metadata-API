@@ -10,7 +10,15 @@ public record TerritoireRequestParametizer(String code,
                                            String chefLieu,
                                            boolean com) implements ParametersForQuery<TerritoireRequestParametizer> {
 
-    //for geo/departement/{code}
+    //for geo/departement/{code} and geo/region/{code}
+    public TerritoireRequestParametizer(String code,
+                                        LocalDate date,
+                                        String chefLieu,
+                                        Class<?> typeOrigine) {
+        this(code, date, typeOrigine, "*", chefLieu, true);
+    }
+
+    //for geo/intercommunalite/{code}
     public TerritoireRequestParametizer(String code,
                                         LocalDate date,
                                         Class<?> typeOrigine) {
