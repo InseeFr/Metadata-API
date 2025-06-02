@@ -25,6 +25,12 @@ tags:
     description: 'API géographie : Iris'
   - name: geoRegion
     description: 'API géographie : Région'
+  - name: geoUniteUrbaine
+    description: 'API géographie : Unité urbaine 2020'
+  - name: geoCanton
+    description: 'API géographie : Canton'
+  - name: geoArrondissement
+    description: 'API géographie : Arrondissement'
   - name: geo
     description: 'API géographie : Générique'
 paths:
@@ -381,6 +387,70 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/uniteUrbaine2020/{code}:
+    get:
+      tags:
+        - geoUniteUrbaine
+      summary: 'Informations sur une unité urbaine identifiée par son code (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)'
+      operationId: 'getcoguu'
+      parameters:
+        - $ref: '#/components/parameters/codeUniteUrbaineInPath'
+        - $ref: '#/components/parameters/dateUniteUrbaineActive'
+      responses:
+        '200':
+          $ref: '#/components/responses/UniteUrbaine200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/arrondissement/{code}:
+    get:
+      tags:
+        - geoArrondissement
+      summary: 'Informations sur un arrondissement identifié par son code (trois ou quatre caractères)'
+      operationId: 'getcogarr'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementInPath'
+        - $ref: '#/components/parameters/dateArrondissementActif'
+      responses:
+        '200':
+          $ref: '#/components/responses/Arrondissement200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/canton/{code}:
+    get:
+      tags:
+        - geoCanton
+      summary: 'Informations sur un canton identifié par son code (quatre chiffres pour la Métropole ou cinq chiffres pour les DOM ou 2A/2B plus 2 chiffres pour la Corse)'
+      operationId: 'getcogcan'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonInPath'
+        - $ref: '#/components/parameters/dateCantonActif'
+      responses:
+        '200':
+          $ref: '#/components/responses/Canton200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
 components:
   parameters:
     codeTerritoireInPath:
@@ -612,6 +682,55 @@ components:
       schema:
         type: 'string'
         format: date
+
+    codeUniteUrbaineInPath:
+      name: 'code'
+      in: path
+      description: 'Code de l''unité urbaine (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeUniteUrbaine'
+    dateUniteUrbaineActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer l'unité urbaine active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    codeCantonInPath:
+      name: 'code'
+      in: path
+      description: 'Code du canton (quatre chiffres pour la Métropole ou cinq chiffres pour les DOM ou 2A/2B plus 2 chiffres pour la Corse)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeCanton'
+    dateCantonActif:
+      in: query
+      description: |-
+        Filtre pour renvoyer le canton actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    codeArrondissementInPath:
+      name: 'code'
+      in: path
+      description: 'Code de l''arrondissement (trois ou quatre caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeArrondissement'
+    dateArrondissementActif:
+      in: query
+      description: |-
+        Filtre pour renvoyer l'arrondissement actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
 
   examples:
     DepartementListeAscendants:
@@ -929,6 +1048,38 @@ components:
         chefLieu: '97611'
         intitule: 'Mayotte'
 
+    UniteUrbaine2020:
+      value:
+        code: '01121'
+        uri: 'http://id.insee.fr/geo/uniteUrbaine2020/57a37c9b-e426-430e-b8c1-ac0fd640e345'
+        type: 'UniteUrbaine2020'
+        dateCreation: '2020-10-01'
+        intituleSansArticle: 'Jujurieux'
+        typeArticle: '0'
+        intitule: 'Jujurieux'
+
+    Canton:
+      value:
+        code: '0101'
+        uri: 'http://id.insee.fr/geo/canton/f96a2438-478f-4ebb-b659-434305dff18f'
+        type: 'Canton'
+        dateCreation: '2016-01-01'
+        chefLieu: '01004'
+        intituleSansArticle: 'Ambérieu-en-Bugey'
+        typeArticle: '1'
+        intitule: 'Ambérieu-en-Bugey'
+
+    Arrondissement:
+      value:
+        code: '674'
+        uri: 'http://id.insee.fr/geo/arrondissement/7f59df93-132b-400f-9aa6-b3c6be1018eb'
+        type: 'Arrondissement'
+        dateCreation: '2018-12-31'
+        intituleSansArticle: 'Saverne'
+        typeArticle: '0'
+        chefLieu: '67437'
+        intitule: 'Saverne'
+
   responses:
     IncorrectRequest:
       description: 'La syntaxe de la requête est incorrecte'
@@ -1197,6 +1348,55 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Region'
+
+    UniteUrbaine200:
+      description: 'Opération réussie pour l''unité urbaine'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UniteUrbaine2020'
+          examples:
+            défaut:
+              $ref: '#/components/examples/UniteUrbaine2020'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/UniteUrbaine2020'
+          examples:
+            défaut:
+              $ref: '#/components/examples/UniteUrbaine2020'
+
+    Canton200:
+      description: 'Opération réussie pour le canton'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Canton'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Canton'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Canton'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Canton'
+
+    Arrondissement200:
+      description: 'Opération réussie pour l''arrondissement'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Arrondissement'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Arrondissement'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Arrondissement'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Arrondissement'
+
 
 
   schemas:
@@ -1495,6 +1695,7 @@ components:
         - Canton
         - CantonOuVille
         - Arrondissement
+        - ArrondissementMunicipal
         - Departement
         - Region
         - Intercommunalite
@@ -1505,6 +1706,7 @@ components:
         - CirconscriptionTerritoriale
         - Iris
         - ZoneDEmploi2020
+        - UniteUrbaine2020
       example: 'Canton'
     TypeEnumDescendantsDepartement:
       type: string
@@ -1594,3 +1796,54 @@ components:
       xml:
         attribute: true
       example: '06'
+
+    UniteUrbaine2020:
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+          xml:
+            name: UniteUrbaine
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeUniteUrbaine'
+
+    CodeUniteUrbaine:
+      description: 'Code d''une unité urbaine'
+      pattern: '^([0-9][0-9A-Z][0-9]{3})$'
+      type: string
+      xml:
+        attribute: true
+      example: '01121'
+
+    Canton:
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+          xml:
+            name: UniteUrbaine
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeCanton'
+
+    CodeCanton:
+      description: 'Code d''un canton'
+      pattern: '[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}'
+      type: string
+      xml:
+        attribute: true
+      example: '0101'
+
+    Arrondissement:
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+          xml:
+            name: Arrondissement
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeArrondissement'
+    CodeArrondissement:
+      description: 'Code d''un arrondissement'
+      pattern: '[Aa-Zz][0-9]{3}'
+      type: string
+      xml:
+        attribute: true
+      example: '674'
+
