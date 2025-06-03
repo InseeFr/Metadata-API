@@ -44,7 +44,7 @@ public class GeoIrisEndpoints implements GeoIrisApi {
 
 //bloc de fin pour que ça compile mais à revoir
         return requestProcessor.queryforFindIris()
-                .with(new TerritoireRequestParametizer(code, date, Iris.class))
+                .with(new TerritoireRequestParametizer(code, date, Iris.class, "none"))
                 .executeQuery()
                 .singleResult(Iris.class).toResponseEntity();
     }

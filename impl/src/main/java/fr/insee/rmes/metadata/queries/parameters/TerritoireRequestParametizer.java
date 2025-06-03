@@ -13,30 +13,26 @@ public record TerritoireRequestParametizer(String code,
     //for geo/departement/{code} and geo/region/{code}
     public TerritoireRequestParametizer(String code,
                                         LocalDate date,
-                                        String chefLieu,
-                                        Class<?> typeOrigine) {
+                                        Class<?> typeOrigine,
+                                        String chefLieu) {
         this(code, date, typeOrigine, "*", chefLieu, true);
-    }
-
-    //for geo/intercommunalite/{code}
-    public TerritoireRequestParametizer(String code,
-                                        LocalDate date,
-                                        Class<?> typeOrigine) {
-        this(code, date, typeOrigine, "*", "prefecture", true);
     }
 
     //for geo/departements
     public TerritoireRequestParametizer(LocalDate date,
-                                        Class<?> typeOrigine) {
-        this("none", date, typeOrigine, "*", "prefecture", true);
-    }
+                                        Class<?> typeOrigine,
+                                        String chefLieu,
+                                        boolean com) {
+        this("none", date, typeOrigine, "*", chefLieu, com);
+}
 
     //for geo/communes
     public TerritoireRequestParametizer(LocalDate date,
-                                        String filtreNom,
                                         Class<?> typeOrigine,
+                                        String filtreNom,
+                                        String chefLieu,
                                         boolean com) {
-        this("none", date, typeOrigine, filtreNom, "none", com);
+        this("none", date, typeOrigine, filtreNom, chefLieu, com);
     }
 
     //for geo/iris/{code} (hasIrisDescendant)

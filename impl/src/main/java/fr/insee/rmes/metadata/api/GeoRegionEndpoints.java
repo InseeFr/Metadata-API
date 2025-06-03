@@ -22,7 +22,7 @@ public class GeoRegionEndpoints implements GeoRegionApi {
     @Override
     public ResponseEntity<Region> getcogreg(String code, LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(code, date, "prefectureDeRegion", Region.class))
+                .with(new TerritoireRequestParametizer(code, date, Region.class,"prefectureDeRegion"))
                 .executeQuery()
                 .singleResult(Region.class).toResponseEntity();
     }

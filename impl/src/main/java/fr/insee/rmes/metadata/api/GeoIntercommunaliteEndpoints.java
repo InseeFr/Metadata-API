@@ -23,7 +23,7 @@ public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
     @Override
     public ResponseEntity<Intercommunalite> getcoginterco(String code, LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(code, date, Intercommunalite.class))
+                .with(new TerritoireRequestParametizer(code, date, Intercommunalite.class,"none"))
                 .executeQuery()
                 .singleResult(Intercommunalite.class).toResponseEntity();
     }

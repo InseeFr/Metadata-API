@@ -25,7 +25,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
     @Override
     public ResponseEntity<Commune> getcogcom(String code, LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(code, date, Commune.class))
+                .with(new TerritoireRequestParametizer(code, date, Commune.class, "none"))
                 .executeQuery()
                 .singleResult(Commune.class).toResponseEntity();
     }
@@ -33,7 +33,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
     @Override
     public ResponseEntity<List<TerritoireBase>> getcogcomliste(LocalDate date, String filtreNom, Boolean com) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, filtreNom, Commune.class, com))
+                .with(new TerritoireRequestParametizer(date, Commune.class, filtreNom, "none", com))
                 .executeQuery()
                 .listResult(TerritoireBase.class)
                 .toResponseEntity();

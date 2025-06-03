@@ -22,7 +22,7 @@ public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
     @Override
     public ResponseEntity<UniteUrbaine2020> getcoguu(String code, LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(code, date, "prefecture", UniteUrbaine2020.class))
+                .with(new TerritoireRequestParametizer(code, date, UniteUrbaine2020.class, "none"))
                 .executeQuery()
                 .singleResult(UniteUrbaine2020.class).toResponseEntity();
     }

@@ -79,7 +79,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
     @Override
     public ResponseEntity<Departement> getcogdep(String code, LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(code, date, "prefecture", Departement.class))
+                .with(new TerritoireRequestParametizer(code, date, Departement.class,"prefecture"))
                 .executeQuery()
                 .singleResult(Departement.class).toResponseEntity();
     }
@@ -87,7 +87,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
     @Override
     public ResponseEntity<List<TerritoireBaseChefLieu>> getcogdepts(LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, Departement.class))
+                .with(new TerritoireRequestParametizer(date, Departement.class, "prefecture", true))
                 .executeQuery()
                 .listResult(TerritoireBaseChefLieu.class)
                 .toResponseEntity();
