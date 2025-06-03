@@ -1841,7 +1841,7 @@ components:
               $ref: '#/components/schemas/CodeArrondissement'
     CodeArrondissement:
       description: 'Code d''un arrondissement'
-      pattern: '[Aa-Zz][0-9]{3}'
+      pattern: '[a-zA-Z0-9]{3,4}'
       type: string
       xml:
         attribute: true
