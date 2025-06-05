@@ -15,10 +15,28 @@ tags:
   #    description: Concepts API
   #  - name: operations
   #    description: Operations API
+  - name: geoArrondissement
+    description: 'API géographie : Arrondissement'
+  - name: geoBassinDeVie
+    description: 'API géographie : Bassin de vie 2022'
+  - name: geoCanton
+    description: 'API géographie : Canton'
+  - name: geoCantonOuVille
+    description: 'API géographie : Canton ou ville'
+  - name: geoCirconscriptionTerritoriale
+    description: 'API géographie : CirconscriptionTerritoriale'
+  - name: geoCollectiviteDOutreMer
+    description: 'API géographie : Collectivité d''outre-mer'
   - name: geoCommune
     description: 'API géographie : Commune'
+  - name: geoCommuneAssociee
+    description: 'API géographie : Commune associée'
+  - name: geoCommuneDeleguee
+    description: 'API géographie : Commune déléguée'
   - name: geoDepartement
     description: 'API géographie : Département'
+  - name: geoDistrict
+    description: 'API géographie : District'
   - name: geoIntercommunalite
     description: 'API géographie : Intercommunalité'
   - name: geoIris
@@ -27,46 +45,24 @@ tags:
     description: 'API géographie : Région'
   - name: geoUniteUrbaine
     description: 'API géographie : Unité urbaine 2020'
-  - name: geoCanton
-    description: 'API géographie : Canton'
-  - name: geoArrondissement
-    description: 'API géographie : Arrondissement'
+  - name: geoZoneDEmploi
+    description: 'API géographie : Zone d''emploi'
   - name: geo
     description: 'API géographie : Générique'
 paths:
-  /geo/departement/{code}/ascendants:
+
+  /geo/arrondissement/{code}:
     get:
       tags:
-        - geoDepartement
-      summary: 'Informations concernant les territoires qui contiennent le departement'
-      operationId: 'getcogdepasc'
+        - geoArrondissement
+      summary: 'Informations sur un arrondissement identifié par son code (trois ou quatre caractères)'
+      operationId: 'getcogarr'
       parameters:
-        - $ref: '#/components/parameters/codeDepInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsAscendantsDepartement'
-        - $ref: '#/components/parameters/typeTerritoireAscendantDepartement'
+        - $ref: '#/components/parameters/codeArrondissementInPath'
+        - $ref: '#/components/parameters/dateArrondissementActif'
       responses:
         '200':
-          $ref: '#/components/responses/DepartementListeAscendants200'
-        '400':
-          $ref: '#/components/responses/IncorrectRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '500':
-          $ref: '#/components/responses/ServerError'
-  /geo/departement/{code}:
-    get:
-      tags:
-        - geoDepartement
-      summary: 'Informations sur un departement identifié par son code (deux ou trois caractères)'
-      operationId: 'getcogdep'
-      parameters:
-        - $ref: '#/components/parameters/codeDepInPath'
-        - $ref: '#/components/parameters/dateDepartementActif'
-      responses:
-        '200':
-          $ref: '#/components/responses/Departement200'
+          $ref: '#/components/responses/Arrondissement200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -76,20 +72,18 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /geo/departement/{code}/descendants:
+  /geo/bassinDeVie2022/{code}:
     get:
       tags:
-        - geoDepartement
-      summary: 'Informations concernant les territoires inclus dans le departement'
-      operationId: 'getcogdepdesc'
+        - geoCanton
+      summary: 'Informations sur un bassin de vie identifié par son code (neuf caractères)'
+      operationId: 'getcogbass'
       parameters:
-        - $ref: '#/components/parameters/codeDepInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsDepartement'
-        - $ref: '#/components/parameters/typeTerritoireDescendantDepartement'
-        - $ref: '#/components/parameters/filtreNomDescendant'
+        - $ref: '#/components/parameters/codeBassinDeVieInPath'
+        - $ref: '#/components/parameters/dateBassinDeVieActif'
       responses:
         '200':
-          $ref: '#/components/responses/DepartementListeDescendants200'
+          $ref: '#/components/responses/BassinDeVie200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -98,17 +92,19 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  /geo/departements:
+
+  /geo/canton/{code}:
     get:
       tags:
-        - geoDepartement
-      summary: 'Informations sur tous les départements actifs à la date donnée. Par défaut, c’est la date courante.'
-      operationId: 'getcogdepts'
+        - geoCanton
+      summary: 'Informations sur un canton identifié par son code (quatre chiffres pour la Métropole ou cinq chiffres pour les DOM ou 2A/2B plus 2 chiffres pour la Corse)'
+      operationId: 'getcogcan'
       parameters:
-        - $ref: '#/components/parameters/dateDepartementsInPath'
+        - $ref: '#/components/parameters/codeCantonInPath'
+        - $ref: '#/components/parameters/dateCantonActif'
       responses:
         '200':
-          $ref: '#/components/responses/DepartementsListe200'
+          $ref: '#/components/responses/Canton200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -117,18 +113,19 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  /geo/departement/{code}/precedents:
+
+  /geo/cantonOuVille/{code}:
     get:
       tags:
-        - geoDepartement
-      summary: 'Informations concernant les departements qui précèdent le departement'
-      operationId: 'getcogdepprec'
+        - geoCantonOuVille
+      summary: 'Informations sur un canton-ou-ville identifié par son code (quatre chiffres pour la Métropole ou cinq pour les DOM)'
+      operationId: 'getcogcanvil'
       parameters:
-        - $ref: '#/components/parameters/codeDepInPath'
-        - $ref: '#/components/parameters/dateDepartementDepart'
+        - $ref: '#/components/parameters/codeCantonOuVilleInPath'
+        - $ref: '#/components/parameters/dateCantonOuVilleActif'
       responses:
         '200':
-          $ref: '#/components/responses/DepartementListePrecedents200'
+          $ref: '#/components/responses/CantonOuVille200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -137,19 +134,19 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  /geo/departement/{code}/projetes:
+
+  /geo/circonscriptionTerritoriale/{code}:
     get:
       tags:
-        - geoDepartement
-      summary: 'Informations concernant les départements qui résultent de la projection du département à la date passée en paramètre.'
-      operationId: 'getcogdepproj'
+        - geoCirconscriptionTerritoriale
+      summary: 'Informations sur une circonscription territoriale identifiée par son code (cinq caractères)'
+      operationId: 'getcogcir'
       parameters:
-        - $ref: '#/components/parameters/codeDepInPath'
-        - $ref: '#/components/parameters/dateDepartementDepart'
-        - $ref: '#/components/parameters/dateProjectionInPath'
+        - $ref: '#/components/parameters/codeCirconscriptionTerritorialeInPath'
+        - $ref: '#/components/parameters/dateCirconscriptionTerritorialeActive'
       responses:
         '200':
-          $ref: '#/components/responses/DepartementListeProjetes200'
+          $ref: '#/components/responses/CirconscriptionTerritoriale200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -158,18 +155,19 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-  /geo/departement/{code}/suivants:
+
+  /geo/collectiviteDOutreMer/{code}:
     get:
       tags:
-        - geoDepartement
-      summary: 'Informations concernant les départements qui succèdent au département'
-      operationId: 'getcogdepsuiv'
+        - geoCollectiviteDOutreMer
+      summary: 'Informations sur une collectivité d''outre-mer identifiée par son code (trois caractères)'
+      operationId: 'getcogcoll'
       parameters:
-        - $ref: '#/components/parameters/codeDepInPath'
-        - $ref: '#/components/parameters/dateDepartementSuivantInPath'
+        - $ref: '#/components/parameters/codeCollectiviteDOutreMerInPath'
+        - $ref: '#/components/parameters/dateCollectiviteDOutreMerActive'
       responses:
         '200':
-          $ref: '#/components/responses/DepartementListeSuivants200'
+          $ref: '#/components/responses/CollectiviteDOutreMer200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -324,6 +322,217 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
+  /geo/communeAssociee/{code}:
+    get:
+      tags:
+        - geoCommuneAssociee
+      summary: 'Informations sur une commune associée identifiée par son code (cinq caractères)'
+      operationId: 'getcogcoma'
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneAssocieeInPath'
+        - $ref: '#/components/parameters/dateCommuneAssocieeActive'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneAssociee200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/communeDeleguee/{code}:
+    get:
+      tags:
+        - geoCommuneDeleguee
+      summary: 'Informations sur une commune déléguée identifiée par son code (cinq caractères)'
+      operationId: 'getcogcomd'
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneDelegueeInPath'
+        - $ref: '#/components/parameters/dateCommuneDelegueeActive'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneDeleguee200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
+  /geo/departement/{code}/ascendants:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les territoires qui contiennent le departement'
+      operationId: 'getcogdepasc'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsAscendantsDepartement'
+        - $ref: '#/components/parameters/typeTerritoireAscendantDepartement'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementListeAscendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/departement/{code}:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations sur un departement identifié par son code (deux ou trois caractères)'
+      operationId: 'getcogdep'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateDepartementActif'
+      responses:
+        '200':
+          $ref: '#/components/responses/Departement200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/departement/{code}/descendants:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les territoires inclus dans le departement'
+      operationId: 'getcogdepdesc'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsDepartement'
+        - $ref: '#/components/parameters/typeTerritoireDescendantDepartement'
+        - $ref: '#/components/parameters/filtreNomDescendant'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/departements:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations sur tous les départements actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogdepts'
+      parameters:
+        - $ref: '#/components/parameters/dateDepartementsInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementsListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/departement/{code}/precedents:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les departements qui précèdent le departement'
+      operationId: 'getcogdepprec'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateDepartementDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementListePrecedents200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/departement/{code}/projetes:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les départements qui résultent de la projection du département à la date passée en paramètre.'
+      operationId: 'getcogdepproj'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateDepartementDepart'
+        - $ref: '#/components/parameters/dateProjectionInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementListeProjetes200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/departement/{code}/suivants:
+    get:
+      tags:
+        - geoDepartement
+      summary: 'Informations concernant les départements qui succèdent au département'
+      operationId: 'getcogdepsuiv'
+      parameters:
+        - $ref: '#/components/parameters/codeDepInPath'
+        - $ref: '#/components/parameters/dateDepartementSuivantInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/DepartementListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
+  /geo/district/{code}:
+    get:
+      tags:
+        - geoDistrict
+      summary: 'Informations sur un district identifié par son code (cinq caractères)'
+      operationId: 'getcogdis'
+      parameters:
+        - $ref: '#/components/parameters/codeDistrictInPath'
+        - $ref: '#/components/parameters/dateDistrictActif'
+      responses:
+        '200':
+          $ref: '#/components/responses/District200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /geo/intercommunalite/{code}:
     get:
       tags:
@@ -408,18 +617,22 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-  /geo/arrondissement/{code}:
+
+
+
+
+  /geo/zoneDEmploi2020/{code}:
     get:
       tags:
-        - geoArrondissement
-      summary: 'Informations sur un arrondissement identifié par son code (trois ou quatre caractères)'
-      operationId: 'getcogarr'
+        - geoZoneDEmploi
+      summary: 'Informations sur une zone d''emploi française identifiée par son code (quatre chiffres)'
+      operationId: 'getcogze'
       parameters:
-        - $ref: '#/components/parameters/codeArrondissementInPath'
-        - $ref: '#/components/parameters/dateArrondissementActif'
+        - $ref: '#/components/parameters/codeZoneDEmploiInPath'
+        - $ref: '#/components/parameters/dateZoneDEmploiActive'
       responses:
         '200':
-          $ref: '#/components/responses/Arrondissement200'
+          $ref: '#/components/responses/ZoneDEmploi200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -428,28 +641,6 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
-  /geo/canton/{code}:
-    get:
-      tags:
-        - geoCanton
-      summary: 'Informations sur un canton identifié par son code (quatre chiffres pour la Métropole ou cinq chiffres pour les DOM ou 2A/2B plus 2 chiffres pour la Corse)'
-      operationId: 'getcogcan'
-      parameters:
-        - $ref: '#/components/parameters/codeCantonInPath'
-        - $ref: '#/components/parameters/dateCantonActif'
-      responses:
-        '200':
-          $ref: '#/components/responses/Canton200'
-        '400':
-          $ref: '#/components/responses/IncorrectRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '500':
-          $ref: '#/components/responses/ServerError'
-
 
 components:
   parameters:
@@ -636,6 +827,55 @@ components:
       schema:
         type: boolean
         example: false
+
+    codeCommuneAssocieeInPath:
+      name: 'code'
+      in: path
+      description: 'Code de la commune associée (cinq caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeCommuneAssociee'
+    dateCommuneAssocieeActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer la commune associée active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    codeCommuneDelegueeInPath:
+      name: 'code'
+      in: path
+      description: 'Code de la commune déléguée (cinq caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeCommuneDeleguee'
+    dateCommuneDelegueeActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer la commune déléguée active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    codeDistrictInPath:
+      name: 'code'
+      in: path
+      description: 'Code du district (cinq caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeDistrict'
+    dateDistrictActif:
+      in: query
+      description: |-
+        Filtre pour renvoyer le district actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
     dateIntercommunaliteActive:
       in: query
       description: |-
@@ -699,6 +939,22 @@ components:
         type: 'string'
         format: date
 
+    codeBassinDeVieInPath:
+      name: 'code'
+      in: path
+      description: 'Code du bassin de vie (cinq caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeBassinDeVie'
+    dateBassinDeVieActif:
+      in: query
+      description: |-
+        Filtre pour renvoyer le bassin de vie actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
     codeCantonInPath:
       name: 'code'
       in: path
@@ -710,6 +966,54 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer le canton actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    codeCantonOuVilleInPath:
+      name: 'code'
+      in: path
+      description: 'Code du canton-ou-ville (quatre caractères, ou cinq pour les DOM, exemple : 97602)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeCantonOuVille'
+    dateCantonOuVilleActif:
+      in: query
+      description: |-
+        Filtre pour renvoyer le canton-ou-ville actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    codeCirconscriptionTerritorialeInPath:
+      name: 'code'
+      in: path
+      description: 'Code de la circonscription territoriale (cinq caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeCirconscriptionTerritoriale'
+    dateCirconscriptionTerritorialeActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer la circonscription territoriale active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    codeCollectiviteDOutreMerInPath:
+      name: 'code'
+      in: path
+      description: 'Code de la collectivité d''outre-mer (trois caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeCollectiviteDOutreMer'
+    dateCollectiviteDOutreMerActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer la collectivité d'outre-mer à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -731,96 +1035,88 @@ components:
         type: 'string'
         format: date
 
+    codeZoneDEmploiInPath:
+      name: 'code'
+      in: path
+      description: 'Code de la zone d''emploi (quatre chiffres)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeZoneDEmploi'
+    dateZoneDEmploiActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer la zone d'emploi active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
 
   examples:
-    DepartementListeAscendants:
+
+    Arrondissement:
       value:
-        - code: '53'
-          uri: 'http://id.insee.fr/geo/region/6c83500c-454c-4d69-aec5-b988fb6f6f1c'
-          type: 'Region'
-          dateCreation: '2019-01-01'
-          intituleSansArticle: 'Bretagne'
-          typeArticle: '0'
-          chefLieu: '35238'
-          intitule: 'Bretagne'
-    Departement:
+        code: '674'
+        uri: 'http://id.insee.fr/geo/arrondissement/7f59df93-132b-400f-9aa6-b3c6be1018eb'
+        type: 'Arrondissement'
+        dateCreation: '2018-12-31'
+        intituleSansArticle: 'Saverne'
+        typeArticle: '0'
+        chefLieu: '67437'
+        intitule: 'Saverne'
+
+    BassinDeVie2022:
       value:
-        code: '22'
-        uri: 'http://id.insee.fr/geo/departement/f07f6a49-9dce-4f2d-a99e-5d61eedf2827'
-        type: 'Departement'
-        dateCreation: '1990-03-08'
-        intituleSansArticle: 'Côtes-d''Armor'
-        typeArticle: '4'
-        chefLieu: '22278'
-        intitule: 'Côtes-d''Armor'
-    DepartementListeDescendants:
+        code: '01004'
+        uri: 'http://id.insee.fr/geo/bassinDeVie2022/0e5bcc78-f043-404d-92af-d3d660772675'
+        type: 'BassinDeVie2022'
+        dateCreation: '2022-01-01'
+        intituleSansArticle: 'Ambérieu-en-Bugey'
+        typeArticle: '1'
+        intitule: 'Ambérieu-en-Bugey'
+
+    Canton:
       value:
-        - code: '221'
-          uri: 'http://id.insee.fr/geo/arrondissement/1e07b989-b3ff-43be-bfe6-05e9c9ba19d7'
-          type: 'Arrondissement'
-          dateCreation: '2017-01-01'
-          intituleSansArticle: 'Dinan'
-          typeArticle: '0'
-          chefLieu: '22050'
-          intitule: 'Dinan'
-        - code: '222'
-          uri: 'http://id.insee.fr/geo/arrondissement/87fdca9c-f9ed-41e5-93d9-f44534ffd725'
-          type: 'Arrondissement'
-          dateCreation: '2017-01-01'
-          intituleSansArticle: 'Guingamp'
-          typeArticle: '0'
-          chefLieu: '22070'
-          intitule: 'Guingamp'
-    DepartementsListe:
+        code: '0101'
+        uri: 'http://id.insee.fr/geo/canton/f96a2438-478f-4ebb-b659-434305dff18f'
+        type: 'Canton'
+        dateCreation: '2016-01-01'
+        chefLieu: '01004'
+        intituleSansArticle: 'Ambérieu-en-Bugey'
+        typeArticle: '1'
+        intitule: 'Ambérieu-en-Bugey'
+
+    CantonOuVille:
       value:
-        - code: '01'
-          uri: 'http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7'
-          type: 'Departement'
-          dateCreation: '1967-12-31'
-          intituleSansArticle: 'Ain'
-          typeArticle: '5'
-          chefLieu: '01053'
-          intitule: 'Ain'
-        - code: '02'
-          uri: 'http://id.insee.fr/geo/departement/8b195d1f-8676-4c06-873c-ee5b6d66a23f'
-          type: 'Departement'
-          dateCreation: '2016-12-31'
-          intituleSansArticle: 'Aisne'
-          typeArticle: '5'
-          chefLieu: '02408'
-          intitule: 'Aisne'
-    DepartementListePrecedents:
+        code: '0101'
+        uri: 'http://id.insee.fr/geo/cantonOuVille/5e75ead7-7564-4480-83b0-7e16a7d8acf7'
+        type: 'CantonOuVille'
+        dateCreation: '2016-01-01'
+        chefLieu: '01004'
+        intituleSansArticle: 'Ambérieu-en-Bugey'
+        typeArticle: '1'
+        intitule: 'Ambérieu-en-Bugey'
+
+    CirconscriptionTerritoriale:
       value:
-        - code: '22'
-          uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
-          type: 'Departement'
-          dateCreation: '1943-01-01'
-          dateSuppression: '1990-03-08'
-          intituleSansArticle: 'Côtes-du-Nord'
-          typeArticle: '4'
-          chefLieu: '22278'
-          intitule: 'Côtes-du-Nord'
-    DepartementListeProjetes:
+        code: '98611'
+        uri: 'http://id.insee.fr/geo/circonscriptionTerritoriale/31f556e9-55e5-4e48-9dac-2d8113fa609e'
+        type: 'CirconscriptionTerritoriale'
+        dateCreation: '2008-01-01'
+        intituleSansArticle: 'Alo'
+        typeArticle: '1'
+        intitule: 'Alo'
+
+    CollectiviteDOutreMer:
       value:
-        - code: '22'
-          uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
-          type: 'Departement'
-          dateCreation: '1943-01-01'
-          dateSuppression: '1990-03-08'
-          intituleSansArticle: 'Côtes-du-Nord'
-          typeArticle: '4'
-          chefLieu: '22278'
-          intitule: 'Côtes-du-Nord'
-    DepartementListeSuivants:
-      value:
-        - code: '22'
-          uri: 'http://id.insee.fr/geo/departement/f07f6a49-9dce-4f2d-a99e-5d61eedf2827'
-          type: 'Departement'
-          dateCreation: '1990-03-08'
-          intituleSansArticle: 'Côtes-d''Armor'
-          typeArticle': '4'
-          chefLieu: '22278'
-          intitule: 'Côtes-d''Armor'
+        code: '988'
+        uri: 'http://id.insee.fr/geo/collectiviteDOutreMer/bc93b612-59f5-463a-a05f-e5ed9013dc8d'
+        type: 'CollectiviteDOutreMer'
+        dateCreation: '2008-01-01'
+        intituleSansArticle: 'Nouvelle-Calédonie'
+        typeArticle: '0'
+        intitule: 'Nouvelle-Calédonie'
+
     CommuneListeAscendants:
       value:
         - code: '024'
@@ -1014,6 +1310,126 @@ components:
           intituleSansArticle: 'Noyers-Bocage'
           typeArticle: '0'
           intitule: 'Noyers-Bocage'
+
+    CommuneAssociee:
+      value:
+        - code: '59355'
+          uri: 'http://id.insee.fr/geo/communeAssociee/84564ad2-a211-4744-9e01-1bb1900e2e68'
+          type: 'CommuneAssociee'
+          dateCreation: '2000-02-27'
+          intituleSansArticle: 'Lomme'
+          typeArticle: '0'
+          intitule: 'Lomme'
+
+    CommuneDeleguee:
+      value:
+        - code: '46248'
+          uri: 'http://id.insee.fr/geo/communeDeleguee/c333331f-b09b-4253-b012-dc0d0a65a290'
+          type: 'CommuneDeleguee'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Sainte-Alauzie'
+          typeArticle: '0'
+          intitule: 'Sainte-Alauzie'
+
+    DepartementListeAscendants:
+      value:
+        - code: '53'
+          uri: 'http://id.insee.fr/geo/region/6c83500c-454c-4d69-aec5-b988fb6f6f1c'
+          type: 'Region'
+          dateCreation: '2019-01-01'
+          intituleSansArticle: 'Bretagne'
+          typeArticle: '0'
+          chefLieu: '35238'
+          intitule: 'Bretagne'
+    Departement:
+      value:
+        code: '22'
+        uri: 'http://id.insee.fr/geo/departement/f07f6a49-9dce-4f2d-a99e-5d61eedf2827'
+        type: 'Departement'
+        dateCreation: '1990-03-08'
+        intituleSansArticle: 'Côtes-d''Armor'
+        typeArticle: '4'
+        chefLieu: '22278'
+        intitule: 'Côtes-d''Armor'
+    DepartementListeDescendants:
+      value:
+        - code: '221'
+          uri: 'http://id.insee.fr/geo/arrondissement/1e07b989-b3ff-43be-bfe6-05e9c9ba19d7'
+          type: 'Arrondissement'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Dinan'
+          typeArticle: '0'
+          chefLieu: '22050'
+          intitule: 'Dinan'
+        - code: '222'
+          uri: 'http://id.insee.fr/geo/arrondissement/87fdca9c-f9ed-41e5-93d9-f44534ffd725'
+          type: 'Arrondissement'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Guingamp'
+          typeArticle: '0'
+          chefLieu: '22070'
+          intitule: 'Guingamp'
+    DepartementsListe:
+      value:
+        - code: '01'
+          uri: 'http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7'
+          type: 'Departement'
+          dateCreation: '1967-12-31'
+          intituleSansArticle: 'Ain'
+          typeArticle: '5'
+          chefLieu: '01053'
+          intitule: 'Ain'
+        - code: '02'
+          uri: 'http://id.insee.fr/geo/departement/8b195d1f-8676-4c06-873c-ee5b6d66a23f'
+          type: 'Departement'
+          dateCreation: '2016-12-31'
+          intituleSansArticle: 'Aisne'
+          typeArticle: '5'
+          chefLieu: '02408'
+          intitule: 'Aisne'
+    DepartementListePrecedents:
+      value:
+        - code: '22'
+          uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
+          type: 'Departement'
+          dateCreation: '1943-01-01'
+          dateSuppression: '1990-03-08'
+          intituleSansArticle: 'Côtes-du-Nord'
+          typeArticle: '4'
+          chefLieu: '22278'
+          intitule: 'Côtes-du-Nord'
+    DepartementListeProjetes:
+      value:
+        - code: '22'
+          uri: 'http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b'
+          type: 'Departement'
+          dateCreation: '1943-01-01'
+          dateSuppression: '1990-03-08'
+          intituleSansArticle: 'Côtes-du-Nord'
+          typeArticle: '4'
+          chefLieu: '22278'
+          intitule: 'Côtes-du-Nord'
+    DepartementListeSuivants:
+      value:
+        - code: '22'
+          uri: 'http://id.insee.fr/geo/departement/f07f6a49-9dce-4f2d-a99e-5d61eedf2827'
+          type: 'Departement'
+          dateCreation: '1990-03-08'
+          intituleSansArticle: 'Côtes-d''Armor'
+          typeArticle': '4'
+          chefLieu: '22278'
+          intitule: 'Côtes-d''Armor'
+
+    District:
+      value:
+        - code: '98411'
+          uri: 'http://id.insee.fr/geo/district/d028b78a-9c4d-4e22-9b60-efffd7085eb0'
+          type: 'District'
+          dateCreation: '2008-01-01'
+          intituleSansArticle: 'Îles Saint-Paul et Amsterdam'
+          typeArticle: '4'
+          intitule: 'Îles Saint-Paul et Amsterdam'
+
     Intercommunalite:
       value:
         - code: '240100883'
@@ -1058,27 +1474,19 @@ components:
         typeArticle: '0'
         intitule: 'Jujurieux'
 
-    Canton:
-      value:
-        code: '0101'
-        uri: 'http://id.insee.fr/geo/canton/f96a2438-478f-4ebb-b659-434305dff18f'
-        type: 'Canton'
-        dateCreation: '2016-01-01'
-        chefLieu: '01004'
-        intituleSansArticle: 'Ambérieu-en-Bugey'
-        typeArticle: '1'
-        intitule: 'Ambérieu-en-Bugey'
 
-    Arrondissement:
+
+
+
+    ZoneDEmploi2020:
       value:
-        code: '674'
-        uri: 'http://id.insee.fr/geo/arrondissement/7f59df93-132b-400f-9aa6-b3c6be1018eb'
-        type: 'Arrondissement'
-        dateCreation: '2018-12-31'
-        intituleSansArticle: 'Saverne'
+        code: '2415'
+        uri: 'http://id.insee.fr/geo/zoneDEmploi2020/dbab03e7-3d8d-4797-8ab1-0ed36a4db9c1'
+        type: 'ZoneDEmploi2020'
+        dateCreation: '2020-01-01'
+        intituleSansArticle: 'Vierzon'
         typeArticle: '0'
-        chefLieu: '67437'
-        intitule: 'Saverne'
+        intitule: 'Vierzon'
 
   responses:
     IncorrectRequest:
@@ -1089,111 +1497,103 @@ components:
       description: 'L''en-tête HTTP ''Accept'' contient une valeur non acceptée'
     ServerError:
       description: 'Erreur interne du serveur'
-    DepartementListeSuivants200:
-      description: 'Opération réussie pour les successeurs d''un département'
+
+    Arrondissement200:
+      description: 'Opération réussie pour l''arrondissement'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListeSuivantsAvecChefLieu'
+            $ref: '#/components/schemas/Arrondissement'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeSuivants'
+              $ref: '#/components/examples/Arrondissement'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListeSuivantsAvecChefLieu'
+            $ref: '#/components/schemas/Arrondissement'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeSuivants'
-    DepartementListeProjetes200:
-      description: 'Opération réussie pour les projetés d''un département'
+              $ref: '#/components/examples/Arrondissement'
+
+    BassinDeVie200:
+      description: 'Opération réussie pour le bassin de vie'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
+            $ref: '#/components/schemas/BassinDeVie2022'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeProjetes'
+              $ref: '#/components/examples/BassinDeVie2022'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
+            $ref: '#/components/schemas/BassinDeVie2022'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeProjetes'
-    DepartementListePrecedents200:
-      description: 'Opération réussie pour les départements précédents'
+              $ref: '#/components/examples/BassinDeVie2022'
+
+    Canton200:
+      description: 'Opération réussie pour le canton'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListePrecedentsAvecChefLieu'
+            $ref: '#/components/schemas/Canton'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListePrecedents'
+              $ref: '#/components/examples/Canton'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListePrecedentsAvecChefLieu'
+            $ref: '#/components/schemas/Canton'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListePrecedents'
-    DepartementListeDescendants200:
-      description: 'Opération réussie pour les descendants d''un département'
+              $ref: '#/components/examples/Canton'
+
+    CantonOuVille200:
+      description: 'Opération réussie pour le canton-ou-ville'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListeDescendants'
+            $ref: '#/components/schemas/CantonOuVille'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeDescendants'
+              $ref: '#/components/examples/CantonOuVille'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListeDescendants'
+            $ref: '#/components/schemas/CantonOuVille'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeDescendants'
-    DepartementListeAscendants200:
-      description: 'Opération réussie pour les ascendants d''un département'
+              $ref: '#/components/examples/CantonOuVille'
+
+    CirconscriptionTerritoriale200:
+      description: 'Opération réussie pour la circonscription territoriale'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListeAscendants'
+            $ref: '#/components/schemas/CirconscriptionTerritoriale'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeAscendants'
+              $ref: '#/components/examples/CirconscriptionTerritoriale'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListeAscendants'
+            $ref: '#/components/schemas/CirconscriptionTerritoriale'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementListeAscendants'
-    DepartementsListe200:
-      description: 'Opération réussie pour la liste des départements'
+              $ref: '#/components/examples/CirconscriptionTerritoriale'
+
+    CollectiviteDOutreMer200:
+      description: 'Opération réussie pour la collectivité d''outre-mer'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeTerritoiresAvecChefLieu'
+            $ref: '#/components/schemas/CollectiviteDOutreMer'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementsListe'
+              $ref: '#/components/examples/CollectiviteDOutreMer'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeTerritoiresAvecChefLieu'
+            $ref: '#/components/schemas/CollectiviteDOutreMer'
           examples:
             défaut:
-              $ref: '#/components/examples/DepartementsListe'
-    Departement200:
-      description: 'Opération réussie pour le département'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Departement'
-          examples:
-            défaut:
-              $ref: '#/components/examples/Departement'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Departement'
-          examples:
-            défaut:
-              $ref: '#/components/examples/Departement'
+              $ref: '#/components/examples/CollectiviteDOutreMer'
+
     CommunesListe200:
       description: 'Opération réussie'
       content:
@@ -1301,6 +1701,159 @@ components:
             défaut:
               $ref: '#/components/examples/CommuneListeAscendants'
 
+    CommuneAssociee200:
+      description: 'Opération réussie pour la commune associée'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommuneAssociee'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneAssociee'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommuneAssociee'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneAssociee'
+    CommuneDeleguee200:
+      description: 'Opération réussie pour la commune déléguée'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommuneDeleguee'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneDeleguee'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommuneDeleguee'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneDeleguee'
+
+    DepartementListeSuivants200:
+      description: 'Opération réussie pour les successeurs d''un département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DepartementListeSuivantsAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeSuivants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/DepartementListeSuivantsAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeSuivants'
+    DepartementListeProjetes200:
+      description: 'Opération réussie pour les projetés d''un département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeProjetes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeProjetes'
+    DepartementListePrecedents200:
+      description: 'Opération réussie pour les départements précédents'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DepartementListePrecedentsAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListePrecedents'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/DepartementListePrecedentsAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListePrecedents'
+    DepartementListeDescendants200:
+      description: 'Opération réussie pour les descendants d''un département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DepartementListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/DepartementListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeDescendants'
+    DepartementListeAscendants200:
+      description: 'Opération réussie pour les ascendants d''un département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DepartementListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeAscendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/DepartementListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementListeAscendants'
+    DepartementsListe200:
+      description: 'Opération réussie pour la liste des départements'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeTerritoiresAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementsListe'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeTerritoiresAvecChefLieu'
+          examples:
+            défaut:
+              $ref: '#/components/examples/DepartementsListe'
+    Departement200:
+      description: 'Opération réussie pour le département'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Departement'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Departement'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Departement'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Departement'
+
+    District200:
+      description: 'Opération réussie pour le district'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/District'
+          examples:
+            défaut:
+              $ref: '#/components/examples/District'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/District'
+          examples:
+            défaut:
+              $ref: '#/components/examples/District'
+
     Intercommunalite200:
       description: 'Opération réussie pour l''intercommunalité'
       content:
@@ -1365,38 +1918,21 @@ components:
             défaut:
               $ref: '#/components/examples/UniteUrbaine2020'
 
-    Canton200:
-      description: 'Opération réussie pour le canton'
+    ZoneDEmploi200:
+      description: 'Opération réussie pour la zone d''emploi'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Canton'
+            $ref: '#/components/schemas/ZoneDEmploi2020'
           examples:
             défaut:
-              $ref: '#/components/examples/Canton'
+              $ref: '#/components/examples/ZoneDEmploi2020'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Canton'
+            $ref: '#/components/schemas/ZoneDEmploi2020'
           examples:
             défaut:
-              $ref: '#/components/examples/Canton'
-
-    Arrondissement200:
-      description: 'Opération réussie pour l''arrondissement'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Arrondissement'
-          examples:
-            défaut:
-              $ref: '#/components/examples/Arrondissement'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Arrondissement'
-          examples:
-            défaut:
-              $ref: '#/components/examples/Arrondissement'
-
+              $ref: '#/components/examples/ZoneDEmploi2020'
 
 
   schemas:
@@ -1747,6 +2283,73 @@ components:
         - Arrondissement
         - CollectiviteDOutreMer
       example: 'Departement'
+
+    Arrondissement:
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+          xml:
+            name: Arrondissement
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeArrondissement'
+    CodeArrondissement:
+      description: 'Code d''un arrondissement'
+      pattern: '[a-zA-Z0-9]{3,4}'
+      type: string
+      xml:
+        attribute: true
+      example: '674'
+
+    CommuneAssociee:
+      allOf:
+        - $ref: '#/components/schemas/Territoire_TousAttributs'
+          xml:
+            name: CommuneAssociee
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeCommuneAssociee'
+
+    CommuneDeleguee:
+      allOf:
+        - $ref: '#/components/schemas/Territoire_TousAttributs'
+          xml:
+            name: CommuneDeleguee
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeCommuneDeleguee'
+
+    CodeCommuneAssociee:
+      description: 'Code de la commune associée'
+      pattern: '([0-9]{5})'
+      type: string
+      xml:
+        attribute: true
+      example: '14463'
+
+    CodeCommuneDeleguee:
+     description: 'Code de la commune déléguée'
+     pattern: '([0-9]{5})'
+     type: string
+     xml:
+       attribute: true
+     example: '46248'
+
+    District:
+      allOf:
+        - $ref: '#/components/schemas/Territoire_TousAttributs'
+          xml:
+            name: District
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeDistrict'
+    CodeDistrict:
+      description: 'Code du district'
+      pattern: '([0-9]{5})'
+      type: string
+      xml:
+        attribute: true
+      example: '98411'
+
     Intercommunalite:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
@@ -1805,7 +2408,6 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeUniteUrbaine'
-
     CodeUniteUrbaine:
       description: 'Code d''une unité urbaine'
       pattern: '^([0-9][0-9A-Z][0-9]{3})$'
@@ -1814,15 +2416,30 @@ components:
         attribute: true
       example: '01121'
 
+    BassinDeVie2022:
+      allOf:
+        - $ref: '#/components/schemas/Territoire_TousAttributs'
+          xml:
+            name: Canton
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeBassinDeVie'
+    CodeBassinDeVie:
+      description: 'Code d''un bassin de vie'
+      pattern: '[a-zA-Z0-9]{9}'
+      type: string
+      xml:
+        attribute: true
+      example: '01004'
+
     Canton:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
           xml:
-            name: UniteUrbaine
+            name: Canton
           properties:
             code:
               $ref: '#/components/schemas/CodeCanton'
-
     CodeCanton:
       description: 'Code d''un canton'
       pattern: '[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}'
@@ -1831,19 +2448,66 @@ components:
         attribute: true
       example: '0101'
 
-    Arrondissement:
+    CantonOuVille:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
           xml:
-            name: Arrondissement
+            name: Canton
           properties:
             code:
-              $ref: '#/components/schemas/CodeArrondissement'
-    CodeArrondissement:
-      description: 'Code d''un arrondissement'
-      pattern: '[a-zA-Z0-9]{3,4}'
+              $ref: '#/components/schemas/CodeCantonOuVille'
+    CodeCantonOuVille:
+      description: 'Code d''un canton-ou-ville'
+      pattern: '[0-9]{4,5}'
       type: string
       xml:
         attribute: true
-      example: '674'
+      example: '0101'
 
+    CirconscriptionTerritoriale:
+      allOf:
+        - $ref: '#/components/schemas/Territoire_TousAttributs'
+          xml:
+            name: Circonscription territoriale
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeCirconscriptionTerritoriale'
+    CodeCirconscriptionTerritoriale:
+      description: 'Code d''une circonscription territoriale'
+      pattern: '[a-zA-Z0-9]{5}'
+      type: string
+      xml:
+        attribute: true
+      example: '98611'
+
+    CollectiviteDOutreMer:
+      allOf:
+        - $ref: '#/components/schemas/Territoire_TousAttributs'
+          xml:
+            name: CollectiviteDOutreMer
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeCollectiviteDOutreMer'
+    CodeCollectiviteDOutreMer:
+      description: 'Code d''une collectivité d''outre-mer'
+      pattern: '[a-zA-Z0-9]{3}'
+      type: string
+      xml:
+        attribute: true
+      example: '988'
+
+    ZoneDEmploi2020:
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+          xml:
+            name: ZoneDEmploi
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeZoneDEmploi'
+    CodeZoneDEmploi:
+      description: 'Code d''une zone d''emploi'
+      pattern: '[0-9]{4}'
+      type: string
+      xml:
+        attribute: true
+      example: '2415'
