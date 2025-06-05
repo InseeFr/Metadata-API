@@ -75,7 +75,7 @@ paths:
   /geo/bassinDeVie2022/{code}:
     get:
       tags:
-        - geoCanton
+        - geoBassinDeVie
       summary: 'Informations sur un bassin de vie identifié par son code (neuf caractères)'
       operationId: 'getcogbass'
       parameters:
@@ -2426,7 +2426,7 @@ components:
               $ref: '#/components/schemas/CodeBassinDeVie'
     CodeBassinDeVie:
       description: 'Code d''un bassin de vie'
-      pattern: '[a-zA-Z0-9]{9}'
+      pattern: '[a-zA-Z0-9]{5}'
       type: string
       xml:
         attribute: true
