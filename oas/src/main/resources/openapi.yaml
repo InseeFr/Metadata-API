@@ -15,8 +15,12 @@ tags:
   #    description: Concepts API
   #  - name: operations
   #    description: Operations API
+  - name: geoAireDAttractionDesVilles
+    description: 'API géographie : aire d''attraction des villes 2020'
   - name: geoArrondissement
     description: 'API géographie : Arrondissement'
+  - name: geoArrondissementMunicipal
+    description: 'API géographie : Arrondissement municipal'
   - name: geoBassinDeVie
     description: 'API géographie : Bassin de vie 2022'
   - name: geoCanton
@@ -51,6 +55,27 @@ tags:
     description: 'API géographie : Générique'
 paths:
 
+  /geo/aireDAttractionDesVilles2020/{code}:
+    get:
+      tags:
+        - geoAireDAttractionDesVilles
+      summary: 'Informations sur une aire d''attraction française identifiée par son code (trois caractères)'
+      operationId: 'getcogaav'
+      parameters:
+        - $ref: '#/components/parameters/codeAireDAttractionDesVillesInPath'
+        - $ref: '#/components/parameters/dateAireDAttractionDesVillesActive'
+      responses:
+        '200':
+          $ref: '#/components/responses/aireDAttractionDesVilles200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /geo/arrondissement/{code}:
     get:
       tags:
@@ -63,6 +88,27 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Arrondissement200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/arrondissementMunicipal/{code}:
+    get:
+      tags:
+        - geoArrondissementMunicipal
+      summary: 'Informations sur un arrondissement municipal identifié par son code (cinq caractères)'
+      operationId: 'getcogarrmu'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementMunicipalInPath'
+        - $ref: '#/components/parameters/dateArrondissementMunicipalActif'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementMunicipal200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -731,6 +777,56 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsDepartement'
+
+
+    codeAireDAttractionDesVillesInPath:
+      name: 'code'
+      in: path
+      description: 'Code de l''aire d''attraction (trois chiffres)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/codeAireDAttractionDesVilles'
+    dateAireDAttractionDesVillesActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer l'aire d'attraction active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    codeArrondissementInPath:
+      name: 'code'
+      in: path
+      description: 'Code de l''arrondissement (trois ou quatre caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeArrondissement'
+    dateArrondissementActif:
+      in: query
+      description: |-
+        Filtre pour renvoyer l'arrondissement actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    codeArrondissementMunicipalInPath:
+      name: 'code'
+      in: path
+      description: 'Code de l''arrondissement municipal (cinq caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeArrondissementMunicipal'
+    dateArrondissementMunicipalActif:
+      in: query
+      description: |-
+        Filtre pour renvoyer l'arrondissement municipal actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
     dateDepartementDepart:
       in: query
       description: |-
@@ -1019,21 +1115,6 @@ components:
         type: 'string'
         format: date
 
-    codeArrondissementInPath:
-      name: 'code'
-      in: path
-      description: 'Code de l''arrondissement (trois ou quatre caractères)'
-      required: true
-      schema:
-        $ref: '#/components/schemas/CodeArrondissement'
-    dateArrondissementActif:
-      in: query
-      description: |-
-        Filtre pour renvoyer l'arrondissement actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
-      name: date
-      schema:
-        type: 'string'
-        format: date
 
     codeZoneDEmploiInPath:
       name: 'code'
@@ -1064,6 +1145,16 @@ components:
         typeArticle: '0'
         chefLieu: '67437'
         intitule: 'Saverne'
+
+    ArrondissementMunicipal:
+      value:
+        code: '69385'
+        uri: 'http://id.insee.fr/geo/arrondissementMunicipal/cd9f4663-684c-455d-b62e-39e51c6fad99'
+        type: 'ArrondissementMunicipal'
+        dateCreation: '1964-08-12'
+        intituleSansArticle: 'Lyon 5e Arrondissement'
+        typeArticle: '0'
+        intitule: 'Lyon 5e Arrondissement'
 
     BassinDeVie2022:
       value:
@@ -1498,6 +1589,23 @@ components:
     ServerError:
       description: 'Erreur interne du serveur'
 
+    aireDAttractionDesVilles200:
+      description: 'Opération réussie pour l''aire d''attraction'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/aireDAttractionDesVilles2020'
+          examples:
+            défaut:
+              $ref: '#/components/examples/aireDAttractionDesVilles2020'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/aireDAttractionDesVilles2020'
+          examples:
+            défaut:
+              $ref: '#/components/examples/aireDAttractionDesVilles2020'
+
+
     Arrondissement200:
       description: 'Opération réussie pour l''arrondissement'
       content:
@@ -1513,6 +1621,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Arrondissement'
+
+    ArrondissementMunicipal200:
+      description: 'Opération réussie pour l''arrondissement municipal'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrondissementMunicipal'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementMunicipal'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ArrondissementMunicipal'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementMunicipal'
 
     BassinDeVie200:
       description: 'Opération réussie pour le bassin de vie'
@@ -2284,6 +2408,22 @@ components:
         - CollectiviteDOutreMer
       example: 'Departement'
 
+    AireDAttractionDesVilles2020:
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+          xml:
+            name: Aire d'attraction
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeAireDAttractionDesVilles'
+    CodeAireDAttractionDesVilles:
+      description: 'Code d''une aire d''attraction'
+      pattern: '[a-zA-Z0-9]{3}'
+      type: string
+      xml:
+        attribute: true
+      example: '062'
+
     Arrondissement:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
@@ -2299,6 +2439,22 @@ components:
       xml:
         attribute: true
       example: '674'
+
+    ArrondissementMunicipal:
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+          xml:
+            name: Arrondissement municipal
+          properties:
+            code:
+              $ref: '#/components/schemas/CodeArrondissementMunicipal'
+    CodeArrondissementMunicipal:
+      description: 'Code d''un arrondissement municipal'
+      pattern: '[a-zA-Z0-9]{5}'
+      type: string
+      xml:
+        attribute: true
+      example: '69385'
 
     CommuneAssociee:
       allOf:
