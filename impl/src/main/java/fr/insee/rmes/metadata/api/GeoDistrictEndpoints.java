@@ -2,7 +2,6 @@ package fr.insee.rmes.metadata.api;
 
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
-import fr.insee.rmes.metadata.model.Departement;
 import fr.insee.rmes.metadata.model.District;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
