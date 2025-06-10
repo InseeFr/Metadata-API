@@ -30,7 +30,7 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
     @Override
     public ResponseEntity<List<Arrondissement>> getcogarrliste (LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, Arrondissement.class))
+                .with(new TerritoireRequestParametizer(date, Arrondissement.class, "*"))
                 .executeQuery()
                 .listResult(Arrondissement.class)
                 .toResponseEntity();

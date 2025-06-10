@@ -29,7 +29,7 @@ public class GeoPaysEndpoints implements GeoPaysApi {
     @Override
     public ResponseEntity<List<Pays>> getcogpayslist (LocalDate date) {
         return requestProcessor.queryforFindPays()
-                .with(new TerritoireRequestParametizer(date, Pays.class))
+                .with(new TerritoireRequestParametizer(date, Pays.class, "none"))
                 .executeQuery()
                 .listResult(Pays.class)
                 .toResponseEntity();

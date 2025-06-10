@@ -31,7 +31,7 @@ public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionD
     @Override
     public ResponseEntity<List<AireDAttractionDesVilles2020>> getcogaavliste (LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, AireDAttractionDesVilles2020.class))
+                .with(new TerritoireRequestParametizer(date, AireDAttractionDesVilles2020.class, "none"))
                 .executeQuery()
                 .listResult(AireDAttractionDesVilles2020.class)
                 .toResponseEntity();

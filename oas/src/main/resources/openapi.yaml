@@ -157,6 +157,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/arrondissementsMunicipaux:
+    get:
+      tags:
+        - geoArrondissementMunicipal
+      summary: 'Informations sur tous les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogarrmuliste'
+      parameters:
+        - $ref: '#/components/parameters/dateArrondissementsMunicipauxActifs'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementsMunicipauxListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
 
   /geo/bassinDeVie2022/{code}:
     get:
@@ -924,6 +944,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateArrondissementsMunicipauxActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
 
     dateDepartementDepart:
       in: query
@@ -1306,6 +1334,15 @@ components:
         intituleSansArticle: 'Lyon 5e Arrondissement'
         typeArticle: '0'
         intitule: 'Lyon 5e Arrondissement'
+    ListeArrondissementsMunicipaux:
+      value:
+        - code: '13201'
+          uri: 'http://id.insee.fr/geo/arrondissementMunicipal/d2ae811d-f0b8-4bac-972d-01dabe292665'
+          type: 'ArrondissementMunicipal'
+          dateCreation: '1946-10-18'
+          intituleSansArticle: 'Marseille 1er Arrondissement'
+          typeArticle: '0'
+          intitule: 'Marseille 1er Arrondissement'
 
     BassinDeVie2022:
       value:
@@ -1842,6 +1879,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipal'
+    ArrondissementsMunicipauxListe200:
+      description: 'Opération réussie pour les arrondissements municipaux'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeArrondissementsMunicipaux'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeArrondissementsMunicipaux'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeArrondissementsMunicipaux'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeArrondissementsMunicipaux'
+
 
     BassinDeVie200:
       description: 'Opération réussie pour le bassin de vie'
@@ -2709,6 +2762,14 @@ components:
       xml:
         attribute: true
       example: '69385'
+    ListeArrondissementsMunicipaux:
+      description: 'Liste des arrondissements municipaux'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeArrondissementsMunicipaux
+      items:
+        $ref: '#/components/schemas/ArrondissementMunicipal'
 
     CommuneAssociee:
       allOf:

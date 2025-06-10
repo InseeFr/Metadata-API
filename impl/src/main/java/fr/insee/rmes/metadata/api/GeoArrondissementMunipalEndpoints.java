@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Controller
@@ -24,6 +25,16 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
                 .with(new TerritoireRequestParametizer(code, date, ArrondissementMunicipal.class, "none"))
                 .executeQuery()
                 .singleResult(ArrondissementMunicipal.class).toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<ArrondissementMunicipal>> getcogarrmuliste (LocalDate date) {
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, ArrondissementMunicipal.class, "none"))
+                .executeQuery()
+                .listResult(ArrondissementMunicipal.class)
+                .toResponseEntity();
+
     }
 
 }
