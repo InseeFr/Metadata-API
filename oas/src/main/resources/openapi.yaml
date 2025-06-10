@@ -68,7 +68,26 @@ paths:
         - $ref: '#/components/parameters/dateAireDAttractionDesVillesActive'
       responses:
         '200':
-          $ref: '#/components/responses/aireDAttractionDesVilles200'
+          $ref: '#/components/responses/AireDAttractionDesVilles200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/airesDAttractionDesVilles2020:
+    get:
+      tags:
+        - geoAireDAttractionDesVilles
+      summary: 'Informations sur toutes les aires d''attraction actives à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogaavliste'
+      parameters:
+        - $ref: '#/components/parameters/dateAiresDAttractionDesVillesActives'
+      responses:
+        '200':
+          $ref: '#/components/responses/AiresDAttractionDesVillesListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -90,6 +109,25 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Arrondissement200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/arrondissements:
+    get:
+      tags:
+        - geoArrondissement
+      summary: 'Informations sur tous les arrondissements atifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogarrliste'
+      parameters:
+        - $ref: '#/components/parameters/dateArrondissementsActifs'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementsListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -644,6 +682,25 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/pays:
+    get:
+      tags:
+        - geoPays
+      summary: 'Informations sur tous les pays actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogpayslist'
+      parameters:
+        - $ref: '#/components/parameters/datePaysListActifs'
+      responses:
+        '200':
+          $ref: '#/components/responses/PaysListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/region/{code}:
     get:
@@ -818,6 +875,15 @@ components:
       schema:
         type: 'string'
         format: date
+    dateAiresDAttractionDesVillesActives:
+      in: query
+      description: |-
+        Filtre pour renvoyer les aires d'attraction actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
 
     codeArrondissementInPath:
       name: 'code'
@@ -830,6 +896,14 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer l'arrondissement actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateArrondissementsActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les arrondissements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -1042,6 +1116,14 @@ components:
       schema:
         type: 'string'
         format: date
+    datePaysListActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les pays actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
 
     codeRegInPath:
       name: 'code'
@@ -1184,6 +1266,15 @@ components:
         intituleSansArticle: 'Angoulême'
         typeArticle: '1'
         intitule: 'Angoulême'
+    ListeAiresDAttractionDesVilles2020:
+      value:
+        - code: '001'
+          uri: 'http://id.insee.fr/geo/aireDAttractionDesVilles2020/3a65c4b6-8157-48be-bead-b74066f8456a'
+          type: 'AireDAttractionDesVilles2020'
+          dateCreation: '2020-01-01'
+          intituleSansArticle: 'Paris'
+          typeArticle: '0'
+          intitule: 'Paris'
 
     Arrondissement:
       value:
@@ -1195,6 +1286,16 @@ components:
         typeArticle: '0'
         chefLieu: '67437'
         intitule: 'Saverne'
+    ListeArrondissements:
+      value:
+        - code: '011'
+          uri: 'http://id.insee.fr/geo/arrondissement/cc3aee67-96dc-4e9a-ae4e-26860a90e0d5'
+          type: 'Arrondissement'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Belley'
+          typeArticle: '0'
+          chefLieu: '01034'
+          intitule: 'Belley'
 
     ArrondissementMunicipal:
       value:
@@ -1605,6 +1706,19 @@ components:
         iso3166alpha2: "GB"
         iso3166alpha3: "GBR"
         iso3166num: "826"
+    PaysListe:
+      value:
+        - code: '99100'
+          uri: 'http://id.insee.fr/geo/pays/b7e3f0c9-b653-4a3e-904a-de63b80e108b'
+          type: 'Pays'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'France'
+          intituleComplet: "République française"
+          iso3166alpha2: "FR"
+          iso3166alpha3: "FRA"
+          iso3166num: "250"
+
+
 
     Region:
       value:
@@ -1651,7 +1765,7 @@ components:
     ServerError:
       description: 'Erreur interne du serveur'
 
-    aireDAttractionDesVilles200:
+    AireDAttractionDesVilles200:
       description: 'Opération réussie pour l''aire d''attraction'
       content:
         application/json:
@@ -1666,7 +1780,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVilles2020'
-
+    AiresDAttractionDesVillesListe200:
+      description: 'Opération réussie pour les aires d''attraction'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeAiresDAttractionDesVilles2020'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeAiresDAttractionDesVilles2020'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeAiresDAttractionDesVilles2020'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeAiresDAttractionDesVilles2020'
 
     Arrondissement200:
       description: 'Opération réussie pour l''arrondissement'
@@ -1683,6 +1811,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Arrondissement'
+    ArrondissementsListe200:
+      description: 'Opération réussie pour la liste des arrondissements'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeArrondissements'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeArrondissements'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeArrondissements'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeArrondissements'
 
     ArrondissementMunicipal200:
       description: 'Opération réussie pour l''arrondissement municipal'
@@ -2087,6 +2230,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Pays'
+    PaysListe200:
+      description: 'Opération réussie pour la liste des pays'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PaysListe'
+          examples:
+            défaut:
+              $ref: '#/components/examples/PaysListe'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/PaysListe'
+          examples:
+            défaut:
+              $ref: '#/components/examples/PaysListe'
 
     Region200:
       description: 'Opération réussie pour la région'
@@ -2502,6 +2660,15 @@ components:
       xml:
         attribute: true
       example: '062'
+    ListeAiresDAttractionDesVilles2020:
+      description: 'Liste des aires d''attraction des villes'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeAiresDAttractionDesVilles2020
+      items:
+        $ref: '#/components/schemas/AireDAttractionDesVilles2020'
+
 
     Arrondissement:
       allOf:
@@ -2518,6 +2685,14 @@ components:
       xml:
         attribute: true
       example: '674'
+    ListeArrondissements:
+      description: 'Liste des arrondissements'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeArrondissements
+      items:
+        $ref: '#/components/schemas/Arrondissement'
 
     ArrondissementMunicipal:
       allOf:
@@ -2654,6 +2829,15 @@ components:
       xml:
         attribute: true
       example: '06'
+
+    PaysListe:
+      description: 'Liste des pays'
+      type: array
+      xml:
+        wrapped: true
+        name: ListePays
+      items:
+        $ref: '#/components/schemas/Pays'
 
     Region:
       allOf:

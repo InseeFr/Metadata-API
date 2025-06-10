@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class GeoArrondissementEndpoints implements GeoArrondissementApi {
@@ -24,6 +25,16 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
                 .with(new TerritoireRequestParametizer(code, date, Arrondissement.class, "sousPrefecture"))
                 .executeQuery()
                 .singleResult(Arrondissement.class).toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<Arrondissement>> getcogarrliste (LocalDate date) {
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, Arrondissement.class))
+                .executeQuery()
+                .listResult(Arrondissement.class)
+                .toResponseEntity();
+
     }
 
 }

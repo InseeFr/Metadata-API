@@ -35,6 +35,12 @@ public record TerritoireRequestParametizer(String code,
         this("none", date, typeOrigine, filtreNom, chefLieu, com);
     }
 
+    //for geo/pays, geo/arrondissments, geo/aireDAttractionDesVilles2020, etc
+    public TerritoireRequestParametizer(LocalDate date,
+                                        Class<?> typeOrigine) {
+        this("none", date, typeOrigine, "*", "*", true);
+    }
+
     //for geo/iris/{code} (hasIrisDescendant)
     public TerritoireRequestParametizer(String code,
                                         Class<?> typeOrigine) {
