@@ -22,6 +22,7 @@ public record QueryBuilder (Configuration freemarkerConfiguration) {
 //    public static final Path IRIS = Path.of("geographie/getIrisByCodeDate.ftlh");
     public static final Path IRIS = Path.of("geographie/getTerritoireByCodeDateNomcommune.ftlh");
     public static final Path LIEN_COMMUNE_IRIS = Path.of("geographie/hasIrisDescendant.ftlh");
+    public static final Path LIEN_PAYS = Path.of("geographie/getPays.ftlh");
 
 
     public Query build(Map<String, Object> parameters, Path queryfile) {

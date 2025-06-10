@@ -30,6 +30,7 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
                 .addModule(enumModule(TerritoireBase.TypeArticleEnum.class, TerritoireBase.TypeArticleEnum._0_CHARNIERE_DE_))
                 .addModule(enumModule(TerritoireTousAttributs.TypeArticleEnum.class, TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_))
                 .addModule(enumModule(TerritoireBaseChefLieu.TypeArticleEnum.class, TerritoireBaseChefLieu.TypeArticleEnum._0_CHARNIERE_DE_))
+                .addModule(enumModule(AireDAttractionDesVilles2020.TypeArticleEnum.class, AireDAttractionDesVilles2020.TypeArticleEnum._0_CHARNIERE_DE_))
                 .addModule(enumModule(Arrondissement.TypeArticleEnum.class, Arrondissement.TypeArticleEnum._0_CHARNIERE_DE_))
                 .addModule(enumModule(ArrondissementMunicipal.TypeArticleEnum.class, ArrondissementMunicipal.TypeArticleEnum._0_CHARNIERE_DE_))
                 .addModule(enumModule(BassinDeVie2022.TypeArticleEnum.class, BassinDeVie2022.TypeArticleEnum._0_CHARNIERE_DE_))

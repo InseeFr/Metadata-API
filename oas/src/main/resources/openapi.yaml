@@ -45,6 +45,8 @@ tags:
     description: 'API géographie : Intercommunalité'
   - name: geoIris
     description: 'API géographie : Iris'
+  - name: geoPays
+    description: 'API géographie : Pays'
   - name: geoRegion
     description: 'API géographie : Région'
   - name: geoUniteUrbaine
@@ -621,6 +623,28 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/pays/{code}:
+    get:
+      tags:
+        - geoPays
+      summary: 'Informations sur un pays identifié par son code (cinq chiffres, les deux premiers étant 99)'
+      operationId: 'getcogpays'
+      parameters:
+        - $ref: '#/components/parameters/codePaysInPath'
+        - $ref: '#/components/parameters/datePaysActif'
+      responses:
+        '200':
+          $ref: '#/components/responses/Pays200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
   /geo/region/{code}:
     get:
       tags:
@@ -785,7 +809,7 @@ components:
       description: 'Code de l''aire d''attraction (trois chiffres)'
       required: true
       schema:
-        $ref: '#/components/schemas/codeAireDAttractionDesVilles'
+        $ref: '#/components/schemas/CodeAireDAttractionDesVilles'
     dateAireDAttractionDesVillesActive:
       in: query
       description: |-
@@ -1003,6 +1027,22 @@ components:
       schema:
         $ref: '#/components/schemas/CodeIris'
 
+    codePaysInPath:
+      name: 'code'
+      in: path
+      description: 'Code de lu pays (cinq chiffres, débutant par 99)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodePays'
+    datePaysActif:
+      in: query
+      description: |-
+        Filtre pour renvoyer le pays actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
     codeRegInPath:
       name: 'code'
       in: path
@@ -1134,6 +1174,16 @@ components:
 
 
   examples:
+
+    AireDAttractionDesVilles2020:
+      value:
+        code: '062'
+        uri: 'http://id.insee.fr/geo/aireDAttractionDesVilles2020/858ff6ab-fb4c-4a03-896c-18a20ed01a45'
+        type: 'AireDAttractionDesVilles2020'
+        dateCreation: '2020-01-01'
+        intituleSansArticle: 'Angoulême'
+        typeArticle: '1'
+        intitule: 'Angoulême'
 
     Arrondissement:
       value:
@@ -1544,6 +1594,18 @@ components:
           intituleSansArticle: 'Pérouses-Triangle d''Activités'
           typeArticle: '4'
 
+    Pays:
+      value:
+        code: '99132'
+        uri: 'http://id.insee.fr/geo/pays/7c3380f3-897b-4470-a12f-2ae3b61fe4d0'
+        type: 'Pays'
+        dateCreation: '1943-01-01'
+        intituleSansArticle: 'Royaume-Uni'
+        intituleComplet: "Royaume-Uni de Grande-Bretagne et d’Irlande du Nord"
+        iso3166alpha2: "GB"
+        iso3166alpha3: "GBR"
+        iso3166num: "826"
+
     Region:
       value:
         code: '06'
@@ -1594,16 +1656,16 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/aireDAttractionDesVilles2020'
+            $ref: '#/components/schemas/AireDAttractionDesVilles2020'
           examples:
             défaut:
-              $ref: '#/components/examples/aireDAttractionDesVilles2020'
+              $ref: '#/components/examples/AireDAttractionDesVilles2020'
         application/xml:
           schema:
-            $ref: '#/components/schemas/aireDAttractionDesVilles2020'
+            $ref: '#/components/schemas/AireDAttractionDesVilles2020'
           examples:
             défaut:
-              $ref: '#/components/examples/aireDAttractionDesVilles2020'
+              $ref: '#/components/examples/AireDAttractionDesVilles2020'
 
 
     Arrondissement200:
@@ -2010,6 +2072,22 @@ components:
             défaut:
               $ref: '#/components/examples/Iris'
 
+    Pays200:
+      description: 'Opération réussie pour le pays'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pays'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Pays'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pays'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Pays'
+
     Region200:
       description: 'Opération réussie pour la région'
       content:
@@ -2357,6 +2435,7 @@ components:
         - Arrondissement
         - ArrondissementMunicipal
         - Departement
+        - Pays
         - Region
         - Intercommunalite
         - District
@@ -2539,6 +2618,42 @@ components:
             code:
               $ref: '#/components/schemas/CodeIris'
 
+    Pays:
+      xml:
+        wrapped: true
+        name: Pays
+      allOf:
+        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - type: object
+          required:
+            - iso3166alpha2
+            - iso3166alpha3
+            - iso3166num
+          properties:
+            iso3166alpha2:
+              type: string
+              description: 'Code ISO 3166-1 alpha-2 du pays'
+              xml:
+                name: Iso3166alpha2
+            iso3166alpha3:
+              type: string
+              description: 'Code ISO 3166-1 alpha-3 du pays'
+              xml:
+                name: Iso3166alpha3
+            iso3166num:
+              type: string
+              description: 'Code ISO 3166-1 numérique du pays'
+              xml:
+                name: Iso3166num
+            code:
+              $ref: '#/components/schemas/CodePays'
+    CodePays:
+      description: 'Code d''un pays'
+      pattern: '^99[0-9]{3}$'
+      type: string
+      xml:
+        attribute: true
+      example: '06'
 
     Region:
       allOf:
