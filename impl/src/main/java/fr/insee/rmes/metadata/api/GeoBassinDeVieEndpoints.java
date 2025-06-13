@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Controller
@@ -24,6 +25,17 @@ public class GeoBassinDeVieEndpoints implements GeoBassinDeVieApi {
                 .with(new TerritoireRequestParametizer(code, date, BassinDeVie2022.class, "none"))
                 .executeQuery()
                 .singleResult(BassinDeVie2022.class).toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<BassinDeVie2022>> getcogbassliste (LocalDate date, String filtreNom) {
+        String finalFiltreNom = filtreNom == null ? "*" : filtreNom;
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, BassinDeVie2022.class, finalFiltreNom,"none", true))
+                .executeQuery()
+                .listResult(BassinDeVie2022.class)
+                .toResponseEntity();
+
     }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class GeoCantonEndpoints implements GeoCantonApi {
@@ -24,6 +25,16 @@ public class GeoCantonEndpoints implements GeoCantonApi {
                 .with(new TerritoireRequestParametizer(code, date, Canton.class, "bureauCentralisateur"))
                 .executeQuery()
                 .singleResult(Canton.class).toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<Canton>> getcogcanliste (LocalDate date) {
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, Canton.class, "*"))
+                .executeQuery()
+                .listResult(Canton.class)
+                .toResponseEntity();
+
     }
 
 }

@@ -26,7 +26,7 @@ public record TerritoireRequestParametizer(String code,
         this("none", date, typeOrigine, "*", chefLieu, com);
 }
 
-    //for geo/communes
+    //for geo/communes and geo/bassinsDeVie2022
     public TerritoireRequestParametizer(LocalDate date,
                                         Class<?> typeOrigine,
                                         String filtreNom,

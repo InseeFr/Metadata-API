@@ -25,7 +25,7 @@ tags:
     description: 'API géographie : Bassin de vie 2022'
   - name: geoCanton
     description: 'API géographie : Canton'
-  - name: geoCantonOuVille
+  - name: geoCantonEtVille
     description: 'API géographie : Canton ou ville'
   - name: geoCirconscriptionTerritoriale
     description: 'API géographie : CirconscriptionTerritoriale'
@@ -198,6 +198,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/bassinsDeVie2022:
+    get:
+      tags:
+        - geoBassinDeVie
+      summary: 'Informations sur tous les bassins de vie actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogbassliste'
+      parameters:
+        - $ref: '#/components/parameters/dateBassinsDeVieActifs'
+        - $ref: '#/components/parameters/filtreNomBassinDeVie'
+      responses:
+        '200':
+          $ref: '#/components/responses/BassinsDeVieListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/canton/{code}:
     get:
@@ -219,11 +239,30 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/cantons:
+    get:
+      tags:
+        - geoCanton
+      summary: 'Informations sur tous les cantons actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogcanliste'
+      parameters:
+        - $ref: '#/components/parameters/dateCantonsActifs'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonsListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/cantonOuVille/{code}:
     get:
       tags:
-        - geoCantonOuVille
+        - geoCantonEtVille
       summary: 'Informations sur un canton-ou-ville identifié par son code (quatre chiffres pour la Métropole ou cinq pour les DOM)'
       operationId: 'getcogcanvil'
       parameters:
@@ -232,6 +271,25 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/CantonOuVille200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/cantonsEtVilles:
+    get:
+      tags:
+        - geoCantonEtVille
+      summary: 'Informations sur tous les cantons et villes actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogcanvilliste'
+      parameters:
+        - $ref: '#/components/parameters/dateCantonsEtVillesActifs'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonsEtVilles200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -898,7 +956,7 @@ components:
     dateAiresDAttractionDesVillesActives:
       in: query
       description: |-
-        Filtre pour renvoyer les aires d'attraction actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer les aires d'attraction actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
         type: 'string'
@@ -923,7 +981,7 @@ components:
     dateArrondissementsActifs:
       in: query
       description: |-
-        Filtre pour renvoyer les arrondissements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer les arrondissements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
         type: 'string'
@@ -947,7 +1005,7 @@ components:
     dateArrondissementsMunicipauxActifs:
       in: query
       description: |-
-        Filtre pour renvoyer les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
         type: 'string'
@@ -1147,7 +1205,7 @@ components:
     datePaysListActifs:
       in: query
       description: |-
-        Filtre pour renvoyer les pays actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer les pays actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
         type: 'string'
@@ -1200,6 +1258,22 @@ components:
       schema:
         type: 'string'
         format: date
+    dateBassinsDeVieActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les bassins de vie actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    filtreNomBassinDeVie:
+      in: query
+      description: |-
+        Filtre sur le nom du bassin de vie
+      name: filtreNom
+      schema:
+        type: 'string'
+        format: string
 
     codeCantonInPath:
       name: 'code'
@@ -1212,6 +1286,14 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer le canton actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateCantonsActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les cantons actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
         type: 'string'
@@ -1232,6 +1314,15 @@ components:
       schema:
         type: 'string'
         format: date
+    dateCantonsEtVillesActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les cantons et villes actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
 
     codeCirconscriptionTerritorialeInPath:
       name: 'code'
@@ -1353,6 +1444,16 @@ components:
         intituleSansArticle: 'Ambérieu-en-Bugey'
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
+    ListeBassinsDeVie:
+      value:
+        - code: '01004'
+          uri: 'http://id.insee.fr/geo/bassinDeVie2022/0e5bcc78-f043-404d-92af-d3d660772675'
+          type: 'BassinDeVie2022'
+          dateCreation: '2022-01-01'
+          intituleSansArticle: 'Ambérieu-en-Bugey'
+          typeArticle: '1'
+          intitule: 'Ambérieu-en-Bugey'
+
 
     Canton:
       value:
@@ -1364,6 +1465,16 @@ components:
         intituleSansArticle: 'Ambérieu-en-Bugey'
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
+    ListeCantons:
+      value:
+        - code: '0101'
+          uri: 'http://id.insee.fr/geo/canton/f96a2438-478f-4ebb-b659-434305dff18f'
+          type: 'Canton'
+          dateCreation: '2016-01-01'
+          chefLieu: '01004'
+          intituleSansArticle: 'Ambérieu-en-Bugey'
+          typeArticle: '1'
+          intitule: 'Ambérieu-en-Bugey'
 
     CantonOuVille:
       value:
@@ -1371,10 +1482,19 @@ components:
         uri: 'http://id.insee.fr/geo/cantonOuVille/5e75ead7-7564-4480-83b0-7e16a7d8acf7'
         type: 'CantonOuVille'
         dateCreation: '2016-01-01'
-        chefLieu: '01004'
         intituleSansArticle: 'Ambérieu-en-Bugey'
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
+    ListeCantonsEtVilles:
+      value:
+        - code: '0101'
+          uri: 'http://id.insee.fr/geo/cantonOuVille/5e75ead7-7564-4480-83b0-7e16a7d8acf7'
+          type: 'CantonOuVille'
+          dateCreation: '2016-01-01'
+          intituleSansArticle: 'Ambérieu-en-Bugey'
+          typeArticle: '1'
+          intitule: 'Ambérieu-en-Bugey'
+
 
     CirconscriptionTerritoriale:
       value:
@@ -1911,6 +2031,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/BassinDeVie2022'
+    BassinsDeVieListe200:
+      description: 'Opération réussie pour les bassins de vie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeBassinsDeVie'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeBassinsDeVie'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeBassinsDeVie'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeBassinsDeVie'
 
     Canton200:
       description: 'Opération réussie pour le canton'
@@ -1927,6 +2062,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Canton'
+    CantonsListe200:
+      description: 'Opération réussie pour les cantons'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeCantons'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCantons'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeCantons'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCantons'
+
 
     CantonOuVille200:
       description: 'Opération réussie pour le canton-ou-ville'
@@ -1943,6 +2094,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVille'
+    CantonsEtVilles200:
+      description: 'Opération réussie pour les cantons et villes'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeCantonsEtVilles'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCantonsEtVilles'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeCantonsEtVilles'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCantonsEtVilles'
 
     CirconscriptionTerritoriale200:
       description: 'Opération réussie pour la circonscription territoriale'
@@ -2947,6 +3113,14 @@ components:
       xml:
         attribute: true
       example: '01004'
+    ListeBassinsDeVie:
+      description: 'Liste des bassins de vie'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeBassinsDeVie
+      items:
+        $ref: '#/components/schemas/BassinDeVie2022'
 
     Canton:
       allOf:
@@ -2963,6 +3137,14 @@ components:
       xml:
         attribute: true
       example: '0101'
+    ListeCantons:
+      description: 'Liste des cantons'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantons
+      items:
+        $ref: '#/components/schemas/Canton'
 
     CantonOuVille:
       allOf:
@@ -2979,6 +3161,14 @@ components:
       xml:
         attribute: true
       example: '0101'
+    ListeCantonsEtVilles:
+      description: 'Liste des cantons et villes'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantonsEtVilles
+      items:
+        $ref: '#/components/schemas/CantonOuVille'
 
     CirconscriptionTerritoriale:
       allOf:

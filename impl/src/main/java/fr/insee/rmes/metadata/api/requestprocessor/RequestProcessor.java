@@ -9,14 +9,10 @@ import fr.insee.rmes.metadata.queryexecutor.Csv;
 import fr.insee.rmes.metadata.queryexecutor.QueryExecutor;
 import fr.insee.rmes.metadata.unmarshaller.Unmarshaller;
 import fr.insee.rmes.metadata.utils.EndpointsUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Optional;
-
 import static fr.insee.rmes.metadata.queries.QueryBuilder.*;
 
 
