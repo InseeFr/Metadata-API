@@ -32,8 +32,10 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     @Override
     public ResponseEntity<List<TerritoireBase>> getcogcomliste(LocalDate date, String filtreNom, Boolean com) {
+        String finalFiltreNom = filtreNom == null ? "*" : filtreNom;
+        boolean finalcom = (com != null) && com;
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, Commune.class, filtreNom, "none", com))
+                .with(new TerritoireRequestParametizer(date, Commune.class, finalFiltreNom, "none", finalcom))
                 .executeQuery()
                 .listResult(TerritoireBase.class)
                 .toResponseEntity();
