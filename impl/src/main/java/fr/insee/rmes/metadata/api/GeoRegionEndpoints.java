@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class GeoRegionEndpoints implements GeoRegionApi {
@@ -24,5 +25,15 @@ public class GeoRegionEndpoints implements GeoRegionApi {
                 .with(new TerritoireRequestParametizer(code, date, Region.class,"prefectureDeRegion"))
                 .executeQuery()
                 .singleResult(Region.class).toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<Region>> getcogregliste (LocalDate date) {
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, Region.class, "prefectureDeRegion"))
+                .executeQuery()
+                .listResult(Region.class)
+                .toResponseEntity();
+
     }
 }

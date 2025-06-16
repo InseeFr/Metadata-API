@@ -879,6 +879,25 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/regions:
+    get:
+      tags:
+        - geoRegion
+      summary: 'Informations sur toutes les régions actives à la date données. Par défaut, c''est la date courante.'
+      operationId: 'getcogregliste'
+      parameters:
+        - $ref: '#/components/parameters/dateRegionsActives'
+      responses:
+        '200':
+          $ref: '#/components/responses/RegionsListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
 
   /geo/uniteUrbaine2020/{code}:
@@ -1336,6 +1355,14 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer la région active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateRegionsActives:
+      in: query
+      description: |-
+        Filtre pour renvoyer les régions actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
         type: 'string'
@@ -2050,6 +2077,16 @@ components:
         typeArticle: '0'
         chefLieu: '97611'
         intitule: 'Mayotte'
+    ListeRegions:
+      value:
+        - code: '01'
+          uri: 'http://id.insee.fr/geo/region/598b3ed6-a7ea-44f8-a130-7a42e3630a8a'
+          type: 'Region'
+          dateCreation: '2007-07-15'
+          intituleSansArticle: 'Guadeloupe'
+          typeArticle: '3'
+          chefLieu: '97105'
+          intitule: 'Guadeloupe'
 
     UniteUrbaine2020:
       value:
@@ -2700,6 +2737,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Region'
+    RegionsListe200:
+      description: 'Opération réussie pour les régions'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeRegions'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeRegions'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeRegions'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeRegions'
 
     UniteUrbaine200:
       description: 'Opération réussie pour l''unité urbaine'
@@ -3325,6 +3377,14 @@ components:
       xml:
         attribute: true
       example: '06'
+    ListeRegions:
+      description: 'Liste des régions'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeRegions
+      items:
+        $ref: '#/components/schemas/Region'
 
     UniteUrbaine2020:
       allOf:
