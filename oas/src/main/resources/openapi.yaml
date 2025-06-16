@@ -340,6 +340,25 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/collectivitesDOutreMer:
+    get:
+      tags:
+        - geoCollectiviteDOutreMer
+      summary: 'Informations sur toutes les collectivités d''outre-mer actives à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogcollliste'
+      parameters:
+        - $ref: '#/components/parameters/dateCollectivitesDOutreMerActives'
+      responses:
+        '200':
+          $ref: '#/components/responses/CollectivitesDOutreMerListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/commune/{code}/ascendants:
     get:
@@ -507,6 +526,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/communesAssociees:
+    get:
+      tags:
+        - geoCommuneAssociee
+      summary: 'Informations sur toutes les communes associées actives à la date donnée. Par défaut, c''est la date courante.'
+      operationId: 'getcogcomaliste'
+      parameters:
+        - $ref: '#/components/parameters/dateCommunesAssocieesActives'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommunesAssocieesListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
 
   /geo/communeDeleguee/{code}:
     get:
@@ -520,6 +559,25 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/CommuneDeleguee200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/communesDeleguees:
+    get:
+      tags:
+        - geoCommuneDeleguee
+      summary: 'Informations sur toutes les communes déléguées actives à la date donnée. Par défaut, c''est la date courante.'
+      operationId: 'getcogcomdliste'
+      parameters:
+        - $ref: '#/components/parameters/dateCommunesDelegueesActives'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommunesDelegueesListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -717,6 +775,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/intercommunalites:
+    get:
+      tags:
+        - geoIntercommunalite
+      summary: 'Informations sur toutes les intercommunalités actives à la date donnée. Par défaut, c''est la date courante.'
+      operationId: 'getcogintercoliste'
+      parameters:
+        - $ref: '#/components/parameters/dateIntercommunalitesActives'
+        - $ref: '#/components/parameters/filtreNomIntercommunalite'
+      responses:
+        '200':
+          $ref: '#/components/responses/IntercommunalitesListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
 
   /geo/iris/{code}:
     get:
@@ -800,6 +879,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
 
   /geo/uniteUrbaine2020/{code}:
     get:
@@ -1123,6 +1203,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateCommunesAssocieesActives:
+      in: query
+      description: |-
+        Filtre pour renvoyer les communes associées actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
 
     codeCommuneDelegueeInPath:
       name: 'code'
@@ -1139,6 +1227,15 @@ components:
       schema:
         type: 'string'
         format: date
+    dateCommunesDelegueesActives:
+      in: query
+      description: |-
+        Filtre pour renvoyer les communes déléguées actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
 
     codeDistrictInPath:
       name: 'code'
@@ -1171,6 +1268,23 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeInterco'
+    dateIntercommunalitesActives:
+      in: query
+      description: |-
+        Filtre pour renvoyer les intercommunalités actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    filtreNomIntercommunalite:
+      in: query
+      description: |-
+        Filtre sur le nom de l'intercommunalité
+      name: filtreNom
+      schema:
+        type: 'string'
+        format: string
+
     dateIrisActive:
       in: query
       description: |-
@@ -1355,7 +1469,14 @@ components:
       schema:
         type: 'string'
         format: date
-
+    dateCollectivitesDOutreMerActives:
+      in: query
+      description: |-
+        Filtre pour renvoyer les collectivités d'outre-mer à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
 
     codeZoneDEmploiInPath:
       name: 'code'
@@ -1515,6 +1636,16 @@ components:
         intituleSansArticle: 'Nouvelle-Calédonie'
         typeArticle: '0'
         intitule: 'Nouvelle-Calédonie'
+    ListeCollectivitesDOutreMer:
+      value:
+        - code: '975'
+          uri: 'http://id.insee.fr/geo/collectiviteDOutreMer/352968dd-fcc7-4950-8b71-8c94053cb126'
+          type: 'CollectiviteDOutreMer'
+          dateCreation: '2008-01-01'
+          intituleSansArticle: 'Saint-Pierre-et-Miquelon'
+          typeArticle: '0'
+          intitule: 'Saint-Pierre-et-Miquelon'
+
 
     CommuneListeAscendants:
       value:
@@ -1712,13 +1843,23 @@ components:
 
     CommuneAssociee:
       value:
-        - code: '59355'
-          uri: 'http://id.insee.fr/geo/communeAssociee/84564ad2-a211-4744-9e01-1bb1900e2e68'
+        code: '59355'
+        uri: 'http://id.insee.fr/geo/communeAssociee/84564ad2-a211-4744-9e01-1bb1900e2e68'
+        type: 'CommuneAssociee'
+        dateCreation: '2000-02-27'
+        intituleSansArticle: 'Lomme'
+        typeArticle: '0'
+        intitule: 'Lomme'
+    ListeCommunesAssociees:
+      value:
+        - code: '01120'
+          uri: 'http://id.insee.fr/geo/communeAssociee/2c8fa8e3-dc3b-4b8a-907a-82e4d07bce2c'
           type: 'CommuneAssociee'
-          dateCreation: '2000-02-27'
-          intituleSansArticle: 'Lomme'
+          dateCreation: '1973-01-01'
+          intituleSansArticle: 'Cordieux'
           typeArticle: '0'
-          intitule: 'Lomme'
+          intitule: 'Cordieux'
+
 
     CommuneDeleguee:
       value:
@@ -1729,6 +1870,16 @@ components:
           intituleSansArticle: 'Sainte-Alauzie'
           typeArticle: '0'
           intitule: 'Sainte-Alauzie'
+    ListeCommunesDeleguees:
+      value:
+        - code: '01015'
+          uri: 'http://id.insee.fr/geo/communeDeleguee/3c07001c-7efe-40f9-90fc-6a892af20238'
+          type: 'CommuneDeleguee'
+          dateCreation: '2016-01-01'
+          intituleSansArticle: 'Arbignieu'
+          typeArticle: '0'
+          intitule: 'Arbignieu'
+
 
     DepartementListeAscendants:
       value:
@@ -1821,15 +1972,26 @@ components:
 
     District:
       value:
-        - code: '98411'
-          uri: 'http://id.insee.fr/geo/district/d028b78a-9c4d-4e22-9b60-efffd7085eb0'
-          type: 'District'
-          dateCreation: '2008-01-01'
-          intituleSansArticle: 'Îles Saint-Paul et Amsterdam'
-          typeArticle: '4'
-          intitule: 'Îles Saint-Paul et Amsterdam'
+        code: '98411'
+        uri: 'http://id.insee.fr/geo/district/d028b78a-9c4d-4e22-9b60-efffd7085eb0'
+        type: 'District'
+        dateCreation: '2008-01-01'
+        intituleSansArticle: 'Îles Saint-Paul et Amsterdam'
+        typeArticle: '4'
+        intitule: 'Îles Saint-Paul et Amsterdam'
 
     Intercommunalite:
+      value:
+        code: '240100883'
+        uri: 'http://id.insee.fr/geo/intercommunalite/5a238840-5cbd-469f-80c8-43713bf8e4a8'
+        type: 'Intercommunalite'
+        dateCreation: '2017-01-01'
+        intituleSansArticle: 'Plaine de l''Ain'
+        typeArticle: '3'
+        intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
+        categorieJuridique: 'Communauté de communes'
+        intitule: 'La Plaine de l''Ain'
+    ListeIntercommunalites:
       value:
         - code: '240100883'
           uri: 'http://id.insee.fr/geo/intercommunalite/5a238840-5cbd-469f-80c8-43713bf8e4a8'
@@ -1838,19 +2000,20 @@ components:
           intituleSansArticle: 'Plaine de l''Ain'
           typeArticle: '3'
           intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
-          categorieJuridique: Communauté de communes'
+          categorieJuridique: 'Communauté de communes'
           intitule: 'La Plaine de l''Ain'
+
 
     Iris:
       value:
-        - code: '010040101'
-          uri: 'http://id.insee.fr/geo/iris/b8c772de-9551-4f13-81c5-eca5bb0f2f7d'
-          type': 'Iris'
-          dateCreation: '2008-01-01'
-          typeDIris: 'H'
-          intitule: 'Les Pérouses-Triangle d''Activités'
-          intituleSansArticle: 'Pérouses-Triangle d''Activités'
-          typeArticle: '4'
+        code: '010040101'
+        uri: 'http://id.insee.fr/geo/iris/b8c772de-9551-4f13-81c5-eca5bb0f2f7d'
+        type': 'Iris'
+        dateCreation: '2008-01-01'
+        typeDIris: 'H'
+        intitule: 'Les Pérouses-Triangle d''Activités'
+        intituleSansArticle: 'Pérouses-Triangle d''Activités'
+        typeArticle: '4'
 
     Pays:
       value:
@@ -1897,10 +2060,6 @@ components:
         intituleSansArticle: 'Jujurieux'
         typeArticle: '0'
         intitule: 'Jujurieux'
-
-
-
-
 
     ZoneDEmploi2020:
       value:
@@ -2141,6 +2300,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CollectiviteDOutreMer'
+    CollectivitesDOutreMerListe200:
+      description: 'Opération réussie pour les collectivités d''outre-mer'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeCollectivitesDOutreMer'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCollectivitesDOutreMer'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeCollectivitesDOutreMer'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCollectivitesDOutreMer'
 
     CommunesListe200:
       description: 'Opération réussie'
@@ -2264,6 +2438,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneAssociee'
+    CommunesAssocieesListe200:
+      description: 'Opération réussie pour les communes associées'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeCommunesAssociees'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCommunesAssociees'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeCommunesAssociees'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCommunesAssociees'
+
     CommuneDeleguee200:
       description: 'Opération réussie pour la commune déléguée'
       content:
@@ -2279,6 +2469,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneDeleguee'
+    CommunesDelegueesListe200:
+      description: 'Opération réussie pour les communes déléguées'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeCommunesDeleguees'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCommunesDeleguees'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeCommunesDeleguees'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCommunesDeleguees'
 
     DepartementListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un département'
@@ -2417,6 +2622,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Intercommunalite'
+    IntercommunalitesListe200:
+      description: 'Opération réussie pour les intercommunalités'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeIntercommunalites'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeIntercommunalites'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeIntercommunalites'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeIntercommunalites'
 
     Iris200:
       description: 'Opération réussie pour l''Iris'
@@ -2945,6 +3165,14 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeCommuneAssociee'
+    ListeCommunesAssociees:
+      description: 'Liste des communes associées'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeComunesAssociees
+      items:
+        $ref: '#/components/schemas/CommuneAssociee'
 
     CommuneDeleguee:
       allOf:
@@ -2954,6 +3182,14 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeCommuneDeleguee'
+    ListeCommunesDeleguees:
+      description: 'Liste des communes déléguées'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCommunesDeleguees
+      items:
+        $ref: '#/components/schemas/CommuneDeleguee'
 
     CodeCommuneAssociee:
       description: 'Code de la commune associée'
@@ -3002,6 +3238,14 @@ components:
       xml:
         attribute: true
       example: '240100883'
+    ListeIntercommunalites:
+      description: 'Liste des intercommunalités'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeIntercommunalites
+      items:
+        $ref: '#/components/schemas/Intercommunalite'
 
     CodeIris:
       description: 'Code d''une Iris'
@@ -3201,6 +3445,14 @@ components:
       xml:
         attribute: true
       example: '988'
+    ListeCollectivitesDOutreMer:
+      description: 'Liste des collectivités d''outre-mer'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCollectivitesDOutreMer
+      items:
+        $ref: '#/components/schemas/CollectiviteDOutreMer'
 
     ZoneDEmploi2020:
       allOf:

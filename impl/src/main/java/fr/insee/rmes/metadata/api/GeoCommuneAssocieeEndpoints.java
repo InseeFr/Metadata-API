@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Controller
@@ -27,6 +28,17 @@ public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
                 .toResponseEntity();
 
     }
+
+    @Override
+    public ResponseEntity<List<CommuneAssociee>> getcogcomaliste (LocalDate date) {
+       return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, CommuneAssociee.class, "none"))
+                .executeQuery()
+                .listResult(CommuneAssociee.class)
+                .toResponseEntity();
+
+    }
+
 
 
 }

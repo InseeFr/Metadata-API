@@ -26,5 +26,17 @@ public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
                 .executeQuery()
                 .singleResult(Intercommunalite.class).toResponseEntity();
     }
+
+    @Override
+    public ResponseEntity<List<Intercommunalite>> getcogintercoliste (LocalDate date, String filtreNom) {
+        String finalFiltreNom = filtreNom == null ? "*" : filtreNom;
+
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, Intercommunalite.class, finalFiltreNom,"none", true))
+                .executeQuery()
+                .listResult(Intercommunalite.class)
+                .toResponseEntity();
+
+    }
 }
 
