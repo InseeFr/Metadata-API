@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
@@ -24,6 +25,15 @@ public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
                 .with(new TerritoireRequestParametizer(code, date, UniteUrbaine2020.class, "none"))
                 .executeQuery()
                 .singleResult(UniteUrbaine2020.class).toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<UniteUrbaine2020>> getcoguuliste (LocalDate date) {
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, UniteUrbaine2020.class, "none"))
+                .executeQuery()
+                .listResult(UniteUrbaine2020.class)
+                .toResponseEntity();
     }
 
 }

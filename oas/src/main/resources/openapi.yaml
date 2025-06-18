@@ -920,6 +920,25 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/unitesUrbaines2020:
+    get:
+      tags:
+        - geoUniteUrbaine
+      summary: 'Informations sur toutes les unités urbaines actives à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcoguuliste'
+      parameters:
+        - $ref: '#/components/parameters/dateUnitesUrbainesActives'
+      responses:
+        '200':
+          $ref: '#/components/responses/UnitesUrbainesListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
 
 
@@ -1379,6 +1398,14 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer l'unité urbaine active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateUnitesUrbainesActives:
+      in: query
+      description: |-
+        Filtre pour renvoyer les unités urbaines actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
         type: 'string'
@@ -2097,6 +2124,16 @@ components:
         intituleSansArticle: 'Jujurieux'
         typeArticle: '0'
         intitule: 'Jujurieux'
+    ListeUnitesUrbaines:
+      value:
+        - code: '00151'
+          uri: 'http://id.insee.fr/geo/uniteUrbaine2020/a7355a50-7516-4f7b-8919-a03bc28cd12b'
+          type: 'UniteUrbaine2020'
+          dateCreation: '2020-10-01'
+          intituleSansArticle: 'Lécluse'
+          typeArticle: '0'
+          intitule: 'Lécluse'
+
 
     ZoneDEmploi2020:
       value:
@@ -2768,6 +2805,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/UniteUrbaine2020'
+    UnitesUrbainesListe200:
+      description: 'Opération réussie pour les unités urbaines'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeUnitesUrbaines'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeUnitesUrbaines'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeUnitesUrbaines'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeUnitesUrbaines'
+
 
     ZoneDEmploi200:
       description: 'Opération réussie pour la zone d''emploi'
@@ -3401,6 +3454,14 @@ components:
       xml:
         attribute: true
       example: '01121'
+    ListeUnitesUrbaines:
+      description: 'Liste des unités urbaines'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeUnitesUrbaines
+      items:
+        $ref: '#/components/schemas/UniteUrbaine2020'
 
     BassinDeVie2022:
       allOf:
