@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Controller
@@ -27,6 +28,16 @@ public class GeoZoneDEmploiEndpoints implements GeoZoneDEmploiApi{
                 .toResponseEntity();
 
     }
+    @Override
+    public ResponseEntity<List<ZoneDEmploi2020>> getcogzeliste (LocalDate date) {
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, ZoneDEmploi2020.class, "none"))
+                .executeQuery()
+                .listResult(ZoneDEmploi2020.class)
+                .toResponseEntity();
+
+    }
+
 
 
 }

@@ -941,9 +941,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 
 
-
-
-
   /geo/zoneDEmploi2020/{code}:
     get:
       tags:
@@ -956,6 +953,25 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ZoneDEmploi200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/zonesDEmploi2020:
+    get:
+      tags:
+        - geoZoneDEmploi
+      summary: 'Informations sur toutes les zones d''emploi actives à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogzeliste'
+      parameters:
+        - $ref: '#/components/parameters/dateZonesDEmploiActives'
+      responses:
+        '200':
+          $ref: '#/components/responses/ZonesDEmploiListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1547,7 +1563,14 @@ components:
       schema:
         type: 'string'
         format: date
-
+    dateZonesDEmploiActives:
+      in: query
+      description: |-
+        Filtre pour renvoyer les zones d'emploi actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
 
   examples:
 
@@ -2144,6 +2167,15 @@ components:
         intituleSansArticle: 'Vierzon'
         typeArticle: '0'
         intitule: 'Vierzon'
+    ListeZonesDEmploi2020:
+      value:
+        - code: '0051'
+          uri: 'http://id.insee.fr/geo/zoneDEmploi2020/e6911283-05f4-4997-916a-cc2b58c1e013'
+          type: 'ZoneDEmploi2020'
+          dateCreation: '2025-01-01'
+          intituleSansArticle: 'Alençon'
+          typeArticle: '1'
+          intitule: 'Vierzon'
 
   responses:
     IncorrectRequest:
@@ -2837,6 +2869,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ZoneDEmploi2020'
+    ZonesDEmploiListe200:
+      description: 'Opération réussie pour les zones d''emploi'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeZonesDEmploi2020'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeZonesDEmploi2020'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeZonesDEmploi2020'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeZonesDEmploi2020'
 
 
   schemas:
@@ -3590,3 +3637,11 @@ components:
       xml:
         attribute: true
       example: '2415'
+    ListeZonesDEmploi2020:
+      description: 'Liste des zones d''emploi'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeZonesDEmploi
+      items:
+        $ref: '#/components/schemas/ZoneDEmploi2020'
