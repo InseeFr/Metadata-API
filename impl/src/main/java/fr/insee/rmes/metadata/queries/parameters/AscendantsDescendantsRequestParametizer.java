@@ -1,15 +1,13 @@
 package fr.insee.rmes.metadata.queries.parameters;
 
-import fr.insee.rmes.metadata.model.TypeEnumAscendantsCommune;
-import fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement;
-import fr.insee.rmes.metadata.model.TypeEnumDescendantsCommune;
-import fr.insee.rmes.metadata.model.TypeEnumDescendantsDepartement;
+import fr.insee.rmes.metadata.model.*;
 
 import java.lang.reflect.RecordComponent;
 import java.time.LocalDate;
 
 public record AscendantsDescendantsRequestParametizer(String code,
                                                       LocalDate date,
+                                                      TypeEnumAscendantsArrondissement typeEnumAscendantsArrondissement,
                                                       TypeEnumDescendantsDepartement typeEnumDescendantsDepartement,
                                                       TypeEnumAscendantsDepartement typeEnumAscendantsDepartement,
                                                       TypeEnumDescendantsCommune typeEnumDescendantsCommune,
@@ -24,23 +22,32 @@ public record AscendantsDescendantsRequestParametizer(String code,
                                                    TypeEnumDescendantsDepartement typeEnumDescendantsDepartement,
                                                    String filtreNom,
                                                    Class<?> typeOrigine) {
-        this(code, date, typeEnumDescendantsDepartement, null,null, null,filtreNom, typeOrigine, false);
+        this(code, date, null, typeEnumDescendantsDepartement, null,null, null,filtreNom, typeOrigine, false);
     }
 
+    //for geo/arrondissement/{code}/ascendants
+    public AscendantsDescendantsRequestParametizer(String code,
+                                                   LocalDate date,
+                                                   TypeEnumAscendantsArrondissement typeEnum,
+                                                   Class<?> typeOrigine) {
+        this(code, date, typeEnum, null, null, null, null,null,typeOrigine, true);
+    }
     //for geo/departement/{code}/ascendants
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
                                                    TypeEnumAscendantsDepartement typeEnum,
                                                    Class<?> typeOrigine) {
-        this(code, date, null, typeEnum, null, null,null,typeOrigine, true);
+        this(code, date, null, null, typeEnum, null, null,null,typeOrigine, true);
     }
+
+
 
     //for geo/commune/{code}/descendants
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
                                                    TypeEnumDescendantsCommune typeEnumDescendantsCommune,
                                                    Class<?> typeOrigine) {
-        this(code, date, null, null, typeEnumDescendantsCommune,null, null, typeOrigine, false);
+        this(code, date, null, null, null, typeEnumDescendantsCommune,null, null, typeOrigine, false);
     }
 
     //for geo/commune/{code}/ascendants
@@ -48,7 +55,7 @@ public record AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
                                                    TypeEnumAscendantsCommune typeEnumAscendantsCommune,
                                                    Class<?> typeOrigine) {
-        this(code, date, null, null, null, typeEnumAscendantsCommune, null, typeOrigine, true);
+        this(code, date, null, null, null, null, typeEnumAscendantsCommune, null, typeOrigine, true);
     }
 
 

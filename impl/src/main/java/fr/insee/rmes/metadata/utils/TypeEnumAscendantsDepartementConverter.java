@@ -13,6 +13,6 @@ public class TypeEnumAscendantsDepartementConverter implements Converter<String,
                 return type;
             }
         }
-        throw new IllegalArgumentException("Invalid value for TypeEnumAscendantsDepartement: " + source);
+        throw new IllegalArgumentException("Invalid value for TypeEnumAscendantsDepartement : " + source);
     }
 }

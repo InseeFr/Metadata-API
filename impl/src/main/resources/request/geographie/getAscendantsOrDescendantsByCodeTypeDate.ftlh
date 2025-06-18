@@ -19,6 +19,11 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
        ?uri	igeo:typeDIRIS ?uriTypeDIris ;
         BIND(SUBSTR(STR(?uriTypeDIris ), STRLEN(STR(?uriTypeDIris )), 1) AS ?typeDIris)
     }
+
+<#if typeEnumAscendantsArrondissement != "none">
+	?uri a igeo:${typeEnumAscendantsArrondissement} .
+</#if>
+
 <#if typeEnumDescendantsDepartement != "none">
 			?uri a igeo:${typeEnumDescendantsDepartement} .
 </#if>

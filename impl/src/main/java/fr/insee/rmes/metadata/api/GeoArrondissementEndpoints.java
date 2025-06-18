@@ -3,6 +3,9 @@ package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.Arrondissement;
+import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import fr.insee.rmes.metadata.model.TypeEnumAscendantsArrondissement;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,15 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
 
     public GeoArrondissementEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogarrasc (String code, LocalDate date, TypeEnumAscendantsArrondissement type) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Arrondissement.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
     }
 
     @Override

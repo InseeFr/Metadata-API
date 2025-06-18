@@ -97,6 +97,27 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/arrondissement/{code}/ascendants:
+    get:
+      tags:
+        - geoArrondissement
+      summary: 'Informations concernant les territoires qui contiennent l''arrondissement'
+      operationId: 'getcogarrasc'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsAscendantsArrondissement'
+        - $ref: '#/components/parameters/typeTerritoireAscendantArrondissement'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementListeAscendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/arrondissement/{code}:
     get:
       tags:
@@ -1120,6 +1141,20 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsAscendantsArrondissement:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires contenant l'arrondissement actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireAscendantArrondissement:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumAscendantsArrondissement'
 
     codeArrondissementMunicipalInPath:
       name: 'code'
@@ -1593,6 +1628,16 @@ components:
           typeArticle: '0'
           intitule: 'Paris'
 
+    ArrondissementListeAscendants:
+      value:
+        - code: '67'
+          uri: 'http://id.insee.fr/geo/departement/e62b35df-f168-4dfa-b60f-ef6cdb3279a0'
+          type: 'Departement'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Bas-Rhin'
+          typeArticle: '2'
+          chefLieu: '67482'
+          intitule: 'Bas-Rhin'
     Arrondissement:
       value:
         code: '674'
@@ -2218,6 +2263,21 @@ components:
             défaut:
               $ref: '#/components/examples/ListeAiresDAttractionDesVilles2020'
 
+    ArrondissementListeAscendants200:
+      description: 'Opération réussie pour les ascendants d''un arrondissement'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListeAscendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListeAscendants'
     Arrondissement200:
       description: 'Opération réussie pour l''arrondissement'
       content:
@@ -2887,6 +2947,14 @@ components:
 
 
   schemas:
+    TypeEnumAscendantsArrondissement:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Region
+        - Departement
+      example: 'Region'
     Commune:
       xml:
         name: Commune
@@ -3260,6 +3328,14 @@ components:
       items:
         $ref: '#/components/schemas/AireDAttractionDesVilles2020'
 
+    ArrondissementListeAscendants:
+      description: 'Liste des ascendants d''un arrondissement'
+      type: array
+      xml:
+        wrapped: true
+        name: AscendantsArrondissement
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
 
     Arrondissement:
       allOf:

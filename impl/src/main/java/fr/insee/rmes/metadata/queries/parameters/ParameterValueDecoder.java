@@ -1,9 +1,6 @@
 package fr.insee.rmes.metadata.queries.parameters;
 
-import fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement;
-import fr.insee.rmes.metadata.model.TypeEnumAscendantsCommune;
-import fr.insee.rmes.metadata.model.TypeEnumDescendantsCommune;
-import fr.insee.rmes.metadata.model.TypeEnumDescendantsDepartement;
+import fr.insee.rmes.metadata.model.*;
 
 import java.lang.reflect.RecordComponent;
 import java.time.LocalDate;
@@ -16,6 +13,7 @@ interface ParameterValueDecoder<T>{
     String BOOLEAN_CLASS = "boolean";
     String CLASS_CLASS = "java.lang.Class";
     String LOCALE_DATE_CLASS = "java.time.LocalDate";
+    String ENUM_ASCENDANTS_ARRONDISSEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsArrondissement";
     String ENUM_DESCENDANTS_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumDescendantsDepartement";
     String ENUM_ASCENDANTS_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement";
     String ENUM_DESCENDANTS_COMMUNE_CLASS= "fr.insee.rmes.metadata.model.TypeEnumDescendantsCommune";
@@ -27,6 +25,7 @@ interface ParameterValueDecoder<T>{
             case CLASS_CLASS -> clazz -> ((Class<?>)clazz).getSimpleName();
             case STRING_CLASS -> String::valueOf;
             case LOCALE_DATE_CLASS -> localDate -> String.valueOf(localDate==null?LocalDate.now():localDate);
+            case ENUM_ASCENDANTS_ARRONDISSEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumAscendantsArrondissement)enumDepValue).getValue();
             case ENUM_DESCENDANTS_DEPARTEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumDescendantsDepartement)enumDepValue).getValue();
             case ENUM_ASCENDANTS_DEPARTEMENT_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumAscendantsDepartement)enumDepValue).getValue();
             case ENUM_DESCENDANTS_COMMUNE_CLASS -> enumDepValue -> enumDepValue ==null?"none": ((TypeEnumDescendantsCommune)enumDepValue).getValue();
