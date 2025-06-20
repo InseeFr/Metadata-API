@@ -3376,6 +3376,13 @@ components:
         - Departement
         - Arrondissement
         - Commune
+        - AireDAttractionDesVilles2020
+        - BassinDeVie2022
+        - Canton
+        - CantonOuVille
+        - Intercommunalite
+        - UniteUrbaine2020
+        - ZoneDEmploi2020
       example: 'Region'
     TypeEnumAscendantsCanton:
       type: string
@@ -3776,6 +3783,12 @@ components:
         - Region
         - Arrondissement
         - CollectiviteDOutreMer
+        - AireDAttractionDesVilles2020
+        - BassinDeVie2022
+        - Canton
+        - CantonOuVille
+        - Intercommunalite
+        - ZoneDEmploi2020
       example: 'Departement'
 
     AireDAttractionDesVilles2020:
