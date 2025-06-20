@@ -1,7 +1,8 @@
 package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
-import fr.insee.rmes.metadata.model.CantonOuVille;
+import fr.insee.rmes.metadata.model.*;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,16 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi{
 
     public GeoCantonOuVilleEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
+    }
+
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogcanvilasc (String code, LocalDate date, TypeEnumAscendantsCantonOuVille type) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, CantonOuVille.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
     }
 
     @Override

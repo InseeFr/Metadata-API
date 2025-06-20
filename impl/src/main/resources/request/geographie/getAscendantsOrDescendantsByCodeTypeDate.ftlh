@@ -24,22 +24,52 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 	?uri a igeo:${typeEnumAscendantsArrondissement} .
 </#if>
 
-<#if typeEnumDescendantsDepartement != "none">
-			?uri a igeo:${typeEnumDescendantsDepartement} .
+<#if typeEnumAscendantsArrondissementMunicipal != "none">
+	?uri a igeo:${typeEnumAscendantsArrondissementMunicipal} .
 </#if>
 
-<#if typeEnumAscendantsDepartement != "none">
-	?uri a igeo:${typeEnumAscendantsDepartement} .
+<#if typeEnumAscendantsCanton != "none">
+	?uri a igeo:${typeEnumAscendantsCanton} .
+</#if>
+
+<#if typeEnumAscendantsCantonOuVille != "none">
+	?uri a igeo:${typeEnumAscendantsCantonOuVille} .
+</#if>
+
+<#if typeEnumAscendantsCirconscriptionTerritoriale != "none">
+	?uri a igeo:${typeEnumAscendantsCirconscriptionTerritoriale} .
+</#if>
+
+<#if typeEnumAscendantsCommune != "none">
+	?uri a igeo:${typeEnumAscendantsCommune} .
 </#if>
 
 <#if typeEnumDescendantsCommune != "none">
 	?uri a igeo:${typeEnumDescendantsCommune} .
 </#if>
 
-
-<#if typeEnumAscendantsCommune != "none">
-	?uri a igeo:${typeEnumAscendantsCommune} .
+<#if typeEnumAscendantsCommuneAssociee != "none">
+	?uri a igeo:${typeEnumAscendantsCommuneAssociee} .
 </#if>
+
+<#if typeEnumAscendantsCommuneDeleguee != "none">
+	?uri a igeo:${typeEnumAscendantsCommuneDeleguee} .
+</#if>
+
+<#if typeEnumAscendantsDepartement != "none">
+	?uri a igeo:${typeEnumAscendantsDepartement} .
+</#if>
+
+<#if typeEnumDescendantsDepartement != "none">
+			?uri a igeo:${typeEnumDescendantsDepartement} .
+</#if>
+
+<#if typeEnumAscendantsDistrict != "none">
+	?uri a igeo:${typeEnumAscendantsDistrict} .
+</#if>
+
+
+
 
 			OPTIONAL {
 			 	?uri (igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion|igeo:bureauCentralisateur) ?chefLieuRDF .

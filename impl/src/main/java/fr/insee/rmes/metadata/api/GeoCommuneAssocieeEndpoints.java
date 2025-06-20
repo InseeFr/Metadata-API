@@ -1,7 +1,8 @@
 package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
-import fr.insee.rmes.metadata.model.CommuneAssociee;
+import fr.insee.rmes.metadata.model.*;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,16 @@ public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
 
     public GeoCommuneAssocieeEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
+    }
+
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogcomaasc (String code, LocalDate date, TypeEnumAscendantsCommuneAssociee type) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, CommuneAssociee.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
     }
 
     @Override

@@ -1,7 +1,8 @@
 package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
-import fr.insee.rmes.metadata.model.ArrondissementMunicipal;
+import fr.insee.rmes.metadata.model.*;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,15 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
 
     public GeoArrondissementMunipalEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogarrmuasc (String code, LocalDate date, TypeEnumAscendantsArrondissementMunicipal type) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, ArrondissementMunicipal.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
     }
 
     @Override
