@@ -9,8 +9,8 @@ WHERE {
 
 			?uri skos:prefLabel ?intituleFr . 
 			FILTER(lang(?intituleFr) = 'fr') 
-			?uri skos:prefLabel ?intituleEn . 
-			FILTER(lang(?intituleEn) = 'en') 
+			OPTIONAL {?uri skos:prefLabel ?intituleEn . 
+			FILTER(lang(?intituleEn) = 'en') }
 
 			BIND(EXISTS{?uri dcterms:replaces|^dcterms:replaces ?repl } AS ?hasLink)
 			
