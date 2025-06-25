@@ -24,6 +24,10 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 	?uri a igeo:${typeEnumDescendantsAireDAttractionDesVilles} .
 </#if>
 
+<#if typeEnumDescendantsArrondissement != "none">
+	?uri a igeo:${typeEnumDescendantsArrondissement} .
+</#if>
+
 <#if typeEnumAscendantsArrondissement != "none">
 	?uri a igeo:${typeEnumAscendantsArrondissement} .
 </#if>

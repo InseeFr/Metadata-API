@@ -159,6 +159,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/arrondissement/{code}/descendants:
+    get:
+      tags:
+        - geoArrondissement
+      summary: 'Informations concernant les territoires inclus dans l''arrondissement'
+      operationId: 'getcogarrdes'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsArrondissement'
+        - $ref: '#/components/parameters/typeTerritoireDescendantArrondissement'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/arrondissements:
     get:
       tags:
@@ -1296,8 +1317,6 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsAireDAttractionDesVilles'
-
-
     codeArrondissementInPath:
       name: 'code'
       in: path
@@ -1313,6 +1332,20 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDescendantsArrondissement:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans l'arrondissement actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireDescendantArrondissement:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsArrondissement'
     dateArrondissementsActifs:
       in: query
       description: |-
@@ -1933,6 +1966,15 @@ components:
         typeArticle: '0'
         chefLieu: '67437'
         intitule: 'Saverne'
+    ArrondissementListeDescendants:
+      value:
+        - code: '67004'
+          uri: 'http://id.insee.fr/geo/communeDeleguee/ec8ebfef-57c2-4e97-9d5c-f07b2e46fa36'
+          type: 'CommuneDeleguee'
+          dateCreation: '2016-01-01'
+          intituleSansArticle: 'Allenwiller'
+          typeArticle: '1'
+          intitule: 'Allenwiller'
     ListeArrondissements:
       value:
         - code: '011'
@@ -2659,6 +2701,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Arrondissement'
+    ArrondissementListeDescendants200:
+      description: 'Opération réussie pour les descendants d''un arrondissement'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListeDescendants'
     ArrondissementsListe200:
       description: 'Opération réussie pour la liste des arrondissements'
       content:
@@ -3429,6 +3486,17 @@ components:
         - Iris
         - ArrondissementMunicipal
       example: 'Commune'
+    TypeEnumDescendantsArrondissement:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - CommuneAssociee
+        - CommuneDeleguee
+        - Iris
+        - ArrondissementMunicipal
+      example: 'CommuneDeleguee'
     TypeEnumAscendantsArrondissement:
       type: string
       xml:
@@ -3917,6 +3985,14 @@ components:
       xml:
         attribute: true
       example: '674'
+    ArrondissementListeDescendants:
+      description: 'Liste des descendants d''un arrondissement'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsArrondissement
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     ListeArrondissements:
       description: 'Liste des arrondissements'
       type: array

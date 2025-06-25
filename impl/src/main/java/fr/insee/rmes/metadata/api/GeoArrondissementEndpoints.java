@@ -5,6 +5,7 @@ import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.Arrondissement;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsArrondissement;
+import fr.insee.rmes.metadata.model.TypeEnumDescendantsArrondissement;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,15 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
                 .with(new TerritoireRequestParametizer(code, date, Arrondissement.class, "sousPrefecture"))
                 .executeQuery()
                 .singleResult(Arrondissement.class).toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogarrdes (String code, LocalDate date, TypeEnumDescendantsArrondissement type) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Arrondissement.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
     }
 
     @Override
