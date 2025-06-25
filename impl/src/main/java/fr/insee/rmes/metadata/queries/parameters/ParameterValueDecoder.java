@@ -13,6 +13,7 @@ interface ParameterValueDecoder<T>{
     String BOOLEAN_CLASS = "boolean";
     String CLASS_CLASS = "java.lang.Class";
     String LOCALE_DATE_CLASS = "java.time.LocalDate";
+    String ENUM_DESCENDANTS_AIREDATTRACTIONDESVILLES_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsAireDAttractionDesVilles";
     String ENUM_ASCENDANTS_ARRONDISSEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsArrondissement";
     String ENUM_ASCENDANTS_ARRONDISSEMENTMUNICIPAL_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsArrondissementMunicipal";
     String ENUM_ASCENDANTS_CANTON_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsCanton";
@@ -32,6 +33,7 @@ interface ParameterValueDecoder<T>{
             case CLASS_CLASS -> clazz -> ((Class<?>)clazz).getSimpleName();
             case STRING_CLASS -> String::valueOf;
             case LOCALE_DATE_CLASS -> localDate -> String.valueOf(localDate==null?LocalDate.now():localDate);
+            case ENUM_DESCENDANTS_AIREDATTRACTIONDESVILLES_CLASS -> enumAavValue -> enumAavValue ==null?"none": ((TypeEnumDescendantsAireDAttractionDesVilles)enumAavValue).getValue();
             case ENUM_ASCENDANTS_ARRONDISSEMENT_CLASS -> enumArrValue -> enumArrValue ==null?"none": ((TypeEnumAscendantsArrondissement)enumArrValue).getValue();
             case ENUM_ASCENDANTS_ARRONDISSEMENTMUNICIPAL_CLASS -> enumArrMuValue -> enumArrMuValue ==null?"none": ((TypeEnumAscendantsArrondissementMunicipal)enumArrMuValue).getValue();
             case ENUM_ASCENDANTS_CANTON_CLASS -> enumCanValue -> enumCanValue ==null?"none": ((TypeEnumAscendantsCanton)enumCanValue).getValue();

@@ -77,6 +77,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/aireDAttractionDesVilles2020/{code}/descendants:
+    get:
+      tags:
+        - geoAireDAttractionDesVilles
+      summary: 'Informations concernant les territoires inclus dans l''aire d''attraction'
+      operationId: 'getcogaavdesc'
+      parameters:
+        - $ref: '#/components/parameters/codeAireDAttractionDesVillesInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsAireDAttractionDesVilles'
+        - $ref: '#/components/parameters/typeTerritoireDescendantAireDAttractionDesVilles'
+      responses:
+        '200':
+          $ref: '#/components/responses/AireDAttractionDesVillesListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/airesDAttractionDesVilles2020:
     get:
       tags:
@@ -1261,6 +1282,20 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDescendantsAireDAttractionDesVilles:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans l'aire d'attraction active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireDescendantAireDAttractionDesVilles:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsAireDAttractionDesVilles'
 
 
     codeArrondissementInPath:
@@ -1859,6 +1894,15 @@ components:
         intituleSansArticle: 'Angoulême'
         typeArticle: '1'
         intitule: 'Angoulême'
+    AireDAttractionDesVillesListeDescendants:
+      value:
+        - code: '16003'
+          uri: 'http://id.insee.fr/geo/commune/5300719a-d772-4059-b380-c46704662250'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Agris'
+          typeArticle: '0'
+          intitule: 'Agris'
     ListeAiresDAttractionDesVilles2020:
       value:
         - code: '001'
@@ -2554,6 +2598,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVilles2020'
+    AireDAttractionDesVillesListeDescendants200:
+      description: 'Opération réussie pour les descendants d''une aire d''attraction des villes'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AireDAttractionDesVillesListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/AireDAttractionDesVillesListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/AireDAttractionDesVillesListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/AireDAttractionDesVillesListeDescendants'
     AiresDAttractionDesVillesListe200:
       description: 'Opération réussie pour les aires d''attraction'
       content:
@@ -3359,6 +3418,17 @@ components:
 
 
   schemas:
+    TypeEnumDescendantsAireDAttractionDesVilles:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - CommuneAssociee
+        - CommuneDeleguee
+        - Iris
+        - ArrondissementMunicipal
+      example: 'Commune'
     TypeEnumAscendantsArrondissement:
       type: string
       xml:
@@ -3806,6 +3876,14 @@ components:
       xml:
         attribute: true
       example: '062'
+    AireDAttractionDesVillesListeDescendants:
+      description: 'Liste des descendants d''une aire d''attraction des villes'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsAireDAttractionDesVilles
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     ListeAiresDAttractionDesVilles2020:
       description: 'Liste des aires d''attraction des villes'
       type: array

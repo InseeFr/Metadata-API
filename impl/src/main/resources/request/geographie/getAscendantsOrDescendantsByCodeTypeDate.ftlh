@@ -20,6 +20,10 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
         BIND(SUBSTR(STR(?uriTypeDIris ), STRLEN(STR(?uriTypeDIris )), 1) AS ?typeDIris)
     }
 
+<#if typeEnumDescendantsAireDAttractionDesVilles != "none">
+	?uri a igeo:${typeEnumDescendantsAireDAttractionDesVilles} .
+</#if>
+
 <#if typeEnumAscendantsArrondissement != "none">
 	?uri a igeo:${typeEnumAscendantsArrondissement} .
 </#if>
