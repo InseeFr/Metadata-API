@@ -48,6 +48,10 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 	?uri a igeo:${typeEnumAscendantsCantonOuVille} .
 </#if>
 
+<#if typeEnumDescendantsCantonOuVille != "none">
+	?uri a igeo:${typeEnumDescendantsCantonOuVille} .
+</#if>
+
 <#if typeEnumAscendantsCirconscriptionTerritoriale != "none">
 	?uri a igeo:${typeEnumAscendantsCirconscriptionTerritoriale} .
 </#if>

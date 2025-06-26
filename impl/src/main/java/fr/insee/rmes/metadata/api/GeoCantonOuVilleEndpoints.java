@@ -41,6 +41,15 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi{
     }
 
     @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogcanvildes(String code, LocalDate date, TypeEnumDescendantsCantonOuVille type, String filtreNom) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, CantonOuVille.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
+    @Override
     public ResponseEntity<List<CantonOuVille>> getcogcanvilliste (LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(date, CantonOuVille.class, "none"))

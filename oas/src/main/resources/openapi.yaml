@@ -426,6 +426,28 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/cantonOuVille/{code}/descendants:
+    get:
+      tags:
+        - geoCantonEtVille
+      summary: 'Informations concernant les territoires inclus dans le canton-ou-ville'
+      operationId: 'getcogcanvildes'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonOuVilleInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsCantonOuVille'
+        - $ref: '#/components/parameters/typeTerritoireDescendantCantonOuVille'
+        - $ref: '#/components/parameters/filtreNomDescendant'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonOuVilleListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/cantonsEtVilles:
     get:
       tags:
@@ -1850,6 +1872,20 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDescendantsCantonOuVille:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans canton-ou ville actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireDescendantCantonOuVille:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsCantonOuVille'
     dateCantonsEtVillesActifs:
       in: query
       description: |-
@@ -2128,6 +2164,15 @@ components:
         intituleSansArticle: 'Ambérieu-en-Bugey'
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
+    CantonOuVilleListeDescendants:
+      value:
+        - code: '0102'
+          uri: 'http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Abergement-de-Varey'
+          typeArticle: '5'
+          intitule: 'L''Abergement-de-Varey'
     ListeCantonsEtVilles:
       value:
         - code: '0101'
@@ -2945,6 +2990,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVille'
+    CantonOuVilleListeDescendants200:
+      description: 'Opération réussie pour les descendants d''un canton-ou-ville'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CantonOuVilleListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonOuVilleListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CantonOuVilleListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonOuVilleListeDescendants'
     CantonsEtVilles200:
       description: 'Opération réussie pour les cantons et villes'
       content:
@@ -4401,6 +4461,14 @@ components:
         name: AscendantsCantonOuVille
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+    CantonOuVilleListeDescendants:
+      description: 'Liste des descendants d''un canton-ou-ville'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsCantonOuVille
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     CantonOuVille:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
@@ -4416,6 +4484,14 @@ components:
       xml:
         attribute: true
       example: '0101'
+    TypeEnumDescendantsCantonOuVille:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - Iris
+      example: 'Commune'
     ListeCantonsEtVilles:
       description: 'Liste des cantons et villes'
       type: array
