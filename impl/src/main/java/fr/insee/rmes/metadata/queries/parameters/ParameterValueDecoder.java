@@ -17,6 +17,7 @@ interface ParameterValueDecoder<T>{
     String ENUM_DESCENDANTS_ARRONDISSEMENT_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsArrondissement";
     String ENUM_ASCENDANTS_ARRONDISSEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsArrondissement";
     String ENUM_ASCENDANTS_ARRONDISSEMENTMUNICIPAL_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsArrondissementMunicipal";
+    String ENUM_DESCENDANTS_BASSINDEVIE_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsBassinDeVie";
     String ENUM_ASCENDANTS_CANTON_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsCanton";
     String ENUM_ASCENDANTS_CANTONOUVILLE_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsCantonOuVille";
     String ENUM_ASCENDANTS_CIRCONSCRIPTIONTERRITORIALE_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsCirconscriptionTerritoriale";
@@ -38,6 +39,7 @@ interface ParameterValueDecoder<T>{
             case ENUM_DESCENDANTS_ARRONDISSEMENT_CLASS -> enumArrValue -> enumArrValue ==null?"none": ((TypeEnumDescendantsArrondissement)enumArrValue).getValue();
             case ENUM_ASCENDANTS_ARRONDISSEMENT_CLASS -> enumArrValue -> enumArrValue ==null?"none": ((TypeEnumAscendantsArrondissement)enumArrValue).getValue();
             case ENUM_ASCENDANTS_ARRONDISSEMENTMUNICIPAL_CLASS -> enumArrMuValue -> enumArrMuValue ==null?"none": ((TypeEnumAscendantsArrondissementMunicipal)enumArrMuValue).getValue();
+            case ENUM_DESCENDANTS_BASSINDEVIE_CLASS -> enumBassValue -> enumBassValue ==null?"none": ((TypeEnumDescendantsBassinDeVie)enumBassValue).getValue();
             case ENUM_ASCENDANTS_CANTON_CLASS -> enumCanValue -> enumCanValue ==null?"none": ((TypeEnumAscendantsCanton)enumCanValue).getValue();
             case ENUM_ASCENDANTS_CANTONOUVILLE_CLASS -> enumCanOuVilValue -> enumCanOuVilValue ==null?"none": ((TypeEnumAscendantsCantonOuVille)enumCanOuVilValue).getValue();
             case ENUM_ASCENDANTS_CIRCONSCRIPTIONTERRITORIALE_CLASS -> enumCirValue -> enumCirValue ==null?"none": ((TypeEnumAscendantsCirconscriptionTerritoriale)enumCirValue).getValue();

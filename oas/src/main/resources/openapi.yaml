@@ -282,6 +282,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/bassinDeVie2022/{code}/descendants:
+    get:
+      tags:
+        - geoBassinDeVie
+      summary: 'Informations concernant les territoires inclus dans le bassin de vie'
+      operationId: 'getcogbassdes'
+      parameters:
+        - $ref: '#/components/parameters/codeBassinDeVieInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsBassinDeVie'
+        - $ref: '#/components/parameters/typeTerritoireDescendantBassinDeVie'
+      responses:
+        '200':
+          $ref: '#/components/responses/BassinDeVieListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/bassinsDeVie2022:
     get:
       tags:
@@ -1745,6 +1766,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDescendantsBassinDeVie:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans le bassin de vie actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
     dateBassinsDeVieActifs:
       in: query
       description: |-
@@ -1753,6 +1782,12 @@ components:
       schema:
         type: 'string'
         format: date
+    typeTerritoireDescendantBassinDeVie:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsBassinDeVie'
     filtreNomBassinDeVie:
       in: query
       description: |-
@@ -2024,6 +2059,15 @@ components:
         intituleSansArticle: 'Ambérieu-en-Bugey'
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
+    BassinDeVieListeDescendants:
+      value:
+        - code: '01002'
+          uri: 'http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Abergement-de-Varey'
+          typeArticle: '5'
+          intitule: 'L''Abergement-de-Varey'
     ListeBassinsDeVie:
       value:
         - code: '01004'
@@ -2794,6 +2838,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/BassinDeVie2022'
+    BassinDeVieListeDescendants200:
+      description: 'Opération réussie pour les descendants d''un bassin de vie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BassinDeVieListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/BassinDeVieListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/BassinDeVieListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/BassinDeVieListeDescendants'
     BassinsDeVieListe200:
       description: 'Opération réussie pour les bassins de vie'
       content:
@@ -4274,6 +4333,25 @@ components:
       xml:
         attribute: true
       example: '01004'
+    TypeEnumDescendantsBassinDeVie:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - CommuneAssociee
+        - CommuneDeleguee
+        - Iris
+        - ArrondissementMunicipal
+      example: 'Commune'
+    BassinDeVieListeDescendants:
+      description: 'Liste des descendants d''un bassin de vie'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsBassinDeVie
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     ListeBassinsDeVie:
       description: 'Liste des bassins de vie'
       type: array

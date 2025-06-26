@@ -36,6 +36,10 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 	?uri a igeo:${typeEnumAscendantsArrondissementMunicipal} .
 </#if>
 
+<#if typeEnumDescendantsBassinDeVie != "none">
+	?uri a igeo:${typeEnumDescendantsBassinDeVie} .
+</#if>
+
 <#if typeEnumAscendantsCanton != "none">
 	?uri a igeo:${typeEnumAscendantsCanton} .
 </#if>
