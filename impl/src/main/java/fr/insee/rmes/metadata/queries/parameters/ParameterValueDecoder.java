@@ -20,6 +20,7 @@ interface ParameterValueDecoder<T>{
     String ENUM_DESCENDANTS_BASSINDEVIE_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsBassinDeVie";
     String ENUM_ASCENDANTS_CANTON_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsCanton";
     String ENUM_ASCENDANTS_CANTONOUVILLE_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsCantonOuVille";
+    String ENUM_DESCENDANTS_CANTONOUVILLE_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsCantonOuVille";
     String ENUM_ASCENDANTS_CIRCONSCRIPTIONTERRITORIALE_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsCirconscriptionTerritoriale";
     String ENUM_ASCENDANTS_COMMUNEASSOCIEE_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsCommuneAssociee";
     String ENUM_ASCENDANTS_COMMUNEDELEGUEE_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsCommuneDeleguee";
@@ -42,6 +43,7 @@ interface ParameterValueDecoder<T>{
             case ENUM_DESCENDANTS_BASSINDEVIE_CLASS -> enumBassValue -> enumBassValue ==null?"none": ((TypeEnumDescendantsBassinDeVie)enumBassValue).getValue();
             case ENUM_ASCENDANTS_CANTON_CLASS -> enumCanValue -> enumCanValue ==null?"none": ((TypeEnumAscendantsCanton)enumCanValue).getValue();
             case ENUM_ASCENDANTS_CANTONOUVILLE_CLASS -> enumCanOuVilValue -> enumCanOuVilValue ==null?"none": ((TypeEnumAscendantsCantonOuVille)enumCanOuVilValue).getValue();
+            case ENUM_DESCENDANTS_CANTONOUVILLE_CLASS -> enumCanOuVilValue -> enumCanOuVilValue ==null?"none": ((TypeEnumDescendantsCantonOuVille)enumCanOuVilValue).getValue();
             case ENUM_ASCENDANTS_CIRCONSCRIPTIONTERRITORIALE_CLASS -> enumCirValue -> enumCirValue ==null?"none": ((TypeEnumAscendantsCirconscriptionTerritoriale)enumCirValue).getValue();
             case ENUM_ASCENDANTS_COMMUNE_CLASS -> enumComValue -> enumComValue ==null?"none": ((TypeEnumAscendantsCommune)enumComValue).getValue();
             case ENUM_ASCENDANTS_COMMUNEASSOCIEE_CLASS -> enumComAValue -> enumComAValue ==null?"none": ((TypeEnumAscendantsCommuneAssociee)enumComAValue).getValue();
