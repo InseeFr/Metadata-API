@@ -29,6 +29,7 @@ interface ParameterValueDecoder<T>{
     String ENUM_ASCENDANTS_DEPARTEMENT_CLASS= "fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement";
     String ENUM_DESCENDANTS_COMMUNE_CLASS= "fr.insee.rmes.metadata.model.TypeEnumDescendantsCommune";
     String ENUM_ASCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.metadata.model.TypeEnumAscendantsCommune";
+    String ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsIntercommunalite";
 
     static <U> ParameterValueDecoder<U> of(Class<U> type) {
         return switch (type.getName()){
@@ -46,12 +47,13 @@ interface ParameterValueDecoder<T>{
             case ENUM_DESCENDANTS_CANTONOUVILLE_CLASS -> enumCanOuVilValue -> enumCanOuVilValue ==null?"none": ((TypeEnumDescendantsCantonOuVille)enumCanOuVilValue).getValue();
             case ENUM_ASCENDANTS_CIRCONSCRIPTIONTERRITORIALE_CLASS -> enumCirValue -> enumCirValue ==null?"none": ((TypeEnumAscendantsCirconscriptionTerritoriale)enumCirValue).getValue();
             case ENUM_ASCENDANTS_COMMUNE_CLASS -> enumComValue -> enumComValue ==null?"none": ((TypeEnumAscendantsCommune)enumComValue).getValue();
+            case ENUM_DESCENDANTS_COMMUNE_CLASS -> enumComDesValue -> enumComDesValue ==null?"none": ((TypeEnumDescendantsCommune)enumComDesValue).getValue();
             case ENUM_ASCENDANTS_COMMUNEASSOCIEE_CLASS -> enumComAValue -> enumComAValue ==null?"none": ((TypeEnumAscendantsCommuneAssociee)enumComAValue).getValue();
             case ENUM_ASCENDANTS_COMMUNEDELEGUEE_CLASS -> enumComDValue -> enumComDValue ==null?"none": ((TypeEnumAscendantsCommuneDeleguee)enumComDValue).getValue();
             case ENUM_ASCENDANTS_DISTRICT_CLASS -> enumDisValue -> enumDisValue ==null?"none": ((TypeEnumAscendantsDistrict)enumDisValue).getValue();
             case ENUM_DESCENDANTS_DEPARTEMENT_CLASS -> enumDepAscValue -> enumDepAscValue ==null?"none": ((TypeEnumDescendantsDepartement)enumDepAscValue).getValue();
             case ENUM_ASCENDANTS_DEPARTEMENT_CLASS -> enumDepDesValue -> enumDepDesValue ==null?"none": ((TypeEnumAscendantsDepartement)enumDepDesValue).getValue();
-            case ENUM_DESCENDANTS_COMMUNE_CLASS -> enumComDesValue -> enumComDesValue ==null?"none": ((TypeEnumDescendantsCommune)enumComDesValue).getValue();
+            case ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS -> enumIntercoValue -> enumIntercoValue ==null?"none": ((TypeEnumDescendantsIntercommunalite)enumIntercoValue).getValue();
             case String ignored when Enum.class.isAssignableFrom(type) -> simpleEnum -> ((Enum<?>)simpleEnum).name();
             default -> throw new IllegalArgumentException("Unsupported type: " + type.getName());
         };

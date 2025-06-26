@@ -2,6 +2,7 @@ package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.*;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,17 @@ public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
                 .executeQuery()
                 .singleResult(Intercommunalite.class).toResponseEntity();
     }
+
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogintercodes (String code, LocalDate date, TypeEnumDescendantsIntercommunalite type) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Intercommunalite.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
 
     @Override
     public ResponseEntity<List<Intercommunalite>> getcogintercoliste (LocalDate date, String filtreNom) {

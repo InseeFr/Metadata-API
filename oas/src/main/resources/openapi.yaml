@@ -1026,6 +1026,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/intercommunalite/{code}/descendants:
+    get:
+      tags:
+        - geoIntercommunalite
+      summary: 'Informations concernant les territoires inclus dans l''intercommunalité'
+      operationId: 'getcogintercodes'
+      parameters:
+        - $ref: '#/components/parameters/codeIntercommunaliteInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsIntercommunalite'
+        - $ref: '#/components/parameters/typeTerritoireDescendantIntercommunalite'
+      responses:
+        '200':
+          $ref: '#/components/responses/IntercommunaliteListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/intercommunalites:
     get:
       tags:
@@ -1668,6 +1689,20 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeInterco'
+    dateTerritoiresActifsDescendantsIntercommunalite:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans l'intercommunalité active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireDescendantIntercommunalite:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsIntercommunalite'
     dateIntercommunalitesActives:
       in: query
       description: |-
@@ -2595,6 +2630,15 @@ components:
         intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
         categorieJuridique: 'Communauté de communes'
         intitule: 'La Plaine de l''Ain'
+    IntercommunaliteListeDescendants:
+      value:
+        - code: '01002'
+          uri: 'http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Abergement-de-Varey'
+          typeArticle: '5'
+          intitule: 'Abergement-de-Varey'
     ListeIntercommunalites:
       value:
         - code: '240100883'
@@ -3435,6 +3479,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Intercommunalite'
+    IntercommunaliteListeDescendants200:
+      description: 'Opération réussie pour les descendants d''une intercommunalite'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/IntercommunaliteListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/IntercommunaliteListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/IntercommunaliteListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/IntercommunaliteListeDescendants'
     IntercommunalitesListe200:
       description: 'Opération réussie pour les intercommunalités'
       content:
@@ -4258,6 +4317,25 @@ components:
       xml:
         attribute: true
       example: '240100883'
+    TypeEnumDescendantsIntercommunalite:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - CommuneAssociee
+        - CommuneDeleguee
+        - Iris
+        - ArrondissementMunicipal
+      example: 'Arrondissement'
+    IntercommunaliteListeDescendants:
+      description: 'Liste des descendants d''une intercommunalité'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsIntercommunalite
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     ListeIntercommunalites:
       description: 'Liste des intercommunalités'
       type: array

@@ -80,6 +80,10 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			?uri a igeo:${typeEnumDescendantsDepartement} .
 </#if>
 
+<#if typeEnumDescendantsIntercommunalite != "none">
+	?uri a igeo:${typeEnumDescendantsIntercommunalite} .
+</#if>
+
 <#if typeEnumAscendantsDistrict != "none">
 	?uri a igeo:${typeEnumAscendantsDistrict} .
 </#if>
