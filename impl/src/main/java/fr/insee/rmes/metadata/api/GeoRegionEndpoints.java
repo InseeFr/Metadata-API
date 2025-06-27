@@ -2,6 +2,9 @@ package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.Region;
+import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import fr.insee.rmes.metadata.model.TypeEnumDescendantsRegion;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,16 @@ public class GeoRegionEndpoints implements GeoRegionApi {
                 .executeQuery()
                 .singleResult(Region.class).toResponseEntity();
     }
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogregdes (String code, LocalDate date, TypeEnumDescendantsRegion type, String filtreNom) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, Region.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
 
     @Override
     public ResponseEntity<List<Region>> getcogregliste (LocalDate date) {

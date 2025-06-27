@@ -80,16 +80,17 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 			?uri a igeo:${typeEnumDescendantsDepartement} .
 </#if>
 
-<#if typeEnumDescendantsIntercommunalite != "none">
-	?uri a igeo:${typeEnumDescendantsIntercommunalite} .
-</#if>
-
 <#if typeEnumAscendantsDistrict != "none">
 	?uri a igeo:${typeEnumAscendantsDistrict} .
 </#if>
 
+<#if typeEnumDescendantsIntercommunalite != "none">
+	?uri a igeo:${typeEnumDescendantsIntercommunalite} .
+</#if>
 
-
+<#if typeEnumDescendantsRegion != "none">
+	?uri a igeo:${typeEnumDescendantsRegion} .
+</#if>
 
 			OPTIONAL {
 			 	?uri (igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion|igeo:bureauCentralisateur) ?chefLieuRDF .

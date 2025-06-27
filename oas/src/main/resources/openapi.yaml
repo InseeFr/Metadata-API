@@ -1151,6 +1151,28 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/region/{code}/descendants:
+    get:
+      tags:
+        - geoRegion
+      summary: 'Informations concernant les territoires inclus dans la région'
+      operationId: 'getcogregdes'
+      parameters:
+        - $ref: '#/components/parameters/codeRegInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsRegion'
+        - $ref: '#/components/parameters/typeTerritoireDescendantRegion'
+        - $ref: '#/components/parameters/filtreNomDescendantRegion'
+      responses:
+        '200':
+          $ref: '#/components/responses/RegionListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/regions:
     get:
       tags:
@@ -1775,6 +1797,27 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDescendantsRegion:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans la région active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireDescendantRegion:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsRegion'
+    filtreNomDescendantRegion:
+      name: 'filtreNomDescendantRegion'
+      in: query
+      description: 'Filtre sur le nom des territoires renvoyés'
+      schema:
+        type: string
+        example: 'Acoua'
     dateRegionsActives:
       in: query
       description: |-
@@ -2698,6 +2741,15 @@ components:
         typeArticle: '0'
         chefLieu: '97611'
         intitule: 'Mayotte'
+    RegionListeDescendants:
+      value:
+        - code: '97601'
+          uri: 'http://id.insee.fr/geo/commune/cc6df496-5a62-4c71-88f8-22fca3a411d7'
+          type: 'Commune'
+          dateCreation: '2011-03-31'
+          intituleSansArticle: 'Acoua'
+          typeArticle: '1'
+          intitule: 'Acoua'
     ListeRegions:
       value:
         - code: '01'
@@ -3572,6 +3624,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Region'
+    RegionListeDescendants200:
+      description: 'Opération réussie pour les descendants d''une région'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RegionListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RegionListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RegionListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RegionListeDescendants'
     RegionsListe200:
       description: 'Opération réussie pour les régions'
       content:
@@ -4423,6 +4490,14 @@ components:
       xml:
         attribute: true
       example: '06'
+    RegionListeDescendants:
+      description: 'Liste des descendants d''une région'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsRegion
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     ListeRegions:
       description: 'Liste des régions'
       type: array
@@ -4626,6 +4701,22 @@ components:
         name: ListeCollectivitesDOutreMer
       items:
         $ref: '#/components/schemas/CollectiviteDOutreMer'
+
+    TypeEnumDescendantsRegion:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - CommuneAssociee
+        - CommuneDeleguee
+        - Iris
+        - Arrondissement
+        - ArrondissementMunicipal
+        - Departement
+        - Canton
+        - CantonOuVille
+      example: 'Commune'
 
     ZoneDEmploi2020:
       allOf:
