@@ -1111,6 +1111,28 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/pays/{code}/descendants:
+    get:
+      tags:
+        - geoPays
+      summary: 'Informations concernant les territoires inclus dans le pays'
+      operationId: 'getcogpaysdesc'
+      parameters:
+        - $ref: '#/components/parameters/codePaysInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsPays'
+        - $ref: '#/components/parameters/typeTerritoireDescendantPays'
+      responses:
+        '200':
+          $ref: '#/components/responses/PaysListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /geo/pays:
     get:
       tags:
@@ -1161,7 +1183,7 @@ paths:
         - $ref: '#/components/parameters/codeRegInPath'
         - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsRegion'
         - $ref: '#/components/parameters/typeTerritoireDescendantRegion'
-        - $ref: '#/components/parameters/filtreNomDescendantRegion'
+        - $ref: '#/components/parameters/filtreNomDescendant'
       responses:
         '200':
           $ref: '#/components/responses/RegionListeDescendants200'
@@ -1312,7 +1334,6 @@ components:
       description: 'Filtre sur le nom des territoires renvoyés'
       schema:
         type: string
-        example: 'Dinan'
     codeDepInPath:
       name: 'code'
       in: path
@@ -1773,6 +1794,20 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDescendantsPays:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans le pays à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireDescendantPays:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsPays'
     datePaysListActifs:
       in: query
       description: |-
@@ -1811,13 +1846,6 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsRegion'
-    filtreNomDescendantRegion:
-      name: 'filtreNomDescendantRegion'
-      in: query
-      description: 'Filtre sur le nom des territoires renvoyés'
-      schema:
-        type: string
-        example: 'Acoua'
     dateRegionsActives:
       in: query
       description: |-
@@ -1964,6 +1992,12 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsCantonOuVille'
+    filtreNomDescendantSansExemple:
+      name: 'filtreNom'
+      in: query
+      description: 'Filtre sur le nom des territoires renvoyés'
+      schema:
+        type: string
     dateCantonsEtVillesActifs:
       in: query
       description: |-
@@ -2717,6 +2751,14 @@ components:
         iso3166alpha2: "GB"
         iso3166alpha3: "GBR"
         iso3166num: "826"
+    PaysListeDescendants:
+      value:
+        - code: '99133'
+          uri: 'ttp://id.insee.fr/geo/territoire/1af281f6-f58a-4197-a40c-3c1514ebd9c5'
+          type: 'Territoire'
+          dateCreation: '1964-09-21'
+          intitule: 'Territoires britanniques en Méditerranée'
+          intituleComplet: "Gibraltar, Akrotiri et Dhekelia"
     PaysListe:
       value:
         - code: '99100'
@@ -3593,6 +3635,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Pays'
+    PaysListeDescendants200:
+      description: 'Opération réussie pour les descendants d''un pays'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PaysListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/PaysListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/PaysListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/PaysListeDescendants'
+
     PaysListe200:
       description: 'Opération réussie pour la liste des pays'
       content:
@@ -4127,6 +4185,7 @@ components:
         - Iris
         - ZoneDEmploi2020
         - UniteUrbaine2020
+        - Territoire
       example: 'Canton'
     TypeEnumDescendantsDepartement:
       type: string
@@ -4300,7 +4359,7 @@ components:
       type: array
       xml:
         wrapped: true
-        name: ListeComunesAssociees
+        name: ListeCommunesAssociees
       items:
         $ref: '#/components/schemas/CommuneAssociee'
 
@@ -4464,8 +4523,15 @@ components:
       type: string
       xml:
         attribute: true
-      example: '06'
-
+      example: '99132'
+    PaysListeDescendants:
+      description: 'Liste des descendants d''un pays'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsPays
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     PaysListe:
       description: 'Liste des pays'
       type: array
@@ -4702,6 +4768,13 @@ components:
       items:
         $ref: '#/components/schemas/CollectiviteDOutreMer'
 
+    TypeEnumDescendantsPays:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Territoire
+      example: 'Territoire'
     TypeEnumDescendantsRegion:
       type: string
       xml:
