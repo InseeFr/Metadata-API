@@ -2,7 +2,10 @@ package fr.insee.rmes.metadata.api;
 
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import fr.insee.rmes.metadata.model.TypeEnumDescendantsUniteUrbaine;
 import fr.insee.rmes.metadata.model.UniteUrbaine2020;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,15 @@ public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
                 .with(new TerritoireRequestParametizer(code, date, UniteUrbaine2020.class, "none"))
                 .executeQuery()
                 .singleResult(UniteUrbaine2020.class).toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcoguudes (String code, LocalDate date, TypeEnumDescendantsUniteUrbaine type) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, UniteUrbaine2020.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
     }
 
     @Override

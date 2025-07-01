@@ -32,6 +32,7 @@ interface ParameterValueDecoder<T>{
     String ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsIntercommunalite";
     String ENUM_DESCENDANTS_PAYS_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsPays";
     String ENUM_DESCENDANTS_REGION_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsRegion";
+    String ENUM_DESCENDANTS_UNITEURBAINE_CLASS="fr.insee.rmes.metadata.model.TypeEnumDescendantsUniteUrbaine";
 
     static <U> ParameterValueDecoder<U> of(Class<U> type) {
         return switch (type.getName()){
@@ -58,6 +59,7 @@ interface ParameterValueDecoder<T>{
             case ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS -> enumIntercoValue -> enumIntercoValue ==null?"none": ((TypeEnumDescendantsIntercommunalite)enumIntercoValue).getValue();
             case ENUM_DESCENDANTS_PAYS_CLASS -> enumPaysValue -> enumPaysValue ==null?"none": ((TypeEnumDescendantsPays)enumPaysValue).getValue();
             case ENUM_DESCENDANTS_REGION_CLASS -> enumRegValue -> enumRegValue ==null?"none": ((TypeEnumDescendantsRegion)enumRegValue).getValue();
+            case ENUM_DESCENDANTS_UNITEURBAINE_CLASS -> enumUuValue -> enumUuValue ==null?"none": ((TypeEnumDescendantsUniteUrbaine)enumUuValue).getValue();
             case String ignored when Enum.class.isAssignableFrom(type) -> simpleEnum -> ((Enum<?>)simpleEnum).name();
             default -> throw new IllegalArgumentException("Unsupported type: " + type.getName());
         };

@@ -92,6 +92,10 @@ FROM <http://rdf.insee.fr/graphes/geo/cog>
 	?uri a igeo:${typeEnumDescendantsRegion} .
 </#if>
 
+<#if typeEnumDescendantsUniteUrbaine != "none">
+	?uri a igeo:${typeEnumDescendantsUniteUrbaine} .
+</#if>
+
 			OPTIONAL {
 			 	?uri (igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion|igeo:bureauCentralisateur) ?chefLieuRDF .
 			 	?chefLieuRDF igeo:codeINSEE ?chefLieu .

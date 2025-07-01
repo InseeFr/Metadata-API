@@ -1236,6 +1236,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/uniteUrbaine2020/{code}/descendants:
+    get:
+      tags:
+        - geoUniteUrbaine
+      summary: 'Informations concernant les territoires inclus dans l''unité urbaine'
+      operationId: 'getcoguudes'
+      parameters:
+        - $ref: '#/components/parameters/codeUniteUrbaineInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsUniteUrbaine'
+        - $ref: '#/components/parameters/typeTerritoireDescendantUniteUrbaine'
+      responses:
+        '200':
+          $ref: '#/components/responses/UniteUrbaineListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/unitesUrbaines2020:
     get:
       tags:
@@ -1870,6 +1891,20 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDescendantsUniteUrbaine:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans l'unité urbaine active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireDescendantUniteUrbaine:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsUniteUrbaine'
     dateUnitesUrbainesActives:
       in: query
       description: |-
@@ -2812,6 +2847,15 @@ components:
         intituleSansArticle: 'Jujurieux'
         typeArticle: '0'
         intitule: 'Jujurieux'
+    UniteUrbaineListeDescendants:
+      value:
+        - code: '01199'
+          uri: 'http://id.insee.fr/geo/commune/0d69a92e-70d3-4ebf-aa3b-db76e6bedf7e'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Jujurieux'
+          typeArticle: '0'
+          intitule: 'Jujurieux'
     ListeUnitesUrbaines:
       value:
         - code: '00151'
@@ -3728,6 +3772,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/UniteUrbaine2020'
+    UniteUrbaineListeDescendants200:
+      description: 'Opération réussie pour les descendants d''une unité urbaine'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UniteUrbaineListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/UniteUrbaineListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/UniteUrbaineListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/UniteUrbaineListeDescendants'
     UnitesUrbainesListe200:
       description: 'Opération réussie pour les unités urbaines'
       content:
@@ -4588,6 +4647,26 @@ components:
       xml:
         attribute: true
       example: '01121'
+    UniteUrbaineListeDescendants:
+      description: 'Liste des descendants d''une unité urbaine'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsUniteUrbaine
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    TypeEnumDescendantsUniteUrbaine:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - CommuneAssociee
+        - CommuneDeleguee
+        - Iris
+        - Arrondissement
+        - ArrondissementMunicipal
+      example: 'Commune'
     ListeUnitesUrbaines:
       description: 'Liste des unités urbaines'
       type: array
