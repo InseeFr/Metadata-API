@@ -20,7 +20,9 @@ public class GraphDBContainer extends GenericContainer<GraphDBContainer> {
     public void start() {
         super.start();
         withInitFolder("/testcontainers").withExposedPorts(7200);
+
         withRepository("config.ttl");
+        withTrigFiles("statements.trig");
     }
 
     public GraphDBContainer withInitFolder(String folder){
@@ -41,7 +43,7 @@ public class GraphDBContainer extends GenericContainer<GraphDBContainer> {
     public GraphDBContainer withTrigFiles(String file) {
         try {
             String path = copyFile(file);
-            execInContainer("curl", "-X", "POST", "-H", "Content-Type: application/x-trig", "--data-binary", "@" + path, "http://localhost:7200/repositories/bauhaus-test/statements");
+            execInContainer("curl", "-X", "POST", "-H", "Content-Type: application/x-trig", "--data-binary", "@" + path, "http://localhost:7200/repositories/data/statements");
         } catch (IOException | InterruptedException e) {
             throw new AssertionError("The Trig file was not loaded");
         }

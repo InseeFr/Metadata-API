@@ -1,6 +1,7 @@
 package fr.insee.rmes.metadata.api.testcontainers.queries;
 
 import fr.insee.rmes.metadata.api.GeoDepartementEndpoints;
+import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ class GeoPaysQueriesTest  extends TestcontainerTest{
 
     @Test
     void should_return_all_datasets_based_on_stamp() {
-        endpoints.getcogdep("75", LocalDate.now());
-
+        var d  = endpoints.getcogdep("75", LocalDate.now());
+        Assert.assertEquals("Paris", d.getBody().getIntitule());
     }
 }
 
