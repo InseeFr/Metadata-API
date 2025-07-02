@@ -55,6 +55,7 @@ tags:
     description: 'API géographie : Zone d''emploi'
   - name: geo
     description: 'API géographie : Générique'
+
 paths:
 
   /geo/aireDAttractionDesVilles2020/{code}:
@@ -1298,6 +1299,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/zoneDEmploi2020/{code}/descendants:
+    get:
+      tags:
+        - geoZoneDEmploi
+      summary: 'Informations concernant les territoires inclus dans la zone d''emploi'
+      operationId: 'getcogzedesc'
+      parameters:
+        - $ref: '#/components/parameters/codeZoneDEmploiInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsZoneDEmploi'
+        - $ref: '#/components/parameters/typeTerritoireDescendantZoneDEmplooi'
+      responses:
+        '200':
+          $ref: '#/components/responses/ZoneDEmploiListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/zonesDEmploi2020:
     get:
       tags:
@@ -2125,6 +2147,20 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDescendantsZoneDEmploi:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans la zone d'emploi active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireDescendantZoneDEmplooi:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsZoneDEmploi'
     dateZonesDEmploiActives:
       in: query
       description: |-
@@ -2876,6 +2912,15 @@ components:
         intituleSansArticle: 'Vierzon'
         typeArticle: '0'
         intitule: 'Vierzon'
+    ZoneDEmploiListeDescendants:
+      value:
+        - code: '18036'
+          uri: 'http://id.insee.fr/geo/commune/9d090028-9065-4c75-bb2b-6ea30d430af7'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Brinay'
+          typeArticle: '0'
+          intitule: 'Brinay'
     ListeZonesDEmploi2020:
       value:
         - code: '0051'
@@ -3819,6 +3864,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ZoneDEmploi2020'
+    ZoneDEmploiListeDescendants200:
+      description: 'Opération réussie pour les descendants d''une zone d''emploi'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ZoneDEmploiListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ZoneDEmploiListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ZoneDEmploiListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ZoneDEmploiListeDescendants'
     ZonesDEmploiListe200:
       description: 'Opération réussie pour les zones d''emploi'
       content:
@@ -4869,6 +4929,17 @@ components:
         - Canton
         - CantonOuVille
       example: 'Commune'
+    TypeEnumDescendantsZoneDEmploi:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - CommuneAssociee
+        - CommuneDeleguee
+        - Iris
+        - Arrondissement
+        - ArrondissementMunicipal
 
     ZoneDEmploi2020:
       allOf:
@@ -4885,6 +4956,14 @@ components:
       xml:
         attribute: true
       example: '2415'
+    ZoneDEmploiListeDescendants:
+      description: 'Liste des descendants d''une zone d''emploi'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsZoneDEmploi
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     ListeZonesDEmploi2020:
       description: 'Liste des zones d''emploi'
       type: array

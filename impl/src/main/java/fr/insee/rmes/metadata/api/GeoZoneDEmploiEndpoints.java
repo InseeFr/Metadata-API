@@ -1,7 +1,10 @@
 package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import fr.insee.rmes.metadata.model.TypeEnumDescendantsZoneDEmploi;
 import fr.insee.rmes.metadata.model.ZoneDEmploi2020;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,17 @@ public class GeoZoneDEmploiEndpoints implements GeoZoneDEmploiApi{
                 .toResponseEntity();
 
     }
+
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogzedesc(String code, LocalDate date, TypeEnumDescendantsZoneDEmploi type) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, ZoneDEmploi2020.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
     @Override
     public ResponseEntity<List<ZoneDEmploi2020>> getcogzeliste (LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
