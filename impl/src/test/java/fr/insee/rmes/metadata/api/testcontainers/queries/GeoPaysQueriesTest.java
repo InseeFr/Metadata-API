@@ -19,6 +19,7 @@ class GeoPaysQueriesTest  extends TestcontainerTest{
     @Test
     void should_return_all_datasets_based_on_stamp() {
         var d  = endpoints.getcogdep("75", LocalDate.now());
+        System.out.println("test");
         Assert.assertEquals("Paris", d.getBody().getIntitule());
     }
 }
