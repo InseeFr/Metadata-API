@@ -9,7 +9,8 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
             	FROM NAMED <http://rdf.insee.fr/graphes/qualite/territoires>
             WHERE { 
             	   ?report rdf:type sdmx-mm:MetadataReport . 
-            		?reporturi sdmx-mm:metadataReport ?report . 
+            		?reporturi sdmx-mm:metadataReport ?report .
+            		?reporturi ?uri ?reportedValue .
             		OPTIONAL {			
             			?mas sdmx-mm:metadataAttributeProperty ?uri . 
             			?mas sdmx-mm:parent ?uriParent . 
