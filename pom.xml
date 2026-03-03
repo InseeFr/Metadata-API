@@ -12,7 +12,9 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<jersey.version>4.0.0-M1</jersey.version>
+		<!-- A supprimer quand Springboot version > 4.1.0-M2 -->
 		<jackson.version>2.21.1</jackson.version>
+		<!-- fin suppression -->
 		<jakarta.version>6.1.0</jakarta.version>
 		<log.version>2.18.0</log.version>
 		<swagger.version>2.2.22</swagger.version>
