@@ -37,7 +37,7 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
             		?textLg1 dcterms:language <${LG1_CL}>
 
             		OPTIONAL{ 
-            			?textLg1 rdf:value ?labelLg1 . 
+            			?textLg1 insee:html ?labelLg1 .
             		} 
             		BIND(EXISTS{?textLg1 insee:additionalMaterial ?docLg1} AS ?hasDocLg1) 
 					}
@@ -47,7 +47,7 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
 						 ?textLg2 dcterms:language <${LG2_CL}>
 
 						OPTIONAL{ 
-							?textLg2 rdf:value ?labelLg2 .
+							?textLg2 insee:html ?labelLg2 .
 						}
 						BIND(EXISTS{?textLg2 insee:additionalMaterial ?docLg2} AS ?hasDocLg2)
 			 		}
