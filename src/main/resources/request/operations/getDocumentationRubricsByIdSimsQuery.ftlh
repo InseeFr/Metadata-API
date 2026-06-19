@@ -20,8 +20,8 @@ WHERE {
   ?uri sdmx-mm:concept ?concept .
   ?concept skos:prefLabel ?titreLg1 ;
            skos:prefLabel ?titreLg2 ;
-  FILTER(lang(?titreLg1) = '${LG1}')
-  FILTER(lang(?titreLg2) = '${LG2}')
+  FILTER(lang(?titreLg1) = 'fr')
+  FILTER(lang(?titreLg2) = 'en')
   BIND(REPLACE( STR(?uri) , '(.*/)(\\w.*$)', '$2' ) AS ?id) .
   {
     {
@@ -34,7 +34,7 @@ WHERE {
       {
         ?reporturi ?uri ?textLg1 .
         ?textLg1 rdf:type <http://purl.org/dc/dcmitype/Text> .
-        ?textLg1 dcterms:language ?langFr .
+        ?textLg1 dcterms:language <${LG1_CL}> .
         FILTER(STRENDS(STR(?langFr), "/codes/langue/fr"))
         OPTIONAL {
           ?textLg1 rdf:value ?labelLg1 .
@@ -47,7 +47,7 @@ WHERE {
       OPTIONAL {
         ?reporturi ?uri ?textLg2 .
         ?textLg2 rdf:type <http://purl.org/dc/dcmitype/Text> .
-        ?textLg1 dcterms:language ?langEn .
+        ?textLg2 dcterms:language <${LG2_CL}> .
         FILTER(STRENDS(STR(?langFr), "/codes/langue/en"))
         OPTIONAL {
           ?textLg2 rdf:value ?labelLg2 .
@@ -62,10 +62,10 @@ WHERE {
 
     UNION {
       ?reporturi ?uri ?labelLg1 .
-      FILTER(lang(?labelLg1) = '${LG1}')
+      FILTER(lang(?labelLg1) = 'fr')
       OPTIONAL {
         ?reporturi ?uri ?labelLg2 .
-        FILTER(lang(?labelLg2) = '${LG2}')
+        FILTER(lang(?labelLg2) = 'en')
       }
       BIND('TEXT' AS ?type) .
     }
@@ -76,9 +76,9 @@ WHERE {
       ?codeUri skos:inScheme ?listUri .
       ?listUri skos:notation ?codeList .
       ?codeUri skos:prefLabel ?labelObjLg1 .
-      FILTER (lang(?labelObjLg1) = '${LG1}') .
+      FILTER (lang(?labelObjLg1) = 'fr') .
       ?codeUri skos:prefLabel ?labelObjLg2 .
-      FILTER (lang(?labelObjLg2) = '${LG2}') .
+      FILTER (lang(?labelObjLg2) = 'en') .
       BIND('CODE_LIST' AS ?type) .
       OPTIONAL {
         ?mas sdmx-mm:metadataAttributeProperty ?uri .
@@ -91,11 +91,11 @@ WHERE {
       ?organisationUri dcterms:identifier ?valeurSimple .
       OPTIONAL {
         ?organisationUri skos:prefLabel ?labelObjLg1 .
-        FILTER (lang(?labelObjLg1) = '${LG1}')
+        FILTER (lang(?labelObjLg1) = 'fr')
       }
       OPTIONAL {
         ?organisationUri skos:prefLabel ?labelObjLg2 .
-        FILTER (lang(?labelObjLg2) = '${LG2}')
+        FILTER (lang(?labelObjLg2) = 'en')
       }
       BIND('ORGANIZATION' AS ?type) .
     }
@@ -104,7 +104,7 @@ WHERE {
       ?reporturi ?uri ?geoUri .
       GRAPH ?g {
         ?geoUri skos:prefLabel|igeo:nom|rdfs:label ?labelObjLg1 .
-        FILTER (lang(?labelObjLg1) = '${LG1}' || (langmatches(lang(?labelObjLg1), '') ))
+        FILTER (lang(?labelObjLg1) = 'fr' || (langmatches(lang(?labelObjLg1), '') ))
       }
       BIND(REPLACE( STR(?geoUri) , '(.*/)(\\w.*$)', '$2' ) AS ?valeurSimple)
       BIND('GEOGRAPHY' AS ?type) .
