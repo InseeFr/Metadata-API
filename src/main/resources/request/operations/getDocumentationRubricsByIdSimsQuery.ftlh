@@ -36,7 +36,7 @@ WHERE {
         ?textLg1 rdf:type <http://purl.org/dc/dcmitype/Text> .
         ?textLg1 dcterms:language <${LG1_CL}> .
         OPTIONAL {
-          ?textLg1 rdf:value ?labelLg1 .
+          ?textLg1 insee:html ?labelLg1 .
         }
         OPTIONAL {
           ?textLg1 insee:additionalMaterial/rdf:rest*/rdf:first? ?docLg1 .
@@ -48,7 +48,7 @@ WHERE {
         ?textLg2 rdf:type <http://purl.org/dc/dcmitype/Text> .
         ?textLg2 dcterms:language <${LG2_CL}> .
         OPTIONAL {
-          ?textLg2 rdf:value ?labelLg2 .
+          ?textLg2 insee:html ?labelLg2 .
         }
         OPTIONAL {
           ?textLg2 insee:additionalMaterial/rdf:rest*/rdf:first? ?docLg2 .
