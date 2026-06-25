@@ -35,7 +35,6 @@ WHERE {
         ?reporturi ?uri ?textLg1 .
         ?textLg1 rdf:type <http://purl.org/dc/dcmitype/Text> .
         ?textLg1 dcterms:language <${LG1_CL}> .
-        FILTER(STRENDS(STR(?langFr), "/codes/langue/fr"))
         OPTIONAL {
           ?textLg1 rdf:value ?labelLg1 .
         }
@@ -48,7 +47,6 @@ WHERE {
         ?reporturi ?uri ?textLg2 .
         ?textLg2 rdf:type <http://purl.org/dc/dcmitype/Text> .
         ?textLg2 dcterms:language <${LG2_CL}> .
-        FILTER(STRENDS(STR(?langFr), "/codes/langue/en"))
         OPTIONAL {
           ?textLg2 rdf:value ?labelLg2 .
         }
