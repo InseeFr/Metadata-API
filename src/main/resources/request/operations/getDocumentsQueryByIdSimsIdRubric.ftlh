@@ -27,4 +27,4 @@ WHERE {
         OPTIONAL { ?document pav:lastRefreshedOn ?dateMiseAJour . }
         OPTIONAL { ?document dc:language ?langue . }
     }
-    ORDER BY ?position
+ORDER BY ?position
