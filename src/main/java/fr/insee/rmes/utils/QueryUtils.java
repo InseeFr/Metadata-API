@@ -20,7 +20,7 @@ public class QueryUtils {
             + "PREFIX prov:<http://www.w3.org/ns/prov#> \n"
             + "PREFIX foaf:<http://xmlns.com/foaf/0.1/> \n"
             + "PREFIX schema:<http://schema.org> \n"
-            + "PREFIX dcmitype:<http://purl.org/dc/dcmitype/Text> \n"
+            + "PREFIX dcmitype:<http://purl.org/dc/dcmitype> \n"
             + "PREFIX sdmx-mm:<http://www.w3.org/ns/sdmx-mm#> \n";
 
 }
