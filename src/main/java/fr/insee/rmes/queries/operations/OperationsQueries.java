@@ -99,8 +99,8 @@ public class OperationsQueries extends Queries {
 		params.put(ID_SIMS, idSims);
 		params.put("idRubric", idRubric);
 		params.put("LANG", lang.getUri());
-		params.put("LG1", Lang.FR);
-		params.put("LG2", Lang.EN);
+		params.put("LG1", Lang.FR.getLang());
+		params.put("LG2", Lang.EN.getLang());
 		return buildRequest(QUERIES_FOLDER, "getDocumentsQueryByIdSimsIdRubric.ftlh", params);
 	}
 
