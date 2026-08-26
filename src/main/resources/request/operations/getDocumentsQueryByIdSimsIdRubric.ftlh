@@ -19,7 +19,7 @@ WHERE {
             GROUP BY ?text ?document
         }
 
-        ?document rdf:type foaf:Document .
+        ?document rdf:type <http://xmlns.com/foaf/0.1/Document> .
         ?document <http://schema.org/url> ?url .
 
         OPTIONAL { ?document rdfs:label ?labelLg1 . FILTER(lang(?labelLg1) = 'fr') }
