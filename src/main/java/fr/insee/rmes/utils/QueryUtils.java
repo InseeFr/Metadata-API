@@ -18,6 +18,9 @@ public class QueryUtils {
             + "PREFIX pav:<http://purl.org/pav/> \n"
             + "PREFIX xsd:<http://www.w3.org/2001/XMLSchema#> \n"
             + "PREFIX prov:<http://www.w3.org/ns/prov#> \n"
+            + "PREFIX foaf:<http://xmlns.com/foaf/0.1/> \n"
+            + "PREFIX schema:<http://schema.org> \n"
+            + "PREFIX dcmitype:<http://purl.org/dc/dcmitype/Text> \n"
             + "PREFIX sdmx-mm:<http://www.w3.org/ns/sdmx-mm#> \n";
 
 }
